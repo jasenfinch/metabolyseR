@@ -1,7 +1,7 @@
-#' initialiseAnalysis 
+#' startAnalysis 
 #' @export
 
-initialiseAnalysis <- function(data,info){
+startAnalysis <- function(data,info){
   new('Analysis',
       log = list(analysis = date()),
       parameters = list(
