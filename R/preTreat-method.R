@@ -4,10 +4,10 @@
 #' @importFrom stringr str_replace_all
 
 setMethod("preTreat", signature = "Analysis",
-          function(object){
-            parameters <- object@parameters$preTreat
-            preTreated <- object@rawData$Data
-            info <- object@rawData$Info
+          function(x){
+            parameters <- x@parameters$preTreat
+            preTreated <- x@rawData$Data
+            info <- x@rawData$Info
             
             if (!is.null(parameters$removeSample)) {
               preTreated <- preTreated[!(info$fileOrder %in% parameters$removeSample),]
@@ -42,13 +42,13 @@ setMethod("preTreat", signature = "Analysis",
             }
             
             if (parameters$QCfilter == F) {
-              preTreated <- preTreated <- occDrop(preTreated,info[,parameters$cls],parameters$occupancy)
+              preTreated <- occDrop(preTreated,info[,parameters$cls],parameters$occupancy)
             }
             
             if (parameters$classImpute == T) {
-              preTreated <- lapply(as.character(sort(unique(info[,parameters$cls]))),function(x,dat,info,cls,occupancy){
+              preTreated <- lapply(as.character(sort(unique(info[,parameters$cls]))),function(y,dat,info,cls,occupancy){
                 rownames(dat) <- info$fileOrder
-                dat <- dat[which(info[,cls] == x),]
+                dat <- dat[which(info[,cls] == y),]
                 occ <- occMat(dat,rep(1,nrow(dat)))
                 dat.1 <- dat[,which(occ < occupancy)]
                 dat <- dat[,-which(occ < occupancy)]
@@ -78,8 +78,8 @@ setMethod("preTreat", signature = "Analysis",
             if (parameters$QCfilter) {
               preTreated <- c(preTreated,QC = QC)
             }
-            object@preTreated <- preTreated
-            object@log$preTreatment <- date()
-            return(object)
+            x@preTreated <- preTreated
+            x@log$preTreatment <- date()
+            return(x)
           }
 )
