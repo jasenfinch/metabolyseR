@@ -6,7 +6,7 @@ setClass('Analysis',
            rawData = 'list',
            preTreated = 'list',
            classification = 'list',
-           featureSelection = 'data.frame',
+           featureSelection = 'list',
            correlations = 'list'
          )
 )

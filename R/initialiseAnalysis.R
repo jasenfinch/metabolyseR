@@ -25,8 +25,9 @@ initialiseAnalysis <- function(data,info){
           clusterType = 'FORK'
         ),
         featureSelection = list(
-          cls = 'class', 
-          nreps = 100, 
+          method = 'fs.rf',
+          cls = 'class',
+          pars = NULL, 
           nCores = 1, 
           clusterType = 'FORK'
         ),
@@ -38,6 +39,6 @@ initialiseAnalysis <- function(data,info){
       rawData = list(Info = info,Data = data),
       preTreated = list(),
       classification = list(),
-      featureSelection = data.frame()
+      featureSelection = list()
   )
 }

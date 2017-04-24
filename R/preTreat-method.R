@@ -74,8 +74,10 @@ setMethod("preTreat", signature = "Analysis",
               preTreated <- log10(preTreated + parameters$add)
             }
             
-            preTreated <- list(Info = info, Data = preTreated, QC = QC)
-            
+            preTreated <- list(Info = info, Data = preTreated)
+            if (parameters$QCfilter) {
+              preTreated <- c(preTreated,QC = QC)
+            }
             object@preTreated <- preTreated
             object@log$preTreatment <- date()
             return(object)

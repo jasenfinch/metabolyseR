@@ -3,6 +3,7 @@
 export(classification)
 export(correlations)
 export(featureSelection)
+export(fsMethods)
 export(initialiseAnalysis)
 export(preTreat)
 importFrom(FIEmspro,accest)
