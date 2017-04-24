@@ -1,5 +1,4 @@
 #' @rdname featureSelection
-#' @importFrom randomForest randomForest
 #' @importFrom parallel parLapply makeCluster stopCluster clusterEvalQ
 
 setMethod("featureSelection", signature = "Analysis",

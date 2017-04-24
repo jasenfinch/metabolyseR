@@ -1,4 +1,5 @@
 #' fsMethods
+#' @importFrom randomForest randomForest
 #' @export
 
 fsMethods <- function(method = NULL){

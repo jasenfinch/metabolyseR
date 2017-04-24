@@ -1,4 +1,4 @@
-#' @rdname combineTransitions
+#' @rdname preTreat
 #' @importFrom missForest missForest
 #' @importFrom plyr ldply
 #' @importFrom stringr str_replace_all

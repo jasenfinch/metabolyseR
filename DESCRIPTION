@@ -4,6 +4,12 @@ Version: 0.0.0.9000
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data.
 Depends: R (>= 3.3.3)
+Imports: FIEmspro,
+    Hmisc,
+    missForest,
+    plyr,
+    randomForest,
+    stringr
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
