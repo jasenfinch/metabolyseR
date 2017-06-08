@@ -4,7 +4,7 @@
 \alias{startAnalysis}
 \title{startAnalysis}
 \usage{
-startAnalysis(data, info)
+startAnalysis(data, info, params = parameters())
 }
 \description{
 startAnalysis
