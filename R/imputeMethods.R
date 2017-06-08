@@ -8,34 +8,34 @@ imputeMethods <- function(method = NULL){
   } else {
    methods <- list(
      
-     all = function(dat,occupancy = 2/3){
-         		dat[which(dat == 0)] <- NA
-         		dat <- missForest(dat)
-         		dat <- dat$ximp
+     all = function(dat, occupancy = 2/3){
+         		dat$Data[which(dat == 0)] <- NA
+         		dat$Data <- missForest(dat$Data)
+         		dat$Data <- dat$Data$ximp
          		return(dat)
      },
      
-     class = function(dat,cls,occupancy = 2/3){
+     class = function(dat, cls = 'Class', occupancy = 2/3){
        
-       dat <- lapply(as.character(sort(unique(cls))),function(y,dat,cls,occupancy){
-         rownames(dat) <- info$fileOrder
-         dat <- dat[which(cls == y),]
-         occ <- occMat(dat,rep(1,nrow(dat)))
-         dat.1 <- dat[,which(occ < occupancy)]
-         dat <- dat[,-which(occ < occupancy)]
-         dat[which(dat == 0)] <- NA
-         capture.output(dat <- missForest(dat))
-         dat <- dat$ximp
-         dat <- cbind(dat.1,dat)
-         dat <- t(dat)
-         dat <- dat[order(as.numeric(str_replace_all(rownames(dat),'[:alpha:]',''))),]
-         dat <- t(dat)
-         return(dat)
+       dat$Data <- lapply(as.character(sort(unique(dat$Info[,cls]))),function(y,dat,cls,occupancy){
+         rownames(dat$Data) <- dat$Info$fileOrder
+         dat$Data <- dat[which(cls == y),]
+         occ <- occMat(dat$Data,rep(1,nrow(dat$Data)))
+         dat.1 <- dat$Data[,which(occ < occupancy)]
+         dat$Data <- dat$Data[,-which(occ < occupancy)]
+         dat$Data[which(dat$Data == 0)] <- NA
+         capture.output(dat$Data <- missForest(dat$Data))
+         dat$Data <- dat$Data$ximp
+         dat$Data <- cbind(dat.1,dat$Data)
+         dat$Data <- t(dat$Data)
+         dat$Data <- dat$Data[order(as.numeric(str_replace_all(rownames(dat$Data),'[:alpha:]',''))),]
+         dat$Data <- t(dat$Data)
+         return(dat$Data)
        },dat = dat, cls = cls, occupancy = occupancy)
-       n <- unlist(lapply(dat,rownames))
-       dat <- as.matrix(ldply(dat))
-       rownames(dat) <- n
-       dat <- dat[order(as.numeric(rownames(dat))),]
+       n <- unlist(lapply(dat$Data,rownames))
+       dat$Data <- as.matrix(ldply(dat$Data))
+       rownames(dat$Data) <- n
+       dat$Data <- dat$Data[order(as.numeric(rownames(dat$Data))),]
      }
    ) 
    method <- methods[[method]]

@@ -21,8 +21,6 @@ setMethod("preTreat", signature = "Analysis",
                 print(m)
               }
             }
-           
-           
             x@preTreated <- preTreated
             x@log$preTreatment <- date()
             return(x)
