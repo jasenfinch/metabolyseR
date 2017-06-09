@@ -8,47 +8,58 @@ transformMethods <- function(method = NULL){
   methods <- list(
     
     center = function(dat){
-      apply(dat,2,function(x){x - mean(x,na.rm = T)})
+      dat$Data <- apply(dat$Data,2,function(x){x - mean(x,na.rm = T)})
+      return(dat)
     },
     
     auto = function(dat){
-      apply(dat,2,function(x){x / sd(x,na.rm = T)})
+      dat$Data <- apply(dat$Data,2,function(x){x / sd(x,na.rm = T)})
+      return(dat)
     },
     
     range = function(dat){
-      apply(dat,2,function(x){x / (max(x,na.rm = T) - min(x,na.rm = T))})
+      dat$Data <- apply(dat$Data,2,function(x){x / (max(x,na.rm = T) - min(x,na.rm = T))})
+      return(dat)
     },
     
     pareto = function(dat){
-      apply(dat,2,function(x){x / mean(x,na.rm = T)/sqrt(sd(x,na.rm = T))})
+      dat$Data <- apply(dat$Data,2,function(x){x / mean(x,na.rm = T)/sqrt(sd(x,na.rm = T))})
+      return(dat)
     },
     
     vast = function(dat){
-      apply(dat,2,function(x){x * mean(x,na.rm = T)/sd(x,na.rm = T)^2})
+      dat$Data <- apply(dat$Data,2,function(x){x * mean(x,na.rm = T)/sd(x,na.rm = T)^2})
+      return(dat)
     },
     
     level = function(dat){
-      apply(dat,2,function(x){x / mean(x,na.rm = T)})
+      dat$Data <- apply(dat$Data,2,function(x){x / mean(x,na.rm = T)})
+      return(dat)
     },
     
     log = function(dat, add = 1){
-      log(dat)
+      dat$Data <- log(dat$Data + add)
+      return(dat)
     },
     
     log10 = function(dat, add = 1){
-      log10(dat + add)
+      dat$Data <- log10(dat$Data + add)
+      return(dat)
     },
     
     sqrt = function(dat){
-      sqrt(dat)
+      dat$Data <- sqrt(dat$Data)
+      return(dat)
     },
     
     asinh = function(dat){
-      asinh(dat)
+      dat$Data <- asinh(dat$Data)
+      return(dat)
     },
     
     TICnorm = function(dat){
-      apply(dat,2,function(x,y){x/y},y = rowSums(dat))
+      dat$Data <- apply(dat$Data,2,function(x,y){x/y},y = rowSums(dat$Data))
+      return(dat)
     }
   )
   

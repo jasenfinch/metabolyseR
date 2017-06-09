@@ -6,15 +6,15 @@ removeMethods <- function(method = NULL){
     cat('Available Methods:',paste(c('sample','class'),collapse = ' '))
   } else {
     methods <- list(
-      sample = function(dat,params){
-        dat <- dat[!(info$fileOrder %in% params$samples),]
-        info <-  info[!(info$fileOrder %in% params$samples),]
+      sample = function(dat,samples = NULL){
+        dat$Data <- dat$Data[!(dat$Info$fileOrder %in% samples),]
+        dat$Info <-  dat$Info[!(dat$Info$fileOrder %in% samples),]
         return(dat)
       },
       
-      class = function(dat,params){
-        dat$dat <- dat$dat[!(dat$info[,params$cls] %in% params$classes),]
-        dat$info <-  dat$info[!(dat$info[,params$cls] %in% params$classes),]
+      class = function(dat,cls = NULL, classes = NULL){
+        dat$Data <- dat$Data[!(dat$Info[,cls] %in% classes),]
+        dat$Info <-  dat$Info[!(dat$Info[,cls] %in% classes),]
         return(dat)
       })
     method <- methods[[method]]

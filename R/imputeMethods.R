@@ -1,5 +1,7 @@
 #' imputeMethods
 #' @importFrom missForest missForest
+#' @importFrom plyr ldply
+#' @importFrom dplyr tbl_df
 #' @export
 
 imputeMethods <- function(method = NULL){
@@ -10,20 +12,21 @@ imputeMethods <- function(method = NULL){
      
      all = function(dat, occupancy = 2/3){
          		dat$Data[which(dat == 0)] <- NA
-         		dat$Data <- missForest(dat$Data)
+         		capture.output(dat$Data <- missForest(dat$Data))
          		dat$Data <- dat$Data$ximp
          		return(dat)
      },
      
-     class = function(dat, cls = 'Class', occupancy = 2/3){
+     class = function(dat, cls = 'class', occupancy = 2/3){
        
-       dat$Data <- lapply(as.character(sort(unique(dat$Info[,cls]))),function(y,dat,cls,occupancy){
-         rownames(dat$Data) <- dat$Info$fileOrder
-         dat$Data <- dat[which(cls == y),]
-         occ <- occMat(dat$Data,rep(1,nrow(dat$Data)))
-         dat.1 <- dat$Data[,which(occ < occupancy)]
-         dat$Data <- dat$Data[,-which(occ < occupancy)]
-         dat$Data[which(dat$Data == 0)] <- NA
+       dat$Data <- lapply(as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy){
+         dat$Data <- data.frame(dat$Data)
+         rownames(dat$Data) <- unlist(dat$Info[,'fileOrder'])
+         dat$Data <- dat$Data[unlist(dat$Info[,cls] == y),]
+         occ <- metProc:::occMat(dat$Data,rep(1,nrow(dat$Data)))
+         dat.1 <- dat$Data[,occ < occupancy]
+         dat$Data <- dat$Data[,!(occ < occupancy)]
+         dat$Data[dat$Data == 0] <- NA
          capture.output(dat$Data <- missForest(dat$Data))
          dat$Data <- dat$Data$ximp
          dat$Data <- cbind(dat.1,dat$Data)
@@ -36,6 +39,8 @@ imputeMethods <- function(method = NULL){
        dat$Data <- as.matrix(ldply(dat$Data))
        rownames(dat$Data) <- n
        dat$Data <- dat$Data[order(as.numeric(rownames(dat$Data))),]
+       dat$Data <- tbl_df(data.frame(dat$Data))
+       return(dat)
      }
    ) 
    method <- methods[[method]]

@@ -5,7 +5,7 @@
 
 setMethod("correlations", signature = "Analysis",
           function(x){
-            parameters <- x@parameters$correlations
+            parameters <- x@parameters@correlations
             
             cors <- rcorr(as.matrix(x@preTreated$Data))
             cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)

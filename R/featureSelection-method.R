@@ -3,7 +3,7 @@
 
 setMethod("featureSelection", signature = "Analysis",
           function(x){
-            parameters <- x@parameters$featureSelection
+            parameters <- x@parameters@featureSelection
             cls <- factor(unlist(x@preTreated$Info[,parameters$cls]))
             
             com <- combn(unique(as.character(cls)),2)

@@ -6,22 +6,21 @@
 setMethod("preTreat", signature = "Analysis",
           function(x){
             params <- x@parameters@preTreat
-            dat <- list(dat = x@rawData$Data, info = x@rawData$Info)
+            dat <- list(Data = x@rawData$Data, Info = x@rawData$Info)
             
             for (i in 1:length(params)) {
               method <- preTreatMethods(names(params)[i])
-              for (j in 1:length(params[[i]])) {
-                m <- method(names(params[[i]])[[j]])
-                # if (!is.null(params[[i]][[j]])) {
-                #   newPars <- formals(m)
-                #   newPars[names(params[[i]][[j]])] <- params[[i]][[j]]
-                #   formals(m) <- newPars
-                # }
-                # m <- m(dat)
-                print(m)
+              m <- method(names(params[[i]]))
+              for (j in 1:length(m)) {
+                if (!(length(params[[i]][[j]]) == 0)) {
+                  newPars <- formals(m[[j]])
+                  newPars[names(params[[i]][[j]])] <- params[[i]][[j]]
+                  formals(m[[j]]) <- newPars
+                }
+                dat <- m[[j]](dat)
               }
             }
-            x@preTreated <- preTreated
+            x@preTreated <- dat
             x@log$preTreatment <- date()
             return(x)
           }
