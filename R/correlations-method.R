@@ -1,32 +1,27 @@
 #' @rdname correlations
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust
-#' @importFrom stringr str_replace_all
+#' @importFrom reshape2 melt
+#' @importFrom dplyr filter
 
 setMethod("correlations", signature = "Analysis",
           function(x){
             parameters <- x@parameters@correlations
             
-            cors <- rcorr(as.matrix(x@preTreated$Data))
+            cors <- as.matrix(x@preTreated$Data)
+            cors[cors == 0] <- NA
+            cors <- rcorr(cors)
             cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)
             cors$r[cors$P > parameters$corPvalue] <- 0
-            cors$r[cors$r == 1] <- 0
             cors <- cors$r
-            corsN <- cors
-            corsN[corsN < 0] <- 0
-            corsP <- cors
-            corsP[corsP > 0] <- 0
-            cors <- list(Negative = corsN, Positive = corsP)
             
-            cors <- lapply(cors,function(y){
-              s <- rowSums(abs(y))
-              x <- x[s > 0,s > 0]
-              n <- colnames(y)
-              x <- metProc:::corLists(y)
-              names(y) <- n
-              return(y)
-            })
-           
+            cors <- data.frame(rownames(cors),cors,stringsAsFactors = F) 
+            cors <- melt(cors)
+            colnames(cors) <- c('Bin1','Bin2','r')
+            cors <- filter(cors, Bin1 != Bin2)
+            cors <- cors[cors$r != 0,] 
+            cors <- na.omit(cors)
+            
             x@correlations <- cors
             x@log$correlations <- date()
             return(x)
