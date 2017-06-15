@@ -3,7 +3,7 @@
 
 preTreatMethods <- function(method = NULL){
   if (is.null(method)) {
-    cat('Available Methods:',paste(c('remove','transform','impute','QC'),collapse = ' '))
+    cat('Available Methods:',paste(c('remove','transform','impute','QC','occupancyFilter'),collapse = ' '))
   } else {
     methods <- list(
       remove = function(params){
