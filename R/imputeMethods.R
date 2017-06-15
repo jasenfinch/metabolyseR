@@ -2,6 +2,7 @@
 #' @importFrom missForest missForest
 #' @importFrom plyr ldply
 #' @importFrom dplyr tbl_df
+#' @importFrom parallel makeCluster stopCluster parLapply
 #' @export
 
 imputeMethods <- function(method = NULL){
@@ -17,9 +18,9 @@ imputeMethods <- function(method = NULL){
          		return(dat)
      },
      
-     class = function(dat, cls = 'class', occupancy = 2/3){
-       
-       dat$Data <- lapply(as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy){
+     class = function(dat, cls = 'class', occupancy = 2/3, nCores = 1){
+       clus <- makeCluster(nCores)
+       dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy){
          dat$Data <- data.frame(dat$Data)
          rownames(dat$Data) <- unlist(dat$Info[,'fileOrder'])
          dat$Data <- dat$Data[unlist(dat$Info[,cls] == y),]
@@ -35,6 +36,7 @@ imputeMethods <- function(method = NULL){
          dat$Data <- t(dat$Data)
          return(dat$Data)
        },dat = dat, cls = cls, occupancy = occupancy)
+       stopCluster(clus)
        n <- unlist(lapply(dat$Data,rownames))
        dat$Data <- as.matrix(ldply(dat$Data))
        rownames(dat$Data) <- n
