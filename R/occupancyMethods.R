@@ -7,13 +7,13 @@ occupancyMethods <- function(method = NULL){
   } else {
     methods <- list(
       maximum = function(dat,cls = 'class', occupancy = 2/3){
-        mat <- occMat(dat$Data,dat$Info[,cls])
+        mat <- occMat(as.matrix(dat$Data),unlist(dat$Info[,cls]))
         occ <- apply(mat,2,max)
         dat$Data <- dat$Data[,which(occ >= occupancy)]
         return(dat)
       }, 
       minimum = function(dat,cls = 'class', occupancy = 2/3){
-        mat <- occMat(dat$Data,dat$Info[,cls])
+        mat <- occMat(as.matrix(dat$Data),unlist(dat$Info[,cls]))
         occ <- apply(mat,2,min)
         dat$Data <- dat$Data[,which(occ >= occupancy)]
         return(dat)

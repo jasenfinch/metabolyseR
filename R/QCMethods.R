@@ -9,8 +9,11 @@ QCMethods <- function(method = NULL){
     methods <- list(
       occupancyFilter = function(dat,cls = 'class', occupancy = 2/3){
         method <- occupancyMethods('maximum')
-        QC <- method(as.matrix(dat$Data[dat$Info[,cls] == 'QC',]),rep(1,nrow(as.matrix(dat$Data[dat$Info[,cls] == 'QC',]))),occupancy)
-        dat$Data <- dat$Data[,colnames(dat$Data) %in% colnames(QC)]
+        QC <- dat
+        QC$Data <- QC$Data[QC$Info[,cls] == 'QC',]
+        QC$Info <- QC$Info[QC$Info[,cls] == 'QC',]
+        QC <- method(QC,cls,occupancy)
+        dat$Data <- dat$Data[,colnames(dat$Data) %in% colnames(QC$Data)]
         return(dat)
       },
       impute = function(dat, cls = 'class', occupancy = 2/3){
