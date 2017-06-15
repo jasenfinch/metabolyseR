@@ -20,6 +20,10 @@ preTreatMethods <- function(method = NULL){
       
       QC = function(params){
         lapply(params,QCMethods)
+      },
+      
+      occupancyFilter = function(params){
+        lapply(params,occupancyMethods)
       }
     )
     method <- methods[[method]]
