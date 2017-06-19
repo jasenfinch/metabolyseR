@@ -24,7 +24,7 @@ imputeMethods <- function(method = NULL){
          dat$Data <- data.frame(dat$Data)
          rownames(dat$Data) <- unlist(dat$Info[,'fileOrder'])
          dat$Data <- dat$Data[unlist(dat$Info[,cls] == y),]
-         occ <- metProc:::occMat(dat$Data,rep(1,nrow(dat$Data)))
+         occ <- occMat(dat$Data,rep(1,nrow(dat$Data)))
          dat.1 <- dat$Data[,occ < occupancy]
          dat$Data <- dat$Data[,!(occ < occupancy)]
          dat$Data[dat$Data == 0] <- NA
