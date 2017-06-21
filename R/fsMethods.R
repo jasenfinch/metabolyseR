@@ -22,7 +22,7 @@ fsMethods <- function(method = NULL){
           kval <- round(mean(apply(res$forest$nodestatus,2,function(x){length(which(x == 1))})),0)
           meas <- SFtable$Freq
           names(meas) <- SFtable$SF
-          FPR <- sapply(sort(unique(meas)),metProc:::selectionFrequencyFPR,K = kval,Tr = 1000,Ft = length(meas))
+          FPR <- sapply(sort(unique(meas)),selectionFrequencyFPR,K = kval,Tr = 1000,Ft = length(meas))
           FPR.pos <- match(meas,sort(unique(meas)))
           for (i in 1:length(FPR)) {
             FPR.pos[which(FPR.pos == i)] <- FPR[i]
