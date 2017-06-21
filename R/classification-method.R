@@ -6,7 +6,7 @@
 setMethod("classification", signature = "Analysis",
           function(x){
             parameters <- x@parameters@classification
-            cls <- factor(x@preTreated$Info[,parameters$cls])
+            cls <- factor(unlist(x@preTreated$Info[,parameters$cls]))
             if (is.null(parameters$pars)) {
               par <- valipars(parameters$pars$sampling,parameters$pars$niter,parameters$pars$nreps,parameters$pars$strat,parameters$pars$div)
             } else {
