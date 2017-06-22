@@ -7,8 +7,12 @@
 setMethod("correlations", signature = "Analysis",
           function(x){
             parameters <- x@parameters@correlations
-            
-            cors <- as.matrix(x@preTreated$Data)
+            if (length(x@preTreated) > 0) {
+              dat <- x@preTreated$Data
+            } else {
+              dat <- x@rawData$Data
+            }
+            cors <- as.matrix(dat)
             cors[cors == 0] <- NA
             cors <- rcorr(cors)
             cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)

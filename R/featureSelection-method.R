@@ -4,14 +4,20 @@
 setMethod("featureSelection", signature = "Analysis",
           function(x){
             parameters <- x@parameters@featureSelection
-            cls <- factor(unlist(x@preTreated$Info[,parameters$cls]))
+            if (length(x@preTreated) > 0) {
+              dat <- x@preTreated$Data
+              cls <- factor(unlist(x@preTreated$Info[,parameters$cls]))
+            } else {
+              dat <- x@rawData$Data
+              cls <- factor(unlist(x@rawData$Info[,parameters$cls]))
+            }
             
             com <- combn(unique(as.character(cls)),2)
             dat.pair <- apply(com,2,function(y,cls,dat){
               dat <- dat[cls %in% y,]
               dat <- data.frame(cls = cls[cls %in% y],dat)
               return(dat)
-            },cls = cls,dat = as.matrix(x@preTreated$Data))
+            },cls = cls,dat = as.matrix(dat))
             com <- apply(com,2,paste,collapse = '~')
             names(dat.pair) <- com
             clust = makeCluster(parameters$nCores, type = parameters$clusterType)
