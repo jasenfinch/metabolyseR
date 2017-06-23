@@ -18,7 +18,7 @@ parameters <- function(elements = c('preTreat','classification','featureSelectio
   if ('classification' %in% elements) {
     classification <- list(
       cls = 'class' ,
-      method = c('randomForest','nlda','svm'),
+      method = c('randomForest'),
       pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T,div = 2/3), 
       nCores = 1,
       clusterType = 'FORK'
