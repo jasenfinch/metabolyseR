@@ -1,7 +1,7 @@
-#' parameters
+#' analysisParameters
 #' @export
 
-parameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
+analysisParameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
   
   if ('preTreat' %in% elements) {
     preTreat <- list(QC = list(occupancyFilter = list(),
@@ -46,7 +46,7 @@ parameters <- function(elements = c('preTreat','classification','featureSelectio
     correlations <- list()
   }
   
-  new('analysisParameters',
+  new('AnalysisParameters',
       preTreat = preTreat,
       classification = classification,
       featureSelection = featureSelection,

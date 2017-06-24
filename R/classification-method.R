@@ -1,4 +1,3 @@
-#' @rdname classification
 #' @importFrom FIEmspro valipars accest dat.sel1
 #' @importFrom stringr str_count 
 #' @importFrom parallel makeCluster parLapply clusterExport stopCluster

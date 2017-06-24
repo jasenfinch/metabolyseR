@@ -1,5 +1,5 @@
 
-setClass('analysisParameters',
+setClass('AnalysisParameters',
          slots = list(
            preTreat = 'list',
            classification = 'list',
@@ -10,7 +10,7 @@ setClass('analysisParameters',
 setClass('Analysis',
          slots = list(
            log = 'list',
-           parameters = 'analysisParameters',
+           parameters = 'AnalysisParameters',
            rawData = 'list',
            preTreated = 'list',
            classification = 'list',
