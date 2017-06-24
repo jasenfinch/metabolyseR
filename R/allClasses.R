@@ -1,4 +1,4 @@
-
+#'@export
 setClass('AnalysisParameters',
          slots = list(
            preTreat = 'list',
@@ -7,6 +7,7 @@ setClass('AnalysisParameters',
            correlations = 'list'
          ))
 
+#'@export
 setClass('Analysis',
          slots = list(
            log = 'list',
