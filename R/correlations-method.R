@@ -24,7 +24,12 @@ setMethod("correlations", signature = "Analysis",
             cors <- filter(cors, Bin1 != Bin2)
             cors <- cors[cors$r != 0,] 
             cors <- na.omit(cors)
-            
+            cors <- apply(cors,1,function(x){
+              x[1:2] <- c(x[1:2])[order(as.numeric(str_replace_all(x[1:2],'[:alpha:]','')))]
+              return(x)
+            })
+            cors <- data.frame(t(cors),stringsAsFactors = F)
+            cors <- cors[!duplicated(cors[,1:2]),]
             x@correlations <- tbl_df(cors)
             x@log$correlations <- date()
             return(x)
