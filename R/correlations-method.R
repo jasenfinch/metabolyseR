@@ -30,6 +30,7 @@ setMethod("correlations", signature = "Analysis",
             })
             cors <- data.frame(t(cors),stringsAsFactors = F)
             cors <- cors[!duplicated(cors[,1:2]),]
+            cors$r <- as.numeric(cors$r)
             x@correlations <- tbl_df(cors)
             x@log$correlations <- date()
             return(x)
