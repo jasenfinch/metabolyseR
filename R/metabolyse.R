@@ -1,4 +1,5 @@
 #' metabolyse 
+#' @importFrom magrittr %>%
 #' @examples 
 #' library(FIEmspro)
 #' data(abr1)
