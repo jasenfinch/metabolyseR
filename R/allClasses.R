@@ -16,6 +16,6 @@ setClass('Analysis',
            preTreated = 'list',
            classification = 'list',
            featureSelection = 'list',
-           correlations = 'list'
+           correlations = 'tbl_df'
          )
 )

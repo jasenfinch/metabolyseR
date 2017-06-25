@@ -1,5 +1,6 @@
 #' metabolyse 
 #' @importFrom magrittr %>%
+#' @importFrom dplyr tbl_df
 #' @examples 
 #' library(FIEmspro)
 #' data(abr1)
@@ -18,7 +19,8 @@ metabolyse <- function(data,info,params = analysisParameters()){
       rawData = list(Info = info,Data = data),
       preTreated = list(),
       classification = list(),
-      featureSelection = list()
+      featureSelection = list(),
+      correlations = tbl_df(data.frame())
   )
   
   elements <- slotNames(analysis@parameters)

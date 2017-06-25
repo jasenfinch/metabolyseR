@@ -25,7 +25,7 @@ setMethod("correlations", signature = "Analysis",
             cors <- cors[cors$r != 0,] 
             cors <- na.omit(cors)
             
-            x@correlations <- cors
+            x@correlations <- tbl_df(cors)
             x@log$correlations <- date()
             return(x)
           }
