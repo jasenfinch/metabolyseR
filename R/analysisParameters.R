@@ -1,7 +1,8 @@
-#' parameters
+#' analysisParameters
+#' @importFrom parallel detectCores
 #' @export
 
-parameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
+analysisParameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
   
   if ('preTreat' %in% elements) {
     preTreat <- list(QC = list(occupancyFilter = list(),
@@ -9,7 +10,7 @@ parameters <- function(elements = c('preTreat','classification','featureSelectio
                                RSDfilter = list(),
                                removeQC = list()
                                ), 
-                     impute = list(class = list()),
+                     impute = list(class = list(nCores = detectCores())),
                      transform = list(TICnorm = list())
     )
   } else {
@@ -20,7 +21,7 @@ parameters <- function(elements = c('preTreat','classification','featureSelectio
       cls = 'class' ,
       method = c('randomForest'),
       pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T,div = 2/3), 
-      nCores = 1,
+      nCores = detectCores(),
       clusterType = 'FORK'
     )
   } else {
@@ -31,7 +32,7 @@ parameters <- function(elements = c('preTreat','classification','featureSelectio
       method = 'fs.rf',
       cls = 'class',
       pars = NULL, 
-      nCores = 1, 
+      nCores = detectCores(), 
       clusterType = 'FORK'
     )
   } else {
@@ -46,7 +47,7 @@ parameters <- function(elements = c('preTreat','classification','featureSelectio
     correlations <- list()
   }
   
-  new('analysisParameters',
+  new('AnalysisParameters',
       preTreat = preTreat,
       classification = classification,
       featureSelection = featureSelection,

@@ -1,5 +1,5 @@
-
-setClass('analysisParameters',
+#'@export
+setClass('AnalysisParameters',
          slots = list(
            preTreat = 'list',
            classification = 'list',
@@ -7,14 +7,15 @@ setClass('analysisParameters',
            correlations = 'list'
          ))
 
+#'@export
 setClass('Analysis',
          slots = list(
            log = 'list',
-           parameters = 'analysisParameters',
+           parameters = 'AnalysisParameters',
            rawData = 'list',
            preTreated = 'list',
            classification = 'list',
            featureSelection = 'list',
-           correlations = 'list'
+           correlations = 'tbl_df'
          )
 )

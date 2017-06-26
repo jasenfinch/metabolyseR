@@ -1,4 +1,3 @@
-#' @rdname classification
 #' @importFrom FIEmspro valipars accest dat.sel1
 #' @importFrom stringr str_count 
 #' @importFrom parallel makeCluster parLapply clusterExport stopCluster
@@ -23,7 +22,7 @@ setMethod("classification", signature = "Analysis",
               formals(newValipars) <- pars
               par <- newValipars()
             }
-            dat.pair <- dat.sel1(x@preTreated$Data,cls,pwise = unique(as.character(cls)),pars = par)
+            dat.pair <- dat.sel1(dat,cls,pwise = unique(as.character(cls)),pars = par)
             com <- sapply(dat.pair, function(y){y$name})
             if (length(com) > 1) {
               dat.pair <- dat.pair[-which(sapply(com,str_count,pattern = '~') > 1)]
