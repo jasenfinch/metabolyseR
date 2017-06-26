@@ -1,0 +1,16 @@
+language: r
+
+sudo: required
+bioc_required: true
+warnings_are_errors: true
+ 
+bioc_packages:
+    - impute
+
+r_github_packages:
+    - wilsontom/FIEmspro
+
+notifications:
+    email:
+    on_success: change
+    on_failure: change
