@@ -1,6 +1,6 @@
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust
-#' @importFrom dplyr filter bind_cols left_join rename select
+#' @importFrom dplyr filter bind_cols left_join rename select mutate
 #' @importFrom parallel parApply makeCluster stopCluster
 #' @importFrom tidyr gather
 #' @importFrom tibble tibble
