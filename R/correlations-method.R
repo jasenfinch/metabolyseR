@@ -21,9 +21,9 @@ setMethod("correlations", signature = "Analysis",
             cors <- cors$r
             
             cors <- tbl_df(data.frame(cors))
-            cors <- bind_cols(Bin1 = rownames(cors),cors) %>% 
-              gather('Bin2','r',-Bin1) %>% 
-              filter(Bin1 != Bin2 & r != 0) %>%
+            cors <- bind_cols(Feature1 = rownames(cors),cors) %>% 
+              gather('Feature2','r',-Feature1) %>% 
+              filter(Feature1 != Feature2 & r != 0) %>%
               na.omit()
             
             clus <- makeCluster(parameters$nCores)
@@ -36,15 +36,15 @@ setMethod("correlations", signature = "Analysis",
             cors <- cors[!duplicated(cors[,1:2]),]
             cors$r <- as.numeric(cors$r)
             
-            intensity <- tibble(Bin = names(colMeans(dat)), Intensity = colMeans(dat))
+            intensity <- tibble(Feature = names(colMeans(dat)), Intensity = colMeans(dat))
             
             cors <- tbl_df(cors) %>%
-              left_join(intensity, by = c('Bin1' = 'Bin')) %>%
+              left_join(intensity, by = c('Feature1' = 'Feature')) %>%
               rename(Intensity1 = Intensity) %>%
-              left_join(intensity, by = c('Bin2' = 'Bin')) %>%
+              left_join(intensity, by = c('Feature2' = 'Feature')) %>%
               rename(Intensity2 = Intensity) %>%
               mutate(log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
-              select(Bin1,Bin2,log2IntensityRatio,r)
+              select(Feature1,Feature2,log2IntensityRatio,r)
               
             
             x@correlations <- cors
