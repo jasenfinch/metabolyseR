@@ -1,7 +1,8 @@
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust
-#' @importFrom reshape2 melt
-#' @importFrom dplyr filter
+#' @importFrom dplyr filter bind_cols left_join rename select
+#' @importFrom tidyr gather
+#' @importFrom tibble tibble
 
 setMethod("correlations", signature = "Analysis",
           function(x){
@@ -18,20 +19,32 @@ setMethod("correlations", signature = "Analysis",
             cors$r[cors$P > parameters$corPvalue] <- 0
             cors <- cors$r
             
-            cors <- data.frame(rownames(cors),cors,stringsAsFactors = F) 
-            cors <- suppressMessages(melt(cors))
-            colnames(cors) <- c('Bin1','Bin2','r')
-            cors <- filter(cors, Bin1 != Bin2)
-            cors <- cors[cors$r != 0,] 
-            cors <- na.omit(cors)
-            cors <- apply(cors,1,function(x){
+            cors <- tbl_df(data.frame(cors))
+            cors <- bind_cols(Bin1 = rownames(cors),cors) %>% 
+              gather('Bin2','r',-Bin1) %>% 
+              filter(Bin1 != Bin2 & r != 0) %>%
+              na.omit()
+            
+            clus <- makeCluster(parameters$nCores)
+            cors <- parApply(clus,cors,1,function(x){
               x[1:2] <- c(x[1:2])[order(as.numeric(str_replace_all(x[1:2],'[:alpha:]','')))]
               return(x)
             })
+            stopCluster(clus)
             cors <- data.frame(t(cors),stringsAsFactors = F)
             cors <- cors[!duplicated(cors[,1:2]),]
             cors$r <- as.numeric(cors$r)
-            x@correlations <- tbl_df(cors)
+            
+            intensity <- tibble(Bin = names(colMeans(dat)), Intensity = colMeans(dat))
+            
+            cors <- tbl_df(cors) %>%
+              left_join(intensity, by = c('Bin1' = 'Bin')) %>%
+              rename(Intensity1 = Intensity) %>%
+              left_join(intensity, by = c('Bin2' = 'Bin')) %>%
+              rename(Intensity2 = Intensity) %>%
+              select(Bin1,Bin2,Intensity1,Intensity2,r)
+            
+            x@correlations <- cors
             x@log$correlations <- date()
             return(x)
           }

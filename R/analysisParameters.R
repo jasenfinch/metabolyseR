@@ -41,7 +41,8 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
   if ('correlations' %in% elements) {
     correlations <- list(
       pAdjustMethod = 'bonferroni',
-      corPvalue = 0.05
+      corPvalue = 0.05,
+      nCores = detectCores()
     )
   } else {
     correlations <- list()
