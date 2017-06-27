@@ -1,0 +1,13 @@
+digraph metabolyseR {
+
+  # a 'graph' statement
+  graph [overlap = true]
+
+  # several 'node' statements
+  node [shape = box,
+        fontname = Helvetica, fontsize = 14]
+  metabolyseR; preTreat; classification; featureSelection; correlations
+
+  # several 'edge' statements
+  metabolyseR -> {preTreat classification featureSelection correlations} 
+}

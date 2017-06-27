@@ -1,0 +1,46 @@
+---
+title: "metabolyseR"
+author: "Jasen Finch"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{metabolyseR-usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+Extracting biological information, from metabolomics data, relating to experimental treatments, involves steps requiring data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
+
+The 
+
+```{r,echo=FALSE}
+  DiagrammeR::grViz(readr::read_file('metabolyseR.gv'))
+```
+
+## Basic Usage
+
+## Pre-Treatment
+
+```{r,echo=FALSE}
+  DiagrammeR::grViz(readr::read_file('preTreat.gv'))
+```
+
+### Remove Samples and Classes
+
+### Filter Variables based on occupancy
+
+### Filter Variables based on QC samples
+
+### Impute missing data
+
+### Transform the data
+
+## Classification
+
+## Feature Selection
+
+## Correlations
+
+## Visualisation

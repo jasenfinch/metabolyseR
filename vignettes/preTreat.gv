@@ -1,0 +1,13 @@
+digraph preTreat {
+
+  # a 'graph' statement
+  graph [overlap = true]
+
+  # several 'node' statements
+  node [shape = box,
+        fontname = Helvetica, fontsize = 14]
+  preTreat; remove; occupancyFilter; QC; impute; transform
+
+  # several 'edge' statements
+  preTreat -> {remove occupancyFilter QC impute transform} 
+}
