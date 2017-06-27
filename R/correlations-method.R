@@ -1,6 +1,7 @@
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust
 #' @importFrom dplyr filter bind_cols left_join rename select
+#' @importFrom parallel parApply makeCluster stopCluster
 #' @importFrom tidyr gather
 #' @importFrom tibble tibble
 
@@ -42,7 +43,9 @@ setMethod("correlations", signature = "Analysis",
               rename(Intensity1 = Intensity) %>%
               left_join(intensity, by = c('Bin2' = 'Bin')) %>%
               rename(Intensity2 = Intensity) %>%
-              select(Bin1,Bin2,Intensity1,Intensity2,r)
+              mutate(log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
+              select(Bin1,Bin2,log2IntensityRatio,r)
+              
             
             x@correlations <- cors
             x@log$correlations <- date()
