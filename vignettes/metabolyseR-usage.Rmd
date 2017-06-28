@@ -12,14 +12,20 @@ vignette: >
 ## Introduction
 
 Extracting biological information, from metabolomics data, relating to experimental treatments, involves steps requiring data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
-
-The 
+The metabolyseR oackage provides a suite of methods that encompass these aspects of metabolomics data analysis.
+Below shows the four analysis elements in that make up metabolyseR.
 
 ```{r,echo=FALSE}
   DiagrammeR::grViz(readr::read_file('metabolyseR.gv'))
 ```
 
+This document will provide a tutorial on the basic usage of the package, followed by more detailed discussion of each of the analysis elements.
+Lastly, there will be discussion of the tools for the visualisation of the results from these data as well as the integration of metabolyseR into wider metabolomics workflows.
+This allows more bespoke analyses to be performed based on the particular metabolomics technique being used.
+
 ## Basic Usage
+
+The example used here is a flow-infusion electrospray high resolution mass spectrometry (FIE-HRMS) data set provided by the [metaboData](https://github.com/jasenfinch/metaboData) package and spectrally binned using the [binneRlyse](https://github.com/jasenfinch/binneRlyse) package.
 
 ## Pre-Treatment
 
@@ -43,4 +49,4 @@ The
 
 ## Correlations
 
-## Visualisation
+## Visualisation and Workflows
