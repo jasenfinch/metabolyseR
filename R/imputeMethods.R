@@ -31,6 +31,7 @@ imputeMethods <- function(method = NULL){
          dat$Data <- t(dat$Data)
          dat$Data <- dat$Data[order(as.numeric(str_replace_all(rownames(dat$Data),'[:alpha:]',''))),]
          dat$Data <- t(dat$Data)
+         dat$Data <- tbl_df(dat$Data)
          return(dat$Data)
        },dat = dat, cls = cls, occupancy = occupancy)
        stopCluster(clus)
