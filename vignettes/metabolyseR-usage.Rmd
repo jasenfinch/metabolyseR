@@ -15,7 +15,7 @@ Extracting biological information, from metabolomics data, relating to experimen
 The metabolyseR oackage provides a suite of methods that encompass these aspects of metabolomics data analysis.
 Below shows the four analysis elements in that make up metabolyseR.
 
-```{r,echo=FALSE,fig.width=7}
+```{r,echo=FALSE,fig.width=6}
   DiagrammeR::grViz(readr::read_file('metabolyseR.gv'))
 ```
 
@@ -29,7 +29,7 @@ The example used here is a flow-infusion electrospray high resolution mass spect
 
 ## Pre-Treatment
 
-```{r,echo=FALSE,fig.width=7}
+```{r,echo=FALSE,fig.width=6}
   DiagrammeR::grViz(readr::read_file('preTreat.gv'))
 ```
 
