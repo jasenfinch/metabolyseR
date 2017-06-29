@@ -16,7 +16,7 @@ The metabolyseR oackage provides a suite of methods that encompass these aspects
 Below shows the four analysis elements in that make up metabolyseR.
 
 ```{r,echo=FALSE,fig.width=6}
-  DiagrammeR::grViz(readr::read_file('metabolyseR.gv'))
+  DiagrammeR::grViz(readr::read_file('figures/metabolyseR.gv'))
 ```
 
 This document will provide a tutorial on the basic usage of the package, followed by more detailed discussion of each of the analysis elements.
@@ -30,7 +30,7 @@ The example used here is a flow-infusion electrospray high resolution mass spect
 ## Pre-Treatment
 
 ```{r,echo=FALSE,fig.width=6}
-  DiagrammeR::grViz(readr::read_file('preTreat.gv'))
+  DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
 ```
 
 ### Remove Samples and Classes
