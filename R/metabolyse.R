@@ -1,6 +1,12 @@
 #' metabolyse 
+#' @description Analyse data based on specified analysis elements.
+#' @param  data tibble or data.frame containing data to analyse
+#' @param info tibble or data.frame containing data info or meta data
+#' @param parameters an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tbl_df
+#' @importFrom methods slotNames slot
+#' @seealso \linkS4class{Parameters} \link{analysisParameters}
 #' @examples 
 #' library(FIEmspro)
 #' data(abr1)
@@ -12,10 +18,10 @@
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 #' @export
 
-metabolyse <- function(data,info,params = analysisParameters()){
+metabolyse <- function(data,info,parameters = analysisParameters()){
   analysis <- new('Analysis',
       log = list(analysis = date()),
-      parameters = params,
+      parameters = parameters,
       rawData = list(Info = info,Data = data),
       preTreated = list(),
       classification = list(),

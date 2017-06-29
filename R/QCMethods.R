@@ -1,6 +1,6 @@
-#' QCMethods
 #' @importFrom missForest missForest
-#' @export
+#' @importFrom utils capture.output
+#' @importFrom stats sd
 
 QCMethods <- function(method = NULL){
   if (is.null(method)) {

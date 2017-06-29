@@ -1,5 +1,3 @@
-#' preTreatMethods
-#' @export
 
 preTreatMethods <- function(method = NULL){
   if (is.null(method)) {

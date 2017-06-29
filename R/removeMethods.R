@@ -1,5 +1,3 @@
-#' removeMethods
-#' @export
 
 removeMethods <- function(method = NULL){
   if (is.null(method)) {

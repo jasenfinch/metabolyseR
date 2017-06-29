@@ -1,5 +1,3 @@
-#' transformMethods
-#' @export
 
 transformMethods <- function(method = NULL){
   if (is.null(method)) {

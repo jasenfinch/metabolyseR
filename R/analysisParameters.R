@@ -1,5 +1,15 @@
 #' analysisParameters
+#' @description Initiate default analysis parameters for analysis elements.
+#' @param elements character vector containing elements for analysis (see Details). Default includes all available elements.
+#' @details Analysis elements can include:
+#' \itemize{
+#' \item preTreat
+#' \item classification
+#' \item featureSelection
+#' \item correlations
+#' }
 #' @importFrom parallel detectCores
+#' @importFrom methods new
 #' @export
 
 analysisParameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
@@ -48,7 +58,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     correlations <- list()
   }
   
-  new('AnalysisParameters',
+  new('Parameters',
       preTreat = preTreat,
       classification = classification,
       featureSelection = featureSelection,

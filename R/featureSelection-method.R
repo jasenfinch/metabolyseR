@@ -1,4 +1,5 @@
 #' @importFrom parallel parLapply makeCluster stopCluster clusterEvalQ
+#' @importFrom utils combn
 
 setMethod("featureSelection", signature = "Analysis",
           function(x){

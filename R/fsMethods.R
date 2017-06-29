@@ -1,6 +1,5 @@
-#' fsMethods
 #' @importFrom randomForest randomForest
-#' @export
+#' @importFrom stats oneway.test t.test kruskal.test
 
 fsMethods <- function(method = NULL){
   if (is.null(method)) {

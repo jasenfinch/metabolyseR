@@ -4,10 +4,17 @@
 \alias{metabolyse}
 \title{metabolyse}
 \usage{
-metabolyse(data, info, params = analysisParameters())
+metabolyse(data, info, parameters = analysisParameters())
+}
+\arguments{
+\item{data}{tibble or data.frame containing data to analyse}
+
+\item{info}{tibble or data.frame containing data info or meta data}
+
+\item{parameters}{an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}}
 }
 \description{
-metabolyse
+Analyse data based on specified analysis elements.
 }
 \examples{
 library(FIEmspro)
@@ -18,4 +25,7 @@ p@preTreat <- list(
     transform = list(TICnorm = list())
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
+}
+\seealso{
+\linkS4class{Parameters} \link{analysisParameters}
 }

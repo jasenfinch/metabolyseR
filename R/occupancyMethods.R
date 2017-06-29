@@ -1,5 +1,3 @@
-#' occupancyMethods
-#' @export
 
 occupancyMethods <- function(method = NULL){
   if (is.null(method)) {

@@ -1,8 +1,6 @@
-#' imputeMethods
 #' @importFrom missForest missForest
 #' @importFrom dplyr tbl_df bind_rows
 #' @importFrom parallel makeCluster stopCluster parLapply
-#' @export
 
 imputeMethods <- function(method = NULL){
   if (is.null(method)) {
