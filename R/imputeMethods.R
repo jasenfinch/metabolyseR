@@ -1,6 +1,7 @@
 #' imputeMethods
 #' @importFrom missForest missForest
-#' @importFrom dplyr tbl_df bind_rows
+#' @importFrom dplyr tbl_df
+#' @importFrom plyr ldply
 #' @importFrom parallel makeCluster stopCluster parLapply
 #' @export
 
@@ -33,12 +34,11 @@ imputeMethods <- function(method = NULL){
          dat$Data <- t(dat$Data)
          dat$Data <- dat$Data[order(as.numeric(str_replace_all(rownames(dat$Data),'[:alpha:]',''))),]
          dat$Data <- t(dat$Data)
-         dat$Data <- tbl_df(dat$Data)
          return(dat$Data)
        },dat = dat, cls = cls, occupancy = occupancy)
        stopCluster(clus)
        n <- unlist(lapply(dat$Data,rownames))
-       dat$Data <- as.matrix(bind_rows(dat$Data))
+       dat$Data <- as.matrix(ldply(dat$Data))
        rownames(dat$Data) <- n
        dat$Data <- dat$Data[order(as.numeric(rownames(dat$Data))),]
        dat$Data <- tbl_df(data.frame(dat$Data))

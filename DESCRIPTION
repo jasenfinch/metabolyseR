@@ -12,7 +12,8 @@ Imports: FIEmspro,
          randomForest,
          stringr,
          tibble,
-         tidyr
+         tidyr,
+         plyr
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
