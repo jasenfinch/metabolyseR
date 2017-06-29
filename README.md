@@ -8,4 +8,6 @@ Methods for pre-treatment, classification, feature selection and correlation ana
 
 ### Installation
 
+```r
 devtools::install_github('jasenfinch/metabolyseR@documentation',build_vignettes = TRUE)
+```
