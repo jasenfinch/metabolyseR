@@ -2,10 +2,8 @@
 #' @importFrom utils capture.output
 #' @importFrom stats sd
 
-QCMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('occupancyFilter', 'impute','RSDfilter','removeQC'),collapse = ' '))
-  } else {
+QCMethods <- function(method = NULL, description = F){
+
     methods <- list(
       occupancyFilter = function(dat,cls = 'class', occupancy = 2/3){
         method <- occupancyMethods('maximum')
@@ -36,7 +34,33 @@ QCMethods <- function(method = NULL){
         return(dat)
       }
     ) 
-    method <- methods[[method]]
+    
+    descriptions <- list(
+      occupancyFilter = list(description = '',
+                             arguments = c(cls = '',
+                                           occupancy = '')),
+      impute = list(description = '',
+                    arguments = c(cls = '',
+                                  occupancy = '')),
+      RSDfilter = list(description = '',
+                       arguments = c(cls = '',
+                                     RSDthreshold = '')),
+      removeQC = list(description = '',
+                      arguments = c(cls = ''))
+    )
+    
+    if (description == F) {
+      if (is.null(method)) {
+        method <- methods
+      } else {
+        method <- methods[[method]]
+      }
+    } else {
+      if (is.null(method)) {
+        method <- descriptions
+      } else {
+        method <- descriptions[[method]]
+      }
+    }
     return(method)
-  }
 }

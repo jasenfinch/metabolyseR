@@ -1,8 +1,5 @@
 
-removeMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('sample','class'),collapse = ' '))
-  } else {
+removeMethods <- function(method = NULL, description = F){
     methods <- list(
       sample = function(dat,cls = 'fileOrder', samples = NULL){
         dat$Data <- dat$Data[!(unlist(dat$Info[,cls]) %in% samples),]
@@ -15,8 +12,29 @@ removeMethods <- function(method = NULL){
         dat$Info <-  dat$Info[!(unlist(dat$Info[,cls]) %in% classes),]
         return(dat)
       })
-    method <- methods[[method]]
+    
+    descriptions = list(
+      sample = list(description = '',
+                    arguments = c(cls = '',
+                                  samples = '')),
+      class = list(description = '',
+                   arguments = c(cls = '',
+                                 classes = ''))
+    )
+    
+    if (description == F) {
+      if (is.null(method)) {
+        method <- methods
+      } else {
+        method <- methods[[method]]
+      }
+    } else {
+      if (is.null(method)) {
+        method <- descriptions
+      } else {
+        method <- descriptions[[method]]
+      }
+    }
     return(method)
-  }
 }
 

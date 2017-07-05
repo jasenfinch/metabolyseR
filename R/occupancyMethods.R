@@ -1,9 +1,7 @@
 
-occupancyMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('maximum', 'minimum'),collapse = ' '))
-  } else {
-    methods <- list(
+occupancyMethods <- function(method = NULL, description = F){
+    
+  methods <- list(
       maximum = function(dat,cls = 'class', occupancy = 2/3){
         mat <- occMat(as.matrix(dat$Data),unlist(dat$Info[,cls]))
         occ <- apply(mat,2,max)
@@ -17,7 +15,28 @@ occupancyMethods <- function(method = NULL){
         return(dat)
       }
     )
-    method <- methods[[method]]
+    
+  descriptions = list(
+    maximum = list(description = 'maximum thresholded class occupancy filtering', 
+                   arguments = c(class = 'info column to use for class labels', 
+                                                   occupancy = 'occupancy threshold')),
+    minimum = list(description = 'minimum thresholded class occupancy filtering', 
+                   arguments = c(class = 'info column to use for class labels', 
+                                                   occupancy = 'occupancy threshold'))
+    )
+  
+    if (description == F) {
+      if (is.null(method)) {
+        method <- methods
+      } else {
+        method <- methods[[method]]
+      }
+    } else {
+      if (is.null(method)) {
+        method <- descriptions
+      } else {
+        method <- descriptions[[method]]
+      }
+    }
     return(method)
-  }
 }

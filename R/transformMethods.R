@@ -1,8 +1,6 @@
 
-transformMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('center','auto','range','pareto','vast','level','log','log10','sqrt','asinh','TICnorm'),collapse = ' '))
-  } else {
+transformMethods <- function(method = NULL, description = F){
+
   methods <- list(
     
     center = function(dat){
@@ -61,7 +59,43 @@ transformMethods <- function(method = NULL){
     }
   )
   
-  method <- methods[[method]]
-  return(method)
+  descriptions = list(
+    center = list(description = '',
+                  arguments = c(`''` = '')),
+    auto = list(description = '',
+                arguments = c(`''` = '')),
+    range = list(description = '',
+                 arguments = c(`''` = '')),
+    pareto = list(description = '',
+                  arguments = c(`''` = '')),
+    vast = list(description = '',
+                arguments = c(`''` = '')),
+    level = list(description = '',
+                 arguments = c(`''` = '')),
+    log = list(description = '',
+               arguments = c(`''` = '')),
+    log10 = list(description = '',
+                 arguments = c(`''` = '')),
+    sqrt = list(description = '',
+                arguments = c(`''` = '')),
+    asinh = list(description = '',
+                 arguments = c(`''` = '')),
+    TICnorm = list(description = '',
+                   arguments = c(`''` = ''))
+  )
+  
+  if (description == F) {
+    if (is.null(method)) {
+      method <- methods
+    } else {
+      method <- methods[[method]]
+    }
+  } else {
+    if (is.null(method)) {
+      method <- descriptions
+    } else {
+      method <- descriptions[[method]]
+    }
   }
+  return(method)
 }

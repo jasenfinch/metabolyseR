@@ -75,10 +75,14 @@ fsMethods <- function(method = NULL, description = F){
   )
   
   descriptions = list(
-    fs.rf = 'Random Forest using selection frequency based false positive rate for variable importance',
-    fs.anova = 'One-way ANOVA',
-    fs.ttest = 'Welch t-test',
-    fs.kruskal = 'Kruskal-Wallis Rank Sum Test'
+    fs.rf = list(description = 'Random Forest using selection frequency based false positive rate for variable importance',
+                 arguments = c(nreps = 'number of replications')),
+    fs.anova = list(description = 'One-way ANOVA', 
+                    arguments = c(pAdjust = 'method for multiple testing p value correction')),
+    fs.ttest = list(description = 'Welch t-test', 
+                    arguments = c(pAdjust = 'method for multiple testing p value correction')),
+    fs.kruskal = list(description = 'Kruskal-Wallis Rank Sum Test', 
+                      arguments = c(pAdjust = 'method for multiple testing p value correction'))
   )
   
   if (description == F) {
