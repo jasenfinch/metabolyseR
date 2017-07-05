@@ -11,7 +11,7 @@ vignette: >
 
 ## Introduction
 
-Extracting biological information, from metabolomics data, relating to experimental treatments, involves steps requiring data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
+Extracting biological information  related to experimental treatments from metabolomics data involves steps requiring data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
 The metabolyseR oackage provides a suite of methods that encompass these aspects of metabolomics data analysis.
 Below shows the four analysis elements in that make up metabolyseR.
 
