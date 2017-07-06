@@ -18,7 +18,7 @@ imputeMethods <- function(method = NULL){
          		return(dat)
      },
      
-     class = function(dat, cls = 'class', occupancy = 2/3, nCores = 1){
+     class = function(dat, cls = 'class', occupancy = 2/3, nCores = detectCores()){
        clus <- makeCluster(nCores)
        dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy){
          dat$Data <- data.frame(dat$Data)

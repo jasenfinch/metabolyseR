@@ -7,6 +7,18 @@
 analysisParameters(elements = c("preTreat", "classification",
   "featureSelection", "correlations"))
 }
+\arguments{
+\item{elements}{character vector containing elements for analysis (see Details). Default includes all available elements.}
+}
 \description{
-analysisParameters
+Initiate default analysis parameters for analysis elements.
+}
+\details{
+Analysis elements can include:
+\itemize{
+\item preTreat
+\item classification
+\item featureSelection
+\item correlations
+}
 }

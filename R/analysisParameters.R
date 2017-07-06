@@ -1,17 +1,27 @@
 #' analysisParameters
+#' @description Initiate default analysis parameters for analysis elements.
+#' @param elements character vector containing elements for analysis (see Details). Default includes all available elements.
+#' @details Analysis elements can include:
+#' \itemize{
+#' \item preTreat
+#' \item classification
+#' \item featureSelection
+#' \item correlations
+#' }
 #' @importFrom parallel detectCores
+#' @importFrom methods new
 #' @export
 
 analysisParameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
   
   if ('preTreat' %in% elements) {
-    preTreat <- list(QC = list(occupancyFilter = list(),
-                               impute = list(),
-                               RSDfilter = list(),
-                               removeQC = list()
-                               ), 
-                     impute = list(class = list(nCores = detectCores())),
-                     transform = list(TICnorm = list())
+    preTreat <- list(QC = list(occupancyFilter = as.list(formals(QCMethods('occupancyFilter'))[-1]),
+                               impute = as.list(formals(QCMethods('impute'))[-1]),
+                               RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
+                               removeQC = as.list(formals(QCMethods('removeQC'))[-1])
+    ), 
+    impute = list(class = list(nCores = detectCores())),
+    transform = list(TICnorm = list())
     )
   } else {
     preTreat <- list()
@@ -28,10 +38,12 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     classification <- list()
   }
   if ('featureSelection' %in% elements) {
+    pars <- formals(fsMethods('fs.rf'))
+    pars$dat <- NULL
     featureSelection <- list(
       method = 'fs.rf',
       cls = 'class',
-      pars = NULL, 
+      pars = pars, 
       nCores = detectCores(), 
       clusterType = 'FORK'
     )
