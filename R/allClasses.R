@@ -1,5 +1,5 @@
 #' Parameters
-#' @rdname Parameters
+#' @rdname AnalysisParameters
 #' @description An S4 class to store analysis parameters
 #' @slot preTreat list containing parameters for data pre-treatment
 #' @slot classification list containing parameters for classification
@@ -7,7 +7,7 @@
 #' @slot correlations list containing parameters for correlations
 #'@export
 
-setClass('Parameters',
+setClass('AnalysisParameters',
          slots = list(
            preTreat = 'list',
            classification = 'list',
@@ -30,7 +30,7 @@ setClass('Parameters',
 setClass('Analysis',
          slots = list(
            log = 'list',
-           parameters = 'Parameters',
+           parameters = 'AnalysisParameters',
            rawData = 'list',
            preTreated = 'list',
            classification = 'list',

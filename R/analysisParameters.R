@@ -15,22 +15,22 @@
 analysisParameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
   
   if ('preTreat' %in% elements) {
-    preTreat <- list(QC = list(occupancyFilter = list(),
-                               impute = list(),
-                               RSDfilter = list(),
-                               removeQC = list()
-                               ), 
-                     impute = list(class = list(nCores = detectCores())),
-                     transform = list(TICnorm = list())
+    preTreat <- list(QC = list(occupancyFilter = as.list(formals(QCMethods('occupancyFilter'))[-1]),
+                               impute = as.list(formals(QCMethods('impute'))[-1]),
+                               RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
+                               removeQC = as.list(formals(QCMethods('removeQC'))[-1])
+    ), 
+    impute = list(class = as.list(formals(imputeMethods('class'))[-1])),
+    transform = list(TICnorm = as.list(formals(transformMethods('TICnorm'))[-1]))
     )
   } else {
     preTreat <- list()
   }
   if ('classification' %in% elements) {
     classification <- list(
-      cls = 'class' ,
+      cls = 'class',
       method = c('randomForest'),
-      pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T,div = 2/3), 
+      pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T), 
       nCores = detectCores(),
       clusterType = 'FORK'
     )
@@ -38,10 +38,12 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     classification <- list()
   }
   if ('featureSelection' %in% elements) {
+    pars <- formals(fsMethods('fs.rf'))
+    pars$dat <- NULL
     featureSelection <- list(
       method = 'fs.rf',
       cls = 'class',
-      pars = NULL, 
+      pars = pars, 
       nCores = detectCores(), 
       clusterType = 'FORK'
     )
