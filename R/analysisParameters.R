@@ -20,17 +20,17 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
                                RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
                                removeQC = as.list(formals(QCMethods('removeQC'))[-1])
     ), 
-    impute = list(class = list(nCores = detectCores())),
-    transform = list(TICnorm = list())
+    impute = list(class = as.list(formals(imputeMethods('class'))[-1])),
+    transform = list(TICnorm = as.list(formals(transformMethods('TICnorm'))[-1]))
     )
   } else {
     preTreat <- list()
   }
   if ('classification' %in% elements) {
     classification <- list(
-      cls = 'class' ,
+      cls = 'class',
       method = c('randomForest'),
-      pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T,div = 2/3), 
+      pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T), 
       nCores = detectCores(),
       clusterType = 'FORK'
     )
