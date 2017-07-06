@@ -60,7 +60,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     correlations <- list()
   }
   
-  new('Parameters',
+  new('AnalysisParameters',
       preTreat = preTreat,
       classification = classification,
       featureSelection = featureSelection,
