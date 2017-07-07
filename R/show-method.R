@@ -27,7 +27,7 @@ setMethod('show',signature = 'AnalysisParameters',
                 return(x)
               })
               preTreat <- paste(names(preTreat),preTreat,sep = '\t')
-              preTreat <- paste(preTreat,collapse = '\n\t')
+              preTreat <- paste(preTreat,collapse = '\t')
               preTreat <- paste('\t',preTreat,sep = '')
             }
             
