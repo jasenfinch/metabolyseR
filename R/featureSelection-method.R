@@ -25,7 +25,7 @@ setMethod("featureSelection", signature = "Analysis",
               res.method <- lapply(method,function(z,dat,pars){
                 m <- fsMethods(z)
                 if (!is.null(pars)) {
-                  newPars <- formals(method)
+                  newPars <- formals(m)
                   newPars[names(pars[[z]])] <- pars[[z]]
                   formals(m) <- newPars
                 }

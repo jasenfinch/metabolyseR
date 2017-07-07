@@ -38,12 +38,10 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     classification <- list()
   }
   if ('featureSelection' %in% elements) {
-    pars <- formals(fsMethods('fs.rf'))
-    pars$dat <- NULL
     featureSelection <- list(
       method = 'fs.rf',
       cls = 'class',
-      pars = pars, 
+      pars = list(fs.rf = as.list(formals(fsMethods('fs.rf'))[-1])), 
       nCores = detectCores(), 
       clusterType = 'FORK'
     )
