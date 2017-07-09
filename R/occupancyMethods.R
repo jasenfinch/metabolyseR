@@ -18,10 +18,10 @@ occupancyMethods <- function(method = NULL, description = F){
     
   descriptions = list(
     maximum = list(description = 'maximum thresholded class occupancy filtering', 
-                   arguments = c(class = 'info column to use for class labels', 
+                   arguments = c(cls = 'info column to use for class labels', 
                                                    occupancy = 'occupancy threshold')),
     minimum = list(description = 'minimum thresholded class occupancy filtering', 
-                   arguments = c(class = 'info column to use for class labels', 
+                   arguments = c(cls = 'info column to use for class labels', 
                                                    occupancy = 'occupancy threshold'))
     )
   
