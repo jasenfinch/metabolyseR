@@ -1,4 +1,4 @@
-[![Build status](https://travis-ci.org/jasenfinch/metabolyseR.svg?branch=documentation)](https://travis-ci.org/jasenfinch/metabolyseR)
+[![Build status](https://travis-ci.org/jasenfinch/metabolyseR.svg?branch=documentation)](https://travis-ci.org/jasenfinch/metabolyseR) [![codecov](https://codecov.io/gh/jasenfinch/metabolyseR/branch/documentation/graph/badge.svg)](https://codecov.io/gh/jasenfinch/metabolyseR/branch/documentation)
 
 # metabolyseR
 
