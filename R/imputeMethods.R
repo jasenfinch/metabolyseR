@@ -8,17 +8,17 @@ imputeMethods <- function(method = NULL, description = F){
   methods <- list(
     
     all = function(dat, occupancy = 2/3){
-      dat$Data[which(dat == 0)] <- NA
+      dat$Data[which(dat$Data == 0)] <- NA
       capture.output(dat$Data <- missForest(dat$Data))
       dat$Data <- dat$Data$ximp
       return(dat)
     },
     
-    class = function(dat, cls = 'class', occupancy = 2/3, nCores = 1){
+    class = function(dat, cls = 'class', idx = 'fileOrder',occupancy = 2/3, nCores = 1){
       clus <- makeCluster(nCores)
       dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy){
         dat$Data <- data.frame(dat$Data)
-        rownames(dat$Data) <- unlist(dat$Info[,'fileOrder'])
+        rownames(dat$Data) <- unlist(dat$Info[,idx])
         dat$Data <- dat$Data[unlist(dat$Info[,cls] == y),]
         occ <- occMat(dat$Data,rep(1,nrow(dat$Data)))
         dat.1 <- dat$Data[,occ < occupancy]
@@ -46,7 +46,8 @@ imputeMethods <- function(method = NULL, description = F){
     all = list(description = 'Impute missing values across all samples using Random Forest',
                arguments = c(occupancy = 'occupancy threshold for imputation')),
     class = list(description = 'Impute missing values class-wise using Random Forest',
-                 arguments = c(cls = 'info column to use for class labels', 
+                 arguments = c(cls = 'info column to use for class labels',
+                               idx = 'info column to use for sample indexes',
                                occupancy = 'occupancy threshold for imputation', 
                                nCores = 'number of cores for parallisation'))
   )

@@ -1,4 +1,4 @@
-library(FIEmspro)
+suppressPackageStartupMessages(library(FIEmspro))
 
 context('fsMethods')
 
@@ -7,9 +7,25 @@ test_that('fsMethods returns methods correctly',{
   expect_false(F %in% m)
 })
 
+test_that('fsMethods returns descriptions correctly',{
+  m <- sapply(metabolyseR:::fsMethods(description = T),is.list)
+  expect_false(F %in% m)
+})
+
 test_that('description names match method names',{
   d <- names(metabolyseR:::fsMethods(description = T))
   m <- names(metabolyseR:::fsMethods())
+  expect_equal(d,m)
+})
+
+test_that('descriptions have correct names', {
+  n <- lapply(metabolyseR:::fsMethods(description = T),names)
+  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
+})
+
+test_that('number of method arguments matches description arguments', {
+  d <- sapply(metabolyseR:::fsMethods(description = T),function(x){length(x$arguments)})
+  m <- sapply(metabolyseR:::fsMethods(),function(x){length(formals(x)[-1])})
   expect_equal(d,m)
 })
 
@@ -30,4 +46,5 @@ test_that('methods work',{
   expect_false(F %in% sapply(m,function(x){colnames(x) == c('Feature','Score')}))
   expect_false(F %in% sapply(m,function(x){class(x$Feature) == 'factor'}))
   expect_false(F %in% sapply(m,function(x){class(x$Score) == 'numeric'}))
+  expect_false(F %in% sapply(m,function(x,nFeat){nrow(x) == nFeat},nFeat = ncol(dat) - 1))
 })
