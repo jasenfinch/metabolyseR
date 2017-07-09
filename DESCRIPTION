@@ -23,5 +23,6 @@ RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
     DiagrammeR,
-    readr
+    readr,
+    testthat
 VignetteBuilder: knitr

@@ -6,7 +6,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tbl_df
 #' @importFrom methods slotNames slot
-#' @seealso \linkS4class{Parameters} \link{analysisParameters}
+#' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
 #' library(FIEmspro)
 #' data(abr1)

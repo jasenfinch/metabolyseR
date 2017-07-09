@@ -27,5 +27,5 @@ p@preTreat <- list(
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 }
 \seealso{
-\linkS4class{Parameters} \link{analysisParameters}
+\linkS4class{AnalysisParameters} \link{analysisParameters}
 }

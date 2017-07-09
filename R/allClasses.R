@@ -1,5 +1,5 @@
-#' Parameters
-#' @rdname AnalysisParameters
+#' AnalysisParameters
+#' @rdname AnalysisParameters-class
 #' @description An S4 class to store analysis parameters
 #' @slot preTreat list containing parameters for data pre-treatment
 #' @slot classification list containing parameters for classification
@@ -16,7 +16,7 @@ setClass('AnalysisParameters',
          ))
 
 #' Analysis
-#' @rdname Analysis
+#' @rdname Analysis-class
 #' @description An S4 class to store analysis results
 #' @slot log list containing analysis dates and time
 #' @slot parameters class AnalysisParameters containing the analysis parameters

@@ -15,5 +15,5 @@ reAnalyse(analysis, parameters = analysisParameters())
 Re-analyse an object of class Analysis using specified parameters.
 }
 \seealso{
-\link{metabolyse} \link{analysisParameters} \linkS4class{Parameters} \linkS4class{Analysis}
+\link{metabolyse} \link{analysisParameters} \linkS4class{AnalysisParameters} \linkS4class{Analysis}
 }

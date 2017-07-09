@@ -1,3 +1,6 @@
+#' show-AnalysisParameters
+#' @description show method for AnalysisParameters class. 
+#' @param object S4 object of class AnalysisParameters
 #' @importFrom methods show
 #' @importFrom plyr ldply
 #' @export

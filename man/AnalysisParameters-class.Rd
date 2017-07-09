@@ -3,7 +3,7 @@
 \docType{class}
 \name{AnalysisParameters-class}
 \alias{AnalysisParameters-class}
-\title{Parameters}
+\title{AnalysisParameters}
 \description{
 An S4 class to store analysis parameters
 }
