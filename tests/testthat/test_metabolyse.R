@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(FIEmspro))
 context('metabolyse')
 
 test_that('metabolyse-works', {
-  # skip_on_travis()
+  skip_on_travis()
   data(abr1)
   p <- analysisParameters()
   p@preTreat <- list(

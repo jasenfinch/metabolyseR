@@ -30,7 +30,7 @@ test_that('number of method arguments matches description arguments', {
 })
 
 test_that('methods work',{
-  # skip_on_travis()
+  skip_on_travis()
   m <- names(metabolyseR:::imputeMethods())
   data("abr1")
   dat <- list(Data = abr1$neg[abr1$fact$class %in% c('1','6'),500:600], Info = cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
@@ -39,7 +39,7 @@ test_that('methods work',{
     res <- method(dat)
     return(res)
   },dat = dat)
-  
+
   expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
   expect_false(F %in% sapply(m,function(x){class(x[[1]]) == 'matrix'}))
   expect_false(F %in% sapply(m,function(x){class(x[[2]]) == 'data.frame'}))

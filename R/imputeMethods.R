@@ -14,7 +14,7 @@ imputeMethods <- function(method = NULL, description = F){
       return(dat)
     },
     
-    class = function(dat, cls = 'class', idx = 'fileOrder',occupancy = 2/3, nCores = 1){
+    class = function(dat, cls = 'class', idx = 'fileOrder', occupancy = 2/3, nCores = 1, clusterType = 'FORK'){
       clus <- makeCluster(nCores)
       dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy){
         dat$Data <- data.frame(dat$Data)
@@ -49,7 +49,8 @@ imputeMethods <- function(method = NULL, description = F){
                  arguments = c(cls = 'info column to use for class labels',
                                idx = 'info column to use for sample indexes',
                                occupancy = 'occupancy threshold for imputation', 
-                               nCores = 'number of cores for parallisation'))
+                               nCores = 'number of cores for parallisation',
+                               clusterType = 'cluster type for parallisation'))
   )
   
   if (description == F) {

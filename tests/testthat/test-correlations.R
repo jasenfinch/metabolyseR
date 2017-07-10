@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(FIEmspro))
 context('correlations')
 
 test_that('correlations-works', {
-  # skip_on_travis()
+  skip_on_travis()
   data(abr1)
   cls1 <- abr1$neg[abr1$fact$class %in% c('1'),190:200][1:10,]
   cls2 <- abr1$neg[abr1$fact$class %in% c('6'),190:200][1:10,]
@@ -14,4 +14,5 @@ test_that('correlations-works', {
   correlations <- metabolyse(dat,info,analysisParameters('correlations'))
   expect_true(class(correlations@correlations)[1] == 'tbl_df')
 })
+
 
