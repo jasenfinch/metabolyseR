@@ -24,8 +24,8 @@ metabolyse <- function(data,info,parameters = analysisParameters()){
       parameters = parameters,
       rawData = list(Info = info,Data = data),
       preTreated = list(),
-      classification = list(),
-      featureSelection = list(),
+      classification = tbl_df(data.frame()),
+      featureSelection = tbl_df(data.frame()),
       correlations = tbl_df(data.frame())
   )
   
