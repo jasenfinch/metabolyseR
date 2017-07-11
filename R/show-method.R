@@ -37,9 +37,9 @@ setMethod('show',signature = 'AnalysisParameters',
             if ('classification' %in% elements) {
               classification <- slot(object,'classification')
               classification[sapply(classification,length) == 1] <- lapply(names(classification)[sapply(classification,length) == 1],
-                                                                          function(x,object){
-                                                                            paste(x,object[[x]],sep = ' = ')
-                                                                          },object = classification)
+                                                                           function(x,object){
+                                                                             paste(x,object[[x]],sep = ' = ')
+                                                                           },object = classification)
               classification[sapply(classification,length) > 1] <- lapply(names(classification)[sapply(classification,length) > 1],
                                                                           function(x,object){
                                                                             n <- paste(names(object[[x]]),object[[x]],sep = ' = ')
@@ -54,16 +54,16 @@ setMethod('show',signature = 'AnalysisParameters',
             if ('featureSelection' %in% elements) {
               featureSelection <- slot(object,'featureSelection')
               featureSelection[sapply(featureSelection,length) == 1] <- lapply(names(featureSelection)[sapply(featureSelection,length) == 1],
-                                                                           function(x,object){
-                                                                             paste(x,object[[x]],sep = ' = ')
-                                                                           },object = featureSelection)
+                                                                               function(x,object){
+                                                                                 paste(x,object[[x]],sep = ' = ')
+                                                                               },object = featureSelection)
               featureSelection[sapply(featureSelection,length) > 1] <- lapply(names(featureSelection)[sapply(featureSelection,length) > 1],
-                                                                          function(x,object){
-                                                                            n <- paste(names(object[[x]]),object[[x]],sep = ' = ')
-                                                                            n <- paste(n,collapse = '\n\t\t')
-                                                                            n <- paste('\t\t',n,sep = '')
-                                                                            n <- paste(x,n,sep = '\n')
-                                                                          },object = featureSelection)
+                                                                              function(x,object){
+                                                                                n <- paste(names(object[[x]]),object[[x]],sep = ' = ')
+                                                                                n <- paste(n,collapse = '\n\t\t')
+                                                                                n <- paste('\t\t',n,sep = '')
+                                                                                n <- paste(x,n,sep = '\n')
+                                                                              },object = featureSelection)
               featureSelection <- paste(featureSelection,collapse = '\n\t')
               featureSelection <- paste('\t',featureSelection,sep = '') 
             }
@@ -80,5 +80,62 @@ setMethod('show',signature = 'AnalysisParameters',
             })
             elements <- paste(names(elements),elements,sep = '\n')
             cat(elements,sep = '\n')
+          }
+)
+
+#' show-Analysis
+#' @description show method for Analysis class. 
+#' @param object S4 object of class Analysis
+#' @importFrom methods show
+#' @export
+
+setMethod('show',signature = 'Analysis',
+          function(object){
+            elements <- slotNames(object)
+            elements <- elements[4:length(elements)]
+            elements <- elements[sapply(elements, function(x,object){
+              length(slot(object,x)) != 0
+            },object = object) == T]
+            names(elements) <- elements
+            
+            time <- object@log$analysis
+            
+            rD <- rawData(object)
+            rD <- paste('\t\tNo. samples = ',nrow(rD$Info),'\n','\t\tNo. variables = ',ncol(rD$Data),'\n',sep = '')
+            
+            cat('\nAnalysis:\n','\t',time,'\n',sep = '')
+            cat('\n\tRaw Data:\n',rD,sep = '')
+            
+            if ('preTreated' %in% elements) {
+              time <- object@log$preTreatment
+              pD <- preTreatedData(object)
+              pD <- paste('\t\tNo. samples = ',nrow(pD$Info),'\n','\t\tNo. variables = ',ncol(pD$Data),'\n',sep = '')
+              
+              cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
+            }
+            
+            if ('classification' %in% elements) {
+              time <- object@log$classification
+              cR <- classificationResults(object)
+              cR <- paste('\t\tMethods = ',paste(unique(cR$Method,collapse = '\t')),'\n','\t\tNo. pairwises = ',length(unique(cR$Pairwise)),'\n',sep = '')
+              
+              cat('\n\tClassification:\n','\t\t',time,'\n',cR,sep = '')
+            }
+            
+            if ('featureSelection' %in% elements) {
+              time <- object@log$featureSelection
+              fsR <- featureSelectionResults(object)
+              fsR <- paste('\t\tMethods = ',paste(unique(fsR$Method,collapse = '\t')),'\n','\t\tNo. pairwises = ',length(unique(fsR$Pairwise)),'\n',sep = '')
+              
+              cat('\n\tFeature selection:\n','\t\t',time,'\n',fsR,sep = '')
+            }
+            
+            if ('correlations' %in% elements) {
+              time <- object@log$correlations
+              corR <- correlationResults(object)
+              corR <- paste('\t\tNo. correlations = ',nrow(corR),'\n',sep = '')
+              cat('\n\tCorrelations:\n','\t\t',time,'\n',corR,sep = '')
+            }
+            
           }
 )
