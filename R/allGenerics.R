@@ -17,3 +17,28 @@ setGeneric("featureSelection", function(x) {
 setGeneric("correlations", function(x) {
   standardGeneric("correlations")
 })
+
+#' @rdname rawData
+setGeneric("rawData", function(x) {
+  standardGeneric("rawData")
+})
+
+#' @rdname preTreatedData
+setGeneric("preTreatedData", function(x) {
+  standardGeneric("preTreatedData")
+})
+
+#' @rdname classificationResults
+setGeneric("classificationResults", function(x) {
+  standardGeneric("classificationResults")
+})
+
+#' @rdname featureSelectionResults
+setGeneric("featureSelectionResults", function(x) {
+  standardGeneric("featureSelectionResults")
+})
+
+#' @rdname correlationResults
+setGeneric("correlationResults", function(x) {
+  standardGeneric("correlationResults")
+})
