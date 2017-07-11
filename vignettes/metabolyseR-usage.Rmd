@@ -2,7 +2,9 @@
 title: "metabolyseR"
 author: "Jasen Finch"
 date: "July 2017"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{metabolyseR-usage}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,7 +18,7 @@ suppressPackageStartupMessages(library(metabolyseR))
 ## Introduction
 
 Extracting biological information  related to experimental treatments from metabolomics data involves a number of steps; data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
-The metabolyseR oackage provides a suite of methods that encompass these aspects of metabolomics data analysis.
+The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis.
 Below shows the four analysis elements in that make up metabolyseR.
 
 ```{r metabolyseRDiagram,echo=FALSE,fig.width=6}
@@ -27,26 +29,86 @@ This document will provide a tutorial on the basic usage of the package, followe
 Lastly, there will be discussion of the tools for the visualisation of the results from these data as well as the integration of metabolyseR into wider metabolomics workflows.
 This allows more bespoke analyses to be performed based on the particular metabolomics technique being used.
 
+*metabolyseR* has been written to be as generic and versatile as possible to allow analyses to be tailored to the particular needs of the metabolomics techniques being used.
+With this in mind, it's application doesn't need to be restricted only to metabolomics data.
+These analysis elements could, for example, also be suitable for data such as gene expression data where replication allows.
+
+The examples shown here use the `abr1` dataset from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package (`?FIEmspro::abr1`).
+
 ## Basic Usage
+
+*metabolyseR* has three main functions for performing analyses:
+
+* `analysisParameters` - allows the selection of analysis parameters.
+* `metabolyse` - input data and info to analyse using the selected parameters.
+* `reAnalysis` - re-analyse data previously analysed using `metabolyse` based on newly selected parameters.
+
+### Parameter Selection
+Parameter selection is the fundamental aspect of using *metabolyseR* and will be the most modified as it dictates how the analyses will be performed.
+`analysisParameters` returns an object of class `AnalysisParameters` containing the relevent parameters of the selected analysis elements.
+For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
 
 ```{r parametersExample,eval=FALSE}
 parameters <- analysisParameters()
 parameters
 ```
 
-```{r metabolyseExample,eval=FALSE}
-data(abr1,package = 'FIEmspro')
-parameters <- analysisParameters()
+To retrieve parameters for a subset of elements the following can be run, which will return parameters for only the `preTreat` and   `classification` elements. 
+
+```{r parametersElementSubset,eval=FALSE}
+parameters <- analysisParameters('preTreat','classification')
+parameters
+```
+
+The parameters for the individual analyis elements in the `AnalysisParameters` object can be accessed using the `@` extraction operator.
+The following code illustrates how to modify the pre-treatment parameters to allow variable occupancy filtering and total ion count normalisation.
+
+```{r parametersSetExample,eval=FALSE}
 parameters@preTreat <- list(
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
 )
-analysis <- metabolyse(abr1$neg,abr1$fact,parameters) 
+parameters
 ```
 
+Discussion of parameters particular to the individual analysis elements can be found in the relevant analysis element sections.
+
+### Analysis
+
+Executing analyses is simple using the `metabolyse` function with specification of the data to use, the sample meta-information (info) and the analysis parameters.
+This is shown by the following code.
+
+```{r metabolyseExample,eval=FALSE}
+data(abr1,package = 'FIEmspro')
+analysis <- metabolyse(abr1$neg,abr1$fact,parameters) 
+analysis
+```
+
+The data and info can be either `tibble` or `data.frame` structures and the parameters should be an S4 object of class `AnalysisParameters`.
+The order of the rows of the info table should agree with those in the data table.
+
+`metabolyse` will be output and S4 object of class `Analysis`.
+Data and analysis results can be extracted from this object using the following functions:
+
+* `rawData` - raw data and info.
+* `preTreatedData` - pre-treated data and info.
+* `classificationResults` - classification results.
+* `featureSelectionResults` - feature selection results.
+* `correlationResults` - correlation results.
+
+If data pre-treatment has not been performed prior to classification or feature selection, the raw data will automatically be used.
+The date and time of each of analyis of each of the elements is also stored and can is displayed when the object is printed.
+
+### Re-analysis
+
+There are likely to be occasions where analyses need to be re-analysed using a new set of parameters. 
+`reAnalyse` can be used for this.
+It simply requires the specification of the `Analysis` object and parameters for the re-analysis as shown below.
+
 ```{r reAnalyseExample,eval=FALSE}
-parameters <- analysisParameters('classification')
+parameters <- analysisParameters('featureSelection')
 analysis <- reAnalyse(analysis,parameters)
+analysis
 ```
 
 ## Pre-Treatment
@@ -60,8 +122,9 @@ data(abr1,package = 'FIEmspro')
 parameters <- analysisParameters('preTreat')
 parameters@preTreat <- list(
     remove = list(
-      class = list(cls = 'class',
-                               classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1,2))])),
+      class = list(
+        cls = 'class',
+        classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1,2))])),
     occupancyFilter = list(
       maximum = list()),
     transform = list(
@@ -208,14 +271,36 @@ knitr::kable(tab)
 
 ## Classification
 
+Classification assesses the extent of discrimination between sample classes.
+This analysis element utilises the `accest` function from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package.
+It uses re-sampling based methods where the data are partitioned into training and test sets.
+The training set is used to build the intial model based on a specified algorithm which is then used to predict the class labels of the test set.
+This allows the assessment of a models accuracy, AUC and margin.
+The re-sampling process is repeated numerous times allowing mean aggregation of these classification measures.
+These methods use are excuted using binary class comparisons all combinations of comparisons are run separately.
+
+The default parameters for classification are shown below.
+
 ```{r classificationParameters}
 parameters <- analysisParameters('classification')
 parameters
 ```
 
+These parameters denote the following:
+
+* `cls` - The info column to use for class labels.
+* `method` - The classifier to use (`randomForest`, `svm`, `nlda`). More than one can be selected at a time.
+* `pars` - Classification parameters to be passed to `valipars` (`?FIEmspro::valipars`).
+* `nCores` - The number of cores to use for parallisation.
+* `clusterType` - The cluster type to use for parallisation (`?parallel::makeCluster`)
+
+This classification analysis can then be perfomed on the pre-treated data from the previous section.
+
 ```{r classificationAnalysis,eval=FALSE}
 analysis <- reAnalyse(analysis,parameters)
 ```
+
+The classification results will then be returned withing the classification slot of the Analysis object as an object of class `accest` (`?FIEmspro::accest`).
 
 ## Feature Selection
 
