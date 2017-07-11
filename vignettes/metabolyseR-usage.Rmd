@@ -1,7 +1,7 @@
 ---
 title: "metabolyseR"
 author: "Jasen Finch"
-date: "`r Sys.Date()`"
+date: "July 2017"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{metabolyseR-usage}
@@ -29,7 +29,7 @@ This allows more bespoke analyses to be performed based on the particular metabo
 
 ## Basic Usage
 
-```{r parametersExample}
+```{r parametersExample,eval=FALSE}
 parameters <- analysisParameters()
 parameters
 ```
