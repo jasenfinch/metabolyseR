@@ -99,7 +99,7 @@ Data and analysis results can be extracted from this object using the following 
 If data pre-treatment has not been performed prior to classification or feature selection, the raw data will automatically be used.
 The date and time of each of analyis of each of the elements is also stored and can is displayed when the object is printed.
 
-### Re-analysis
+### Re-Analysis
 
 There are likely to be occasions where analyses need to be re-analysed using a new set of parameters. 
 `reAnalyse` can be used for this.
@@ -113,12 +113,33 @@ analysis
 
 ## Pre-Treatment
 
+Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
+It itself is made up of a number of elements, which themselves are made up of methods.
+The pre-treatment elements can be seen below.
+
 ```{r preTreatmentDiagram,echo=FALSE,fig.width=6}
   DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
 ```
 
-```{r preTreatExample}
-data(abr1,package = 'FIEmspro')
+The parameter selection for the pre-treatment elements will firstly be discussed, with more indepth discussion on the methods of the individual elements to follow. 
+
+### Parameter Selection
+
+The default pre-treatment parameters can be seen below.
+
+```{r preTreatDefaults}
+analysisParameters('preTreat')
+```
+
+This pre-treatment analysis is made up of three elements that include variable filtering based on QC samples, missing data imputation and data transfromation (QC, impute, transform).
+Each of these elements is made up of varying numbers of methods, with each method having its own arguments.
+The order in which these elements and their methods is displayed is the order in which their execution upon the data will take place.
+This allow particular data pre-treatment routines to be specified depending on what is required for the particular data.
+
+Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
+
+```{r preTreatParameterExample}
+data("abr1",package = 'FIEmspro')
 parameters <- analysisParameters('preTreat')
 parameters@preTreat <- list(
     remove = list(
@@ -130,7 +151,20 @@ parameters@preTreat <- list(
     transform = list(
       TICnorm = list())
 )
+parameters
+```
+
+This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transfrom the data using a total ion count normalisation.
+
+The pre-treatment routines are specified as a hierarchy of lists within lists.
+Firstly the pre-treatment elements should be specified within a list with the particular element methods specified as lists within these.
+The method arguments are then declared within these lists.
+Empty lists for methods can be specified to use the default arguments; however, element lists should not be empty. 
+
+The pre-treatment routine can then be executed using the following.
+```{r preTreatExample}
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
+analysis
 ```
 
 ### Remove Samples and Classes
