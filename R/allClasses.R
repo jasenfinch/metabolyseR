@@ -33,8 +33,8 @@ setClass('Analysis',
            parameters = 'AnalysisParameters',
            rawData = 'list',
            preTreated = 'list',
-           classification = 'list',
-           featureSelection = 'list',
+           classification = 'tbl_df',
+           featureSelection = 'tbl_df',
            correlations = 'tbl_df'
          )
 )

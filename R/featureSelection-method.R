@@ -49,7 +49,15 @@ setMethod("featureSelection", signature = "Analysis",
               return(res.pair)
             },res.pair = res.pair)
             names(res.method) <- parameters$method
-            x@featureSelection <- res.method
+            
+            feat <- lapply(res.method,function(x){
+              x <- bind_cols(Feature = rownames(x),x)
+              return(x)
+            })
+            feat <- bind_rows(feat,.id = 'Method')
+            feat <- gather(feat,'Pairwise','Score',-(Method:Feature))
+            
+            x@featureSelection <- feat
             x@log$featureSelection <- date()
             return(x)
           }
