@@ -9,13 +9,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r libraryLoad,echo=FALSE}
+suppressPackageStartupMessages(library(metabolyseR))
+```
+
 ## Introduction
 
-Extracting biological information  related to experimental treatments from metabolomics data involves steps requiring data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
+Extracting biological information  related to experimental treatments from metabolomics data involves a number of steps; data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
 The metabolyseR oackage provides a suite of methods that encompass these aspects of metabolomics data analysis.
 Below shows the four analysis elements in that make up metabolyseR.
 
-```{r,echo=FALSE,fig.width=6}
+```{r metabolyseRDiagram,echo=FALSE,fig.width=6}
   DiagrammeR::grViz(readr::read_file('figures/metabolyseR.gv'))
 ```
 
@@ -25,16 +29,49 @@ This allows more bespoke analyses to be performed based on the particular metabo
 
 ## Basic Usage
 
-The example used here is a flow-infusion electrospray high resolution mass spectrometry (FIE-HRMS) data set provided by the [metaboData](https://github.com/jasenfinch/metaboData) package and spectrally binned using the [binneRlyse](https://github.com/jasenfinch/binneRlyse) package.
+```{r parametersExample}
+parameters <- analysisParameters()
+parameters
+```
+
+```{r metabolyseExample,eval=FALSE}
+data(abr1,package = 'FIEmspro')
+parameters <- analysisParameters()
+parameters@preTreat <- list(
+    occupancyFilter = list(maximum = list()),
+    transform = list(TICnorm = list())
+)
+analysis <- metabolyse(abr1$neg,abr1$fact,parameters) 
+```
+
+```{r reAnalyseExample,eval=FALSE}
+parameters <- analysisParameters('classification')
+analysis <- reAnalyse(analysis,parameters)
+```
 
 ## Pre-Treatment
 
-```{r,echo=FALSE,fig.width=6}
+```{r preTreatmentDiagram,echo=FALSE,fig.width=6}
   DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
 ```
 
+```{r preTreatExample}
+data(abr1,package = 'FIEmspro')
+parameters <- analysisParameters('preTreat')
+parameters@preTreat <- list(
+    remove = list(
+      class = list(cls = 'class',
+                               classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1,2))])),
+    occupancyFilter = list(
+      maximum = list()),
+    transform = list(
+      TICnorm = list())
+)
+analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
+```
+
 ### Remove Samples and Classes
-```{r,echo=FALSE,results='asis'}
+```{r removeMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::removeMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
 args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
@@ -59,7 +96,7 @@ knitr::kable(tab)
 ```
 
 ### Filter Variables based on occupancy
-```{r,echo=FALSE,results='asis'}
+```{r occupancyMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::occupancyMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
 args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
@@ -84,7 +121,7 @@ knitr::kable(tab)
 ```
 
 ### Filter Variables based on QC samples
-```{r,echo=FALSE,results='asis'}
+```{r QCMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::QCMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
 args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
@@ -109,7 +146,7 @@ knitr::kable(tab)
 ```
 
 ### Impute missing data
-```{r,echo=FALSE,results='asis'}
+```{r imputeMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::imputeMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
 args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
@@ -134,7 +171,7 @@ knitr::kable(tab)
 ```
 
 ### Transform the data
-```{r,echo=FALSE,results='asis'}
+```{r transformMethods,echo=FALSE,results='asis'}
 desc <- metabolyseR:::transformMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
 args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
@@ -171,8 +208,27 @@ knitr::kable(tab)
 
 ## Classification
 
+```{r classificationParameters}
+parameters <- analysisParameters('classification')
+parameters
+```
+
+```{r classificationAnalysis,eval=FALSE}
+analysis <- reAnalyse(analysis,parameters)
+```
+
 ## Feature Selection
-```{r,echo=FALSE,results='asis'}
+
+```{r featureSelectionParameters}
+parameters <- analysisParameters('featureSelection')
+parameters
+```
+
+```{r featureSelectionExample,eval=FALSE}
+analysis <- reAnalyse(analysis,parameters)
+```
+
+```{r fsMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::fsMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
 args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
@@ -197,5 +253,14 @@ knitr::kable(tab)
 ```
 
 ## Correlations
+
+```{r correlationsParameters}
+parameters <- analysisParameters('correlations')
+parameters
+```
+
+```{r correlationsExample,eval=FALSE}
+analysis <- reAnalyse(analysis,parameters)
+```
 
 ## Visualisation and Workflows
