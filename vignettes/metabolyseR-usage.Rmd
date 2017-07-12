@@ -246,11 +246,11 @@ A QC sample is an average pooled sample, equally representative in composition o
 Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
 If there is class structure within the run this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run.
 QC samples can then be injected between these randomised blocks.
-This provides a set of technical injections that allows the variablity in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
+This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
 
 The technical reproducibility of an acquired variable can be assessed using it's relative standard deviation (RSD) within the QC samples.
 The variable RSDs can then be thresholded to filter out variables that are poorly reproducible across the analytical runs.
-This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class struture.
+This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure.
 Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
 
 The methods and arguments for variable filtering based upon QC samples are shown in the table below.
@@ -314,7 +314,7 @@ knitr::kable(tab)
 
 ### Data transformation
 
-Prior to downstream analyses, metabolomics data often require a transfromation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variablility in sample concentration.
+Prior to downstream analyses, metabolomics data often require a transformation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variability in sample concentration.
 
 There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
 The methods and their arguments are shown in the table below.
@@ -358,7 +358,7 @@ knitr::kable(tab)
 
 Classification assesses the extent of discrimination between sample classes.
 This analysis element utilises the `accest` function from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package.
-It uses re-sampling based methods where the data are partitioned into training and test sets.
+It uses re-sampling based methods on a pairwise comparison basis where the data are partitioned into training and test sets.
 The training set is used to build the initial model based on a specified algorithm which is then used to predict the class labels of the test set.
 This allows the assessment of a models accuracy, AUC and margin.
 The re-sampling process is repeated numerous times allowing mean aggregation of these classification measures.
@@ -376,8 +376,8 @@ These parameters denote the following:
 * `cls` - The info column to use for class labels.
 * `method` - The classifier to use (`randomForest`, `svm`, `nlda`). More than one can be selected at a time.
 * `pars` - Classification parameters to be passed to `valipars` (`?FIEmspro::valipars`).
-* `nCores` - The number of cores to use for parallisation.
-* `clusterType` - The cluster type to use for parallisation (`?parallel::makeCluster`)
+* `nCores` - The number of cores to use for parallelisation.
+* `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
 
 This classification analysis can then be performed on the pre-treated data from the previous section.
 
@@ -385,18 +385,38 @@ This classification analysis can then be performed on the pre-treated data from 
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-The classification results will then be returned within the classification slot of the Analysis object as an object of class `accest` (`?FIEmspro::accest`).
+The classification results will then be returned as a table containing the accuracies, AUCs and margins for each iteration, method and pairwise.
 
 ## Feature Selection
+
+Where discrimination exists between sample classes it is important to identify the variables (or features) that are responsible for this.
+Feature selection methods provides a means of ranking variables relative to their contribution to the class discrimination and whether this is significant.
+Explanatory features can then be targeted for further analyses such as annotation which can allow interpretation of their trends in a biological context.
+
+The default parameters for feature selection are shown below.
 
 ```{r featureSelectionParameters}
 parameters <- analysisParameters('featureSelection')
 parameters
 ```
 
+These parameters denote the following:
+
+* `method` - The feature selection method to use (see table below). More than one can be selected at a time.
+* `cls` - The info column to use for class labels.
+* `pars` - Parameters for each feature selection method given as a named list. See table below.
+* `nCores` - The number of cores to use for parallelisation.
+* `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
+
+This feature selection analysis can then be performed using the following.
+
 ```{r featureSelectionExample,eval=FALSE}
 analysis <- reAnalyse(analysis,parameters)
 ```
+
+The results will be returned as a table containing the scores for each variable,pairwise and method.
+
+There are a number of methods available which are shown in the table below.
 
 ```{r fsMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::fsMethods(description = T)
@@ -424,13 +444,30 @@ knitr::kable(tab)
 
 ## Correlations
 
+Correlations are important for finding associations between metabolomic features.
+They can be indicative of isotopic, adduct and biotransformation relationships that can aid their annotation.
+
+The default parameters for correlation analysis are shown below.
+
 ```{r correlationsParameters}
 parameters <- analysisParameters('correlations')
 parameters
 ```
 
+These parameters denote the following:
+
+* `method` - Correlation type (`?Hmisc::rcorr`).
+* `pAdjustMethod` - Method for multiple testing p value correction (`?p.adjust`).
+* `corPvalue` - Threshold for *p* value significance.
+* `nCores` - The number of cores to use for parallelisation.
+* `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
+
+This correlation analysis can then be performed using the following.
+
 ```{r correlationsExample,eval=FALSE}
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-## Visualisation and Workflows
+The results will be returned as a table containing the significantly correlated bins, their correlation coefficients and their log~2~ intensity ratios.
+
+## Visualisation and Workflow Integration
