@@ -445,7 +445,7 @@ knitr::kable(tab)
 ## Correlations
 
 Correlations are important for finding associations between metabolomic features.
-They can be indicative of isotopic, adduct and biotransformation relationships that can aid their annotation.
+They can be indicative of isotopic, adduct and bio-transformation relationships that can aid their annotation.
 
 The default parameters for correlation analysis are shown below.
 
