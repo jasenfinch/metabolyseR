@@ -151,7 +151,7 @@ parameters@preTreat <- list(
     remove = list(
       class = list(
         cls = 'class',
-        classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1,2))])),
+        classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1:2))])),
     occupancyFilter = list(
       maximum = list()),
     transform = list(
@@ -471,3 +471,9 @@ analysis <- reAnalyse(analysis,parameters)
 The results will be returned as a table containing the significantly correlated bins, their correlation coefficients and their log~2~ intensity ratios.
 
 ## Visualisation and Workflow Integration
+
+The [*metaboVis*](https://github.com/jasenfinch/metaboVis) package provides a collection of *shiny* applications for interactive visualisation of these analyses.
+
+The generic nature of *metabolyseR* means that it can easily be integrated into workflows for the analysis of any metabolomics data.
+The package [*metaboWorkflows*](https://github.com/jasenfinch/metaboWorkflows) provides wrapper methods for signal processing, analysis and annotation of metabolomics data.
+The *metabolyseR* analysis elements are incorporated into the analysis aspect of this package.
