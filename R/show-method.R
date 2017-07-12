@@ -18,54 +18,52 @@ setMethod('show',signature = 'AnalysisParameters',
               preTreat <- slot(object,'preTreat')
               preTreat <- lapply(preTreat,function(x){
                 x <- lapply(x,function(y){
-                  n <- paste(names(y),y,sep = ' = ')
-                  n <- sapply(n,function(y){paste('\t\t',y,'\n',sep = '')})
-                  n <- paste(n,collapse = '\t')
-                  n <- paste('\t',n,sep = '')
+                  if (length(y) > 0) {
+                    n <- paste('\t\t',names(y),' = ',y,'\n',sep = '')
+                    n <- paste(n,collapse = '')
+                  } else {
+                    n <- ''
+                  }
                   return(n)
                 })
-                x <- paste(names(x),x,sep = '\n')
-                x <- paste(x,collapse = '\t\t')
-                x <- paste('\n\t\t',x,sep = '')
+                x <- paste('\t',names(x),'\n',x,sep = '')
+                x <- paste(x,collapse = '')
                 return(x)
               })
-              preTreat <- paste(names(preTreat),preTreat,sep = '\t')
-              preTreat <- paste(preTreat,collapse = '\t')
-              preTreat <- paste('\t',preTreat,sep = '')
+              preTreat <- paste(preTreat,collapse = '')
             }
             
             if ('classification' %in% elements) {
               classification <- slot(object,'classification')
               classification[sapply(classification,length) == 1] <- lapply(names(classification)[sapply(classification,length) == 1],
                                                                            function(x,object){
-                                                                             paste(x,object[[x]],sep = ' = ')
+                                                                             paste('\t',x,' = ',object[[x]],'\n',sep = '')
                                                                            },object = classification)
               classification[sapply(classification,length) > 1] <- lapply(names(classification)[sapply(classification,length) > 1],
                                                                           function(x,object){
-                                                                            n <- paste(names(object[[x]]),object[[x]],sep = ' = ')
-                                                                            n <- paste(n,collapse = '\n\t\t')
-                                                                            n <- paste('\t\t',n,sep = '')
-                                                                            n <- paste(x,n,sep = '\n')
+                                                                            n <- paste('\t\t',names(object[[x]]),' = ',object[[x]],'\n',sep = '')
+                                                                            n <- paste(n,collapse = '')
+                                                                            n <- paste('\t',x,'\n',n,sep = '')
                                                                           },object = classification)
-              classification <- paste(classification,collapse = '\n\t')
-              classification <- paste('\t',classification,sep = '')
+              classification <- paste(classification,collapse = '')
             }
             
             if ('featureSelection' %in% elements) {
               featureSelection <- slot(object,'featureSelection')
-              featureSelection[sapply(featureSelection,length) == 1] <- lapply(names(featureSelection)[sapply(featureSelection,length) == 1],
-                                                                               function(x,object){
-                                                                                 paste(x,object[[x]],sep = ' = ')
-                                                                               },object = featureSelection)
-              featureSelection[sapply(featureSelection,length) > 1] <- lapply(names(featureSelection)[sapply(featureSelection,length) > 1],
-                                                                              function(x,object){
-                                                                                n <- paste(names(object[[x]]),object[[x]],sep = ' = ')
-                                                                                n <- paste(n,collapse = '\n\t\t')
-                                                                                n <- paste('\t\t',n,sep = '')
-                                                                                n <- paste(x,n,sep = '\n')
-                                                                              },object = featureSelection)
-              featureSelection <- paste(featureSelection,collapse = '\n\t')
-              featureSelection <- paste('\t',featureSelection,sep = '') 
+              featureSelection[sapply(featureSelection,class) != 'list'] <- lapply(names(featureSelection)[sapply(featureSelection,class) != 'list'],
+                                                                                   function(x,object){
+                                                                                     paste('\t',x,' = ',object[[x]],'\n',sep = '')
+                                                                                   },object = featureSelection)
+              featureSelection[sapply(featureSelection,class) == 'list'] <- lapply(names(featureSelection)[sapply(featureSelection,class) == 'list'],
+                                                                                   function(x,object){
+                                                                                     object <- object[[x]]
+                                                                                     n <- lapply(object,function(y){
+                                                                                       paste('\t\t',names(y),' = ',y,'\n',sep = '')
+                                                                                     })
+                                                                                     n <- paste(n,collapse = '')
+                                                                                     n <- paste('\t',x,'\n',n,sep = '')
+                                                                                   },object = featureSelection)
+              featureSelection <- paste(featureSelection,collapse = '')
             }
             
             if ('correlations' %in% elements) {
