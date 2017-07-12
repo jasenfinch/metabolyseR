@@ -5,7 +5,7 @@
 #' @param parameters an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}
 #' @importFrom magrittr %>%
 #' @importFrom methods slotNames slot
-#' @importFrom tibble as_tibble
+#' @importFrom tibble tibble as_tibble 
 #' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
 #' library(FIEmspro)
@@ -24,9 +24,9 @@ metabolyse <- function(data,info,parameters = analysisParameters()){
       parameters = parameters,
       rawData = list(Info = as_tibble(info),Data = as_tibble(data)),
       preTreated = list(),
-      classification = as_tibble(data.frame()),
-      featureSelection = as_tibble(data.frame()),
-      correlations = as_tibble(data.frame())
+      classification = tibble(),
+      featureSelection = tibble(),
+      correlations = tibble()
   )
   
   elements <- slotNames(analysis@parameters)
