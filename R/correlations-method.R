@@ -15,7 +15,7 @@ setMethod("correlations", signature = "Analysis",
             }
             cors <- as.matrix(dat)
             cors[cors == 0] <- NA
-            cors <- suppressWarnings(rcorr(cors))
+            cors <- suppressWarnings(rcorr(cors,type = parameters$method))
             cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)
             cors$r[cors$P > parameters$corPvalue] <- 0
             cors <- cors$r
