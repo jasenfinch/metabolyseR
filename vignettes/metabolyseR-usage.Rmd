@@ -61,7 +61,18 @@ parameters <- analysisParameters(c('preTreat','classification'))
 parameters
 ```
 
-The parameters for the individual analysis elements in the `AnalysisParameters` object can be accessed using the `@` extraction operator.
+These parameters have been named so that a parameters that denote the same functionality will be named commonly across all methods.
+The `changeParameter` function can be used to uniformly change these parameters across all of the selected methods.
+The example below changes the defaults of all the parameters named `clusterType` from `FORK` to `PSOCK`.
+
+```{r changeParameter,eval=F}
+parameters <- analysisParameters()
+parameters
+parameters <- changeParameter('clusterType','PSOCK',parameters)
+parameters
+```
+
+To change parameters individually, the `@` extraction operator can be used to access the relevant slot directly.
 For instance following code illustrates how to modify the occupancy threshold parameter for class imputation for data pre-treatment from 2/3 to 1/2.
 
 ```{r parametersSetExample,eval=FALSE}
