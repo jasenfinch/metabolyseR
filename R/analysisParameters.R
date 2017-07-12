@@ -52,7 +52,8 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     correlations <- list(
       pAdjustMethod = 'bonferroni',
       corPvalue = 0.05,
-      nCores = detectCores()
+      nCores = detectCores(),
+      clusterType = 'FORK'
     )
   } else {
     correlations <- list()

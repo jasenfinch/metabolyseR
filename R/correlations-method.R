@@ -26,7 +26,7 @@ setMethod("correlations", signature = "Analysis",
               filter(Feature1 != Feature2 & r != 0) %>%
               na.omit()
             
-            clus <- makeCluster(parameters$nCores)
+            clus <- makeCluster(parameters$nCores,type = parameters$clusterType)
             cors <- parApply(clus,cors,1,function(x){
               x[1:2] <- c(x[1:2])[order(as.numeric(str_replace_all(x[1:2],'[:alpha:]','')))]
               return(x)
