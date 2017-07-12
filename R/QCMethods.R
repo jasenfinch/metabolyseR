@@ -36,7 +36,7 @@ QCMethods <- function(method = NULL, description = F){
     ) 
     
     descriptions <- list(
-      occupancyFilter = list(description = 'Filter variables based on occupancy on QC samples',
+      occupancyFilter = list(description = 'Filter variables based on occupancy in QC samples',
                              arguments = c(cls = 'info column to use for class labels',
                                            idx = 'QC sample label',
                                            occupancy = 'occupancy threshold for filtering')),

@@ -29,7 +29,7 @@ This document will provide a tutorial on the basic usage of the package, followe
 Lastly, there will be discussion of the tools for the visualisation of the results from these data as well as the integration of metabolyseR into wider metabolomics workflows.
 This allows more bespoke analyses to be performed based on the particular metabolomics technique being used.
 
-*metabolyseR* has been written to be as generic and versatile as possible to allow analyses to be tailored to the particular needs of the metabolomics techniques being used.
+*metabolyseR* has been written to be as generic and versatile as possible to allow analyses to be tailored to the particular needs of the metabolomic technique being used.
 With this in mind, it's application doesn't need to be restricted only to metabolomics data.
 These analysis elements could, for example, also be suitable for data such as gene expression data where replication allows.
 
@@ -45,10 +45,11 @@ The examples shown here use the `abr1` dataset from the *[FIEmspro](https://gith
 
 ### Parameter Selection
 Parameter selection is the fundamental aspect of using *metabolyseR* and will be the most modified as it dictates how the analyses will be performed.
-`analysisParameters` returns an object of class `AnalysisParameters` containing the relevent parameters of the selected analysis elements.
+`analysisParameters` returns an object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
 For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
 
 ```{r parametersExample,eval=FALSE}
+library(metabolyseR)
 parameters <- analysisParameters()
 parameters
 ```
@@ -56,18 +57,15 @@ parameters
 To retrieve parameters for a subset of elements the following can be run, which will return parameters for only the `preTreat` and   `classification` elements. 
 
 ```{r parametersElementSubset,eval=FALSE}
-parameters <- analysisParameters('preTreat','classification')
+parameters <- analysisParameters(c('preTreat','classification'))
 parameters
 ```
 
-The parameters for the individual analyis elements in the `AnalysisParameters` object can be accessed using the `@` extraction operator.
-The following code illustrates how to modify the pre-treatment parameters to allow variable occupancy filtering and total ion count normalisation.
+The parameters for the individual analysis elements in the `AnalysisParameters` object can be accessed using the `@` extraction operator.
+For instance following code illustrates how to modify the occupancy threshold parameter for class imputation for data pre-treatment from 2/3 to 1/2.
 
 ```{r parametersSetExample,eval=FALSE}
-parameters@preTreat <- list(
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
-)
+parameters@preTreat$impute$class$occupancy <- 1/2
 parameters
 ```
 
@@ -80,6 +78,11 @@ This is shown by the following code.
 
 ```{r metabolyseExample,eval=FALSE}
 data(abr1,package = 'FIEmspro')
+parameters <- analysisParameters(c('preTreat','classification'))
+parameters@preTreat <- list(
+    occupancyFilter = list(maximum = list()),
+    transform = list(TICnorm = list())
+)
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters) 
 analysis
 ```
@@ -87,7 +90,7 @@ analysis
 The data and info can be either `tibble` or `data.frame` structures and the parameters should be an S4 object of class `AnalysisParameters`.
 The order of the rows of the info table should agree with those in the data table.
 
-`metabolyse` will be output and S4 object of class `Analysis`.
+`metabolyse` returns an S4 object of class `Analysis`.
 Data and analysis results can be extracted from this object using the following functions:
 
 * `rawData` - raw data and info.
@@ -97,7 +100,7 @@ Data and analysis results can be extracted from this object using the following 
 * `correlationResults` - correlation results.
 
 If data pre-treatment has not been performed prior to classification or feature selection, the raw data will automatically be used.
-The date and time of each of analyis of each of the elements is also stored and can is displayed when the object is printed.
+The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
 
 ### Re-Analysis
 
@@ -113,6 +116,9 @@ analysis
 
 ## Pre-Treatment
 
+Data pre-treatment prior to statistical analyses is an essential step in the analysis of metabolomics data as it ensures the quality and integrity.
+It is also important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be used on the data.
+
 Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
 It itself is made up of a number of elements, which themselves are made up of methods.
 The pre-treatment elements can be seen below.
@@ -121,7 +127,7 @@ The pre-treatment elements can be seen below.
   DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
 ```
 
-The parameter selection for the pre-treatment elements will firstly be discussed, with more indepth discussion on the methods of the individual elements to follow. 
+The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
 
 ### Parameter Selection
 
@@ -131,10 +137,10 @@ The default pre-treatment parameters can be seen below.
 analysisParameters('preTreat')
 ```
 
-This pre-treatment analysis is made up of three elements that include variable filtering based on QC samples, missing data imputation and data transfromation (QC, impute, transform).
+This pre-treatment analysis is made up of three elements that include variable filtering based on QC samples, missing data imputation and data transformation (`QC`, `impute` and `transform` respectively).
 Each of these elements is made up of varying numbers of methods, with each method having its own arguments.
 The order in which these elements and their methods is displayed is the order in which their execution upon the data will take place.
-This allow particular data pre-treatment routines to be specified depending on what is required for the particular data.
+This allows the fine specification of the data pre-treatment routines that are required for the particular data.
 
 Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
 
@@ -154,7 +160,7 @@ parameters@preTreat <- list(
 parameters
 ```
 
-This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transfrom the data using a total ion count normalisation.
+This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transform the data using a total ion count normalisation.
 
 The pre-treatment routines are specified as a hierarchy of lists within lists.
 Firstly the pre-treatment elements should be specified within a list with the particular element methods specified as lists within these.
@@ -167,7 +173,12 @@ analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
 analysis
 ```
 
-### Remove Samples and Classes
+### Sample removal
+
+The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
+
+The methods and their arguments for the removal of samples is shown in the table below.
+
 ```{r removeMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::removeMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
@@ -192,7 +203,19 @@ tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defau
 knitr::kable(tab)
 ```
 
-### Filter Variables based on occupancy
+### Variable filtering based on occupancy
+
+Occupancy provides a useful measure by which to filter variables that are poorly represented (contain a majority of missing values).
+An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses.
+However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.
+
+An occupancy threshold can be applied both minimally and maximally within the class structure.
+A minimally applied threshold would require all the classes to have an occupancy above the threshold for the variable to be retained.
+A maximally applied threshold would require only a single class to have an occupancy above the threshold for the variable to be retained.
+The later strategy has the important benefit of retaining any presence and absence trends that may be present.
+
+The methods and their arguments for occupancy based variable filtering are shown in the table below.
+
 ```{r occupancyMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::occupancyMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
@@ -217,7 +240,21 @@ tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defau
 knitr::kable(tab)
 ```
 
-### Filter Variables based on QC samples
+### Variable filtering based on QC samples
+
+A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
+Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
+If there is class structure within the run this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run.
+QC samples can then be injected between these randomised blocks.
+This provides a set of technical injections that allows the variablity in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
+
+The technical reproducibility of an acquired variable can be assessed using it's relative standard deviation (RSD) within the QC samples.
+The variable RSDs can then be thresholded to filter out variables that are poorly reproducible across the analytical runs.
+This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class struture.
+Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
+
+The methods and arguments for variable filtering based upon QC samples are shown in the table below.
+
 ```{r QCMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::QCMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
@@ -242,7 +279,8 @@ tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defau
 knitr::kable(tab)
 ```
 
-### Impute missing data
+### Imputation of missing data
+
 ```{r imputeMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::imputeMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
@@ -267,7 +305,7 @@ tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defau
 knitr::kable(tab)
 ```
 
-### Transform the data
+### Data transformation
 ```{r transformMethods,echo=FALSE,results='asis'}
 desc <- metabolyseR:::transformMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
@@ -308,10 +346,10 @@ knitr::kable(tab)
 Classification assesses the extent of discrimination between sample classes.
 This analysis element utilises the `accest` function from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package.
 It uses re-sampling based methods where the data are partitioned into training and test sets.
-The training set is used to build the intial model based on a specified algorithm which is then used to predict the class labels of the test set.
+The training set is used to build the initial model based on a specified algorithm which is then used to predict the class labels of the test set.
 This allows the assessment of a models accuracy, AUC and margin.
 The re-sampling process is repeated numerous times allowing mean aggregation of these classification measures.
-These methods use are excuted using binary class comparisons all combinations of comparisons are run separately.
+These methods use are executed using binary class comparisons all combinations of comparisons are run separately.
 
 The default parameters for classification are shown below.
 
@@ -328,13 +366,13 @@ These parameters denote the following:
 * `nCores` - The number of cores to use for parallisation.
 * `clusterType` - The cluster type to use for parallisation (`?parallel::makeCluster`)
 
-This classification analysis can then be perfomed on the pre-treated data from the previous section.
+This classification analysis can then be performed on the pre-treated data from the previous section.
 
 ```{r classificationAnalysis,eval=FALSE}
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-The classification results will then be returned withing the classification slot of the Analysis object as an object of class `accest` (`?FIEmspro::accest`).
+The classification results will then be returned within the classification slot of the Analysis object as an object of class `accest` (`?FIEmspro::accest`).
 
 ## Feature Selection
 
