@@ -281,6 +281,13 @@ knitr::kable(tab)
 
 ### Imputation of missing data
 
+Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
+Where and how they are imputed are important considerations and is highly related to variable occupancy.
+Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
+
+The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
+Their arguments are shown in the table below.
+
 ```{r imputeMethodsTable,echo=FALSE,results='asis'}
 desc <- metabolyseR:::imputeMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
@@ -306,6 +313,12 @@ knitr::kable(tab)
 ```
 
 ### Data transformation
+
+Prior to downstream analyses, metabolomics data often require a transfromation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variablility in sample concentration.
+
+There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
+The methods and their arguments are shown in the table below.
+
 ```{r transformMethods,echo=FALSE,results='asis'}
 desc <- metabolyseR:::transformMethods(description = T)
 args <- lapply(desc,function(x){return(x$arguments)})
