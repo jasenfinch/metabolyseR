@@ -19,17 +19,18 @@ setMethod('show',signature = 'AnalysisParameters',
               preTreat <- lapply(preTreat,function(x){
                 x <- lapply(x,function(y){
                   if (length(y) > 0) {
-                    n <- paste('\t\t',names(y),' = ',y,'\n',sep = '')
+                    n <- paste('\t\t\t',names(y),' = ',y,'\n',sep = '')
                     n <- paste(n,collapse = '')
                   } else {
                     n <- ''
                   }
                   return(n)
                 })
-                x <- paste('\t',names(x),'\n',x,sep = '')
+                x <- paste('\t\t',names(x),'\n',x,sep = '')
                 x <- paste(x,collapse = '')
                 return(x)
               })
+              preTreat <- paste('\t',names(preTreat),'\n',preTreat,sep = '')
               preTreat <- paste(preTreat,collapse = '')
             }
             
