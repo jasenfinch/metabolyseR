@@ -33,18 +33,19 @@ fsMethods <- function(method = NULL, description = F){
       })
       res <- as.data.frame(res)
       res <- rowMeans(res)
-      res <- data.frame(Feature = f,Score = res)
+      res <- tibble(Feature = f,Score = res)
       return(res)
     },
     
     fs.anova = function(dat,pAdjust = 'bonferroni'){
       cls <- factor(dat$cls)
       dat <- dat[,-1]
+      feat <- colnames(dat)
       res <- apply(dat,2,function(x,cls){
         r <- oneway.test(x ~ cls)
         return(r$p.value)
       },cls = cls)
-      res <- data.frame(Feature = names(res), Score = res)
+      res <- tibble(Feature = feat, Score = res)
       res$Score <- p.adjust(res$Score,method = pAdjust)
       return(res)
     },
