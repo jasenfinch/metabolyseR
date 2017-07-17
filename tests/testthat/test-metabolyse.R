@@ -17,7 +17,7 @@ test_that('metabolyse-works', {
   inf1 <- abr1$fact[abr1$fact$class %in% c('1'),][1:10,]
   inf2 <- abr1$fact[abr1$fact$class %in% c('6'),][1:10,]
   info <- rbind(inf1,inf2)
-  analysis <- metabolyse(dat,info,p)
+  analysis <- metabolyseR::metabolyse(dat,info,p)
 
   expect_true(isS4(analysis))
   expect_true(class(analysis) == 'Analysis')

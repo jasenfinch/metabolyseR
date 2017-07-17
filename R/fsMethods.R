@@ -57,7 +57,7 @@ fsMethods <- function(method = NULL, description = F){
         r <- t.test(x ~ cls)
         return(r$p.value)
       },cls = cls)
-      res <- data.frame(Feature = names(res), Score = res)
+      res <- tibble(Feature = names(res), Score = res)
       res$Score <- p.adjust(res$Score,method = pAdjust)
       return(res)
     },
@@ -69,7 +69,7 @@ fsMethods <- function(method = NULL, description = F){
         r <- kruskal.test(x ~ cls)
         return(r$p.value)
       },cls = cls)
-      res <- data.frame(Feature = names(res), Score = res)
+      res <- tibble(Feature = names(res), Score = res)
       res$Score <- p.adjust(res$Score,method = pAdjust)
       return(res)
     }
@@ -77,13 +77,17 @@ fsMethods <- function(method = NULL, description = F){
   
   descriptions = list(
     fs.rf = list(description = 'Random Forest using selection frequency based false positive rate for variable importance',
-                 arguments = c(nreps = 'number of replications')),
+                 arguments = c(nreps = 'number of replications'), 
+                 score = 'false positive rate'),
     fs.anova = list(description = 'One-way ANOVA', 
-                    arguments = c(pAdjust = 'method for multiple testing p value correction')),
+                    arguments = c(pAdjust = 'method for multiple testing p value correction'),
+                    score = 'p value'),
     fs.ttest = list(description = 'Welch t-test', 
-                    arguments = c(pAdjust = 'method for multiple testing p value correction')),
+                    arguments = c(pAdjust = 'method for multiple testing p value correction'),
+                    score = 'p value'),
     fs.kruskal = list(description = 'Kruskal-Wallis Rank Sum Test', 
-                      arguments = c(pAdjust = 'method for multiple testing p value correction'))
+                      arguments = c(pAdjust = 'method for multiple testing p value correction'),
+                      score = 'p value')
   )
   
   if (description == F) {
