@@ -50,9 +50,11 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
   }
   if ('correlations' %in% elements) {
     correlations <- list(
+      method = 'pearson',
       pAdjustMethod = 'bonferroni',
       corPvalue = 0.05,
-      nCores = detectCores()
+      nCores = detectCores(),
+      clusterType = 'FORK'
     )
   } else {
     correlations <- list()

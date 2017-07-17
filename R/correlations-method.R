@@ -1,9 +1,9 @@
 #' @importFrom Hmisc rcorr
-#' @importFrom stats p.adjust
+#' @importFrom stats p.adjust na.omit
 #' @importFrom dplyr filter bind_cols left_join rename select mutate
 #' @importFrom parallel parApply makeCluster stopCluster
 #' @importFrom tidyr gather
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble as_tibble
 
 setMethod("correlations", signature = "Analysis",
           function(x){
@@ -15,30 +15,30 @@ setMethod("correlations", signature = "Analysis",
             }
             cors <- as.matrix(dat)
             cors[cors == 0] <- NA
-            cors <- suppressWarnings(rcorr(cors))
+            cors <- suppressWarnings(rcorr(cors,type = parameters$method))
             cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)
             cors$r[cors$P > parameters$corPvalue] <- 0
             cors <- cors$r
             
-            cors <- tbl_df(data.frame(cors))
-            cors <- bind_cols(Feature1 = rownames(cors),cors) %>% 
+            cors <- as_tibble(cors)
+            cors <- bind_cols(Feature1 = colnames(cors),cors) %>% 
               gather('Feature2','r',-Feature1) %>% 
               filter(Feature1 != Feature2 & r != 0) %>%
               na.omit()
             
-            clus <- makeCluster(parameters$nCores)
+            clus <- makeCluster(parameters$nCores,type = parameters$clusterType)
             cors <- parApply(clus,cors,1,function(x){
-              x[1:2] <- c(x[1:2])[order(as.numeric(str_replace_all(x[1:2],'[:alpha:]','')))]
+              x[1:2] <- c(x[1:2])[order(as.numeric(stringr::str_replace_all(x[1:2],'[:alpha:]','')))]
               return(x)
             })
             stopCluster(clus)
-            cors <- data.frame(t(cors),stringsAsFactors = F)
+            cors <- as_tibble(t(cors))
             cors <- cors[!duplicated(cors[,1:2]),]
             cors$r <- as.numeric(cors$r)
             
             intensity <- tibble(Feature = names(colMeans(dat)), Intensity = colMeans(dat))
             
-            cors <- tbl_df(cors) %>%
+            cors <- cors %>%
               left_join(intensity, by = c('Feature1' = 'Feature')) %>%
               rename(Intensity1 = Intensity) %>%
               left_join(intensity, by = c('Feature2' = 'Feature')) %>%

@@ -1,4 +1,5 @@
 #' @importFrom parallel parLapply makeCluster stopCluster clusterEvalQ
+#' @importFrom utils combn
 
 setMethod("featureSelection", signature = "Analysis",
           function(x){
@@ -14,9 +15,9 @@ setMethod("featureSelection", signature = "Analysis",
             com <- combn(unique(as.character(cls)),2)
             dat.pair <- apply(com,2,function(y,cls,dat){
               dat <- dat[cls %in% y,]
-              dat <- data.frame(cls = cls[cls %in% y],dat)
+              dat <- bind_cols(cls = cls[cls %in% y],dat)
               return(dat)
-            },cls = cls,dat = as.matrix(dat))
+            },cls = cls,dat = dat)
             com <- apply(com,2,paste,collapse = '~')
             names(dat.pair) <- com
             clust = makeCluster(parameters$nCores, type = parameters$clusterType)
@@ -44,11 +45,15 @@ setMethod("featureSelection", signature = "Analysis",
               res.pair <- lapply(res.pair,function(z){z$Score})
               res.pair <- as.data.frame(res.pair)
               colnames(res.pair) <- com
-              rownames(res.pair) <- f
+              res.pair <- bind_cols(Feature = f,res.pair)
               return(res.pair)
             },res.pair = res.pair)
             names(res.method) <- parameters$method
-            x@featureSelection <- res.method
+            
+            feat <- bind_rows(res.method,.id = 'Method')
+            feat <- gather(feat,'Pairwise','Score',-(Method:Feature))
+            
+            x@featureSelection <- feat
             x@log$featureSelection <- date()
             return(x)
           }

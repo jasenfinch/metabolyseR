@@ -18,7 +18,7 @@ setMethod("preTreat", signature = "Analysis",
                 dat <- m[[j]](dat)
               }
             }
-            x@preTreated <- dat
+            x@preTreated <- list(Data = as_tibble(dat$Data), Info = as_tibble(dat$Info))
             x@log$preTreatment <- date()
             return(x)
           }

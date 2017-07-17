@@ -1,10 +1,6 @@
-#' transformMethods
-#' @export
 
-transformMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('center','auto','range','pareto','vast','level','log','log10','sqrt','asinh','TICnorm'),collapse = ' '))
-  } else {
+transformMethods <- function(method = NULL, description = F){
+
   methods <- list(
     
     center = function(dat){
@@ -63,7 +59,43 @@ transformMethods <- function(method = NULL){
     }
   )
   
-  method <- methods[[method]]
-  return(method)
+  descriptions = list(
+    center = list(description = 'Mean centering',
+                  arguments = c(`''` = '')),
+    auto = list(description = 'Auto scaling',
+                arguments = c(`''` = '')),
+    range = list(description = 'Range scaling',
+                 arguments = c(`''` = '')),
+    pareto = list(description = 'Pareto scaling',
+                  arguments = c(`''` = '')),
+    vast = list(description = 'Vast scaling',
+                arguments = c(`''` = '')),
+    level = list(description = 'Level scaling',
+                 arguments = c(`''` = '')),
+    log = list(description = 'Natural log scaling',
+               arguments = c(add = 'value to add prior to transformation')),
+    log10 = list(description = 'Log10 scaling',
+                 arguments = c(add = 'value to add prior to transformation')),
+    sqrt = list(description = 'Square root scaling',
+                arguments = c(`''` = '')),
+    asinh = list(description = 'Arc-sine scaling',
+                 arguments = c(`''` = '')),
+    TICnorm = list(description = 'Total ion count normalisation',
+                   arguments = c(`''` = ''))
+  )
+  
+  if (description == F) {
+    if (is.null(method)) {
+      method <- methods
+    } else {
+      method <- methods[[method]]
+    }
+  } else {
+    if (is.null(method)) {
+      method <- descriptions
+    } else {
+      method <- descriptions[[method]]
+    }
   }
+  return(method)
 }

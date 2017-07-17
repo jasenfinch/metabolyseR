@@ -4,8 +4,16 @@
 \alias{reAnalyse}
 \title{reAnalyse}
 \usage{
-reAnalyse(analysis, params = analysisParameters())
+reAnalyse(analysis, parameters = analysisParameters())
+}
+\arguments{
+\item{analysis}{an object of class Analysis containing previous analysis results}
+
+\item{parameters}{an object of class Parameters containing parameters for re-analysis}
 }
 \description{
-reAnalyse
+Re-analyse an object of class Analysis using specified parameters.
+}
+\seealso{
+\link{metabolyse} \link{analysisParameters} \linkS4class{AnalysisParameters} \linkS4class{Analysis}
 }

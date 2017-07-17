@@ -1,24 +1,40 @@
-#' removeMethods
-#' @export
 
-removeMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('sample','class'),collapse = ' '))
-  } else {
+removeMethods <- function(method = NULL, description = F){
     methods <- list(
-      sample = function(dat,cls = 'fileOrder', samples = NULL){
-        dat$Data <- dat$Data[!(unlist(dat$Info[,cls]) %in% samples),]
-        dat$Info <-  dat$Info[!(unlist(dat$Info[,cls]) %in% samples),]
+      sample = function(dat,idx = 'fileOrder', samples = c()){
+        dat$Data <- dat$Data[!(unlist(dat$Info[,idx]) %in% samples),]
+        dat$Info <-  dat$Info[!(unlist(dat$Info[,idx]) %in% samples),]
         return(dat)
       },
       
-      class = function(dat,cls = 'class', classes = NULL){
+      class = function(dat,cls = 'class', classes = c()){
         dat$Data <- dat$Data[!(unlist(dat$Info[,cls]) %in% classes),]
         dat$Info <-  dat$Info[!(unlist(dat$Info[,cls]) %in% classes),]
         return(dat)
       })
-    method <- methods[[method]]
+    
+    descriptions = list(
+      sample = list(description = 'Remove samples',
+                    arguments = c(idx = 'info column containing sample indices',
+                                  samples = 'sample indices to remove')),
+      class = list(description = 'Remove classes',
+                   arguments = c(cls = 'info column containing class information',
+                                 classes = 'classes to remove'))
+    )
+    
+    if (description == F) {
+      if (is.null(method)) {
+        method <- methods
+      } else {
+        method <- methods[[method]]
+      }
+    } else {
+      if (is.null(method)) {
+        method <- descriptions
+      } else {
+        method <- descriptions[[method]]
+      }
+    }
     return(method)
-  }
 }
 

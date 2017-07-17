@@ -1,6 +1,7 @@
 #' @importFrom FIEmspro valipars accest dat.sel1
 #' @importFrom stringr str_count 
 #' @importFrom parallel makeCluster parLapply clusterExport stopCluster
+#' @importFrom dplyr bind_rows
 
 setMethod("classification", signature = "Analysis",
           function(x){
@@ -22,7 +23,7 @@ setMethod("classification", signature = "Analysis",
               formals(newValipars) <- pars
               par <- newValipars()
             }
-            dat.pair <- dat.sel1(dat,cls,pwise = unique(as.character(cls)),pars = par)
+            dat.pair <- dat.sel1(dat,cls,pwise = sort(unique(as.character(cls))),pars = par)
             com <- sapply(dat.pair, function(y){y$name})
             if (length(com) > 1) {
               dat.pair <- dat.pair[-which(sapply(com,str_count,pattern = '~') > 1)]
@@ -38,7 +39,20 @@ setMethod("classification", signature = "Analysis",
             stopCluster(clust)
             names(res.pair) <- sapply(dat.pair, function(y){y$name})
             
-            x@classification <- res.pair
+            classi <- lapply(res.pair,function(y){
+              y <- lapply(y,function(z){
+                z <- bind_rows(list(Accuracy = z$acc.iter,AUC = z$auc.iter,Margin = z$mar.iter), .id = 'Iteration')
+                z$Iteration <- 1:nrow(z)
+                z <- gather(z,'Measure','Value',-Iteration)
+                return(z)
+              })
+              y <- bind_rows(y,.id = 'Method')
+              return(y)
+            })
+            
+            classi <- bind_rows(classi,.id = 'Pairwise')
+            
+            x@classification <- classi
             x@log$classification <- date()
             return(x)
           }
