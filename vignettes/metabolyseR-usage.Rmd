@@ -29,7 +29,7 @@ This document will provide a tutorial on the basic usage of the package, followe
 Lastly, there will be discussion of the tools for the visualisation of the results from these data as well as the integration of metabolyseR into wider metabolomics workflows.
 This allows more bespoke analyses to be performed based on the particular metabolomics technique being used.
 
-*metabolyseR* has been written to be as generic and versatile as possible to allow analyses to be tailored to the particular needs of the metabolomic technique being used.
+*metabolyseR* has been written to be as generic and versatile as possible to allow analyses to be tailored to the particular needs of the metabolomic technique.
 With this in mind, it's application doesn't need to be restricted only to metabolomics data.
 These analysis elements could, for example, also be suitable for data such as gene expression data where replication allows.
 
@@ -73,7 +73,7 @@ parameters
 ```
 
 To change parameters individually, the `@` extraction operator can be used to access the relevant slot directly.
-For instance following code illustrates how to modify the occupancy threshold parameter for class imputation for data pre-treatment from 2/3 to 1/2.
+For instance, the following code illustrates how to modify the occupancy threshold parameter for class imputation for data pre-treatment from 2/3 to 1/2.
 
 ```{r parametersSetExample,eval=FALSE}
 parameters@preTreat$impute$class$occupancy <- 1/2
@@ -127,7 +127,7 @@ analysis
 
 ## Pre-Treatment
 
-Data pre-treatment prior to statistical analyses is an essential step in the analysis of metabolomics data as it ensures the quality and integrity.
+Data pre-treatment prior to statistical analyses is an essential step in the analysis of metabolomics data as it ensures it's quality and integrity.
 It is also important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be used on the data.
 
 Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
@@ -373,7 +373,7 @@ It uses re-sampling based methods on a pairwise comparison basis where the data 
 The training set is used to build the initial model based on a specified algorithm which is then used to predict the class labels of the test set.
 This allows the assessment of a models accuracy, AUC and margin.
 The re-sampling process is repeated numerous times allowing mean aggregation of these classification measures.
-These methods use are executed using binary class comparisons all combinations of comparisons are run separately.
+Binary class comparisons of all class combinations are run separately around which the method is parallised.
 
 The default parameters for classification are shown below.
 
@@ -400,7 +400,7 @@ The classification results will then be returned as a table containing the accur
 
 ## Feature Selection
 
-Where discrimination exists between sample classes it is important to identify the variables (or features) that are responsible for this.
+Where discrimination exists between sample classes it is important to identify the variables (features) that are responsible for this.
 Feature selection methods provides a means of ranking variables relative to their contribution to the class discrimination and whether this is significant.
 Explanatory features can then be targeted for further analyses such as annotation which can allow interpretation of their trends in a biological context.
 
@@ -425,7 +425,7 @@ This feature selection analysis can then be performed using the following.
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-The results will be returned as a table containing the scores for each variable,pairwise and method.
+The results will be returned as a table containing the scores for each variable, pairwise and method.
 
 There are a number of methods available which are shown in the table below.
 
@@ -438,6 +438,7 @@ if (T %in% (sapply(args,length) > 1)) {
   args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
 }
 args <- unlist(args)
+score <- unlist(lapply(desc,function(x){return(x$score)}))
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::fsMethods())
 defaults <- lapply(metabolyseR:::fsMethods(),formals)
@@ -448,7 +449,7 @@ if (T %in% (sapply(defaults,length) > 1)) {
   defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
 }
 defaults <- unlist(defaults)
-tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults, Score = score)
 
 knitr::kable(tab)
 ```
