@@ -52,9 +52,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     correlations <- list(
       method = 'pearson',
       pAdjustMethod = 'bonferroni',
-      corPvalue = 0.05,
-      nCores = detectCores(),
-      clusterType = 'FORK'
+      corPvalue = 0.05
     )
   } else {
     correlations <- list()

@@ -19,22 +19,13 @@ setMethod("correlations", signature = "Analysis",
             cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)
             cors$r[cors$P > parameters$corPvalue] <- 0
             cors <- cors$r
+            cors[lower.tri(cors)] <- NA
             
-            cors <- as_tibble(cors)
-            cors <- bind_cols(Feature1 = colnames(cors),cors) %>% 
-              gather('Feature2','r',-Feature1) %>% 
-              filter(Feature1 != Feature2 & r != 0) %>%
-              na.omit()
-            
-            clus <- makeCluster(parameters$nCores,type = parameters$clusterType)
-            cors <- parApply(clus,cors,1,function(x){
-              x[1:2] <- c(x[1:2])[order(as.numeric(stringr::str_replace_all(x[1:2],'[:alpha:]','')))]
-              return(x)
-            })
-            stopCluster(clus)
-            cors <- as_tibble(t(cors))
-            cors <- cors[!duplicated(cors[,1:2]),]
-            cors$r <- as.numeric(cors$r)
+            cors <- cors %>%
+              as_tibble() %>%
+              mutate(Feature1 = colnames(cors)) %>%
+              gather('Feature2','r',-Feature1) %>%
+              filter(Feature1 != Feature2, !is.na(r), r != 0)
             
             intensity <- tibble(Feature = names(colMeans(dat)), Intensity = colMeans(dat))
             
