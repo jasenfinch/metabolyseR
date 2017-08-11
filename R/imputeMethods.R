@@ -1,5 +1,6 @@
 #' @importFrom missForest missForest
 #' @importFrom parallel makeCluster stopCluster parLapply
+#' @importFrom dplyr arrange
 
 imputeMethods <- function(method = NULL, description = F){
   
@@ -14,11 +15,11 @@ imputeMethods <- function(method = NULL, description = F){
     },
     
     class = function(dat, cls = 'class', idx = 'fileOrder', occupancy = 2/3, nCores = detectCores(), clusterType = 'FORK'){
-      clus <- makeCluster(nCores)
-      dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy,idx){
+      clus <- makeCluster(nCores,type = clusterType)
+      dat$Data <- lapply(as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy,idx){
         d <- as.matrix(dat$Data)
-        rownames(d) <- unlist(dat$Info[,idx])
         d <- d[unlist(dat$Info[,cls] == y),]
+        rowIdx <- unlist(dat$Info[unlist(dat$Info[,cls] == y),idx])
         occ <- occMat(d,rep(1,nrow(d)))
         dat.1 <- d[,occ < occupancy]
         d <- d[,!(occ < occupancy)]
@@ -28,13 +29,17 @@ imputeMethods <- function(method = NULL, description = F){
         d <- cbind(dat.1,d)
         d <- t(d)
         d <- d[order(as.numeric(str_replace_all(rownames(d),'[:alpha:]',''))),]
-        d <- t(d)
+        d <- t(d) %>%
+          as_tibble() %>%
+          bind_cols(rowIdx = rowIdx)
         return(d)
       },dat = dat, cls = cls, occupancy = occupancy,idx = idx)
       stopCluster(clus)
-      n <- unlist(lapply(dat$Data,rownames))
-      dat$Data <- lapply(dat$Data,as_tibble) %>% bind_rows()
-      dat$Data <- dat$Data[order(n),]
+      
+      dat$Data <- dat$Data %>%
+        bind_rows() %>%
+        arrange(rowIdx) %>%
+        select(-rowIdx)
       return(dat)
     }
   )
