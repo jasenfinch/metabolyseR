@@ -16,7 +16,7 @@ imputeMethods <- function(method = NULL, description = F){
     
     class = function(dat, cls = 'class', idx = 'fileOrder', occupancy = 2/3, nCores = detectCores(), clusterType = 'FORK'){
       clus <- makeCluster(nCores,type = clusterType)
-      dat$Data <- lapply(as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy,idx){
+      dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy,idx){
         d <- as.matrix(dat$Data)
         d <- d[unlist(dat$Info[,cls] == y),]
         rowIdx <- unlist(dat$Info[unlist(dat$Info[,cls] == y),idx])
