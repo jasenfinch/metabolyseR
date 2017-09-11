@@ -5,32 +5,32 @@
 QCMethods <- function(method = NULL, description = F){
 
     methods <- list(
-      occupancyFilter = function(dat,cls = 'class', idx = 'QC', occupancy = 2/3){
+      occupancyFilter = function(dat,cls = 'class', QCidx = 'QC', occupancy = 2/3){
         method <- occupancyMethods('maximum')
         QC <- dat
-        QC$Data <- QC$Data[QC$Info[,cls] == idx,]
-        QC$Info <- QC$Info[QC$Info[,cls] == idx,]
+        QC$Data <- QC$Data[QC$Info[,cls] == QCidx,]
+        QC$Info <- QC$Info[QC$Info[,cls] == QCidx,]
         QC <- method(QC,cls,occupancy)
         dat$Data <- dat$Data[,colnames(dat$Data) %in% colnames(QC$Data)]
         return(dat)
       },
-      impute = function(dat, cls = 'class', idx = 'QC', occupancy = 2/3){
-        QC <- dat$Data[dat$Info[,cls] == idx,]
+      impute = function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3){
+        QC <- dat$Data[dat$Info[,cls] == QCidx,]
         QC <- apply(QC,2,function(x){x[x == 0] <- NA;return(x)})
         QC[which(QC == 0)] <- NA
         capture.output(QC <- missForest(QC)$ximp)
-        dat$Data[dat$Info[,cls] == idx,] <- QC
+        dat$Data[dat$Info[,cls] == QCidx,] <- QC
         return(dat)
       },
-      RSDfilter = function(dat,cls = 'class', idx = 'QC', RSDthresh = 0.5){
-        QC <- dat$Data[dat$Info[,cls] == idx,]
+      RSDfilter = function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5){
+        QC <- dat$Data[dat$Info[,cls] == QCidx,]
         RSD <- apply(QC,2,function(y){sd(y)/mean(y)})
         dat$Data <- dat$Data[,RSD <= RSDthresh]
         return(dat)
       },
-      removeQC = function(dat,cls = 'class', idx = 'QC'){
-        dat$Data <- dat$Data[!(dat$Info[,cls] == idx),]
-        dat$Info <- dat$Info[!(dat$Info[,cls] == idx),]
+      removeQC = function(dat,cls = 'class', QCidx = 'QC'){
+        dat$Data <- dat$Data[!(dat$Info[,cls] == QCidx),]
+        dat$Info <- dat$Info[!(dat$Info[,cls] == QCidx),]
         return(dat)
       }
     ) 
@@ -38,19 +38,19 @@ QCMethods <- function(method = NULL, description = F){
     descriptions <- list(
       occupancyFilter = list(description = 'Filter variables based on occupancy in QC samples',
                              arguments = c(cls = 'info column to use for class labels',
-                                           idx = 'QC sample label',
+                                           QCidx = 'QC sample label',
                                            occupancy = 'occupancy threshold for filtering')),
       impute = list(description = 'Impute missing values in QC samples',
                     arguments = c(cls = 'info column to use for class labels',
-                                  idx = 'QC sample label',
+                                  QCidx = 'QC sample label',
                                   occupancy = 'occupancy threshold for imputation')),
       RSDfilter = list(description = 'Filter variables based on their relative standard deviation in QC samples',
                        arguments = c(cls = 'info column to use for class labels',
-                                     idx = 'QC sample label',
+                                     QCidx = 'QC sample label',
                                      RSDthreshold = 'RSD threshold for filtering')),
       removeQC = list(description = 'Remove QC samples',
                       arguments = c(cls = 'info column to use for class labels',
-                                    idx = 'QC sample label'))
+                                    QCidx = 'QC sample label'))
     )
     
     if (description == F) {
