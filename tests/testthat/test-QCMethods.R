@@ -35,7 +35,7 @@ test_that('methods work',{
   dat <- list(Data = abr1$neg[abr1$fact$class %in% c('1','6'),500:600], Info = cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
   m <- lapply(m,function(x,dat){
     method <- metabolyseR:::QCMethods(x)
-    res <- method(dat, cls = 'class', idx = '1')
+    res <- method(dat, cls = 'class', QCidx = '1')
     return(res)
   },dat = dat)
   
