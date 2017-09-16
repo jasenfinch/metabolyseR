@@ -28,7 +28,12 @@ setMethod("classification", signature = "Analysis",
             if (length(com) > 1) {
               dat.pair <- dat.pair[-which(sapply(com,str_count,pattern = '~') > 1)]
             }
-            clust = makeCluster(parameters$nCores, type = parameters$clusterType)
+            if (length(dat.pair) < parameters$nCores) {
+              nCores <- length(dat.pair)
+            } else {
+              nCores <- parameters$nCores
+            }
+            clust = makeCluster(nCores, type = parameters$clusterType)
             res.pair <- parLapply(clust,dat.pair,function(y,method,pars){
               res.meth <- lapply(method,function(z,dat,pars){
                 accest(dat,clmeth = z,pars = pars)

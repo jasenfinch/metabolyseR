@@ -20,7 +20,12 @@ setMethod("featureSelection", signature = "Analysis",
             },cls = cls,dat = dat)
             com <- apply(com,2,paste,collapse = '~')
             names(dat.pair) <- com
-            clust = makeCluster(parameters$nCores, type = parameters$clusterType)
+            if (length(dat.pair) < parameters$nCores) {
+              nCores <- length(dat.pair)
+            } else {
+              nCores <- parameters$nCores
+            }
+            clust = makeCluster(nCores, type = parameters$clusterType)
             res.pair <- parLapply(clust,dat.pair,function(y,method,pars){
               res.method <- lapply(method,function(z,dat,pars){
                 m <- fsMethods(z)

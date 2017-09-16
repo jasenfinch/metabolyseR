@@ -15,6 +15,9 @@ imputeMethods <- function(method = NULL, description = F){
     },
     
     class = function(dat, cls = 'class', idx = 'fileOrder', occupancy = 2/3, nCores = detectCores(), clusterType = 'FORK'){
+      if (length(as.character(sort(unique(unlist(dat$Info[,cls]))))) < nCores) {
+        nCores <- length(as.character(sort(unique(unlist(dat$Info[,cls])))))
+      }
       clus <- makeCluster(nCores,type = clusterType)
       dat$Data <- parLapply(clus,as.character(sort(unique(unlist(dat$Info[,cls])))),function(y,dat,cls,occupancy,idx){
         d <- as.matrix(dat$Data)
