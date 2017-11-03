@@ -2,11 +2,10 @@
 #' @importFrom ggplot2 ggplot aes geom_point theme_bw facet_wrap guides ylab xlab
 #' @importFrom stringr str_sub str_replace_all 
 #' @importFrom ggthemes scale_colour_ptol ptol_pal
-#' @importFrom plotly ggplotly
 #' @export
 
 setMethod('plotFeatureSelection',signature = 'Analysis',
-          function(analysis, method = 'fs.rf', mz = T, modes = T, interactive = F) {
+          function(analysis, method = 'fs.rf', mz = T, modes = T) {
             featureSelection <- featureSelectionResults(analysis) %>%
               filter(Method == method) 
             
@@ -48,10 +47,6 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
               pl <- pl + xlab('m/z')
             }
             
-            if (interactive == T) {
-              ggplotly(pl)
-            } else {
-              pl 
-            }
+            pl
           }
 )
