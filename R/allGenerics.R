@@ -42,3 +42,8 @@ setGeneric("featureSelectionResults", function(x) {
 setGeneric("correlationResults", function(x) {
   standardGeneric("correlationResults")
 })
+
+#' @rdname plotFeatureSelection
+setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T, interactive = F){
+  standardGeneric('plotFeatureSelection')
+})
