@@ -44,13 +44,23 @@ setGeneric("correlationResults", function(x) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder'){
+setGeneric('plotTIC', function(analysis, by = 'injOrder', modes = T){
   standardGeneric('plotTIC')
 })
 
 #' @rdname plotRSD
 setGeneric('plotRSD', function(analysis, cls = 'class', QCindex = 'QC', QCparameters = NULL){
   standardGeneric('plotRSD')
+})
+
+#' @rdname plotClassification
+setGeneric('plotClassification',function(analysis,method = 'randomForest'){
+  standardGeneric('plotClassification')
+})
+
+#' @rdname plotClassificationDendrogram
+setGeneric('plotClassificationDendrogram',function(analysis,method = 'randomForest', measure = 'Margin', clusterMethod = 'ward.D2'){
+  standardGeneric('plotClassificationDendrogram')
 })
 
 #' @rdname plotFeatureSelection
