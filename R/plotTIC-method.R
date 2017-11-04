@@ -4,7 +4,7 @@
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',
-          function(analysis, by = 'injOrder') {
+          function(analysis, by = 'injOrder', modes = T) {
             dat <- rawData(analysis)
             info <- dat$Info
             dat <- dat$Data
@@ -16,14 +16,23 @@ setMethod('plotTIC',signature = 'Analysis',
               bind_cols(index) %>%
               mutate(Colour = factor(Index)) %>%
               rowid_to_column(var = 'ID') %>%
-              gather('Feature','Intensity',-ID,-Index,-Colour) %>%
-              group_by(ID,Index,Colour) %>%
+              gather('Feature','Intensity',-ID,-Index,-Colour) 
+            
+            if (modes == T) {
+              dat <- dat %>%
+                mutate(Mode = str_sub(Feature,1,1)) %>%
+                group_by(ID,Mode,Index,Colour)
+            } else {
+              dat <- dat %>%
+                group_by(ID,Index,Colour)  
+            }
+            dat <- dat %>%
               summarise(TIC = sum(Intensity))
-           
+            
             classCheck <- dat %>%
               group_by(Index) %>%
               summarise(Frequency = n())
-             
+            
             pl <- dat %>%
               ggplot(aes(x = Index,y = TIC,colour = Colour)) +
               theme_bw() +
@@ -47,6 +56,10 @@ setMethod('plotTIC',signature = 'Analysis',
                 pal <- c(rep(ptol_pal()(12),floor(nrow(classCheck) / 12)),ptol_pal()(12)[1:(nrow(classCheck) %% 12)])
               }
               pl <- pl + scale_colour_manual(values = pal)
+            }
+            
+            if (modes == T) {
+              pl <- pl + facet_wrap(~Mode)
             }
             
             pl

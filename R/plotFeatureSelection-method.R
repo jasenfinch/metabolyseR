@@ -12,8 +12,6 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
             if (modes == T) {
               featureSelection <- featureSelection %>%
                 mutate(Mode = str_sub(Feature,1,1))
-              featureSelection$Mode[featureSelection$Mode == 'n'] <- 'Negative'
-              featureSelection$Mode[featureSelection$Mode == 'p'] <- 'Positive'
             }
             
             if (mz == T) {
