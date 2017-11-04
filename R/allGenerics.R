@@ -48,6 +48,11 @@ setGeneric('plotTIC', function(analysis, by = 'injOrder'){
   standardGeneric('plotTIC')
 })
 
+#' @rdname plotRSD
+setGeneric('plotRSD', function(analysis, cls = 'class', QCindex = 'QC', QCparameters = NULL){
+  standardGeneric('plotRSD')
+})
+
 #' @rdname plotFeatureSelection
 setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T){
   standardGeneric('plotFeatureSelection')
