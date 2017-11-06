@@ -1,4 +1,20 @@
+#' plotClassification
+#' @rdname plotClassification
+#' @description Plot classification results.
+#' @param analysis object of class Analysis containing analysis results
+#' @param method resutls of classifier to plot
 #' @importFrom ggplot2 aes_string
+#' @examples \dontrun{
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat','classification'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p) 
+#' plotClassification(analysis)
+#' }
 #' @export
 
 setMethod('plotClassification',signature = 'Analysis',
