@@ -49,7 +49,7 @@ setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'batchBlock',
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCindex = 'QC', QCparameters = NULL){
+setGeneric('plotRSD', function(analysis, cls = 'class', QCindex = 'QC', QCparameters = NULL, modes = T){
   standardGeneric('plotRSD')
 })
 
@@ -58,7 +58,7 @@ setGeneric('plotPCA', function(analysis, cls = 'class', scale = T, center = T, x
   standardGeneric('plotPCA')
 })
 
-#' @rdname plotPCA
+#' @rdname plotLDA
 setGeneric('plotLDA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
   standardGeneric('plotLDA')
 })
