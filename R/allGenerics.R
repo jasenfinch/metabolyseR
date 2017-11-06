@@ -53,6 +53,11 @@ setGeneric('plotRSD', function(analysis, cls = 'class', QCindex = 'QC', QCparame
   standardGeneric('plotRSD')
 })
 
+#' @rdname plotPCA
+setGeneric('plotPCA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2'){
+  standardGeneric('plotPCA')
+})
+
 #' @rdname plotClassification
 setGeneric('plotClassification',function(analysis,method = 'randomForest'){
   standardGeneric('plotClassification')
