@@ -18,7 +18,8 @@ Imports: FIEmspro,
          plyr,
          ggplot2,
          ggthemes,
-         ggdendro
+         ggdendro,
+         purrr
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

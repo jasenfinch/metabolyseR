@@ -8,6 +8,7 @@
 #' @param modes split modes if present
 #' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
 #' @importFrom stringr str_extract
+#' @importFrom purrr map
 #' @examples \dontrun{
 #' 
 #' files <- list.files(
