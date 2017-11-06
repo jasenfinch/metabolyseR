@@ -13,7 +13,7 @@ plotClassification(analysis, method = "randomForest")
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
 
-\item{method}{resutls of classifier to plot}
+\item{method}{results of classifier to plot}
 }
 \description{
 Plot classification results.

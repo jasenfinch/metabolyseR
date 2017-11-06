@@ -1,7 +1,26 @@
+#' plotClassificationDendrogram
+#' @rdname plotClassificationDendrogram
+#' @description plot a dendrogram of classifcation results
+#' @param analysis object of class Analysis containing analysis results
+#' @param method results of classifier to plot
+#' @param measure model measure to use
+#' @param clusterMethod clustering method to use
 #' @importFrom stringr str_split
 #' @importFrom tidyr spread
 #' @importFrom ggdendro ggdendrogram
 #' @importFrom stats as.dist
+#' @examples \dontrun{
+#' 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat','classification'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p) 
+#' plotClassificationDendrogram(analysis)
+#' }
 #' @export
 
 setMethod('plotClassificationDendrogram',signature = 'Analysis',

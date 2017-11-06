@@ -31,6 +31,7 @@ If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters a
 }
 \examples{
 \dontrun{
+
 files <- list.files(
   system.file(
     'DataSets/FIE-HRMS/BdistachyonEcotypes',

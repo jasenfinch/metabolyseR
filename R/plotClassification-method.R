@@ -2,7 +2,7 @@
 #' @rdname plotClassification
 #' @description Plot classification results.
 #' @param analysis object of class Analysis containing analysis results
-#' @param method resutls of classifier to plot
+#' @param method results of classifier to plot
 #' @importFrom ggplot2 aes_string
 #' @examples \dontrun{
 #' library(FIEmspro)
