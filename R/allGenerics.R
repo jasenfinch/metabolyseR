@@ -44,7 +44,7 @@ setGeneric("correlationResults", function(x) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder', modes = T){
+setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'batchBlock', modes = T){
   standardGeneric('plotTIC')
 })
 
@@ -76,6 +76,11 @@ setGeneric('plotClassificationDendrogram',function(analysis,method = 'randomFore
 #' @rdname plotFeatureSelection
 setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T){
   standardGeneric('plotFeatureSelection')
+})
+
+#' @rdname plotFeature
+setGeneric('plotFeature',function(analysis, feature, cls = 'class'){
+  standardGeneric('plotFeature')
 })
 
 #' @rdname plotExplanatoryHeatmap
