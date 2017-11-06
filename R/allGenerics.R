@@ -58,6 +58,11 @@ setGeneric('plotPCA', function(analysis, cls = 'class', scale = T, center = T, x
   standardGeneric('plotPCA')
 })
 
+#' @rdname plotPCA
+setGeneric('plotLDA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
+  standardGeneric('plotLDA')
+})
+
 #' @rdname plotClassification
 setGeneric('plotClassification',function(analysis,method = 'randomForest'){
   standardGeneric('plotClassification')

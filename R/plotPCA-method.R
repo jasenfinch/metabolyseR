@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 scale_shape_manual
+#' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
 #' @export
 
