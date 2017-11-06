@@ -15,7 +15,9 @@ Imports: FIEmspro,
          tibble,
          tidyr,
          methods,
-         plyr
+         plyr,
+         ggplot2,
+         ggthemes
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
