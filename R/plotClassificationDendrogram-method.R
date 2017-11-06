@@ -1,6 +1,7 @@
 #' @importFrom stringr str_split
 #' @importFrom tidyr spread
 #' @importFrom ggdendro ggdendrogram
+#' @importFrom stats as.dist
 #' @export
 
 setMethod('plotClassificationDendrogram',signature = 'Analysis',

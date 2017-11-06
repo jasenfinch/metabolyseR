@@ -1,7 +1,9 @@
+#' @importFrom stats dist hclust
+#' @importFrom ggdendro dendro_data 
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
-          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ptol_pal()(1)){
+          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, modes = T, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ptol_pal()(1)){
             dat <- preTreatedData(analysis)
             info <- dat$Info
             dat <- dat$Data
@@ -38,6 +40,10 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
               filter(Class %in% classes,Feature %in% feat) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = mean(Intensity))
+            
+            if (modes == T) {
+              
+            }
             
             sums <- dat %>%
               group_by(Feature) %>%
