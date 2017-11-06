@@ -32,5 +32,5 @@ Suggests: knitr,
     binneRlyse,
     metaboData
 VignetteBuilder: knitr
-Remotes: jasenfinch/binneRlyse
+Remotes: jasenfinch/binneRlyse,
     jasenfinch/metaboData
