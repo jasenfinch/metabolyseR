@@ -1,9 +1,35 @@
+#' plotExplanatoryHeatmap
+#' @rdname plotExplanatoryHeatmap
+#' @description plot a heatmap of explanatory features
+#' @param analysis object of class Analysis containing analysis results
+#' @param method results of feature selection method to use
+#' @param threshold score threshold to use for specifying explantory features
+#' @param pairwises optional vector specifying pairwise comparisons to extract
+#' @param distanceMeasure distance measure to use for clustering. See details.
+#' @param clusterMethod clustering method to use. See details
+#' @param colour heatmap colour to use
+#' @details 
+#' Options for distance measures are as for \code{dist()}.
+#' Clustering methods are as given for \code{hclust()}.
+#' @seealso \link{dist} \link{hclust}
 #' @importFrom stats dist hclust
 #' @importFrom ggdendro dendro_data 
+#' @examples \dontrun{
+#' 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat','featureSelection'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p) 
+#' plotExplanatoryHeatmap(analysis)
+#' }
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
-          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ptol_pal()(1)){
+          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ggthemes::ptol_pal()(1)){
             dat <- preTreatedData(analysis)
             info <- dat$Info
             dat <- dat$Data

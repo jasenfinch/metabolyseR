@@ -28,9 +28,5 @@ Suggests: knitr,
     rmarkdown,
     DiagrammeR,
     readr,
-    testthat,
-    binneRlyse,
-    metaboData
+    testthat
 VignetteBuilder: knitr
-Remotes: jasenfinch/binneRlyse,
-    jasenfinch/metaboData
