@@ -1,8 +1,38 @@
+#' plotRSD
+#' @rdname plotRSD
+#' @description Plot RSD distributions of raw data in quality control samples.
+#' @param analysis object of class Analysis containing analysis results
+#' @param cls info column to use for class labels
+#' @param QCidx QC sample label
+#' @param QCparameters alternative parameters for QC sample pre-treatment. See details
+#' @param modes split modes if present
+#' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
 #' @importFrom stringr str_extract
+#' @examples \dontrun{
+#' 
+#' files <- list.files(
+#'   system.file(
+#'     'DataSets/FIE-HRMS/BdistachyonEcotypes',
+#'     package = 'metaboData'),
+#'   full.names = TRUE)
+#' 
+#' info <- files[grepl('runinfo',files)]
+#' files <- files[!grepl('runinfo',files)]
+#' 
+#' binDat <- binneRlyse::binneRlyse(files, 
+#'                        info, 
+#'                        parameters = binneRlyse::binParameters())
+#' 
+#' p <- new('AnalysisParameters')
+#' 
+#' analysis <- metabolyse(bind_cols(binnedData(binDat)),info(binDat),p)
+#' 
+#' plotRSD(analysis)
+#' }
 #' @export
 
 setMethod('plotRSD',signature = 'Analysis',
-          function(analysis, cls = 'class', QCindex = 'QC', QCparameters = NULL, modes = T){
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T){
             dat <- rawData(analysis)
             info <- dat$Info
             dat <- dat$Data

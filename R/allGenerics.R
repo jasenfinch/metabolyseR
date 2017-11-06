@@ -49,7 +49,7 @@ setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'batchBlock',
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCindex = 'QC', QCparameters = NULL, modes = T){
+setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T){
   standardGeneric('plotRSD')
 })
 
