@@ -1,6 +1,26 @@
+#' plotPCA
+#' @rdname plotPCA
+#' @description Plot principle component analysis results of pre-treated data.
+#' @param analysis object of class Analysis containing analysis results
+#' @param cls info column to use for sample labelling
+#' @param scale scale the data
+#' @param center center the data
+#' @param xAxis principle component to plot on the x-axis
+#' @param yAxis principle component to plot on the y-axis
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
 #' @importFrom stats prcomp
+#' @examples 
+#' 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
+#' plotPCA(analysis,cls = 'day')
 #' @export
 
 setMethod('plotPCA',signature = 'Analysis',
