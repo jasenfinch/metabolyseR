@@ -6,6 +6,7 @@
 #' @param QCidx QC sample label
 #' @param QCparameters alternative parameters for QC sample pre-treatment. See details
 #' @param modes split modes if present
+#' @param histBins number of bins to use for histogram plotting
 #' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
 #' @importFrom stringr str_extract
 #' @importFrom purrr map
@@ -35,7 +36,7 @@
 #' @export
 
 setMethod('plotRSD',signature = 'Analysis',
-          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T){
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30){
             dat <- rawData(analysis)
             info <- dat$Info
             dat <- dat$Data
@@ -86,7 +87,7 @@ setMethod('plotRSD',signature = 'Analysis',
               summarise(Median = median(RSD))
             
             pl <- ggplot() +
-              geom_histogram(data = rsd,aes_string(x = 'RSD'),fill = ptol_pal()(5)[2],colour = 'black') +
+              geom_histogram(data = rsd,aes_string(x = 'RSD'),fill = ptol_pal()(5)[2],colour = 'black',bins = histBins) +
               geom_vline(data = medians,aes_string(xintercept = 'Median'),linetype = 2,colour = 'red',size = 1) +
               theme_bw() +
               facet_wrap(~Mode)

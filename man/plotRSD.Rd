@@ -7,10 +7,10 @@
 \title{plotRSD}
 \usage{
 plotRSD(analysis, cls = "class", QCidx = "QC", QCparameters = NULL,
-  modes = T)
+  modes = T, histBins = 30)
 
 \S4method{plotRSD}{Analysis}(analysis, cls = "class", QCidx = "QC",
-  QCparameters = NULL, modes = T)
+  QCparameters = NULL, modes = T, histBins = 30)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
@@ -22,6 +22,8 @@ plotRSD(analysis, cls = "class", QCidx = "QC", QCparameters = NULL,
 \item{QCparameters}{alternative parameters for QC sample pre-treatment. See details}
 
 \item{modes}{split modes if present}
+
+\item{histBins}{number of bins to use for histogram plotting}
 }
 \description{
 Plot RSD distributions of raw data in quality control samples.
