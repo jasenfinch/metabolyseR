@@ -1,6 +1,24 @@
+#' plotTIC
+#' @rdname plotTIC
+#' @description Plot total ion counts of sample raw data.
+#' @param analysis object of class Analysis containing analysis results
+#' @param by info column to plot against
+#' @param colour info column to provide colour labels
+#' @param modes split modes if present
 #' @importFrom tibble rowid_to_column
 #' @importFrom dplyr group_by summarise
 #' @importFrom ggplot2 scale_colour_manual geom_boxplot
+#' @examples 
+#' 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
+#' plotTIC(analysis,by = 'injorder',colour = 'day',modes = F) 
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',
