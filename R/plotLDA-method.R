@@ -1,4 +1,24 @@
+#' plotLDA
+#' @rdname plotLDA
+#' @description Plot linear discriminant analysis resultus of pre-treated data
+#' @param analysis object of class Analysis containing analysis results
+#' @param cls info column to use for sample labelling
+#' @param scale scale the data
+#' @param center center the data
+#' @param xAxis principle component to plot on the x-axis
+#' @param yAxis principle component to plot on the y-axis
 #' @importFrom FIEmspro nlda
+#' @examples 
+#' 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
+#' plotLDA(analysis,cls = 'day')
 #' @export
 
 setMethod('plotLDA',signature = 'Analysis',

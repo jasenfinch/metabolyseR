@@ -1,4 +1,20 @@
+#' plotFeature
+#' @rdname plotFeature
+#' @description Plot a feature trend.
+#' @param analysis object of class Analysis containing analysis results
+#' @param feature feature to plot
+#' @param cls info column to use for class labels
 #' @importFrom ggplot2 ggtitle
+#' @examples 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
+#' plotFeature(analysis,'N133',cls = 'day')
 #' @export
 
 setMethod('plotFeature',signature = 'Analysis',
