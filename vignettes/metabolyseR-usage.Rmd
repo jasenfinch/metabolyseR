@@ -482,9 +482,28 @@ analysis <- reAnalyse(analysis,parameters)
 
 The results will be returned as a table containing the significantly correlated bins, their correlation coefficients and their log~2~ intensity ratios.
 
-## Visualisation and Workflow Integration
+## Visualisation
+
+*metabolyseR* provides a number of functions for the visualisation of analysis results:
+
+* quality control
+    + `plotTIC()` - total ion counts of sample raw data
+    + `plotRSD()` - relative standard deviation distributions of quality control samples
+    + `plotPCA()` - principle component analysis results of pre-treated data
+    + `plotLDA()` - linear discriminant analysis results of pre-treated data
+
+* classification
+    + `plotClassification()` - classification measures of pairwise comparisons
+    + `plotClassificationDendrogram()` - dendrogram of classification results
+
+* feauture selection
+    + `plotFeatureSelecton()` - feature selection scores of pairwise comparisons
+    + `plotExplanatoryHeatmap()` - heat map of explanatory features
+    + `plotFeature()` - feature trends
 
 The [*metaboVis*](https://github.com/jasenfinch/metaboVis) package provides a collection of *shiny* applications for interactive visualisation of these analyses.
+
+## Workflow Integration
 
 The generic nature of *metabolyseR* means that it can easily be integrated into workflows for the analysis of any metabolomics data.
 The package [*metaboWorkflows*](https://github.com/jasenfinch/metaboWorkflows) provides wrapper methods for signal processing, analysis and annotation of metabolomics data.

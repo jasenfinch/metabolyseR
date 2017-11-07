@@ -42,3 +42,48 @@ setGeneric("featureSelectionResults", function(x) {
 setGeneric("correlationResults", function(x) {
   standardGeneric("correlationResults")
 })
+
+#' @rdname plotTIC
+setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'batchBlock', modes = T){
+  standardGeneric('plotTIC')
+})
+
+#' @rdname plotRSD
+setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T){
+  standardGeneric('plotRSD')
+})
+
+#' @rdname plotPCA
+setGeneric('plotPCA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2'){
+  standardGeneric('plotPCA')
+})
+
+#' @rdname plotLDA
+setGeneric('plotLDA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
+  standardGeneric('plotLDA')
+})
+
+#' @rdname plotClassification
+setGeneric('plotClassification',function(analysis,method = 'randomForest'){
+  standardGeneric('plotClassification')
+})
+
+#' @rdname plotClassificationDendrogram
+setGeneric('plotClassificationDendrogram',function(analysis,method = 'randomForest', measure = 'Margin', clusterMethod = 'ward.D2'){
+  standardGeneric('plotClassificationDendrogram')
+})
+
+#' @rdname plotFeatureSelection
+setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T){
+  standardGeneric('plotFeatureSelection')
+})
+
+#' @rdname plotFeature
+setGeneric('plotFeature',function(analysis, feature, cls = 'class'){
+  standardGeneric('plotFeature')
+})
+
+#' @rdname plotExplanatoryHeatmap
+setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ptol_pal()(1)){
+  standardGeneric('plotExplanatoryHeatmap')
+})
