@@ -74,7 +74,7 @@ setGeneric('plotClassificationDendrogram',function(analysis,method = 'randomFore
 })
 
 #' @rdname plotFeatureSelection
-setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T){
+setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T, pairwises = NULL){
   standardGeneric('plotFeatureSelection')
 })
 

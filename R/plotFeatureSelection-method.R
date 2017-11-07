@@ -5,6 +5,7 @@
 #' @param method results of feature selection method to use
 #' @param mz \code{TRUE} if features are m/z
 #' @param modes split modes if present
+#' @param pairwises optional vector specifying pairwise comparisons to extract
 #' @importFrom dplyr filter mutate
 #' @importFrom ggplot2 ggplot aes geom_point theme_bw facet_wrap guides ylab xlab
 #' @importFrom stringr str_sub str_replace_all 
@@ -24,9 +25,14 @@
 #' @export
 
 setMethod('plotFeatureSelection',signature = 'Analysis',
-          function(analysis, method = 'fs.rf', mz = T, modes = T) {
+          function(analysis, method = 'fs.rf', mz = T, modes = T, pairwises = NULL) {
             featureSelection <- featureSelectionResults(analysis) %>%
               filter(Method == method) 
+            
+            if (!is.null(pairwises)) {
+              featureSelection <- featureSelection %>%
+                filter(Pairwise %in% pairwises)
+            }
             
             if (modes == T) {
               featureSelection <- featureSelection %>%
@@ -55,9 +61,11 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
             if (modes == T) {
               pl <- pl + 
                 geom_point(aes(colour = Mode)) +
-                facet_wrap(~Mode)
+                facet_grid(Pairwise~Mode)
             } else {
-              pl <- pl + geom_point(colour = ptol_pal()(1))
+              pl <- pl + 
+                geom_point(colour = ptol_pal()(1)) +
+                facet_wrap(~Pairwise)
             }
             
             if (mz == T)  {

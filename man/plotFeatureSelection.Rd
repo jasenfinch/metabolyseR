@@ -6,10 +6,11 @@
 \alias{plotFeatureSelection,Analysis-method}
 \title{plotFeatureSelection}
 \usage{
-plotFeatureSelection(analysis, method = "fs.rf", mz = T, modes = T)
+plotFeatureSelection(analysis, method = "fs.rf", mz = T, modes = T,
+  pairwises = NULL)
 
 \S4method{plotFeatureSelection}{Analysis}(analysis, method = "fs.rf",
-  mz = T, modes = T)
+  mz = T, modes = T, pairwises = NULL)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
@@ -19,6 +20,8 @@ plotFeatureSelection(analysis, method = "fs.rf", mz = T, modes = T)
 \item{mz}{\code{TRUE} if features are m/z}
 
 \item{modes}{split modes if present}
+
+\item{pairwises}{optional vector specifying pairwise comparisons to extract}
 }
 \description{
 Plot feature selection results
