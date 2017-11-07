@@ -1,7 +1,26 @@
+#' plotFeatureSelection
+#' @rdname plotFeatureSelection
+#' @description Plot feature selection results
+#' @param analysis object of class Analysis containing analysis results
+#' @param method results of feature selection method to use
+#' @param mz \code{TRUE} if features are m/z
+#' @param modes split modes if present
 #' @importFrom dplyr filter mutate
 #' @importFrom ggplot2 ggplot aes geom_point theme_bw facet_wrap guides ylab xlab
 #' @importFrom stringr str_sub str_replace_all 
 #' @importFrom ggthemes scale_colour_ptol ptol_pal
+#' @examples \dontrun{
+#' 
+#' library(FIEmspro)
+#' data(abr1)
+#' p <- analysisParameters(c('preTreat','featureSelection'))
+#' p@preTreat <- list(
+#'     occupancyFilter = list(maximum = list()),
+#'     transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p) 
+#' plotFeatureSelection(analysis)
+#' }
 #' @export
 
 setMethod('plotFeatureSelection',signature = 'Analysis',
