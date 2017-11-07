@@ -47,7 +47,7 @@ binDat <- binneRlyse::binneRlyse(files,
 
 p <- new('AnalysisParameters')
 
-analysis <- metabolyse(bind_cols(binnedData(binDat)),info(binDat),p)
+analysis <- metabolyse(dplyr::bind_cols(binnedData(binDat)),info(binDat),p)
 
 plotRSD(analysis)
 }

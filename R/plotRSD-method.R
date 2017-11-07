@@ -10,6 +10,7 @@
 #' @importFrom stringr str_extract
 #' @importFrom purrr map
 #' @importFrom stats median
+#' @importFrom ggplot2 geom_histogram
 #' @examples \dontrun{
 #' 
 #' files <- list.files(
@@ -27,7 +28,7 @@
 #' 
 #' p <- new('AnalysisParameters')
 #' 
-#' analysis <- metabolyse(bind_cols(binnedData(binDat)),info(binDat),p)
+#' analysis <- metabolyse(dplyr::bind_cols(binnedData(binDat)),info(binDat),p)
 #' 
 #' plotRSD(analysis)
 #' }
@@ -39,7 +40,7 @@ setMethod('plotRSD',signature = 'Analysis',
             info <- dat$Info
             dat <- dat$Data
             
-            classes <- unlist(unique(info[,cls]))[!(unlist(unique(info[,cls])) %in% QCindex)] %>%
+            classes <- unlist(unique(info[,cls]))[!(unlist(unique(info[,cls])) %in% QCidx)] %>%
               as.character()
             
             if (modes == T) {
