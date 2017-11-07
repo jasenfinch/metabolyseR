@@ -18,7 +18,7 @@
 #'     transform = list(TICnorm = list())
 #' )
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotTIC(analysis,by = 'injorder',colour = 'day',modes = F) 
+#' plotTIC(analysis,by = 'injorder',colour = 'day',modes = FALSE) 
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',
