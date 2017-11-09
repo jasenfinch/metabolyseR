@@ -20,6 +20,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
                                RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
                                removeQC = as.list(formals(QCMethods('removeQC'))[-1])
     ), 
+    occupancyFilter = as.list(formals(QCMethods('occupancyFilter'))[-1]),
     impute = list(class = as.list(formals(imputeMethods('class'))[-1])),
     transform = list(TICnorm = as.list(formals(transformMethods('TICnorm'))[-1]))
     )
