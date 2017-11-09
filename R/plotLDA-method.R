@@ -90,7 +90,8 @@ setMethod('plotLDA',signature = 'Analysis',
                 geom_point() +
                 scale_colour_ptol() +
                 theme_bw() +
-                guides(colour = F,shape = F) 
+                guides(colour = F,shape = F) +
+                ylab(str_c(yAxis,' (Tw: ',tw[yAxis],')'))
             }
             
             pl

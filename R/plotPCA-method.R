@@ -27,9 +27,9 @@ setMethod('plotPCA',signature = 'Analysis',
           function(analysis, cls = 'class', scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2'){
             dat <- preTreatedData(analysis)
             info <- dat$Info %>%
-              select(cls)
+              select(Class = cls) %>%
+              mutate(Class = factor(Class))
             dat <- dat$Data
-            colnames(info)[1] <- 'Class'
             
             pca <- prcomp(dat,scale. = scale,center = center)
             var <- pca$sdev
