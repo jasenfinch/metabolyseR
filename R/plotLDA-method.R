@@ -91,7 +91,7 @@ setMethod('plotLDA',signature = 'Analysis',
                 scale_colour_ptol() +
                 theme_bw() +
                 guides(colour = F,shape = F) +
-                ylab(str_c(yAxis,' (Tw: ',tw[yAxis],')'))
+                ylab(str_c('DF1',' (Tw: ',tw['DF1'],')'))
             }
             
             pl
