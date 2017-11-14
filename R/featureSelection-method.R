@@ -20,6 +20,11 @@ setMethod("featureSelection", signature = "Analysis",
             },cls = cls,dat = dat)
             com <- apply(com,2,paste,collapse = '~')
             names(dat.pair) <- com
+            
+            if (length(parameters$pairwises) > 0) {
+              dat.pair <- dat.pair[names(dat.pair) %in% parameters$pairwises]
+            }
+            
             if (length(dat.pair) < parameters$nCores) {
               nCores <- length(dat.pair)
             } else {

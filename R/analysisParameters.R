@@ -31,6 +31,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     classification <- list(
       cls = 'class',
       method = c('randomForest'),
+      pairwises = character(),
       pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T), 
       nCores = detectCores(),
       clusterType = 'FORK'
@@ -42,6 +43,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     featureSelection <- list(
       method = 'fs.rf',
       cls = 'class',
+      pairwises = character(),
       pars = list(fs.rf = as.list(formals(fsMethods('fs.rf'))[-1])), 
       nCores = detectCores(), 
       clusterType = 'FORK'
