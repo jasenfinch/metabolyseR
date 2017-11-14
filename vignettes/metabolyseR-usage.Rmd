@@ -184,9 +184,11 @@ analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
 analysis
 ```
 
-### Sample removal
+### Sample and variable removal
 
 The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
+
+Variable removal is important if for example there is contaminant features present in a data set. 
 
 The methods and their arguments for the removal of samples is shown in the table below.
 

@@ -30,13 +30,16 @@ test_that('number of method arguments matches description arguments', {
 })
 
 test_that('methods work',{
-  skip_on_travis()
   m <- names(metabolyseR:::imputeMethods())
   data("abr1")
   dat <- list(Data = as_tibble(abr1$neg[abr1$fact$class %in% c('1','6'),500:600]), Info = as_tibble(cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),]))))
   m <- lapply(m,function(x,dat){
     method <- metabolyseR:::imputeMethods(x)
-    res <- method(dat)
+    if (x == 'class') {
+      res <- method(dat,nCores = 1)
+    } else {
+      res <- method(dat) 
+    }
     return(res)
   },dat = dat)
   
