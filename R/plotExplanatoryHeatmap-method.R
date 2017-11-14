@@ -14,6 +14,7 @@
 #' @seealso \link{dist} \link{hclust}
 #' @importFrom stats dist hclust
 #' @importFrom ggdendro dendro_data 
+#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal
 #' @examples \dontrun{
 #' 
 #' library(FIEmspro)

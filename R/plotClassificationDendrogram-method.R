@@ -52,7 +52,7 @@ setMethod('plotClassificationDendrogram',signature = 'Analysis',
               select(-Pairwise) %>%
               spread(P1,Mean)
             
-            rownames(classification) <- classification$P2
+            suppressWarnings(rownames(classification) <- classification$P2)
             
             classification %>%
               select(-P2) %>%
