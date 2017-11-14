@@ -1,7 +1,7 @@
 
 preTreatMethods <- function(method = NULL){
   if (is.null(method)) {
-    cat('Available Methods:',paste(c('remove','transform','impute','QC','occupancyFilter'),collapse = ' '))
+    cat('Available Methods:',paste(c('remove','transform','impute','QC','occupancyFilter','aggregate'),collapse = ' '))
   } else {
     methods <- list(
       remove = function(params){
@@ -22,6 +22,10 @@ preTreatMethods <- function(method = NULL){
       
       occupancyFilter = function(params){
         lapply(params,occupancyMethods)
+      },
+      
+      aggregate = function(params){
+        lapply(params,aggregateMethods)
       }
     )
     method <- methods[[method]]
