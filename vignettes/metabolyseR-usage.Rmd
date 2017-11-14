@@ -419,6 +419,7 @@ These parameters denote the following:
 
 * `cls` - The info column to use for class labels.
 * `method` - The classifier to use (`randomForest`, `svm`, `nlda`). More than one can be selected at a time.
+* `pairwises` - Optional vector of specific pairwise comparisons to analyse in the form of `'Class1~Class2'`.
 * `pars` - Classification parameters to be passed to `valipars` (`?FIEmspro::valipars`).
 * `nCores` - The number of cores to use for parallelisation.
 * `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
@@ -448,6 +449,7 @@ These parameters denote the following:
 
 * `method` - The feature selection method to use (see table below). More than one can be selected at a time.
 * `cls` - The info column to use for class labels.
+* `pairwises` - Optional vector of specific pairwise comparisons to analyse in the form of `'Class1~Class2'`.
 * `pars` - Parameters for each feature selection method given as a named list. See table below.
 * `nCores` - The number of cores to use for parallelisation.
 * `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
