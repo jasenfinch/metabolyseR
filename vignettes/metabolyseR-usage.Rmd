@@ -33,7 +33,7 @@ This allows more bespoke analyses to be performed based on the particular metabo
 With this in mind, it's application doesn't need to be restricted only to metabolomics data.
 These analysis elements could, for example, also be suitable for data such as gene expression data where replication allows.
 
-The examples shown here use the `abr1` dataset from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package (`?FIEmspro::abr1`).
+The examples shown here use the `abr1` data set from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package (`?FIEmspro::abr1`).
 
 ## Basic Usage
 
@@ -202,6 +202,37 @@ args <- unlist(args)
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::removeMethods())
 defaults <- lapply(metabolyseR:::removeMethods(),formals)
+defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Sample aggregation
+
+Sample aggregation allows the electronic pooling of samples based on a grouping variable.
+This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
+
+The methods and their arguments are shown in the table below.
+
+```{r aggregateMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::aggregateMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::aggregateMethods())
+defaults <- lapply(metabolyseR:::aggregateMethods(),formals)
 defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
 defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
 defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
@@ -396,7 +427,7 @@ This classification analysis can then be performed on the pre-treated data from 
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-The classification results will then be returned as a table containing the accuracies, AUCs and margins for each iteration, method and pairwise.
+The classification results will then be returned as a table containing the accuracy, AUCs and margins for each iteration, method and pairwise.
 
 ## Feature Selection
 
@@ -496,7 +527,7 @@ The results will be returned as a table containing the significantly correlated 
     + `plotClassification()` - classification measures of pairwise comparisons
     + `plotClassificationDendrogram()` - dendrogram of classification results
 
-* feauture selection
+* feature selection
     + `plotFeatureSelecton()` - feature selection scores of pairwise comparisons
     + `plotExplanatoryHeatmap()` - heat map of explanatory features
     + `plotFeature()` - feature trends
