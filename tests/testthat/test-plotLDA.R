@@ -16,7 +16,7 @@ test_that('plotLDA returns a plot',{
   inf2 <- abr1$fact[abr1$fact$class %in% c('6'),][1:10,]
   info <- rbind(inf1,inf2)
   analysis <- metabolyseR::metabolyse(dat,info,p)
-  pl <- metabolyseR::plotPCA(analysis)
+  pl <- metabolyseR::plotLDA(analysis)
   
   expect_false(F %in% (class(pl) == c('gg','ggplot')))
 })
