@@ -56,6 +56,7 @@ imputeMethods <- function(method = NULL, description = F){
           gather('Feature','Intensity',-ID)
         
         if (0 %in% x$Intensity) {
+          set.seed(1234)
           capture.output(d <- missForest(d))
           d <- d$ximp %>%
             as_tibble()
