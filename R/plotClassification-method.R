@@ -3,7 +3,7 @@
 #' @description Plot classification results.
 #' @param analysis object of class Analysis containing analysis results
 #' @param method results of classifier to plot
-#' @importFrom ggplot2 aes_string
+#' @importFrom ggplot2 aes_string geom_errorbarh theme element_text
 #' @examples \dontrun{
 #' library(FIEmspro)
 #' data(abr1)

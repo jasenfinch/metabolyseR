@@ -24,10 +24,16 @@ setMethod("classification", signature = "Analysis",
               par <- newValipars()
             }
             dat.pair <- dat.sel1(dat,cls,pwise = sort(unique(as.character(cls))),pars = par)
+            
             com <- sapply(dat.pair, function(y){y$name})
             if (length(com) > 1) {
               dat.pair <- dat.pair[-which(sapply(com,str_count,pattern = '~') > 1)]
             }
+            
+            if (length(parameters$pairwises) > 0) {
+              dat.pair <- dat.pair[names(dat.pair) %in% parameters$pairwises]
+            }
+            
             if (length(dat.pair) < parameters$nCores) {
               nCores <- length(dat.pair)
             } else {

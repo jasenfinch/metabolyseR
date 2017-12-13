@@ -8,6 +8,10 @@ Methods for pre-treatment, classification, feature selection and correlation ana
 
 ```r
 devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
+```
 
+### Usage
+
+```r
 vignette('metabolyseR-usage',package = 'metabolyseR')
 ```

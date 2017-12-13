@@ -1,8 +1,15 @@
 suppressPackageStartupMessages(library(FIEmspro))
 
-context('metabolyse')
+context('show')
 
-test_that('metabolyse-works', {
+test_that('AnalysisParameters show method works',{
+  p <- analysisParameters()
+  out <- capture.output(show(p))
+  
+  expect_true(length(out) == 53)
+})
+
+test_that('Analysis show method works',{
   data(abr1)
   p <- analysisParameters()
   p@preTreat <- list(
@@ -19,7 +26,7 @@ test_that('metabolyse-works', {
   inf2 <- abr1$fact[abr1$fact$class %in% c('6'),][1:10,]
   info <- rbind(inf1,inf2)
   analysis <- metabolyseR::metabolyse(dat,info,p)
-
-  expect_true(isS4(analysis))
-  expect_true(class(analysis) == 'Analysis')
+  out <- capture.output(show(analysis))
+  
+  expect_true(length(out) == 26)
 })

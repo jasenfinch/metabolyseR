@@ -36,34 +36,40 @@ setMethod('show',signature = 'AnalysisParameters',
             
             if ('classification' %in% elements) {
               classification <- slot(object,'classification')
-              classification[sapply(classification,length) == 1] <- lapply(names(classification)[sapply(classification,length) == 1],
-                                                                           function(x,object){
-                                                                             paste('\t',x,' = ',object[[x]],'\n',sep = '')
-                                                                           },object = classification)
-              classification[sapply(classification,length) > 1] <- lapply(names(classification)[sapply(classification,length) > 1],
-                                                                          function(x,object){
-                                                                            n <- paste('\t\t',names(object[[x]]),' = ',object[[x]],'\n',sep = '')
-                                                                            n <- paste(n,collapse = '')
-                                                                            n <- paste('\t',x,'\n',n,sep = '')
-                                                                          },object = classification)
+              classification[sapply(classification,length) == 0] <- NULL
+              classification[sapply(classification,length) == 1] <- lapply(names(classification)[
+                sapply(classification,length) == 1],
+                function(x,object){
+                  paste('\t',x,' = ',object[[x]],'\n',sep = '')
+                },object = classification)
+              classification[sapply(classification,length) > 1] <- lapply(names(classification)[
+                sapply(classification,length) > 1],
+                function(x,object){
+                  n <- paste('\t\t',names(object[[x]]),' = ',object[[x]],'\n',sep = '')
+                  n <- paste(n,collapse = '')
+                  n <- paste('\t',x,'\n',n,sep = '')
+                },object = classification)
               classification <- paste(classification,collapse = '')
             }
             
             if ('featureSelection' %in% elements) {
               featureSelection <- slot(object,'featureSelection')
-              featureSelection[sapply(featureSelection,class) != 'list'] <- lapply(names(featureSelection)[sapply(featureSelection,class) != 'list'],
-                                                                                   function(x,object){
-                                                                                     paste('\t',x,' = ',object[[x]],'\n',sep = '')
-                                                                                   },object = featureSelection)
-              featureSelection[sapply(featureSelection,class) == 'list'] <- lapply(names(featureSelection)[sapply(featureSelection,class) == 'list'],
-                                                                                   function(x,object){
-                                                                                     object <- object[[x]]
-                                                                                     n <- lapply(object,function(y){
-                                                                                       paste('\t\t',names(y),' = ',y,'\n',sep = '')
-                                                                                     })
-                                                                                     n <- paste(n,collapse = '')
-                                                                                     n <- paste('\t',x,'\n',n,sep = '')
-                                                                                   },object = featureSelection)
+              featureSelection[sapply(featureSelection,length) == 0] <- NULL
+              featureSelection[sapply(featureSelection,class) != 'list'] <- lapply(names(featureSelection)[
+                sapply(featureSelection,class) != 'list'],
+                function(x,object){
+                  paste('\t',x,' = ',object[[x]],'\n',sep = '')
+                },object = featureSelection)
+              featureSelection[sapply(featureSelection,class) == 'list'] <- lapply(names(featureSelection)[
+                sapply(featureSelection,class) == 'list'],
+                function(x,object){
+                  object <- object[[x]]
+                  n <- lapply(object,function(y){
+                    paste('\t\t',names(y),' = ',y,'\n',sep = '')
+                  })
+                  n <- paste(n,collapse = '')
+                  n <- paste('\t',x,'\n',n,sep = '')
+                },object = featureSelection)
               featureSelection <- paste(featureSelection,collapse = '')
             }
             
