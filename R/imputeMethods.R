@@ -9,6 +9,7 @@ imputeMethods <- function(method = NULL, description = F){
     all = function(dat, occupancy = 2/3){
       d <- as.matrix(dat$Data)
       d[d == 0] <- NA
+      set.seed(1234)
       capture.output(d <- missForest(d))
       dat$Data <- as_tibble(d$ximp)
       return(dat)
@@ -27,6 +28,7 @@ imputeMethods <- function(method = NULL, description = F){
         dat.1 <- d[,occ < occupancy]
         d <- d[,!(occ < occupancy)]
         d[d == 0] <- NA
+        set.seed(1234)
         capture.output(d <- missForest(d))
         d <- d$ximp
         d <- cbind(dat.1,d)
