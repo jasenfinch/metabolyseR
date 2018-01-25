@@ -5,6 +5,10 @@ cache: packages
 bioc_required: true
 warnings_are_errors: true
  
+r:
+  - release
+  - devel
+
 bioc_packages:
     - impute
 
