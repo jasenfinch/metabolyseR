@@ -18,6 +18,9 @@ r_github_packages:
 r_packages:
     - covr
     - testthat
+    - rlang
+    - digest
+    - devtools
 
 after_success:
     - Rscript -e 'library(covr); codecov()'
