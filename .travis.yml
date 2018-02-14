@@ -13,7 +13,7 @@ bioc_packages:
     - impute
 
 r_github_packages:
-    - wilsontom/FIEmspro
+    - aberhrml/FIEmspro
 
 r_packages:
     - covr
@@ -21,8 +21,6 @@ r_packages:
     - rlang
     - digest
     - devtools
-
-r_binary_packages:
     - ncdf4
 
 after_success:
