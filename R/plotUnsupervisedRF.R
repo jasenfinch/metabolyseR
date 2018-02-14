@@ -1,5 +1,10 @@
 #' plotUnsupervisedRF
 #' @rdname plotUnsupervisedRF
+#' @param analysis object of class Analysis containing analysis results
+#' @param cls info column to use for sample labelling
+#' @param seed random number seed
+#' @param ... additional parameters to pass to randomForest
+#' @importFrom stats cmdscale
 #' @export
 
 setMethod('plotUnsupervisedRF', signature = 'Analysis',

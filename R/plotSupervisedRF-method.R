@@ -1,5 +1,9 @@
 #' plotSupervisedRF
 #' @rdname plotSupervisedRF
+#' @param analysis object of class Analysis containing analysis results
+#' @param cls info column to use for sample classes
+#' @param seed random number seed
+#' @param ... additional parameters to pass to randomForest
 #' @export
 
 setMethod('plotSupervisedRF', signature = 'Analysis',

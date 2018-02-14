@@ -8,6 +8,15 @@
 \S4method{plotUnsupervisedRF}{Analysis}(analysis, cls = "class",
   seed = 1234, ...)
 }
+\arguments{
+\item{analysis}{object of class Analysis containing analysis results}
+
+\item{cls}{info column to use for sample labelling}
+
+\item{seed}{random number seed}
+
+\item{...}{additional parameters to pass to randomForest}
+}
 \description{
 plotUnsupervisedRF
 }
