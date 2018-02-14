@@ -15,12 +15,14 @@ bioc_packages:
 r_github_packages:
     - wilsontom/FIEmspro
 
-r_binary_packages:
+r_packages:
     - covr
     - testthat
     - rlang
     - digest
     - devtools
+
+r_binary_packages:
     - ncdf4
 
 after_success:
