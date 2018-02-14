@@ -4,7 +4,10 @@ sudo: required
 cache: packages
 bioc_required: true
 warnings_are_errors: true
- 
+
+apt_packages:
+ - libnetcdf-dev
+
 r:
   - release
   - devel
