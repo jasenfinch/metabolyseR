@@ -87,3 +87,8 @@ setGeneric('plotFeature',function(analysis, feature, cls = 'class'){
 setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ptol_pal()(1)){
   standardGeneric('plotExplanatoryHeatmap')
 })
+
+#' @rdname plotSupervisedRF
+setGeneric('plotSupervisedRF',function(analysis,cls = 'class',...){
+  standardGeneric('plotSupervisedRF')
+})
