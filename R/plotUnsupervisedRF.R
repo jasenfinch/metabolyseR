@@ -1,27 +1,29 @@
-#' plotSupervisedRF
-#' @rdname plotSupervisedRF
+#' plotUnsupervisedRF
+#' @rdname plotUnsupervisedRF
 #' @export
 
-setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(analysis,cls = 'class',seed = 1234,...){
+setMethod('plotUnsupervisedRF', signature = 'Analysis',
+          function(analysis,cls = 'class',seed = 1234, ...){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
+              cls <- analysisPlot@data$cls
               prox <- analysisPlot@data$RFresults$proximity
               
               distance <- {1 - rf$proximity} %>% 
                 cmdscale() %>%
                 as_tibble() %>%
                 rename(`Dimension 1` = V1,`Dimension 2` = V2) %>%
-                mutate(Class = analysisPlot@data$RFresults$y)
+                bind_cols(analysisPlot@data$Info[,analysisPlot@data$cls]) %>%
+                select(`Dimension 1`,`Dimension 2`,Class = cls)
               
               pl <- distance %>%
-                ggplot(aes(x = `Dimension 1`,y = `Dimension 2`,colour = Class, shape = Class)) +
+                ggplot(aes(x = `Dimension 1`,y = `Dimension 2`,colour = Class,shape = Class)) +
                 geom_hline(yintercept = 0,colour = 'lightgray',linetype = 2) +
                 geom_vline(xintercept = 0,colour = 'lightgray',linetype = 2) +
                 geom_point() +
                 theme_bw() +
-                ggtitle('MDS plot of a supervised\nrandom forest') +
+                ggtitle('MDS plot of an unsupervised\nrandom forest') +
                 theme(plot.title = element_text(face = "bold"),
                       legend.title = element_text(face = "bold"),
                       axis.title = element_text(face = "bold"))
@@ -62,9 +64,9 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
             }
             
             set.seed(seed)
-            rf <- randomForest(preTreatedData(analysis)$Data,y = factor(unlist(preTreatedData(analysis)$Info[,cls])),proximity = T,...)
+            rf <- randomForest(preTreatedData(analysis)$Data,proximity = T,...)
             
-            analysisPlot@data <- list(Data = preTreatedData(analysis)$Data,Info = preTreatedData(analysis)$Info,RFresults = rf)
+            analysisPlot@data <- list(Data = preTreatedData(analysis)$Data,Info = preTreatedData(analysis)$Info,RFresults = rf, cls = cls)
             
             analysisPlot@plot <- analysisPlot@func(analysisPlot)
             

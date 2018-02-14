@@ -89,6 +89,11 @@ setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', thresho
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(analysis,cls = 'class',...){
+setGeneric('plotSupervisedRF',function(analysis,cls = 'class', ...){
   standardGeneric('plotSupervisedRF')
+})
+
+#' @rdname plotSupervisedRF
+setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', ...){
+  standardGeneric('plotUnsupervisedRF')
 })
