@@ -15,12 +15,13 @@ bioc_packages:
 r_github_packages:
     - wilsontom/FIEmspro
 
-r_packages:
+r_binary_packages:
     - covr
     - testthat
     - rlang
     - digest
     - devtools
+    - ncdf4
 
 after_success:
     - Rscript -e 'library(covr); codecov()'
