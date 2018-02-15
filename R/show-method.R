@@ -144,3 +144,15 @@ setMethod('show',signature = 'Analysis',
             
           }
 )
+
+#' show-AnalysisPlot
+#' @description show method for AnalysisPlot class.
+#' @param object S4 object of class AnalysisPlot
+#' @export
+
+setMethod('show',signature = 'AnalysisPlot',
+          function(object){
+            object@func(object) %>%
+              print()
+          }
+)

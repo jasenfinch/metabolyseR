@@ -1,3 +1,5 @@
+setOldClass('gg')
+
 #' AnalysisParameters
 #' @rdname AnalysisParameters-class
 #' @description An S4 class to store analysis parameters
@@ -36,5 +38,21 @@ setClass('Analysis',
            classification = 'tbl_df',
            featureSelection = 'tbl_df',
            correlations = 'tbl_df'
+         )
+)
+
+#' AnalysisPlot
+#' @rdname AnalysisPlot-class
+#' @description An S4 class to store an analysis plot
+#' @slot data list containing data used to generate the plot
+#' @slot plot ggplot object containing the plot
+#' @slot func function used to generate the plot
+#' @export
+
+setClass('AnalysisPlot',
+         slots = list(
+           data = 'list',
+           plot = 'gg',
+           func = 'function'
          )
 )
