@@ -18,5 +18,5 @@ test_that('plotPCA returns a plot',{
   analysis <- metabolyseR::metabolyse(dat,info,p)
   pl <- metabolyseR::plotPCA(analysis)
   
-  expect_false(F %in% (class(pl) == c('gg','ggplot')))
+  expect_true(class(pl) == 'AnalysisPlot')
 })
