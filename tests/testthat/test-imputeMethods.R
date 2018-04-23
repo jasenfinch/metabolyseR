@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+suppressPackageStartupMessages(library(metaboData))
 
 context('imputeMethods')
 
@@ -35,11 +35,7 @@ test_that('methods work',{
   dat <- list(Data = as_tibble(abr1$neg[abr1$fact$class %in% c('1','6'),500:600]), Info = as_tibble(cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),]))))
   m <- lapply(m,function(x,dat){
     method <- metabolyseR:::imputeMethods(x)
-    if (x == 'class') {
-      res <- method(dat,nCores = 1)
-    } else {
-      res <- method(dat) 
-    }
+    res <- method(dat,nCores = 1)
     return(res)
   },dat = dat)
   
