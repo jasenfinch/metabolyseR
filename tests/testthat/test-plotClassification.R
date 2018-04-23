@@ -19,5 +19,5 @@ test_that('plotClassification returns a plot',{
   analysis <- metabolyseR::metabolyse(dat,info,p)
   pl <- metabolyseR::plotClassification(analysis)
   
-  expect_false(F %in% (class(pl) == c('gg','ggplot')))
+  expect_true(class(pl) == 'AnalysisPlot')
 })
