@@ -1,5 +1,5 @@
 ## FIEmspro https://github.com/aberHRML/FIEmspro nlda functionality
-
+#' @importFrom stats model.extract model.matrix
 nlda.formula <-
   function (formula, data = NULL, ..., subset, na.action = na.omit)
   {
@@ -32,6 +32,7 @@ nlda.formula <-
 
 ## wll-20-06-2006: check if cl has empty class
 #'@importFrom e1071 naiveBayes
+#'@importFrom stats cov predict 
 
 `nlda.default` <-
   function(dat,cl, prior=NULL,scale=FALSE,comprank = FALSE,...) 
@@ -161,6 +162,8 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 
 ## wll-20-06-2007: fix a bug
 #' @importFrom MASS ldahist eqscplot
+#' @importFrom graphics text pairs
+
 `plot.nlda` <-
   function(x, panel = panel.nlda, cex=0.7, dimen, abbrev = FALSE, ...)
   {
