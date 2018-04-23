@@ -43,7 +43,7 @@ setMethod("featureSelection", signature = "Analysis",
             clust = makeCluster(nCores, type = parameters$clusterType)
             res.pair <- parLapply(clust,dat.pair,function(y,method,pars){
               res.method <- lapply(method,function(z,dat,pars){
-                m <- metabolyseR:::fsMethods(z)
+                m <- fsMethods(z)
                 if (!is.null(pars)) {
                   newPars <- formals(m)
                   newPars[names(pars[[z]])] <- pars[[z]]
