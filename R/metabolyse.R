@@ -8,7 +8,7 @@
 #' @importFrom tibble tibble as_tibble 
 #' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters('preTreat')
 #' p@preTreat <- list(

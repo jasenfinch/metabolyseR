@@ -31,6 +31,8 @@ nlda.formula <-
   }
 
 ## wll-20-06-2006: check if cl has empty class
+#'@importFrom e1071 naiveBayes
+
 `nlda.default` <-
   function(dat,cl, prior=NULL,scale=FALSE,comprank = FALSE,...) 
   {
@@ -179,13 +181,12 @@ nlda.formula <-
 #' 
 #' @aliases nlda nlda.default nlda.formula print.nlda summary.nlda
 #' print.summary.nlda
-#' @usage nlda(dat, \dots{})
-#' \method{nldadefault}(dat,cl,prior=NULL,scale=FALSE,comprank = FALSE,
-#' \dots{})
+#' @usage nlda(dat, \dots)
+#' \method{nlda}{default}(dat,cl,prior=NULL,scale=FALSE,comprank=FALSE,\dots)
 #' 
-#' \method{nldaformula}(formula, data = NULL, \dots{}, subset, na.action =
-#' na.omit)
-#' @param formula A formula of the form \code{groups ~ x1 + x2 + \dots{}} That
+#' \method{nlda}{formula}(formula, data = NULL, \dots, subset, na.action = na.omit)
+#' 
+#' @param formula A formula of the form \code{groups ~ x1 + x2 + \dots} That
 #' is, the response is the grouping factor and the right hand side specifies
 #' the (non-factor) discriminators.
 #' @param data Data frame from which variables specified in \code{formula} are
@@ -241,9 +242,15 @@ nlda.formula <-
 #' @examples
 #' 
 #' ## load abr1
+#' library(metaboData)
 #' data(abr1)
-#' cl   <- factor(abr1$fact$class)
-#' dat <- preproc(abr1$pos , y=cl, method=c("log10","TICnorm"),add=1)[,110:500]  
+#' 
+#' p <- analysisParameters('preTreat')
+#' p@preTreat <- list(transform = list(log10 = list())) 
+#' dat <- metabolyse(abr1$neg,abr1$fact,p)
+#' 
+#' cl   <- factor(preTreatedInfo(dat)$class)
+#' dat <- preTreatedData(dat)
 #' 
 #' ## define random training and test datasets
 #' idx <- sample(1:nrow(dat), round((2/3)*nrow(dat)), replace=FALSE) 
@@ -267,7 +274,7 @@ nlda.formula <-
 #' ## confusion matrix and error rates
 #' table(test.t,pred.te)
 #' 
-#' 
+
 nlda <- function (dat, ...) UseMethod ("nlda")
 
 ## wll-20-06-2007: fix a bug
@@ -283,8 +290,8 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 #' For the length of \code{dimen} is equal to 2, a scatter plot is drawn.
 #' Otherwise, a set of histograms or density plots are drawn.
 #' 
-#' @usage \method{plotnlda}(x, panel = panel.nlda, cex = 0.7, dimen, abbrev =
-#' FALSE, \dots{})
+#' @usage \method{plot}{nlda}(x, panel = panel.nlda, cex = 0.7, dimen, abbrev =
+#' FALSE, \dots)
 #' @param x An object of class \code{nlda}.
 #' @param panel The panel function used to plot the data.
 #' @param cex Graphics parameter \code{cex} for labels on plots.
@@ -301,9 +308,15 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 #' @examples
 #' 
 #' ## load abr1
+#' library(metaboData)
 #' data(abr1)
-#' cl   <- factor(abr1$fact$class)
-#' dat <- preproc(abr1$pos , y=cl, method=c("log10","TICnorm"),add=1)[,110:500]  
+#' 
+#' p <- analysisParameters('preTreat')
+#' p@preTreat <- list(transform = list(log10 = list())) 
+#' dat <- metabolyse(abr1$neg,abr1$fact,p)
+#' 
+#' cl   <- factor(preTreatedInfo(abr1$fact)$class)
+#' dat <- preTreatedData(dat)
 #' 
 #' ## build model on all the data available
 #' model    <- nlda(dat,cl)
@@ -315,6 +328,8 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 #' plot(model,main = "Training data",abbrev = TRUE)
 #' 
 #' 
+#' @importFrom MASS ldahist eqscplot
+
 `plot.nlda` <-
   function(x, panel = panel.nlda, cex=0.7, dimen, abbrev = FALSE, ...)
   {
@@ -353,11 +368,11 @@ nlda <- function (dat, ...) UseMethod ("nlda")
     
     if (nDimen <= 2) {
       if (nDimen == 1) {    ## One component
-        MASS:::ldahist(xval[,1], g, ...)        
+        ldahist(xval[,1], g, ...)        
       } else {              ## Second component versus first
         xlab <- varlab[1]
         ylab <- varlab[2]
-        MASS:::eqscplot(xval, xlab=xlab, ylab=ylab, type="n", ...)
+        eqscplot(xval, xlab=xlab, ylab=ylab, type="n", ...)
         panel(xval[, 1], xval[, 2], ...)
       }
     } else {               ## Pairwise scatterplots of several components
@@ -377,7 +392,7 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 #' class \code{nlda}. If \code{newdata} is omitted, the results of training
 #' data in \code{nlda} object will be returned.
 #' 
-#' @usage \method{predictnlda}(object, newdata, dim2use = NULL, \dots{})
+#' @usage \method{predict}{nlda}(object, newdata, dim2use = NULL, \dots)
 #' @param object Object of class \code{nlda}.
 #' @param newdata A matrix or data frame of cases to be classified.
 #' @param dim2use The dimension of rotated data set to be used in prediction.
@@ -394,7 +409,7 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 #' @keywords classif
 #' @examples
 #' 
-#' 
+#' library(metaboData)
 #' data(abr1)
 #' cl   <- factor(abr1$fact$class)
 #' dat  <- abr1$pos
@@ -415,7 +430,7 @@ nlda <- function (dat, ...) UseMethod ("nlda")
 #' ## confusion matrix
 #' table(test.t,pred.te$class)
 #' 
-#' 
+
 `predict.nlda` <-
   function(object, newdata, dim2use=NULL,...)
   {
