@@ -104,11 +104,13 @@ The order of the rows of the info table should agree with those in the data tabl
 `metabolyse` returns an S4 object of class `Analysis`.
 Data and analysis results can be extracted from this object using the following functions:
 
-* `rawData` - raw data and info.
-* `preTreatedData` - pre-treated data and info.
-* `classificationResults` - classification results.
-* `featureSelectionResults` - feature selection results.
-* `correlationResults` - correlation results.
+* `rawData()` - raw data.
+* `rawInfo()` - raw info.
+* `preTreatedData()` - pre-treated data.
+* `preTreatedData()` - pre-treated info.
+* `classificationResults()` - classification results.
+* `featureSelectionResults()` - feature selection results.
+* `correlationResults()` - correlation results.
 
 If data pre-treatment has not been performed prior to classification or feature selection, the raw data will automatically be used.
 The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
@@ -460,7 +462,7 @@ This feature selection analysis can then be performed using the following.
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-The results will be returned as a table containing the scores for each variable, pairwise and method.
+The results will be returned as a table containing the scores and *p* values for each variable, pairwise and method.
 
 There are a number of methods available which are shown in the table below.
 
@@ -474,6 +476,7 @@ if (T %in% (sapply(args,length) > 1)) {
 }
 args <- unlist(args)
 score <- unlist(lapply(desc,function(x){return(x$score)}))
+Pvalue <- unlist(lapply(desc,function(x){return(x$Pvalue)}))
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::fsMethods())
 defaults <- lapply(metabolyseR:::fsMethods(),formals)
@@ -484,7 +487,7 @@ if (T %in% (sapply(defaults,length) > 1)) {
   defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
 }
 defaults <- unlist(defaults)
-tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults, Score = score)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults, Score = score,`p value` = Pvalue)
 
 knitr::kable(tab)
 ```

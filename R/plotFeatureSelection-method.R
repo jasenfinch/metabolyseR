@@ -48,15 +48,15 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
             }
             
             featureSelection <- featureSelection %>%
-              mutate(`-log10(Score)` = -log10(Score))
+              mutate(`-log10(Pvalue)` = -log10(Pvalue))
             
             
             pl <- featureSelection %>%
-              ggplot(aes(x = Index,y = `-log10(Score)`)) +
+              ggplot(aes(x = Index,y = `-log10(Pvalue)`)) +
               scale_colour_ptol() +
               guides(colour = FALSE) +
               theme_bw() +
-              ylab(expression(-log[10]*FPR))
+              ylab(expression(-log[10]~italic(p)~value))
             
             if (modes == T) {
               pl <- pl + 

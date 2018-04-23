@@ -88,10 +88,10 @@ setMethod('plotPCA',signature = 'Analysis',
               pl              
             }
             
-            pca <- prcomp(preTreatedData(analysis)$Data,scale. = scale,center = center)
+            pca <- prcomp(preTreatedData(analysis),scale. = scale,center = center)
             
-            analysisPlot@data <- list(Data = preTreatedData(analysis)$Data,
-                                      Info = preTreatedData(analysis)$Info,
+            analysisPlot@data <- list(Data = preTreatedData(analysis),
+                                      Info = preTreatedInfo(analysis),
                                       PCAresults = pca,
                                       cls = cls)
             analysisPlot@plot <- analysisPlot@func(analysisPlot)
