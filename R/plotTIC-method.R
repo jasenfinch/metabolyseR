@@ -24,8 +24,7 @@
 setMethod('plotTIC',signature = 'Analysis',
           function(analysis, by = 'injOrder', colour = 'batchBlock', modes = T) {
             dat <- rawData(analysis)
-            info <- dat$Info
-            dat <- dat$Data
+            info <- rawInfo(analysis)
             
             index <- info %>%
               select(Index = by,Colour = colour)
