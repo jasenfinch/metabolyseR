@@ -20,8 +20,7 @@
 setMethod('plotFeature',signature = 'Analysis',
           function(analysis, feature, cls = 'class'){
             dat <- preTreatedData(analysis)
-            info <- dat$Info
-            dat <- dat$Data
+            info <- preTreatedInfo(analysis)
             
             info <- info %>%
               select(Class = cls)
