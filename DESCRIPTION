@@ -22,7 +22,8 @@ Imports: FIEmspro,
          purrr,
          doParallel,
          e1071,
-         MASS
+         MASS,
+         forestControl
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

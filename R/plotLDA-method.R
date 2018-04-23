@@ -95,13 +95,13 @@ setMethod('plotLDA',signature = 'Analysis',
               pl
             }
             
-            info <- preTreatedData(analysis)$Info %>%
+            info <- preTreatedInfo(analysis) %>%
               select(cls)
             colnames(info)[1] <- 'Class'
             
-            lda <- nlda(preTreatedData(analysis)$Data,cl = info$Class,scale = scale,center = center)
-            analysisPlot@data <- list(Data = preTreatedData(analysis)$Data,
-                                      Info = preTreatedData(analysis)$Info,
+            lda <- nlda(preTreatedData(analysis),cl = info$Class,scale = scale,center = center)
+            analysisPlot@data <- list(Data = preTreatedData(analysis),
+                                      Info = preTreatedInfo(analysis),
                                       LDAresults = lda)
             analysisPlot@plot <- analysisPlot@func(analysisPlot)
             return(analysisPlot)

@@ -5,11 +5,21 @@ setMethod("featureSelection", signature = "Analysis",
           function(x){
             parameters <- x@parameters@featureSelection
             if (length(x@preTreated) > 0) {
-              dat <- x@preTreated$Data
-              cls <- factor(unlist(x@preTreated$Info[,parameters$cls]))
+              dat <- x %>%
+                preTreatedData()
+              cls <- x  %>%
+                preTreatedInfo() %>%
+                select(parameters$cls) %>%
+                unlist() %>%
+                factor()
             } else {
-              dat <- x@rawData$Data
-              cls <- factor(unlist(x@rawData$Info[,parameters$cls]))
+              dat <- x %>%
+                rawData()
+              cls <-  x  %>%
+                rawInfo() %>%
+                select(parameters$cls) %>%
+                unlist() %>%
+                factor()
             }
             
             com <- combn(unique(as.character(cls)),2)
@@ -47,21 +57,14 @@ setMethod("featureSelection", signature = "Analysis",
             },method = parameters$method,pars = parameters$pars)
             stopCluster(clust)
             names(res.pair) <- com
-            res.method <- lapply(parameters$method,function(y,res.pair){
-              res.pair <- lapply(res.pair,function(z,method,com){
-                z[[method]]
-                },method = y,com = names(res.pair))
-              f <- res.pair[[1]]$Feature
-              res.pair <- lapply(res.pair,function(z){z$Score})
-              res.pair <- as.data.frame(res.pair)
-              colnames(res.pair) <- com
-              res.pair <- bind_cols(Feature = f,res.pair)
-              return(res.pair)
-            },res.pair = res.pair)
-            names(res.method) <- parameters$method
             
-            feat <- bind_rows(res.method,.id = 'Method')
-            feat <- gather(feat,'Pairwise','Score',-(Method:Feature))
+            feat <- res.pair %>%
+              map(~{
+              d <- .
+              d %>%
+                bind_rows(.id = 'Method')
+            }) %>%
+              bind_rows(.id = 'Pairwise')
             
             x@featureSelection <- feat
             x@log$featureSelection <- date()

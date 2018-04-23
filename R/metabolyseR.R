@@ -3,7 +3,7 @@ globalVariables(c('Class',
                   'Feature',
                   'Intensity',
                   'ID',
-                  '-log10(Score)',
+                  '-log10(Pvalue)',
                   '.',
                   'n',
                   'Count',
@@ -35,5 +35,8 @@ globalVariables(c('Class',
                   'Mode',
                   'RSD',
                   'TIC',
-                  'r'
+                  'r',
+                  'SelectionFrequency',
+                  'FPR',
+                  'Pvalue'
                   ))

@@ -20,7 +20,7 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(metabolyseR:::fsMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments','score')})))
+  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments','score','Pvalue')})))
 })
 
 test_that('number of method arguments matches description arguments', {
@@ -43,9 +43,10 @@ test_that('methods work',{
   names(m) <- meth
   
   expect_false(F %in% sapply(m,function(x){class(x) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x){ncol(x) == 2}))
-  expect_false(F %in% sapply(m,function(x){colnames(x) == c('Feature','Score')}))
+  expect_false(F %in% sapply(m,function(x){ncol(x) == 3}))
+  expect_false(F %in% sapply(m,function(x){colnames(x) == c('Feature','Score','Pvalue')}))
   expect_false(F %in% sapply(m,function(x){class(x$Feature) == 'character'}))
   expect_false(F %in% sapply(m,function(x){class(x$Score) == 'numeric'}))
+  expect_false(F %in% sapply(m,function(x){class(x$Pvalue) == 'numeric'}))
   expect_false(F %in% sapply(m,function(x,nFeat){nrow(x) == nFeat},nFeat = ncol(dat) - 1))
 })

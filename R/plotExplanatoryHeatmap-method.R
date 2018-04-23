@@ -32,8 +32,7 @@
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
           function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ggthemes::ptol_pal()(1)){
             dat <- preTreatedData(analysis)
-            info <- dat$Info
-            dat <- dat$Data
+            info <- preTreatedInfo(analysis)
             
             cls <- analysis@parameters@featureSelection$cls
             
@@ -41,7 +40,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
               select(Class = cls)
             
             feat <- featureSelectionResults(analysis) %>%
-              filter(Method == method,Score < threshold)
+              filter(Method == method,Pvalue < threshold)
             
             if (!is.null(pairwises)) {
               feat <- feat %>%
