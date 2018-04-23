@@ -10,9 +10,13 @@ imputeMethods <- function(method = NULL, description = F){
     all = function(dat, occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'FORK'){
       d <- as.matrix(dat$Data)
       d[d == 0] <- NA
-      cl <- makeCluster(nCores,type = clusterType)
-      registerDoParallel(cl)
-      capture.output(d <- missForest(d,parallelize = parallel))
+      if (nCores > 1) {
+        cl <- makeCluster(nCores,type = clusterType)
+        registerDoParallel(cl)
+        capture.output(d <- missForest(d,parallelize = parallel))  
+      } else {
+        capture.output(d <- missForest(d))  
+      }
       dat$Data <- as_tibble(d$ximp)
       return(dat)
     },

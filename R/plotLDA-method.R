@@ -7,7 +7,6 @@
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
-#' @importFrom FIEmspro nlda
 #' @examples 
 #' 
 #' library(FIEmspro)

@@ -18,6 +18,7 @@ bioc_packages:
 
 r_github_packages:
     - aberhrml/FIEmspro
+    - jasenfinch/metaboData
 
 r_packages:
     - covr
