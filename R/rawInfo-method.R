@@ -1,12 +1,12 @@
-#' rawData-Analysis
-#' @rdname rawData
-#' @description Extract raw data from an Analysis object
+#' rawInfo-Analysis
+#' @rdname rawInfo
+#' @description Extract raw info from an Analysis object
 #' @param x Analysis object
 #' @export
 
 setMethod('rawData', signature = 'Analysis',
           function(x){
-            x <- x@rawData$Data
+            x <- x@rawData$Info
             return(x)
           }
 )

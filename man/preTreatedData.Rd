@@ -3,10 +3,13 @@
 \docType{methods}
 \name{preTreatedData}
 \alias{preTreatedData}
+\alias{preTreatedInfo}
 \alias{preTreatedData,Analysis-method}
 \title{preTreatedData-Analysis}
 \usage{
 preTreatedData(x)
+
+preTreatedInfo(x)
 
 \S4method{preTreatedData}{Analysis}(x)
 }
