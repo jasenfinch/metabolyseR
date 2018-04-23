@@ -33,7 +33,7 @@ setGeneric("preTreatedData", function(x) {
   standardGeneric("preTreatedData")
 })
 
-#' @rdname preTreatedData
+#' @rdname preTreatedInfo
 setGeneric("preTreatedInfo", function(x) {
   standardGeneric("preTreatedInfo")
 })
