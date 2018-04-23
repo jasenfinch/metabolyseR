@@ -160,7 +160,7 @@ nlda.formula <-
 nlda <- function (dat, ...) UseMethod ("nlda")
 
 ## wll-20-06-2007: fix a bug
-
+#' @importFrom MASS ldahist eqscplot
 `plot.nlda` <-
   function(x, panel = panel.nlda, cex=0.7, dimen, abbrev = FALSE, ...)
   {
