@@ -3,12 +3,12 @@
 \docType{methods}
 \name{rawInfo}
 \alias{rawInfo}
-\alias{rawData,Analysis-method}
+\alias{rawInfo,Analysis-method}
 \title{rawInfo-Analysis}
 \usage{
 rawInfo(x)
 
-\S4method{rawData}{Analysis}(x)
+\S4method{rawInfo}{Analysis}(x)
 }
 \arguments{
 \item{x}{Analysis object}

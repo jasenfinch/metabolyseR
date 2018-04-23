@@ -106,7 +106,8 @@ setMethod('show',signature = 'Analysis',
             time <- object@log$analysis
             
             rD <- rawData(object)
-            rD <- paste('\t\tNo. samples = ',nrow(rD$Info),'\n','\t\tNo. variables = ',ncol(rD$Data),'\n',sep = '')
+            rI <- rawInfo(object)
+            rD <- paste('\t\tNo. samples = ',nrow(rI),'\n','\t\tNo. variables = ',ncol(rD),'\n',sep = '')
             
             cat('\nAnalysis:\n','\t',time,'\n',sep = '')
             cat('\n\tRaw Data:\n',rD,sep = '')
@@ -114,7 +115,8 @@ setMethod('show',signature = 'Analysis',
             if ('preTreated' %in% elements) {
               time <- object@log$preTreatment
               pD <- preTreatedData(object)
-              pD <- paste('\t\tNo. samples = ',nrow(pD$Info),'\n','\t\tNo. variables = ',ncol(pD$Data),'\n',sep = '')
+              pI <- preTreatedData(object)
+              pD <- paste('\t\tNo. samples = ',nrow(pI),'\n','\t\tNo. variables = ',ncol(pD),'\n',sep = '')
               
               cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
             }
