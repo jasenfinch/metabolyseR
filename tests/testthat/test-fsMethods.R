@@ -20,7 +20,7 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(metabolyseR:::fsMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments','score','Pvalue')})))
+  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments','score','Pvalue','type')})))
 })
 
 test_that('number of method arguments matches description arguments', {
