@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+suppressPackageStartupMessages(library(metaboData))
 
 context('metabolyse')
 

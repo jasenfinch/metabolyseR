@@ -68,7 +68,7 @@ fsMethods <- function(method = NULL, description = F){
     fs.lm = function(dat,pAdjust = 'bonferroni'){
       indep <- dat$cls
       if (!(is.numeric(indep))) {
-        stop('Independant variable needs to be numeric')
+        stop('Independent variable needs to be numeric')
       }
       dat <- dat[,-1]
       feat <- colnames(dat)
