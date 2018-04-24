@@ -10,16 +10,14 @@ setMethod("featureSelection", signature = "Analysis",
               cls <- x  %>%
                 preTreatedInfo() %>%
                 select(parameters$cls) %>%
-                unlist() %>%
-                factor()
+                unlist()
             } else {
               dat <- x %>%
                 rawData()
               cls <-  x  %>%
                 rawInfo() %>%
                 select(parameters$cls) %>%
-                unlist() %>%
-                factor()
+                unlist()
             }
             
             com <- combn(unique(as.character(cls)),2)

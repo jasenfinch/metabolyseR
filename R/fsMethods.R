@@ -19,7 +19,7 @@ fsMethods <- function(method = NULL, description = F){
         group_by(Feature) %>%
         summarise(Score = mean(SelectionFrequency),
                   Pvalue = mean(FPR)
-                  )
+        )
       return(res)
     },
     
@@ -29,9 +29,9 @@ fsMethods <- function(method = NULL, description = F){
       feat <- colnames(dat)
       res <- dat %>%
         map_df(~{
-        r <- oneway.test(. ~ cls)
-        return(tibble(Score = r$statistic,Pvalue = r$p.value))
-      }) %>%
+          r <- oneway.test(. ~ cls)
+          return(tibble(Score = r$statistic,Pvalue = r$p.value))
+        }) %>%
         bind_cols(Feature = feat,.) %>%
         mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
       return(res)
@@ -89,23 +89,28 @@ fsMethods <- function(method = NULL, description = F){
     fs.rf = list(description = 'Random Forest using selection frequency based false positive rate for variable importance',
                  arguments = c(nreps = 'number of replications'), 
                  score = 'Selection Frequency',
-                 Pvalue = 'false positive rate'),
+                 Pvalue = 'false positive rate',
+                 type = 'discrimination'),
     fs.anova = list(description = 'One-way ANOVA', 
                     arguments = c(pAdjust = 'method for multiple testing p value correction'),
                     score = 'F statistic',
-                    Pvalue = 'Adjusted p value'),
+                    Pvalue = 'adjusted p value',
+                    type = 'discrimination'),
     fs.ttest = list(description = 'Welch t-test', 
                     arguments = c(pAdjust = 'method for multiple testing p value correction'),
                     score = 't statistic',
-                    Pvalue = 'Adjusted p value'),
+                    Pvalue = 'adjusted p value',
+                    type = 'discrimination'),
     fs.kruskal = list(description = 'Kruskal-Wallis Rank Sum Test', 
                       arguments = c(pAdjust = 'method for multiple testing p value correction'),
                       score = 'Kruskal-Wallis chi-squared',
-                      Pvalue = 'Adjusted p value'),
+                      Pvalue = 'adjusted p value',
+                      type = 'discrimination'),
     fs.lm = list(description = 'Linear regression',
                  arguments = c(pAdjust = 'method for multiple testing p value correction'),
                  score = 'R squared',
-                 Pvalue = 'Adjusted p value')
+                 Pvalue = 'adjusted p value',
+                 type = 'regression')
   )
   
   if (description == F) {

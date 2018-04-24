@@ -477,6 +477,7 @@ if (T %in% (sapply(args,length) > 1)) {
 args <- unlist(args)
 score <- unlist(lapply(desc,function(x){return(x$score)}))
 Pvalue <- unlist(lapply(desc,function(x){return(x$Pvalue)}))
+type <- unlist(lapply(desc,function(x){return(x$type)}))
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::fsMethods())
 defaults <- lapply(metabolyseR:::fsMethods(),formals)
@@ -487,7 +488,7 @@ if (T %in% (sapply(defaults,length) > 1)) {
   defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
 }
 defaults <- unlist(defaults)
-tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults, Score = score,`p value` = Pvalue)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults, Score = score,`p value` = Pvalue,Type = type)
 
 knitr::kable(tab)
 ```
