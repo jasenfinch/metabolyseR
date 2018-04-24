@@ -63,6 +63,25 @@ fsMethods <- function(method = NULL, description = F){
         bind_cols(Feature = feat,.) %>%
         mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
       return(res)
+    },
+    
+    fs.lm = function(dat,pAdjust = 'bonferroni'){
+      indep <- dat$cls
+      if (!(is.numeric(indep))) {
+        stop('Independant variable needs to be numeric')
+      }
+      dat <- dat[,-1]
+      feat <- colnames(dat)
+      res <- dat %>%
+        map_df(~{
+          r <- lm(. ~ indep) %>%
+            summary()
+          p <- pf(r$fstatistic[1],r$fstatistic[2],r$fstatistic[3],lower.tail=F)
+          return(tibble(Score = r$r.squared,Pvalue = p))
+        }) %>%
+        bind_cols(Feature = feat,.) %>%
+        mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
+      return(res)
     }
   )
   
@@ -82,7 +101,11 @@ fsMethods <- function(method = NULL, description = F){
     fs.kruskal = list(description = 'Kruskal-Wallis Rank Sum Test', 
                       arguments = c(pAdjust = 'method for multiple testing p value correction'),
                       score = 'Kruskal-Wallis chi-squared',
-                      Pvalue = 'Adjusted p value')
+                      Pvalue = 'Adjusted p value'),
+    fs.lm = list(description = 'Linear regression',
+                 arguments = c(pAdjust = 'method for multiple testing p value correction'),
+                 score = 'R squared',
+                 Pvalue = 'Adjusted p value')
   )
   
   if (description == F) {
