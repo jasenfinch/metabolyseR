@@ -23,9 +23,19 @@ setGeneric("rawData", function(x) {
   standardGeneric("rawData")
 })
 
+#' @rdname rawInfo
+setGeneric("rawInfo", function(x) {
+  standardGeneric("rawInfo")
+})
+
 #' @rdname preTreatedData
 setGeneric("preTreatedData", function(x) {
   standardGeneric("preTreatedData")
+})
+
+#' @rdname preTreatedInfo
+setGeneric("preTreatedInfo", function(x) {
+  standardGeneric("preTreatedInfo")
 })
 
 #' @rdname classificationResults

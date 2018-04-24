@@ -6,9 +6,10 @@
 #' @importFrom magrittr %>%
 #' @importFrom methods slotNames slot
 #' @importFrom tibble tibble as_tibble 
+#' @importFrom utils packageVersion
 #' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters('preTreat')
 #' p@preTreat <- list(
@@ -20,7 +21,7 @@
 
 metabolyse <- function(data,info,parameters = analysisParameters()){
   analysis <- new('Analysis',
-      log = list(analysis = date()),
+      log = list(packageVersion = packageVersion('metabolyseR'),analysis = date()),
       parameters = parameters,
       rawData = list(Info = as_tibble(info),Data = as_tibble(data)),
       preTreated = list(),

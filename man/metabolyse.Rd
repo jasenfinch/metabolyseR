@@ -17,7 +17,7 @@ metabolyse(data, info, parameters = analysisParameters())
 Analyse data based on specified analysis elements.
 }
 \examples{
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters('preTreat')
 p@preTreat <- list(

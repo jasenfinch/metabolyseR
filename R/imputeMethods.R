@@ -1,16 +1,22 @@
 #' @importFrom missForest missForest
 #' @importFrom parallel makeCluster stopCluster parLapply
-#' @importFrom dplyr arrange
+#' @importFrom dplyr arrange select
+#' @importFrom doParallel registerDoParallel
 
 imputeMethods <- function(method = NULL, description = F){
   
   methods <- list(
     
-    all = function(dat, occupancy = 2/3){
+    all = function(dat, occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'FORK'){
       d <- as.matrix(dat$Data)
       d[d == 0] <- NA
-      set.seed(1234)
-      capture.output(d <- missForest(d))
+      if (nCores > 1) {
+        cl <- makeCluster(nCores,type = clusterType)
+        registerDoParallel(cl)
+        capture.output(d <- missForest(d,parallelize = parallel))  
+      } else {
+        capture.output(d <- missForest(d))  
+      }
       dat$Data <- as_tibble(d$ximp)
       return(dat)
     },
@@ -56,7 +62,6 @@ imputeMethods <- function(method = NULL, description = F){
           gather('Feature','Intensity',-ID)
         
         if (0 %in% x$Intensity) {
-          set.seed(1234)
           capture.output(d <- missForest(d))
           d <- d$ximp %>%
             as_tibble()
@@ -79,7 +84,11 @@ imputeMethods <- function(method = NULL, description = F){
   
   descriptions <- list(
     all = list(description = 'Impute missing values across all samples using Random Forest',
-               arguments = c(occupancy = 'occupancy threshold for imputation')),
+               arguments = c(occupancy = 'occupancy threshold for imputation',
+                             parallel = 'parallel type to use. See `?missForest` for details',
+                             nCores = 'number of cores for parallisation',
+                             clusterType = 'cluster type for parallisation'
+                             )),
     class = list(description = 'Impute missing values class-wise using Random Forest',
                  arguments = c(cls = 'info column to use for class labels',
                                occupancy = 'occupancy threshold for imputation', 

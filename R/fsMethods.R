@@ -1,39 +1,25 @@
 #' @importFrom randomForest randomForest
 #' @importFrom stats oneway.test t.test kruskal.test
+#' @importFrom forestControl fpr_fs
+#' @importFrom purrr map_df
 
 fsMethods <- function(method = NULL, description = F){
   methods <- list(
     
     fs.rf = function(dat,nreps = 100){
-      res <- lapply(1:nreps,function(y,dat){
+      res <- map(1:nreps,~{
         cls <- factor(dat$cls)
         dat <- dat[,-1]
-        res <- randomForest::randomForest(dat,y = cls,importance = T, keep.forest = T,ntree = 1000)
-        SF <- res$forest$bestvar
-        SFtable <- data.frame(table(SF))
-        SFtable <- SFtable[-which(as.numeric(as.character(SFtable$SF)) == 0),]
-        SFtable$SF <- colnames(dat)[as.numeric(as.character(SFtable$SF))]
-        SFtable <- rbind(SFtable,data.frame(SF = colnames(dat)[!(colnames(dat) %in% SFtable$SF)],Freq = rep(0,length(which(!(colnames(dat) %in% SFtable$SF))))))
-        SFtable <- SFtable[order(SFtable$SF),]
-        kval <- round(mean(apply(res$forest$nodestatus,2,function(x){length(which(x == 1))})),0)
-        meas <- SFtable$Freq
-        names(meas) <- SFtable$SF
-        FPR <- sapply(sort(unique(meas)),selectionFrequencyFPR,K = kval,Tr = 1000,Ft = length(meas))
-        FPR.pos <- match(meas,sort(unique(meas)))
-        for (i in 1:length(FPR)) {
-          FPR.pos[which(FPR.pos == i)] <- FPR[i]
-        }
-        names(FPR.pos) <- SFtable$SF
-        FPR.pos <- data.frame(Feature = names(FPR.pos),Score = FPR.pos,stringsAsFactors = F)
-        return(FPR.pos)
-      },dat = dat)
-      f <- res[[1]]$Feature
-      res <- lapply(res,function(x){
-        return(x$Score)
-      })
-      res <- as.data.frame(res)
-      res <- rowMeans(res)
-      res <- tibble(Feature = f,Score = res)
+        res <- randomForest::randomForest(dat,y = cls,importance = T, keep.forest = T,ntree = 1000) %>%
+          fpr_fs()
+        res <- tibble(Feature = rownames(res),SelectionFrequency = res$freq,FPR = res$fpr)
+        return(res)
+      }) %>% 
+        bind_rows(.id = 'Rep') %>%
+        group_by(Feature) %>%
+        summarise(Score = mean(SelectionFrequency),
+                  Pvalue = mean(FPR)
+        )
       return(res)
     },
     
@@ -41,36 +27,60 @@ fsMethods <- function(method = NULL, description = F){
       cls <- factor(dat$cls)
       dat <- dat[,-1]
       feat <- colnames(dat)
-      res <- apply(dat,2,function(x,cls){
-        r <- oneway.test(x ~ cls)
-        return(r$p.value)
-      },cls = cls)
-      res <- tibble(Feature = feat, Score = res)
-      res$Score <- p.adjust(res$Score,method = pAdjust)
+      res <- dat %>%
+        map_df(~{
+          r <- oneway.test(. ~ cls)
+          return(tibble(Score = r$statistic,Pvalue = r$p.value))
+        }) %>%
+        bind_cols(Feature = feat,.) %>%
+        mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
       return(res)
     },
     
     fs.ttest = function(dat,pAdjust = 'bonferroni'){
       cls <- factor(dat$cls)
       dat <- dat[,-1]
-      res <- apply(dat,2,function(x,cls){
-        r <- t.test(x ~ cls)
-        return(r$p.value)
-      },cls = cls)
-      res <- tibble(Feature = names(res), Score = res)
-      res$Score <- p.adjust(res$Score,method = pAdjust)
+      feat <- colnames(dat)
+      res <- dat %>%
+        map_df(~{
+          r <- t.test(. ~ cls)
+          return(tibble(Score = r$statistic,Pvalue = r$p.value))
+        }) %>%
+        bind_cols(Feature = feat,.) %>%
+        mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
       return(res)
     },
     
     fs.kruskal = function(dat,pAdjust = 'bonferroni'){
       cls <- factor(dat$cls)
       dat <- dat[,-1]
-      res <- apply(dat,2,function(x,cls){
-        r <- kruskal.test(x ~ cls)
-        return(r$p.value)
-      },cls = cls)
-      res <- tibble(Feature = names(res), Score = res)
-      res$Score <- p.adjust(res$Score,method = pAdjust)
+      feat <- colnames(dat)
+      res <- dat %>%
+        map_df(~{
+          r <- kruskal.test(. ~ cls)
+          return(tibble(Score = r$statistic,Pvalue = r$p.value))
+        }) %>%
+        bind_cols(Feature = feat,.) %>%
+        mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
+      return(res)
+    },
+    
+    fs.lm = function(dat,pAdjust = 'bonferroni'){
+      indep <- dat$cls
+      if (!(is.numeric(indep))) {
+        stop('Independent variable needs to be numeric')
+      }
+      dat <- dat[,-1]
+      feat <- colnames(dat)
+      res <- dat %>%
+        map_df(~{
+          r <- lm(. ~ indep) %>%
+            summary()
+          p <- pf(r$fstatistic[1],r$fstatistic[2],r$fstatistic[3],lower.tail=F)
+          return(tibble(Score = r$r.squared,Pvalue = p))
+        }) %>%
+        bind_cols(Feature = feat,.) %>%
+        mutate(Pvalue = p.adjust(Pvalue,method = pAdjust))
       return(res)
     }
   )
@@ -78,16 +88,29 @@ fsMethods <- function(method = NULL, description = F){
   descriptions = list(
     fs.rf = list(description = 'Random Forest using selection frequency based false positive rate for variable importance',
                  arguments = c(nreps = 'number of replications'), 
-                 score = 'false positive rate'),
+                 score = 'Selection Frequency',
+                 Pvalue = 'false positive rate',
+                 type = 'discrimination'),
     fs.anova = list(description = 'One-way ANOVA', 
                     arguments = c(pAdjust = 'method for multiple testing p value correction'),
-                    score = 'p value'),
+                    score = 'F statistic',
+                    Pvalue = 'adjusted p value',
+                    type = 'discrimination'),
     fs.ttest = list(description = 'Welch t-test', 
                     arguments = c(pAdjust = 'method for multiple testing p value correction'),
-                    score = 'p value'),
+                    score = 't statistic',
+                    Pvalue = 'adjusted p value',
+                    type = 'discrimination'),
     fs.kruskal = list(description = 'Kruskal-Wallis Rank Sum Test', 
                       arguments = c(pAdjust = 'method for multiple testing p value correction'),
-                      score = 'p value')
+                      score = 'Kruskal-Wallis chi-squared',
+                      Pvalue = 'adjusted p value',
+                      type = 'discrimination'),
+    fs.lm = list(description = 'Linear regression',
+                 arguments = c(pAdjust = 'method for multiple testing p value correction'),
+                 score = 'R squared',
+                 Pvalue = 'adjusted p value',
+                 type = 'regression')
   )
   
   if (description == F) {

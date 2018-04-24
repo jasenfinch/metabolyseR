@@ -2,7 +2,6 @@
 #' @description show method for AnalysisParameters class. 
 #' @param object S4 object of class AnalysisParameters
 #' @importFrom methods show
-#' @importFrom plyr ldply
 #' @export
 
 setMethod('show',signature = 'AnalysisParameters',
@@ -92,6 +91,7 @@ setMethod('show',signature = 'AnalysisParameters',
 #' @description show method for Analysis class. 
 #' @param object S4 object of class Analysis
 #' @importFrom methods show
+#' @importFrom crayon blue bold red
 #' @export
 
 setMethod('show',signature = 'Analysis',
@@ -106,15 +106,17 @@ setMethod('show',signature = 'Analysis',
             time <- object@log$analysis
             
             rD <- rawData(object)
-            rD <- paste('\t\tNo. samples = ',nrow(rD$Info),'\n','\t\tNo. variables = ',ncol(rD$Data),'\n',sep = '')
+            rI <- rawInfo(object)
+            rD <- paste('\t\tNo. samples = ',nrow(rI),'\n','\t\tNo. variables = ',ncol(rD),'\n',sep = '')
             
-            cat('\nAnalysis:\n','\t',time,'\n',sep = '')
+            cat('\n',blue('metabolyseR '),bold(red(str_c('v',object@log$packageVersion))),'\nAnalysis:\n','\t',time,'\n',sep = '')
             cat('\n\tRaw Data:\n',rD,sep = '')
             
             if ('preTreated' %in% elements) {
               time <- object@log$preTreatment
               pD <- preTreatedData(object)
-              pD <- paste('\t\tNo. samples = ',nrow(pD$Info),'\n','\t\tNo. variables = ',ncol(pD$Data),'\n',sep = '')
+              pI <- preTreatedData(object)
+              pD <- paste('\t\tNo. samples = ',nrow(pI),'\n','\t\tNo. variables = ',ncol(pD),'\n',sep = '')
               
               cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
             }

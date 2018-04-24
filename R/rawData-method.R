@@ -6,7 +6,7 @@
 
 setMethod('rawData', signature = 'Analysis',
           function(x){
-            x <- x@rawData
+            x <- x@rawData$Data
             return(x)
           }
 )
