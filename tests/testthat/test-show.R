@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+suppressPackageStartupMessages(library(metaboData))
 
 context('show')
 
@@ -28,5 +28,5 @@ test_that('Analysis show method works',{
   analysis <- metabolyseR::metabolyse(dat,info,p)
   out <- capture.output(show(analysis))
   
-  expect_true(length(out) == 26)
+  expect_true(length(out) == 27)
 })
