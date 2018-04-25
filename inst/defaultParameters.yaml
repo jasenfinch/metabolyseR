@@ -35,6 +35,10 @@ classification:
   cls: class
   method: randomForest
   pars:
+    sampling: boot
+    niter: 10
+    nreps: 10
+    strat: TRUE
   nCores: 4
   clusterType: Fork
 
@@ -42,10 +46,8 @@ featureSelection:
   method: fs.rf
   cls: class
   pars:
-    sampling: boot
-    niter: 10
-    nreps: 10
-    strat: TRUE
+    fs.rf:
+      nreps: 100
   nCores: 4
   clusterType: FORK
 

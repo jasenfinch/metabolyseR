@@ -23,7 +23,8 @@ Imports: FIEmspro,
          e1071,
          MASS,
          forestControl,
-         crayon
+         crayon,
+         yaml
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
