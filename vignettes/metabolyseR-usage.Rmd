@@ -13,6 +13,7 @@ vignette: >
 
 ```{r libraryLoad,echo=FALSE}
 suppressPackageStartupMessages(library(metabolyseR))
+library(magrittr)
 ```
 
 ## Introduction
@@ -81,6 +82,24 @@ parameters
 ```
 
 Discussion of parameters particular to the individual analysis elements can be found in the relevant analysis element sections.
+
+Due to the complex nature of the list structures needed for the analyses containing many components, it is possible to express these parameters more simply in YAML format and parse these into R using `parseParameters()`.
+Below shows an example `.yaml` file that would give the same default `AnalysisParameters` object when `analysisParameters()` is called.
+
+```{r exampleYAML, eval=FALSE}
+library(yaml)
+paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
+y <- read_yaml(paramFile) %>%
+  as.yaml() %>%
+  cat()
+```
+
+This can be parsed directly into an `AnalysisParameters` object using the following:
+
+```{r parseParametes,eval=F}
+p <- parseParameters(paramFile)
+p
+```
 
 ### Analysis
 
