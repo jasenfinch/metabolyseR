@@ -7,6 +7,8 @@
 #' @importFrom methods slotNames slot
 #' @importFrom tibble tibble as_tibble 
 #' @importFrom utils packageVersion
+#' @importFrom cli rule
+#' @importFrom crayon yellow green
 #' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
 #' library(metaboData)
@@ -19,9 +21,11 @@
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 #' @export
 
-metabolyse <- function(data,info,parameters = analysisParameters()){
+metabolyse <- function(data,info,parameters = analysisParameters(),verbose = T){
+  version <- packageVersion('metabolyseR')
+  analysisStart <- date()
   analysis <- new('Analysis',
-      log = list(packageVersion = packageVersion('metabolyseR'),analysis = date()),
+      log = list(packageVersion = version,analysis = analysisStart),
       parameters = parameters,
       rawData = list(Info = as_tibble(info),Data = as_tibble(data)),
       preTreated = list(),
@@ -30,12 +34,24 @@ metabolyse <- function(data,info,parameters = analysisParameters()){
       correlations = tibble()
   )
   
+  if (verbose == T) {
+    cat('\n',blue('metabolyseR'),' ',red(str_c('v',version)),' ',analysisStart,'\n',sep = '')
+    print(parameters)
+  }
+    
   elements <- slotNames(analysis@parameters)
   elements <- elements[sapply(elements,function(x,parameters){length(slot(parameters,x))},parameters = analysis@parameters) > 0]
   
+  pb <- progress_bar$new(total = length(elements))
+  pb$tick(0)
   for (i in elements) {
+    pb$tick()
     method <- get(i)
     analysis <- analysis %>% method() 
+  }
+  
+  if (verbose == T) {
+    cat('\n',green('Finished!'),sep = '')
   }
   return(analysis)
 }

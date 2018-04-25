@@ -4,7 +4,7 @@
 \alias{metabolyse}
 \title{metabolyse}
 \usage{
-metabolyse(data, info, parameters = analysisParameters())
+metabolyse(data, info, parameters = analysisParameters(), verbose = T)
 }
 \arguments{
 \item{data}{tibble or data.frame containing data to analyse}

@@ -83,7 +83,7 @@ setMethod('show',signature = 'AnalysisParameters',
               get(x)
             })
             elements <- paste(names(elements),elements,sep = '\n')
-            cat(elements,sep = '\n')
+            cat(yellow('Parameters:'),elements,sep = '\n')
           }
 )
 
