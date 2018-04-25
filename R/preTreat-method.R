@@ -3,6 +3,10 @@
 
 setMethod("preTreat", signature = "Analysis",
           function(x){
+            verbose <- x@log$verbose
+            if (verbose == T) {
+              cat(blue('\nPre-treating data'),cli::symbol$continue,'\r',sep = '') 
+            }
             params <- x@parameters@preTreat
             dat <- list(Data = x@rawData$Data, Info = x@rawData$Info)
             
@@ -20,6 +24,10 @@ setMethod("preTreat", signature = "Analysis",
             }
             x@preTreated <- list(Data = as_tibble(dat$Data), Info = as_tibble(dat$Info))
             x@log$preTreatment <- date()
+            
+            if (verbose == T) {
+              cat(blue('Pre-treating data '),green(cli::symbol$tick),'\n',sep = '')
+            }
             return(x)
           }
 )

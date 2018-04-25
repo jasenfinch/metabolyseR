@@ -25,7 +25,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(),verbose = T){
   version <- packageVersion('metabolyseR')
   analysisStart <- date()
   analysis <- new('Analysis',
-      log = list(packageVersion = version,analysis = analysisStart),
+      log = list(packageVersion = version,analysis = analysisStart,verbose = verbose),
       parameters = parameters,
       rawData = list(Info = as_tibble(info),Data = as_tibble(data)),
       preTreated = list(),
@@ -42,10 +42,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(),verbose = T){
   elements <- slotNames(analysis@parameters)
   elements <- elements[sapply(elements,function(x,parameters){length(slot(parameters,x))},parameters = analysis@parameters) > 0]
   
-  pb <- progress_bar$new(total = length(elements))
-  pb$tick(0)
   for (i in elements) {
-    pb$tick()
     method <- get(i)
     analysis <- analysis %>% method() 
   }
