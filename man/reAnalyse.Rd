@@ -4,12 +4,14 @@
 \alias{reAnalyse}
 \title{reAnalyse}
 \usage{
-reAnalyse(analysis, parameters = analysisParameters())
+reAnalyse(analysis, parameters = analysisParameters(), verbose = T)
 }
 \arguments{
 \item{analysis}{an object of class Analysis containing previous analysis results}
 
 \item{parameters}{an object of class Parameters containing parameters for re-analysis}
+
+\item{verbose}{should output be printed to the console}
 }
 \description{
 Re-analyse an object of class Analysis using specified parameters.

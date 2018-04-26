@@ -5,6 +5,11 @@
 
 setMethod("classification", signature = "Analysis",
           function(x){
+            verbose <- x@log$verbose
+            if (verbose == T) {
+              startTime <- proc.time()
+              cat(blue('Classification'),cli::symbol$continue,'\r',sep = '') 
+            }
             parameters <- x@parameters@classification
             if (length(x@preTreated) > 0) {
               dat <- x@preTreated$Data
@@ -65,6 +70,16 @@ setMethod("classification", signature = "Analysis",
             
             x@classification <- classi
             x@log$classification <- date()
+            
+            if (verbose == T) {
+              endTime <- proc.time()
+              elapsed <- {endTime - startTime} %>%
+                .[3] %>%
+                round(1) %>%
+                seconds_to_period() %>%
+                str_c('[',.,']')
+              cat(blue('Classification '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
+            }
             return(x)
           }
 )

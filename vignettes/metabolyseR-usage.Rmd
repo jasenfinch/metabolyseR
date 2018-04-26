@@ -13,6 +13,7 @@ vignette: >
 
 ```{r libraryLoad,echo=FALSE}
 suppressPackageStartupMessages(library(metabolyseR))
+library(magrittr)
 ```
 
 ## Introduction
@@ -81,6 +82,24 @@ parameters
 ```
 
 Discussion of parameters particular to the individual analysis elements can be found in the relevant analysis element sections.
+
+Due to the complex nature of the list structures needed for the analyses containing many components, it is possible to express these parameters more simply in YAML format and parse these into R using `parseParameters()`.
+Below shows an example `.yaml` file that would give the same default `AnalysisParameters` object when `analysisParameters()` is called.
+
+```{r exampleYAML, eval=FALSE}
+library(yaml)
+paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
+y <- read_yaml(paramFile) %>%
+  as.yaml() %>%
+  cat()
+```
+
+This can be parsed directly into an `AnalysisParameters` object using the following:
+
+```{r parseParametes,eval=F}
+p <- parseParameters(paramFile)
+p
+```
 
 ### Analysis
 
@@ -181,7 +200,7 @@ The method arguments are then declared within these lists.
 Empty lists for methods can be specified to use the default arguments; however, element lists should not be empty. 
 
 The pre-treatment routine can then be executed using the following.
-```{r preTreatExample}
+```{r preTreatExample,eval=F}
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
 analysis
 ```
@@ -530,6 +549,8 @@ The results will be returned as a table containing the significantly correlated 
     + `plotRSD()` - relative standard deviation distributions of quality control samples
     + `plotPCA()` - principle component analysis results of pre-treated data
     + `plotLDA()` - linear discriminant analysis results of pre-treated data
+    + `plotUnsupervisedRF()` - MDS of unsupervised random forest proximities of pre-treated data  
+    + `plotSupervisedRF()` - MDS of supervised random forest proximities of pre-treated data
 
 * classification
     + `plotClassification()` - classification measures of pairwise comparisons
