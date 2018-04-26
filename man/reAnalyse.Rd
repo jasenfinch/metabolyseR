@@ -4,7 +4,7 @@
 \alias{reAnalyse}
 \title{reAnalyse}
 \usage{
-reAnalyse(analysis, parameters = analysisParameters())
+reAnalyse(analysis, parameters = analysisParameters(), verbose = T)
 }
 \arguments{
 \item{analysis}{an object of class Analysis containing previous analysis results}

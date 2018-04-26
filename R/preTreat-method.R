@@ -5,7 +5,8 @@ setMethod("preTreat", signature = "Analysis",
           function(x){
             verbose <- x@log$verbose
             if (verbose == T) {
-              cat(blue('\nPre-treating data'),cli::symbol$continue,'\r',sep = '') 
+              startTime <- proc.time()
+              cat(blue('Pre-treatment'),cli::symbol$continue,'\r',sep = '') 
             }
             params <- x@parameters@preTreat
             dat <- list(Data = x@rawData$Data, Info = x@rawData$Info)
@@ -26,7 +27,13 @@ setMethod("preTreat", signature = "Analysis",
             x@log$preTreatment <- date()
             
             if (verbose == T) {
-              cat(blue('Pre-treating data '),green(cli::symbol$tick),'\n',sep = '')
+              endTime <- proc.time()
+              elapsed <- {endTime - startTime} %>%
+                .[3] %>%
+                round(1) %>%
+                seconds_to_period() %>%
+                str_c('[',.,']')
+              cat(blue('Pre-treatment '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
             }
             return(x)
           }

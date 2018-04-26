@@ -3,8 +3,13 @@
 
 setMethod("featureSelection", signature = "Analysis",
           function(x){
-            parameters <- x@parameters@featureSelection
+            verbose <- x@log$verbose
+            if (verbose == T) {
+              startTime <- proc.time()
+              cat(blue('Feature selection'),cli::symbol$continue,'\r',sep = '') 
+            }
             
+            parameters <- x@parameters@featureSelection
             methods <- parameters$method
             
             if (length(x@preTreated) > 0) {
@@ -85,6 +90,16 @@ setMethod("featureSelection", signature = "Analysis",
             
             x@featureSelection <- res
             x@log$featureSelection <- date()
+            
+            if (verbose == T) {
+              endTime <- proc.time()
+              elapsed <- {endTime - startTime} %>%
+                .[3] %>%
+                round(1) %>%
+                seconds_to_period() %>%
+                str_c('[',.,']')
+              cat(blue('Feature selection '),'\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
+            }
             return(x)
           }
 )

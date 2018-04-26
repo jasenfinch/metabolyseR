@@ -7,6 +7,12 @@
 
 setMethod("correlations", signature = "Analysis",
           function(x){
+            verbose <- x@log$verbose
+            if (verbose == T) {
+              startTime <- proc.time()
+              cat(blue('Correlations'),cli::symbol$continue,'\r',sep = '') 
+            }
+            
             parameters <- x@parameters@correlations
             if (length(x@preTreated) > 0) {
               dat <- x@preTreated$Data
@@ -40,6 +46,16 @@ setMethod("correlations", signature = "Analysis",
             
             x@correlations <- cors
             x@log$correlations <- date()
+            
+            if (verbose == T) {
+              endTime <- proc.time()
+              elapsed <- {endTime - startTime} %>%
+                .[3] %>%
+                round(1) %>%
+                seconds_to_period() %>%
+                str_c('[',.,']')
+              cat(blue('Correlations '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
+            }
             return(x)
           }
 )

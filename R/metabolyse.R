@@ -7,8 +7,9 @@
 #' @importFrom methods slotNames slot
 #' @importFrom tibble tibble as_tibble 
 #' @importFrom utils packageVersion
-#' @importFrom cli rule
+#' @importFrom cli console_width
 #' @importFrom crayon yellow green
+#' @importFrom lubridate seconds_to_period
 #' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
 #' library(metaboData)
@@ -21,9 +22,18 @@
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 #' @export
 
-metabolyse <- function(data,info,parameters = analysisParameters(),verbose = T){
+metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T){
   version <- packageVersion('metabolyseR')
   analysisStart <- date()
+  
+  if (verbose == T) {
+    startTime <- proc.time()
+    cat('\n',blue('metabolyseR'),' ',red(str_c('v',version)),' ',analysisStart,'\n',sep = '')
+    cat(rep('_',console_width()),'\n',sep = '')
+    print(parameters)
+    cat(rep('_',console_width()),'\n\n',sep = '')
+  }
+  
   analysis <- new('Analysis',
       log = list(packageVersion = version,analysis = analysisStart,verbose = verbose),
       parameters = parameters,
@@ -33,11 +43,6 @@ metabolyse <- function(data,info,parameters = analysisParameters(),verbose = T){
       featureSelection = tibble(),
       correlations = tibble()
   )
-  
-  if (verbose == T) {
-    cat('\n',blue('metabolyseR'),' ',red(str_c('v',version)),' ',analysisStart,'\n',sep = '')
-    print(parameters)
-  }
     
   elements <- slotNames(analysis@parameters)
   elements <- elements[sapply(elements,function(x,parameters){length(slot(parameters,x))},parameters = analysis@parameters) > 0]
@@ -48,7 +53,15 @@ metabolyse <- function(data,info,parameters = analysisParameters(),verbose = T){
   }
   
   if (verbose == T) {
-    cat('\n',green('Finished!'),sep = '')
+    endTime <- proc.time()
+    elapsed <- {endTime - startTime} %>%
+      .[3] %>%
+      round(1) %>%
+      seconds_to_period() %>%
+      str_c('[',.,']')
+    
+    cat(rep('_',console_width()),'\n',sep = '')
+    cat('\n',green('Complete! '),elapsed,'\n\n',sep = '')
   }
   return(analysis)
 }

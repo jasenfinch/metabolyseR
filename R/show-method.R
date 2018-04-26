@@ -109,7 +109,7 @@ setMethod('show',signature = 'Analysis',
             rI <- rawInfo(object)
             rD <- paste('\t\tNo. samples = ',nrow(rI),'\n','\t\tNo. variables = ',ncol(rD),'\n',sep = '')
             
-            cat('\n',blue('metabolyseR '),bold(red(str_c('v',object@log$packageVersion))),'\nAnalysis:\n','\t',time,'\n',sep = '')
+            cat('\n',blue('metabolyseR '),bold(red(str_c('v',object@log$packageVersion))),yellow('\nAnalysis:\n'),'\t',time,'\n',sep = '')
             cat('\n\tRaw Data:\n',rD,sep = '')
             
             if ('preTreated' %in% elements) {
