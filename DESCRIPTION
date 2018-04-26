@@ -24,7 +24,9 @@ Imports: FIEmspro,
          MASS,
          forestControl,
          crayon,
-         yaml
+         yaml,
+         cli,
+         lubridate
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
