@@ -10,6 +10,8 @@ reAnalyse(analysis, parameters = analysisParameters(), verbose = T)
 \item{analysis}{an object of class Analysis containing previous analysis results}
 
 \item{parameters}{an object of class Parameters containing parameters for re-analysis}
+
+\item{verbose}{should output be printed to the console}
 }
 \description{
 Re-analyse an object of class Analysis using specified parameters.

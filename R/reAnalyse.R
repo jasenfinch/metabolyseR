@@ -3,6 +3,7 @@
 #' @importFrom methods slot slot<-
 #' @param analysis an object of class Analysis containing previous analysis results
 #' @param parameters an object of class Parameters containing parameters for re-analysis
+#' @param verbose should output be printed to the console 
 #' @seealso \link{metabolyse} \link{analysisParameters} \linkS4class{AnalysisParameters} \linkS4class{Analysis}
 #' @export
 

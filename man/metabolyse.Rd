@@ -12,6 +12,8 @@ metabolyse(data, info, parameters = analysisParameters(), verbose = T)
 \item{info}{tibble or data.frame containing data info or meta data}
 
 \item{parameters}{an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}}
+
+\item{verbose}{should output be printed to the console}
 }
 \description{
 Analyse data based on specified analysis elements.
