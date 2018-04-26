@@ -200,7 +200,7 @@ The method arguments are then declared within these lists.
 Empty lists for methods can be specified to use the default arguments; however, element lists should not be empty. 
 
 The pre-treatment routine can then be executed using the following.
-```{r preTreatExample}
+```{r preTreatExample,eval=F}
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
 analysis
 ```
