@@ -103,7 +103,7 @@ setGeneric('plotSupervisedRF',function(analysis,cls = 'class', ...){
   standardGeneric('plotSupervisedRF')
 })
 
-#' @rdname plotSupervisedRF
+#' @rdname plotUnsupervisedRF
 setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', ...){
   standardGeneric('plotUnsupervisedRF')
 })

@@ -66,9 +66,9 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
             }
             
             set.seed(seed)
-            rf <- randomForest(preTreatedData(analysis)$Data,y = factor(unlist(preTreatedData(analysis)$Info[,cls])),proximity = T,...)
+            rf <- randomForest(preTreatedData(analysis),y = factor(unlist(preTreatedInfo(analysis)[,cls])),proximity = T,...)
             
-            analysisPlot@data <- list(Data = preTreatedData(analysis)$Data,Info = preTreatedData(analysis)$Info,RFresults = rf)
+            analysisPlot@data <- list(Data = preTreatedData(analysis),Info = preTreatedInfo(analysis) ,RFresults = rf)
             
             analysisPlot@plot <- analysisPlot@func(analysisPlot)
             
