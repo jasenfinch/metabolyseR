@@ -3,13 +3,10 @@
 \docType{methods}
 \name{plotSupervisedRF}
 \alias{plotSupervisedRF}
-\alias{plotUnsupervisedRF}
 \alias{plotSupervisedRF,Analysis-method}
 \title{plotSupervisedRF}
 \usage{
 plotSupervisedRF(analysis, cls = "class", ...)
-
-plotUnsupervisedRF(analysis, cls = "class", ...)
 
 \S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class", seed = 1234,
   ...)

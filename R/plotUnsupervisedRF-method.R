@@ -20,7 +20,8 @@ setMethod('plotUnsupervisedRF', signature = 'Analysis',
                 as_tibble() %>%
                 rename(`Dimension 1` = V1,`Dimension 2` = V2) %>%
                 bind_cols(analysisPlot@data$Info[,analysisPlot@data$cls]) %>%
-                select(`Dimension 1`,`Dimension 2`,Class = cls)
+                select(`Dimension 1`,`Dimension 2`,Class = cls) %>%
+                mutate(Class = as.character(Class))
               
               pl <- distance %>%
                 ggplot(aes(x = `Dimension 1`,y = `Dimension 2`,colour = Class,shape = Class)) +
@@ -69,9 +70,9 @@ setMethod('plotUnsupervisedRF', signature = 'Analysis',
             }
             
             set.seed(seed)
-            rf <- randomForest(preTreatedData(analysis)$Data,proximity = T,...)
+            rf <- randomForest(preTreatedData(analysis),proximity = T,...)
             
-            analysisPlot@data <- list(Data = preTreatedData(analysis)$Data,Info = preTreatedData(analysis)$Info,RFresults = rf, cls = cls)
+            analysisPlot@data <- list(Data = preTreatedData(analysis),Info = preTreatedInfo(analysis),RFresults = rf, cls = cls)
             
             analysisPlot@plot <- analysisPlot@func(analysisPlot)
             
