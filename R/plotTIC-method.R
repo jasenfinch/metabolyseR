@@ -22,7 +22,7 @@
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',
-          function(analysis, by = 'injOrder', colour = 'batchBlock', modes = T) {
+          function(analysis, by = 'injOrder', colour = 'block', modes = T) {
             dat <- rawData(analysis)
             info <- rawInfo(analysis)
             
