@@ -24,7 +24,7 @@
 #' @export
 
 metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T){
-  version <- packageVersion('metabolyseR')
+  version <- packageVersion('metabolyseR') %>% as.character()
   analysisStart <- date()
   
   if (verbose == T) {
