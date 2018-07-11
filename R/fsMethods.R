@@ -12,7 +12,7 @@ fsMethods <- function(method = NULL, description = F){
         dat <- dat[,-1]
         res <- randomForest::randomForest(dat,y = cls,importance = T, keep.forest = T,ntree = 1000) %>%
           fpr_fs()
-        res <- tibble(Feature = rownames(res),SelectionFrequency = res$freq,FPR = res$fpr)
+        res <- tibble(Feature = res$variable,SelectionFrequency = res$freq,FPR = res$fpr)
         return(res)
       }) %>% 
         bind_rows(.id = 'Rep') %>%
