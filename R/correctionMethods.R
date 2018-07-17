@@ -1,9 +1,9 @@
 
 correctionMethods <- function(method = NULL, description = F){
   methods <- list(
-    center = function(dat, cls = 'block', type = 'median'){
+    center = function(dat, block = 'block', type = 'median'){
       method <- get(type)
-      batches <- dat$Info[,cls] %>% unlist()
+      batches <- dat$Info[,block] %>% unlist()
       dat$Data <- dat$Data %>%
         map_df(~{
           d <- .
@@ -26,7 +26,14 @@ correctionMethods <- function(method = NULL, description = F){
     }
   )
   
-  descriptions <- list()
+  descriptions <- list(
+    center = list(
+      description = 'Batch correction using average centering.',
+      arguments = c(block = '',
+                    type = ''
+                    )
+    )
+  )
   
   if (description == F) {
     if (is.null(method)) {
