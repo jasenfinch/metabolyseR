@@ -29,8 +29,8 @@ correctionMethods <- function(method = NULL, description = F){
   descriptions <- list(
     center = list(
       description = 'Batch correction using average centering.',
-      arguments = c(block = '',
-                    type = ''
+      arguments = c(block = 'info column containing sample block groupings to use for correction',
+                    type = 'averaging to use; eg. mean or median'
                     )
     )
   )
