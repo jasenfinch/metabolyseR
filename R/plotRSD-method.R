@@ -38,8 +38,7 @@
 setMethod('plotRSD',signature = 'Analysis',
           function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30){
             dat <- rawData(analysis)
-            info <- dat$Info
-            dat <- dat$Data
+            info <- rawInfo(analysis)
             
             classes <- unlist(unique(info[,cls]))[!(unlist(unique(info[,cls])) %in% QCidx)] %>%
               as.character()
@@ -73,9 +72,8 @@ setMethod('plotRSD',signature = 'Analysis',
             }
             
             rsd <- map(dat,~{
-              d <- metabolyse(.,info = info, parameters = parameters) %>%
-                preTreatedData()
-              d$Data %>%
+              d <- metabolyse(.,info = info, parameters = parameters,verbose = F) %>%
+                preTreatedData() %>%
                 gather('Feature','Intensity') %>%
                 group_by(Feature) %>%
                 summarise(RSD = sd(Intensity)/mean(Intensity))
