@@ -54,7 +54,7 @@ setGeneric("correlationResults", function(x) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'batchBlock', modes = T){
+setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', modes = T){
   standardGeneric('plotTIC')
 })
 

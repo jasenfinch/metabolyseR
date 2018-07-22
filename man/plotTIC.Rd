@@ -6,10 +6,10 @@
 \alias{plotTIC,Analysis-method}
 \title{plotTIC}
 \usage{
-plotTIC(analysis, by = "injOrder", colour = "batchBlock", modes = T)
+plotTIC(analysis, by = "injOrder", colour = "block", modes = T)
 
-\S4method{plotTIC}{Analysis}(analysis, by = "injOrder",
-  colour = "batchBlock", modes = T)
+\S4method{plotTIC}{Analysis}(analysis, by = "injOrder", colour = "block",
+  modes = T)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
