@@ -237,6 +237,35 @@ tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defau
 knitr::kable(tab)
 ```
 
+### Batch correction
+
+There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
+With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
+
+```{r correctionMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::correctionMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::correctionMethods())
+defaults <- lapply(metabolyseR:::correctionMethods(),formals)
+defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
 ### Sample aggregation
 
 Sample aggregation allows the electronic pooling of samples based on a grouping variable.
