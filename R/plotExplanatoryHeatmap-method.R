@@ -14,7 +14,7 @@
 #' @seealso \link{dist} \link{hclust}
 #' @importFrom stats dist hclust
 #' @importFrom ggdendro dendro_data 
-#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal
+#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal labs
 #' @examples \dontrun{
 #' 
 #' library(FIEmspro)
@@ -93,7 +93,13 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
               ggplot(aes(x = Class,y = Feature,fill = `Relative Intensity`)) +
               geom_tile() +
               scale_fill_gradient(low = 'white', high = colour) +
-              theme_minimal(base_size = 8)
+              theme_minimal(base_size = 8) +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold')
+                    ) +
+              ggtitle('Heat map of explanatory features') +
+              labs(caption = str_c('Explanatory features had a P value below a threshold of ',threshold,'.'))
             
             pl
           }
