@@ -49,8 +49,12 @@ setMethod('plotPCA',signature = 'Analysis',
                 geom_vline(xintercept = 0,linetype = 2,colour = 'grey') +
                 geom_point() +
                 theme_bw() +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold')) +
                 xlab(str_c(xAxis,' (Var: ',var[xAxis],'%)')) +
-                ylab(str_c(yAxis,' (Var: ',var[yAxis],'%)'))
+                ylab(str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
+                ggtitle('Principle Component Analysis (PCA)\nplot')
               
               classLength <- info %>%
                 unique() %>%
