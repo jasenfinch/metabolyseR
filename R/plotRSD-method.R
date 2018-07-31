@@ -20,12 +20,12 @@
 #'     package = 'metaboData'),
 #'   full.names = TRUE)
 #' 
-#' info <- files[grepl('runinfo',files)]
+#' info <- readr::read_csv(files[grepl('runinfo',files)])
 #' files <- files[!grepl('runinfo',files)]
 #' 
-#' binDat <- binneRlyse::binneRlyse(files, 
+#' binDat <- binneR::binneRlyse(files, 
 #'                        info, 
-#'                        parameters = binneRlyse::binParameters())
+#'                        parameters = binneR::binParameters())
 #' 
 #' p <- new('AnalysisParameters')
 #' 
@@ -59,12 +59,12 @@ setMethod('plotRSD',signature = 'Analysis',
               names(dat) <- ''
             }
             
+            parameters <- analysisParameters('preTreat')
             if (is.null(QCparameters)) {
-              parameters <- analysisParameters('preTreat')
               parameters@preTreat <- list(
                 remove = list(class = list(classes = classes)),
                 occupancyFilter = list(maximum = list(cls = cls,occupancy = 2/3)),
-                impute = list(all = list(occupancy = 2/3)),
+                impute = list(all = list(occupancy = 2/3,nCores = detectCores()/2)),
                 transform = list(TICnorm = list())
               )
             } else {

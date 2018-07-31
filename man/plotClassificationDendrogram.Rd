@@ -11,7 +11,8 @@ plotClassificationDendrogram(analysis, method = "randomForest",
   measure = "Margin", clusterMethod = "ward.D2")
 
 \S4method{plotClassificationDendrogram}{Analysis}(analysis,
-  method = "randomForest", measure = "Margin", clusterMethod = "ward.D2")
+  method = "randomForest", measure = "Margin",
+  clusterMethod = "ward.D2")
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}

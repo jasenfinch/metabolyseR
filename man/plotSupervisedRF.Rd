@@ -8,8 +8,8 @@
 \usage{
 plotSupervisedRF(analysis, cls = "class", ...)
 
-\S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class", seed = 1234,
-  ...)
+\S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class",
+  seed = 1234, ...)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}

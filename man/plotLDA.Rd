@@ -6,8 +6,8 @@
 \alias{plotLDA,Analysis-method}
 \title{plotLDA}
 \usage{
-plotLDA(analysis, cls = "class", scale = T, center = T, xAxis = "DF1",
-  yAxis = "DF2")
+plotLDA(analysis, cls = "class", scale = T, center = T,
+  xAxis = "DF1", yAxis = "DF2")
 
 \S4method{plotLDA}{Analysis}(analysis, cls = "class", scale = T,
   center = T, xAxis = "DF1", yAxis = "DF2")
