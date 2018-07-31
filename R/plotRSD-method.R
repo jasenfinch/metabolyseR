@@ -20,12 +20,12 @@
 #'     package = 'metaboData'),
 #'   full.names = TRUE)
 #' 
-#' info <- files[grepl('runinfo',files)]
+#' info <- readr::read_csv(files[grepl('runinfo',files)])
 #' files <- files[!grepl('runinfo',files)]
 #' 
-#' binDat <- binneRlyse::binneRlyse(files, 
+#' binDat <- binneR::binneRlyse(files, 
 #'                        info, 
-#'                        parameters = binneRlyse::binParameters())
+#'                        parameters = binneR::binParameters())
 #' 
 #' p <- new('AnalysisParameters')
 #' 
