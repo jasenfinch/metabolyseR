@@ -6,8 +6,8 @@
 \alias{plotPCA,Analysis-method}
 \title{plotPCA}
 \usage{
-plotPCA(analysis, cls = "class", scale = T, center = T, xAxis = "PC1",
-  yAxis = "PC2")
+plotPCA(analysis, cls = "class", scale = T, center = T,
+  xAxis = "PC1", yAxis = "PC2")
 
 \S4method{plotPCA}{Analysis}(analysis, cls = "class", scale = T,
   center = T, xAxis = "PC1", yAxis = "PC2")

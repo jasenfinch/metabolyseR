@@ -8,7 +8,8 @@
 \usage{
 plotClassification(analysis, method = "randomForest")
 
-\S4method{plotClassification}{Analysis}(analysis, method = "randomForest")
+\S4method{plotClassification}{Analysis}(analysis,
+  method = "randomForest")
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
