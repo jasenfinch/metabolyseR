@@ -18,14 +18,14 @@ setMethod("featureSelection", signature = "Analysis",
               cls <- x  %>%
                 preTreatedInfo() %>%
                 select(parameters$cls) %>%
-                unlist()
+                unlist() %>% sort()
             } else {
               dat <- x %>%
                 rawData()
               cls <-  x  %>%
                 rawInfo() %>%
                 select(parameters$cls) %>%
-                unlist()
+                unlist() %>% sort()
             }
             
             res <- map(1:length(methods),~{
