@@ -6,7 +6,7 @@
 #' @param mz \code{TRUE} if features are m/z
 #' @param modes split modes if present
 #' @param pairwises optional vector specifying pairwise comparisons to extract
-#' @importFrom dplyr filter mutate
+#' @importFrom dplyr filter mutate rowwise distinct
 #' @importFrom ggplot2 ggplot aes geom_point theme_bw facet_wrap guides ylab xlab facet_grid
 #' @importFrom stringr str_sub str_replace_all 
 #' @importFrom ggthemes scale_colour_ptol ptol_pal
@@ -40,8 +40,18 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
             }
             
             if (mz == T) {
+              features <- featureSelection %>%
+                select(Feature)%>%
+                distinct() %>%
+                rowwise() %>%
+                mutate(Index = Feature %>% 
+                         str_split(' ') %>% 
+                         .[[1]] %>%
+                         .[1] %>%
+                         str_replace_all('[:alpha:]','') %>%
+                         as.numeric())
               featureSelection <- featureSelection %>%
-                mutate(Index = as.numeric(str_replace_all(Feature,'[:alpha:]','')))
+              left_join(features, by = c("Feature"))
             } else {
               featureSelection <- featureSelection %>%
                 rowid_to_column(var = 'Index')
