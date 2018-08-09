@@ -6,7 +6,7 @@
 #' @param mz \code{TRUE} if features are m/z
 #' @param modes split modes if present
 #' @param pairwises optional vector specifying pairwise comparisons to extract
-#' @importFrom dplyr filter mutate
+#' @importFrom dplyr filter mutate rowwise distinct
 #' @importFrom ggplot2 ggplot aes geom_point theme_bw facet_wrap guides ylab xlab facet_grid
 #' @importFrom stringr str_sub str_replace_all 
 #' @importFrom ggthemes scale_colour_ptol ptol_pal
