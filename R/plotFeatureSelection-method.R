@@ -40,8 +40,18 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
             }
             
             if (mz == T) {
+              features <- featureSelection %>%
+                select(Feature)%>%
+                distinct() %>%
+                rowwise() %>%
+                mutate(Index = Feature %>% 
+                         str_split(' ') %>% 
+                         .[[1]] %>%
+                         .[1] %>%
+                         str_replace_all('[:alpha:]','') %>%
+                         as.numeric())
               featureSelection <- featureSelection %>%
-                mutate(Index = as.numeric(str_replace_all(Feature,'[:alpha:]','')))
+              left_join(features, by = c("Feature"))
             } else {
               featureSelection <- featureSelection %>%
                 rowid_to_column(var = 'Index')

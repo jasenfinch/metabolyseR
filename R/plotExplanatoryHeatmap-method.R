@@ -98,7 +98,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold')
                     ) +
-              ggtitle('Heat map of explanatory features') +
+              ggtitle(str_c('Heat map of explanatory features for method ',method)) +
               labs(caption = str_c('Explanatory features had a P value below a threshold of ',threshold,'.'))
             
             pl
