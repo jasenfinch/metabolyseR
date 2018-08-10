@@ -1,4 +1,4 @@
-#' @importFrom FIEmspro valipars accest dat.sel1
+#' @importFrom FIEmspro valipars accest 
 #' @importFrom stringr str_count 
 #' @importFrom parallel makeCluster parLapply clusterExport stopCluster
 #' @importFrom dplyr bind_rows
@@ -28,16 +28,18 @@ setMethod("classification", signature = "Analysis",
               formals(newValipars) <- pars
               par <- newValipars()
             }
-            dat.pair <- dat.sel1(dat,cls,pwise = sort(unique(as.character(cls))),pars = par)
-            
-            com <- sapply(dat.pair, function(y){y$name})
-            if (length(dat.pair) > 1) {
-              dat.pair <- dat.pair[-which(sapply(com,str_count,pattern = '~') > 1)]
-            }
+            com <- combn(unique(as.character(cls)),2)
+            dat.pair <- apply(com,2,function(y,cls,dat){
+              dat <- dat[cls %in% y,]
+              dat <- bind_cols(cls = cls[cls %in% y],dat)
+              return(dat)
+            },cls = cls,dat = dat)
+            com <- apply(com,2,paste,collapse = '~')
+            names(dat.pair) <- com
             
             if (length(parameters$pairwises) > 0) {
-              com <- sapply(dat.pair, function(y){y$name})
-              dat.pair <- dat.pair[com %in% parameters$pairwises]
+              dat.pair <- dat.pair[names(dat.pair) %in% parameters$pairwises]
+              com <- names(dat.pair)
             }
             
             if (length(dat.pair) < parameters$nCores) {
@@ -48,13 +50,13 @@ setMethod("classification", signature = "Analysis",
             clust = makeCluster(nCores, type = parameters$clusterType)
             res.pair <- parLapply(clust,dat.pair,function(y,method,pars){
               res.meth <- lapply(method,function(z,dat,pars){
-                accest(dat,clmeth = z,pars = pars)
+                accest(dat = dat[,-1],cl = factor(unlist(dat[,1])),clmeth = z,pars = pars)
               },dat = y,pars = pars)
               names(res.meth) <- method
               return(res.meth)
-            },method = parameters$method,pars = parameters$pars)
+            },method = parameters$method,pars = par)
             stopCluster(clust)
-            names(res.pair) <- sapply(dat.pair, function(y){y$name})
+            names(res.pair) <- com
             
             classi <- lapply(res.pair,function(y){
               y <- lapply(y,function(z){
