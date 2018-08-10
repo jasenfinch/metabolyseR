@@ -13,10 +13,10 @@ setMethod("classification", signature = "Analysis",
             parameters <- x@parameters@classification
             if (length(x@preTreated) > 0) {
               dat <- x@preTreated$Data
-              cls <- factor(unlist(x@preTreated$Info[,parameters$cls]))
+              cls <- factor(unlist(x@preTreated$Info[,parameters$cls]) %>% sort()) 
             } else {
               dat <- x@rawData$Data
-              cls <- factor(unlist(x@rawData$Info[,parameters$cls]))
+              cls <- factor(unlist(x@rawData$Info[,parameters$cls]) %>% sort()) 
             }
             
             if (is.null(parameters$pars)) {
