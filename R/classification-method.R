@@ -13,10 +13,16 @@ setMethod("classification", signature = "Analysis",
             parameters <- x@parameters@classification
             if (length(x@preTreated) > 0) {
               dat <- x@preTreated$Data
-              cls <- factor(unlist(x@preTreated$Info[,parameters$cls]) %>% sort()) 
+              cls <- x  %>%
+                preTreatedInfo() %>%
+                select(parameters$cls) %>%
+                unlist()
             } else {
               dat <- x@rawData$Data
-              cls <- factor(unlist(x@rawData$Info[,parameters$cls]) %>% sort()) 
+              cls <-  x  %>%
+                rawInfo() %>%
+                select(parameters$cls) %>%
+                unlist()
             }
             
             if (is.null(parameters$pars)) {
@@ -28,7 +34,7 @@ setMethod("classification", signature = "Analysis",
               formals(newValipars) <- pars
               par <- newValipars()
             }
-            com <- combn(unique(as.character(cls)),2)
+            com <- combn(unique(as.character(cls)) %>% sort(),2)
             dat.pair <- apply(com,2,function(y,cls,dat){
               dat <- dat[cls %in% y,]
               dat <- bind_cols(cls = cls[cls %in% y],dat)
