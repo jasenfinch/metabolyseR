@@ -18,14 +18,14 @@ setMethod("featureSelection", signature = "Analysis",
               cls <- x  %>%
                 preTreatedInfo() %>%
                 select(parameters$cls) %>%
-                unlist() %>% sort()
+                unlist()
             } else {
               dat <- x %>%
                 rawData()
               cls <-  x  %>%
                 rawInfo() %>%
                 select(parameters$cls) %>%
-                unlist() %>% sort()
+                unlist()
             }
             
             res <- map(1:length(methods),~{
@@ -34,7 +34,7 @@ setMethod("featureSelection", signature = "Analysis",
               method <- methods[.]
               
               if (type == 'discrimination') {
-                com <- combn(unique(as.character(cls)),2)
+                com <- combn(unique(as.character(cls)) %>% sort(),2)
                 dat.pair <- apply(com,2,function(y,cls,dat){
                   dat <- dat[cls %in% y,]
                   dat <- bind_cols(cls = cls[cls %in% y],dat)
