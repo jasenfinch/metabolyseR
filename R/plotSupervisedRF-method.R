@@ -2,12 +2,14 @@
 #' @rdname plotSupervisedRF
 #' @param analysis object of class Analysis containing analysis results
 #' @param cls info column to use for sample classes
+#' @param label info column to use for sample labels, Set to NULL for no labels.
 #' @param seed random number seed
 #' @param ... additional parameters to pass to randomForest
+#' @importFrom ggrepel geom_text_repel
 #' @export
 
 setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(analysis,cls = 'class',seed = 1234,...){
+          function(analysis, cls = 'class', label = 'sampleName', seed = 1234, ...){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
@@ -19,16 +21,26 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
                 rename(`Dimension 1` = V1,`Dimension 2` = V2) %>%
                 mutate(Class = analysisPlot@data$RFresults$y)
               
+              if (!is.null(label)) {
+                distance <- distance %>%
+                  mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
+              }
+              
               pl <- distance %>%
-                ggplot(aes(x = `Dimension 1`,y = `Dimension 2`,colour = Class, shape = Class)) +
+                ggplot(aes(x = `Dimension 1`,y = `Dimension 2`)) +
                 geom_hline(yintercept = 0,colour = 'lightgray',linetype = 2) +
                 geom_vline(xintercept = 0,colour = 'lightgray',linetype = 2) +
-                geom_point() +
+                geom_point(aes(colour = Class, shape = Class)) +
                 theme_bw() +
                 ggtitle('MDS plot of a supervised\nrandom forest') +
                 theme(plot.title = element_text(face = "bold"),
                       legend.title = element_text(face = "bold"),
                       axis.title = element_text(face = "bold"))
+              
+              if (!is.null(label)) {
+              pl <- pl +
+                geom_text_repel(aes(label = Label))
+              }
               
               classLength <- distance$Class %>%
                 unique() %>%
@@ -65,10 +77,26 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
               pl
             }
             
-            set.seed(seed)
-            rf <- randomForest(preTreatedData(analysis),y = factor(unlist(preTreatedInfo(analysis)[,cls])),proximity = T,...)
+            if (length(x@preTreated) > 0) {
+              dat <- analysis %>%
+                preTreatedData()
+              info <- analysis %>%
+                preTreatedInfo()
+            } else {
+              dat <- analysis %>%
+                rawData()
+              info <-  analysis  %>%
+                rawInfo()
+            }
+            y <- info %>%
+              select(cls) %>%
+              unlist() %>%
+              factor()
             
-            analysisPlot@data <- list(Data = preTreatedData(analysis),Info = preTreatedInfo(analysis) ,RFresults = rf)
+            set.seed(seed)
+            rf <- randomForest(dat,y = y,proximity = T,...)
+            
+            analysisPlot@data <- list(Data = dat,Info = info ,RFresults = rf, cls = cls, label = label)
             
             analysisPlot@plot <- analysisPlot@func(analysisPlot)
             
