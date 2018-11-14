@@ -38,5 +38,7 @@ globalVariables(c('Class',
                   'r',
                   'SelectionFrequency',
                   'FPR',
-                  'Pvalue'
+                  'Pvalue',
+                  'Label',
+                  'x'
                   ))
