@@ -1,0 +1,4 @@
+Name: Analysis parameter selection
+Description: Select parameters for a metabolyseR analysis
+Binding: analysisParameterSelect
+Interactive: true
