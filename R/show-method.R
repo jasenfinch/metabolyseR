@@ -2,6 +2,7 @@
 #' @description show method for AnalysisParameters class. 
 #' @param object S4 object of class AnalysisParameters
 #' @importFrom methods show
+#' @importFrom purrr map_dbl map_chr
 #' @export
 
 setMethod('show',signature = 'AnalysisParameters',
@@ -53,12 +54,14 @@ setMethod('show',signature = 'AnalysisParameters',
             
             if ('featureSelection' %in% elements) {
               featureSelection <- slot(object,'featureSelection')
-              featureSelection[sapply(featureSelection,length) == 0] <- NULL
-              featureSelection[sapply(featureSelection,class) != 'list'] <- lapply(names(featureSelection)[
-                sapply(featureSelection,class) != 'list'],
-                function(x,object){
-                  paste('\t',x,' = ',object[[x]],'\n',sep = '')
-                },object = featureSelection)
+              featureSelection[map_dbl(featureSelection,length) == 0] <- NULL
+              featureSelection$method <- featureSelection$method %>%
+                str_c(collapse = ', ')
+              featureSelection[map_chr(featureSelection,class) != 'list'] <- map(
+                names(featureSelection)[map_chr(featureSelection,class) != 'list'],
+                ~{
+                  paste('\t',.,' = ',featureSelection[[.]],'\n',sep = '')
+                })
               featureSelection[sapply(featureSelection,class) == 'list'] <- lapply(names(featureSelection)[
                 sapply(featureSelection,class) == 'list'],
                 function(x,object){
@@ -69,7 +72,8 @@ setMethod('show',signature = 'AnalysisParameters',
                   n <- paste(n,collapse = '')
                   n <- paste('\t',x,'\n',n,sep = '')
                 },object = featureSelection)
-              featureSelection <- paste(featureSelection,collapse = '')
+              featureSelection <- featureSelection %>%
+                str_c(collapse = '')
             }
             
             if ('correlations' %in% elements) {
