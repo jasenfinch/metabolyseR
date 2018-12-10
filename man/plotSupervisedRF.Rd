@@ -9,7 +9,7 @@
 plotSupervisedRF(analysis, cls = "class", label = "sampleName", ...)
 
 \S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class",
-  label = "sampleName", seed = 1234, ...)
+  label = "name", seed = 1234, ...)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
