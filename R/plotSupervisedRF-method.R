@@ -9,7 +9,7 @@
 #' @export
 
 setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(analysis, cls = 'class', label = 'sampleName', seed = 1234, ...){
+          function(analysis, cls = 'class', label = 'name', seed = 1234, ...){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
@@ -77,7 +77,7 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
               pl
             }
             
-            if (length(x@preTreated) > 0) {
+            if (length(analysis@preTreated) > 0) {
               dat <- analysis %>%
                 preTreatedData()
               info <- analysis %>%
