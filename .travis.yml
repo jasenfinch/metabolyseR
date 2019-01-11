@@ -16,10 +16,6 @@ r:
 bioc_packages:
     - impute
 
-r_github_packages:
-    - aberhrml/FIEmspro
-    - jasenfinch/metaboData
-
 r_packages:
     - covr
     - testthat
