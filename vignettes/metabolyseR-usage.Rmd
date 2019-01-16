@@ -597,8 +597,6 @@ The results will be returned as a table containing the significantly correlated 
     + `plotExplanatoryHeatmap()` - heat map of explanatory features
     + `plotFeature()` - feature trends
 
-The [*metaboVis*](https://github.com/jasenfinch/metaboVis) package provides a collection of *shiny* applications for interactive visualisation of these analyses.
-
 ## Workflow Integration
 
 The generic nature of *metabolyseR* means that it can easily be integrated into workflows for the analysis of any metabolomics data.
