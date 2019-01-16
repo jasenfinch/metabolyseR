@@ -7,7 +7,7 @@ imputeMethods <- function(method = NULL, description = F){
   
   methods <- list(
     
-    all = function(dat, occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'FORK'){
+    all = function(dat, occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK'){
       d <- as.matrix(dat$Data)
       d[d == 0] <- NA
       if (nCores > 1) {
@@ -21,7 +21,7 @@ imputeMethods <- function(method = NULL, description = F){
       return(dat)
     },
     
-    class = function(dat, cls = 'class', occupancy = 2/3, nCores = detectCores(), clusterType = 'FORK'){
+    class = function(dat, cls = 'class', occupancy = 2/3, nCores = detectCores(), clusterType = 'PSOCK'){
       if (length(as.character(sort(unique(unlist(dat$Info[,cls]))))) < nCores) {
         nCores <- length(as.character(sort(unique(unlist(dat$Info[,cls])))))
       }

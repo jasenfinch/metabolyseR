@@ -3,8 +3,10 @@ title: "metabolyseR"
 author: "Jasen Finch"
 date: "July 2017"
 output: 
-  rmarkdown::html_vignette:
+  prettydoc::html_pretty:
     toc: true
+    highlight: github
+    theme: tactile
 vignette: >
   %\VignetteIndexEntry{metabolyseR-usage}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,9 +24,11 @@ Extracting biological information  related to experimental treatments from metab
 The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis.
 Below shows the four analysis elements in that make up metabolyseR.
 
-```{r metabolyseRDiagram,echo=FALSE,fig.width=6}
+<center>
+```{r metabolyseRDiagram,echo=FALSE,fig.width=8}
   DiagrammeR::grViz(readr::read_file('figures/metabolyseR.gv'))
 ```
+</center>
 
 This document will provide a tutorial on the basic usage of the package, followed by more detailed discussion of each of the analysis elements.
 Lastly, there will be discussion of the tools for the visualisation of the results from these data as well as the integration of metabolyseR into wider metabolomics workflows.
@@ -89,7 +93,8 @@ Below shows an example `.yaml` file that would give the same default `AnalysisPa
 ```{r exampleYAML, eval=FALSE}
 library(yaml)
 paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
-y <- read_yaml(paramFile) %>%
+
+read_yaml(paramFile) %>%
   as.yaml() %>%
   cat()
 ```
@@ -155,9 +160,11 @@ Data pre-treatment is the most faceted aspect of the analysis elements in *metab
 It itself is made up of a number of elements, which themselves are made up of methods.
 The pre-treatment elements can be seen below.
 
-```{r preTreatmentDiagram,echo=FALSE,fig.width=6}
-  DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
+<center>
+```{r preTreatmentDiagram,echo=FALSE,fig.width=8}
+DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
 ```
+</center>
 
 The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
 
@@ -589,8 +596,6 @@ The results will be returned as a table containing the significantly correlated 
     + `plotFeatureSelecton()` - feature selection scores of pairwise comparisons
     + `plotExplanatoryHeatmap()` - heat map of explanatory features
     + `plotFeature()` - feature trends
-
-The [*metaboVis*](https://github.com/jasenfinch/metaboVis) package provides a collection of *shiny* applications for interactive visualisation of these analyses.
 
 ## Workflow Integration
 

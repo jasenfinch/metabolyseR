@@ -7,7 +7,7 @@ warnings_are_errors: true
 
 apt_packages:
  - libnetcdf-dev
-  - netcdf-bin
+ - netcdf-bin
 
 r:
   - release
@@ -19,8 +19,6 @@ bioc_packages:
 r_packages:
     - covr
     - testthat
-    - rlang
-    - digest
     - devtools
     - ncdf4
 

@@ -34,7 +34,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
       pairwises = character(),
       pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T), 
       nCores = detectCores(),
-      clusterType = 'FORK'
+      clusterType = 'PSOCK'
     )
   } else {
     classification <- list()
@@ -46,7 +46,7 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
       pairwises = character(),
       pars = list(fs.rf = as.list(formals(fsMethods('fs.rf'))[-1])), 
       nCores = detectCores(), 
-      clusterType = 'FORK'
+      clusterType = 'PSOCK'
     )
   } else {
     featureSelection <- list()
