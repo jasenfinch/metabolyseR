@@ -87,7 +87,9 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
             clusters <- clusters$labels$label
             
             dat <- dat %>%
-              mutate(Feature = factor(Feature,levels = clusters))
+              tbl_df() %>%
+              mutate(Feature = factor(Feature,levels = clusters),
+                     Class = factor(Class))
             
             pl <- dat %>%
               ggplot(aes(x = Class,y = Feature,fill = `Relative Intensity`)) +
@@ -96,10 +98,12 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
               theme_minimal(base_size = 8) +
               theme(plot.title = element_text(face = 'bold'),
                     axis.title = element_text(face = 'bold'),
-                    legend.title = element_text(face = 'bold')
+                    legend.title = element_text(face = 'bold'),
+                    axis.text.x = element_text(angle = 30,hjust = 1)
                     ) +
               ggtitle(str_c('Heat map of explanatory features for method ',method)) +
-              labs(caption = str_c('Explanatory features had a P value below a threshold of ',threshold,'.'))
+              labs(caption = str_c('Explanatory features had a P value below a threshold of ',threshold,'.'),
+                   fill = 'Relative\nIntensity')
             
             pl
           }
