@@ -13,12 +13,20 @@
 parseParameters <- function(path){
   par <- read_yaml(path)
   
+  par <- par %>%
+    map(~{
+      names(.) <- str_remove_all(names(.),'[\\b\\d+\\b]')
+      return(.)
+    })
+  
   ap <- new('AnalysisParameters')
   
   elements <- slotNames(ap)
   
   for (i in elements) {
-    slot(ap,i) <- par[[i]]
+    if (i %in% names(par)) {
+      slot(ap,i) <- par[[i]] 
+    }
   }
   
   return(ap)
