@@ -2,6 +2,7 @@
 #' @description parse .yaml file containing analysis parameters.
 #' @param path file path of .yaml file to parse
 #' @importFrom yaml read_yaml
+#' @importFrom stringr str_remove_all
 #' @examples 
 #' 
 #' paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
@@ -18,6 +19,20 @@ parseParameters <- function(path){
       names(.) <- str_remove_all(names(.),'[\\b\\d+\\b]')
       return(.)
     })
+  
+  if ('preTreat' %in% names(par)) {
+    par$preTreat <- par$preTreat %>%
+      map(~{
+        map(.,~{
+          map(.,~{
+            if (is.list(.)) {
+              . <- unlist(.,use.names = F)
+            }
+            return(.)
+          })
+        })
+      })
+  }
   
   ap <- new('AnalysisParameters')
   
