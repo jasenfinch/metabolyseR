@@ -1,0 +1,17 @@
+preTreat:
+  remove:
+    sample:
+      idx: fileOrder
+      samples: 1
+  remove1:
+    class:
+      cls: day
+      classes:
+        - H
+        - 1
+  occupancyFilter:
+    maximum:
+      cls: class
+      occupancy: 0.667
+  transform:
+    TICnorm:

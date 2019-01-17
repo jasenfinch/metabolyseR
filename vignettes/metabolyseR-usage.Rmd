@@ -1,7 +1,7 @@
 ---
 title: "metabolyseR"
 author: "Jasen Finch"
-date: "July 2017"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   prettydoc::html_pretty:
     toc: true
@@ -73,7 +73,7 @@ The example below changes the defaults of all the parameters named `clusterType`
 ```{r changeParameter,eval=F}
 parameters <- analysisParameters()
 parameters
-parameters <- changeParameter('clusterType','PSOCK',parameters)
+parameters <- changeParameter('cls','day',parameters)
 parameters
 ```
 
@@ -90,7 +90,7 @@ Discussion of parameters particular to the individual analysis elements can be f
 Due to the complex nature of the list structures needed for the analyses containing many components, it is possible to express these parameters more simply in YAML format and parse these into R using `parseParameters()`.
 Below shows an example `.yaml` file that would give the same default `AnalysisParameters` object when `analysisParameters()` is called.
 
-```{r exampleYAML, eval=FALSE}
+```{r defaultYAML, eval=FALSE}
 library(yaml)
 paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
 
@@ -103,6 +103,25 @@ This can be parsed directly into an `AnalysisParameters` object using the follow
 
 ```{r parseParametes,eval=F}
 p <- parseParameters(paramFile)
+p
+```
+
+For more complex pre-treatment situations such as the following:
+
+```{r exampleYAML}
+library(yaml)
+exampleParamFile <- system.file('exampleParameters.yaml',package = 'metabolyseR')
+
+read_yaml(exampleParamFile) %>%
+  as.yaml() %>%
+  cat()
+```
+
+Where multiple remove steps are needed, these are numbered sequentially.
+Also where multiple values need to be provided to a particular argument (e.g. `classes = c('H','1')`), these should be supplied as a hyphenated list.
+
+```{r}
+p <- parseParameters(exampleParamFile)
 p
 ```
 
