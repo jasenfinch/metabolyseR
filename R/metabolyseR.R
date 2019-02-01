@@ -40,5 +40,6 @@ globalVariables(c('Class',
                   'FPR',
                   'Pvalue',
                   'Label',
-                  'x'
+                  'x',
+                  'Sample'
                   ))
