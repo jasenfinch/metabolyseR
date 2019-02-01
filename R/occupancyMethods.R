@@ -3,15 +3,25 @@ occupancyMethods <- function(method = NULL, description = F){
     
   methods <- list(
       maximum = function(dat,cls = 'class', occupancy = 2/3){
-        mat <- occMat(as.matrix(dat$Data),unlist(dat$Info[,cls]))
-        occ <- apply(mat,2,max)
-        dat$Data <- dat$Data[,which(occ >= occupancy)]
+        occ <- occMat(dat,cls)
+        fd <- occ %>%
+          group_by(Feature) %>%
+          summarise(Occupancy = max(Occupancy)) %>%
+          filter(Occupancy >= occupancy)
+        feat <- colnames(dat$Data)[colnames(dat$Data) %in% unique(fd$Feature)]
+        dat$Data <- dat$Data %>%
+          select(feat)
         return(dat)
       }, 
       minimum = function(dat,cls = 'class', occupancy = 2/3){
-        mat <- occMat(as.matrix(dat$Data),unlist(dat$Info[,cls]))
-        occ <- apply(mat,2,min)
-        dat$Data <- dat$Data[,which(occ >= occupancy)]
+        occ <- occMat(dat,cls)
+        fd <- occ %>%
+          group_by(Feature) %>%
+          summarise(Occupancy = min(Occupancy)) %>%
+          filter(Occupancy >= occupancy)
+        feat <- colnames(dat$Data)[colnames(dat$Data) %in% unique(fd$Feature)]
+        dat$Data <- dat$Data %>%
+          select(feat)
         return(dat)
       }
     )
@@ -39,4 +49,31 @@ occupancyMethods <- function(method = NULL, description = F){
       }
     }
     return(method)
+}
+
+occMat <- function(dat,cls){
+  d <- dat$Data %>%
+    mutate(Class = unlist(dat$Info[,cls],use.names = F))
+  
+  clsSize <- d %>%
+    group_by(Class) %>%
+    summarise(Frequency = n())
+  
+  d <- d %>%
+    rowid_to_column(var = 'Sample') %>%
+    gather('Feature','Intensity',-Class,-Sample) %>%
+    filter(Intensity > 0)
+  
+  occ <- clsSize %>%
+    split(1:nrow(.)) %>%
+    map(~{
+      cla <- .
+      cl <- d %>%
+        filter(Class == cla$Class) %>%
+        group_by(Class,Feature) %>%
+        summarise(N = n()) %>%
+        mutate(Occupancy = N / cla$Frequency)
+    }) %>%
+    bind_rows()
+  return(occ)
 }
