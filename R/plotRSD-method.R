@@ -62,7 +62,7 @@ setMethod('plotRSD',signature = 'Analysis',
             parameters <- analysisParameters('preTreat')
             if (is.null(QCparameters)) {
               parameters@preTreat <- list(
-                remove = list(class = list(classes = classes)),
+                remove = list(class = list(cls = cls,classes = classes)),
                 occupancyFilter = list(maximum = list(cls = cls,occupancy = 2/3)),
                 impute = list(all = list(occupancy = 2/3,nCores = detectCores()/2)),
                 transform = list(TICnorm = list())

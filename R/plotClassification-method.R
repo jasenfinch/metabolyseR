@@ -15,6 +15,7 @@
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p) 
 #' plotClassification(analysis)
 #' }
+#' @importFrom dplyr n
 #' @export
 
 setMethod('plotClassification',signature = 'Analysis',
