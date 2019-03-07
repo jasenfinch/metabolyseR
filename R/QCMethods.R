@@ -14,11 +14,17 @@ QCMethods <- function(method = NULL, description = F){
         dat$Data <- dat$Data[,colnames(dat$Data) %in% colnames(QC$Data)]
         return(dat)
       },
-      impute = function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3){
+      impute = function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK'){
         QC <- dat$Data[dat$Info[,cls] == QCidx,]
         QC <- apply(QC,2,function(x){x[x == 0] <- NA;return(x)})
         QC[which(QC == 0)] <- NA
-        capture.output(QC <- missForest(QC)$ximp)
+        if (nCores > 1) {
+          cl <- makeCluster(nCores,type = clusterType)
+          registerDoParallel(cl)
+          capture.output(QC <- missForest(QC,parallelize = parallel)$ximp)  
+        } else {
+          capture.output(QC <- missForest(QC)$ximp)  
+        }
         dat$Data[dat$Info[,cls] == QCidx,] <- QC
         return(dat)
       },
@@ -43,7 +49,11 @@ QCMethods <- function(method = NULL, description = F){
       impute = list(description = 'Impute missing values in QC samples',
                     arguments = c(cls = 'info column to use for class labels',
                                   QCidx = 'QC sample label',
-                                  occupancy = 'occupancy threshold for imputation')),
+                                  occupancy = 'occupancy threshold for imputation',
+                                  parallel = 'parallel type to use. See `?missForest` for details',
+                                  nCores = 'number of cores for parallisation',
+                                  clusterType = 'cluster type for parallisation')
+                    ),
       RSDfilter = list(description = 'Filter variables based on their relative standard deviation in QC samples',
                        arguments = c(cls = 'info column to use for class labels',
                                      QCidx = 'QC sample label',
