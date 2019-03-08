@@ -7,7 +7,8 @@ imputeMethods <- function(method = NULL, description = F){
   
   methods <- list(
     
-    all = function(dat, occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK'){
+    all = function(dat, occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234){
+      set.seed(seed)
       d <- as.matrix(dat$Data)
       d[d == 0] <- NA
       if (nCores > 1) {
@@ -21,7 +22,8 @@ imputeMethods <- function(method = NULL, description = F){
       return(dat)
     },
     
-    class = function(dat, cls = 'class', occupancy = 2/3, nCores = detectCores(), clusterType = 'PSOCK'){
+    class = function(dat, cls = 'class', occupancy = 2/3, nCores = detectCores(), clusterType = 'PSOCK', seed = 1234){
+      set.seed(1234)
       if (length(as.character(sort(unique(unlist(dat$Info[,cls]))))) < nCores) {
         nCores <- length(as.character(sort(unique(unlist(dat$Info[,cls])))))
       }
@@ -87,13 +89,15 @@ imputeMethods <- function(method = NULL, description = F){
                arguments = c(occupancy = 'occupancy threshold for imputation',
                              parallel = 'parallel type to use. See `?missForest` for details',
                              nCores = 'number of cores for parallisation',
-                             clusterType = 'cluster type for parallisation'
+                             clusterType = 'cluster type for parallisation',
+                             seed = 'random number seed'
                              )),
     class = list(description = 'Impute missing values class-wise using Random Forest',
                  arguments = c(cls = 'info column to use for class labels',
                                occupancy = 'occupancy threshold for imputation', 
                                nCores = 'number of cores for parallisation',
-                               clusterType = 'cluster type for parallisation'))
+                               clusterType = 'cluster type for parallisation',
+                               seed = 'random number seed'))
   )
   
   if (description == F) {

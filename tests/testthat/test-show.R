@@ -6,7 +6,7 @@ test_that('AnalysisParameters show method works',{
   p <- analysisParameters()
   out <- capture.output(show(p))
   
-  expect_true(length(out) == 57)
+  expect_true(length(out) == 59)
 })
 
 test_that('Analysis show method works',{
