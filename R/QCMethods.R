@@ -26,6 +26,7 @@ QCMethods <- function(method = NULL, description = F){
         } else {
           capture.output(QC <- missForest(QC)$ximp)  
         }
+        stopCluster(cl)
         dat$Data[dat$Info[,cls] == QCidx,] <- QC
         return(dat)
       },

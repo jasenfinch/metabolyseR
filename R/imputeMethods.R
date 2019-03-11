@@ -18,6 +18,8 @@ imputeMethods <- function(method = NULL, description = F){
       } else {
         capture.output(d <- missForest(d))  
       }
+      stopCluster(cl)
+      
       dat$Data <- as_tibble(d$ximp)
       return(dat)
     },
