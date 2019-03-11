@@ -23,10 +23,10 @@ QCMethods <- function(method = NULL, description = F){
           cl <- makeCluster(nCores,type = clusterType)
           registerDoParallel(cl)
           capture.output(QC <- missForest(QC,parallelize = parallel)$ximp)  
+          stopCluster(cl)
         } else {
           capture.output(QC <- missForest(QC)$ximp)  
         }
-        stopCluster(cl)
         dat$Data[dat$Info[,cls] == QCidx,] <- QC
         return(dat)
       },

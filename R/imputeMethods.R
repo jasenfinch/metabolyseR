@@ -15,10 +15,10 @@ imputeMethods <- function(method = NULL, description = F){
         cl <- makeCluster(nCores,type = clusterType)
         registerDoParallel(cl)
         capture.output(d <- missForest(d,parallelize = parallel))  
+        stopCluster(cl)
       } else {
         capture.output(d <- missForest(d))  
       }
-      stopCluster(cl)
       
       dat$Data <- as_tibble(d$ximp)
       return(dat)
