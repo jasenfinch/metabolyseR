@@ -6,10 +6,11 @@
 #' @param seed random number seed
 #' @param ... additional parameters to pass to randomForest
 #' @importFrom ggrepel geom_text_repel
+#' @importFrom ggplot2 stat_ellipse
 #' @export
 
 setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(analysis, cls = 'class', label = 'name', seed = 1234, ...){
+          function(analysis, cls = 'class', label = NULL, ellipses = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', ...){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
@@ -32,10 +33,19 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
                 geom_vline(xintercept = 0,colour = 'lightgray',linetype = 2) +
                 geom_point(aes(colour = Class, shape = Class)) +
                 theme_bw() +
-                ggtitle('MDS plot of a supervised\nrandom forest') +
                 theme(plot.title = element_text(face = "bold"),
                       legend.title = element_text(face = "bold"),
-                      axis.title = element_text(face = "bold"))
+                      axis.title = element_text(face = "bold"),
+                      legend.position = legendPosition) +
+                labs(title = title,
+                     x = 'Dimension 1',
+                     y = 'Dimension 2') +
+                coord_fixed()
+              
+              if (isTRUE(ellipses)) {
+                pl <- pl +
+                  stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
+              }
               
               if (!is.null(label)) {
               pl <- pl +
@@ -47,14 +57,18 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
                 length()
               
               if (classLength <= 12) {
-                pl <- pl + scale_colour_ptol()
+                pl <- pl + 
+                  scale_colour_ptol() +
+                  scale_fill_ptol()
               } else {
                 if (classLength %% 12 == 0) {
                   pal <- rep(ptol_pal()(12),classLength / 12)
                 } else {
                   pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
                 }
-                pl <- pl + scale_colour_manual(values = pal)
+                pl <- pl + 
+                  scale_colour_manual(values = pal) +
+                  scale_fill_manual(values = pal)
               }
               
               if (classLength > 6) {
