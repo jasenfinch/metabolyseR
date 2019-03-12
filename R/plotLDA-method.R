@@ -108,7 +108,7 @@ setMethod('plotLDA',signature = 'Analysis',
             analysisPlot@data <- list(Data = preTreatedData(analysis),
                                       Info = preTreatedInfo(analysis),
                                       LDAresults = lda)
-            analysisPlot@plot <- analysisPlot@func(analysisPlot)
+            analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
             return(analysisPlot)
           }
 ) 

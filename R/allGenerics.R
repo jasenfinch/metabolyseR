@@ -99,7 +99,7 @@ setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', thresho
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(analysis, cls = 'class', label = NULL, ellipses = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2, ...){
+setGeneric('plotSupervisedRF',function(analysis, cls = 'class', label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2, ...){
   standardGeneric('plotSupervisedRF')
 })
 

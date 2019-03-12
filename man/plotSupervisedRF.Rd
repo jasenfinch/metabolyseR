@@ -7,11 +7,12 @@
 \title{plotSupervisedRF}
 \usage{
 plotSupervisedRF(analysis, cls = "class", label = NULL, ellipses = T,
-  seed = 1234, title = "MDS plot of a supervised random forest",
+  ROC = T, seed = 1234,
+  title = "MDS plot of a supervised random forest",
   legendPosition = "bottom", labelSize = 2, ...)
 
 \S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class",
-  label = NULL, ellipses = T, seed = 1234,
+  label = NULL, ellipses = T, ROC = T, seed = 1234,
   title = "MDS plot of a supervised random forest",
   legendPosition = "bottom", labelSize = 2, ...)
 }
@@ -23,6 +24,8 @@ plotSupervisedRF(analysis, cls = "class", label = NULL, ellipses = T,
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
 \item{ellipses}{should multivariate normal distribution ellipses be plotted for each class?}
+
+\item{ROC}{should reciever-operator characteristics be plotted?}
 
 \item{seed}{random number seed}
 

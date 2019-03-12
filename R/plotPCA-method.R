@@ -98,7 +98,7 @@ setMethod('plotPCA',signature = 'Analysis',
                                       Info = preTreatedInfo(analysis),
                                       PCAresults = pca,
                                       cls = cls)
-            analysisPlot@plot <- analysisPlot@func(analysisPlot)
+            analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
             return(analysisPlot)
           }
 )

@@ -52,7 +52,7 @@ setClass('Analysis',
 setClass('AnalysisPlot',
          slots = list(
            data = 'list',
-           plot = 'gg',
+           plot = 'list',
            func = 'function'
          )
 )

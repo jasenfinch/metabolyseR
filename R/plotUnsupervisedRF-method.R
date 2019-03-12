@@ -74,7 +74,7 @@ setMethod('plotUnsupervisedRF', signature = 'Analysis',
             
             analysisPlot@data <- list(Data = preTreatedData(analysis),Info = preTreatedInfo(analysis),RFresults = rf, cls = cls)
             
-            analysisPlot@plot <- analysisPlot@func(analysisPlot)
+            analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
             
             return(analysisPlot)
           }
