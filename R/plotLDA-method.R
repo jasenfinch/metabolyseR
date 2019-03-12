@@ -8,6 +8,10 @@
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
+#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
+#' @param title plot title
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @examples 
 #' 
 #' library(FIEmspro)
@@ -22,7 +26,7 @@
 #' @export
 
 setMethod('plotLDA',signature = 'Analysis',
-          function(analysis, cls = 'class',label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legendPosition = 'bottom', labelSize = 2){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
@@ -41,38 +45,56 @@ setMethod('plotLDA',signature = 'Analysis',
                 bind_cols(info) %>%
                 mutate(Class = factor(Class))
               
-              if (!is.null(label)) {
-                lda <- lda %>%
-                  mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
-              }
+            
               
               if (classLength > 2) {
                 lda <- lda %>%
                   select(Class,xAxis = xAxis,yAxis = yAxis)
                 
+                if (!is.null(label)) {
+                  lda <- lda %>%
+                    mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
+                }
+                
                 pl <- lda %>%
-                  ggplot(aes(x = xAxis,y  = yAxis,colour = Class,shape = Class)) +
+                  ggplot(aes(x = xAxis,y  = yAxis)) +
                   geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
                   geom_vline(xintercept = 0,linetype = 2,colour = 'grey') +
-                  geom_point() +
+                  geom_point(aes(colour = Class,shape = Class)) +
                   theme_bw() +
                   theme(plot.title = element_text(face = 'bold'),
                         axis.title = element_text(face = 'bold'),
-                        legend.title = element_text(face = 'bold')
+                        legend.title = element_text(face = 'bold'),
+                        legend.position = 'bottom'
                         ) +
-                  xlab(str_c(xAxis,' (Tw: ',tw[xAxis],')')) +
-                  ylab(str_c(yAxis,' (Tw: ',tw[yAxis],')')) +
-                  ggtitle('Principle Component - Linear\nDiscriminant Analysis (PC-LDA) plot')
+                  labs(title = title,
+                       x = str_c(xAxis,' (Tw: ',tw[xAxis],')'),
+                       y = str_c(yAxis,' (Tw: ',tw[yAxis],')')) +
+                  coord_fixed()
+                
+                if (isTRUE(ellipses)) {
+                  pl <- pl +
+                    stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
+                }
+                
+                if (!is.null(label)) {
+                  pl <- pl +
+                    geom_text_repel(aes(label = Label),size = labelSize)
+                }
                 
                 if (classLength <= 12) {
-                  pl <- pl + scale_colour_ptol()
+                  pl <- pl + 
+                    scale_colour_ptol() +
+                    scale_fill_ptol()
                 } else {
                   if (classLength %% 12 == 0) {
                     pal <- rep(ptol_pal()(12),classLength / 12)
                   } else {
                     pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
                   }
-                  pl <- pl + scale_colour_manual(values = pal)
+                  pl <- pl + 
+                    scale_colour_manual(values = pal) +
+                    scale_fill_manual(values = pal)
                 }
                 
                 if (classLength > 6) {
