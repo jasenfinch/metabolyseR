@@ -7,20 +7,23 @@
 #' @param pairwises optional vector specifying pairwise comparisons to extract
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details
-#' @param colour heatmap colour to use
+#' @param low colour to use for low intensity
+#' @param high colour to use for high intensity
+#' @param featureNames should feature names be plotted?
 #' @details 
 #' Options for distance measures are as for \code{dist()}.
 #' Clustering methods are as given for \code{hclust()}.
 #' @seealso \link{dist} \link{hclust}
 #' @importFrom stats dist hclust
 #' @importFrom ggdendro dendro_data 
-#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal labs
+#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal labs element_blank
 #' @examples \dontrun{
 #' 
 #' library(FIEmspro)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat','featureSelection'))
 #' p@preTreat <- list(
+#'     remove = list(class = list(classes = 4:6)),
 #'     occupancyFilter = list(maximum = list()),
 #'     transform = list(TICnorm = list())
 #' )
@@ -30,7 +33,7 @@
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
-          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ggthemes::ptol_pal()(1)){
+          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', low = 'white', high = "#F21A00", featureNames = T){
             dat <- preTreatedData(analysis)
             info <- preTreatedInfo(analysis)
             
@@ -94,16 +97,27 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
             pl <- dat %>%
               ggplot(aes(x = Class,y = Feature,fill = `Relative Intensity`)) +
               geom_tile() +
-              scale_fill_gradient(low = 'white', high = colour) +
+              scale_fill_gradient(low = low, high = high) +
               theme_minimal(base_size = 8) +
-              theme(plot.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'),
-                    legend.title = element_text(face = 'bold'),
-                    axis.text.x = element_text(angle = 30,hjust = 1)
-                    ) +
               ggtitle(str_c('Heat map of explanatory features for method ',method)) +
               labs(caption = str_c('Explanatory features had a P value below a threshold of ',threshold,'.'),
                    fill = 'Relative\nIntensity')
+            if (isTRUE(featureNames)) {
+              pl <- pl +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'),
+                      axis.text.x = element_text(angle = 30,hjust = 1)
+                ) 
+            } else {
+              pl <- pl +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'),
+                      axis.text.x = element_text(angle = 30,hjust = 1),
+                      axis.text.y = element_blank()
+                ) 
+            }
             
             pl
           }

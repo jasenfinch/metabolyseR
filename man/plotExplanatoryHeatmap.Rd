@@ -9,11 +9,13 @@
 \usage{
 plotExplanatoryHeatmap(analysis, method = "fs.rf", threshold = 0.01,
   pairwises = NULL, distanceMeasure = "euclidean",
-  clusterMethod = "ward.D2", colour = ptol_pal()(1))
+  clusterMethod = "ward.D2", low = "white", high = "#F21A00",
+  featureNames = T)
 
 \S4method{plotExplanatoryHeatmap}{Analysis}(analysis, method = "fs.rf",
   threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean",
-  clusterMethod = "ward.D2", colour = (ggthemes::ptol_pal())(1))
+  clusterMethod = "ward.D2", low = "white", high = "#F21A00",
+  featureNames = T)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
@@ -28,7 +30,11 @@ plotExplanatoryHeatmap(analysis, method = "fs.rf", threshold = 0.01,
 
 \item{clusterMethod}{clustering method to use. See details}
 
-\item{colour}{heatmap colour to use}
+\item{low}{colour to use for low intensity}
+
+\item{high}{colour to use for high intensity}
+
+\item{featureNames}{should feature names be plotted?}
 }
 \description{
 plot a heatmap of explanatory features
@@ -44,6 +50,7 @@ library(FIEmspro)
 data(abr1)
 p <- analysisParameters(c('preTreat','featureSelection'))
 p@preTreat <- list(
+    remove = list(class = list(classes = 4:6)),
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
 )

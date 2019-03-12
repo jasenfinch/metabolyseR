@@ -12,10 +12,11 @@
 #' @importFrom ggthemes scale_colour_ptol ptol_pal
 #' @examples \dontrun{
 #' 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat','featureSelection'))
 #' p@preTreat <- list(
+#'     remove = list(class = list(classes = 4:6)),
 #'     occupancyFilter = list(maximum = list()),
 #'     transform = list(TICnorm = list())
 #' )
@@ -66,7 +67,7 @@ setMethod('plotFeatureSelection',signature = 'Analysis',
               scale_colour_ptol() +
               guides(colour = FALSE) +
               theme_bw() +
-              ylab(expression(-log[10]~italic(p)~value))
+              labs(y = expression(-log[10]~italic(p)~value))
             
             if (modes == T) {
               pl <- pl + 

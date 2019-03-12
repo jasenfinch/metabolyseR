@@ -29,10 +29,11 @@ Plot feature selection results
 \examples{
 \dontrun{
 
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat','featureSelection'))
 p@preTreat <- list(
+    remove = list(class = list(classes = 4:6)),
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
 )
