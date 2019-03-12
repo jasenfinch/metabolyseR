@@ -23,7 +23,7 @@ plotSupervisedRF(analysis, cls = "class", label = NULL, ellipses = T,
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
-\item{ellipses}{should multivariate normal distribution ellipses be plotted for each class?}
+\item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
 
 \item{ROC}{should reciever-operator characteristics be plotted?}
 

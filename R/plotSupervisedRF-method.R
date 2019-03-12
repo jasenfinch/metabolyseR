@@ -3,7 +3,7 @@
 #' @param analysis object of class Analysis containing analysis results
 #' @param cls info column to use for sample classes
 #' @param label info column to use for sample labels. Set to NULL for no labels.
-#' @param ellipses should multivariate normal distribution ellipses be plotted for each class?
+#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
 #' @param ROC should reciever-operator characteristics be plotted?
 #' @param seed random number seed
 #' @param title plot title

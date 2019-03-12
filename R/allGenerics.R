@@ -64,7 +64,7 @@ setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparamete
 })
 
 #' @rdname plotPCA
-setGeneric('plotPCA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2'){
+setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotPCA')
 })
 

@@ -3,6 +3,7 @@
 #' @description Plot linear discriminant analysis resultus of pre-treated data
 #' @param analysis object of class Analysis containing analysis results
 #' @param cls info column to use for sample labelling
+#' @param label info column to use for sample labels. Set to NULL for no labels.
 #' @param scale scale the data
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
@@ -21,14 +22,14 @@
 #' @export
 
 setMethod('plotLDA',signature = 'Analysis',
-          function(analysis, cls = 'class', scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
+          function(analysis, cls = 'class',label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
              
               lda <-  analysisPlot@data$LDAresults
               
-              classLength <-lda$cl %>%
+              classLength <- lda$cl %>%
                 unique() %>%
                 length()
               
@@ -39,6 +40,11 @@ setMethod('plotLDA',signature = 'Analysis',
                 as_tibble() %>%
                 bind_cols(info) %>%
                 mutate(Class = factor(Class))
+              
+              if (!is.null(label)) {
+                lda <- lda %>%
+                  mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
+              }
               
               if (classLength > 2) {
                 lda <- lda %>%
@@ -107,7 +113,8 @@ setMethod('plotLDA',signature = 'Analysis',
             lda <- nlda(preTreatedData(analysis),cl = info$Class,scale = scale,center = center)
             analysisPlot@data <- list(Data = preTreatedData(analysis),
                                       Info = preTreatedInfo(analysis),
-                                      LDAresults = lda)
+                                      LDAresults = lda,
+                                      label = label)
             analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
             return(analysisPlot)
           }
