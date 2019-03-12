@@ -43,5 +43,6 @@ globalVariables(c('Class',
                   'x',
                   'Sample',
                   'fpr',
-                  'tpr'
+                  'tpr',
+                  'Median'
                   ))

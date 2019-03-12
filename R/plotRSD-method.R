@@ -7,36 +7,35 @@
 #' @param QCparameters alternative parameters for QC sample pre-treatment. See details
 #' @param modes split modes if present
 #' @param histBins number of bins to use for histogram plotting
+#' @param title plot title
 #' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
 #' @importFrom stringr str_extract
 #' @importFrom purrr map
 #' @importFrom stats median
-#' @importFrom ggplot2 geom_histogram
+#' @importFrom ggplot2 geom_histogram geom_text
 #' @examples \dontrun{
 #' 
-#' files <- list.files(
-#'   system.file(
-#'     'DataSets/FIE-HRMS/BdistachyonEcotypes',
-#'     package = 'metaboData'),
-#'   full.names = TRUE)
+#' library(metaboData)
+#' library(binneR)
 #' 
-#' info <- readr::read_csv(files[grepl('runinfo',files)])
-#' files <- files[!grepl('runinfo',files)]
+#' files <- filePaths("FIE-HRMS","BdistachyonEcotypes")
 #' 
-#' binDat <- binneR::binneRlyse(files, 
+#' info <- runinfo("FIE-HRMS","BdistachyonEcotypes")
+#' 
+#' binDat <- binneRlyse(files, 
 #'                        info, 
-#'                        parameters = binneR::binParameters())
+#'                        parameters = binParameters(scans = detectInfusionScans(files)))
 #' 
-#' p <- new('AnalysisParameters')
+#' p <- analysisParameters('preTreat')
 #' 
-#' analysis <- metabolyse(dplyr::bind_cols(binnedData(binDat)),info(binDat),p)
+#' analysis <- metabolyse(binnedData(binDat)$n,info(binDat),p)
 #' 
 #' plotRSD(analysis)
 #' }
 #' @export
 
 setMethod('plotRSD',signature = 'Analysis',
-          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30){
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
             dat <- rawData(analysis)
             info <- rawInfo(analysis)
             
@@ -82,13 +81,25 @@ setMethod('plotRSD',signature = 'Analysis',
             
             medians <- rsd %>%
               group_by(Mode) %>%
-              summarise(Median = median(RSD))
-            
+              summarise(Median = median(RSD)) %>%
+              mutate(Label = str_c('Median: ',Median %>% round(3)),
+                     x = Inf,
+                     y = Inf,
+                     hjust = 1.5,
+                     vjust = 1.3)
+
             pl <- ggplot() +
               geom_histogram(data = rsd,aes_string(x = 'RSD'),fill = ptol_pal()(5)[2],colour = 'black',bins = histBins) +
               geom_vline(data = medians,aes_string(xintercept = 'Median'),linetype = 2,colour = 'red',size = 1) +
+              geom_text(data = medians,
+                        aes_string(x = 'x', y = 'y', label = 'Label',hjust = 'hjust',vjust = 'vjust'),size = 3) +
               theme_bw() +
-              facet_wrap(~Mode)
+              facet_wrap(~Mode) +
+              labs(title = title,
+                   y = 'Count',
+                   caption = 'Red dash line shows median RSD value') +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'))
             
             pl
             
