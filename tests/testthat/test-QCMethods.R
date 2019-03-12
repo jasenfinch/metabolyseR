@@ -37,7 +37,12 @@ test_that('methods work',{
                                      fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),]))))
   m <- lapply(m,function(x,dat){
     method <- metabolyseR:::QCMethods(x)
-    res <- method(dat, cls = 'class', QCidx = '1')
+    if (x == 'impute') {
+      res <- method(dat, cls = 'class', QCidx = '1',nCores = 2)
+    } else {
+      res <- method(dat, cls = 'class', QCidx = '1')  
+    }
+    
     return(res)
   },dat = dat)
   

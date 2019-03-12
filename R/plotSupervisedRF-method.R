@@ -2,15 +2,31 @@
 #' @rdname plotSupervisedRF
 #' @param analysis object of class Analysis containing analysis results
 #' @param cls info column to use for sample classes
-#' @param label info column to use for sample labels, Set to NULL for no labels.
+#' @param label info column to use for sample labels. Set to NULL for no labels.
+#' @param ellipses should multivariate normal distribution ellipses be plotted for each class?
 #' @param seed random number seed
+#' @param title plot title
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @param ... additional parameters to pass to randomForest
 #' @importFrom ggrepel geom_text_repel
-#' @importFrom ggplot2 stat_ellipse
+#' @importFrom ggplot2 stat_ellipse coord_fixed scale_fill_manual
+#' @importFrom ggthemes scale_fill_ptol
+#' @examples 
+#' library(metaboData)
+#' data(abr1)
+#' p <- analysisParameters('preTreat')
+#' p@preTreat <- list(
+#'   occupancyFilter = list(maximum = list()),
+#'   transform = list(TICnorm = list())
+#' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
+#' 
+#' plotSupervisedRF(analysis,label = 'name')
 #' @export
 
 setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, ellipses = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', ...){
+          function(analysis, cls = 'class', label = NULL, ellipses = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2, ...){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
@@ -49,7 +65,7 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
               
               if (!is.null(label)) {
               pl <- pl +
-                geom_text_repel(aes(label = Label))
+                geom_text_repel(aes(label = Label),size = labelSize)
               }
               
               classLength <- distance$Class %>%

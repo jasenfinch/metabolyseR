@@ -6,22 +6,46 @@
 \alias{plotSupervisedRF,Analysis-method}
 \title{plotSupervisedRF}
 \usage{
-plotSupervisedRF(analysis, cls = "class", label = "sampleName", ...)
+plotSupervisedRF(analysis, cls = "class", label = NULL, ellipses = T,
+  seed = 1234, title = "MDS plot of a supervised random forest",
+  legendPosition = "bottom", labelSize = 2, ...)
 
 \S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class",
-  label = "name", seed = 1234, ...)
+  label = NULL, ellipses = T, seed = 1234,
+  title = "MDS plot of a supervised random forest",
+  legendPosition = "bottom", labelSize = 2, ...)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
 
 \item{cls}{info column to use for sample classes}
 
-\item{label}{info column to use for sample labels, Set to NULL for no labels.}
+\item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
-\item{...}{additional parameters to pass to randomForest}
+\item{ellipses}{should multivariate normal distribution ellipses be plotted for each class?}
 
 \item{seed}{random number seed}
+
+\item{title}{plot title}
+
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
+
+\item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
+
+\item{...}{additional parameters to pass to randomForest}
 }
 \description{
 plotSupervisedRF
+}
+\examples{
+library(metaboData)
+data(abr1)
+p <- analysisParameters('preTreat')
+p@preTreat <- list(
+  occupancyFilter = list(maximum = list()),
+  transform = list(TICnorm = list())
+)
+analysis <- metabolyse(abr1$neg,abr1$fact,p)  
+
+plotSupervisedRF(analysis,label = 'name')
 }
