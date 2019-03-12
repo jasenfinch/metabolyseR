@@ -7,10 +7,12 @@
 \title{plotRSD}
 \usage{
 plotRSD(analysis, cls = "class", QCidx = "QC", QCparameters = NULL,
-  modes = T, histBins = 30)
+  modes = T, histBins = 30,
+  title = "Relative standard deviation distributions")
 
 \S4method{plotRSD}{Analysis}(analysis, cls = "class", QCidx = "QC",
-  QCparameters = NULL, modes = T, histBins = 30)
+  QCparameters = NULL, modes = T, histBins = 30,
+  title = "Relative standard deviation distributions")
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
@@ -24,6 +26,8 @@ plotRSD(analysis, cls = "class", QCidx = "QC", QCparameters = NULL,
 \item{modes}{split modes if present}
 
 \item{histBins}{number of bins to use for histogram plotting}
+
+\item{title}{plot title}
 }
 \description{
 Plot RSD distributions of raw data in quality control samples.
@@ -34,22 +38,20 @@ If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters a
 \examples{
 \dontrun{
 
-files <- list.files(
-  system.file(
-    'DataSets/FIE-HRMS/BdistachyonEcotypes',
-    package = 'metaboData'),
-  full.names = TRUE)
+library(metaboData)
+library(binneR)
 
-info <- readr::read_csv(files[grepl('runinfo',files)])
-files <- files[!grepl('runinfo',files)]
+files <- filePaths("FIE-HRMS","BdistachyonEcotypes")
 
-binDat <- binneR::binneRlyse(files, 
+info <- runinfo("FIE-HRMS","BdistachyonEcotypes")
+
+binDat <- binneRlyse(files, 
                        info, 
-                       parameters = binneR::binParameters())
+                       parameters = binParameters(scans = detectInfusionScans(files)))
 
-p <- new('AnalysisParameters')
+p <- analysisParameters('preTreat')
 
-analysis <- metabolyse(dplyr::bind_cols(binnedData(binDat)),info(binDat),p)
+analysis <- metabolyse(binnedData(binDat)$n,info(binDat),p)
 
 plotRSD(analysis)
 }

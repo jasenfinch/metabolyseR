@@ -59,17 +59,17 @@ setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', mode
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30){
+setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
   standardGeneric('plotRSD')
 })
 
 #' @rdname plotPCA
-setGeneric('plotPCA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2'){
+setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotPCA')
 })
 
 #' @rdname plotLDA
-setGeneric('plotLDA', function(analysis, cls = 'class', scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2'){
+setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotLDA')
 })
 
@@ -94,16 +94,16 @@ setGeneric('plotFeature',function(analysis, feature, cls = 'class'){
 })
 
 #' @rdname plotExplanatoryHeatmap
-setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', colour = ptol_pal()(1)){
+setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', low = 'white', high = "#F21A00", featureNames = T){
   standardGeneric('plotExplanatoryHeatmap')
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(analysis,cls = 'class', label = 'sampleName', ...){
+setGeneric('plotSupervisedRF',function(analysis, cls = 'class', label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2, ...){
   standardGeneric('plotSupervisedRF')
 })
 
 #' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', ...){
+setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', label = NULL, ellipses = T, title = 'MDS plot of an unsupervised random forest', legendPosition = 'bottom', labelSize = 2, seed = 1234, ...){
   standardGeneric('plotUnsupervisedRF')
 })

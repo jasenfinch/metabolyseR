@@ -3,16 +3,21 @@
 #' @description Plot principle component analysis results of pre-treated data.
 #' @param analysis object of class Analysis containing analysis results
 #' @param cls info column to use for sample labelling
+#' @param label info column to use for sample labels. Set to NULL for no labels.
 #' @param scale scale the data
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
+#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
+#' @param title plot title
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
 #' @importFrom stats prcomp
 #' @examples 
 #' 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
 #' p@preTreat <- list(
@@ -24,7 +29,7 @@
 #' @export
 
 setMethod('plotPCA',signature = 'Analysis',
-          function(analysis, cls = 'class', scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2'){
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
             analysisPlot <- new('AnalysisPlot')
             
             analysisPlot@func <- function(analysisPlot){
@@ -43,32 +48,53 @@ setMethod('plotPCA',signature = 'Analysis',
                 select(xAxis = xAxis,yAxis = yAxis) %>%
                 bind_cols(info)
               
+              if (!is.null(label)) {
+                pca <- pca %>%
+                  mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
+              }
+              
               pl <- pca %>%
-                ggplot(aes(x = xAxis,y  = yAxis,colour = Class,shape = Class)) +
+                ggplot(aes(x = xAxis,y  = yAxis)) +
                 geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
                 geom_vline(xintercept = 0,linetype = 2,colour = 'grey') +
-                geom_point() +
+                geom_point(aes(colour = Class,shape = Class)) +
                 theme_bw() +
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold')) +
-                xlab(str_c(xAxis,' (Var: ',var[xAxis],'%)')) +
-                ylab(str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
-                ggtitle('Principle Component Analysis (PCA)\nplot')
+                      legend.title = element_text(face = 'bold'),
+                      legend.position = legendPosition) +
+                labs(title = title,
+                     x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
+                     y = str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
+                coord_fixed()
+              
+              if (isTRUE(ellipses)) {
+                pl <- pl +
+                  stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
+              }
+              
+              if (!is.null(label)) {
+                pl <- pl +
+                  geom_text_repel(aes(label = Label),size = labelSize)
+              }
               
               classLength <- info %>%
                 unique() %>%
                 nrow()
               
               if (classLength <= 12) {
-                pl <- pl + scale_colour_ptol()
+                pl <- pl + 
+                  scale_colour_ptol() +
+                  scale_fill_ptol()
               } else {
                 if (classLength %% 12 == 0) {
                   pal <- rep(ptol_pal()(12),classLength / 12)
                 } else {
                   pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
                 }
-                pl <- pl + scale_colour_manual(values = pal)
+                pl <- pl + 
+                  scale_colour_manual(values = pal) +
+                  scale_fill_manual(values = pal)
               }
               
               if (classLength > 6) {
@@ -97,8 +123,9 @@ setMethod('plotPCA',signature = 'Analysis',
             analysisPlot@data <- list(Data = preTreatedData(analysis),
                                       Info = preTreatedInfo(analysis),
                                       PCAresults = pca,
-                                      cls = cls)
-            analysisPlot@plot <- analysisPlot@func(analysisPlot)
+                                      cls = cls,
+                                      label = label)
+            analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
             return(analysisPlot)
           }
 )

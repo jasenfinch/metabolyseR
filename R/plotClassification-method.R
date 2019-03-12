@@ -38,6 +38,6 @@ setMethod('plotClassification',signature = 'Analysis',
             }
             
             analysisPlot@data <- list(Data = classificationResults(analysis), method = method)
-            analysisPlot@plot <- analysisPlot@func(analysisPlot)
+            analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
             return(analysisPlot)
           })

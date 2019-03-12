@@ -13,14 +13,11 @@ r:
   - release
   - devel
 
+r_github_packages:
+  - thomasp85/patchwork
+
 bioc_packages:
     - impute
-
-r_packages:
-    - covr
-    - testthat
-    - devtools
-    - ncdf4
 
 after_success:
     - Rscript -e 'library(covr); codecov()'

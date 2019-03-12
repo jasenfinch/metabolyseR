@@ -6,16 +6,22 @@
 \alias{plotPCA,Analysis-method}
 \title{plotPCA}
 \usage{
-plotPCA(analysis, cls = "class", scale = T, center = T,
-  xAxis = "PC1", yAxis = "PC2")
+plotPCA(analysis, cls = "class", label = NULL, scale = T,
+  center = T, xAxis = "PC1", yAxis = "PC2", ellipses = T,
+  title = "Principle Component Analysis (PCA) plot",
+  legendPosition = "bottom", labelSize = 2)
 
-\S4method{plotPCA}{Analysis}(analysis, cls = "class", scale = T,
-  center = T, xAxis = "PC1", yAxis = "PC2")
+\S4method{plotPCA}{Analysis}(analysis, cls = "class", label = NULL,
+  scale = T, center = T, xAxis = "PC1", yAxis = "PC2",
+  ellipses = T, title = "Principle Component Analysis (PCA) plot",
+  legendPosition = "bottom", labelSize = 2)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
 
 \item{cls}{info column to use for sample labelling}
+
+\item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
 \item{scale}{scale the data}
 
@@ -24,13 +30,21 @@ plotPCA(analysis, cls = "class", scale = T, center = T,
 \item{xAxis}{principle component to plot on the x-axis}
 
 \item{yAxis}{principle component to plot on the y-axis}
+
+\item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
+
+\item{title}{plot title}
+
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
+
+\item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }
 \description{
 Plot principle component analysis results of pre-treated data.
 }
 \examples{
 
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
 p@preTreat <- list(
