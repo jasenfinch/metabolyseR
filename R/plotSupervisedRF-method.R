@@ -16,6 +16,7 @@
 #' @importFrom patchwork wrap_plots
 #' @importFrom ROCR prediction performance
 #' @importFrom magrittr set_names
+#' @importFrom randomForest margin
 #' @examples 
 #' library(metaboData)
 #' data(abr1)
@@ -59,7 +60,8 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
                       legend.position = legendPosition) +
                 labs(title = title,
                      x = 'Dimension 1',
-                     y = 'Dimension 2') +
+                     y = 'Dimension 2',
+                     caption = str_c('Margin: ',rf %>% margin() %>% mean() %>% round(3))) +
                 coord_fixed()
               
               if (isTRUE(ellipses)) {

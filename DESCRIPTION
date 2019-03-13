@@ -1,6 +1,6 @@
 Package: metabolyseR
 Title: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data
-Version: 0.8.0
+Version: 0.8.1
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data.
 Depends: R (>= 3.4.0),
