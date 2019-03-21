@@ -8,7 +8,7 @@
 #' @export
 
 reAnalyse <- function(analysis,parameters = analysisParameters(), verbose = T){
-  version <- packageVersion('metabolyseR')
+  version <- packageVersion('metabolyseR') %>% as.character()
   analysisStart <- date()
   if (verbose == T) {
     startTime <- proc.time()
