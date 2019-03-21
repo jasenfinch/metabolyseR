@@ -56,17 +56,7 @@ setMethod('plotPCA',signature = 'Analysis',
               pl <- pca %>%
                 ggplot(aes(x = xAxis,y  = yAxis)) +
                 geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
-                geom_vline(xintercept = 0,linetype = 2,colour = 'grey') +
-                geom_point(aes(colour = Class,shape = Class)) +
-                theme_bw() +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      legend.position = legendPosition) +
-                labs(title = title,
-                     x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
-                     y = str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
-                coord_fixed()
+                geom_vline(xintercept = 0,linetype = 2,colour = 'grey')
               
               if (isTRUE(ellipses)) {
                 pl <- pl +
@@ -115,7 +105,18 @@ setMethod('plotPCA',signature = 'Analysis',
                 pl <- pl + scale_shape_manual(values = val)
               }
               
-              pl              
+              pl <- pl +
+                geom_point(aes(colour = Class,shape = Class)) +
+                theme_bw() +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'),
+                      legend.position = legendPosition) +
+                labs(title = title,
+                     x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
+                     y = str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
+                coord_fixed()
+              return(pl)
             }
             
             pca <- prcomp(preTreatedData(analysis),scale. = scale,center = center)

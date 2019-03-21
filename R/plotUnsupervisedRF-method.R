@@ -36,17 +36,7 @@ setMethod('plotUnsupervisedRF', signature = 'Analysis',
               pl <- distance %>%
                 ggplot(aes(x = `Dimension 1`,y = `Dimension 2`)) +
                 geom_hline(yintercept = 0,colour = 'lightgray',linetype = 2) +
-                geom_vline(xintercept = 0,colour = 'lightgray',linetype = 2) +
-                geom_point(aes(colour = Class,shape = Class)) +
-                theme_bw() +
-                theme(plot.title = element_text(face = "bold"),
-                      legend.title = element_text(face = "bold"),
-                      axis.title = element_text(face = "bold"),
-                      legend.position = legendPosition) +
-                coord_fixed() +
-                labs(title = title,
-                     x = 'Dimension 1',
-                     y = 'Dimension 2')
+                geom_vline(xintercept = 0,colour = 'lightgray',linetype = 2)
               
               if (isTRUE(ellipses)) {
                 pl <- pl +
@@ -94,7 +84,19 @@ setMethod('plotUnsupervisedRF', signature = 'Analysis',
                 }
                 pl <- pl + scale_shape_manual(values = val)
               }
-              pl
+              pl <- pl +
+                geom_point(aes(colour = Class,shape = Class)) +
+                theme_bw() +
+                theme(plot.title = element_text(face = "bold"),
+                      legend.title = element_text(face = "bold"),
+                      axis.title = element_text(face = "bold"),
+                      legend.position = legendPosition) +
+                coord_fixed() +
+                labs(title = title,
+                     x = 'Dimension 1',
+                     y = 'Dimension 2')
+              
+              return(pl)
             }
             
             set.seed(seed)
