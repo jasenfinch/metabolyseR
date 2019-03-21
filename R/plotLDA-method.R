@@ -59,18 +59,7 @@ setMethod('plotLDA',signature = 'Analysis',
                 pl <- lda %>%
                   ggplot(aes(x = xAxis,y  = yAxis)) +
                   geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
-                  geom_vline(xintercept = 0,linetype = 2,colour = 'grey') +
-                  geom_point(aes(colour = Class,shape = Class)) +
-                  theme_bw() +
-                  theme(plot.title = element_text(face = 'bold'),
-                        axis.title = element_text(face = 'bold'),
-                        legend.title = element_text(face = 'bold'),
-                        legend.position = 'bottom'
-                        ) +
-                  labs(title = title,
-                       x = str_c(xAxis,' (Tw: ',tw[xAxis],')'),
-                       y = str_c(yAxis,' (Tw: ',tw[yAxis],')')) +
-                  coord_fixed()
+                  geom_vline(xintercept = 0,linetype = 2,colour = 'grey')
                 
                 if (isTRUE(ellipses)) {
                   pl <- pl +
@@ -114,6 +103,18 @@ setMethod('plotLDA',signature = 'Analysis',
                   }
                   pl <- pl + scale_shape_manual(values = val)
                 }
+                pl <- pl +
+                  geom_point(aes(colour = Class,shape = Class)) +
+                  theme_bw() +
+                  theme(plot.title = element_text(face = 'bold'),
+                        axis.title = element_text(face = 'bold'),
+                        legend.title = element_text(face = 'bold'),
+                        legend.position = 'bottom'
+                  ) +
+                  labs(title = title,
+                       x = str_c(xAxis,' (Tw: ',tw[xAxis],')'),
+                       y = str_c(yAxis,' (Tw: ',tw[yAxis],')')) +
+                  coord_fixed()
               } else {
                 pl <- lda %>%
                   ggplot(aes(x = Class,y = DF1,colour = Class,shape = Class)) +
