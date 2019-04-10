@@ -42,8 +42,15 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
             info <- info %>%
               select(Class = cls)
             
-            feat <- featureSelectionResults(analysis) %>%
+            explanFeat <- featureSelectionResults(analysis) %>%
               filter(Method == method,Pvalue < threshold)
+            
+            if (nrow(explanFeat) > 3000) {
+              feat <- explanFeat %>%
+                .[1:3000,]
+            } else {
+              feat <- explanFeat
+            }
             
             if (!is.null(pairwises)) {
               feat <- feat %>%
@@ -94,13 +101,19 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
               mutate(Feature = factor(Feature,levels = clusters),
                      Class = factor(Class))
             
+            caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
+            
+            if (nrow(explanFeat) > 3000) {
+              caption <- str_c(caption,'\n','Number of features capped at top 3000.')
+            }
+            
             pl <- dat %>%
               ggplot(aes(x = Class,y = Feature,fill = `Relative Intensity`)) +
               geom_tile() +
               scale_fill_gradient(low = low, high = high) +
               theme_minimal(base_size = 8) +
               ggtitle(str_c('Heat map of explanatory features for method ',method)) +
-              labs(caption = str_c('Explanatory features had a P value below a threshold of ',threshold,'.'),
+              labs(caption = caption,
                    fill = 'Relative\nIntensity')
             if (isTRUE(featureNames)) {
               pl <- pl +
