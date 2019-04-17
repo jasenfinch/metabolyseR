@@ -15,36 +15,50 @@ setMethod("correlations", signature = "Analysis",
             
             parameters <- x@parameters@correlations
             if (length(x@preTreated) > 0) {
-              dat <- x@preTreated$Data
+              dat <- x %>% 
+                preTreatedData()
             } else {
-              dat <- x@rawData$Data
+              dat <- x %>%
+                rawData()
             }
-            cors <- as.matrix(dat)
-            cors[cors == 0] <- NA
-            cors <- suppressWarnings(rcorr(cors,type = parameters$method))
-            cors$P <- apply(cors$P,1,p.adjust,method = parameters$pAdjustMethod)
-            cors$r[cors$P > parameters$corPvalue] <- 0
-            cors <- cors$r
-            cors[lower.tri(cors)] <- NA
             
-            cors <- cors %>%
-              as_tibble() %>%
-              mutate(Feature1 = colnames(cors)) %>%
-              gather('Feature2','r',-Feature1) %>%
-              filter(Feature1 != Feature2, !is.na(r), r != 0)
+            dat <-  dat %>%
+              as.matrix()
             
             intensity <- tibble(Feature = names(colMeans(dat)), Intensity = colMeans(dat))
             
-            cors <- cors %>%
+            dat[dat == 0] <- NA
+            cors <- suppressWarnings(rcorr(dat,,type = parameters$method))
+            
+            ps <- cors$P %>%
+              as_tibble() %>%
+              map_df(p.adjust,method = parameters$pAdjustMethod,n = nrow(.) - 1) %>%
+              mutate(Feature1 = colnames(.)) %>%
+              gather('Feature2','p',-Feature1) %>%
+              distinct()
+            
+            ns <- cors$n %>%
+              as_tibble() %>%
+              mutate(Feature1 = colnames(.)) %>%
+              gather('Feature2','n',-Feature1) %>%
+              distinct()
+            
+            rs <- cors$r %>%
+              as_tibble() %>%
+              mutate(Feature1 = colnames(.)) %>%
+              gather('Feature2','r',-Feature1) %>%
+              distinct() %>%
+              bind_cols(ps %>% select(p),
+                        ns %>% select(n)) %>%
+              filter(Feature1 != Feature2,p < parameters$corPvalue,n > 2) %>% 
               left_join(intensity, by = c('Feature1' = 'Feature')) %>%
               rename(Intensity1 = Intensity) %>%
               left_join(intensity, by = c('Feature2' = 'Feature')) %>%
               rename(Intensity2 = Intensity) %>%
               mutate(log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
-              select(Feature1,Feature2,log2IntensityRatio,r)
-              
+              select(Feature1,Feature2,log2IntensityRatio,r,p,n)  
             
-            x@correlations <- cors
+            x@correlations <- rs
             x@log$correlations <- date()
             
             if (verbose == T) {
