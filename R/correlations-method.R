@@ -28,7 +28,11 @@ setMethod("correlations", signature = "Analysis",
             intensity <- tibble(Feature = names(colMeans(dat)), Intensity = colMeans(dat))
             
             dat[dat == 0] <- NA
-            cors <- suppressWarnings(rcorr(dat,,type = parameters$method))
+            cors <- suppressWarnings(rcorr(dat,type = parameters$method))
+            
+            cors$r[lower.tri(cors$r)] <- NA
+            cors$n[lower.tri(cors$n)] <- NA
+            cors$P[lower.tri(cors$P)] <- NA
             
             ps <- cors$P %>%
               as_tibble() %>%
@@ -41,7 +45,7 @@ setMethod("correlations", signature = "Analysis",
               as_tibble() %>%
               mutate(Feature1 = colnames(.)) %>%
               gather('Feature2','n',-Feature1) %>%
-              distinct()
+              distinct() 
             
             rs <- cors$r %>%
               as_tibble() %>%
@@ -56,7 +60,8 @@ setMethod("correlations", signature = "Analysis",
               left_join(intensity, by = c('Feature2' = 'Feature')) %>%
               rename(Intensity2 = Intensity) %>%
               mutate(log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
-              select(Feature1,Feature2,log2IntensityRatio,r,p,n)  
+              select(Feature1,Feature2,log2IntensityRatio,r,p,n)  %>% 
+              na.omit()
             
             x@correlations <- rs
             x@log$correlations <- date()

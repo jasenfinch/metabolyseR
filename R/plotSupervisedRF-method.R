@@ -120,13 +120,16 @@ setMethod('plotSupervisedRF', signature = 'Analysis',
                            tpr = .$performance@y.values[[1]])
                   })  %>%
                   bind_rows(.id = 'Class')
-                
+                auc <- analysisPlot@data$roc %>%
+                  map_dbl(~{.$auc}) %>%
+                  mean()
                 rocpl <- ggplot(rocTable,aes(x = fpr,y = tpr,colour = Class)) +
                   geom_abline(intercept = 0,linetype = 2,colour = 'grey') +
                   geom_line() +
                   theme_bw(base_size = 12) +
                   labs(title = 'ROC Curves',x = '1 - Specificity',
-                       y = 'Sensitivity') +
+                       y = 'Sensitivity',
+                       caption = str_c('Mean AUC: ',auc %>% round(3))) +
                   coord_fixed() +
                   theme(plot.title = element_text(face = "bold"),
                         legend.title = element_text(face = "bold"),

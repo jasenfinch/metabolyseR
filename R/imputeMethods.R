@@ -25,7 +25,7 @@ imputeMethods <- function(method = NULL, description = F){
     },
     
     class = function(dat, cls = 'class', occupancy = 2/3, nCores = detectCores(), clusterType = 'PSOCK', seed = 1234){
-      set.seed(1234)
+      set.seed(seed)
       if (length(as.character(sort(unique(unlist(dat$Info[,cls]))))) < nCores) {
         nCores <- length(as.character(sort(unique(unlist(dat$Info[,cls])))))
       }
