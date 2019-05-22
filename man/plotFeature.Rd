@@ -6,9 +6,11 @@
 \alias{plotFeature,Analysis-method}
 \title{plotFeature}
 \usage{
-plotFeature(analysis, feature, cls = "class")
+plotFeature(analysis, feature, cls = "class", label = NULL,
+  labelSize = 2)
 
-\S4method{plotFeature}{Analysis}(analysis, feature, cls = "class")
+\S4method{plotFeature}{Analysis}(analysis, feature, cls = "class",
+  label = NULL, labelSize = 2)
 }
 \arguments{
 \item{analysis}{object of class Analysis containing analysis results}
@@ -16,12 +18,16 @@ plotFeature(analysis, feature, cls = "class")
 \item{feature}{feature to plot}
 
 \item{cls}{info column to use for class labels}
+
+\item{label}{info column to use for sample labels}
+
+\item{labelSize}{sample label size}
 }
 \description{
 Plot a feature trend.
 }
 \examples{
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
 p@preTreat <- list(

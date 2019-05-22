@@ -89,7 +89,7 @@ setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, m
 })
 
 #' @rdname plotFeature
-setGeneric('plotFeature',function(analysis, feature, cls = 'class'){
+setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
   standardGeneric('plotFeature')
 })
 

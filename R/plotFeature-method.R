@@ -4,9 +4,11 @@
 #' @param analysis object of class Analysis containing analysis results
 #' @param feature feature to plot
 #' @param cls info column to use for class labels
+#' @param label info column to use for sample labels
+#' @param labelSize sample label size
 #' @importFrom ggplot2 ggtitle
 #' @examples 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
 #' p@preTreat <- list(
@@ -18,17 +20,26 @@
 #' @export
 
 setMethod('plotFeature',signature = 'Analysis',
-          function(analysis, feature, cls = 'class'){
+          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
             dat <- preTreatedData(analysis)
             info <- preTreatedInfo(analysis)
             
             info <- info %>%
-              select(Class = cls)
+              select(Class = cls,Label = label)
             
-            dat <- dat %>%
-              bind_cols(info) %>%
-              gather('Feature','Intensity',-Class) %>%
-              filter(Feature == feature)
+            if (!is.null(label)) {
+              dat <- dat %>%
+                bind_cols(info) %>%
+                gather('Feature','Intensity',-Class,-Label) %>%
+                filter(Feature == feature) %>%
+                mutate(Intensity = as.numeric(Intensity))
+            } else {
+              dat <- dat %>%
+                bind_cols(info) %>%
+                gather('Feature','Intensity',-Class) %>%
+                filter(Feature == feature) %>%
+                mutate(Intensity = as.numeric(Intensity))
+            }
             
             if (class(info$Class) == 'character' | class(info$Class) == 'factor') {
               classes <- dat %>%
@@ -38,11 +49,14 @@ setMethod('plotFeature',signature = 'Analysis',
                 length()
               
               pl <- dat %>%
-                ggplot(aes(x = Class,y = Intensity,colour = Class)) +
-                geom_boxplot(outlier.shape = NA,colour = 'black') +
-                geom_point(position = 'jitter') +
+                ggplot(aes(x = Class,y = Intensity,group = Class)) +
+                geom_boxplot(outlier.shape = NA,colour = 'darkgrey') +
+                geom_point(aes(colour = Class),alpha = 0.8) +
                 theme_bw() +
-                ggtitle(feature)
+                ggtitle(feature) +
+                theme(axis.title = element_text(face = 'bold'),
+                      plot.title = element_text(face = 'bold')) +
+                guides(colour = FALSE)
               
               if (classes <= 12) {
                 pl <- pl + scale_colour_ptol()
@@ -62,5 +76,11 @@ setMethod('plotFeature',signature = 'Analysis',
                 ggtitle(feature) +
                 xlab(cls)
             }
+            
+            if (!is.null(label)) {
+              pl <- pl +
+                geom_text_repel(aes(label = Label),size = labelSize)
+            }
+            
             pl
           })
