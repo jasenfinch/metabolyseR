@@ -1,9 +1,8 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('plotExplanatoryHeatmap')
 
 test_that('plotExplanatoryHeatmap returns a plot',{
-  data(abr1)
   p <- analysisParameters(c('preTreat','featureSelection'))
   p@preTreat <- list(
     occupancyFilter = list(maximum = list()),

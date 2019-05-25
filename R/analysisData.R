@@ -17,13 +17,13 @@ analysisData <- function(data,info){
   return(d)
 }
 
-#' data
-#' @rdname data
+#' dat
+#' @rdname dat
 #' @description Return sample data from a Data object.
 #' @param x S4 object of class Data 
 #' @export
 
-setMethod('data',signature = 'Data',
+setMethod('dat',signature = 'Data',
           function(x){
             x@data
           })

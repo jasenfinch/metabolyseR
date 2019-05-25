@@ -171,8 +171,8 @@ setMethod('show',signature = 'AnalysisPlot',
 setMethod('show',signature = 'Data',
           function(object){
             cat('\nAnalysis Data object containing:\n\n')
-            cat('Samples:',nrow(data(object)),'\n')
-            cat('Features:',ncol(data(object)),'\n')
+            cat('Samples:',nrow(dat(object)),'\n')
+            cat('Features:',ncol(dat(object)),'\n')
             cat('Info:',ncol(info(object)),'\n')
             cat('\n')
           }

@@ -33,8 +33,8 @@ setClass('Analysis',
          slots = list(
            log = 'list',
            parameters = 'AnalysisParameters',
-           rawData = 'list',
-           preTreated = 'list',
+           rawData = 'Data',
+           preTreated = 'Data',
            classification = 'tbl_df',
            featureSelection = 'tbl_df',
            correlations = 'tbl_df'

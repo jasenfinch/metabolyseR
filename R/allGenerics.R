@@ -108,12 +108,17 @@ setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', label = NULL, e
   standardGeneric('plotUnsupervisedRF')
 })
 
-#' @rdname data
-setGeneric("data", function(x) {
-  standardGeneric("data")
+#' @rdname dat
+setGeneric("dat", function(x) {
+  standardGeneric("dat")
 })
 
 #' @rdname info
 setGeneric("info", function(x) {
   standardGeneric("info")
+})
+
+#' @rdname aggregateSum
+setGeneric("aggregateSum", function(dat,cls = 'class') {
+  standardGeneric("aggregateSum")
 })
