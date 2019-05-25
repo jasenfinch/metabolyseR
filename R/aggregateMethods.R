@@ -6,7 +6,7 @@
 #' @importFrom dplyr tbl_df arrange_
 #' @export
 
-setMethod('aggregateSum',signature = 'Data',
+setMethod('aggregateSum',signature = 'AnalysisData',
           function(dat,cls = 'class'){
             dat@data <- dat %>%
               dat() %>%
@@ -35,7 +35,7 @@ setMethod('aggregateSum',signature = 'Data',
 #' @param cls info column to use for class data
 #' @export
 
-setMethod('aggregateMean',signature = 'Data',
+setMethod('aggregateMean',signature = 'AnalysisData',
           function(dat,cls = 'class'){
             dat@data <- dat %>%
               dat() %>%
@@ -64,7 +64,7 @@ setMethod('aggregateMean',signature = 'Data',
 #' @param cls info column to use for class data
 #' @export
 
-setMethod('aggregateMedian',signature = 'Data',
+setMethod('aggregateMedian',signature = 'AnalysisData',
           function(dat, cls = 'class'){
             dat@data <- dat %>%
               dat() %>%

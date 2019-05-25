@@ -3,16 +3,16 @@
 \docType{methods}
 \name{dat}
 \alias{dat}
-\alias{dat,Data-method}
+\alias{dat,AnalysisData-method}
 \title{dat}
 \usage{
 dat(x)
 
-\S4method{dat}{Data}(x)
+\S4method{dat}{AnalysisData}(x)
 }
 \arguments{
 \item{x}{S4 object of class Data}
 }
 \description{
-Return sample data from a Data object.
+Return sample data from an AnalysisData object.
 }

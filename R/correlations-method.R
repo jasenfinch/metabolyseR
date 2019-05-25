@@ -14,7 +14,7 @@ setMethod("correlations", signature = "Analysis",
             }
             
             parameters <- x@parameters@correlations
-            if (length(x@preTreated) > 0) {
+            if (nrow(x %>% preTreatedData()) > 0) {
               dat <- x %>% 
                 preTreatedData()
             } else {

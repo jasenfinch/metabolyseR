@@ -12,5 +12,5 @@ analysisData(data, info)
 \item{info}{saple info}
 }
 \description{
-Create an S4 Data object.
+Create an S4 AnalysisData object.
 }

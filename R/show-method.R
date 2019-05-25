@@ -165,10 +165,10 @@ setMethod('show',signature = 'AnalysisPlot',
 
 #' show-Data
 #' @description show method for Data class
-#' @param object S4 object of class Data
+#' @param object S4 object of class AnalysisData
 #' @export
 
-setMethod('show',signature = 'Data',
+setMethod('show',signature = 'AnalysisData',
           function(object){
             cat('\nAnalysis Data object containing:\n\n')
             cat('Samples:',nrow(dat(object)),'\n')

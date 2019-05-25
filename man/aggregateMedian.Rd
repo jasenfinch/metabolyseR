@@ -3,12 +3,12 @@
 \docType{methods}
 \name{aggregateMedian}
 \alias{aggregateMedian}
-\alias{aggregateMedian,Data-method}
+\alias{aggregateMedian,AnalysisData-method}
 \title{aggregateMedian}
 \usage{
 aggregateMedian(dat, cls = "class")
 
-\S4method{aggregateMedian}{Data}(dat, cls = "class")
+\S4method{aggregateMedian}{AnalysisData}(dat, cls = "class")
 }
 \arguments{
 \item{dat}{S4 object of class Data}

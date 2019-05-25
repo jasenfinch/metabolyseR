@@ -39,7 +39,7 @@ test_that('methods work',{
   },dat = dat)
   
   expect_false(F %in% sapply(m,function(x){slotNames(x) == c('data','info')}))
-  expect_false(F %in% sapply(m,function(x){class(x) == 'Data'}))
+  expect_false(F %in% sapply(m,function(x){class(x) == 'AnalysisData'}))
   expect_false(F %in% (sapply(m,function(x){nrow(x %>% dat())}) == sapply(m,function(x){nrow(x %>% info())})))
 })
 

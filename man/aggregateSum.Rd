@@ -3,12 +3,12 @@
 \docType{methods}
 \name{aggregateSum}
 \alias{aggregateSum}
-\alias{aggregateSum,Data-method}
+\alias{aggregateSum,AnalysisData-method}
 \title{aggregateSum}
 \usage{
 aggregateSum(dat, cls = "class")
 
-\S4method{aggregateSum}{Data}(dat, cls = "class")
+\S4method{aggregateSum}{AnalysisData}(dat, cls = "class")
 }
 \arguments{
 \item{dat}{S4 object of class Data}
