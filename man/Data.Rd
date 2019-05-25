@@ -7,3 +7,11 @@
 \description{
 An S4 class for sample data and info.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{data}}{sample data}
+
+\item{\code{info}}{sample info}
+}}
+

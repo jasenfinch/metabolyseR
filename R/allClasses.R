@@ -1,4 +1,16 @@
-setOldClass('gg')
+#' Data
+#' @rdname Data
+#' @description An S4 class for sample data and info.
+#' @slot data sample data
+#' @slot info sample info
+#' @export
+
+setClass('Data',
+         slots = list(
+           data = 'tbl_df',
+           info = 'tbl_df'
+         )
+)
 
 #' AnalysisParameters
 #' @rdname AnalysisParameters-class
@@ -54,19 +66,5 @@ setClass('AnalysisPlot',
            data = 'list',
            plot = 'list',
            func = 'function'
-         )
-)
-
-#' Data
-#' @rdname Data
-#' @description An S4 class for sample data and info.
-#' @slot data
-#' @slot info
-#' @export
-
-setClass('Data',
-         slots = list(
-           data = 'tbl_df',
-           info = 'tbl_df'
          )
 )
