@@ -107,3 +107,13 @@ setGeneric('plotSupervisedRF',function(analysis, cls = 'class', label = NULL, el
 setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', label = NULL, ellipses = T, title = 'MDS plot of an unsupervised random forest', legendPosition = 'bottom', labelSize = 2, seed = 1234, ...){
   standardGeneric('plotUnsupervisedRF')
 })
+
+#' @rdname data
+setGeneric("data", function(x) {
+  standardGeneric("data")
+})
+
+#' @rdname info
+setGeneric("info", function(x) {
+  standardGeneric("info")
+})

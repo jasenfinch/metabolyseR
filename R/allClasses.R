@@ -56,3 +56,17 @@ setClass('AnalysisPlot',
            func = 'function'
          )
 )
+
+#' Data
+#' @rdname Data
+#' @description An S4 class for sample data and info.
+#' @slot data
+#' @slot info
+#' @export
+
+setClass('Data',
+         slots = list(
+           data = 'tbl_df',
+           info = 'tbl_df'
+         )
+)
