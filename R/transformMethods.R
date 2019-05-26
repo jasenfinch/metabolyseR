@@ -1,62 +1,161 @@
+#' transformCenter
+#' @rdname transformCenter
+#' @description Mean center sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformCenter',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat$Data,2,function(x){x - mean(x,na.rm = T)})
+            return(dat)
+          }
+)
+
+#' transformAuto
+#' @rdname transformAuto
+#' @description Auto scaling of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformAuto',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat %>% dat,2,function(x){x / sd(x,na.rm = T)})
+            return(dat)
+          }
+)
+
+#' transformRange
+#' @rdname transformRange
+#' @description Range scaling of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformRange',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat %>% dat(),2,function(x){x / (max(x,na.rm = T) - min(x,na.rm = T))})
+            return(dat)
+          }
+)
+
+#' transformPareto
+#' @rdname transformPareto
+#' @description Pareto scaling of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformPareto',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat %>% dat(),2,function(x){x / mean(x,na.rm = T)/sqrt(sd(x,na.rm = T))})
+            return(dat)
+          }
+)
+
+#' transformVast
+#' @rdname transformVast
+#' @description Vast scaling of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformVast',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat %>% dat(),2,function(x){x * mean(x,na.rm = T)/sd(x,na.rm = T)^2})
+            return(dat)
+          }
+)
+
+#' transformLevel
+#' @rdname transformLevel
+#' @description Level scaling of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformLevel',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat %>% dat(),2,function(x){x / mean(x,na.rm = T)})
+            return(dat)
+          }
+)
+
+#' transformLn
+#' @rdname transformLn
+#' @description Natural logarithmic transformation of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformLn',signature = 'AnalysisData',
+          function(dat, add = 1){
+            dat@data <- log(dat %>% dat() + add)
+            return(dat)
+          }
+)
+
+#' transformLog10
+#' @rdname transformLog10
+#' @description Logarithmic transformation of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformLog10',signature = 'AnalysisData',
+          function(dat, add = 1){
+            dat@data <- log10(dat %>% dat() + add)
+            return(dat)
+          }
+)
+
+#' transformSQRT
+#' @rdname transformSQRT
+#' @description Square root transformation of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformSQRT',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- sqrt(dat %>% dat())
+            return(dat)
+          }
+)
+
+#' transformArcSine
+#' @rdname transformArcSine
+#' @description Arc-sine transformation of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformArcSine',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- asinh(dat %>% dat())
+            return(dat)
+          }
+)
+
+#' transformTICnorm
+#' @rdname transformTICnorm
+#' @description Total ion count normalisation of sample data.
+#' @param dat S4 object of class AnalysisData 
+#' @export
+
+setMethod('transformTICnorm',signature = 'AnalysisData',
+          function(dat){
+            dat@data <- apply(dat %>% dat(),2,function(x,y){x/y},y = rowSums(dat$Data))
+            return(dat)
+          }
+)
 
 transformMethods <- function(method = NULL, description = F){
-
+  
   methods <- list(
     
-    center = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x){x - mean(x,na.rm = T)})
-      return(dat)
-    },
-    
-    auto = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x){x / sd(x,na.rm = T)})
-      return(dat)
-    },
-    
-    range = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x){x / (max(x,na.rm = T) - min(x,na.rm = T))})
-      return(dat)
-    },
-    
-    pareto = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x){x / mean(x,na.rm = T)/sqrt(sd(x,na.rm = T))})
-      return(dat)
-    },
-    
-    vast = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x){x * mean(x,na.rm = T)/sd(x,na.rm = T)^2})
-      return(dat)
-    },
-    
-    level = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x){x / mean(x,na.rm = T)})
-      return(dat)
-    },
-    
-    log = function(dat, add = 1){
-      dat$Data <- log(dat$Data + add)
-      return(dat)
-    },
-    
-    log10 = function(dat, add = 1){
-      dat$Data <- log10(dat$Data + add)
-      return(dat)
-    },
-    
-    sqrt = function(dat){
-      dat$Data <- sqrt(dat$Data)
-      return(dat)
-    },
-    
-    asinh = function(dat){
-      dat$Data <- asinh(dat$Data)
-      return(dat)
-    },
-    
-    TICnorm = function(dat){
-      dat$Data <- apply(dat$Data,2,function(x,y){x/y},y = rowSums(dat$Data))
-      return(dat)
-    }
+    center = transformCenter,
+    auto = transformAuto,
+    range = transformRange,
+    pareto = transformPareto,
+    vast = transformVast,
+    level = transformLevel,
+    ln = transformLn,
+    log10 = transformLog10,
+    sqrt = transformSQRT,
+    asinh = transformArcSine,
+    TICnorm = transformTICnorm
   )
   
   descriptions = list(
@@ -72,7 +171,7 @@ transformMethods <- function(method = NULL, description = F){
                 arguments = c(`''` = '')),
     level = list(description = 'Level scaling',
                  arguments = c(`''` = '')),
-    log = list(description = 'Natural log scaling',
+    ln = list(description = 'Natural log scaling',
                arguments = c(add = 'value to add prior to transformation')),
     log10 = list(description = 'Log10 scaling',
                  arguments = c(add = 'value to add prior to transformation')),

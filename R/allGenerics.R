@@ -142,3 +142,58 @@ setGeneric("occupancyMaximum", function(dat, cls = 'class', occupancy = 2/3) {
 setGeneric("occupancyMinimum", function(dat, cls = 'class', occupancy = 2/3) {
   standardGeneric("occupancyMinimum")
 })
+
+#' @rdname transformCenter
+setGeneric("transformCenter", function(dat) {
+  standardGeneric("transformCenter")
+})
+
+#' @rdname transformAuto
+setGeneric("transformAuto", function(dat) {
+  standardGeneric("transformAuto")
+})
+
+#' @rdname transformRange
+setGeneric("transformRange", function(dat) {
+  standardGeneric("transformRange")
+})
+
+#' @rdname transformPareto
+setGeneric("transformPareto", function(dat) {
+  standardGeneric("transformPareto")
+})
+
+#' @rdname transformLevel
+setGeneric("transformLevel", function(dat) {
+  standardGeneric("transformLevel")
+})
+
+#' @rdname transformVast
+setGeneric("transformVast", function(dat) {
+  standardGeneric("transformVast")
+})
+
+#' @rdname transformLn
+setGeneric("transformLn", function(dat,add = 1) {
+  standardGeneric("transformLn")
+})
+
+#' @rdname transformLog10
+setGeneric("transformLog10", function(dat,add = 1) {
+  standardGeneric("transformLog10")
+})
+    
+#' @rdname transformSQRT
+setGeneric("transformSQRT", function(dat) {
+  standardGeneric("transformSQRT")
+})
+    
+#' @rdname transformArcSine
+setGeneric("transformArcSine", function(dat) {
+  standardGeneric("transformArcSine")
+})
+
+#' @rdname transformTICnorm
+setGeneric("transformTICnorm", function(dat) {
+  standardGeneric("transformTICnorm")
+})
