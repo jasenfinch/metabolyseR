@@ -1,59 +1,84 @@
+#' occupancyMaximum
+#' @rdname occupancyMaximum
+#' @description Maximum occupancy filtering of sample data.
+#' @param dat S4 object of class Data
+#' @param cls info column to use for class data
+#' @param occupancy occupancy threshold
+#' @export
+
+setMethod('occupancyMaximum',signature = 'AnalysisData',
+          function(dat,cls = 'class', occupancy = 2/3){
+            occ <- occMat(dat,cls)
+            fd <- occ %>%
+              group_by(Feature) %>%
+              summarise(Occupancy = max(Occupancy)) %>%
+              filter(Occupancy >= occupancy)
+            feat <- colnames(dat %>% dat)[colnames(dat %>% dat) %in% unique(fd$Feature)]
+            dat@data <- dat %>%
+              dat %>%
+              select(feat)
+            return(dat)
+          }
+)
+
+#' occupancyMinimum
+#' @rdname occupancyMinimum
+#' @description Minimum occupancy filtering of sample data.
+#' @param dat S4 object of class Data
+#' @param cls info column to use for class data
+#' @param occupancy occupancy threshold
+#' @export
+
+setMethod('occupancyMinimum',signature = 'AnalysisData',
+          function(dat,cls = 'class', occupancy = 2/3){
+            occ <- occMat(dat,cls)
+            fd <- occ %>%
+              group_by(Feature) %>%
+              summarise(Occupancy = min(Occupancy)) %>%
+              filter(Occupancy >= occupancy)
+            feat <- colnames(dat %>% dat())[colnames(dat %>% dat()) %in% unique(fd$Feature)]
+            dat@data <- dat@data %>%
+              select(feat)
+            return(dat)
+          }
+)
 
 occupancyMethods <- function(method = NULL, description = F){
-    
+  
   methods <- list(
-      maximum = function(dat,cls = 'class', occupancy = 2/3){
-        occ <- occMat(dat,cls)
-        fd <- occ %>%
-          group_by(Feature) %>%
-          summarise(Occupancy = max(Occupancy)) %>%
-          filter(Occupancy >= occupancy)
-        feat <- colnames(dat$Data)[colnames(dat$Data) %in% unique(fd$Feature)]
-        dat$Data <- dat$Data %>%
-          select(feat)
-        return(dat)
-      }, 
-      minimum = function(dat,cls = 'class', occupancy = 2/3){
-        occ <- occMat(dat,cls)
-        fd <- occ %>%
-          group_by(Feature) %>%
-          summarise(Occupancy = min(Occupancy)) %>%
-          filter(Occupancy >= occupancy)
-        feat <- colnames(dat$Data)[colnames(dat$Data) %in% unique(fd$Feature)]
-        dat$Data <- dat$Data %>%
-          select(feat)
-        return(dat)
-      }
-    )
-    
+    maximum = occupancyMaximum, 
+    minimum = occupancyMinimum
+  )
+  
   descriptions = list(
     maximum = list(description = 'maximum thresholded class occupancy filtering', 
                    arguments = c(cls = 'info column to use for class labels', 
-                                                   occupancy = 'occupancy threshold')),
+                                 occupancy = 'occupancy threshold')),
     minimum = list(description = 'minimum thresholded class occupancy filtering', 
                    arguments = c(cls = 'info column to use for class labels', 
-                                                   occupancy = 'occupancy threshold'))
-    )
+                                 occupancy = 'occupancy threshold'))
+  )
   
-    if (description == F) {
-      if (is.null(method)) {
-        method <- methods
-      } else {
-        method <- methods[[method]]
-      }
+  if (description == F) {
+    if (is.null(method)) {
+      method <- methods
     } else {
-      if (is.null(method)) {
-        method <- descriptions
-      } else {
-        method <- descriptions[[method]]
-      }
+      method <- methods[[method]]
     }
-    return(method)
+  } else {
+    if (is.null(method)) {
+      method <- descriptions
+    } else {
+      method <- descriptions[[method]]
+    }
+  }
+  return(method)
 }
 
 occMat <- function(dat,cls){
-  d <- dat$Data %>%
-    mutate(Class = unlist(dat$Info[,cls],use.names = F))
+  d <- dat %>%
+    dat() %>%
+    mutate(Class = unlist(dat %>% info() %>% .[,cls],use.names = F))
   
   clsSize <- d %>%
     group_by(Class) %>%
