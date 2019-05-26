@@ -197,3 +197,23 @@ setGeneric("transformArcSine", function(dat) {
 setGeneric("transformTICnorm", function(dat) {
   standardGeneric("transformTICnorm")
 })
+
+#' @rdname QCoccupancy
+setGeneric("QCoccupancy", function(dat,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
+  standardGeneric("QCoccupancy")
+})
+
+#' @rdname QCimpute
+setGeneric("QCimpute", function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+  standardGeneric("QCimpute")
+})
+
+#' @rdname QCrsdFilter
+setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
+  standardGeneric("QCrsdFilter")
+})
+
+#' @rdname QCremove
+setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
+  standardGeneric("QCremove")
+})
