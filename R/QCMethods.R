@@ -20,7 +20,7 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
             QC <- method(QC,cls,occupancy)
             dat@data <- dat %>% 
               dat() %>%
-              .[,colnames(dat$Data) %in% colnames(QC$Data)]
+              .[,colnames(dat %>% dat()) %in% colnames(QC %>% dat())]
             return(dat)
           }
 )
