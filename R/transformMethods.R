@@ -136,7 +136,12 @@ setMethod('transformArcSine',signature = 'AnalysisData',
 
 setMethod('transformTICnorm',signature = 'AnalysisData',
           function(dat){
-            dat@data <- apply(dat %>% dat(),2,function(x,y){x/y},y = rowSums(dat$Data))
+            dat@data <- dat %>% 
+              dat() %>%
+              split(1:nrow(.)) %>%
+              map(~{. / sum(.)}) %>%
+              bind_rows() %>%
+              as_tibble()
             return(dat)
           }
 )
