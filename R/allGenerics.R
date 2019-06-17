@@ -144,57 +144,57 @@ setGeneric("occupancyMinimum", function(dat, cls = 'class', occupancy = 2/3) {
 })
 
 #' @rdname transformCenter
-setGeneric("transformCenter", function(dat) {
+setGeneric("transformCenter", function(d) {
   standardGeneric("transformCenter")
 })
 
 #' @rdname transformAuto
-setGeneric("transformAuto", function(dat) {
+setGeneric("transformAuto", function(d) {
   standardGeneric("transformAuto")
 })
 
 #' @rdname transformRange
-setGeneric("transformRange", function(dat) {
+setGeneric("transformRange", function(d) {
   standardGeneric("transformRange")
 })
 
 #' @rdname transformPareto
-setGeneric("transformPareto", function(dat) {
+setGeneric("transformPareto", function(d) {
   standardGeneric("transformPareto")
 })
 
 #' @rdname transformLevel
-setGeneric("transformLevel", function(dat) {
+setGeneric("transformLevel", function(d) {
   standardGeneric("transformLevel")
 })
 
 #' @rdname transformVast
-setGeneric("transformVast", function(dat) {
+setGeneric("transformVast", function(d) {
   standardGeneric("transformVast")
 })
 
 #' @rdname transformLn
-setGeneric("transformLn", function(dat,add = 1) {
+setGeneric("transformLn", function(d,add = 1) {
   standardGeneric("transformLn")
 })
 
 #' @rdname transformLog10
-setGeneric("transformLog10", function(dat,add = 1) {
+setGeneric("transformLog10", function(d,add = 1) {
   standardGeneric("transformLog10")
 })
     
 #' @rdname transformSQRT
-setGeneric("transformSQRT", function(dat) {
+setGeneric("transformSQRT", function(d) {
   standardGeneric("transformSQRT")
 })
     
 #' @rdname transformArcSine
-setGeneric("transformArcSine", function(dat) {
+setGeneric("transformArcSine", function(d) {
   standardGeneric("transformArcSine")
 })
 
 #' @rdname transformTICnorm
-setGeneric("transformTICnorm", function(dat) {
+setGeneric("transformTICnorm", function(d) {
   standardGeneric("transformTICnorm")
 })
 

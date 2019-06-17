@@ -28,6 +28,14 @@ setMethod('dat',signature = 'AnalysisData',
             x@data
           })
 
+#' @rdname dat
+#' @export
+
+`dat<-` <- function(x,value){
+  x@data <- value
+  return(x)
+}
+
 #' info
 #' @rdname info
 #' @description Return sample info from an AnalysisData object.
@@ -38,3 +46,11 @@ setMethod('info',signature = 'AnalysisData',
           function(x){
             x@info
           })
+
+#' @rdname info
+#' @export
+
+`info<-` <- function(x,value){
+  x@info <- value
+  return(x)
+}

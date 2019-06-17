@@ -1,148 +1,152 @@
 #' transformCenter
 #' @rdname transformCenter
 #' @description Mean center sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformCenter',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- apply(dat$Data,2,function(x){x - mean(x,na.rm = T)})
-            return(dat)
+          function(d){
+            dat(d) <- map_df(d %>% dat(),~{. - mean(.,na.rm = T)})
+            return(d)
           }
 )
 
 #' transformAuto
 #' @rdname transformAuto
 #' @description Auto scaling of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformAuto',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- apply(dat %>% dat,2,function(x){x / sd(x,na.rm = T)})
-            return(dat)
+          function(d){
+            dat(d) <- map_df(d %>% dat(),~{. / sd(.,na.rm = T)})
+            return(d)
           }
 )
 
 #' transformRange
 #' @rdname transformRange
 #' @description Range scaling of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformRange',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- apply(dat %>% dat(),2,function(x){x / (max(x,na.rm = T) - min(x,na.rm = T))})
-            return(dat)
+          function(d){
+            dat(d) <- map_df(d %>% dat(),~{. / (max(.,na.rm = T) - min(.,na.rm = T))})
+            return(d)
           }
 )
 
 #' transformPareto
 #' @rdname transformPareto
 #' @description Pareto scaling of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformPareto',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- apply(dat %>% dat(),2,function(x){x / mean(x,na.rm = T)/sqrt(sd(x,na.rm = T))})
-            return(dat)
+          function(d){
+            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = T)/sqrt(sd(.,na.rm = T))})
+            return(d)
           }
 )
 
 #' transformVast
 #' @rdname transformVast
 #' @description Vast scaling of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformVast',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- apply(dat %>% dat(),2,function(x){x * mean(x,na.rm = T)/sd(x,na.rm = T)^2})
-            return(dat)
+          function(d){
+            dat(d) <- map_df(d %>% dat(),~{. * mean(.,na.rm = T)/sd(.,na.rm = T)^2})
+            return(d)
           }
 )
 
 #' transformLevel
 #' @rdname transformLevel
 #' @description Level scaling of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformLevel',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- apply(dat %>% dat(),2,function(x){x / mean(x,na.rm = T)})
-            return(dat)
+          function(d){
+            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = T)})
+            return(d)
           }
 )
 
 #' transformLn
 #' @rdname transformLn
 #' @description Natural logarithmic transformation of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
+#' @param add value to add prior to transformation
 #' @export
 
 setMethod('transformLn',signature = 'AnalysisData',
-          function(dat, add = 1){
-            dat@data <- log(dat %>% dat() + add)
-            return(dat)
+          function(d, add = 1){
+            dat(d) <- log(d %>% dat() + add) %>%
+              as_tibble()
+            return(d)
           }
 )
 
 #' transformLog10
 #' @rdname transformLog10
 #' @description Logarithmic transformation of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
+#' @param add value to add prior to transformation
 #' @export
 
 setMethod('transformLog10',signature = 'AnalysisData',
-          function(dat, add = 1){
-            dat@data <- log10(dat %>% dat() + add)
-            return(dat)
+          function(d, add = 1){
+            dat(d) <- log10(d %>% dat() + add) %>%
+              as_tibble()
+            return(d)
           }
 )
 
 #' transformSQRT
 #' @rdname transformSQRT
 #' @description Square root transformation of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformSQRT',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- sqrt(dat %>% dat())
-            return(dat)
+          function(d){
+            dat(d) <- sqrt(d %>% dat())
+            return(d)
           }
 )
 
 #' transformArcSine
 #' @rdname transformArcSine
 #' @description Arc-sine transformation of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformArcSine',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- asinh(dat %>% dat())
-            return(dat)
+          function(d){
+            dat(d) <- asinh(d %>% dat())
+            return(d)
           }
 )
 
 #' transformTICnorm
 #' @rdname transformTICnorm
 #' @description Total ion count normalisation of sample data.
-#' @param dat S4 object of class AnalysisData 
+#' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformTICnorm',signature = 'AnalysisData',
-          function(dat){
-            dat@data <- dat %>% 
+          function(d){
+            dat(d) <- d %>% 
               dat() %>%
               split(1:nrow(.)) %>%
               map(~{. / sum(.)}) %>%
               bind_rows() %>%
               as_tibble()
-            return(dat)
+            return(d)
           }
 )
 
