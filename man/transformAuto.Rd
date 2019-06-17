@@ -6,12 +6,12 @@
 \alias{transformAuto,AnalysisData-method}
 \title{transformAuto}
 \usage{
-transformAuto(dat)
+transformAuto(d)
 
-\S4method{transformAuto}{AnalysisData}(dat)
+\S4method{transformAuto}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Auto scaling of sample data.

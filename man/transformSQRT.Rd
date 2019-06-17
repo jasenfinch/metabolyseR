@@ -6,12 +6,12 @@
 \alias{transformSQRT,AnalysisData-method}
 \title{transformSQRT}
 \usage{
-transformSQRT(dat)
+transformSQRT(d)
 
-\S4method{transformSQRT}{AnalysisData}(dat)
+\S4method{transformSQRT}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Square root transformation of sample data.

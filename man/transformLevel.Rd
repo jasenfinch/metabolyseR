@@ -6,12 +6,12 @@
 \alias{transformLevel,AnalysisData-method}
 \title{transformLevel}
 \usage{
-transformLevel(dat)
+transformLevel(d)
 
-\S4method{transformLevel}{AnalysisData}(dat)
+\S4method{transformLevel}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Level scaling of sample data.

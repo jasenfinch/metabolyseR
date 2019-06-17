@@ -4,11 +4,14 @@
 \name{dat}
 \alias{dat}
 \alias{dat,AnalysisData-method}
+\alias{dat<-}
 \title{dat}
 \usage{
 dat(x)
 
 \S4method{dat}{AnalysisData}(x)
+
+dat(x) <- value
 }
 \arguments{
 \item{x}{S4 object of class Data}

@@ -6,12 +6,12 @@
 \alias{transformPareto,AnalysisData-method}
 \title{transformPareto}
 \usage{
-transformPareto(dat)
+transformPareto(d)
 
-\S4method{transformPareto}{AnalysisData}(dat)
+\S4method{transformPareto}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Pareto scaling of sample data.

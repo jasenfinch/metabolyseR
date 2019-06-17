@@ -4,11 +4,14 @@
 \name{info}
 \alias{info}
 \alias{info,AnalysisData-method}
+\alias{info<-}
 \title{info}
 \usage{
 info(x)
 
 \S4method{info}{AnalysisData}(x)
+
+info(x) <- value
 }
 \arguments{
 \item{x}{S4 object of class Data}

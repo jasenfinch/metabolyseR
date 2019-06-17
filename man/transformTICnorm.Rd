@@ -6,12 +6,12 @@
 \alias{transformTICnorm,AnalysisData-method}
 \title{transformTICnorm}
 \usage{
-transformTICnorm(dat)
+transformTICnorm(d)
 
-\S4method{transformTICnorm}{AnalysisData}(dat)
+\S4method{transformTICnorm}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Total ion count normalisation of sample data.

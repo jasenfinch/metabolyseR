@@ -6,12 +6,12 @@
 \alias{transformVast,AnalysisData-method}
 \title{transformVast}
 \usage{
-transformVast(dat)
+transformVast(d)
 
-\S4method{transformVast}{AnalysisData}(dat)
+\S4method{transformVast}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Vast scaling of sample data.

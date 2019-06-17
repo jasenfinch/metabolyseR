@@ -6,12 +6,12 @@
 \alias{transformArcSine,AnalysisData-method}
 \title{transformArcSine}
 \usage{
-transformArcSine(dat)
+transformArcSine(d)
 
-\S4method{transformArcSine}{AnalysisData}(dat)
+\S4method{transformArcSine}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Arc-sine transformation of sample data.

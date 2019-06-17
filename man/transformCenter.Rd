@@ -6,12 +6,12 @@
 \alias{transformCenter,AnalysisData-method}
 \title{transformCenter}
 \usage{
-transformCenter(dat)
+transformCenter(d)
 
-\S4method{transformCenter}{AnalysisData}(dat)
+\S4method{transformCenter}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Mean center sample data.

@@ -6,12 +6,14 @@
 \alias{transformLog10,AnalysisData-method}
 \title{transformLog10}
 \usage{
-transformLog10(dat, add = 1)
+transformLog10(d, add = 1)
 
-\S4method{transformLog10}{AnalysisData}(dat, add = 1)
+\S4method{transformLog10}{AnalysisData}(d, add = 1)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
+
+\item{add}{value to add prior to transformation}
 }
 \description{
 Logarithmic transformation of sample data.

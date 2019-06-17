@@ -6,12 +6,12 @@
 \alias{transformRange,AnalysisData-method}
 \title{transformRange}
 \usage{
-transformRange(dat)
+transformRange(d)
 
-\S4method{transformRange}{AnalysisData}(dat)
+\S4method{transformRange}{AnalysisData}(d)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 }
 \description{
 Range scaling of sample data.

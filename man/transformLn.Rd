@@ -6,12 +6,14 @@
 \alias{transformLn,AnalysisData-method}
 \title{transformLn}
 \usage{
-transformLn(dat, add = 1)
+transformLn(d, add = 1)
 
-\S4method{transformLn}{AnalysisData}(dat, add = 1)
+\S4method{transformLn}{AnalysisData}(d, add = 1)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
+
+\item{add}{value to add prior to transformation}
 }
 \description{
 Natural logarithmic transformation of sample data.
