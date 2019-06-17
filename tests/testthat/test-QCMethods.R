@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('QCMethods')
 
@@ -32,22 +32,22 @@ test_that('number of method arguments matches description arguments', {
 test_that('methods work',{
   m <- names(metabolyseR:::QCMethods())
   data("abr1")
-  dat <- analysisData(abr1$neg[abr1$fact$class %in% c('1','6'),500:600], 
+  d <- analysisData(abr1$neg[abr1$fact$class %in% c('1','6'),500:600], 
               cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],
                                      fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
-  m <- lapply(m,function(x,dat){
-    method <- metabolyseR:::QCMethods(x)
-    if (x == 'impute') {
-      res <- method(dat, cls = 'class', QCidx = '1',nCores = 2)
+  m <- map(m,~{
+    method <- metabolyseR:::QCMethods(.)
+    if (. == 'impute') {
+      res <- method(d, cls = 'class', QCidx = '1',nCores = 2)
     } else {
-      res <- method(dat, cls = 'class', QCidx = '1')  
+      res <- method(d, cls = 'class', QCidx = '1')  
     }
     
     return(res)
-  },dat = dat)
+  })
   
-  expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
-  expect_false(F %in% sapply(m,function(x){identical(class(x[[1]]),c('tbl_df','tbl','data.frame'))}))
-  expect_false(F %in% sapply(m,function(x){identical(class(x[[2]]),c('tbl_df','tbl','data.frame'))}))
-  expect_false(F %in% sapply(m,function(x,col){ncol(x$Info) == col},col = ncol(dat$Info)))
+  expect_false(F %in% sapply(m,function(x){identical(slotNames(x),c('data','info'))}))
+  expect_false(F %in% sapply(m,function(x){identical(class(dat(x)),c('tbl_df','tbl','data.frame'))}))
+  expect_false(F %in% sapply(m,function(x){identical(class(info(x)),c('tbl_df','tbl','data.frame'))}))
+  expect_false(F %in% sapply(m,function(x,col){ncol(info(x)) == col},col = ncol(info(d))))
 })
