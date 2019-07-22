@@ -1,4 +1,3 @@
-setOldClass('gg')
 
 #' AnalysisParameters
 #' @rdname AnalysisParameters-class
@@ -12,10 +11,19 @@ setOldClass('gg')
 setClass('AnalysisParameters',
          slots = list(
            preTreat = 'list',
-           classification = 'list',
-           featureSelection = 'list',
+           modelling = 'list',
            correlations = 'list'
          ))
+
+setClass('ModellingParameters',
+         slots = list(
+          type = 'character',
+          methods = 'character',
+          predictors = 'character',
+          pairwise = 'logical',
+          permute = 'list'
+         )
+)
 
 #' Analysis
 #' @rdname Analysis-class
@@ -35,9 +43,29 @@ setClass('Analysis',
            parameters = 'AnalysisParameters',
            rawData = 'list',
            preTreated = 'list',
-           classification = 'tbl_df',
-           featureSelection = 'tbl_df',
+           modelling = 'list',
            correlations = 'tbl_df'
+         )
+)
+
+setClass('Univariate',
+         slots = list(
+           parameters = 'list',
+           models = 'list'
+         )
+)
+
+setClass('Multivariate',
+         slots = list(
+           parameters = 'list',
+           models = 'list'
+         )
+)
+
+setClass('RandomForest',
+         slots = list(
+           parmeters = 'list',
+           model = 'ranger'  
          )
 )
 
