@@ -19,6 +19,7 @@ setClass('ModellingParameters',
          slots = list(
           type = 'character',
           methods = 'character',
+          parameters = 'list',
           predictors = 'character',
           pairwise = 'logical',
           permute = 'list'

@@ -1,7 +1,7 @@
 #' @importFrom parallel parLapply makeCluster stopCluster clusterEvalQ
 #' @importFrom utils combn
 
-setMethod("featureSelection", signature = "Analysis",
+setMethod("modelling", signature = "Analysis",
           function(x){
             verbose <- x@log$verbose
             if (verbose == T) {
@@ -9,7 +9,7 @@ setMethod("featureSelection", signature = "Analysis",
               cat(blue('Feature selection'),cli::symbol$continue,'\r',sep = '') 
             }
             
-            parameters <- x@parameters@featureSelection
+            parameters <- x@parameters@modelling
             methods <- parameters$method
             
             if (length(x@preTreated) > 0) {
