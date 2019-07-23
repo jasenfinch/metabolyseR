@@ -61,10 +61,18 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
     correlations <- list()
   }
   
-  new('AnalysisParameters',
+  p <- new('AnalysisParameters',
       preTreat = preTreat,
       classification = classification,
       featureSelection = featureSelection,
       correlations = correlations
   )
+  
+  if (.Platform$OS.type != 'windows') {
+    p <- changeParameter('clusterType','FORK',p)
+  }
+  
+  p <- changeParameter('nCores',{detectCores() * 0.75} %>% round(),p)
+  
+  return(p)
 }
