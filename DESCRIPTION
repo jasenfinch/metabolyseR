@@ -3,6 +3,7 @@ Title: Methods for pre-treatment, classification, feature selection and correlat
 Version: 0.8.7
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data.
+biocViews: Metabolomics
 Depends: R (>= 3.4.0),
          parallel
 Imports: FIEmspro,
