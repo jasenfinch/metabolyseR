@@ -222,3 +222,8 @@ setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni', returnModels = F, nCo
 setGeneric("linearRegression", function(x, cls, pAdjust = 'bonferroni', returnModels = F) {
   standardGeneric("linearRegression")
 })
+
+#' @rdname randomForest
+setGeneric("randomForest", function(x, cls, reps = 1, returnModels = F, seed = 1234, ...) {
+  standardGeneric("randomForest")
+})
