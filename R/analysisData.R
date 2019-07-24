@@ -19,8 +19,8 @@ analysisData <- function(data,info){
 
 #' dat
 #' @rdname dat
-#' @description Return sample data from an AnalysisData object.
-#' @param x S4 object of class Data 
+#' @description Return or sest sample data in an AnalysisData object.
+#' @param x S4 object of class AnalysisData 
 #' @export
 
 setMethod('dat',signature = 'AnalysisData',
@@ -29,6 +29,7 @@ setMethod('dat',signature = 'AnalysisData',
           })
 
 #' @rdname dat
+#' @param value tibble containing sample data
 #' @export
 
 `dat<-` <- function(x,value){
@@ -48,6 +49,7 @@ setMethod('info',signature = 'AnalysisData',
           })
 
 #' @rdname info
+#' @param value tibble containing sample info
 #' @export
 
 `info<-` <- function(x,value){

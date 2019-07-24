@@ -14,8 +14,10 @@ dat(x)
 dat(x) <- value
 }
 \arguments{
-\item{x}{S4 object of class Data}
+\item{x}{S4 object of class AnalysisData}
+
+\item{value}{tibble containing sample data}
 }
 \description{
-Return sample data from an AnalysisData object.
+Return or sest sample data in an AnalysisData object.
 }

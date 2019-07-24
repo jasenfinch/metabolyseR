@@ -3,7 +3,7 @@
 \docType{class}
 \name{AnalysisData-class}
 \alias{AnalysisData-class}
-\title{Data}
+\title{AnalysisData}
 \description{
 An S4 class for sample data and info.
 }

@@ -1,5 +1,5 @@
-#' Data
-#' @rdname AnalysisData
+#' AnalysisData
+#' @rdname AnalysisData-class
 #' @description An S4 class for sample data and info.
 #' @slot data sample data
 #' @slot info sample info

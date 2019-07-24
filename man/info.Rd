@@ -15,6 +15,8 @@ info(x) <- value
 }
 \arguments{
 \item{x}{S4 object of class Data}
+
+\item{value}{tibble containing sample info}
 }
 \description{
 Return sample info from an AnalysisData object.
