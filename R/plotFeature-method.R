@@ -21,34 +21,43 @@
 
 setMethod('plotFeature',signature = 'Analysis',
           function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
-            dat <- preTreatedData(analysis)
-            info <- preTreatedInfo(analysis)
+            analysis@preTreated %>%
+              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
+          })
+
+#' @rdname plotFeature
+#' @export
+
+setMethod('plotFeature',signature = 'AnalysisData',
+          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+            d <- dat(analysis)
+            i <- info(analysis)
             
-            info <- info %>%
+            i <- i %>%
               select(Class = cls,Label = label)
             
             if (!is.null(label)) {
-              dat <- dat %>%
-                bind_cols(info) %>%
+              d <- d %>%
+                bind_cols(i) %>%
                 gather('Feature','Intensity',-Class,-Label) %>%
                 filter(Feature == feature) %>%
                 mutate(Intensity = as.numeric(Intensity))
             } else {
-              dat <- dat %>%
-                bind_cols(info) %>%
+              d <- d %>%
+                bind_cols(i) %>%
                 gather('Feature','Intensity',-Class) %>%
                 filter(Feature == feature) %>%
                 mutate(Intensity = as.numeric(Intensity))
             }
             
-            if (class(info$Class) == 'character' | class(info$Class) == 'factor') {
-              classes <- dat %>%
+            if (class(i$Class) == 'character' | class(i$Class) == 'factor') {
+              classes <- d %>%
                 select(Class) %>% 
                 unique() %>%
                 unlist() %>%
                 length()
               
-              pl <- dat %>%
+              pl <- d %>%
                 ggplot(aes(x = Class,y = Intensity,group = Class)) +
                 geom_boxplot(outlier.shape = NA,colour = 'darkgrey') +
                 geom_point(aes(colour = Class),alpha = 0.8) +
@@ -69,7 +78,7 @@ setMethod('plotFeature',signature = 'Analysis',
                 pl <- pl + scale_colour_manual(values = pal)
               }
             } else {
-              pl <- dat %>%
+              pl <- d %>%
                 ggplot(aes(x = Class, y = Intensity)) +
                 geom_point(colour = ptol_pal()(1)) +
                 theme_bw() +
@@ -83,4 +92,5 @@ setMethod('plotFeature',signature = 'Analysis',
             }
             
             pl
-          })
+          }
+)
