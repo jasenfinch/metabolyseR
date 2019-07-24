@@ -1,10 +1,10 @@
 #' ttest
 #' @rdname ttest
-#' @importFrom dplyr mutate_all
+#' @importFrom dplyr bind_rows
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls,pAdjust = 'bonferroni', returnModels = F, ...){
+          function(x,cls,pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType(), ...){
             
             d <- x %>%
               dat()
@@ -15,27 +15,39 @@ setMethod('ttest',signature = 'AnalysisData',
             classes <- i %>%
               select(cls)
             
-            pw <- classes %>%
-              map(pairwises)
+            if (length(pairwises > 0)) {
+              pw <- pairwises
+            } else {
+              pw <- classes %>%
+                map(getPairwises) 
+            }
             
             models <- pw %>%
               names() %>%
               map(~{
-                cl <- .
-                pw[[cl]] %>%
-                  map(~{
-                    p <- .  
+                pred <- .
+                ps <- pw[[pred]]
+                
+                if (length(ps) < nCores) {
+                  nCores <- length(ps)
+                }
+                
+                clus <- makeCluster(nCores,type = clusterType)
+                
+                ps %>%
+                  parLapply(cl = clus,X = .,fun = function(z,da,pred){
+                    p <- z  
                     pc <- str_split(p,'~')[[1]]
                     
-                    pad <- removeClasses(x,cl,classes = info(x) %>%
-                                           select(cl) %>%
+                    pad <- removeClasses(da,pred,classes = info(da) %>%
+                                           select(pred) %>%
                                            unlist() %>%
                                            unique() %>%
                                            .[!(. %in% pc)])
                     
                     response <- pad %>%
                       info() %>%
-                      select(cl) %>%
+                      select(pred) %>%
                       unlist() %>%
                       factor()
                     
@@ -44,7 +56,7 @@ setMethod('ttest',signature = 'AnalysisData',
                       map(~{
                         t.test(. ~ response)
                       })
-                  }) %>%
+                  },da = x,pred = pred) %>%
                 set_names(pw[[cl]])
               }) %>%
               set_names(names(pw))
@@ -59,7 +71,12 @@ setMethod('ttest',signature = 'AnalysisData',
                   bind_rows(.id = 'Pairwise')
               }) %>%
               bind_rows(.id = 'Predictor')
-              
+           
+            if (returnModels == T) {
+              return(list(models = models,results = results))
+            } else {
+              return(list(results = results))
+            }  
           }
 )
 

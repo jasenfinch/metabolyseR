@@ -6,9 +6,12 @@
 \alias{ttest,AnalysisData-method}
 \title{ttest}
 \usage{
-ttest(x, cls, pAdjust = "bonferroni")
+ttest(x, cls, pAdjust = "bonferroni", returnModels = F,
+  nCores = detectCores() * 0.75, clusterType = clusterType(), ...)
 
-\S4method{ttest}{AnalysisData}(x, cls, pAdjust = "bonferroni")
+\S4method{ttest}{AnalysisData}(x, cls, pAdjust = "bonferroni",
+  returnModels = F, nCores = detectCores() * 0.75,
+  clusterType = getClusterType(), ...)
 }
 \description{
 ttest
