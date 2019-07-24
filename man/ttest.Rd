@@ -13,6 +13,21 @@ ttest(x, cls, pAdjust = "bonferroni", returnModels = F,
   pairwises = list(), returnModels = F, nCores = detectCores() *
   0.75, clusterType = getClusterType(), ...)
 }
+\arguments{
+\item{x}{S4 object of class AnalysisData}
+
+\item{cls}{vector of sample info column names to analyse}
+
+\item{pAdjust}{p value adjustment method}
+
+\item{returnModels}{should models be returned}
+
+\item{nCores}{number of cores to use for parallelisation}
+
+\item{clusterType}{cluster type to use for parallelisation (`?parallel::makeCluster`)}
+
+\item{pairwises}{named list of pairwises to analyse}
+}
 \description{
-ttest
+Welch t-test
 }
