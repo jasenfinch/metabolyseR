@@ -14,6 +14,7 @@ vignette: >
 ---
 
 ```{r libraryLoad,echo=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
 suppressPackageStartupMessages(library(metabolyseR))
 library(magrittr)
 ```
