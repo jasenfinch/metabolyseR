@@ -217,3 +217,18 @@ setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 
 setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
+
+#' @rdname removeSamples
+setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c()) {
+  standardGeneric("removeSamples")
+})
+
+#' @rdname removeClasses
+setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
+  standardGeneric("removeClasses")
+})
+
+#' @rdname removeVariables
+setGeneric("removeVariables", function(d,variables = character()) {
+  standardGeneric("removeVariables")
+})
