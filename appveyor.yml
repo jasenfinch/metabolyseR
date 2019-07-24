@@ -17,7 +17,7 @@ environment:
    USE_RTOOLS: true
    
 build_script:
-  - travis-tool.sh install_github aberHRML/FIEmspro aberHRML/metaboData
+  - travis-tool.sh install_github aberHRML/metaboData
 
 test_script:
   - travis-tool.sh run_tests
