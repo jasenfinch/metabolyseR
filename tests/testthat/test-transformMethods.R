@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+suppressPackageStartupMessages(library(metaboData))
 
 context('transformMethods')
 
@@ -26,18 +26,18 @@ test_that('descriptions have correct names', {
 test_that('methods work',{
   m <- names(metabolyseR:::transformMethods())
   data("abr1")
-  dat <- list(Data = abr1$neg[abr1$fact$class %in% c('1','6'),500:600], Info = cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
-  m <- lapply(m,function(x,dat){
-    method <- metabolyseR:::transformMethods(x)
-    res <- method(dat)
+  d <- analysisData(abr1$neg[abr1$fact$class %in% c('1','6'),500:600],cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
+  m <- map(m,~{
+    method <- metabolyseR:::transformMethods(.)
+    res <- method(d)
     return(res)
-  },dat = dat)
+  })
   
-  expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
-  expect_false(F %in% sapply(m,function(x){class(x[[1]]) == 'matrix'}))
-  expect_false(F %in% sapply(m,function(x){class(x[[2]]) == 'data.frame'}))
-  expect_false(F %in% sapply(m,function(x,col){ncol(x$Data) == col},col = ncol(dat$Data)))
-  expect_false(F %in% sapply(m,function(x,row){nrow(x$Data) == row},row = nrow(dat$Data)))
-  expect_false(F %in% sapply(m,function(x,col){ncol(x$Info) == col},col = ncol(dat$Info)))
-  expect_false(F %in% sapply(m,function(x,row){nrow(x$Info) == row},row = nrow(dat$Info)))
+  expect_false(F %in% sapply(m,function(x){identical(slotNames(x),c('data','info'))}))
+  expect_false(F %in% sapply(m,function(x){identical(class(x %>% dat()),c('tbl_df',"tbl","data.frame"))}))
+  expect_false(F %in% sapply(m,function(x){identical(class(x %>% info()),c('tbl_df',"tbl","data.frame"))}))
+  expect_false(F %in% sapply(m,function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
+  expect_false(F %in% sapply(m,function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
+  expect_false(F %in% sapply(m,function(x,col){ncol(info(x)) == col},col = ncol(info(d))))
+  expect_false(F %in% sapply(m,function(x,row){nrow(info(x)) == row},row = nrow(dat(d))))
 })

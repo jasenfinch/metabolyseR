@@ -162,3 +162,18 @@ setMethod('show',signature = 'AnalysisPlot',
               print()
           }
 )
+
+#' show-Data
+#' @description show method for Data class
+#' @param object S4 object of class AnalysisData
+#' @export
+
+setMethod('show',signature = 'AnalysisData',
+          function(object){
+            cat('\nAnalysis Data object containing:\n\n')
+            cat('Samples:',nrow(dat(object)),'\n')
+            cat('Features:',ncol(dat(object)),'\n')
+            cat('Info:',ncol(info(object)),'\n')
+            cat('\n')
+          }
+          )

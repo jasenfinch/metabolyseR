@@ -1,9 +1,8 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('plotClassification')
 
 test_that('plotClassification returns a plot',{
-  data(abr1)
   p <- analysisParameters(c('preTreat','classification'))
   p@preTreat <- list(
     occupancyFilter = list(maximum = list()),

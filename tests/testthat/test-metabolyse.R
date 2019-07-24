@@ -1,9 +1,8 @@
-suppressPackageStartupMessages(library(metaboData))
+library(metaboData)
 
 context('metabolyse')
 
 test_that('metabolyse-works', {
-  data(abr1)
   p <- analysisParameters()
   p@preTreat <- list(
     occupancyFilter = list(maximum = list()),

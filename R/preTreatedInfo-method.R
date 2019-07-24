@@ -6,7 +6,8 @@
 
 setMethod('preTreatedInfo', signature = 'Analysis',
           function(x){
-            x <- x@preTreated$Info
+            x <- x@preTreated %>%
+              info()
             return(x)
           }
 )

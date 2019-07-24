@@ -9,7 +9,7 @@ setMethod("preTreat", signature = "Analysis",
               cat(blue('Pre-treatment'),cli::symbol$continue,'\r',sep = '') 
             }
             params <- x@parameters@preTreat
-            dat <- list(Data = x@rawData$Data, Info = x@rawData$Info)
+            dat <- analysisData(rawData(x), rawInfo(x))
             
             for (i in 1:length(params)) {
               method <- preTreatMethods(names(params)[i])
@@ -23,7 +23,7 @@ setMethod("preTreat", signature = "Analysis",
                 dat <- m[[j]](dat)
               }
             }
-            x@preTreated <- list(Data = as_tibble(dat$Data), Info = as_tibble(dat$Info))
+            x@preTreated <- dat
             x@log$preTreatment <- date()
             
             if (verbose == T) {
