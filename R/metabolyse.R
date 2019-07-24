@@ -38,8 +38,8 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
   analysis <- new('Analysis',
       log = list(packageVersion = version,analysis = analysisStart,verbose = verbose),
       parameters = parameters,
-      rawData = list(Info = as_tibble(info),Data = as_tibble(data)),
-      preTreated = list(),
+      rawData = analysisData(data,info),
+      preTreated = new('AnalysisData'),
       classification = tibble(),
       featureSelection = tibble(),
       correlations = tibble()

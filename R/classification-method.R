@@ -12,13 +12,15 @@ setMethod("classification", signature = "Analysis",
             }
             parameters <- x@parameters@classification
             if (length(x@preTreated) > 0) {
-              dat <- x@preTreated$Data
+              dat <- x %>%
+                preTreatedData()
               cls <- x  %>%
                 preTreatedInfo() %>%
                 select(parameters$cls) %>%
                 unlist()
             } else {
-              dat <- x@rawData$Data
+              dat <- x %>%
+                rawData()
               cls <-  x  %>%
                 rawInfo() %>%
                 select(parameters$cls) %>%

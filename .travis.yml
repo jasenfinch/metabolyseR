@@ -16,9 +16,6 @@ r:
 r_github_packages:
   - thomasp85/patchwork
 
-bioc_packages:
-    - impute
-
 after_success:
     - Rscript -e 'library(covr); codecov()'
 

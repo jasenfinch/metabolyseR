@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('aggregateMethods')
 
@@ -31,16 +31,15 @@ test_that('number of method arguments matches description arguments', {
 
 test_that('methods work',{
   m <- names(metabolyseR:::aggregateMethods())
-  data("abr1")
-  dat <- list(Data = as_tibble(abr1$neg[abr1$fact$class %in% c('1','6'),500:600]), Info = as_tibble(cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),]))))
+  dat <- analysisData(abr1$neg[abr1$fact$class %in% c('1','6'),500:600], cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
   m <- lapply(m,function(x,dat){
     method <- metabolyseR:::aggregateMethods(x)
     res <- method(dat)
     return(res)
   },dat = dat)
   
-  expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
-  expect_false(F %in% sapply(m,function(x){class(x[[1]]) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x){class(x[[2]]) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% (sapply(m,function(x){nrow(x$Data)}) == sapply(m,function(x){nrow(x$Info)})))
+  expect_false(F %in% sapply(m,function(x){slotNames(x) == c('data','info')}))
+  expect_false(F %in% sapply(m,function(x){class(x) == 'AnalysisData'}))
+  expect_false(F %in% (sapply(m,function(x){nrow(x %>% dat())}) == sapply(m,function(x){nrow(x %>% info())})))
 })
+

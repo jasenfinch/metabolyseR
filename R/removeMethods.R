@@ -1,33 +1,65 @@
+#' removeSamples
+#' @rdname removeSamples
+#' @description Remove samples from an AnalysisData object.
+#' @param d S4 object of class AnalysisData
+#' @param idx info column containing sample indexes
+#' @param samples sample indexes to remove
+#' @export
+
+setMethod('removeSamples',signature = 'AnalysisData',
+          function(d,idx = 'fileOrder', samples = c()){
+            dat(d) <- dat(d)[!(unlist(info(d)[,idx]) %in% samples),]
+            info(d) <- info(d)[!(unlist(info(d)[,idx]) %in% samples),]
+            return(d)
+          }
+)
+
+#' removeClasses
+#' @rdname removeClasses
+#' @description Remove classes from an AnalysisData object.
+#' @param d S4 object of class AnalysisData
+#' @param cls info column to use for class information
+#' @param classes classes to remove
+#' @export
+
+setMethod('removeClasses',signature = 'AnalysisData',
+          function(d,cls = 'class', classes = c()){
+            dat(d) <- dat(d)[!(unlist(info(d)[,cls]) %in% classes),]
+            info(d) <-  info(d)[!(unlist(info(d)[,cls]) %in% classes),]
+            return(d)
+          }
+)
+
+#' removeVariables
+#' @rdname removeVariables
+#' @description Remove variables from an AnalysisData object.
+#' @param d S4 object of class AnalysisData
+#' @param variables variables to remove
+#' @export
+
+setMethod('removeVariables',signature = 'AnalysisData',
+          function(d,variables = character()){
+            dat(d) <- dat(d)[,!(colnames(dat(d)) %in% variables)]
+            return(d)
+          }
+)
 
 removeMethods <- function(method = NULL, description = F){
   methods <- list(
-    sample = function(dat,idx = 'fileOrder', samples = c()){
-      dat$Data <- dat$Data[!(unlist(dat$Info[,idx]) %in% samples),]
-      dat$Info <-  dat$Info[!(unlist(dat$Info[,idx]) %in% samples),]
-      return(dat)
-    },
-    
-    class = function(dat,cls = 'class', classes = c()){
-      dat$Data <- dat$Data[!(unlist(dat$Info[,cls]) %in% classes),]
-      dat$Info <-  dat$Info[!(unlist(dat$Info[,cls]) %in% classes),]
-      return(dat)
-    },
-    
-    variable = function(dat,variable = character()){
-      dat$Data <- dat$Data[,!(colnames(dat$Data) %in% variable)]
-      return(data)
-    }
+    samples = removeSamples,
+    classes = removeClasses,
+    variables = removeVariables 
   )
   
   descriptions = list(
-    sample = list(description = 'remove samples',
-                  arguments = c(idx = 'info column containing sample indices',
+    samples = list(description = 'remove samples',
+                  arguments = c(idx = 'info column containing sample indexes',
                                 samples = 'sample indices to remove')),
-    class = list(description = 'remove classes',
+    classes = list(description = 'remove classes',
                  arguments = c(cls = 'info column containing class information',
                                classes = 'classes to remove')),
-    variable = list(description = 'remove variables',
-                   arguments = c(variable = 'variables to remove'))
+    variables = list(description = 'remove variables',
+                    arguments = c(variables = 'variables to remove'))
   )
   
   if (description == F) {

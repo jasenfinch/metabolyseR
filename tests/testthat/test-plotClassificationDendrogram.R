@@ -1,9 +1,8 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('plotClassificationDendrogram')
 
 test_that('plotClassificationDendrogram returns a plot',{
-  data(abr1)
   p <- analysisParameters(c('preTreat','classification'))
   p@preTreat <- list(
     occupancyFilter = list(maximum = list()),

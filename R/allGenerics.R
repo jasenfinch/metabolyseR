@@ -107,3 +107,128 @@ setGeneric('plotSupervisedRF',function(analysis, cls = 'class', label = NULL, el
 setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', label = NULL, ellipses = T, title = 'MDS plot of an unsupervised random forest', legendPosition = 'bottom', labelSize = 2, seed = 1234, ...){
   standardGeneric('plotUnsupervisedRF')
 })
+
+#' @rdname dat
+setGeneric("dat", function(x) {
+  standardGeneric("dat")
+})
+
+#' @rdname info
+setGeneric("info", function(x) {
+  standardGeneric("info")
+})
+
+#' @rdname aggregateSum
+setGeneric("aggregateSum", function(dat,cls = 'class') {
+  standardGeneric("aggregateSum")
+})
+
+#' @rdname aggregateMean
+setGeneric("aggregateMean", function(dat,cls = 'class') {
+  standardGeneric("aggregateMean")
+})
+
+#' @rdname aggregateMedian
+setGeneric("aggregateMedian", function(dat,cls = 'class') {
+  standardGeneric("aggregateMedian")
+})
+
+#' @rdname occupancyMaximum
+setGeneric("occupancyMaximum", function(dat, cls = 'class', occupancy = 2/3) {
+  standardGeneric("occupancyMaximum")
+})
+
+#' @rdname occupancyMinimum
+setGeneric("occupancyMinimum", function(dat, cls = 'class', occupancy = 2/3) {
+  standardGeneric("occupancyMinimum")
+})
+
+#' @rdname transformCenter
+setGeneric("transformCenter", function(d) {
+  standardGeneric("transformCenter")
+})
+
+#' @rdname transformAuto
+setGeneric("transformAuto", function(d) {
+  standardGeneric("transformAuto")
+})
+
+#' @rdname transformRange
+setGeneric("transformRange", function(d) {
+  standardGeneric("transformRange")
+})
+
+#' @rdname transformPareto
+setGeneric("transformPareto", function(d) {
+  standardGeneric("transformPareto")
+})
+
+#' @rdname transformLevel
+setGeneric("transformLevel", function(d) {
+  standardGeneric("transformLevel")
+})
+
+#' @rdname transformVast
+setGeneric("transformVast", function(d) {
+  standardGeneric("transformVast")
+})
+
+#' @rdname transformLn
+setGeneric("transformLn", function(d,add = 1) {
+  standardGeneric("transformLn")
+})
+
+#' @rdname transformLog10
+setGeneric("transformLog10", function(d,add = 1) {
+  standardGeneric("transformLog10")
+})
+    
+#' @rdname transformSQRT
+setGeneric("transformSQRT", function(d) {
+  standardGeneric("transformSQRT")
+})
+    
+#' @rdname transformArcSine
+setGeneric("transformArcSine", function(d) {
+  standardGeneric("transformArcSine")
+})
+
+#' @rdname transformTICnorm
+setGeneric("transformTICnorm", function(d) {
+  standardGeneric("transformTICnorm")
+})
+
+#' @rdname QCoccupancy
+setGeneric("QCoccupancy", function(dat,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
+  standardGeneric("QCoccupancy")
+})
+
+#' @rdname QCimpute
+setGeneric("QCimpute", function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+  standardGeneric("QCimpute")
+})
+
+#' @rdname QCrsdFilter
+setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
+  standardGeneric("QCrsdFilter")
+})
+
+#' @rdname QCremove
+setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
+  standardGeneric("QCremove")
+})
+
+#' @rdname removeSamples
+setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c()) {
+  standardGeneric("removeSamples")
+})
+
+#' @rdname removeClasses
+setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
+  standardGeneric("removeClasses")
+})
+
+#' @rdname removeVariables
+setGeneric("removeVariables", function(d,variables = character()) {
+  standardGeneric("removeVariables")
+})
