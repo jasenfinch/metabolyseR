@@ -19,7 +19,7 @@ setMethod('removeSamples',signature = 'AnalysisData',
 #' @description Remove classes from an AnalysisData object.
 #' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class information
-#' @param samples classes to remove
+#' @param classes classes to remove
 #' @export
 
 setMethod('removeClasses',signature = 'AnalysisData',
