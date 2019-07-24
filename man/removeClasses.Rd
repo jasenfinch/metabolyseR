@@ -15,7 +15,7 @@ removeClasses(d, cls = "class", classes = c())
 
 \item{cls}{info column to use for class information}
 
-\item{samples}{classes to remove}
+\item{classes}{classes to remove}
 }
 \description{
 Remove classes from an AnalysisData object.
