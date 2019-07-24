@@ -81,5 +81,6 @@ Collate: allGenerics.R
     show-method.R
     transformMethods.R
     univariateMethods.R
+    modelling.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
