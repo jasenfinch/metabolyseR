@@ -63,27 +63,6 @@ setClass('Analysis',
          )
 )
 
-setClass('Univariate',
-         slots = list(
-           parameters = 'list',
-           models = 'list'
-         )
-)
-
-setClass('Multivariate',
-         slots = list(
-           parameters = 'list',
-           models = 'list'
-         )
-)
-
-setClass('RandomForest',
-         slots = list(
-           parmeters = 'list',
-           model = 'ranger'  
-         )
-)
-
 #' AnalysisPlot
 #' @rdname AnalysisPlot-class
 #' @description An S4 class to store an analysis plot

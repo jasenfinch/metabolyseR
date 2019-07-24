@@ -4,16 +4,6 @@ setGeneric("preTreat", function(x) {
 })
 
 
-setGeneric("classification", function(x) {
-  standardGeneric("classification")
-})
-
-
-setGeneric("featureSelection", function(x) {
-  standardGeneric("featureSelection")
-})
-
-
 setGeneric("correlations", function(x) {
   standardGeneric("correlations")
 })
@@ -36,16 +26,6 @@ setGeneric("preTreatedData", function(x) {
 #' @rdname preTreatedInfo
 setGeneric("preTreatedInfo", function(x) {
   standardGeneric("preTreatedInfo")
-})
-
-#' @rdname classificationResults
-setGeneric("classificationResults", function(x) {
-  standardGeneric("classificationResults")
-})
-
-#' @rdname featureSelectionResults
-setGeneric("featureSelectionResults", function(x) {
-  standardGeneric("featureSelectionResults")
 })
 
 #' @rdname correlationResults
@@ -216,4 +196,9 @@ setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 
 #' @rdname QCremove
 setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
+})
+
+#' @rdname ttest
+setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni') {
+  standardGeneric("ttest")
 })

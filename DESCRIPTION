@@ -49,14 +49,9 @@ Collate: allGenerics.R
     analysisData.R
     analysisParameters.R
     changeParameter.R
-    classification-method.R
-    classificationResults-method.R
     correctionMethods.R
     correlations-method.R
     correlationResults-method.R
-    featureSelection-method.R
-    featureSelectionResults-method.R
-    fsMethods.R
     imputeMethods.R
     metabolyse.R
     metabolyseR.R
@@ -85,5 +80,6 @@ Collate: allGenerics.R
     removeMethods.R
     show-method.R
     transformMethods.R
+    univariateMethods.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
