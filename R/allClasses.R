@@ -1,4 +1,17 @@
-setOldClass('gg')
+#' AnalysisData
+#' @rdname AnalysisData-class
+#' @description An S4 class for sample data and info.
+#' @slot data sample data
+#' @slot info sample info
+#' @export
+
+setClass('AnalysisData',
+         slots = list(
+           data = 'tbl_df',
+           info = 'tbl_df'
+         ),
+         prototype = list(data = tibble(),info = tibble())
+)
 
 #' AnalysisParameters
 #' @rdname AnalysisParameters-class
@@ -33,8 +46,8 @@ setClass('Analysis',
          slots = list(
            log = 'list',
            parameters = 'AnalysisParameters',
-           rawData = 'list',
-           preTreated = 'list',
+           rawData = 'AnalysisData',
+           preTreated = 'AnalysisData',
            classification = 'tbl_df',
            featureSelection = 'tbl_df',
            correlations = 'tbl_df'

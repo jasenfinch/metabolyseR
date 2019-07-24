@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('fsMethods')
 
@@ -31,7 +31,6 @@ test_that('number of method arguments matches description arguments', {
 
 test_that('methods work',{
   meth <- names(metabolyseR:::fsMethods())
-  data("abr1")
   cls1 <- data.frame(cls = as.numeric(abr1$fact$class[abr1$fact$class %in% c('1')]),abr1$neg[abr1$fact$class %in% c('1'),190:200])[1:10,]
   cls2 <- data.frame(cls = as.numeric(abr1$fact$class[abr1$fact$class %in% c('6')]),abr1$neg[abr1$fact$class %in% c('6'),190:200])[1:10,]
   dat <- rbind(cls1,cls2)

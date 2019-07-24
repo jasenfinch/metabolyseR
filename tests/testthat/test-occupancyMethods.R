@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(metaboData))
+library(metaboData)
 
 context('occupancyMethods')
 
@@ -31,17 +31,16 @@ test_that('number of method arguments matches description arguments', {
 
 test_that('methods work',{
   m <- names(metabolyseR:::occupancyMethods())
-  dat <- list(Data = as_tibble(abr1$neg), Info = as_tibble(abr1$fact))
+  dat <- analysisData(data = abr1$neg, info = abr1$fact)
   m <- lapply(m,function(x,dat){
     method <- metabolyseR:::occupancyMethods(x)
     res <- method(dat)
     return(res)
   },dat = dat)
   
-  expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
-  expect_false(F %in% sapply(m,function(x){identical(class(x[[1]]),c('tbl_df','tbl','data.frame'))}))
-  expect_false(F %in% sapply(m,function(x){identical(class(x[[2]]),c('tbl_df','tbl','data.frame'))}))
-  expect_false(F %in% sapply(m,function(x,row){nrow(x$Data) == row},row = nrow(dat$Data)))
-  expect_false(F %in% sapply(m,function(x,col){ncol(x$Info) == col},col = ncol(dat$Info)))
-  expect_false(F %in% sapply(m,function(x,row){nrow(x$Info) == row},row = nrow(dat$Info)))
+  expect_false(F %in% sapply(m,function(x){slotNames(x) == c('data','info')}))
+  expect_false(F %in% sapply(m,function(x){class(x) == 'AnalysisData'}))
+  expect_false(F %in% sapply(m,function(x,row){nrow(x %>% dat()) == row},row = nrow(dat %>% dat())))
+  expect_false(F %in% sapply(m,function(x,col){ncol(x %>% info()) == col},col = ncol(dat %>% info())))
+  expect_false(F %in% sapply(m,function(x,row){nrow(x %>% info()) == row},row = nrow(dat %>% info())))
 })
