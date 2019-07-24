@@ -198,6 +198,21 @@ setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
 
+#' @rdname removeSamples
+setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c()) {
+  standardGeneric("removeSamples")
+})
+
+#' @rdname removeClasses
+setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
+  standardGeneric("removeClasses")
+})
+
+#' @rdname removeVariables
+setGeneric("removeVariables", function(d,variables = character()) {
+  standardGeneric("removeVariables")
+})
+
 #' @rdname ttest
 setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni') {
   standardGeneric("ttest")
