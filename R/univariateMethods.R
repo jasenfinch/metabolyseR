@@ -65,7 +65,7 @@ setMethod('ttest',signature = 'AnalysisData',
                         t.test(. ~ response)
                       })
                   },da = x,pred = pred) %>%
-                set_names(pw[[cl]])
+                  set_names(pw[[cl]])
               }) %>%
               set_names(names(pw))
             
@@ -79,7 +79,7 @@ setMethod('ttest',signature = 'AnalysisData',
                   bind_rows(.id = 'Pairwise')
               }) %>%
               bind_rows(.id = 'Predictor')
-           
+            
             if (returnModels == T) {
               return(list(models = models,results = results))
             } else {
@@ -88,14 +88,58 @@ setMethod('ttest',signature = 'AnalysisData',
           }
 )
 
+#' linearRegression
+#' @rdname linearRegression
+#' @description Linear regression
+#' @param x S4 object of class AnalysisData
+#' @param cls vector of sample info column names to regress
+#' @param pAdjust p value adjustment method
+#' @param returnModels should models be returned
+#' @export
 
-#             d %>%
-#               map_df(~{
-#                 r <- t.test(. ~ cls)
-#                 return(tibble(Score = r$statistic,Pvalue = r$p.value))
-#               }) %>%
-#               set_names(colnames(d)) %>%
-#               mutate(adjustedPvalue = p.adjust(Pvalue,method = pAdjust))
-#             return(res)
-#           }
-# )
+setMethod('linearRegression',signature = 'AnalysisData',
+          function(x, cls, pAdjust = 'bonferroni', returnModels = F){
+            indep <- x %>%
+              info() %>%
+              select(cls)
+            
+            if (FALSE %in% (map_chr(indep,class) %in% c('integer','numeric'))) {
+              stop('Independent variables need to be numeric')
+            }
+            
+            d <- x %>%
+              dat()
+            
+            models <- indep %>%
+              colnames() %>%
+              map(~{
+                i <- .
+                
+                pred <- indep %>%
+                  select(i) %>%
+                  unlist()
+                
+                d %>%
+                  map(~{
+                    lm(. ~ pred)
+                  })
+              }) %>%
+              set_names(colnames(indep))
+            
+            results <- models %>%
+              map(~{
+                map(.,~{
+                    glance(.)
+                }) %>%
+                  bind_rows(.id = 'Feature') %>%
+                  mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
+              }) %>%
+              bind_rows(.id = 'Predictor')
+            
+            if (returnModels == T) {
+              return(list(models = models,results = results))
+            } else {
+              return(list(results = results))
+            } 
+          }
+)

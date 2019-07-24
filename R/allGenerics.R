@@ -217,3 +217,8 @@ setGeneric("removeVariables", function(d,variables = character()) {
 setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni', returnModels = F, nCores = detectCores() * 0.75, clusterType = clusterType(), ...) {
   standardGeneric("ttest")
 })
+
+#' @rdname linearRegression
+setGeneric("linearRegression", function(x, cls, pAdjust = 'bonferroni', returnModels = F) {
+  standardGeneric("linearRegression")
+})
