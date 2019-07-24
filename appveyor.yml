@@ -17,7 +17,7 @@ environment:
    USE_RTOOLS: true
    
 build_script:
-  - travis-tool.sh install_github aberHRML/metaboData
+  - travis-tool.sh install_github aberHRML/metaboData thomas85p/patchwork
   - travis-tool.sh install_deps
 
 test_script:
