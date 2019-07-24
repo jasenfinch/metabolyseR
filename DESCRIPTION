@@ -6,8 +6,7 @@ Description: Methods for pre-treatment, classification, feature selection and co
 biocViews: Metabolomics
 Depends: R (>= 3.4.0),
          parallel
-Imports: FIEmspro,
-         Hmisc,
+Imports: Hmisc,
          dplyr,
          magrittr,
          missForest,
