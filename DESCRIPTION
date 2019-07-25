@@ -29,7 +29,8 @@ Imports: Hmisc,
          lubridate,
          ggrepel,
          ROCR,
-         patchwork
+         patchwork,
+         yardscript
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
