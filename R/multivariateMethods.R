@@ -1,3 +1,27 @@
+nPerm <- function(n,k){choose(n,k) * factorial(k)}
+
+
+permute <- function(x,cls,n = 1000, nCores, clusterType){
+  i <- x %>%
+    info() %>%
+    select(cls) %>%
+    unlist()
+  
+  if (nPerm(length(i),length(unique(i))) < n) {
+    n <- nPerm(length(i),length(unique(i)))
+  }
+  
+  clus <- makeCluster(nCores,type = clusterType)
+  
+  models <- parLapply(clus,1:n,function(y,d,index){
+    randomForest::randomForest(d %>% dat(),sample(index))
+  },d = x,index = i) %>%
+    set_names(1:n)
+  stopCluster(clus)
+  
+  return(models)
+}
+
 importance <- function(x){
   x %>%
     randomForest::importance() %>%
@@ -6,12 +30,22 @@ importance <- function(x){
 
 #' @importFrom forestControl fpr_fs
 
-unsupervised <- function(x,reps,returnModels,seed,...){
+unsupervised <- function(x,reps,returnModels,seed,nCores,clusterType,...){
+  
+  if (reps < nCores) {
+    nCores <- reps
+  }
+  
   set.seed(seed)
-  models <- map(1:reps,~{
-    randomForest::randomForest(x %>% dat(),keep.forest = T)
-  }) %>%
+  
+  clus <- makeCluster(nCores,clusterType)
+  
+  models <- parLapply(clus,1:reps,function(y,d){
+    randomForest::randomForest(d %>% dat(),keep.forest = T)
+  },d = x) %>%
     set_names(1:reps)
+  
+  stopCluster(clus)
   
   importances <- models %>%
     map(~{
@@ -229,7 +263,7 @@ classification <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
 
 #' @importFrom yardstick rsq mae mape rmse ccc
 
-regression <- function(x,cls,reps,returnModels,seed){
+regression <- function(x,cls,reps,perm,returnModels,seed){
   i <- x %>%
     info() %>%
     select(cls)
@@ -248,6 +282,8 @@ regression <- function(x,cls,reps,returnModels,seed){
         randomForest::randomForest(x %>% dat(),y = pred,proximity = T)
       }) %>%
         set_names(1:reps)
+      
+      if (permute )
       return(mod) 
     }) %>%
     set_names(colnames(i))
@@ -310,12 +346,12 @@ regression <- function(x,cls,reps,returnModels,seed){
 #' @export
 
 setMethod('randomForest',signature = 'AnalysisData',
-          function(x, cls = NULL, reps = 1, pairwise = F, comparisons = list(), returnModels = F, seed = 1234, ...){
+          function(x, cls = NULL, reps = 1, pairwise = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType(), ...){
             
             if (is.null(cls)) {
-              res <- unsupervised(x,reps,returnModels,seed)
+              res <- unsupervised(x,reps,returnModels,seed,nCores,clusterType)
             } else {
-              res <- supervised(x,cls,reps,pairwise,comparisons,returnModels,seed)
+              res <- supervised(x,cls,reps,pairwise,comparisons,perm,returnModels,seed,nCores,clusterType)
             }
             
             return(res)
