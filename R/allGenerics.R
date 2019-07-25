@@ -199,7 +199,7 @@ setGeneric("transformTICnorm", function(d) {
 })
 
 #' @rdname QCoccupancy
-setGeneric("QCoccupancy", function(dat,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
+setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
   standardGeneric("QCoccupancy")
 })
 
@@ -231,4 +231,14 @@ setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
 #' @rdname removeVariables
 setGeneric("removeVariables", function(d,variables = character()) {
   standardGeneric("removeVariables")
+})
+
+#' @rdname  imputeAll
+setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+  standardGeneric("imputeAll")
+})
+
+#' @rdname  imputeClass
+setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+  standardGeneric("imputeClass")
 })
