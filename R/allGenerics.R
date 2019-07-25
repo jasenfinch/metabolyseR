@@ -224,6 +224,6 @@ setGeneric("linearRegression", function(x, cls, pAdjust = 'bonferroni', returnMo
 })
 
 #' @rdname randomForest
-setGeneric("randomForest", function(x, cls, reps = 1, returnModels = F, seed = 1234, ...) {
+setGeneric("randomForest", function(x, cls = NULL, reps = 1, pairwise = F, comparisons = list(), returnModels = F, seed = 1234, ...) {
   standardGeneric("randomForest")
 })
