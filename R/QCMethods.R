@@ -1,16 +1,16 @@
 #' QCoccupancy
 #' @rdname QCoccupancy
 #' @description QC maximum occupancy filter.
-#' @param dat S4 object of class AnalysisData
+#' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
 #' @param occupancy occupancy threshold for filtering
 #' @export
 
 setMethod('QCoccupancy',signature = 'AnalysisData',
-          function(dat,cls = 'class', QCidx = 'QC', occupancy = 2/3){
+          function(d,cls = 'class', QCidx = 'QC', occupancy = 2/3){
             method <- occupancyMethods('maximum')
-            QC <- dat
+            QC <- d
             QC@data <- QC %>% 
               dat() %>% 
               .[QC %>% info() %>% .[,cls] == QCidx,]
@@ -18,10 +18,10 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
               info() %>%
               .[QC %>% info() %>% .[,cls] == QCidx,]
             QC <- method(QC,cls,occupancy)
-            dat@data <- dat %>% 
+            d@data <- d %>% 
               dat() %>%
-              .[,colnames(dat %>% dat()) %in% colnames(QC %>% dat())]
-            return(dat)
+              .[,colnames(d %>% dat()) %in% colnames(QC %>% dat())]
+            return(d)
           }
 )
 
