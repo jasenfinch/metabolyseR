@@ -1,3 +1,12 @@
+#' imputeAll
+#' @rdname imputeAll
+#' @description Impute missing values across all samples using Random Forest.
+#' @param d S4 object of class AnalysisData
+#' @param occupancy occupancy threshold for imputation
+#' @param parallel parallel type to use. See `?missForest` for details
+#' @param nCores number of cores for parallisation
+#' @param clusterType cluster type for parallisation
+#' @param seed random number seed
 #' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',
@@ -20,6 +29,15 @@ setMethod('imputeAll',signature = 'AnalysisData',
           }
 )
 
+#' imputeClass
+#' @rdname imputeClass
+#' @description Impute missing values class-wise using Random Forest.
+#' @param d S4 object of class AnalysisData
+#' @param cls info column to use for class labels
+#' @param occupancy occupancy threshold for imputation
+#' @param nCores number of cores for parallisation
+#' @param clusterType cluster type for parallisation
+#' @param seed random number seed
 #' @export
 
 setMethod('imputeClass',signature = 'AnalysisData',

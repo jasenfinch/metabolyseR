@@ -6,13 +6,13 @@
 \alias{QCoccupancy,AnalysisData-method}
 \title{QCoccupancy}
 \usage{
-QCoccupancy(dat, cls = "class", QCidx = "QC", occupancy = 2/3)
+QCoccupancy(d, cls = "class", QCidx = "QC", occupancy = 2/3)
 
-\S4method{QCoccupancy}{AnalysisData}(dat, cls = "class", QCidx = "QC",
+\S4method{QCoccupancy}{AnalysisData}(d, cls = "class", QCidx = "QC",
   occupancy = 2/3)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 
 \item{cls}{info column to use for class labels}
 

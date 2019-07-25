@@ -1,7 +1,7 @@
 #' QCoccupancy
 #' @rdname QCoccupancy
 #' @description QC maximum occupancy filter.
-#' @param dat S4 object of class AnalysisData
+#' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
 #' @param occupancy occupancy threshold for filtering
