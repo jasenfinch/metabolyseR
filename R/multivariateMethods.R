@@ -57,7 +57,7 @@ supervised <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
         unlist()
       
       if (is.numeric(pred)) {
-        regression()
+        regression(x,cls,reps,returnModels,seed)
       } else {
         classification(x,cls,reps,pairwise,comparisons,returnModels,seed)
       }
@@ -120,115 +120,189 @@ classification <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
   
   suppressWarnings({
     predictions <- models %>%
-                     map(~{
-                       map(.,~{
-                         map(.,~{
-                           m <- .
-                           tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
-                             bind_cols(m$votes %>%
-                                         as_tibble())
-                         }) %>%
-                           bind_rows(.id = 'Rep') %>%
-                           mutate(Rep = as.numeric(Rep))
-                       }) %>%
-                         bind_rows(.id = 'Comparison')
-                     }) %>%
-                     bind_rows(.id = 'Predictor')
-                   
-                   importances <- models %>%
-                     map(~{
-                       map(.,~{
-                         map(.,~{
-                           m <- .
-                           importance(m) %>%
-                             left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
-                             rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
-                         }) %>%
-                           bind_rows(.id = 'Rep') %>%
-                           mutate(Rep = as.numeric(Rep))
-                       }) %>%
-                         bind_rows(.id = 'Comparison')
-                     }) %>%
-                     bind_rows(.id = 'Predictor')
-                   
-                   proximities <- models %>%
-                     map(~{
-                       map(.,~{
-                         map(.,~{.$proximity %>%
-                             as_tibble() %>%
-                             mutate(Sample = nrow(.)) %>%
-                             gather('Sample2','Proximity',-Sample) %>%
-                             rename(Sample1 = Sample)
-                         }) %>%
-                           bind_rows(.id = 'Rep') %>%
-                           mutate(Rep = as.numeric(Rep))
-                       }) %>%
-                         bind_rows(.id = 'Comparison')
-                     }) %>%
-                     bind_rows(.id = 'Predictor')
-                   
-                   class_metrics <- metric_set(accuracy,kap)
-                   
-                   results <- list(
-                     measures = predictions %>%
-                       split(.$Predictor) %>%
-                       map(~{
-                         d <- .
-                         d %>%
-                           split(.$Comparison) %>%
-                           map(~{
-                             p <- .
-                             p %>%
-                               mutate(obs = factor(obs),pred = factor(pred)) %>%
-                               group_by(Predictor,Comparison) %>%
-                               class_metrics(obs,estimate = pred)
-                           }) %>%
-                           bind_rows()
-                       }) %>%
-                       bind_rows() %>%
-                       bind_rows(suppressMessages(predictions %>%
-                                                    split(.$Predictor) %>%
-                                                    map(~{
-                                                      d <- .
-                                                      d %>%
-                                                        split(.$Comparison) %>%
-                                                        map(~{
-                                                          p <- .
-                                                          
-                                                          p <- p %>%
-                                                            mutate(obs = factor(obs),pred = factor(pred)) 
-                                                         if (length(levels(p$obs)) > 2) {
-                                                           estimate <- levels(p$obs)
-                                                         } else {
-                                                           estimate <- levels(p$obs)[1]
-                                                         }
-                                                          p %>%
-                                                            group_by(Predictor,Comparison) %>%
-                                                            roc_auc(obs,estimate)
-                                                        }) %>%
-                                                        bind_rows()
-                                                    }) %>%
-                                                    bind_rows())) %>%
-                       bind_rows(predictions %>%
-                                   group_by(Predictor,Comparison) %>%
-                                   summarise(.estimate = mean(margin)) %>%
-                                   mutate(.metric = 'margin')),
-                     importances = importances %>%
-                       group_by(Predictor,Comparison,Feature) %>%
-                       summarise_all(mean)
-                   )
-                   })
-                   
-                   res <- list(type = 'classification',results = results, predictions = predictions,importances = importances,proximities = proximities)
-                   
-                   if (returnModels == T) {
-                     res <- c(res,list(models = models))
-                   } 
-                   return(res)
+      map(~{
+        map(.,~{
+          map(.,~{
+            m <- .
+            tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
+              bind_cols(m$votes %>%
+                          as_tibble())
+          }) %>%
+            bind_rows(.id = 'Rep') %>%
+            mutate(Rep = as.numeric(Rep))
+        }) %>%
+          bind_rows(.id = 'Comparison')
+      }) %>%
+      bind_rows(.id = 'Predictor')
+    
+    importances <- models %>%
+      map(~{
+        map(.,~{
+          map(.,~{
+            m <- .
+            importance(m) %>%
+              left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
+              rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
+          }) %>%
+            bind_rows(.id = 'Rep') %>%
+            mutate(Rep = as.numeric(Rep))
+        }) %>%
+          bind_rows(.id = 'Comparison')
+      }) %>%
+      bind_rows(.id = 'Predictor')
+    
+    proximities <- models %>%
+      map(~{
+        map(.,~{
+          map(.,~{.$proximity %>%
+              as_tibble() %>%
+              mutate(Sample = nrow(.)) %>%
+              gather('Sample2','Proximity',-Sample) %>%
+              rename(Sample1 = Sample)
+          }) %>%
+            bind_rows(.id = 'Rep') %>%
+            mutate(Rep = as.numeric(Rep))
+        }) %>%
+          bind_rows(.id = 'Comparison')
+      }) %>%
+      bind_rows(.id = 'Predictor')
+    
+    class_metrics <- metric_set(accuracy,kap)
+    
+    results <- list(
+      measures = predictions %>%
+        split(.$Predictor) %>%
+        map(~{
+          d <- .
+          d %>%
+            split(.$Comparison) %>%
+            map(~{
+              p <- .
+              p %>%
+                mutate(obs = factor(obs),pred = factor(pred)) %>%
+                group_by(Predictor,Comparison) %>%
+                class_metrics(obs,estimate = pred)
+            }) %>%
+            bind_rows()
+        }) %>%
+        bind_rows() %>%
+        bind_rows(suppressMessages(predictions %>%
+                                     split(.$Predictor) %>%
+                                     map(~{
+                                       d <- .
+                                       d %>%
+                                         split(.$Comparison) %>%
+                                         map(~{
+                                           p <- .
+                                           
+                                           p <- p %>%
+                                             mutate(obs = factor(obs),pred = factor(pred)) 
+                                           if (length(levels(p$obs)) > 2) {
+                                             estimate <- levels(p$obs)
+                                           } else {
+                                             estimate <- levels(p$obs)[1]
+                                           }
+                                           p %>%
+                                             group_by(Predictor,Comparison) %>%
+                                             roc_auc(obs,estimate)
+                                         }) %>%
+                                         bind_rows()
+                                     }) %>%
+                                     bind_rows())) %>%
+        bind_rows(predictions %>%
+                    group_by(Predictor,Comparison) %>%
+                    summarise(.estimate = mean(margin)) %>%
+                    mutate(.metric = 'margin')),
+      importances = importances %>%
+        group_by(Predictor,Comparison,Feature) %>%
+        summarise_all(mean)
+    )
+  })
+  
+  res <- list(type = 'classification',results = results, predictions = predictions,importances = importances,proximities = proximities)
+  
+  if (returnModels == T) {
+    res <- c(res,list(models = models))
+  } 
+  return(res)
 }
 
-regression <- function(){
+#' @importFrom yardstick rsq mae rmse ccc
+
+regression <- function(x,cls,reps,returnModels,seed){
+  i <- x %>%
+    info() %>%
+    select(cls)
   
+  models <- i %>%
+    colnames() %>%
+    map(~{
+      inf <- .
+      
+      pred <- i %>%
+        select(inf) %>%
+        unlist()
+      
+      set.seed(seed)
+      mod <- map(1:reps,~{
+        randomForest::randomForest(x %>% dat(),y = pred,proximity = T)
+      }) %>%
+        set_names(1:reps)
+      return(mod) 
+    }) %>%
+    set_names(colnames(i))
+  
+  predictions <- models %>%
+    map(~{
+      map(.,~{
+        m <- .
+        tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted)
+      }) %>%
+        bind_rows(.id = 'Rep') %>%
+        mutate(Rep = as.numeric(Rep))
+    }) %>%
+    bind_rows(.id = 'Predictor')
+  
+  importances <- models %>%
+    map(~{
+      map(.,~{
+        m <- .
+        importance(m)
+      }) %>%
+        bind_rows(.id = 'Rep') %>%
+        mutate(Rep = as.numeric(Rep))
+    }) %>%
+    bind_rows(.id = 'Predictor')
+  
+  proximities <- models %>%
+    map(~{
+      map(.,~{.$proximity %>%
+          as_tibble() %>%
+          mutate(Sample = nrow(.)) %>%
+          gather('Sample2','Proximity',-Sample) %>%
+          rename(Sample1 = Sample)
+      }) %>%
+        bind_rows(.id = 'Rep') %>%
+        mutate(Rep = as.numeric(Rep))
+    }) %>%
+    bind_rows(.id = 'Predictor')
+  
+  reg_metrics <- metric_set(rsq,mae,rmse,ccc)
+  
+  results <- list(
+    measures = predictions %>%
+      split(.$Predictor) %>%
+      map(~{
+        d <- .
+        d %>%
+          group_by(Predictor) %>%
+          reg_metrics(obs,estimate = pred)
+      }) %>%
+      bind_rows(),
+    importances = importances %>%
+      group_by(Predictor,Feature) %>%
+      summarise_all(mean)
+  )
 }
 
 #' randomForest

@@ -6,7 +6,8 @@
 \alias{randomForest,AnalysisData-method}
 \title{randomForest}
 \usage{
-randomForest(x, cls, reps = 1, returnModels = F, seed = 1234, ...)
+randomForest(x, cls = NULL, reps = 1, pairwise = F,
+  comparisons = list(), returnModels = F, seed = 1234, ...)
 
 \S4method{randomForest}{AnalysisData}(x, cls = NULL, reps = 1,
   pairwise = F, comparisons = list(), returnModels = F,
