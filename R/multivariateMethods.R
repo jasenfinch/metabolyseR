@@ -227,7 +227,7 @@ classification <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
   return(res)
 }
 
-#' @importFrom yardstick rsq mae rmse ccc
+#' @importFrom yardstick rsq mae mape rmse ccc
 
 regression <- function(x,cls,reps,returnModels,seed){
   i <- x %>%
@@ -287,7 +287,7 @@ regression <- function(x,cls,reps,returnModels,seed){
     }) %>%
     bind_rows(.id = 'Predictor')
   
-  reg_metrics <- metric_set(rsq,mae,rmse,ccc)
+  reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
   
   results <- list(
     measures = predictions %>%
