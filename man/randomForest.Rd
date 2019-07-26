@@ -7,12 +7,48 @@
 \title{randomForest}
 \usage{
 randomForest(x, cls = NULL, reps = 1, pairwise = F,
-  comparisons = list(), returnModels = F, seed = 1234, ...)
+  comparisons = list(), perm = 0, returnModels = F, seed = 1234,
+  nCores = detectCores() * 0.75, clusterType = getClusterType(), ...)
 
-\S4method{randomForest}{AnalysisData}(x, cls = NULL, reps = 1,
-  pairwise = F, comparisons = list(), returnModels = F,
-  seed = 1234, ...)
+\S4method{randomForest}{AnalysisData}(x, cls = NULL, rf = list(),
+  reps = 1, binary = F, comparisons = list(), perm = 0,
+  returnModels = F, seed = 1234, nCores = detectCores() * 0.75,
+  clusterType = getClusterType())
+}
+\arguments{
+\item{x}{S4 object of class AnalysisData}
+
+\item{cls}{vector of info columns to use for predictor information. Set to NULL for unsupervised.}
+
+\item{reps}{number of repetitions to perform}
+
+\item{comparisons}{list of comparisons to perform. Ignored for unsupervised and regression. See details.}
+
+\item{returnModels}{TRUE/FALSE should model objects be returned.}
+
+\item{seed}{random number seed}
+
+\item{nCores}{number of cores to use for parallisation.}
+
+\item{clusterType}{cluster type for parallisation}
+
+\item{rf}{named list of arguments to pass to randomForest::randomForest}
+
+\item{binary}{TRUE/FALSE should binary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.}
+
+\item{permute}{number of permutations to perform. Ignored for unsupervised.}
 }
 \description{
-randomForest
+Perform random forest on an AnalysisData object
+}
+\details{
+Specified class comparisons should be given as a list named according to \code{cls}. Comparisons should be given as class names separated by '~' (eg. '1~2~H').
+}
+\examples{
+library(metaboData)
+data(abr1)
+x <- analysisData(abr1$neg,abr1$fact) \%>\%
+       occupancyMaximum(cls = 'day') \%>\%
+       transformTICnorm()
+rf <- randomForest(x,cls = 'day')
 }

@@ -3,7 +3,7 @@ nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
 permute <- function(x,cls,n = 1000, nCores, clusterType){
   i <- x %>%
-    info() %>%
+    sinfo() %>%
     select(cls) %>%
     unlist()
   
@@ -30,7 +30,7 @@ importance <- function(x){
 
 #' @importFrom forestControl fpr_fs
 
-unsupervised <- function(x,reps,returnModels,seed,nCores,clusterType,...){
+unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
   
   if (reps < nCores) {
     nCores <- reps
@@ -40,9 +40,12 @@ unsupervised <- function(x,reps,returnModels,seed,nCores,clusterType,...){
   
   clus <- makeCluster(nCores,clusterType)
   
-  models <- parLapply(clus,1:reps,function(y,d){
-    randomForest::randomForest(d %>% dat(),keep.forest = T)
-  },d = x) %>%
+  models <- parLapply(clus,1:reps,function(y,d,rf){
+    params <- formals(randomForest::randomForest)
+    params$x <- d %>% dat()
+    params <- c(params,rf)
+    do.call(randomForest::randomForest,params)
+  },d = x,rf = rf) %>%
     set_names(1:reps)
   
   stopCluster(clus)
@@ -67,18 +70,21 @@ unsupervised <- function(x,reps,returnModels,seed,nCores,clusterType,...){
     bind_rows(.id = 'Rep') %>%
     mutate(Rep = as.numeric(Rep))
   
-  res <- list(type = 'unsupervised',importances = importances,proximities = proximities)
+  res <- new('RandomForest')
+  res@type <- 'unsupervised'
+  res@importances <- importances
+  res@proximities <- proximities
   
   if (isTRUE(returnModels)) {
-    res <- c(res,list(models = models))  
+    res@models <- models
   }
   
   return(res)  
 }
 
-supervised <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
+supervised <- function(x,cls,rf,reps,pairwise,comparisons,perm,returnModels,seed,nCores,clusterType){
   i <- x %>%
-    info() %>%
+    sinfo() %>%
     select(cls)
   
   i %>%
@@ -91,9 +97,9 @@ supervised <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
         unlist()
       
       if (is.numeric(pred)) {
-        regression(x,cls,reps,returnModels,seed)
+        regression(x,cls,rf,reps,returnModels,seed)
       } else {
-        classification(x,cls,reps,pairwise,comparisons,returnModels,seed)
+        classification(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
       }
     }) %>%
     set_names(colnames(i))
@@ -102,10 +108,10 @@ supervised <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
 #' @importFrom yardstick metric_set accuracy kap roc_auc
 #' @importFrom dplyr summarise_all
 
-classification <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
+classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed){
   
   i <- x %>%
-    info() %>%
+    sinfo() %>%
     select(cls)
   
   if (length(comparisons) > 0) {
@@ -129,21 +135,25 @@ classification <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
         map(~{
           comparison <- str_split(.,'~')[[1]]
           
-          cda <- removeClasses(x,inf,classes = info(x) %>%
+          cda <- removeClasses(x,inf,classes = sinfo(x) %>%
                                  select(inf) %>%
                                  unlist() %>%
                                  unique() %>%
                                  .[!(. %in% comparison)])
           
           pred <- cda %>%
-            info() %>%
+            sinfo() %>%
             select(inf) %>%
             unlist() %>%
             factor()
           
           set.seed(seed)
           mod <- map(1:reps,~{
-            randomForest::randomForest(cda %>% dat(),y = pred,proximity = T)
+            params <- formals(randomForest::randomForest)
+            params$x <- d %>% dat()
+            params$y <- pred
+            params <- c(params,rf)
+            do.call(randomForest::randomForest,params)
           }) %>%
             set_names(1:reps)
           return(mod) 
@@ -253,19 +263,25 @@ classification <- function(x,cls,reps,pairwise,comparisons,returnModels,seed){
     )
   })
   
-  res <- list(type = 'classification',results = results, predictions = predictions,importances = importances,proximities = proximities)
+  res <- new('RandomForest')
+  res@type <- 'classification'
+  res@results <- results
+  res@predictions <- predictions
+  res@importances <- importances
+  res@proximities <- proximities
   
-  if (returnModels == T) {
-    res <- c(res,list(models = models))
-  } 
+  if (isTRUE(returnModels)) {
+    res@models <- models
+  }
+  
   return(res)
 }
 
 #' @importFrom yardstick rsq mae mape rmse ccc
 
-regression <- function(x,cls,reps,perm,returnModels,seed){
+regression <- function(x,cls,rf,reps,perm,returnModels,seed){
   i <- x %>%
-    info() %>%
+    sinfo() %>%
     select(cls)
   
   models <- i %>%
@@ -279,7 +295,11 @@ regression <- function(x,cls,reps,perm,returnModels,seed){
       
       set.seed(seed)
       mod <- map(1:reps,~{
-        randomForest::randomForest(x %>% dat(),y = pred,proximity = T)
+        params <- formals(randomForest::randomForest)
+        params$x <- d %>% dat()
+        params$y <- pred
+        params <- c(params,rf)
+        do.call(randomForest::randomForest,params)
       }) %>%
         set_names(1:reps)
       
@@ -339,19 +359,55 @@ regression <- function(x,cls,reps,perm,returnModels,seed){
       group_by(Predictor,Feature) %>%
       summarise_all(mean)
   )
+  
+  res <- new('RandomForest')
+  res@type <- 'regression'
+  res@results <- results
+  res@predictions <- predictions
+  res@importances <- importances
+  res@proximities <- proximities
+  
+  if (isTRUE(returnModels)) {
+    res@models <- models
+  }
+  
+  return(res)
 }
 
 #' randomForest
 #' @rdname randomForest
+#' @description Perform random forest on an AnalysisData object
+#' @param x S4 object of class AnalysisData
+#' @param cls vector of info columns to use for predictor information. Set to NULL for unsupervised.
+#' @param rf named list of arguments to pass to randomForest::randomForest
+#' @param reps number of repetitions to perform
+#' @param binary TRUE/FALSE should binary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.
+#' @param comparisons list of comparisons to perform. Ignored for unsupervised and regression. See details. 
+#' @param permute number of permutations to perform. Ignored for unsupervised.
+#' @param returnModels TRUE/FALSE should model objects be returned.
+#' @param seed random number seed
+#' @param nCores number of cores to use for parallisation.
+#' @param clusterType cluster type for parallisation
+#' @details Specified class comparisons should be given as a list named according to \code{cls}. Comparisons should be given as class names separated by '~' (eg. '1~2~H').
+#' @examples 
+#' library(metaboData)
+#' data(abr1)
+#' x <- analysisData(abr1$neg,abr1$fact) %>%
+#'        occupancyMaximum(cls = 'day') %>%
+#'        transformTICnorm()
+#' rf <- randomForest(x,cls = 'day')
 #' @export
 
 setMethod('randomForest',signature = 'AnalysisData',
-          function(x, cls = NULL, reps = 1, pairwise = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType(), ...){
+          function(x, cls = NULL, rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+            
+            rf$keep.forest <- T
+            rf$proximity <- T
             
             if (is.null(cls)) {
-              res <- unsupervised(x,reps,returnModels,seed,nCores,clusterType)
+              res <- unsupervised(x,rf,reps,returnModels,seed,nCores,clusterType)
             } else {
-              res <- supervised(x,cls,reps,pairwise,comparisons,perm,returnModels,seed,nCores,clusterType)
+              res <- supervised(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,nCores,clusterType)
             }
             
             return(res)
