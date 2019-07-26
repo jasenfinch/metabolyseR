@@ -1,20 +1,28 @@
 nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
 
-permute <- function(x,cls,n = 1000, nCores, clusterType){
+permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
   i <- x %>%
     sinfo() %>%
     select(cls) %>%
-    unlist()
+    unlist(use.names = F)
   
   if (nPerm(length(i),length(unique(i))) < n) {
     n <- nPerm(length(i),length(unique(i)))
   }
   
+  if (n < nCores) {
+    nCores <- n
+  }
+  
   clus <- makeCluster(nCores,type = clusterType)
   
   models <- parLapply(clus,1:n,function(y,d,index){
-    randomForest::randomForest(d %>% dat(),sample(index))
+    params <- formals(randomForest::randomForest)
+    params$x <- d %>% dat()
+    params$y <- sample(index)
+    params <- c(params,rf)
+    do.call(randomForest::randomForest,params)
   },d = x,index = i) %>%
     set_names(1:n)
   stopCluster(clus)
@@ -97,9 +105,9 @@ supervised <- function(x,cls,rf,reps,pairwise,comparisons,perm,returnModels,seed
         unlist()
       
       if (is.numeric(pred)) {
-        regression(x,cls,rf,reps,returnModels,seed)
+        regression(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType)
       } else {
-        classification(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
+        classification(x,cls,rf,reps,pairwise,comparisons,perm,returnModels,seed,nCores,clusterType)
       }
     }) %>%
     set_names(colnames(i))
@@ -108,7 +116,7 @@ supervised <- function(x,cls,rf,reps,pairwise,comparisons,perm,returnModels,seed
 #' @importFrom yardstick metric_set accuracy kap roc_auc
 #' @importFrom dplyr summarise_all
 
-classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed){
+classification <- function(x,cls,rf,reps,pairwise,comparisons,perm,returnModels,seed,nCores,clusterType){
   
   i <- x %>%
     sinfo() %>%
@@ -144,7 +152,7 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
           pred <- cda %>%
             sinfo() %>%
             select(inf) %>%
-            unlist() %>%
+            unlist(use.names = F) %>%
             factor()
           
           set.seed(seed)
@@ -156,6 +164,14 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
             do.call(randomForest::randomForest,params)
           }) %>%
             set_names(1:reps)
+          
+          mod <- list(models = mod)
+          
+          if (perm > 0) {
+            perms <- permute(x,cls,rf,n = perm,nCores,clusterType)
+            mod <- c(mod,list(permutations = perms))
+          }
+          
           return(mod) 
         }) %>%
         set_names(comps)
@@ -166,7 +182,7 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
     predictions <- models %>%
       map(~{
         map(.,~{
-          map(.,~{
+          map(.$models,~{
             m <- .
             tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
               bind_cols(m$votes %>%
@@ -182,7 +198,7 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
     importances <- models %>%
       map(~{
         map(.,~{
-          map(.,~{
+          map(.$models,~{
             m <- .
             importance(m) %>%
               left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
@@ -198,7 +214,7 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
     proximities <- models %>%
       map(~{
         map(.,~{
-          map(.,~{.$proximity %>%
+          map(.$models,~{.$proximity %>%
               as_tibble() %>%
               mutate(Sample = nrow(.)) %>%
               gather('Sample2','Proximity',-Sample) %>%
@@ -279,7 +295,7 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,returnModels,seed)
 
 #' @importFrom yardstick rsq mae mape rmse ccc
 
-regression <- function(x,cls,rf,reps,perm,returnModels,seed){
+regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
   i <- x %>%
     sinfo() %>%
     select(cls)
@@ -291,7 +307,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed){
       
       pred <- i %>%
         select(inf) %>%
-        unlist()
+        unlist(use.names = F)
       
       set.seed(seed)
       mod <- map(1:reps,~{
@@ -303,14 +319,20 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed){
       }) %>%
         set_names(1:reps)
       
-      if (permute )
+      mod <- list(models = mod)
+      
+      if (perm > 0) {
+        perms <- permute(x,cls,rf,n = perm,nCores,clusterType)
+        mod <- c(mod,list(permutations = perms))
+      }
+      
       return(mod) 
     }) %>%
     set_names(colnames(i))
   
   predictions <- models %>%
     map(~{
-      map(.,~{
+      map(.$models,~{
         m <- .
         tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted)
       }) %>%
@@ -321,7 +343,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed){
   
   importances <- models %>%
     map(~{
-      map(.,~{
+      map(.$models,~{
         m <- .
         importance(m)
       }) %>%
@@ -332,7 +354,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed){
   
   proximities <- models %>%
     map(~{
-      map(.,~{.$proximity %>%
+      map(.$models,~{.$proximity %>%
           as_tibble() %>%
           mutate(Sample = nrow(.)) %>%
           gather('Sample2','Proximity',-Sample) %>%

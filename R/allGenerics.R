@@ -239,7 +239,7 @@ setGeneric("linearRegression", function(x, cls, pAdjust = 'bonferroni', returnMo
 })
 
 #' @rdname randomForest
-setGeneric("randomForest", function(x, cls = NULL, reps = 1, pairwise = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType(), ...) {
+setGeneric("randomForest", function(x, cls = NULL, rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("randomForest")
 })
 
