@@ -6,13 +6,13 @@
 \alias{QCrsdFilter,AnalysisData-method}
 \title{QCrsdFilter}
 \usage{
-QCrsdFilter(dat, cls = "class", QCidx = "QC", RSDthresh = 0.5)
+QCrsdFilter(d, cls = "class", QCidx = "QC", RSDthresh = 0.5)
 
-\S4method{QCrsdFilter}{AnalysisData}(dat, cls = "class", QCidx = "QC",
+\S4method{QCrsdFilter}{AnalysisData}(d, cls = "class", QCidx = "QC",
   RSDthresh = 0.5)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 
 \item{cls}{info column to use for class labels}
 

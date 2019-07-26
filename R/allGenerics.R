@@ -242,3 +242,8 @@ setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCo
 setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
   standardGeneric("imputeClass")
 })
+
+#' @rdname  correctionCenter
+setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
+  standardGeneric("correctionCenter")
+})
