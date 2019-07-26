@@ -155,14 +155,23 @@ classification <- function(x,cls,rf,reps,pairwise,comparisons,perm,returnModels,
             unlist(use.names = F) %>%
             factor()
           
+          if (reps < nCores) {
+            nSlaves <- length(reps)
+          } else {
+            nSlaves <- nCores
+          }
+          
           set.seed(seed)
-          mod <- map(1:reps,~{
+          
+          clus <- makeCluster(nSlaves,type = clusterType)
+          
+          mod <- parLapply(clus,1:reps,function(y,d,pred,rf){
             params <- formals(randomForest::randomForest)
             params$x <- d %>% dat()
             params$y <- pred
             params <- c(params,rf)
             do.call(randomForest::randomForest,params)
-          }) %>%
+          },d = d,pred = pred,rf = rf) %>%
             set_names(1:reps)
           
           mod <- list(models = mod)
