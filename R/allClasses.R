@@ -31,12 +31,12 @@ setClass('AnalysisParameters',
 
 setClass('ModellingParameters',
          slots = list(
-          type = 'character',
-          methods = 'character',
-          parameters = 'list',
-          predictors = 'character',
-          pairwise = 'logical',
-          permute = 'list'
+           type = 'character',
+           methods = 'character',
+           parameters = 'list',
+           predictors = 'character',
+           pairwise = 'logical',
+           permute = 'list'
          )
 )
 
@@ -76,5 +76,27 @@ setClass('AnalysisPlot',
            data = 'list',
            plot = 'list',
            func = 'function'
+         )
+)
+
+#' RandomForest
+#' @rdname RandomForest-class
+#' @description An S4 class for random forest results and models
+#' @slot type random forest type
+#' @slot results list of measure and importance results tables
+#' @slot predictions tibble of model observation predictions
+#' @slot importances tibble of model feature importances
+#' @slot proximities tibble of model observation proximities
+#' @slot models list of random forest models
+#' @export
+
+setClass('RandomForest',
+         slots = list(
+           type = 'character',
+           results = 'list',
+           predictions = 'tbl_df',
+           importances = 'tbl_df',
+           proximities = 'tbl_df',
+           models = 'list'
          )
 )
