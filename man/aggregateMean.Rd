@@ -6,12 +6,12 @@
 \alias{aggregateMean,AnalysisData-method}
 \title{aggregateMean}
 \usage{
-aggregateMean(dat, cls = "class")
+aggregateMean(d, cls = "class")
 
-\S4method{aggregateMean}{AnalysisData}(dat, cls = "class")
+\S4method{aggregateMean}{AnalysisData}(d, cls = "class")
 }
 \arguments{
-\item{dat}{S4 object of class Data}
+\item{d}{S4 object of class Data}
 
 \item{cls}{info column to use for class data}
 }

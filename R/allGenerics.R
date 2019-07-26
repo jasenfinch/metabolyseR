@@ -93,23 +93,23 @@ setGeneric("dat", function(x) {
   standardGeneric("dat")
 })
 
-#' @rdname info
-setGeneric("info", function(x) {
-  standardGeneric("info")
+#' @rdname sinfo
+setGeneric("sinfo", function(x) {
+  standardGeneric("sinfo")
 })
 
 #' @rdname aggregateSum
-setGeneric("aggregateSum", function(dat,cls = 'class') {
+setGeneric("aggregateSum", function(d,cls = 'class') {
   standardGeneric("aggregateSum")
 })
 
 #' @rdname aggregateMean
-setGeneric("aggregateMean", function(dat,cls = 'class') {
+setGeneric("aggregateMean", function(d,cls = 'class') {
   standardGeneric("aggregateMean")
 })
 
 #' @rdname aggregateMedian
-setGeneric("aggregateMedian", function(dat,cls = 'class') {
+setGeneric("aggregateMedian", function(d,cls = 'class') {
   standardGeneric("aggregateMedian")
 })
 
@@ -179,22 +179,22 @@ setGeneric("transformTICnorm", function(d) {
 })
 
 #' @rdname QCoccupancy
-setGeneric("QCoccupancy", function(dat,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
+setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
   standardGeneric("QCoccupancy")
 })
 
 #' @rdname QCimpute
-setGeneric("QCimpute", function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
   standardGeneric("QCimpute")
 })
 
 #' @rdname QCrsdFilter
-setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
+setGeneric("QCrsdFilter", function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
   standardGeneric("QCrsdFilter")
 })
 
 #' @rdname QCremove
-setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
+setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
 
@@ -213,6 +213,21 @@ setGeneric("removeVariables", function(d,variables = character()) {
   standardGeneric("removeVariables")
 })
 
+#' @rdname  imputeAll
+setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+  standardGeneric("imputeAll")
+})
+
+#' @rdname  imputeClass
+setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+  standardGeneric("imputeClass")
+})
+
+#' @rdname  correctionCenter
+setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
+  standardGeneric("correctionCenter")
+})
+
 #' @rdname ttest
 setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni', returnModels = F, nCores = detectCores() * 0.75, clusterType = clusterType(), ...) {
   standardGeneric("ttest")
@@ -227,3 +242,4 @@ setGeneric("linearRegression", function(x, cls, pAdjust = 'bonferroni', returnMo
 setGeneric("randomForest", function(x, cls = NULL, reps = 1, pairwise = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType(), ...) {
   standardGeneric("randomForest")
 })
+

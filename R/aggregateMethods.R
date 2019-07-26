@@ -1,16 +1,16 @@
 #' aggregateSum
 #' @rdname aggregateSum
 #' @description Sum aggregation of sample data.
-#' @param dat S4 object of class Data
+#' @param d S4 object of class Data
 #' @param cls info column to use for class data
 #' @importFrom dplyr tbl_df arrange_
 #' @export
 
 setMethod('aggregateSum',signature = 'AnalysisData',
-          function(dat,cls = 'class'){
-            dat@data <- dat %>%
+          function(d,cls = 'class'){
+            dat(d) <- d %>%
               dat() %>%
-              bind_cols(select(dat %>% info(),Class = cls)) %>%
+              bind_cols(select(d %>% sinfo(),Class = cls)) %>%
               gather('Feature','Intensity',-Class) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = sum(Intensity)) %>%
@@ -18,28 +18,28 @@ setMethod('aggregateSum',signature = 'AnalysisData',
               spread(Feature,Intensity) %>%
               select(-Class)
             
-            dat@info <- dat %>%
-              info() %>% 
+            sinfo(d) <- d %>%
+              sinfo() %>% 
               select(cls) %>%
               unique() %>%
               arrange_(cls)
             
-            return(dat)
+            return(d)
           }
 )
 
 #' aggregateMean
 #' @rdname aggregateMean
 #' @description Mean aggregation of sample data.
-#' @param dat S4 object of class Data
+#' @param d S4 object of class Data
 #' @param cls info column to use for class data
 #' @export
 
 setMethod('aggregateMean',signature = 'AnalysisData',
-          function(dat,cls = 'class'){
-            dat@data <- dat %>%
+          function(d,cls = 'class'){
+            dat(d) <- d %>%
               dat() %>%
-              bind_cols(select(dat %>% info(),Class = cls)) %>%
+              bind_cols(select(d %>% sinfo(),Class = cls)) %>%
               gather('Feature','Intensity',-Class) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = mean(Intensity)) %>%
@@ -47,28 +47,28 @@ setMethod('aggregateMean',signature = 'AnalysisData',
               spread(Feature,Intensity) %>%
               select(-Class)
             
-            dat@info <- dat %>%
-              info() %>%
+            sinfo(d) <- d %>%
+              sinfo() %>%
               select(cls) %>%
               unique() %>%
               arrange_(cls)
             
-            return(dat)
+            return(d)
           }
 )
 
 #' aggregateMedian
 #' @rdname aggregateMedian
 #' @description Median aggregation of sample data.
-#' @param dat S4 object of class Data
+#' @param d S4 object of class Data
 #' @param cls info column to use for class data
 #' @export
 
 setMethod('aggregateMedian',signature = 'AnalysisData',
-          function(dat, cls = 'class'){
-            dat@data <- dat %>%
+          function(d, cls = 'class'){
+            dat(d) <- d %>%
               dat() %>%
-              bind_cols(select(dat %>% info(),Class = cls)) %>%
+              bind_cols(select(d %>% sinfo(),Class = cls)) %>%
               gather('Feature','Intensity',-Class) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = median(Intensity)) %>%
@@ -76,13 +76,13 @@ setMethod('aggregateMedian',signature = 'AnalysisData',
               spread(Feature,Intensity) %>%
               select(-Class)
             
-            dat@info <- dat %>%
-              info() %>% 
+            sinfo(d) <- d %>%
+              sinfo() %>% 
               select(cls) %>%
               unique() %>%
               arrange_(cls)
             
-            return(dat)
+            return(d)
           }
 )
 

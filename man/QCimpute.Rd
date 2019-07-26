@@ -6,16 +6,16 @@
 \alias{QCimpute,AnalysisData-method}
 \title{QCimpute}
 \usage{
-QCimpute(dat, cls = "class", QCidx = "QC", occupancy = 2/3,
+QCimpute(d, cls = "class", QCidx = "QC", occupancy = 2/3,
   parallel = "variables", nCores = detectCores(),
   clusterType = "PSOCK", seed = 1234)
 
-\S4method{QCimpute}{AnalysisData}(dat, cls = "class", QCidx = "QC",
+\S4method{QCimpute}{AnalysisData}(d, cls = "class", QCidx = "QC",
   occupancy = 2/3, parallel = "variables", nCores = detectCores(),
   clusterType = "PSOCK", seed = 1234)
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 
 \item{cls}{info column to use for class labels}
 

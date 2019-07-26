@@ -173,7 +173,7 @@ setMethod('show',signature = 'AnalysisData',
             cat('\nAnalysis Data object containing:\n\n')
             cat('Samples:',nrow(dat(object)),'\n')
             cat('Features:',ncol(dat(object)),'\n')
-            cat('Info:',ncol(info(object)),'\n')
+            cat('Info:',ncol(sinfo(object)),'\n')
             cat('\n')
           }
           )

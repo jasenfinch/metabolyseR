@@ -9,21 +9,21 @@ setMethod("preTreat", signature = "Analysis",
               cat(blue('Pre-treatment'),cli::symbol$continue,'\r',sep = '') 
             }
             params <- x@parameters@preTreat
-            dat <- analysisData(rawData(x), rawInfo(x))
+            d <- analysisData(rawData(x), rawInfo(x))
             
             for (i in 1:length(params)) {
               method <- preTreatMethods(names(params)[i])
               m <- method(names(params[[i]]))
               for (j in 1:length(m)) {
+                newPars <- formals(m[[j]])
                 if (!(length(params[[i]][[j]]) == 0)) {
-                  newPars <- formals(m[[j]])
                   newPars[names(params[[i]][[j]])] <- params[[i]][[j]]
-                  formals(m[[j]]) <- newPars
                 }
-                dat <- m[[j]](dat)
+                newPars[[1]] <- d
+                d <- do.call(m[[j]],newPars %>% as.list())
               }
             }
-            x@preTreated <- dat
+            x@preTreated <- d
             x@log$preTreatment <- date()
             
             if (verbose == T) {

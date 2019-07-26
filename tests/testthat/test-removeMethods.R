@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(metaboData))
+library(metaboData)
 
 context('removeMethods')
 
@@ -47,25 +47,25 @@ test_that('methods work',{
   expect_true(identical(class(dat(cl)), c('tbl_df','tbl','data.frame')))
   expect_true(identical(class(dat(var)), c('tbl_df','tbl','data.frame')))
   
-  expect_true(identical(class(info(s)), c('tbl_df','tbl','data.frame')))
-  expect_true(identical(class(info(cl)), c('tbl_df','tbl','data.frame')))
-  expect_true(identical(class(info(var)), c('tbl_df','tbl','data.frame')))
+  expect_true(identical(class(sinfo(s)), c('tbl_df','tbl','data.frame')))
+  expect_true(identical(class(sinfo(cl)), c('tbl_df','tbl','data.frame')))
+  expect_true(identical(class(sinfo(var)), c('tbl_df','tbl','data.frame')))
   
   expect_equal(ncol(dat(s)),ncol(dat(d)))
-  expect_equal(ncol(info(s)),ncol(info(d)))
+  expect_equal(ncol(sinfo(s)),ncol(sinfo(d)))
   
   expect_equal(ncol(dat(cl)),ncol(dat(d)))
-  expect_equal(ncol(info(cl)),ncol(info(d)))
+  expect_equal(ncol(sinfo(cl)),ncol(sinfo(d)))
   
   expect_equal(ncol(dat(var)),ncol(dat(d)) - 1)
-  expect_equal(ncol(info(var)),ncol(info(d)))
+  expect_equal(ncol(sinfo(var)),ncol(sinfo(d)))
   
   expect_equal(nrow(dat(s)),nrow(dat(d)) - 2)
-  expect_equal(nrow(info(s)),nrow(info(d)) - 2)
+  expect_equal(nrow(sinfo(s)),nrow(sinfo(d)) - 2)
   
   expect_equal(nrow(dat(cl)),nrow(dat(d)) - 20)
-  expect_equal(nrow(info(cl)),nrow(info(d)) - 20)
+  expect_equal(nrow(sinfo(cl)),nrow(sinfo(d)) - 20)
   
   expect_equal(nrow(dat(var)),nrow(dat(d)))
-  expect_equal(nrow(info(var)),nrow(info(d)))
+  expect_equal(nrow(sinfo(var)),nrow(sinfo(d)))
 })
