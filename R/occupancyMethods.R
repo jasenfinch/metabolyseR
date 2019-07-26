@@ -78,7 +78,7 @@ occupancyMethods <- function(method = NULL, description = F){
 occMat <- function(dat,cls){
   d <- dat %>%
     dat() %>%
-    mutate(Class = unlist(dat %>% info() %>% .[,cls],use.names = F))
+    mutate(Class = unlist(dat %>% sinfo() %>% .[,cls],use.names = F))
   
   clsSize <- d %>%
     group_by(Class) %>%

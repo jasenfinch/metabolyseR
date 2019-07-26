@@ -43,11 +43,11 @@ setMethod('imputeAll',signature = 'AnalysisData',
 setMethod('imputeClass',signature = 'AnalysisData',
           function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234){
             set.seed(seed)
-            if (length(as.character(sort(unique(unlist(info(d)[,cls]))))) < nCores) {
-              nCores <- length(as.character(sort(unique(unlist(info(d)[,cls])))))
+            if (length(as.character(sort(unique(unlist(sinfo(d)[,cls]))))) < nCores) {
+              nCores <- length(as.character(sort(unique(unlist(sinfo(d)[,cls])))))
             }
             
-            classes <- info(d) %>%
+            classes <- sinfo(d) %>%
               select(Class = cls)
             
             dat(d) <- dat(d) %>%

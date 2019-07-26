@@ -204,17 +204,17 @@ setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/
 })
 
 #' @rdname QCimpute
-setGeneric("QCimpute", function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
   standardGeneric("QCimpute")
 })
 
 #' @rdname QCrsdFilter
-setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
+setGeneric("QCrsdFilter", function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
   standardGeneric("QCrsdFilter")
 })
 
 #' @rdname QCremove
-setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
+setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
 

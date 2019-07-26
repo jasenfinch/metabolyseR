@@ -40,9 +40,9 @@ test_that('methods work',{
   
   expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
   expect_false(F %in% sapply(m,function(x){class(dat(x)) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x){class(info(x)) == c('tbl_df','tbl','data.frame')}))
+  expect_false(F %in% sapply(m,function(x){class(sinfo(x)) == c('tbl_df','tbl','data.frame')}))
   expect_false(F %in% sapply(m,function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
   expect_false(F %in% sapply(m,function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
-  expect_false(F %in% sapply(m,function(x,col){ncol(info(x)) == col},col = ncol(info(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(info(x)) == row},row = nrow(info(d))))
+  expect_false(F %in% sapply(m,function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
+  expect_false(F %in% sapply(m,function(x,row){nrow(sinfo(x)) == row},row = nrow(sinfo(d))))
 })
