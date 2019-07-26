@@ -113,23 +113,23 @@ setGeneric("dat", function(x) {
   standardGeneric("dat")
 })
 
-#' @rdname info
-setGeneric("info", function(x) {
-  standardGeneric("info")
+#' @rdname sinfo
+setGeneric("sinfo", function(x) {
+  standardGeneric("sinfo")
 })
 
 #' @rdname aggregateSum
-setGeneric("aggregateSum", function(dat,cls = 'class') {
+setGeneric("aggregateSum", function(d,cls = 'class') {
   standardGeneric("aggregateSum")
 })
 
 #' @rdname aggregateMean
-setGeneric("aggregateMean", function(dat,cls = 'class') {
+setGeneric("aggregateMean", function(d,cls = 'class') {
   standardGeneric("aggregateMean")
 })
 
 #' @rdname aggregateMedian
-setGeneric("aggregateMedian", function(dat,cls = 'class') {
+setGeneric("aggregateMedian", function(d,cls = 'class') {
   standardGeneric("aggregateMedian")
 })
 
