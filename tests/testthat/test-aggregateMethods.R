@@ -3,43 +3,43 @@ library(metaboData)
 context('aggregateMethods')
 
 test_that('aggregateMethods returns methods correctly',{
-  m <- sapply(metabolyseR:::aggregateMethods(),is.function)
+  m <- sapply(aggregateMethods(),is.function)
   expect_false(F %in% m)
 })
 
 test_that('aggregateMethods returns descriptions correctly',{
-  m <- sapply(metabolyseR:::aggregateMethods(description = T),is.list)
+  m <- sapply(aggregateMethods(description = T),is.list)
   expect_false(F %in% m)
 })
 
 test_that('description names match method names',{
-  d <- names(metabolyseR:::aggregateMethods(description = T))
-  m <- names(metabolyseR:::aggregateMethods())
+  d <- names(aggregateMethods(description = T))
+  m <- names(aggregateMethods())
   expect_equal(d,m)
 })
 
 test_that('descriptions have correct names', {
-  n <- lapply(metabolyseR:::aggregateMethods(description = T),names)
+  n <- lapply(aggregateMethods(description = T),names)
   expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
 })
 
 test_that('number of method arguments matches description arguments', {
-  d <- sapply(metabolyseR:::aggregateMethods(description = T),function(x){length(x$arguments)})
-  m <- sapply(metabolyseR:::aggregateMethods(),function(x){length(formals(x)[-1])})
+  d <- sapply(aggregateMethods(description = T),function(x){length(x$arguments)})
+  m <- sapply(aggregateMethods(),function(x){length(formals(x)[-1])})
   expect_equal(d,m)
 })
 
 test_that('methods work',{
-  m <- names(metabolyseR:::aggregateMethods())
+  m <- names(aggregateMethods())
   dat <- analysisData(abr1$neg[abr1$fact$class %in% c('1','6'),500:600], cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
   m <- lapply(m,function(x,dat){
-    method <- metabolyseR:::aggregateMethods(x)
+    method <- aggregateMethods(x)
     res <- method(dat)
     return(res)
   },dat = dat)
   
   expect_false(F %in% sapply(m,function(x){slotNames(x) == c('data','info')}))
   expect_false(F %in% sapply(m,function(x){class(x) == 'AnalysisData'}))
-  expect_false(F %in% (sapply(m,function(x){nrow(x %>% dat())}) == sapply(m,function(x){nrow(x %>% info())})))
+  expect_false(F %in% (sapply(m,function(x){nrow(x %>% dat())}) == sapply(m,function(x){nrow(x %>% sinfo())})))
 })
 

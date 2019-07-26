@@ -37,22 +37,22 @@ setMethod('dat',signature = 'AnalysisData',
   return(x)
 }
 
-#' info
-#' @rdname info
+#' sinfo
+#' @rdname sinfo
 #' @description Return sample info from an AnalysisData object.
 #' @param x S4 object of class Data 
 #' @export
 
-setMethod('info',signature = 'AnalysisData',
+setMethod('sinfo',signature = 'AnalysisData',
           function(x){
             x@info
           })
 
-#' @rdname info
+#' @rdname sinfo
 #' @param value tibble containing sample info
 #' @export
 
-`info<-` <- function(x,value){
+`sinfo<-` <- function(x,value){
   x@info <- value
   return(x)
 }

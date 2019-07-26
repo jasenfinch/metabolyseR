@@ -11,12 +11,12 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC', occupancy = 2/3){
             method <- occupancyMethods('maximum')
             QC <- d
-            QC@data <- QC %>% 
+            dat(QC) <- QC %>% 
               dat() %>% 
-              .[QC %>% info() %>% .[,cls] == QCidx,]
-            QC@info <- QC %>%
-              info() %>%
-              .[QC %>% info() %>% .[,cls] == QCidx,]
+              .[QC %>% sinfo() %>% .[,cls] == QCidx,]
+            sinfo(QC) <- QC %>%
+              sinfo() %>%
+              .[QC %>% sinfo() %>% .[,cls] == QCidx,]
             QC <- method(QC,cls,occupancy)
             d@data <- d %>% 
               dat() %>%
@@ -28,7 +28,7 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 #' QCimpute
 #' @rdname QCimpute
 #' @description QC imputation.
-#' @param dat S4 object of class AnalysisData
+#' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
 #' @param occupancy occupancy threshold for imputation
@@ -41,11 +41,11 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 #' @export
 
 setMethod('QCimpute',signature = 'AnalysisData',
-          function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234){
+          function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234){
             set.seed(seed)
-            QC <- dat %>%
+            QC <- d %>%
               dat() %>%
-            .[{dat %>% info() %>% .[,cls]} == QCidx,]
+            .[{d %>% sinfo() %>% .[,cls]} == QCidx,]
             QC <- apply(QC,2,function(x){x[x == 0] <- NA;return(x)})
             QC[which(QC == 0)] <- NA
             if (nCores > 1) {
@@ -56,15 +56,15 @@ setMethod('QCimpute',signature = 'AnalysisData',
             } else {
               capture.output(QC <- missForest(QC)$ximp)  
             }
-            dat@data[{dat %>% info() %>% .[,cls]} == QCidx,] <- QC
-            return(dat)
+            dat(d)[{d %>% sinfo() %>% .[,cls]} == QCidx,] <- QC
+            return(d)
           }
 )
 
 #' QCrsdFilter
 #' @rdname QCrsdFilter
 #' @description QC relative standard deviation (RSD) filtering..
-#' @param dat S4 object of class AnalysisData
+#' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
 #' @param RSDthresh RSD threshold for filtering
@@ -72,36 +72,36 @@ setMethod('QCimpute',signature = 'AnalysisData',
 #' @export
 
 setMethod('QCrsdFilter',signature = 'AnalysisData',
-          function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5){
-            QC <- dat %>%
+          function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5){
+            QC <- d %>%
               dat() %>%
-              .[{dat %>% info() %>% .[,cls]} == QCidx,]
+              .[{d %>% sinfo() %>% .[,cls]} == QCidx,]
             RSD <- apply(QC,2,function(y){sd(y)/mean(y)})
-            dat@data <- dat %>%
+            dat(d) <- d %>%
               dat() %>%
               .[,RSD <= RSDthresh]
-            return(dat)
+            return(d)
           }
 )
 
 #' QCremove
 #' @rdname QCremove
 #' @description Remove QC samples.
-#' @param dat S4 object of class AnalysisData
+#' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
 #' @importFrom stats sd
 #' @export
 
 setMethod('QCremove',signature = 'AnalysisData',
-          function(dat,cls = 'class', QCidx = 'QC'){
-            dat@data <- dat %>%
+          function(d,cls = 'class', QCidx = 'QC'){
+            dat(d) <- d %>%
               dat() %>%
-              .[!({dat %>% info() %>% .[,cls]} == QCidx),]
-            dat@info <- dat %>%
-              info() %>%
-              .[!({dat %>% info() %>% .[,cls]} == QCidx),]
-            return(dat)
+              .[!({d %>% sinfo() %>% .[,cls]} == QCidx),]
+            sinfo(d) <- d %>%
+              sinfo() %>%
+              .[!({d %>% sinfo() %>% .[,cls]} == QCidx),]
+            return(d)
           }
 )
 

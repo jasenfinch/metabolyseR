@@ -6,12 +6,12 @@
 \alias{QCremove,AnalysisData-method}
 \title{QCremove}
 \usage{
-QCremove(dat, cls = "class", QCidx = "QC")
+QCremove(d, cls = "class", QCidx = "QC")
 
-\S4method{QCremove}{AnalysisData}(dat, cls = "class", QCidx = "QC")
+\S4method{QCremove}{AnalysisData}(d, cls = "class", QCidx = "QC")
 }
 \arguments{
-\item{dat}{S4 object of class AnalysisData}
+\item{d}{S4 object of class AnalysisData}
 
 \item{cls}{info column to use for class labels}
 

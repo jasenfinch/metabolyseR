@@ -8,8 +8,8 @@
 
 setMethod('removeSamples',signature = 'AnalysisData',
           function(d,idx = 'fileOrder', samples = c()){
-            dat(d) <- dat(d)[!(unlist(info(d)[,idx]) %in% samples),]
-            info(d) <- info(d)[!(unlist(info(d)[,idx]) %in% samples),]
+            dat(d) <- dat(d)[!(unlist(sinfo(d)[,idx]) %in% samples),]
+            sinfo(d) <- sinfo(d)[!(unlist(sinfo(d)[,idx]) %in% samples),]
             return(d)
           }
 )
@@ -24,8 +24,8 @@ setMethod('removeSamples',signature = 'AnalysisData',
 
 setMethod('removeClasses',signature = 'AnalysisData',
           function(d,cls = 'class', classes = c()){
-            dat(d) <- dat(d)[!(unlist(info(d)[,cls]) %in% classes),]
-            info(d) <-  info(d)[!(unlist(info(d)[,cls]) %in% classes),]
+            dat(d) <- dat(d)[!(unlist(sinfo(d)[,cls]) %in% classes),]
+            sinfo(d) <-  sinfo(d)[!(unlist(sinfo(d)[,cls]) %in% classes),]
             return(d)
           }
 )

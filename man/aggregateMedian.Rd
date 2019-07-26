@@ -6,12 +6,12 @@
 \alias{aggregateMedian,AnalysisData-method}
 \title{aggregateMedian}
 \usage{
-aggregateMedian(dat, cls = "class")
+aggregateMedian(d, cls = "class")
 
-\S4method{aggregateMedian}{AnalysisData}(dat, cls = "class")
+\S4method{aggregateMedian}{AnalysisData}(d, cls = "class")
 }
 \arguments{
-\item{dat}{S4 object of class Data}
+\item{d}{S4 object of class Data}
 
 \item{cls}{info column to use for class data}
 }

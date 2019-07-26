@@ -113,23 +113,23 @@ setGeneric("dat", function(x) {
   standardGeneric("dat")
 })
 
-#' @rdname info
-setGeneric("info", function(x) {
-  standardGeneric("info")
+#' @rdname sinfo
+setGeneric("sinfo", function(x) {
+  standardGeneric("sinfo")
 })
 
 #' @rdname aggregateSum
-setGeneric("aggregateSum", function(dat,cls = 'class') {
+setGeneric("aggregateSum", function(d,cls = 'class') {
   standardGeneric("aggregateSum")
 })
 
 #' @rdname aggregateMean
-setGeneric("aggregateMean", function(dat,cls = 'class') {
+setGeneric("aggregateMean", function(d,cls = 'class') {
   standardGeneric("aggregateMean")
 })
 
 #' @rdname aggregateMedian
-setGeneric("aggregateMedian", function(dat,cls = 'class') {
+setGeneric("aggregateMedian", function(d,cls = 'class') {
   standardGeneric("aggregateMedian")
 })
 
@@ -204,17 +204,17 @@ setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/
 })
 
 #' @rdname QCimpute
-setGeneric("QCimpute", function(dat, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
   standardGeneric("QCimpute")
 })
 
 #' @rdname QCrsdFilter
-setGeneric("QCrsdFilter", function(dat,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
+setGeneric("QCrsdFilter", function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
   standardGeneric("QCrsdFilter")
 })
 
 #' @rdname QCremove
-setGeneric("QCremove", function(dat,cls = 'class', QCidx = 'QC') {
+setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
 
@@ -241,4 +241,9 @@ setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCo
 #' @rdname  imputeClass
 setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
   standardGeneric("imputeClass")
+})
+
+#' @rdname  correctionCenter
+setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
+  standardGeneric("correctionCenter")
 })
