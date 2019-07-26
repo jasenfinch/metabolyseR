@@ -7,7 +7,7 @@
 setMethod('rawInfo', signature = 'Analysis',
           function(x){
             x <- x@rawData %>%
-              info()
+              sinfo()
             return(x)
           }
 )
