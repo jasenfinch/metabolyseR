@@ -489,6 +489,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
   res@type <- 'regression'
   res@results <- results
   res@predictions <- predictions
+  res@permutations <- permutations
   res@importances <- importances
   res@proximities <- proximities
   
