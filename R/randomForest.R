@@ -36,6 +36,91 @@ importance <- function(x){
     {bind_cols(tibble(Feature = rownames(.)),as_tibble(.))}
 }
 
+regressionMeasures <- function(predictions,permutations){
+  reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
+  meas <- predictions %>%
+    split(.$Predictor) %>%
+    map(~{
+      d <- .
+      d %>%
+        group_by(Predictor) %>%
+        reg_metrics(obs,estimate = pred)
+    }) %>%
+    bind_rows()
+  
+  if (length(permutations) > 0) {
+    lowertail <- list(rsq = F,mae = T,mape = T,mape = T,rmse = T,ccc = F)
+    
+    meas <- meas %>%
+      left_join(permutations$measures, by = c("Predictor", ".metric")) %>%
+      rowwise() %>%
+      mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = lowertail[[.metric]])) %>%
+      select(-Mean,-SD)
+  }
+  
+  return(meas)
+}
+
+regressionImportance <- function(importances,permutations){
+  imps <- importances %>%
+    group_by(Predictor,Feature,Measure) %>%
+    summarise(Value = mean(Value)) 
+  
+  if (length(permutations) > 0) {
+    imps <- imps %>%
+      left_join(permutations$importance, by = c("Predictor", "Feature", "Measure")) %>%
+      mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = F)) %>%
+      group_by(Measure) %>%
+      mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
+      select(-Mean,-SD)
+  }
+  
+  return(imps)
+}
+
+regressionPermutationMeasures <- function(models){
+  preds <- models %>%
+    map(~{
+      map(.$permutations,~{
+        m <- .
+        tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted)
+      }) %>%
+        bind_rows(.id = 'Permutation') %>%
+        mutate(Permutation = as.numeric(Permutation))
+    }) %>%
+    bind_rows(.id = 'Predictor')
+  
+  reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
+  
+  meas <- preds %>%
+    split(.$Predictor) %>%
+    map(~{
+      d <- .
+      d %>%
+        group_by(Predictor,Permutation) %>%
+        reg_metrics(obs,estimate = pred)
+    }) %>%
+    bind_rows() %>%
+    group_by(Predictor,.metric) %>%
+    summarise(Mean = mean(.estimate),SD = sd(.estimate))
+  
+  imps <- models %>%
+    map(~{
+      map(.$permutations,~{
+        m <- .
+        importance(m)
+      }) %>%
+        bind_rows(.id = 'Permutation') %>%
+        mutate(Permutation = as.numeric(Permutation))
+    }) %>%
+    bind_rows(.id = 'Predictor') %>%
+    gather('Measure','Value',-Predictor,-Permutation,-Feature) %>%
+    group_by(Predictor,Feature,Measure) %>%
+    summarise(Mean = mean(Value),SD = sd(Value))
+  
+  return(list(measures = meas,importance = imps))
+}
+
 #' @importFrom forestControl fpr_fs
 
 unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
@@ -334,7 +419,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
         params$y <- pred
         params <- c(params,rf)
         do.call(randomForest::randomForest,params)
-      },d = d,pred = pred,rf = rf) %>%
+      },d = x,pred = pred,rf = rf) %>%
         set_names(1:reps)
       
       stopCluster(clus)
@@ -343,8 +428,11 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
       
       if (perm > 0) {
         perms <- permute(x,cls,rf,n = perm,nCores,clusterType)
-        mod <- c(mod,list(permutations = perms))
+      } else {
+        perms <- list()
       }
+      
+      mod <- c(mod,list(permutations = perms))
       
       return(mod) 
     }) %>%
@@ -370,7 +458,8 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
         bind_rows(.id = 'Rep') %>%
         mutate(Rep = as.numeric(Rep))
     }) %>%
-    bind_rows(.id = 'Predictor')
+    bind_rows(.id = 'Predictor') %>%
+    gather('Measure','Value',-Predictor,-Rep,-Feature)
   
   proximities <- models %>%
     map(~{
@@ -385,21 +474,15 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
     }) %>%
     bind_rows(.id = 'Predictor')
   
-  reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
+  if (perm > 0) {
+    permutations <- regressionPermutationMeasures(models) 
+  } else {
+    permutations <- list()
+  }
   
   results <- list(
-    measures = predictions %>%
-      split(.$Predictor) %>%
-      map(~{
-        d <- .
-        d %>%
-          group_by(Predictor) %>%
-          reg_metrics(obs,estimate = pred)
-      }) %>%
-      bind_rows(),
-    importances = importances %>%
-      group_by(Predictor,Feature) %>%
-      summarise_all(mean)
+    measures = regressionMeasures(predictions,permutations),
+    importances = regressionImportance(importances,permutations)
   )
   
   res <- new('RandomForest')

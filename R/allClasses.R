@@ -95,6 +95,7 @@ setClass('RandomForest',
            type = 'character',
            results = 'list',
            predictions = 'tbl_df',
+           permutations = 'list',
            importances = 'tbl_df',
            proximities = 'tbl_df',
            models = 'list'
