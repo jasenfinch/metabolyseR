@@ -87,7 +87,6 @@ classificationMeasures <- function(predictions,permutations){
   if (length(permutations) > 0) {
     meas <- meas %>%
       left_join(permutations$measures, by = c("Predictor","Comparison", ".metric")) %>%
-      rowwise() %>%
       mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = F)) %>%
       select(-Mean,-SD)
   }
@@ -110,7 +109,9 @@ classificationImportance <- function(importances,permutations){
         i <- .
         tail <- lowertail[[i$Measure[1]]]
         i %>%
-          mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail))
+          rowwise() %>%
+          mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
+          tbl_df()
       }) %>%
       bind_rows() %>%
       group_by(Measure) %>%
@@ -430,7 +431,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
             params$y <- pred
             params <- c(params,rf)
             do.call(randomForest::randomForest,params)
-          },d = x,pred = pred,rf = rf) %>%
+          },d = cda,pred = pred,rf = rf) %>%
             set_names(1:reps)
           stopCluster(clus)
           
