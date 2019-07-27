@@ -31,7 +31,7 @@ setMethod('plotFeature',signature = 'Analysis',
 setMethod('plotFeature',signature = 'AnalysisData',
           function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
             d <- dat(analysis)
-            i <- info(analysis)
+            i <- sinfo(analysis)
             
             i <- i %>%
               select(Class = cls,Label = label)
