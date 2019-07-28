@@ -97,20 +97,12 @@ setMethod('show',signature = 'Analysis',
               cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
             }
             
-            if ('classification' %in% elements) {
-              time <- object@log$classification
-              cR <- classificationResults(object)
-              cR <- paste('\t\tMethods = ',paste(unique(cR$Method,collapse = '\t')),'\n','\t\tNo. pairwises = ',length(unique(cR$Pairwise)),'\n',sep = '')
+            if ('modelling' %in% elements) {
+              time <- object@log$modelling
+              mR <- modellingResults(object)
+              mR <- str_c('Methods: ',str_c(names(mR),collapse = ','))
               
-              cat('\n\tClassification:\n','\t\t',time,'\n',cR,sep = '')
-            }
-            
-            if ('featureSelection' %in% elements) {
-              time <- object@log$featureSelection
-              fsR <- featureSelectionResults(object)
-              fsR <- paste('\t\tMethods = ',paste(unique(fsR$Method,collapse = '\t')),'\n','\t\tNo. pairwises = ',length(unique(fsR$Pairwise)),'\n',sep = '')
-              
-              cat('\n\tFeature selection:\n','\t\t',time,'\n',fsR,sep = '')
+              cat('\n\tModelling:\n','\t\t',time,'\n','\t\t',mR,sep = '')
             }
             
             if ('correlations' %in% elements) {

@@ -31,6 +31,11 @@ setGeneric("preTreatedInfo", function(x) {
   standardGeneric("preTreatedInfo")
 })
 
+#' @rdname modellingResults
+setGeneric("modellingResults", function(x) {
+  standardGeneric("modellingResults")
+})
+
 #' @rdname correlationResults
 setGeneric("correlationResults", function(x) {
   standardGeneric("correlationResults")

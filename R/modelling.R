@@ -105,8 +105,9 @@ setMethod('modelling',signature = 'Analysis',
                 newPars[[1]] <- d
                 
                 do.call(method,newPars)
-              })
-              
+              }) %>%
+              set_names(names(params))
+            
             x@modelling <- res
             x@log$modelling <- date()
             
@@ -120,5 +121,17 @@ setMethod('modelling',signature = 'Analysis',
               cat(blue('Modelling '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
             }
             return(x)
+          }
+)
+
+#' modellingResults
+#' @rdname modellingResults
+#' @description Return modelling results from an Analysis object.
+#' @param x S4 object of class Analysis
+#' @export
+
+setMethod('modellingResults',signature = 'Analysis',
+          function(x){
+            x@modelling
           }
 )
