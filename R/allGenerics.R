@@ -3,6 +3,9 @@ setGeneric("preTreat", function(x) {
   standardGeneric("preTreat")
 })
 
+setGeneric("modelling", function(x) {
+  standardGeneric("modelling")
+})
 
 setGeneric("correlations", function(x) {
   standardGeneric("correlations")
@@ -229,17 +232,17 @@ setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
 })
 
 #' @rdname ttest
-setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("ttest")
 })
 
 #' @rdname linearRegression
-setGeneric("linearRegression", function(x, cls, pAdjust = 'bonferroni', returnModels = F) {
+setGeneric("linearRegression", function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = F) {
   standardGeneric("linearRegression")
 })
 
 #' @rdname randomForest
-setGeneric("randomForest", function(x, cls = NULL, rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+setGeneric("randomForest", function(x, cls = 'class', rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("randomForest")
 })
 

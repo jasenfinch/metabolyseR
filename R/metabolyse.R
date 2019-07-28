@@ -40,8 +40,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
       parameters = parameters,
       rawData = analysisData(data,info),
       preTreated = new('AnalysisData'),
-      classification = tibble(),
-      featureSelection = tibble(),
+      modelling = list(),
       correlations = tibble()
   )
     

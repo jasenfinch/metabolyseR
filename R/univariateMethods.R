@@ -13,7 +13,7 @@
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls,pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,cls = 'class',pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             d <- x %>%
               dat()
@@ -104,7 +104,7 @@ setMethod('ttest',signature = 'AnalysisData',
 #' @export
 
 setMethod('linearRegression',signature = 'AnalysisData',
-          function(x, cls, pAdjust = 'bonferroni', returnModels = F){
+          function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = F){
             indep <- x %>%
               sinfo() %>%
               select(cls)

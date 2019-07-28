@@ -45,8 +45,8 @@ setClass('Analysis',
          slots = list(
            log = 'list',
            parameters = 'AnalysisParameters',
-           rawData = 'list',
-           preTreated = 'list',
+           rawData = 'AnalysisData',
+           preTreated = 'AnalysisData',
            modelling = 'list',
            correlations = 'tbl_df'
          )
