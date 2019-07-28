@@ -101,3 +101,16 @@ setClass('RandomForest',
            models = 'list'
          )
 )
+
+#' Univariate
+#' @rdname Univariate-class
+#' @description An S4 class for univariate test models and results.
+#' @slot models list of model objects
+#' @slot results tibble containing test results 
+#' @export
+
+setClass('Univariate',
+         slots = list(
+           models = 'list',
+           results = 'tbl_df'
+         ))

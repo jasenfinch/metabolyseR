@@ -243,3 +243,14 @@ setGeneric("randomForest", function(x, cls = NULL, rf = list(), reps = 1, binary
   standardGeneric("randomForest")
 })
 
+#' @rdname measures
+setGeneric("measures", function(x) {
+  standardGeneric("measures")
+})
+
+#' @rdname importance
+setGeneric("importance", function(x) {
+  standardGeneric("importance")
+})
+
+

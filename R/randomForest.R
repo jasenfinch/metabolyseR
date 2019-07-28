@@ -124,21 +124,21 @@ classificationImportance <- function(importances,permutations){
 
 classificationPermutationMeasures <- function(models){
   suppressWarnings({
-  preds <- models %>%
-    map(~{
-      map(.,~{
-        map(.$permutations,~{
-          m <- .
-          tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
-            bind_cols(m$votes %>%
-                        as_tibble())
+    preds <- models %>%
+      map(~{
+        map(.,~{
+          map(.$permutations,~{
+            m <- .
+            tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
+              bind_cols(m$votes %>%
+                          as_tibble())
+          }) %>%
+            bind_rows(.id = 'Permutation') %>%
+            mutate(Permutation = as.numeric(Permutation))
         }) %>%
-          bind_rows(.id = 'Permutation') %>%
-          mutate(Permutation = as.numeric(Permutation))
+          bind_rows(.id = 'Comparison')
       }) %>%
-        bind_rows(.id = 'Comparison')
-    }) %>%
-    bind_rows(.id = 'Predictor') 
+      bind_rows(.id = 'Predictor') 
   })
   
   class_metrics <- metric_set(accuracy,kap)
@@ -465,50 +465,50 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
       }) %>%
       bind_rows(.id = 'Predictor')
   })
-    
-    importances <- models %>%
-      map(~{
-        map(.,~{
-          map(.$models,~{
-            m <- .
-            importance(m) %>%
-              left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
-              rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
-          }) %>%
-            bind_rows(.id = 'Rep') %>%
-            mutate(Rep = as.numeric(Rep))
+  
+  importances <- models %>%
+    map(~{
+      map(.,~{
+        map(.$models,~{
+          m <- .
+          importance(m) %>%
+            left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
+            rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
         }) %>%
-          bind_rows(.id = 'Comparison')
+          bind_rows(.id = 'Rep') %>%
+          mutate(Rep = as.numeric(Rep))
       }) %>%
-      bind_rows(.id = 'Predictor') %>%
-      gather('Measure','Value',-(Predictor:Feature))
-    
-    proximities <- models %>%
-      map(~{
-        map(.,~{
-          map(.$models,~{.$proximity %>%
-              as_tibble() %>%
-              mutate(Sample = nrow(.)) %>%
-              gather('Sample2','Proximity',-Sample) %>%
-              rename(Sample1 = Sample)
-          }) %>%
-            bind_rows(.id = 'Rep') %>%
-            mutate(Rep = as.numeric(Rep))
+        bind_rows(.id = 'Comparison')
+    }) %>%
+    bind_rows(.id = 'Predictor') %>%
+    gather('Measure','Value',-(Predictor:Feature))
+  
+  proximities <- models %>%
+    map(~{
+      map(.,~{
+        map(.$models,~{.$proximity %>%
+            as_tibble() %>%
+            mutate(Sample = nrow(.)) %>%
+            gather('Sample2','Proximity',-Sample) %>%
+            rename(Sample1 = Sample)
         }) %>%
-          bind_rows(.id = 'Comparison')
+          bind_rows(.id = 'Rep') %>%
+          mutate(Rep = as.numeric(Rep))
       }) %>%
-      bind_rows(.id = 'Predictor')
-    
-    if (perm > 0) {
-      permutations <- classificationPermutationMeasures(models)
-    } else {
-      permutations <- list()
-    }
-    
-    results <- list(
-      measures = classificationMeasures(predictions,permutations),
-      importances = classificationImportance(importances,permutations)
-    )
+        bind_rows(.id = 'Comparison')
+    }) %>%
+    bind_rows(.id = 'Predictor')
+  
+  if (perm > 0) {
+    permutations <- classificationPermutationMeasures(models)
+  } else {
+    permutations <- list()
+  }
+  
+  results <- list(
+    measures = classificationMeasures(predictions,permutations),
+    importances = classificationImportance(importances,permutations)
+  )
   
   res <- new('RandomForest')
   res@type <- 'classification'
@@ -676,6 +676,30 @@ setMethod('randomForest',signature = 'AnalysisData',
             
             return(res)
             
+          }
+)
+
+#' measures
+#' @rdname measures
+#' @description return measures results from a RandomForest object
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('measures',signature = 'RandomForest',
+          function(x){
+            x@results$measures
+          }
+)
+
+#' importance
+#' @rdname importance
+#' @description return feature importance resutls from a RandomForest object
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('importance',signature = 'RandomForest',
+          function(x){
+            x@results$importances
           }
 )
 
