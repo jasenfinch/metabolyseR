@@ -10,7 +10,7 @@
 #' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',
-          function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234){
+          function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             
             set.seed(seed)
             da <- as.matrix(d %>% dat())
@@ -41,7 +41,7 @@ setMethod('imputeAll',signature = 'AnalysisData',
 #' @export
 
 setMethod('imputeClass',signature = 'AnalysisData',
-          function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234){
+          function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             set.seed(seed)
             if (length(as.character(sort(unique(unlist(sinfo(d)[,cls]))))) < nCores) {
               nCores <- length(as.character(sort(unique(unlist(sinfo(d)[,cls])))))

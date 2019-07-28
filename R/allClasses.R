@@ -29,17 +29,6 @@ setClass('AnalysisParameters',
            correlations = 'list'
          ))
 
-setClass('ModellingParameters',
-         slots = list(
-           type = 'character',
-           methods = 'character',
-           parameters = 'list',
-           predictors = 'character',
-           pairwise = 'logical',
-           permute = 'list'
-         )
-)
-
 #' Analysis
 #' @rdname Analysis-class
 #' @description An S4 class to store analysis results

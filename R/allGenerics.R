@@ -184,7 +184,7 @@ setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/
 })
 
 #' @rdname QCimpute
-setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
   standardGeneric("QCimpute")
 })
 
@@ -214,12 +214,12 @@ setGeneric("removeVariables", function(d,variables = character()) {
 })
 
 #' @rdname  imputeAll
-setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
   standardGeneric("imputeAll")
 })
 
 #' @rdname  imputeClass
-setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
   standardGeneric("imputeClass")
 })
 

@@ -41,7 +41,7 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 #' @export
 
 setMethod('QCimpute',signature = 'AnalysisData',
-          function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234){
+          function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             set.seed(seed)
             QC <- d %>%
               dat() %>%

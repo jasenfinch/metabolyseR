@@ -1,6 +1,5 @@
 nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
-
 permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
   i <- x %>%
     sinfo() %>%
@@ -347,7 +346,7 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
     res@models <- models
   }
   
-  return(res)  
+  return(list(res))  
 }
 
 supervised <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,nCores,clusterType){
@@ -663,7 +662,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
 #' @export
 
 setMethod('randomForest',signature = 'AnalysisData',
-          function(x, cls = NULL, rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x, cls = 'class', rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             rf$keep.forest <- T
             rf$proximity <- T
