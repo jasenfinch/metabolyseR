@@ -60,30 +60,32 @@ setMethod('plotFeature',signature = 'AnalysisData',
               pl <- d %>%
                 ggplot(aes(x = Class,y = Intensity,group = Class)) +
                 geom_boxplot(outlier.shape = NA,colour = 'darkgrey') +
-                geom_point(aes(colour = Class),alpha = 0.8) +
+                geom_point(aes(fill = Class),shape = 21,alpha = 0.8) +
                 theme_bw() +
                 ggtitle(feature) +
                 theme(axis.title = element_text(face = 'bold'),
                       plot.title = element_text(face = 'bold')) +
-                guides(colour = FALSE)
+                guides(fill = FALSE)
               
               if (classes <= 12) {
-                pl <- pl + scale_colour_ptol()
+                pl <- pl + scale_fill_ptol()
               } else {
                 if (classes %% 12 == 0) {
                   pal <- rep(ptol_pal()(12),classes / 12)
                 } else {
                   pal <- c(rep(ptol_pal()(12),floor(classes / 12)),ptol_pal()(12)[1:(classes %% 12)])
                 }
-                pl <- pl + scale_colour_manual(values = pal)
+                pl <- pl + scale_fill_manual(values = pal)
               }
             } else {
               pl <- d %>%
                 ggplot(aes(x = Class, y = Intensity)) +
-                geom_point(colour = ptol_pal()(1)) +
+                geom_point(fill = ptol_pal()(1),shape = 21) +
                 theme_bw() +
                 ggtitle(feature) +
-                xlab(cls)
+                xlab(cls) +
+                theme(axis.title = element_text(face = 'bold'),
+                      plot.title = element_text(face = 'bold'))
             }
             
             if (!is.null(label)) {
