@@ -229,7 +229,7 @@ setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
 })
 
 #' @rdname ttest
-setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni', returnModels = F, nCores = detectCores() * 0.75, clusterType = clusterType(), ...) {
+setGeneric("ttest", function(x,cls,pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("ttest")
 })
 

@@ -9,16 +9,17 @@
 #' @param nCores number of cores to use for parallelisation
 #' @param clusterType cluster type to use for parallelisation (`?parallel::makeCluster`)
 #' @importFrom dplyr bind_rows
+#' @importFrom broom glance
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls,pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType(), ...){
+          function(x,cls,pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             d <- x %>%
               dat()
             
             i <- x %>%
-              info()
+              sinfo()
             
             classes <- i %>%
               select(cls)
@@ -42,19 +43,19 @@ setMethod('ttest',signature = 'AnalysisData',
                 
                 clus <- makeCluster(nCores,type = clusterType)
                 
-                ps %>%
+                r <- ps %>%
                   parLapply(cl = clus,X = .,fun = function(z,da,pred){
                     p <- z  
                     pc <- str_split(p,'~')[[1]]
                     
-                    pad <- removeClasses(da,pred,classes = info(da) %>%
+                    pad <- removeClasses(da,pred,classes = sinfo(da) %>%
                                            select(pred) %>%
                                            unlist() %>%
                                            unique() %>%
                                            .[!(. %in% pc)])
                     
                     response <- pad %>%
-                      info() %>%
+                      sinfo() %>%
                       select(pred) %>%
                       unlist() %>%
                       factor()
@@ -65,7 +66,9 @@ setMethod('ttest',signature = 'AnalysisData',
                         t.test(. ~ response)
                       })
                   },da = x,pred = pred) %>%
-                  set_names(pw[[cl]])
+                  set_names(pw[[pred]])
+                stopCluster(clus)
+                return(r)
               }) %>%
               set_names(names(pw))
             
@@ -80,11 +83,14 @@ setMethod('ttest',signature = 'AnalysisData',
               }) %>%
               bind_rows(.id = 'Predictor')
             
+            res <- new('Univariate')
+            res@results <- results
+            
             if (returnModels == T) {
-              return(list(models = models,results = results))
-            } else {
-              return(list(results = results))
-            }  
+             res@models <- models
+            } 
+            
+            return(res)
           }
 )
 
@@ -100,7 +106,7 @@ setMethod('ttest',signature = 'AnalysisData',
 setMethod('linearRegression',signature = 'AnalysisData',
           function(x, cls, pAdjust = 'bonferroni', returnModels = F){
             indep <- x %>%
-              info() %>%
+              sinfo() %>%
               select(cls)
             
             if (FALSE %in% (map_chr(indep,class) %in% c('integer','numeric'))) {
@@ -136,10 +142,13 @@ setMethod('linearRegression',signature = 'AnalysisData',
               }) %>%
               bind_rows(.id = 'Predictor')
             
+            res <- new('Univariate')
+            res@results <- results
+            
             if (returnModels == T) {
-              return(list(models = models,results = results))
-            } else {
-              return(list(results = results))
+              res@models <- models
             } 
+            
+            return(res)
           }
 )
