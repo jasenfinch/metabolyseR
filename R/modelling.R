@@ -92,7 +92,7 @@ setMethod('modelling',signature = 'Analysis',
               names() %>%
               map(~{
                 i <- .
-                method <- modellingMethods(names(params)[i])
+                method <- modellingMethods(i)
                 
                 if (nrow(x@preTreated@data) > 0) {
                   d <- x@preTreated

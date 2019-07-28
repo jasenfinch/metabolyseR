@@ -8,8 +8,8 @@
 \S4method{show}{AnalysisPlot}(object)
 }
 \arguments{
-\item{object}{S4 object of class AnalysisPlot}
+\item{object}{S4 object of class AnalysisData}
 }
 \description{
-show method for AnalysisPlot class.
+show method for AnalysisData class.
 }

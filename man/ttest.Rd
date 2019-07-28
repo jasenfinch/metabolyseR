@@ -6,12 +6,13 @@
 \alias{ttest,AnalysisData-method}
 \title{ttest}
 \usage{
-ttest(x, cls, pAdjust = "bonferroni", returnModels = F,
-  nCores = detectCores() * 0.75, clusterType = clusterType(), ...)
+ttest(x, cls = "class", pAdjust = "bonferroni", pairwises = list(),
+  returnModels = F, nCores = detectCores() * 0.75,
+  clusterType = getClusterType())
 
-\S4method{ttest}{AnalysisData}(x, cls, pAdjust = "bonferroni",
-  pairwises = list(), returnModels = F, nCores = detectCores() *
-  0.75, clusterType = getClusterType(), ...)
+\S4method{ttest}{AnalysisData}(x, cls = "class",
+  pAdjust = "bonferroni", pairwises = list(), returnModels = F,
+  nCores = detectCores() * 0.75, clusterType = getClusterType())
 }
 \arguments{
 \item{x}{S4 object of class AnalysisData}
@@ -20,13 +21,13 @@ ttest(x, cls, pAdjust = "bonferroni", returnModels = F,
 
 \item{pAdjust}{p value adjustment method}
 
+\item{pairwises}{named list of pairwises to analyse}
+
 \item{returnModels}{should models be returned}
 
 \item{nCores}{number of cores to use for parallelisation}
 
 \item{clusterType}{cluster type to use for parallelisation (`?parallel::makeCluster`)}
-
-\item{pairwises}{named list of pairwises to analyse}
 }
 \description{
 Welch t-test

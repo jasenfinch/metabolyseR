@@ -7,12 +7,12 @@
 \title{QCimpute}
 \usage{
 QCimpute(d, cls = "class", QCidx = "QC", occupancy = 2/3,
-  parallel = "variables", nCores = detectCores(),
-  clusterType = "PSOCK", seed = 1234)
+  parallel = "variables", nCores = detectCores() * 0.75,
+  clusterType = getClusterType(), seed = 1234)
 
 \S4method{QCimpute}{AnalysisData}(d, cls = "class", QCidx = "QC",
-  occupancy = 2/3, parallel = "variables", nCores = detectCores(),
-  clusterType = "PSOCK", seed = 1234)
+  occupancy = 2/3, parallel = "variables", nCores = detectCores() *
+  0.75, clusterType = getClusterType(), seed = 1234)
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}

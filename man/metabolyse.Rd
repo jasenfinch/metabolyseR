@@ -21,11 +21,13 @@ Analyse data based on specified analysis elements.
 \examples{
 library(metaboData)
 data(abr1)
-p <- analysisParameters('preTreat')
+p <- analysisParameters()
 p@preTreat <- list(
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
 )
+p@modelling <- modellingParameters('ttest')
+p <- changeParameter('cls','day',p)
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 }
 \seealso{

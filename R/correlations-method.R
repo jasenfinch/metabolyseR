@@ -4,6 +4,7 @@
 #' @importFrom parallel parApply makeCluster stopCluster
 #' @importFrom tidyr gather
 #' @importFrom tibble tibble as_tibble
+#' @importFrom purrr map_df
 
 setMethod("correlations", signature = "Analysis",
           function(x){

@@ -36,8 +36,10 @@ changeParameter <- function(parameterName,newValue,parameters) {
     },pars = pars)
     pars <- unlist(pars,recursive = F)
     
-    for (i in 1:length(pars)) {
-      parameters@preTreat[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
+    if (!is.null(pars)) {
+      for (i in 1:length(pars)) {
+        parameters@preTreat[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
+      }
     }
   }
   

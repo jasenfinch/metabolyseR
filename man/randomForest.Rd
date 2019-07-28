@@ -6,11 +6,11 @@
 \alias{randomForest,AnalysisData-method}
 \title{randomForest}
 \usage{
-randomForest(x, cls = NULL, rf = list(), reps = 1, binary = F,
+randomForest(x, cls = "class", rf = list(), reps = 1, binary = F,
   comparisons = list(), perm = 0, returnModels = F, seed = 1234,
   nCores = detectCores() * 0.75, clusterType = getClusterType())
 
-\S4method{randomForest}{AnalysisData}(x, cls = NULL, rf = list(),
+\S4method{randomForest}{AnalysisData}(x, cls = "class", rf = list(),
   reps = 1, binary = F, comparisons = list(), perm = 0,
   returnModels = F, seed = 1234, nCores = detectCores() * 0.75,
   clusterType = getClusterType())
