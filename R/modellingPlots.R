@@ -163,6 +163,8 @@ setMethod('plotImportance',signature = 'RandomForest',
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate_all
+#' @importFrom tidyr spread
+#' @importFrom ggthemes scale_colour_ptol scale_fill_ptol
 #' @export
 
 setMethod('plotMDS',signature = 'RandomForest',
@@ -410,7 +412,7 @@ setMethod('plotROC',signature = 'RandomForest',
                       legend.title = element_text(face = 'bold')) +
                 facet_wrap(~Comparison) +
                 coord_fixed() +
-                guides(colour = guide_legend(title = 'Class')) +
+                guides(colour = guide_legend(title = x@results$measures$Predictor[1])) +
                 labs(title = title)
               
               if ((preds$.level %>% unique() %>% length()) <= 12) {

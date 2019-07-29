@@ -35,6 +35,8 @@ importance <- function(x){
     {bind_cols(tibble(Feature = rownames(.)),as_tibble(.))}
 }
 
+#' @importFrom randomForest margin
+
 classificationMeasures <- function(predictions,permutations){
   
   class_metrics <- metric_set(accuracy,kap)
@@ -385,6 +387,8 @@ supervised <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,n
 
 #' @importFrom yardstick metric_set accuracy kap roc_auc
 #' @importFrom dplyr summarise_all
+#' @importFrom stringr str_split
+#' @importFrom magrittr set_names
 
 classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,nCores,clusterType){
   
