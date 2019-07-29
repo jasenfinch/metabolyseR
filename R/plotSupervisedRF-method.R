@@ -46,7 +46,7 @@ setMethod('plotSupervisedRF',signature = 'AnalysisData',
 setMethod('plotSupervisedRF', signature = 'Analysis',
           function(x, cls = 'class', rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
             
-            if (ncol(x@preTreated %>% dat()) > 0){
+            if (ncol(x@preTreated %>% dat()) > 0) {
               d <- x@preTreated
             } else {
               d <- x@rawData

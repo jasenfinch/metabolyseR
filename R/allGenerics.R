@@ -77,7 +77,7 @@ setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NU
 })
 
 #' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', label = NULL, ellipses = T, title = 'MDS plot of an unsupervised random forest', legendPosition = 'bottom', labelSize = 2, seed = 1234, ...){
+setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, ellipses = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotUnsupervisedRF')
 })
 

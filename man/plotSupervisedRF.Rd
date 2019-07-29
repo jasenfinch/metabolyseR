@@ -54,5 +54,5 @@ p@preTreat <- list(
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 
-plotSupervisedRF(analysis,label = 'name')
+plotSupervisedRF(analysis,cls = 'day',label = 'name')
 }
