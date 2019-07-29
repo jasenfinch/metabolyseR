@@ -85,6 +85,7 @@ setMethod('ttest',signature = 'AnalysisData',
             
             res <- new('Univariate')
             res@type <- 'ttest'
+            res@data <- x
             res@results <- results
             
             if (returnModels == T) {
@@ -145,6 +146,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
             
             res <- new('Univariate')
             res@type <- 'linearRegression'
+            res@data <- x
             res@results <- results
             
             if (returnModels == T) {
