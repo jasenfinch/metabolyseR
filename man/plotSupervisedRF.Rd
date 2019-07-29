@@ -4,6 +4,7 @@
 \name{plotSupervisedRF}
 \alias{plotSupervisedRF}
 \alias{plotSupervisedRF,AnalysisData-method}
+\alias{plotSupervisedRF,Analysis-method}
 \title{plotSupervisedRF}
 \usage{
 plotSupervisedRF(x, cls = "class", rf = list(), label = NULL,
@@ -14,6 +15,10 @@ plotSupervisedRF(x, cls = "class", rf = list(), label = NULL,
 \S4method{plotSupervisedRF}{AnalysisData}(x, cls = "class",
   rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234,
   title = "", legendPosition = "bottom", labelSize = 2)
+
+\S4method{plotSupervisedRF}{Analysis}(x, cls = "class", rf = list(),
+  label = NULL, ellipses = T, ROC = T, seed = 1234, title = "",
+  legendPosition = "bottom", labelSize = 2)
 }
 \arguments{
 \item{x}{object of class Analysis or AnalysisData containing analysis results}

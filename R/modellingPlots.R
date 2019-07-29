@@ -165,6 +165,7 @@ setMethod('plotImportance',signature = 'RandomForest',
 #' @importFrom dplyr mutate_all
 #' @importFrom tidyr spread
 #' @importFrom ggthemes scale_colour_ptol scale_fill_ptol
+#' @importFrom ggrepel geom_text_repel
 #' @export
 
 setMethod('plotMDS',signature = 'RandomForest',
