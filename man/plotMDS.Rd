@@ -13,6 +13,21 @@ plotMDS(x, cls = "class", label = NULL, ellipses = T, title = "",
   ellipses = T, title = "", legendPosition = "bottom",
   labelSize = 2)
 }
+\arguments{
+\item{x}{S4 object of class RandomForest}
+
+\item{cls}{info column to use for sample labelling, Set to NULL for no labelling.}
+
+\item{label}{info column to use for sample labels. Set to NULL for no labels.}
+
+\item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
+
+\item{title}{plot title}
+
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
+
+\item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
+}
 \description{
-plotMDS
+Plot multidimensional scaling plot for a RandomForest object.
 }

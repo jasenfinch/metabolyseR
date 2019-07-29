@@ -275,3 +275,9 @@ setGeneric("plotMeasures", function(x, predictor = 'class') {
 setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legendPosition = 'bottom', labelSize = 2) {
   standardGeneric("plotMDS")
 })
+
+#' @rdname plotROC
+setGeneric("plotROC", function(x, title = '') {
+  standardGeneric("plotROC")
+})
+

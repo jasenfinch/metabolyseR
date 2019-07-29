@@ -153,7 +153,7 @@ setMethod('plotImportance',signature = 'RandomForest',
 
 #' plotMDS
 #' @rdname plotMDS
-#' @description
+#' @description Plot multidimensional scaling plot for a RandomForest object.
 #' @param x S4 object of class RandomForest
 #' @param cls info column to use for sample labelling, Set to NULL for no labelling. 
 #' @param label info column to use for sample labels. Set to NULL for no labels.
@@ -212,14 +212,14 @@ setMethod('plotMDS',signature = 'RandomForest',
                                            .[!(. %in% comparison)])
                     
                     d %>%
-                    bind_cols(cda %>%
-                                sinfo() %>%
-                                select(cls) %>%
-                                mutate_all(as.character)
-                    )  
+                      bind_cols(cda %>%
+                                  sinfo() %>%
+                                  select(cls) %>%
+                                  mutate_all(as.character)
+                      )  
                   }) %>%
                   bind_rows()
-                  
+                
               }
               
               if (!is.null(label)) {
@@ -246,37 +246,37 @@ setMethod('plotMDS',signature = 'RandomForest',
               }
               
             } else {
-                proximities <- x@proximities %>%
-                  group_by(Sample1,Sample2) %>%
-                  summarise(Proximity = mean(Proximity)) %>%
-                  spread(Sample2,Proximity) %>%
-                  tbl_df() %>%
-                  select(-Sample1)
-                
-                suppressWarnings({
+              proximities <- x@proximities %>%
+                group_by(Sample1,Sample2) %>%
+                summarise(Proximity = mean(Proximity)) %>%
+                spread(Sample2,Proximity) %>%
+                tbl_df() %>%
+                select(-Sample1)
+              
+              suppressWarnings({
                 mds <- proximities %>%
                   {1 - .} %>%
                   cmdscale() %>%
                   as_tibble() %>%
                   set_colnames(c('Dimension 1','Dimension 2'))
               })  
-                if (!is.null(cls)) {
-                  mds <- mds %>%
-                    bind_cols(x@data %>%
-                                sinfo() %>%
-                                select(cls) %>%
-                                mutate_all(factor)
-                    )
-                }
-                
-                if (!is.null(label)) {
-                  mds <- mds %>%
-                    bind_cols(x@data %>%
-                                sinfo() %>%
-                                select(label))
-                }
+              if (!is.null(cls)) {
+                mds <- mds %>%
+                  bind_cols(x@data %>%
+                              sinfo() %>%
+                              select(cls) %>%
+                              mutate_all(factor)
+                  )
+              }
+              
+              if (!is.null(label)) {
+                mds <- mds %>%
+                  bind_cols(x@data %>%
+                              sinfo() %>%
+                              select(label))
+              }
             }
-          
+            
             pl <- ggplot(mds,aes(x = `Dimension 1`,y = `Dimension 2`)) +
               coord_fixed() +
               theme_bw() +
@@ -284,7 +284,7 @@ setMethod('plotMDS',signature = 'RandomForest',
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
                     legend.position = legendPosition
-                    )
+              )
             
             if (isTRUE(ellipses) & !(is.null(cls))) {
               pl <- pl +
@@ -351,5 +351,92 @@ setMethod('plotMDS',signature = 'RandomForest',
             }
             
             return(pl)
+          }
+)
+
+#' plotROC
+#' @rdname plotROC
+#' @description plot reciever operator characteristic curves for a RandomForest object.
+#' @param x S4 object of class RandomForest
+#' @param title plot title
+#' @export
+
+setMethod('plotROC',signature = 'RandomForest',
+          function(x,title = ''){
+            
+            if (x@type != 'classification') {
+              stop('ROC curves can only be plotted for classification!')
             }
+            
+            preds <- x@predictions %>%
+              split(.$Comparison) %>%
+              map(~{
+                d <- .
+                d <- d %>%
+                  mutate(obs = factor(obs))
+                
+                suppressMessages({
+                  suppressWarnings({
+                    if (length(levels(d$obs)) > 2) {
+                      d %>%
+                        group_by(Comparison) %>%
+                        roc_curve(obs,levels(d$obs))  
+                    } else {
+                      d %>%
+                        group_by(Comparison) %>%
+                        roc_curve(obs,levels(d$obs)[1])  
+                    }  
+                  })   
+                })
+              }) %>%
+              bind_rows()
+           
+            meas <- x@results$measures %>%
+              filter(.metric == 'roc_auc') %>%
+              mutate(x = 0.8,y = 0, label = str_c('AUC: ',round(.estimate,3)))
+             
+            if ('.level' %in% colnames(preds)) {
+              preds <- preds %>%
+                arrange(.level,sensitivity)
+              
+              pl <- preds %>%
+                ggplot() +
+                geom_abline(intercept = 0,linetype = 2,colour = 'grey') +
+                geom_line(aes(x = 1 - specificity, y = sensitivity,group = .level,colour = .level)) +
+                geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
+                theme_bw() +
+                theme(legend.position = 'bottom',
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold')) +
+                facet_wrap(~Comparison) +
+                coord_fixed() +
+                guides(colour = guide_legend(title = 'Class')) +
+                labs(title = title)
+              
+              if ((preds$.level %>% unique() %>% length()) <= 12) {
+                pl <- pl +
+                  scale_colour_ptol()
+              }  
+            } else {
+              
+                preds <- preds %>%
+                  arrange(sensitivity)
+                
+              pl <- preds %>%
+                ggplot() +
+                geom_abline(intercept = 0,linetype = 2,colour = 'grey') +
+                geom_line(aes(x = 1 - specificity, y = sensitivity),colour = ptol_pal()(1)) +
+                geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
+                theme_bw() +
+                theme(legend.position = 'bottom',
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold')) +
+                facet_wrap(~Comparison) +
+                coord_fixed() +
+                guides(colour = guide_legend(title = 'Class')) +
+                labs(title = title)
+            }
+            
+            return(pl)
+          }
 )
