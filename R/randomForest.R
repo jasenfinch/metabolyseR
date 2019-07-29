@@ -331,12 +331,13 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
   proximities <- models %>%
     map(.,~{.$proximity %>%
         as_tibble() %>%
-        mutate(Sample = nrow(.)) %>%
+        mutate(Sample = 1:nrow(.)) %>%
         gather('Sample2','Proximity',-Sample) %>%
         rename(Sample1 = Sample)
     }) %>%
     bind_rows(.id = 'Rep') %>%
-    mutate(Rep = as.numeric(Rep))
+    mutate(Rep = as.numeric(Rep))  %>%
+    mutate(Sample2 = as.numeric(Sample2))
   
   results <- list(
     importances = importances %>%
@@ -497,7 +498,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
       map(.,~{
         map(.$models,~{.$proximity %>%
             as_tibble() %>%
-            mutate(Sample = nrow(.)) %>%
+            mutate(Sample = 1:nrow(.)) %>%
             gather('Sample2','Proximity',-Sample) %>%
             rename(Sample1 = Sample)
         }) %>%
@@ -506,7 +507,8 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
       }) %>%
         bind_rows(.id = 'Comparison')
     }) %>%
-    bind_rows(.id = 'Predictor')
+    bind_rows(.id = 'Predictor')  %>%
+    mutate(Sample2 = as.numeric(Sample2))
   
   if (perm > 0) {
     permutations <- classificationPermutationMeasures(models)
@@ -613,14 +615,15 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
     map(~{
       map(.$models,~{.$proximity %>%
           as_tibble() %>%
-          mutate(Sample = nrow(.)) %>%
+          mutate(Sample = 1:nrow(.)) %>%
           gather('Sample2','Proximity',-Sample) %>%
           rename(Sample1 = Sample)
       }) %>%
         bind_rows(.id = 'Rep') %>%
         mutate(Rep = as.numeric(Rep))
     }) %>%
-    bind_rows(.id = 'Predictor')
+    bind_rows(.id = 'Predictor') %>%
+    mutate(Sample2 = as.numeric(Sample2))
   
   if (perm > 0) {
     permutations <- regressionPermutationMeasures(models) 

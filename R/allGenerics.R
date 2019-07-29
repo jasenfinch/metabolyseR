@@ -270,3 +270,8 @@ setGeneric("plotImportance", function(x,...) {
 setGeneric("plotMeasures", function(x, predictor = 'class') {
   standardGeneric("plotMeasures")
 })
+
+#' @rdname plotMDS
+setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legendPosition = 'bottom', labelSize = 2) {
+  standardGeneric("plotMDS")
+})

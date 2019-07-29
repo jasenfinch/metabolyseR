@@ -59,7 +59,7 @@ setMethod('plotMeasures',signature = 'RandomForest',
             if (!(predictor %in% unique(res$Predictor))) {
               stop('Predictor not found!')
             }
-
+            
             if (x@type == 'classification') {
               pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
                 geom_point(shape = 21,fill = ptol_pal()(1)) +
@@ -111,7 +111,7 @@ setMethod('plotImportance',signature = 'RandomForest',
               if (x@type == 'unsupervised' | x@type == 'classification') {
                 res <- res %>%
                   filter(Measure == 'FalsePositiveRate') %>%
-                mutate(`-log10(fpr)` = -log10(Value))
+                  mutate(`-log10(fpr)` = -log10(Value))
                 metric <- '`-log10(fpr)`'
               }
               
@@ -138,8 +138,8 @@ setMethod('plotImportance',signature = 'RandomForest',
                     plot.title = element_text(face = 'bold'))
             
             if (x@type != 'unsupervised') {
-             pl <- pl +
-               labs(title = predictor)
+              pl <- pl +
+                labs(title = predictor)
             }
             
             if (x@type == 'classification') {
@@ -149,4 +149,207 @@ setMethod('plotImportance',signature = 'RandomForest',
             
             return(pl)
           }
+)
+
+#' plotMDS
+#' @rdname plotMDS
+#' @description
+#' @param x S4 object of class RandomForest
+#' @param cls info column to use for sample labelling, Set to NULL for no labelling. 
+#' @param label info column to use for sample labels. Set to NULL for no labels.
+#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
+#' @param title plot title
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' @importFrom magrittr set_colnames
+#' @importFrom dplyr mutate_all
+#' @export
+
+setMethod('plotMDS',signature = 'RandomForest',
+          function(x,cls = 'class', label = NULL, ellipses = T, title = '', legendPosition = 'bottom', labelSize = 2){
+            
+            if (!(cls %in% {x@data %>% sinfo() %>% colnames()})) {
+              stop(str_c('Info column ',cls,'not found!'))
+            }
+            
+            if (x@type == 'classification') {
+              proximities <- x@proximities %>%
+                split(.$Comparison) %>%
+                map(~{
+                  d <- .
+                  d %>%
+                    group_by(Sample1,Sample2) %>%
+                    summarise(Proximity = mean(Proximity)) %>%
+                    spread(Sample2,Proximity) %>%
+                    tbl_df() %>%
+                    select(-Sample1)
+                }) 
+              suppressWarnings({
+                mds <- proximities %>%
+                  map(~{
+                    d <- .
+                    d %>%
+                      {1 - .} %>%
+                      cmdscale() %>%
+                      as_tibble() %>%
+                      set_colnames(c('Dimension 1','Dimension 2')) 
+                  }) %>%
+                  bind_rows(.id = 'Comparison')
+              })
+              
+              if (!is.null(cls)) {
+                mds <- mds %>%
+                  split(.$Comparison) %>%
+                  map(~{
+                    d <- .
+                    
+                    comparison <- str_split(d$Comparison[1],'~')[[1]]
+                    
+                    cda <- removeClasses(x@data,cls,classes = sinfo(x@data) %>%
+                                           select(cls) %>%
+                                           unlist() %>%
+                                           unique() %>%
+                                           .[!(. %in% comparison)])
+                    
+                    d %>%
+                    bind_cols(cda %>%
+                                sinfo() %>%
+                                select(cls) %>%
+                                mutate_all(as.character)
+                    )  
+                  }) %>%
+                  bind_rows()
+                  
+              }
+              
+              if (!is.null(label)) {
+                mds <- mds %>%
+                  split(.$Comparison) %>%
+                  map(~{
+                    d <- .
+                    comparison <- str_split(d$Comparison[1],'~')[[1]]
+                    
+                    cda <- removeClasses(x@data,cls,classes = sinfo(x@data) %>%
+                                           select(cls) %>%
+                                           unlist() %>%
+                                           unique() %>%
+                                           .[!(. %in% comparison)])
+                    
+                    d %>%
+                      bind_cols(cda %>%
+                                  sinfo() %>%
+                                  select(label) %>%
+                                  mutate_all(as.character)
+                      )  
+                  }) %>%
+                  bind_rows()
+              }
+              
+            } else {
+                proximities <- x@proximities %>%
+                  group_by(Sample1,Sample2) %>%
+                  summarise(Proximity = mean(Proximity)) %>%
+                  spread(Sample2,Proximity) %>%
+                  tbl_df() %>%
+                  select(-Sample1)
+                
+                suppressWarnings({
+                mds <- proximities %>%
+                  {1 - .} %>%
+                  cmdscale() %>%
+                  as_tibble() %>%
+                  set_colnames(c('Dimension 1','Dimension 2'))
+              })  
+                if (!is.null(cls)) {
+                  mds <- mds %>%
+                    bind_cols(x@data %>%
+                                sinfo() %>%
+                                select(cls) %>%
+                                mutate_all(factor)
+                    )
+                }
+                
+                if (!is.null(label)) {
+                  mds <- mds %>%
+                    bind_cols(x@data %>%
+                                sinfo() %>%
+                                select(label))
+                }
+            }
+          
+            pl <- ggplot(mds,aes(x = `Dimension 1`,y = `Dimension 2`)) +
+              coord_fixed() +
+              theme_bw() +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold'),
+                    legend.position = legendPosition
+                    )
+            
+            if (isTRUE(ellipses) & !(is.null(cls))) {
+              pl <- pl +
+                stat_ellipse(aes_string(fill = cls),alpha = 0.3,geom = 'polygon',type = 'norm')
+            }
+            
+            if (!is.null(cls)) {
+              classLength <- mds[,cls] %>%
+                unlist(use.names = F) %>%
+                unique() %>%
+                length()
+              
+              if (classLength <= 12) {
+                pl <- pl + 
+                  scale_colour_ptol() +
+                  scale_fill_ptol()
+              } else {
+                if (classLength %% 12 == 0) {
+                  pal <- rep(ptol_pal()(12),classLength / 12)
+                } else {
+                  pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
+                }
+                pl <- pl + 
+                  scale_colour_manual(values = pal) +
+                  scale_fill_manual(values = pal)
+              }
+              
+              if (classLength > 6) {
+                sym <- 0:25
+                if (classLength / max(sym) == 1) {
+                  val <- sym
+                }
+                if (classLength / max(sym) < 1) {
+                  val <- sym[1:classLength]
+                }
+                if (classLength / max(sym) > 1) {
+                  if (classLength %% max(sym) == 0) {
+                    val <- rep(sym,classLength / max(sym))
+                  } else {
+                    val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
+                  }
+                }
+                pl <- pl + scale_shape_manual(values = val)
+              }
+              
+              pl <- pl +
+                geom_point(aes_string(colour = cls,shape = cls))
+            } else {
+              pl <- pl +
+                geom_point(shape = 21,fill = ptol_pal()(1))
+            }
+            
+            if (!is.null(label)) {
+              pl <- pl +
+                geom_text_repel(aes_string(label = label),size = labelSize)
+            }
+            
+            pl <- pl +
+              labs(title = title)
+            
+            if (x@type == 'classification') {
+              pl <- pl +
+                facet_wrap(~Comparison)
+            }
+            
+            return(pl)
+            }
 )
