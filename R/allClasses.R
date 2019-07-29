@@ -52,22 +52,6 @@ setClass('Analysis',
          )
 )
 
-#' AnalysisPlot
-#' @rdname AnalysisPlot-class
-#' @description An S4 class to store an analysis plot
-#' @slot data list containing data used to generate the plot
-#' @slot plot ggplot object containing the plot
-#' @slot func function used to generate the plot
-#' @export
-
-setClass('AnalysisPlot',
-         slots = list(
-           data = 'list',
-           plot = 'list',
-           func = 'function'
-         )
-)
-
 #' RandomForest
 #' @rdname RandomForest-class
 #' @description An S4 class for random forest results and models
