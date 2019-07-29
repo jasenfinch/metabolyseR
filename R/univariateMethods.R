@@ -13,7 +13,7 @@
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls = 'class',pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,cls = 'class',pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             d <- x %>%
               dat()
@@ -24,8 +24,8 @@ setMethod('ttest',signature = 'AnalysisData',
             classes <- i %>%
               select(cls)
             
-            if (length(pairwises > 0)) {
-              pw <- pairwises
+            if (length(comparisons > 0)) {
+              pw <- comparisons
             } else {
               pw <- classes %>%
                 map(getPairwises) 
@@ -79,11 +79,12 @@ setMethod('ttest',signature = 'AnalysisData',
                     bind_rows(.id = 'Feature') %>%
                     mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
                 }) %>%
-                  bind_rows(.id = 'Pairwise')
+                  bind_rows(.id = 'Comparison')
               }) %>%
               bind_rows(.id = 'Predictor')
             
             res <- new('Univariate')
+            res@type <- 'ttest'
             res@results <- results
             
             if (returnModels == T) {
@@ -143,6 +144,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
               bind_rows(.id = 'Predictor')
             
             res <- new('Univariate')
+            res@type <- 'linearRegression'
             res@results <- results
             
             if (returnModels == T) {

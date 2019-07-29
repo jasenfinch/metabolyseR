@@ -237,7 +237,7 @@ setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
 })
 
 #' @rdname ttest
-setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', pairwises = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("ttest")
 })
 
@@ -261,4 +261,12 @@ setGeneric("importance", function(x) {
   standardGeneric("importance")
 })
 
+#' @rdname plotResults
+setGeneric("plotResults", function(x, predictor = 'class') {
+  standardGeneric("plotResults")
+})
 
+#' @rdname plotMeasures
+setGeneric("plotMeasures", function(x, predictor = 'class') {
+  standardGeneric("plotMeasures")
+})

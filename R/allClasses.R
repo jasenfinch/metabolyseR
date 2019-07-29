@@ -100,6 +100,7 @@ setClass('RandomForest',
 
 setClass('Univariate',
          slots = list(
+           type = 'character',
            models = 'list',
            results = 'tbl_df'
          ))
