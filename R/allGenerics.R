@@ -61,21 +61,6 @@ setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T,
   standardGeneric('plotLDA')
 })
 
-#' @rdname plotClassification
-setGeneric('plotClassification',function(analysis,method = 'randomForest'){
-  standardGeneric('plotClassification')
-})
-
-#' @rdname plotClassificationDendrogram
-setGeneric('plotClassificationDendrogram',function(analysis,method = 'randomForest', measure = 'Margin', clusterMethod = 'ward.D2'){
-  standardGeneric('plotClassificationDendrogram')
-})
-
-#' @rdname plotFeatureSelection
-setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T, pairwises = NULL){
-  standardGeneric('plotFeatureSelection')
-})
-
 #' @rdname plotFeature
 setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
   standardGeneric('plotFeature')

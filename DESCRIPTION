@@ -58,11 +58,8 @@ Collate: allGenerics.R
     nlda.R
     occupancyMethods.R
     parseParameters.R
-    plotClassification-method.R
-    plotClassificationDendrogram-method.R
     plotExplanatoryHeatmap-method.R
     plotFeature-method.R
-    plotFeatureSelection-method.R
     plotLDA-method.R
     plotPCA-method.R
     plotRSD-method.R
