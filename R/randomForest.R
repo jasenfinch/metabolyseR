@@ -325,7 +325,8 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
         rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
     }) %>%
     bind_rows(.id = 'Rep') %>%
-    mutate(Rep = as.numeric(Rep))
+    mutate(Rep = as.numeric(Rep)) %>%
+    gather('Measure','Value',-Rep,-Feature)
   
   proximities <- models %>%
     map(.,~{.$proximity %>%
@@ -337,8 +338,16 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
     bind_rows(.id = 'Rep') %>%
     mutate(Rep = as.numeric(Rep))
   
+  results <- list(
+    importances = importances %>%
+      select(-Rep) %>%
+      group_by(Feature,Measure) %>%
+      summarise(Value = mean(Value))
+  )
+  
   res <- new('RandomForest')
   res@type <- 'unsupervised'
+  res@results <- results
   res@importances <- importances
   res@proximities <- proximities
   

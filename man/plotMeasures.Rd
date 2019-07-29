@@ -13,7 +13,7 @@ plotMeasures(x, predictor = "class")
 \arguments{
 \item{x}{S4 object of class RandomForest}
 
-\item{predictor}{Predictor results to plot}
+\item{predictor}{predictor results to plot}
 }
 \description{
 Plot random forest model measures.

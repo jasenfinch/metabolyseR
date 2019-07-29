@@ -261,9 +261,9 @@ setGeneric("importance", function(x) {
   standardGeneric("importance")
 })
 
-#' @rdname plotResults
-setGeneric("plotResults", function(x, predictor = 'class') {
-  standardGeneric("plotResults")
+#' @rdname plotImportance
+setGeneric("plotImportance", function(x,...) {
+  standardGeneric("plotImportance")
 })
 
 #' @rdname plotMeasures
