@@ -10,6 +10,8 @@ An S4 class for univariate test models and results.
 \section{Slots}{
 
 \describe{
+\item{\code{data}}{AnalysisData object of tested data}
+
 \item{\code{models}}{list of model objects}
 
 \item{\code{results}}{tibble containing test results}
