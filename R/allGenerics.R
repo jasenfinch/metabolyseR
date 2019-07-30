@@ -67,7 +67,7 @@ setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL
 })
 
 #' @rdname plotExplanatoryHeatmap
-setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', low = 'white', high = "#F21A00", featureNames = T){
+setGeneric('plotExplanatoryHeatmap',function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
   standardGeneric('plotExplanatoryHeatmap')
 })
 

@@ -4,37 +4,31 @@
 \docType{methods}
 \name{plotExplanatoryHeatmap}
 \alias{plotExplanatoryHeatmap}
-\alias{plotExplanatoryHeatmap,Analysis-method}
+\alias{plotExplanatoryHeatmap,Univariate-method}
 \title{plotExplanatoryHeatmap}
 \usage{
-plotExplanatoryHeatmap(analysis, method = "fs.rf", threshold = 0.01,
-  pairwises = NULL, distanceMeasure = "euclidean",
-  clusterMethod = "ward.D2", low = "white", high = "#F21A00",
+plotExplanatoryHeatmap(x, threshold = 0.05,
+  distanceMeasure = "euclidean", clusterMethod = "ward.D2",
   featureNames = T)
 
-\S4method{plotExplanatoryHeatmap}{Analysis}(analysis, method = "fs.rf",
-  threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean",
-  clusterMethod = "ward.D2", low = "white", high = "#F21A00",
+\S4method{plotExplanatoryHeatmap}{Univariate}(x, threshold = 0.05,
+  distanceMeasure = "euclidean", clusterMethod = "ward.D2",
   featureNames = T)
 }
 \arguments{
-\item{analysis}{object of class Analysis containing analysis results}
-
-\item{method}{results of feature selection method to use}
+\item{x}{object of class Univariate, RandomForest or Analysis containing modelling results}
 
 \item{threshold}{score threshold to use for specifying explantory features}
-
-\item{pairwises}{optional vector specifying pairwise comparisons to extract}
 
 \item{distanceMeasure}{distance measure to use for clustering. See details.}
 
 \item{clusterMethod}{clustering method to use. See details}
 
-\item{low}{colour to use for low intensity}
-
-\item{high}{colour to use for high intensity}
-
 \item{featureNames}{should feature names be plotted?}
+
+\item{method}{results of feature selection method to use}
+
+\item{pairwises}{optional vector specifying pairwise comparisons to extract}
 }
 \description{
 plot a heatmap of explanatory features

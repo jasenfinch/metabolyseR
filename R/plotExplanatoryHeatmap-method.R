@@ -1,14 +1,12 @@
 #' plotExplanatoryHeatmap
 #' @rdname plotExplanatoryHeatmap
 #' @description plot a heatmap of explanatory features
-#' @param analysis object of class Analysis containing analysis results
+#' @param x object of class Univariate, RandomForest or Analysis containing modelling results
 #' @param method results of feature selection method to use
 #' @param threshold score threshold to use for specifying explantory features
 #' @param pairwises optional vector specifying pairwise comparisons to extract
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details
-#' @param low colour to use for low intensity
-#' @param high colour to use for high intensity
 #' @param featureNames should feature names be plotted?
 #' @details 
 #' Options for distance measures are as for \code{dist()}.
@@ -17,6 +15,11 @@
 #' @importFrom stats dist hclust
 #' @importFrom ggdendro dendro_data 
 #' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal labs element_blank
+#' @importFrom stringr str_split_fixed
+#' @importFrom tibble deframe
+#' @importFrom dplyr group_by_at mutate_at
+#' @importFrom magrittr set_rownames
+#' @importFrom rlang sym
 #' @examples \dontrun{
 #' 
 #' library(FIEmspro)
@@ -32,106 +35,206 @@
 #' }
 #' @export
 
-setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
-          function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', low = 'white', high = "#F21A00", featureNames = T){
-            dat <- preTreatedData(analysis)
-            info <- preTreatedInfo(analysis)
+setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
+          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
             
-            cls <- analysis@parameters@featureSelection$cls
+            res <- x@results %>%
+              filter(adjusted.p.value < threshold)
             
-            info <- info %>%
-              select(Class = cls)
+            pl <- res %>%
+              split(.$Predictor)
             
-            explanFeat <- featureSelectionResults(analysis) %>%
-              filter(Method == method,Pvalue < threshold)
-            
-            if (nrow(explanFeat) > 3000) {
-              feat <- explanFeat %>%
-                .[1:3000,]
-            } else {
-              feat <- explanFeat
+            if (x@type == 'ttest') {
+              pl <- pl %>%
+                map(~{
+                  r <- .
+                  pred <- r$Predictor[1]
+                  
+                  classes <- r$Comparison %>%
+                    unique() %>%
+                    str_split_fixed('~',2) %>%
+                    as.vector() %>%
+                    unique()
+                  
+                  feat <- r$Feature %>%
+                    unique()
+                  
+                  remcl <- x@data %>% 
+                    sinfo() %>%
+                    .[,pred] %>%
+                    deframe() %>%
+                    unique() %>%
+                    as.character() %>%
+                    {.[!(. %in% classes)]}
+                  
+                  remvar <- x@data %>%
+                    dat() %>%
+                    colnames() %>%
+                    {.[!(. %in% feat)]}
+                  
+                  d <- x@data %>%
+                    removeClasses(cls = pred,
+                                  classes = remcl) %>%
+                    removeVariables(variables = remvar)
+                  
+                  d <- d %>%
+                    sinfo() %>%
+                    select(pred) %>%
+                    bind_cols(d %>%
+                                dat()) %>%
+                    gather('Feature','Intensity',-1) %>%
+                    group_by_at(c(pred,'Feature')) %>%
+                    summarise(Intensity = mean(Intensity))
+                  
+                  sums <- d %>%
+                    group_by(Feature) %>%
+                    summarise(Total = max(Intensity))
+                  
+                  d <- d %>%
+                    left_join(sums,by = c('Feature')) %>%
+                    mutate(`Relative Intensity` = Intensity / Total)
+                  
+                  suppressWarnings({
+                    clusters <- d %>%
+                      select(-Intensity,-Total) %>%
+                      spread(1,`Relative Intensity`) %>%
+                      set_rownames(.$Feature) %>%
+                      select(-Feature) %>%
+                      dist(distanceMeasure) %>%
+                      hclust(clusterMethod) %>%
+                      dendro_data()  
+                  })
+                  
+                  clusters <- clusters$labels$label
+                  
+                  d <- d %>%
+                    tbl_df() %>%
+                    mutate(Feature = factor(Feature,levels = clusters)) %>%
+                    mutate_at(pred,factor)
+                  
+                  caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
+                  
+                  if (length(feat) > 3000) {
+                    caption <- str_c(caption,'\n','Number of features capped at top 3000.')
+                  }
+                  low <- 'white'
+                  high <- "#F21A00"
+                  
+                  plo <- d %>%
+                    ggplot(aes_string(x = pred,y = 'Feature',fill = '`Relative Intensity`')) +
+                    geom_tile(colour = 'black') +
+                    scale_fill_gradient(low = low, high = high) +
+                    theme_minimal(base_size = 8) +
+                    labs(title = pred,
+                         caption = caption,
+                         fill = 'Relative\nIntensity')
+                  if (isTRUE(featureNames)) {
+                    plo <- plo +
+                      theme(plot.title = element_text(face = 'bold'),
+                            axis.title = element_text(face = 'bold'),
+                            legend.title = element_text(face = 'bold'),
+                            axis.text.x = element_text(angle = 30,hjust = 1)
+                      ) 
+                  } else {
+                    plo <- plo +
+                      theme(plot.title = element_text(face = 'bold'),
+                            axis.title = element_text(face = 'bold'),
+                            legend.title = element_text(face = 'bold'),
+                            axis.text.x = element_text(angle = 30,hjust = 1),
+                            axis.text.y = element_blank()
+                      ) 
+                  }
+                  return(plo)
+                })
             }
             
-            if (!is.null(pairwises)) {
-              feat <- feat %>%
-                filter(Pairwise %in% pairwises)
+            if (x@type == 'linearRegression') {
+              pl <- pl %>%
+                map(~{
+                  r <- .
+                  
+                  pred <- r$Predictor[1]
+                  
+                  feat <- r$Feature %>%
+                    unique()
+                  
+                  remvar <- x@data %>%
+                    dat() %>%
+                    colnames() %>%
+                    {.[!(. %in% feat)]}
+                  
+                  p <- sym(pred)
+                  
+                  d <- x@data %>%
+                    removeVariables(variables = remvar)
+                  
+                  d <- d %>%
+                    sinfo() %>%
+                    select(pred) %>%
+                    bind_cols(d %>%
+                                dat()) %>%
+                    rowid_to_column(var = 'Sample') %>%
+                    gather('Feature','Intensity',-1,-2) %>%
+                    group_by(Feature) %>%
+                    summarise(r = cor(!! p,Intensity)) %>%
+                    mutate(Predictor = pred)
+                  
+                  suppressWarnings({
+                    clusters <- d %>%
+                      spread(3,r) %>%
+                      set_rownames(.$Feature) %>%
+                      select(-Feature) %>%
+                      dist(distanceMeasure) %>%
+                      hclust(clusterMethod) %>%
+                      dendro_data()  
+                  })
+                  
+                  clusters <- clusters$labels$label
+                  
+                  d <- d %>%
+                    tbl_df() %>%
+                    mutate(Feature = factor(Feature,levels = clusters)) %>%
+                    mutate(Predictor = factor(Predictor))
+                  
+                  caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
+                  
+                  if (length(feat) > 3000) {
+                    caption <- str_c(caption,'\n','Number of features capped at top 3000.')
+                  }
+                  low <- '#00B7FF'
+                  mid <- 'white'
+                  high <- "#F21A00"
+                  
+                  plo <- d %>%
+                    ggplot(aes(x = Predictor,y = Feature,fill = r)) +
+                    geom_tile(colour = 'black') +
+                    scale_fill_gradient2(low = low,mid = mid, high = high,limits=c(-1,1)) +
+                    theme_minimal(base_size = 8) +
+                    labs(title = pred,
+                         caption = caption,
+                         fill = 'r')
+                  if (isTRUE(featureNames)) {
+                    plo <- plo +
+                      theme(plot.title = element_text(face = 'bold'),
+                            axis.title = element_text(face = 'bold'),
+                            legend.title = element_text(face = 'bold'),
+                            axis.text.x = element_text(angle = 30,hjust = 1)
+                      ) 
+                  } else {
+                    plo <- plo +
+                      theme(plot.title = element_text(face = 'bold'),
+                            axis.title = element_text(face = 'bold'),
+                            legend.title = element_text(face = 'bold'),
+                            axis.text.x = element_text(angle = 30,hjust = 1),
+                            axis.text.y = element_blank()
+                      ) 
+                  }
+                  return(plo)
+                })
             }
             
-            classes <- feat %>%
-              select(Pairwise) %>%
-              unique() %>%
-              unlist() %>%
-              map(~{str_split(.,'~')[[1]]}) %>%
-              unlist() %>%
-              unique()
+            pl <- wrap_plots(pl)
             
-            feat <- feat %>%
-              select(Feature) %>%
-              unique() %>%
-              unlist()
-            
-            dat <- dat %>%
-              bind_cols(info) %>%
-              gather('Feature','Intensity',-Class) %>%
-              filter(Class %in% classes,Feature %in% feat) %>%
-              group_by(Class,Feature) %>%
-              summarise(Intensity = mean(Intensity))
-            
-            sums <- dat %>%
-              group_by(Feature) %>%
-              summarise(Total = max(Intensity))
-            
-            dat <- dat %>%
-              left_join(sums,by = c('Feature' = 'Feature')) %>%
-              mutate(`Relative Intensity` = Intensity/Total)
-            
-            clusters <- dat %>%
-              select(-Intensity,-Total) %>%
-              spread(Class,`Relative Intensity`)
-            suppressWarnings(rownames(clusters) <- clusters$Feature)
-            clusters <- clusters %>%
-              select(-Feature) %>%
-              dist(distanceMeasure) %>%
-              hclust(clusterMethod) %>%
-              dendro_data()
-            clusters <- clusters$labels$label
-            
-            dat <- dat %>%
-              tbl_df() %>%
-              mutate(Feature = factor(Feature,levels = clusters),
-                     Class = factor(Class))
-            
-            caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
-            
-            if (nrow(explanFeat) > 3000) {
-              caption <- str_c(caption,'\n','Number of features capped at top 3000.')
-            }
-            
-            pl <- dat %>%
-              ggplot(aes(x = Class,y = Feature,fill = `Relative Intensity`)) +
-              geom_tile() +
-              scale_fill_gradient(low = low, high = high) +
-              theme_minimal(base_size = 8) +
-              ggtitle(str_c('Heat map of explanatory features for method ',method)) +
-              labs(caption = caption,
-                   fill = 'Relative\nIntensity')
-            if (isTRUE(featureNames)) {
-              pl <- pl +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      axis.text.x = element_text(angle = 30,hjust = 1)
-                ) 
-            } else {
-              pl <- pl +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      axis.text.x = element_text(angle = 30,hjust = 1),
-                      axis.text.y = element_blank()
-                ) 
-            }
-            
-            pl
+            return(pl)
           }
 )
