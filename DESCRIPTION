@@ -81,5 +81,6 @@ Collate: allGenerics.R
     modelling.R
     randomForest.R
     modellingPlots.R
+    keepMethods.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
