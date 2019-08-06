@@ -164,7 +164,7 @@ setMethod('plotImportance',signature = 'RandomForest',
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate_all
 #' @importFrom tidyr spread
-#' @importFrom ggthemes scale_colour_ptol scale_fill_ptol
+#' @importFrom ggthemes scale_colour_ptol scale_fill_ptol ptol_pal
 #' @importFrom ggrepel geom_text_repel
 #' @export
 

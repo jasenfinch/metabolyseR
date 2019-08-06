@@ -5,6 +5,7 @@
 \name{plotExplanatoryHeatmap}
 \alias{plotExplanatoryHeatmap}
 \alias{plotExplanatoryHeatmap,Univariate-method}
+\alias{plotExplanatoryHeatmap,RandomForest-method}
 \title{plotExplanatoryHeatmap}
 \usage{
 plotExplanatoryHeatmap(x, threshold = 0.05,
@@ -12,6 +13,10 @@ plotExplanatoryHeatmap(x, threshold = 0.05,
   featureNames = T)
 
 \S4method{plotExplanatoryHeatmap}{Univariate}(x, threshold = 0.05,
+  distanceMeasure = "euclidean", clusterMethod = "ward.D2",
+  featureNames = T)
+
+\S4method{plotExplanatoryHeatmap}{RandomForest}(x, threshold = 0.05,
   distanceMeasure = "euclidean", clusterMethod = "ward.D2",
   featureNames = T)
 }

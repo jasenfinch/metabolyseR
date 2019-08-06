@@ -238,3 +238,37 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
             return(pl)
           }
 )
+
+#' @rdname plotExplanatoryHeatmap
+#' @export
+
+setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
+          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+            
+            res <- x %>%
+              importance()
+            
+            if (x@type == 'unsupervised' | x@type == 'classification') {
+              
+              explan <- res %>%
+                filter(Measure == 'FalsePositiveRate')
+              
+              if ('adjustedPvalue' %in% colnames(res)) {
+                explan <- explan %>%
+                  filter(adjustedPvalue < threshold)
+              } else {
+                explan <- explan %>%
+                  filter(Value < threshold)
+              }
+            } else {
+              
+              if (!('adjustedPvalue' %in% colnames(res))) {
+                stop('Permutations should be run for regression analyses.')
+              }
+              
+              explan <- res %>%
+                filter(Measure == 'IncNodePurity',adjustedPvalue < threshold)
+            }
+            
+          }
+)

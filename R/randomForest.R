@@ -95,6 +95,8 @@ classificationMeasures <- function(predictions,permutations){
   return(meas)
 }
 
+#' @importFrom dplyr rowwise
+
 classificationImportance <- function(importances,permutations){
   imps <- importances %>%
     group_by(Predictor,Comparison,Feature,Measure) %>%
