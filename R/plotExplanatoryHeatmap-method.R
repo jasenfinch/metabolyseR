@@ -59,23 +59,10 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
                   feat <- r$Feature %>%
                     unique()
                   
-                  remcl <- x@data %>% 
-                    sinfo() %>%
-                    .[,pred] %>%
-                    deframe() %>%
-                    unique() %>%
-                    as.character() %>%
-                    {.[!(. %in% classes)]}
-                  
-                  remvar <- x@data %>%
-                    dat() %>%
-                    colnames() %>%
-                    {.[!(. %in% feat)]}
-                  
                   d <- x@data %>%
-                    removeClasses(cls = pred,
-                                  classes = remcl) %>%
-                    removeVariables(variables = remvar)
+                    keepClasses(cls = pred,
+                                  classes = classes) %>%
+                    keepVariables(variables = feat)
                   
                   d <- d %>%
                     sinfo() %>%
@@ -158,15 +145,10 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
                   feat <- r$Feature %>%
                     unique()
                   
-                  remvar <- x@data %>%
-                    dat() %>%
-                    colnames() %>%
-                    {.[!(. %in% feat)]}
-                  
                   p <- sym(pred)
                   
                   d <- x@data %>%
-                    removeVariables(variables = remvar)
+                    keepVariables(variables = feat)
                   
                   d <- d %>%
                     sinfo() %>%
