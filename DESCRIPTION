@@ -85,5 +85,6 @@ Collate: allGenerics.R
     removeMethods.R
     show-method.R
     transformMethods.R
+    keepMethods.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/

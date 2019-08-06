@@ -233,6 +233,21 @@ setGeneric("removeVariables", function(d,variables = character()) {
   standardGeneric("removeVariables")
 })
 
+#' @rdname keepSamples
+setGeneric("keepSamples", function(d,idx = 'fileOrder', samples = c()) {
+  standardGeneric("keepSamples")
+})
+
+#' @rdname keepClasses
+setGeneric("keepClasses", function(d,cls = 'class', classes = c()) {
+  standardGeneric("keepClasses")
+})
+
+#' @rdname keepVariables
+setGeneric("keepVariables", function(d,variables = character()) {
+  standardGeneric("keepVariables")
+})
+
 #' @rdname  imputeAll
 setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
   standardGeneric("imputeAll")
