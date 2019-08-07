@@ -13,7 +13,7 @@
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls = 'class',pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             d <- x %>%
               dat()

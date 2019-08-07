@@ -13,6 +13,7 @@
 #' @importFrom lubridate seconds_to_period
 #' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
 #' @examples 
+#' \dontrun{
 #' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters()
@@ -22,7 +23,9 @@
 #' )
 #' p@modelling <- modellingParameters('ttest')
 #' p <- changeParameter('cls','day',p)
+#' p <- changeParameter('nCores',2,p)
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
+#' }
 #' @export
 
 metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T){

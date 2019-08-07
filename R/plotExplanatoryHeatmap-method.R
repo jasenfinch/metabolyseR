@@ -194,7 +194,7 @@ heatmapRegression <- function(pl, x, distanceMeasure, clusterMethod, featureName
 #' @importFrom rlang sym
 #' @examples \dontrun{
 #' 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat','featureSelection'))
 #' p@preTreat <- list(

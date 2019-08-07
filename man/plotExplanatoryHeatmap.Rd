@@ -46,7 +46,7 @@ Clustering methods are as given for \code{hclust()}.
 \examples{
 \dontrun{
 
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat','featureSelection'))
 p@preTreat <- list(

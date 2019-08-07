@@ -11,7 +11,7 @@
 #' @importFrom stringr str_sub
 #' @examples 
 #' 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
 #' p@preTreat <- list(
