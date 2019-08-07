@@ -25,7 +25,7 @@ Plot total ion counts of sample raw data.
 }
 \examples{
 
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
 p@preTreat <- list(

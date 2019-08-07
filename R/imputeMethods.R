@@ -10,7 +10,7 @@
 #' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',
-          function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234){
+          function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             
             set.seed(seed)
             da <- as.matrix(d %>% dat())
@@ -38,10 +38,11 @@ setMethod('imputeAll',signature = 'AnalysisData',
 #' @param nCores number of cores for parallisation
 #' @param clusterType cluster type for parallisation
 #' @param seed random number seed
+#' @importFrom dplyr n
 #' @export
 
 setMethod('imputeClass',signature = 'AnalysisData',
-          function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234){
+          function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             set.seed(seed)
             if (length(as.character(sort(unique(unlist(sinfo(d)[,cls]))))) < nCores) {
               nCores <- length(as.character(sort(unique(unlist(sinfo(d)[,cls])))))

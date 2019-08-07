@@ -12,9 +12,7 @@ An S4 class to store analysis parameters
 \describe{
 \item{\code{preTreat}}{list containing parameters for data pre-treatment}
 
-\item{\code{classification}}{list containing parameters for classification}
-
-\item{\code{featureSelection}}{list containing parameters for feature selection}
+\item{\code{modelling}}{list containing parameters for modelling}
 
 \item{\code{correlations}}{list containing parameters for correlations}
 }}

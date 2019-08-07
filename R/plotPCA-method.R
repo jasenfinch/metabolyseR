@@ -28,105 +28,108 @@
 #' plotPCA(analysis,cls = 'day')
 #' @export
 
-setMethod('plotPCA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
-            analysisPlot <- new('AnalysisPlot')
+setMethod('plotPCA',signature = 'AnalysisData',
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
             
-            analysisPlot@func <- function(analysisPlot){
-              pca <- analysisPlot@data$PCAresults
-              
-              info <- analysisPlot@data$Info %>%
-                select(Class = analysisPlot@data$cls) %>%
-                mutate(Class = factor(Class))
-              
-              var <- pca$sdev
-              var <- round(var^2/sum(var^2) * 100,2)
-              names(var) <- colnames(pca$x)
-              
-              pca <- pca$x %>%
-                as_tibble() %>%
-                select(xAxis = xAxis,yAxis = yAxis) %>%
-                bind_cols(info)
-              
-              if (!is.null(label)) {
-                pca <- pca %>%
-                  mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
-              }
-              
-              pl <- pca %>%
-                ggplot(aes(x = xAxis,y  = yAxis)) +
-                geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
-                geom_vline(xintercept = 0,linetype = 2,colour = 'grey')
-              
-              if (isTRUE(ellipses)) {
-                pl <- pl +
-                  stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
-              }
-              
-              if (!is.null(label)) {
-                pl <- pl +
-                  geom_text_repel(aes(label = Label),size = labelSize)
-              }
-              
-              classLength <- info %>%
-                unique() %>%
-                nrow()
-              
-              if (classLength <= 12) {
-                pl <- pl + 
-                  scale_colour_ptol() +
-                  scale_fill_ptol()
-              } else {
-                if (classLength %% 12 == 0) {
-                  pal <- rep(ptol_pal()(12),classLength / 12)
-                } else {
-                  pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
-                }
-                pl <- pl + 
-                  scale_colour_manual(values = pal) +
-                  scale_fill_manual(values = pal)
-              }
-              
-              if (classLength > 6) {
-                sym <- 0:25
-                if (classLength / max(sym) == 1) {
-                  val <- sym
-                }
-                if (classLength / max(sym) < 1) {
-                  val <- sym[1:classLength]
-                }
-                if (classLength / max(sym) > 1) {
-                  if (classLength %% max(sym) == 0) {
-                    val <- rep(sym,classLength / max(sym))
-                  } else {
-                    val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
-                  }
-                }
-                pl <- pl + scale_shape_manual(values = val)
-              }
-              
-              pl <- pl +
-                geom_point(aes(colour = Class,shape = Class)) +
-                theme_bw() +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      legend.position = legendPosition) +
-                labs(title = title,
-                     x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
-                     y = str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
-                coord_fixed()
-              return(pl)
+            pca <- prcomp(dat(analysis),scale. = scale,center = center)
+            
+            info <- sinfo(analysis) %>%
+              select(Class = cls) %>%
+              mutate(Class = factor(Class))
+            
+            var <- pca$sdev
+            var <- round(var^2/sum(var^2) * 100,2)
+            names(var) <- colnames(pca$x)
+            
+            pca <- pca$x %>%
+              as_tibble() %>%
+              select(xAxis = xAxis,yAxis = yAxis) %>%
+              bind_cols(info)
+            
+            if (!is.null(label)) {
+              pca <- pca %>%
+                mutate(Label = sinfo(analysis)[,label] %>% unlist())
             }
             
-            pca <- prcomp(preTreatedData(analysis),scale. = scale,center = center)
+            pl <- pca %>%
+              ggplot(aes(x = xAxis,y  = yAxis)) +
+              geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
+              geom_vline(xintercept = 0,linetype = 2,colour = 'grey')
             
-            analysisPlot@data <- list(Data = preTreatedData(analysis),
-                                      Info = preTreatedInfo(analysis),
-                                      PCAresults = pca,
-                                      cls = cls,
-                                      label = label)
-            analysisPlot@plot <- list(analysisPlot@func(analysisPlot))
-            return(analysisPlot)
+            if (isTRUE(ellipses)) {
+              pl <- pl +
+                stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
+            }
+            
+            if (!is.null(label)) {
+              pl <- pl +
+                geom_text_repel(aes(label = Label),size = labelSize)
+            }
+            
+            classLength <- info %>%
+              unique() %>%
+              nrow()
+            
+            if (classLength <= 12) {
+              pl <- pl + 
+                scale_colour_ptol() +
+                scale_fill_ptol()
+            } else {
+              if (classLength %% 12 == 0) {
+                pal <- rep(ptol_pal()(12),classLength / 12)
+              } else {
+                pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
+              }
+              pl <- pl + 
+                scale_colour_manual(values = pal) +
+                scale_fill_manual(values = pal)
+            }
+            
+            if (classLength > 6) {
+              sym <- 0:25
+              if (classLength / max(sym) == 1) {
+                val <- sym
+              }
+              if (classLength / max(sym) < 1) {
+                val <- sym[1:classLength]
+              }
+              if (classLength / max(sym) > 1) {
+                if (classLength %% max(sym) == 0) {
+                  val <- rep(sym,classLength / max(sym))
+                } else {
+                  val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
+                }
+              }
+              pl <- pl + scale_shape_manual(values = val)
+            }
+            
+            pl <- pl +
+              geom_point(aes(colour = Class,shape = Class)) +
+              theme_bw() +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold'),
+                    legend.position = legendPosition) +
+              labs(title = title,
+                   x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
+                   y = str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
+              coord_fixed()
+            return(pl)
+            
+          }
+)
+
+#' @rdname plotPCA
+#' @export
+
+setMethod('plotPCA',signature = 'Analysis',
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
+            if (ncol(analysis@preTreated %>% dat()) > 0) {
+              d <- analysis@preTreated
+            } else {
+              d <- analysis@rawData
+            }
+            
+            plotPCA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
           }
 )

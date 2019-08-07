@@ -3,7 +3,7 @@
 \docType{methods}
 \name{show,AnalysisData-method}
 \alias{show,AnalysisData-method}
-\title{show-Data}
+\title{show-AnalysisData}
 \usage{
 \S4method{show}{AnalysisData}(object)
 }
