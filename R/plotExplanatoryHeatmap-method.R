@@ -92,6 +92,8 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
     })
 }
 
+#' @importFrom ggplot2 scale_fill_gradient2
+
 heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames){
   pl %>%
     map(~{

@@ -22,3 +22,12 @@ test_that('plotExplanatoryHeatmap returns a plot',{
   
   expect_true(class(pl) == 'list')
 })
+
+test_that('plotExplanatoryHeatmap returns a plot',{
+  d <- analysisData(abr1$neg[,200:250],abr1$fact)
+  rf <- randomForest(d,cls = 'injorder',perm = 3)
+  
+  pl <- plotExplanatoryHeatmap(rf$injorder)
+  
+  expect_identical(class(pl),c("ggassemble","gg","ggplot"))
+})

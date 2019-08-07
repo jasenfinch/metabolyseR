@@ -22,7 +22,7 @@ test_that('random forest classification works',{
 
 test_that('random forest regression works',{
   d <- analysisData(abr1$neg[,200:250],abr1$fact)
-  rf <- randomForest(d,cls = 'injorder')
+  rf <- randomForest(d,cls = 'injorder',perm = 3)
   
   expect_true(is.list(rf))
   expect_true(class(rf[[1]]) == 'RandomForest')
