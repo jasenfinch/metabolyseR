@@ -19,14 +19,19 @@ metabolyse(data, info, parameters = analysisParameters(), verbose = T)
 Analyse data based on specified analysis elements.
 }
 \examples{
+\dontrun{
 library(metaboData)
 data(abr1)
-p <- analysisParameters('preTreat')
+p <- analysisParameters()
 p@preTreat <- list(
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
 )
+p@modelling <- modellingParameters('ttest')
+p <- changeParameter('cls','day',p)
+p <- changeParameter('nCores',2,p)
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
+}
 }
 \seealso{
 \linkS4class{AnalysisParameters} \link{analysisParameters}

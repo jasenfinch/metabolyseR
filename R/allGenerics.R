@@ -3,16 +3,9 @@ setGeneric("preTreat", function(x) {
   standardGeneric("preTreat")
 })
 
-
-setGeneric("classification", function(x) {
-  standardGeneric("classification")
+setGeneric("modelling", function(x) {
+  standardGeneric("modelling")
 })
-
-
-setGeneric("featureSelection", function(x) {
-  standardGeneric("featureSelection")
-})
-
 
 setGeneric("correlations", function(x) {
   standardGeneric("correlations")
@@ -38,14 +31,9 @@ setGeneric("preTreatedInfo", function(x) {
   standardGeneric("preTreatedInfo")
 })
 
-#' @rdname classificationResults
-setGeneric("classificationResults", function(x) {
-  standardGeneric("classificationResults")
-})
-
-#' @rdname featureSelectionResults
-setGeneric("featureSelectionResults", function(x) {
-  standardGeneric("featureSelectionResults")
+#' @rdname modellingResults
+setGeneric("modellingResults", function(x) {
+  standardGeneric("modellingResults")
 })
 
 #' @rdname correlationResults
@@ -73,38 +61,23 @@ setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T,
   standardGeneric('plotLDA')
 })
 
-#' @rdname plotClassification
-setGeneric('plotClassification',function(analysis,method = 'randomForest'){
-  standardGeneric('plotClassification')
-})
-
-#' @rdname plotClassificationDendrogram
-setGeneric('plotClassificationDendrogram',function(analysis,method = 'randomForest', measure = 'Margin', clusterMethod = 'ward.D2'){
-  standardGeneric('plotClassificationDendrogram')
-})
-
-#' @rdname plotFeatureSelection
-setGeneric('plotFeatureSelection',function(analysis, method = 'fs.rf', mz = T, modes = T, pairwises = NULL){
-  standardGeneric('plotFeatureSelection')
-})
-
 #' @rdname plotFeature
 setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
   standardGeneric('plotFeature')
 })
 
 #' @rdname plotExplanatoryHeatmap
-setGeneric('plotExplanatoryHeatmap',function(analysis, method = 'fs.rf', threshold = 0.01, pairwises = NULL, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', low = 'white', high = "#F21A00", featureNames = T){
+setGeneric('plotExplanatoryHeatmap',function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
   standardGeneric('plotExplanatoryHeatmap')
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(analysis, cls = 'class', label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2, ...){
+setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotSupervisedRF')
 })
 
 #' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',function(analysis,cls = 'class', label = NULL, ellipses = T, title = 'MDS plot of an unsupervised random forest', legendPosition = 'bottom', labelSize = 2, seed = 1234, ...){
+setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, ellipses = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotUnsupervisedRF')
 })
 
@@ -204,7 +177,7 @@ setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/
 })
 
 #' @rdname QCimpute
-setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores(), clusterType = 'PSOCK', seed = 1234) {
+setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
   standardGeneric("QCimpute")
 })
 
@@ -249,12 +222,12 @@ setGeneric("keepVariables", function(d,variables = character()) {
 })
 
 #' @rdname  imputeAll
-setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
   standardGeneric("imputeAll")
 })
 
 #' @rdname  imputeClass
-setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = 'FORK', seed = 1234) {
+setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
   standardGeneric("imputeClass")
 })
 
@@ -262,3 +235,49 @@ setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = d
 setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
   standardGeneric("correctionCenter")
 })
+
+#' @rdname ttest
+setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+  standardGeneric("ttest")
+})
+
+#' @rdname linearRegression
+setGeneric("linearRegression", function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = F) {
+  standardGeneric("linearRegression")
+})
+
+#' @rdname randomForest
+setGeneric("randomForest", function(x, cls = 'class', rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+  standardGeneric("randomForest")
+})
+
+#' @rdname measures
+setGeneric("measures", function(x) {
+  standardGeneric("measures")
+})
+
+#' @rdname importance
+setGeneric("importance", function(x) {
+  standardGeneric("importance")
+})
+
+#' @rdname plotImportance
+setGeneric("plotImportance", function(x,...) {
+  standardGeneric("plotImportance")
+})
+
+#' @rdname plotMeasures
+setGeneric("plotMeasures", function(x, predictor = 'class') {
+  standardGeneric("plotMeasures")
+})
+
+#' @rdname plotMDS
+setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legendPosition = 'bottom', labelSize = 2) {
+  standardGeneric("plotMDS")
+})
+
+#' @rdname plotROC
+setGeneric("plotROC", function(x, title = '') {
+  standardGeneric("plotROC")
+})
+

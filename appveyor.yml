@@ -9,6 +9,9 @@ init:
 
 install:
   ps: Bootstrap
+  
+cache:
+  - C:\RLibrary
 
 # Adapt as necessary starting from here
 
@@ -17,7 +20,8 @@ environment:
    USE_RTOOLS: true
    
 build_script:
-  - travis-tool.sh install_github aberHRML/FIEmspro aberHRML/metaboData
+  - travis-tool.sh install_github thomasp85/patchwork
+  - travis-tool.sh install_deps
 
 test_script:
   - travis-tool.sh run_tests

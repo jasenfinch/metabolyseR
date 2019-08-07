@@ -6,8 +6,7 @@ Description: Methods for pre-treatment, classification, feature selection and co
 biocViews: Metabolomics
 Depends: R (>= 3.4.0),
          parallel
-Imports: FIEmspro,
-         Hmisc,
+Imports: Hmisc,
          dplyr,
          magrittr,
          missForest,
@@ -30,7 +29,10 @@ Imports: FIEmspro,
          lubridate,
          ggrepel,
          ROCR,
-         patchwork
+         patchwork,
+         yardstick,
+         broom,
+         rlang
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -49,25 +51,17 @@ Collate: allGenerics.R
     analysisData.R
     analysisParameters.R
     changeParameter.R
-    classification-method.R
-    classificationResults-method.R
     correctionMethods.R
     correlations-method.R
     correlationResults-method.R
-    featureSelection-method.R
-    featureSelectionResults-method.R
-    fsMethods.R
     imputeMethods.R
     metabolyse.R
     metabolyseR.R
     nlda.R
     occupancyMethods.R
     parseParameters.R
-    plotClassification-method.R
-    plotClassificationDendrogram-method.R
     plotExplanatoryHeatmap-method.R
     plotFeature-method.R
-    plotFeatureSelection-method.R
     plotLDA-method.R
     plotPCA-method.R
     plotRSD-method.R
@@ -85,6 +79,10 @@ Collate: allGenerics.R
     removeMethods.R
     show-method.R
     transformMethods.R
+    univariateMethods.R
+    modelling.R
+    randomForest.R
+    modellingPlots.R
     keepMethods.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/

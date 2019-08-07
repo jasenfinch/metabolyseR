@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('plotPCA')
 
@@ -15,8 +15,8 @@ test_that('plotPCA returns a plot',{
   inf1 <- abr1$fact[abr1$fact$class %in% c('1'),][1:10,]
   inf2 <- abr1$fact[abr1$fact$class %in% c('6'),][1:10,]
   info <- rbind(inf1,inf2)
-  analysis <- metabolyseR::metabolyse(dat,info,p,verbose = F)
-  pl <- metabolyseR::plotPCA(analysis)
+  analysis <- metabolyse(dat,info,p,verbose = F)
+  pl <- plotPCA(analysis)
   
-  expect_true(class(pl) == 'AnalysisPlot')
+  expect_true(identical(class(pl),c('gg','ggplot')))
 })

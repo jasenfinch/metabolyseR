@@ -1,4 +1,4 @@
-suppressPackageStartupMessages(library(FIEmspro))
+library(metaboData)
 
 context('plotFeature')
 

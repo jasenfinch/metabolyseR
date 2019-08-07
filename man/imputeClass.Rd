@@ -7,10 +7,11 @@
 \title{imputeClass}
 \usage{
 imputeClass(d, cls = "class", occupancy = 2/3, nCores = detectCores()
-  * 0.75, clusterType = "FORK", seed = 1234)
+  * 0.75, clusterType = getClusterType(), seed = 1234)
 
 \S4method{imputeClass}{AnalysisData}(d, cls = "class", occupancy = 2/3,
-  nCores = detectCores() * 0.75, clusterType = "FORK", seed = 1234)
+  nCores = detectCores() * 0.75, clusterType = getClusterType(),
+  seed = 1234)
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}

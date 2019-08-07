@@ -3,23 +3,29 @@
 \docType{methods}
 \name{plotSupervisedRF}
 \alias{plotSupervisedRF}
+\alias{plotSupervisedRF,AnalysisData-method}
 \alias{plotSupervisedRF,Analysis-method}
 \title{plotSupervisedRF}
 \usage{
-plotSupervisedRF(analysis, cls = "class", label = NULL, ellipses = T,
-  ROC = T, seed = 1234,
+plotSupervisedRF(x, cls = "class", rf = list(), label = NULL,
+  ellipses = T, ROC = T, seed = 1234,
   title = "MDS plot of a supervised random forest",
-  legendPosition = "bottom", labelSize = 2, ...)
+  legendPosition = "bottom", labelSize = 2)
 
-\S4method{plotSupervisedRF}{Analysis}(analysis, cls = "class",
-  label = NULL, ellipses = T, ROC = T, seed = 1234,
-  title = "MDS plot of a supervised random forest",
-  legendPosition = "bottom", labelSize = 2, ...)
+\S4method{plotSupervisedRF}{AnalysisData}(x, cls = "class",
+  rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234,
+  title = "", legendPosition = "bottom", labelSize = 2)
+
+\S4method{plotSupervisedRF}{Analysis}(x, cls = "class", rf = list(),
+  label = NULL, ellipses = T, ROC = T, seed = 1234, title = "",
+  legendPosition = "bottom", labelSize = 2)
 }
 \arguments{
-\item{analysis}{object of class Analysis containing analysis results}
+\item{x}{object of class Analysis or AnalysisData containing analysis results}
 
 \item{cls}{info column to use for sample classes}
+
+\item{rf}{list of additional parameters to pass to randomForest}
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
@@ -34,8 +40,6 @@ plotSupervisedRF(analysis, cls = "class", label = NULL, ellipses = T,
 \item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
-
-\item{...}{additional parameters to pass to randomForest}
 }
 \description{
 plotSupervisedRF
@@ -50,5 +54,5 @@ p@preTreat <- list(
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 
-plotSupervisedRF(analysis,label = 'name')
+plotSupervisedRF(analysis,cls = 'day',label = 'name')
 }

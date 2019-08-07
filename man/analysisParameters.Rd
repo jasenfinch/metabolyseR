@@ -4,8 +4,7 @@
 \alias{analysisParameters}
 \title{analysisParameters}
 \usage{
-analysisParameters(elements = c("preTreat", "classification",
-  "featureSelection", "correlations"))
+analysisParameters(elements = c("preTreat", "modelling", "correlations"))
 }
 \arguments{
 \item{elements}{character vector containing elements for analysis (see Details). Default includes all available elements.}

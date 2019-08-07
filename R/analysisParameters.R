@@ -12,7 +12,7 @@
 #' @importFrom methods new
 #' @export
 
-analysisParameters <- function(elements = c('preTreat','classification','featureSelection','correlations')){
+analysisParameters <- function(elements = c('preTreat','modelling','correlations')){
   
   if ('preTreat' %in% elements) {
     preTreat <- list(QC = list(occupancyFilter = as.list(formals(QCMethods('occupancyFilter'))[-1]),
@@ -27,29 +27,10 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
   } else {
     preTreat <- list()
   }
-  if ('classification' %in% elements) {
-    classification <- list(
-      cls = 'class',
-      method = c('randomForest'),
-      pairwises = character(),
-      pars = list(sampling = "boot",niter = 10,nreps = 10, strat = T), 
-      nCores = detectCores(),
-      clusterType = 'PSOCK'
-    )
+  if ('modelling' %in% elements) {
+    modelling <- modellingParameters('randomForest')
   } else {
-    classification <- list()
-  }
-  if ('featureSelection' %in% elements) {
-    featureSelection <- list(
-      method = 'fs.rf',
-      cls = 'class',
-      pairwises = character(),
-      pars = list(fs.rf = as.list(formals(fsMethods('fs.rf'))[-1])), 
-      nCores = detectCores(), 
-      clusterType = 'PSOCK'
-    )
-  } else {
-    featureSelection <- list()
+    modelling <- list()
   }
   if ('correlations' %in% elements) {
     correlations <- list(
@@ -63,16 +44,9 @@ analysisParameters <- function(elements = c('preTreat','classification','feature
   
   p <- new('AnalysisParameters',
       preTreat = preTreat,
-      classification = classification,
-      featureSelection = featureSelection,
+      modelling = modelling,
       correlations = correlations
   )
-  
-  if (.Platform$OS.type != 'windows') {
-    p <- changeParameter('clusterType','FORK',p)
-  }
-  
-  p <- changeParameter('nCores',{detectCores() * 0.75} %>% round(),p)
   
   return(p)
 }
