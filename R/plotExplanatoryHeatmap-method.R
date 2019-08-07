@@ -67,7 +67,7 @@ heatmapClasses <- function(pl, x, distanceMeasure, clusterMethod, featureNames){
       plo <- d %>%
         ggplot(aes_string(x = pred,y = 'Feature',fill = '`Relative Intensity`')) +
         geom_tile(colour = 'black') +
-        scale_fill_gradient(low = low, high = high) +
+        scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
         theme_minimal(base_size = 8) +
         labs(title = pred,
              caption = caption,
