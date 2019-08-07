@@ -6,6 +6,7 @@
 \alias{plotExplanatoryHeatmap}
 \alias{plotExplanatoryHeatmap,Univariate-method}
 \alias{plotExplanatoryHeatmap,RandomForest-method}
+\alias{plotExplanatoryHeatmap,Analysis-method}
 \title{plotExplanatoryHeatmap}
 \usage{
 plotExplanatoryHeatmap(x, threshold = 0.05,
@@ -19,6 +20,10 @@ plotExplanatoryHeatmap(x, threshold = 0.05,
 \S4method{plotExplanatoryHeatmap}{RandomForest}(x, threshold = 0.05,
   distanceMeasure = "euclidean", clusterMethod = "ward.D2",
   featureNames = T)
+
+\S4method{plotExplanatoryHeatmap}{Analysis}(x, threshold = 0.05,
+  distanceMeasure = "euclidean", clusterMethod = "ward.D2",
+  featureNames = T)
 }
 \arguments{
 \item{x}{object of class Univariate, RandomForest or Analysis containing modelling results}
@@ -30,10 +35,6 @@ plotExplanatoryHeatmap(x, threshold = 0.05,
 \item{clusterMethod}{clustering method to use. See details}
 
 \item{featureNames}{should feature names be plotted?}
-
-\item{method}{results of feature selection method to use}
-
-\item{pairwises}{optional vector specifying pairwise comparisons to extract}
 }
 \description{
 plot a heatmap of explanatory features

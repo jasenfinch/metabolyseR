@@ -14,7 +14,7 @@
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @examples 
 #' 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
 #' p@preTreat <- list(
@@ -55,7 +55,7 @@ setMethod('plotLDA',signature = 'AnalysisData',
               
               if (!is.null(label)) {
                 lda <- lda %>%
-                  mutate(Label = analysisPlot@data$Info[,analysisPlot@data$label] %>% unlist())
+                  mutate(Label = info[,label] %>% unlist())
               }
               
               pl <- lda %>%
@@ -131,6 +131,9 @@ setMethod('plotLDA',signature = 'AnalysisData',
             return(pl)
           }
 ) 
+
+#' @rdname plotLDA
+#' @export
 
 setMethod('plotLDA',signature = 'Analysis',
           function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){

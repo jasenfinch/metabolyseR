@@ -18,6 +18,8 @@ An S4 class for random forest results and models
 
 \item{\code{predictions}}{tibble of model observation predictions}
 
+\item{\code{permutations}}{list of permutations measure and importance results tables}
+
 \item{\code{importances}}{tibble of model feature importances}
 
 \item{\code{proximities}}{tibble of model observation proximities}

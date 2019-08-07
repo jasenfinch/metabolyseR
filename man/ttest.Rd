@@ -21,13 +21,13 @@ ttest(x, cls = "class", pAdjust = "bonferroni", comparisons = list(),
 
 \item{pAdjust}{p value adjustment method}
 
+\item{comparisons}{named list of binary comparisons to analyse}
+
 \item{returnModels}{should models be returned}
 
 \item{nCores}{number of cores to use for parallelisation}
 
 \item{clusterType}{cluster type to use for parallelisation (`?parallel::makeCluster`)}
-
-\item{pairwises}{named list of pairwises to analyse}
 }
 \description{
 Welch t-test

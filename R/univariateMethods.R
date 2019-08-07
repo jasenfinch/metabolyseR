@@ -4,7 +4,7 @@
 #' @param x S4 object of class AnalysisData
 #' @param cls vector of sample info column names to analyse
 #' @param pAdjust p value adjustment method
-#' @param pairwises named list of pairwises to analyse
+#' @param comparisons named list of binary comparisons to analyse
 #' @param returnModels should models be returned
 #' @param nCores number of cores to use for parallelisation
 #' @param clusterType cluster type to use for parallelisation (`?parallel::makeCluster`)

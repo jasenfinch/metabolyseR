@@ -20,6 +20,8 @@ plotUnsupervisedRF(x, cls = "class", rf = list(), label = NULL,
   legendPosition = "bottom", labelSize = 2)
 }
 \arguments{
+\item{x}{object of class Analysis containing analysis results}
+
 \item{cls}{info column to use for sample labelling}
 
 \item{rf}{list of additional parameters to pass to randomForest}
@@ -35,8 +37,6 @@ plotUnsupervisedRF(x, cls = "class", rf = list(), label = NULL,
 \item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
-
-\item{analysis}{object of class Analysis containing analysis results}
 }
 \description{
 plotUnsupervisedRF

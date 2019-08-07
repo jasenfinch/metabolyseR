@@ -176,9 +176,7 @@ heatmapRegression <- function(pl, x, distanceMeasure, clusterMethod, featureName
 #' @rdname plotExplanatoryHeatmap
 #' @description plot a heatmap of explanatory features
 #' @param x object of class Univariate, RandomForest or Analysis containing modelling results
-#' @param method results of feature selection method to use
 #' @param threshold score threshold to use for specifying explantory features
-#' @param pairwises optional vector specifying pairwise comparisons to extract
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details
 #' @param featureNames should feature names be plotted?
@@ -287,6 +285,9 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             return(pl)
           }
 )
+
+#' @rdname plotExplanatoryHeatmap
+#' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
           function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){

@@ -28,6 +28,8 @@ randomForest(x, cls = "class", rf = list(), reps = 1, binary = F,
 
 \item{comparisons}{list of comparisons to perform. Ignored for unsupervised and regression. See details.}
 
+\item{perm}{number of permutations to perform. Ignored for unsupervised.}
+
 \item{returnModels}{TRUE/FALSE should model objects be returned.}
 
 \item{seed}{random number seed}
@@ -35,8 +37,6 @@ randomForest(x, cls = "class", rf = list(), reps = 1, binary = F,
 \item{nCores}{number of cores to use for parallisation.}
 
 \item{clusterType}{cluster type for parallisation}
-
-\item{permute}{number of permutations to perform. Ignored for unsupervised.}
 }
 \description{
 Perform random forest on an AnalysisData object

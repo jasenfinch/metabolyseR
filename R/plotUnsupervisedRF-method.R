@@ -1,6 +1,6 @@
 #' plotUnsupervisedRF
 #' @rdname plotUnsupervisedRF
-#' @param analysis object of class Analysis containing analysis results
+#' @param x object of class Analysis containing analysis results
 #' @param cls info column to use for sample labelling
 #' @param rf list of additional parameters to pass to randomForest
 #' @param label info column to use for sample labels. Set to NULL for no labels.

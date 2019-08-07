@@ -16,6 +16,8 @@ plotImportance(x, ...)
 \arguments{
 \item{x}{S4 object of class Univariate or RandomForest}
 
+\item{...}{arguments to pass to specific method}
+
 \item{predictor}{Predictor results to plot}
 }
 \description{

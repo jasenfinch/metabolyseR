@@ -17,8 +17,7 @@ setClass('AnalysisData',
 #' @rdname AnalysisParameters-class
 #' @description An S4 class to store analysis parameters
 #' @slot preTreat list containing parameters for data pre-treatment
-#' @slot classification list containing parameters for classification
-#' @slot featureSelection list containing parameters for feature selection
+#' @slot modelling list containing parameters for modelling
 #' @slot correlations list containing parameters for correlations
 #'@export
 
@@ -36,8 +35,7 @@ setClass('AnalysisParameters',
 #' @slot parameters class AnalysisParameters containing the analysis parameters
 #' @slot rawData list containing info and raw data
 #' @slot preTreated list containing preTreated info and raw data 
-#' @slot classification list containing classification results
-#' @slot featureSelection list contain feature selection results for each method
+#' @slot modelling list containing modelling results
 #' @slot correlations tibble containing weighted edgelist of correlations
 #'@export
 
@@ -59,6 +57,7 @@ setClass('Analysis',
 #' @slot data AnalysisData object of data used for modelling
 #' @slot results list of measure and importance results tables
 #' @slot predictions tibble of model observation predictions
+#' @slot permutations list of permutations measure and importance results tables
 #' @slot importances tibble of model feature importances
 #' @slot proximities tibble of model observation proximities
 #' @slot models list of random forest models
@@ -80,6 +79,7 @@ setClass('RandomForest',
 #' Univariate
 #' @rdname Univariate-class
 #' @description An S4 class for univariate test models and results.
+#' @slot type univariate test type
 #' @slot data AnalysisData object of tested data
 #' @slot models list of model objects
 #' @slot results tibble containing test results 

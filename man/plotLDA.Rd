@@ -4,6 +4,7 @@
 \name{plotLDA}
 \alias{plotLDA}
 \alias{plotLDA,AnalysisData-method}
+\alias{plotLDA,Analysis-method}
 \title{plotLDA}
 \usage{
 plotLDA(analysis, cls = "class", label = NULL, scale = T,
@@ -12,6 +13,12 @@ plotLDA(analysis, cls = "class", label = NULL, scale = T,
   legendPosition = "bottom", labelSize = 2)
 
 \S4method{plotLDA}{AnalysisData}(analysis, cls = "class", label = NULL,
+  scale = T, center = T, xAxis = "DF1", yAxis = "DF2",
+  ellipses = T,
+  title = "Principle Component - Linear Discriminant Analysis (PC-LDA)",
+  legendPosition = "bottom", labelSize = 2)
+
+\S4method{plotLDA}{Analysis}(analysis, cls = "class", label = NULL,
   scale = T, center = T, xAxis = "DF1", yAxis = "DF2",
   ellipses = T,
   title = "Principle Component - Linear Discriminant Analysis (PC-LDA)",
@@ -45,7 +52,7 @@ Plot linear discriminant analysis resultus of pre-treated data
 }
 \examples{
 
-library(FIEmspro)
+library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
 p@preTreat <- list(

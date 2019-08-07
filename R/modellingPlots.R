@@ -3,6 +3,7 @@
 #' @description Plot univariate or random forest feature importance.
 #' @param x S4 object of class Univariate or RandomForest
 #' @param predictor Predictor results to plot
+#' @param ... arguments to pass to specific method
 #' @importFrom ggplot2 facet_wrap
 #' @export
 
