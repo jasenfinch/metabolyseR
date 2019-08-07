@@ -102,6 +102,7 @@ setMethod('modelling',signature = 'Analysis',
                 
                 newPars <- formals(method) %>%
                   as.list()
+                newPars[names(params[[i]])] <- params[[i]]
                 newPars[[1]] <- d
                 
                 do.call(method,newPars)

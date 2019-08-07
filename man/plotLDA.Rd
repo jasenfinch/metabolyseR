@@ -3,7 +3,7 @@
 \docType{methods}
 \name{plotLDA}
 \alias{plotLDA}
-\alias{plotLDA,Analysis-method}
+\alias{plotLDA,AnalysisData-method}
 \title{plotLDA}
 \usage{
 plotLDA(analysis, cls = "class", label = NULL, scale = T,
@@ -11,14 +11,14 @@ plotLDA(analysis, cls = "class", label = NULL, scale = T,
   title = "Principle Component - Linear Discriminant Analysis (PC-LDA) plot",
   legendPosition = "bottom", labelSize = 2)
 
-\S4method{plotLDA}{Analysis}(analysis, cls = "class", label = NULL,
+\S4method{plotLDA}{AnalysisData}(analysis, cls = "class", label = NULL,
   scale = T, center = T, xAxis = "DF1", yAxis = "DF2",
   ellipses = T,
-  title = "Principle Component - Linear Discriminant Analysis (PC-LDA) plot",
+  title = "Principle Component - Linear Discriminant Analysis (PC-LDA)",
   legendPosition = "bottom", labelSize = 2)
 }
 \arguments{
-\item{analysis}{object of class Analysis containing analysis results}
+\item{analysis}{object of class Analysis or AnalysisData containing analysis results}
 
 \item{cls}{info column to use for sample labelling}
 

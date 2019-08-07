@@ -1,3 +1,5 @@
+#' @importFrom ggplot2 ggplot
+
 heatmapClasses <- function(pl, x, distanceMeasure, clusterMethod, featureNames){
   pl %>%
     map(~{
@@ -283,5 +285,18 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             pl <- wrap_plots(pl)
             
             return(pl)
+          }
+)
+
+setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
+          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+            x %>%
+              modellingResults() %>%
+              map(~{
+                map(.,plotExplanatoryHeatmap,threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames) %>%
+                  wrap_plots()  
+              }) %>%
+              print()
+              
           }
 )
