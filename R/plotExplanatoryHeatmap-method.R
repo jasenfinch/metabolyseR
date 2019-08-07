@@ -1,6 +1,6 @@
 #' @importFrom ggplot2 ggplot aes_string theme
 
-heatmapClasses <- function(pl, x, distanceMeasure, clusterMethod, featureNames){
+heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames){
   pl %>%
     map(~{
       r <- .
@@ -92,7 +92,7 @@ heatmapClasses <- function(pl, x, distanceMeasure, clusterMethod, featureNames){
     })
 }
 
-heatmapRegression <- function(pl, x, distanceMeasure, clusterMethod, featureNames){
+heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames){
   pl %>%
     map(~{
       r <- .
@@ -217,11 +217,11 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
               split(.$Predictor)
             
             if (x@type == 'ttest') {
-              pl <- heatmapClasses(pl,x, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
             }
             
             if (x@type == 'linearRegression') {
-              pl <- heatmapRegression(pl,x, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
             }
             
             pl <- wrap_plots(pl)
@@ -273,11 +273,11 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             }
             
             if (x@type == 'classification') {
-              pl <- heatmapClasses(pl,x, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
             }
             
             if (x@type == 'regression') {
-              pl <- heatmapRegression(pl,x, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
             }
             
             pl <- wrap_plots(pl)
