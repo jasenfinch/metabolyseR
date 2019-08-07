@@ -46,6 +46,8 @@ Specified class comparisons should be given as a list named according to \code{c
 }
 \examples{
 library(metaboData)
+library(magrittr)
+
 data(abr1)
 x <- analysisData(abr1$neg,abr1$fact) \%>\%
        occupancyMaximum(cls = 'day') \%>\%

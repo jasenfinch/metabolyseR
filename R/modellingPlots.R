@@ -366,6 +366,7 @@ setMethod('plotMDS',signature = 'RandomForest',
 #' @param x S4 object of class RandomForest
 #' @param title plot title
 #' @importFrom ggplot2 geom_abline geom_line guide_legend
+#' @importFrom yardstick roc_curve
 #' @export
 
 setMethod('plotROC',signature = 'RandomForest',

@@ -676,6 +676,8 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
 #' @details Specified class comparisons should be given as a list named according to \code{cls}. Comparisons should be given as class names separated by '~' (eg. '1~2~H').
 #' @examples 
 #' library(metaboData)
+#' library(magrittr)
+#' 
 #' data(abr1)
 #' x <- analysisData(abr1$neg,abr1$fact) %>%
 #'        occupancyMaximum(cls = 'day') %>%
