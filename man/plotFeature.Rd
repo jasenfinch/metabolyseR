@@ -5,6 +5,8 @@
 \alias{plotFeature}
 \alias{plotFeature,Analysis-method}
 \alias{plotFeature,AnalysisData-method}
+\alias{plotFeature,Univariate-method}
+\alias{plotFeature,RandomForest-method}
 \title{plotFeature}
 \usage{
 plotFeature(analysis, feature, cls = "class", label = NULL,
@@ -15,9 +17,15 @@ plotFeature(analysis, feature, cls = "class", label = NULL,
 
 \S4method{plotFeature}{AnalysisData}(analysis, feature, cls = "class",
   label = NULL, labelSize = 2)
+
+\S4method{plotFeature}{Univariate}(analysis, feature, cls = "class",
+  label = NULL, labelSize = 2)
+
+\S4method{plotFeature}{RandomForest}(analysis, feature, cls = "class",
+  label = NULL, labelSize = 2)
 }
 \arguments{
-\item{analysis}{object of class Analysis containing analysis results}
+\item{analysis}{object of class Analysis, AnalysisData, Univariate or RandomForest containing analysis results}
 
 \item{feature}{feature to plot}
 

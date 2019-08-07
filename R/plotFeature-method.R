@@ -1,7 +1,7 @@
 #' plotFeature
 #' @rdname plotFeature
 #' @description Plot a feature trend.
-#' @param analysis object of class Analysis containing analysis results
+#' @param analysis object of class Analysis, AnalysisData, Univariate or RandomForest containing analysis results
 #' @param feature feature to plot
 #' @param cls info column to use for class labels
 #' @param label info column to use for sample labels
@@ -96,3 +96,21 @@ setMethod('plotFeature',signature = 'AnalysisData',
             pl
           }
 )
+
+#' @rdname plotFeature
+#' @export
+
+setMethod('plotFeature',signature = 'Univariate',
+          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+            analysis@data %>%
+              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
+          })
+
+#' @rdname plotFeature
+#' @export
+
+setMethod('plotFeature',signature = 'RandomForest',
+          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+            analysis@data %>%
+              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
+          })
