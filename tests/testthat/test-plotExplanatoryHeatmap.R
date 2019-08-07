@@ -20,5 +20,5 @@ test_that('plotExplanatoryHeatmap returns a plot',{
   analysis <- metabolyse(dat,info,p,verbose = F)
   pl <- plotExplanatoryHeatmap(analysis,threshold = 0.5)
   
-  expect_false(F %in% (class(pl) == c('gg','ggplot')))
+  expect_true(class(pl) == 'list')
 })

@@ -296,8 +296,6 @@ setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
               map(~{
                 map(.,plotExplanatoryHeatmap,threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames) %>%
                   wrap_plots()  
-              }) %>%
-              print()
-              
+              })
           }
 )

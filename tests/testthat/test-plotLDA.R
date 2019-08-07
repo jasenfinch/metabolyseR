@@ -16,5 +16,5 @@ test_that('plotLDA returns a plot',{
   analysis <- metabolyse(d,i,p,verbose = F)
   pl <- plotLDA(analysis)
   
-  expect_true(identical(class(pl) == c("gg","ggplot")))
+  expect_true(identical(class(pl),c("gg","ggplot")))
 })
