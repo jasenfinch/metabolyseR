@@ -99,6 +99,7 @@ setMethod('plotImportance',signature = 'RandomForest',
           function(x){
             
             res <- x@results$importances
+            predictor <- res$Predictor[1]
             
             if ('adjustedPvalue' %in% colnames(res)) {
               res <- res %>%
