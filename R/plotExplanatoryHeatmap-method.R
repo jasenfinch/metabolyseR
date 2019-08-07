@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 ggplot aes_string theme
 
 heatmapClasses <- function(pl, x, distanceMeasure, clusterMethod, featureNames){
   pl %>%

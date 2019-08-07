@@ -1,3 +1,4 @@
+#' @importFrom utils combn
 
 getPairwises <- function(cl){
   cl %>%

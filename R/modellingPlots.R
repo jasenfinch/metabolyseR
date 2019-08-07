@@ -3,6 +3,7 @@
 #' @description Plot univariate or random forest feature importance.
 #' @param x S4 object of class Univariate or RandomForest
 #' @param predictor Predictor results to plot
+#' @importFrom ggplot2 facet_wrap
 #' @export
 
 setMethod('plotImportance',signature = 'Univariate',
@@ -45,6 +46,7 @@ setMethod('plotImportance',signature = 'Univariate',
 #' @description Plot random forest model measures.
 #' @param x S4 object of class RandomForest
 #' @param predictor predictor results to plot
+#' @importFrom ggplot2 xlim
 #' @export
 
 setMethod('plotMeasures',signature = 'RandomForest',
@@ -362,6 +364,7 @@ setMethod('plotMDS',signature = 'RandomForest',
 #' @description plot reciever operator characteristic curves for a RandomForest object.
 #' @param x S4 object of class RandomForest
 #' @param title plot title
+#' @importFrom ggplot2 geom_abline geom_line guide_legend
 #' @export
 
 setMethod('plotROC',signature = 'RandomForest',

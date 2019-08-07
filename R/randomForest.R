@@ -36,6 +36,7 @@ importance <- function(x){
 }
 
 #' @importFrom randomForest margin
+#' @importFrom stats pnorm
 
 classificationMeasures <- function(predictions,permutations){
   

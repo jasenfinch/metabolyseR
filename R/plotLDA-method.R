@@ -23,6 +23,7 @@
 #' )
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)
 #' plotLDA(analysis,cls = 'day')
+#' @importFrom ggplot2 stat_ellipse coord_fixed ylab
 #' @export
 
 setMethod('plotLDA',signature = 'AnalysisData',

@@ -26,6 +26,7 @@ setMethod('plotFeature',signature = 'Analysis',
           })
 
 #' @rdname plotFeature
+#' @importFrom ggplot2 aes geom_point theme_bw element_text guides scale_fill_manual xlab
 #' @export
 
 setMethod('plotFeature',signature = 'AnalysisData',
