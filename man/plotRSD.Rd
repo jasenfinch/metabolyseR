@@ -3,11 +3,16 @@
 \docType{methods}
 \name{plotRSD}
 \alias{plotRSD}
+\alias{plotRSD,AnalysisData-method}
 \alias{plotRSD,Analysis-method}
 \title{plotRSD}
 \usage{
 plotRSD(analysis, cls = "class", QCidx = "QC", QCparameters = NULL,
   modes = T, histBins = 30,
+  title = "Relative standard deviation distributions")
+
+\S4method{plotRSD}{AnalysisData}(analysis, cls = "class", QCidx = "QC",
+  QCparameters = NULL, modes = T, histBins = 30,
   title = "Relative standard deviation distributions")
 
 \S4method{plotRSD}{Analysis}(analysis, cls = "class", QCidx = "QC",

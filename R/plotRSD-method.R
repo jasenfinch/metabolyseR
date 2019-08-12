@@ -100,6 +100,9 @@ setMethod('plotRSD',signature = 'AnalysisData',
           }
 )
 
+#' @rdname plotRSD
+#' @export
+
 setMethod('plotRSD',signature = 'Analysis',
           function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
             plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,modes = modes,histBins = histBins,title = title)
