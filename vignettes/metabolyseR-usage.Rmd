@@ -16,6 +16,7 @@ vignette: >
 
 ```{r,include=FALSE}
 knitr::opts_chunk$set(fig.align = 'center')
+library(magrittr)
 ```
 
 ## Introduction
@@ -40,10 +41,11 @@ These analysis elements could, for example, also be suitable for data such as ge
 
 The examples shown here use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
 
+Firstly load relevant packages:
+
 ```{r libraryLoad,message=FALSE}
 library(metabolyseR)
 library(metaboData)
-library(magrittr)
 
 data('abr1')
 ```
@@ -64,7 +66,6 @@ Parameter selection is the fundamental aspect of using *metabolyseR* and will be
 For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
 
 ```{r parametersExample,eval=FALSE}
-library(metabolyseR)
 parameters <- analysisParameters()
 parameters
 ```
@@ -140,9 +141,8 @@ p
 Executing analyses is simple using the `metabolyse` function with specification of the data to use, the sample meta-information (info) and the analysis parameters.
 This is shown by the following code.
 
-```{r metabolyseExample,eval=FALSE}
-data(abr1,package = 'FIEmspro')
-parameters <- analysisParameters(c('preTreat','classification'))
+```{r metabolyseExample}
+parameters <- analysisParameters(c('preTreat','modelling'))
 parameters@preTreat <- list(
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
@@ -174,7 +174,7 @@ There are likely to be occasions where analyses need to be re-analysed using a n
 It simply requires the specification of the `Analysis` object and parameters for the re-analysis as shown below.
 
 ```{r reAnalyseExample,eval=FALSE}
-parameters <- analysisParameters('featureSelection')
+parameters <- analysisParameters('correlations')
 analysis <- reAnalyse(analysis,parameters)
 analysis
 ```
@@ -212,7 +212,6 @@ This allows the fine specification of the data pre-treatment routines that are r
 Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
 
 ```{r preTreatParameterExample}
-data("abr1",package = 'FIEmspro')
 parameters <- analysisParameters('preTreat')
 parameters@preTreat <- list(
     remove = list(
@@ -527,7 +526,7 @@ parameters <- analysisParameters('modelling')
 parameters
 ```
 
-Parameters for alternative methods or multiple methods can be retreived using the `modellingParameters()` function as shown below.
+Parameters for alternative methods or multiple methods can be retrieved using the `modellingParameters()` function as shown below.
 
 ```{r changeModellingParameters}
 parameters@modelling <- modellingParameters(c('randomForest','ttest'))
