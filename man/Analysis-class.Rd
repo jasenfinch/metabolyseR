@@ -18,9 +18,7 @@ An S4 class to store analysis results
 
 \item{\code{preTreated}}{list containing preTreated info and raw data}
 
-\item{\code{classification}}{list containing classification results}
-
-\item{\code{featureSelection}}{list contain feature selection results for each method}
+\item{\code{modelling}}{list containing modelling results}
 
 \item{\code{correlations}}{tibble containing weighted edgelist of correlations}
 }}

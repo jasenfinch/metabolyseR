@@ -5,8 +5,8 @@ digraph metabolyseR {
 
   # several 'node' statements
   node [style = filled,shape = box,fontname = Helvetica, fontsize = 14, fillcolor = white color = black]
-  metabolyseR; preTreat; classification; featureSelection; correlations
+  metabolyseR; "pre-treatment"; modelling; correlations
 
   # several 'edge' statements
-  metabolyseR -> {preTreat classification featureSelection correlations} 
+  metabolyseR -> {"pre-treatment" modelling correlations} 
 }

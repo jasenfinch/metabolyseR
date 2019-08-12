@@ -3,36 +3,40 @@
 \docType{methods}
 \name{plotUnsupervisedRF}
 \alias{plotUnsupervisedRF}
+\alias{plotUnsupervisedRF,AnalysisData-method}
 \alias{plotUnsupervisedRF,Analysis-method}
 \title{plotUnsupervisedRF}
 \usage{
-plotUnsupervisedRF(analysis, cls = "class", label = NULL,
-  ellipses = T, title = "MDS plot of an unsupervised random forest",
-  legendPosition = "bottom", labelSize = 2, seed = 1234, ...)
+plotUnsupervisedRF(x, cls = "class", rf = list(), label = NULL,
+  ellipses = T, seed = 1234, title = "", legendPosition = "bottom",
+  labelSize = 2)
 
-\S4method{plotUnsupervisedRF}{Analysis}(analysis, cls = "class",
-  label = NULL, ellipses = T,
-  title = "MDS plot of an unsupervised random forest",
-  legendPosition = "bottom", labelSize = 2, seed = 1234, ...)
+\S4method{plotUnsupervisedRF}{AnalysisData}(x, cls = "class",
+  rf = list(), label = NULL, ellipses = T, seed = 1234,
+  title = "", legendPosition = "bottom", labelSize = 2)
+
+\S4method{plotUnsupervisedRF}{Analysis}(x, cls = "class", rf = list(),
+  label = NULL, ellipses = T, seed = 1234, title = "",
+  legendPosition = "bottom", labelSize = 2)
 }
 \arguments{
-\item{analysis}{object of class Analysis containing analysis results}
+\item{x}{object of class Analysis containing analysis results}
 
 \item{cls}{info column to use for sample labelling}
+
+\item{rf}{list of additional parameters to pass to randomForest}
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
 \item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
+
+\item{seed}{random number seed}
 
 \item{title}{plot title}
 
 \item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
-
-\item{seed}{random number seed}
-
-\item{...}{additional parameters to pass to randomForest}
 }
 \description{
 plotUnsupervisedRF

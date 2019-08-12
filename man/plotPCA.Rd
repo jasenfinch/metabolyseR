@@ -3,6 +3,7 @@
 \docType{methods}
 \name{plotPCA}
 \alias{plotPCA}
+\alias{plotPCA,AnalysisData-method}
 \alias{plotPCA,Analysis-method}
 \title{plotPCA}
 \usage{
@@ -11,9 +12,14 @@ plotPCA(analysis, cls = "class", label = NULL, scale = T,
   title = "Principle Component Analysis (PCA) plot",
   legendPosition = "bottom", labelSize = 2)
 
+\S4method{plotPCA}{AnalysisData}(analysis, cls = "class", label = NULL,
+  scale = T, center = T, xAxis = "PC1", yAxis = "PC2",
+  ellipses = T, title = "Principle Component Analysis (PCA)",
+  legendPosition = "bottom", labelSize = 2)
+
 \S4method{plotPCA}{Analysis}(analysis, cls = "class", label = NULL,
   scale = T, center = T, xAxis = "PC1", yAxis = "PC2",
-  ellipses = T, title = "Principle Component Analysis (PCA) plot",
+  ellipses = T, title = "Principle Component Analysis (PCA)",
   legendPosition = "bottom", labelSize = 2)
 }
 \arguments{

@@ -36,23 +36,23 @@ changeParameter <- function(parameterName,newValue,parameters) {
     },pars = pars)
     pars <- unlist(pars,recursive = F)
     
-    for (i in 1:length(pars)) {
-      parameters@preTreat[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
+    if (!is.null(pars)) {
+      for (i in 1:length(pars)) {
+        parameters@preTreat[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
+      }
     }
   }
   
-  if ('classification' %in% elements) {
-    pars <- names(parameters@classification)
-    if (parameterName %in% pars) {
-      parameters@classification[[parameterName]] <- newValue
-    }
-  }
-  
-  if ('featureSelection' %in% elements) {
-    pars <- names(parameters@featureSelection)
-    if (parameterName %in% pars) {
-      parameters@featureSelection[[parameterName]] <- newValue
-    }
+  if ('modelling' %in% elements) {
+    pars <- parameters@modelling %>%
+      map(~{
+        p <- .
+        if (parameterName %in% names(p)) {
+          p[[parameterName]] <- newValue
+        }
+        return(p)
+      })
+    parameters@modelling <- pars
   }
   
   if ('correlations' %in% elements) {

@@ -7,11 +7,12 @@
 \title{imputeAll}
 \usage{
 imputeAll(d, occupancy = 2/3, parallel = "variables",
-  nCores = detectCores() * 0.75, clusterType = "FORK", seed = 1234)
+  nCores = detectCores() * 0.75, clusterType = getClusterType(),
+  seed = 1234)
 
 \S4method{imputeAll}{AnalysisData}(d, occupancy = 2/3,
   parallel = "variables", nCores = detectCores() * 0.75,
-  clusterType = "FORK", seed = 1234)
+  clusterType = getClusterType(), seed = 1234)
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}

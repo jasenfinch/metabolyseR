@@ -8,9 +8,10 @@
 #' @importFrom tibble rowid_to_column
 #' @importFrom dplyr group_by summarise
 #' @importFrom ggplot2 scale_colour_manual geom_boxplot
+#' @importFrom stringr str_sub
 #' @examples 
 #' 
-#' library(FIEmspro)
+#' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
 #' p@preTreat <- list(
