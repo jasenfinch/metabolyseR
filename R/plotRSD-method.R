@@ -34,10 +34,10 @@
 #' }
 #' @export
 
-setMethod('plotRSD',signature = 'Analysis',
+setMethod('plotRSD',signature = 'AnalysisData',
           function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
-            d <- rawData(analysis)
-            i <- rawInfo(analysis)
+            d <- dat(analysis)
+            i <- sinfo(analysis)
             
             if (modes == T) {
               feat <- tibble(Feature = colnames(d)) %>%
@@ -73,7 +73,7 @@ setMethod('plotRSD',signature = 'Analysis',
                 gather('Feature','Intensity') %>%
                 group_by(Feature) %>%
                 summarise(RSD = sd(Intensity)/mean(Intensity))
-              })  %>%
+            })  %>%
               bind_rows(.id = 'Mode')
             
             medians <- rsd %>%
@@ -84,7 +84,7 @@ setMethod('plotRSD',signature = 'Analysis',
                      y = Inf,
                      hjust = 1.5,
                      vjust = 1.3)
-
+            
             pl <- ggplot() +
               geom_histogram(data = rsd,aes_string(x = 'RSD'),fill = ptol_pal()(5)[2],colour = 'black',bins = histBins) +
               geom_vline(data = medians,aes_string(xintercept = 'Median'),linetype = 2,colour = 'red',size = 1) +
@@ -99,6 +99,11 @@ setMethod('plotRSD',signature = 'Analysis',
                     axis.title = element_text(face = 'bold'))
             
             pl
-            
+          }
+)
+
+setMethod('plotRSD',signature = 'Analysis',
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
+            plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,modes = modes,histBins = histBins,title = title)
           }
 )
