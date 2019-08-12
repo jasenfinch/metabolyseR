@@ -1,5 +1,6 @@
 ---
 title: "metabolyseR"
+subtitle: "`r paste0('v',packageVersion('metabolyseR'))`"
 author: "Jasen Finch"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
@@ -13,15 +14,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r libraryLoad,echo=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-suppressPackageStartupMessages(library(metabolyseR))
-library(magrittr)
+```{r,include=FALSE}
+knitr::opts_chunk$set(fig.align = 'center')
 ```
 
 ## Introduction
 
-Extracting biological information  related to experimental treatments from metabolomics data involves a number of steps; data pre-treatment, assessing the extent discrimination between treatment classes and identifying explanatory features responsible for this discrimination.
+Extracting biological information  related to experimental treatments from metabolomics data involves a number of steps; data pre-treatment, assessing the extent of discrimination or association between treatment classes and identifying explanatory features responsible for this.
 The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis.
 Below shows the four analysis elements in that make up metabolyseR.
 
@@ -39,9 +38,19 @@ This allows more bespoke analyses to be performed based on the particular metabo
 With this in mind, it's application doesn't need to be restricted only to metabolomics data.
 These analysis elements could, for example, also be suitable for data such as gene expression data where replication allows.
 
-The examples shown here use the `abr1` data set from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package (`?FIEmspro::abr1`).
+The examples shown here use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
+
+```{r libraryLoad,message=FALSE}
+library(metabolyseR)
+library(metaboData)
+library(magrittr)
+
+data('abr1')
+```
 
 ## Basic Usage
+
+### Analysis data class
 
 *metabolyseR* has three main functions for performing analyses:
 
@@ -49,7 +58,7 @@ The examples shown here use the `abr1` data set from the *[FIEmspro](https://git
 * `metabolyse` - input data and info to analyse using the selected parameters.
 * `reAnalysis` - re-analyse data previously analysed using `metabolyse` based on newly selected parameters.
 
-### Parameter Selection
+#### Parameter Selection
 Parameter selection is the fundamental aspect of using *metabolyseR* and will be the most modified as it dictates how the analyses will be performed.
 `analysisParameters` returns an object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
 For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
@@ -126,7 +135,7 @@ p <- parseParameters(exampleParamFile)
 p
 ```
 
-### Analysis
+#### Analysis
 
 Executing analyses is simple using the `metabolyse` function with specification of the data to use, the sample meta-information (info) and the analysis parameters.
 This is shown by the following code.
@@ -159,7 +168,7 @@ Data and analysis results can be extracted from this object using the following 
 If data pre-treatment has not been performed prior to classification or feature selection, the raw data will automatically be used.
 The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
 
-### Re-Analysis
+#### Re-Analysis
 
 There are likely to be occasions where analyses need to be re-analysed using a new set of parameters. 
 `reAnalyse` can be used for this.
@@ -252,7 +261,7 @@ args <- unlist(args)
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::removeMethods())
 defaults <- lapply(metabolyseR:::removeMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
 defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
 defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
 if (T %in% (sapply(defaults,length) > 1)) {
@@ -281,7 +290,7 @@ args <- unlist(args)
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::correctionMethods())
 defaults <- lapply(metabolyseR:::correctionMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
 defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
 defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
 if (T %in% (sapply(defaults,length) > 1)) {
@@ -312,7 +321,7 @@ args <- unlist(args)
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::aggregateMethods())
 defaults <- lapply(metabolyseR:::aggregateMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
 defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
 defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
 if (T %in% (sapply(defaults,length) > 1)) {
@@ -388,7 +397,7 @@ args <- unlist(args)
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::QCMethods())
 defaults <- lapply(metabolyseR:::QCMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
 defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
 defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
 if (T %in% (sapply(defaults,length) > 1)) {
@@ -421,7 +430,7 @@ args <- unlist(args)
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::imputeMethods())
 defaults <- lapply(metabolyseR:::imputeMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
 defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
 defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
 if (T %in% (sapply(defaults,length) > 1)) {
@@ -455,7 +464,7 @@ if (T %in% sapply(args,function(x){grepl("''",x)})) {
 desc <- unlist(lapply(desc,function(x){return(x$description)}))
 meth <- names(metabolyseR:::transformMethods())
 defaults <- lapply(metabolyseR:::transformMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
 if (T %in% sapply(defaults,is.null)) {
   defaults[sapply(defaults,is.null)] <- lapply(defaults[sapply(defaults,is.null)],function(x){c(`''` = '')})
 }
@@ -475,97 +484,43 @@ tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defau
 knitr::kable(tab)
 ```
 
-## Classification
+## Modelling
 
-Classification assesses the extent of discrimination between sample classes.
-This analysis element utilises the `accest` function from the *[FIEmspro](https://github.com/wilsontom/FIEmspro)* package.
-It uses re-sampling based methods on a pairwise comparison basis where the data are partitioned into training and test sets.
-The training set is used to build the initial model based on a specified algorithm which is then used to predict the class labels of the test set.
-This allows the assessment of a models accuracy, AUC and margin.
-The re-sampling process is repeated numerous times allowing mean aggregation of these classification measures.
-Binary class comparisons of all class combinations are run separately around which the method is parallised.
+Modelling provides the essential data mining step for extracting biological information from a data set relating to experimental conditions.
+`metabolyseR` provides a number of both univariate and multivariate methods for data mining.
 
-The default parameters for classification are shown below.
+The default parameters for modelling using Random Forest are shown below.
 
-```{r classificationParameters}
-parameters <- analysisParameters('classification')
+```{r modellingParameters}
+parameters <- analysisParameters('modelling')
 parameters
 ```
 
-These parameters denote the following:
+Parameters for alternative methods or multiple methods can be retreived using the `modellingParameters()` function as shown below.
 
-* `cls` - The info column to use for class labels.
-* `method` - The classifier to use (`randomForest`, `svm`, `nlda`). More than one can be selected at a time.
-* `pairwises` - Optional vector of specific pairwise comparisons to analyse in the form of `'Class1~Class2'`.
-* `pars` - Classification parameters to be passed to `valipars` (`?FIEmspro::valipars`).
-* `nCores` - The number of cores to use for parallelisation.
-* `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
+```{r changeModellingParameters}
+parameters@modelling <- modellingParameters(c('randomForest','ttest'))
+parameters
+```
 
-This classification analysis can then be performed on the pre-treated data from the previous section.
+Descriptions of each of the parameters can be found in the documentation for a particular method (see table below). 
+
+Modelling analysis can then be performed on the pre-treated data from the previous section.
 
 ```{r classificationAnalysis,eval=FALSE}
 analysis <- reAnalyse(analysis,parameters)
 ```
 
-The classification results will then be returned as a table containing the accuracy, AUCs and margins for each iteration, method and pairwise.
+The modelling results will then be returned as a list within the `Analysis` object containing the results object for each method.
 
-## Feature Selection
+The table below outlines the modelling methods currently available:
 
-Where discrimination exists between sample classes it is important to identify the variables (features) that are responsible for this.
-Feature selection methods provides a means of ranking variables relative to their contribution to the class discrimination and whether this is significant.
-Explanatory features can then be targeted for further analyses such as annotation which can allow interpretation of their trends in a biological context.
-
-The default parameters for feature selection are shown below.
-
-```{r featureSelectionParameters}
-parameters <- analysisParameters('featureSelection')
-parameters
-```
-
-These parameters denote the following:
-
-* `method` - The feature selection method to use (see table below). More than one can be selected at a time.
-* `cls` - The info column to use for class labels.
-* `pairwises` - Optional vector of specific pairwise comparisons to analyse in the form of `'Class1~Class2'`.
-* `pars` - Parameters for each feature selection method given as a named list. See table below.
-* `nCores` - The number of cores to use for parallelisation.
-* `clusterType` - The cluster type to use for parallelisation (`?parallel::makeCluster`).
-
-This feature selection analysis can then be performed using the following.
-
-```{r featureSelectionExample,eval=FALSE}
-analysis <- reAnalyse(analysis,parameters)
-```
-
-The results will be returned as a table containing the scores and *p* values for each variable, pairwise and method.
-
-There are a number of methods available which are shown in the table below.
-
-```{r fsMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::fsMethods(description = T)
-args <- lapply(desc,function(x){return(x$arguments)})
-args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
-args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
-if (T %in% (sapply(args,length) > 1)) {
-  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
-}
-args <- unlist(args)
-score <- unlist(lapply(desc,function(x){return(x$score)}))
-Pvalue <- unlist(lapply(desc,function(x){return(x$Pvalue)}))
-type <- unlist(lapply(desc,function(x){return(x$type)}))
-desc <- unlist(lapply(desc,function(x){return(x$description)}))
-meth <- names(metabolyseR:::fsMethods())
-defaults <- lapply(metabolyseR:::fsMethods(),formals)
-defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
-defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
-defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
-if (T %in% (sapply(defaults,length) > 1)) {
-  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
-}
-defaults <- unlist(defaults)
-tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults, Score = score,`p value` = Pvalue,Type = type)
-
-knitr::kable(tab)
+```{r modellingMethods,echo=FALSE,results='asis'}
+metabolyseR:::modellingMethods(description = T) %>%
+  purrr::map(tibble::as_tibble) %>%
+  dplyr::bind_rows(.id = 'Method') %>%
+  {set_colnames(.,stringr::str_to_title(colnames(.)))} %>%
+  knitr::kable()
 ```
 
 ## Correlations
@@ -607,13 +562,8 @@ The results will be returned as a table containing the significantly correlated 
     + `plotLDA()` - linear discriminant analysis results of pre-treated data
     + `plotUnsupervisedRF()` - MDS of unsupervised random forest proximities of pre-treated data  
     + `plotSupervisedRF()` - MDS of supervised random forest proximities of pre-treated data
-
-* classification
-    + `plotClassification()` - classification measures of pairwise comparisons
-    + `plotClassificationDendrogram()` - dendrogram of classification results
-
-* feature selection
-    + `plotFeatureSelecton()` - feature selection scores of pairwise comparisons
+    
+* modelling
     + `plotExplanatoryHeatmap()` - heat map of explanatory features
     + `plotFeature()` - feature trends
 

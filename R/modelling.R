@@ -57,10 +57,13 @@ modellingMethods <- function(method = NULL, description = F){
   
   descriptions = list(
     ttest = list(description = 'Welch t-test',
+                 type = 'Univariate',
                  documentation = '?ttest'),
     linearRegression = list(description = 'Linear regression',
+                            type = 'Univariate',
                             documentation = '?linearRegression'),
     randomForest = list(description = 'Random forest classification, regression or unsupervised',
+                        type = 'Multivariate',
                         documentation = '?randomForest')
   )
   

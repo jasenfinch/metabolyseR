@@ -4,17 +4,21 @@
 \name{explanatoryFeatures}
 \alias{explanatoryFeatures}
 \alias{explanatoryFeatures,Univariate-method}
+\alias{explanatoryFeatures,RandomForest-method}
 \title{explanatoryFeatures}
 \usage{
 explanatoryFeatures(x, ...)
 
-\S4method{explanatoryFeatures}{Univariate}(x, threshold)
+\S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
+
+\S4method{explanatoryFeatures}{RandomForest}(x,
+  measure = "FalsePositiveRate", threshold = 0.05)
 }
 \arguments{
-\item{x}{S4 object of class Analysis, RandomForest or Univariate}
+\item{x}{S4 object of class RandomForest or Univariate}
 
 \item{...}{arguments to parse to method for specific class}
 }
 \description{
-Extract explanatory features for modelling results
+Extract explanatory features from modelling results.
 }
