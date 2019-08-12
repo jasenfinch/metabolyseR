@@ -55,20 +55,18 @@ setMethod('plotRSD',signature = 'AnalysisData',
               names(d) <- ''
             }
             
-            parameters <- analysisParameters('preTreat')
+            
             if (is.null(QCparameters)) {
-              parameters@preTreat <- list(
+              QCparameters <- analysisParameters('preTreat')
+              QCparameters@preTreat <- list(
                 keep = list(classes = list(cls = cls,classes = QCidx)),
                 occupancyFilter = list(maximum = list(cls = cls,occupancy = 2/3)),
-                impute = list(all = list(occupancy = 2/3,parallel = 'variables',nCores = detectCores() * 0.75,clusterType = getClusterType(),seed = 1234)),
-                transform = list(TICnorm = list())
+                impute = list(all = list(occupancy = 2/3,parallel = 'variables',nCores = detectCores() * 0.75,clusterType = getClusterType(),seed = 1234))
               )
-            } else {
-              parameters@preTreat <- QCparameters
             }
             
             rsd <- map(d,~{
-              metabolyse(.,info = i, parameters = parameters,verbose = F) %>%
+              metabolyse(.,info = i, parameters = QCparameters,verbose = F) %>%
                 preTreatedData() %>%
                 gather('Feature','Intensity') %>%
                 group_by(Feature) %>%
