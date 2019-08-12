@@ -34,49 +34,44 @@
 #' }
 #' @export
 
-setMethod('plotRSD',signature = 'Analysis',
+setMethod('plotRSD',signature = 'AnalysisData',
           function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
-            dat <- rawData(analysis)
-            info <- rawInfo(analysis)
-            
-            classes <- unlist(unique(info[,cls]))[!(unlist(unique(info[,cls])) %in% QCidx)] %>%
-              as.character()
+            d <- dat(analysis)
+            i <- sinfo(analysis)
             
             if (modes == T) {
-              feat <- tibble(Feature = colnames(dat)) %>%
+              feat <- tibble(Feature = colnames(d)) %>%
                 mutate(Mode = str_extract(Feature,'[:alpha:]')) 
-              dat <- feat %>%
+              d <- feat %>%
                 select(Mode) %>%
                 unique() %>%
                 unlist() %>%
                 map(~{
-                  dat[,feat$Mode == .]
+                  d[,feat$Mode == .]
                 })
-              names(dat) <- unique(feat$Mode)
+              names(d) <- unique(feat$Mode)
             } else {
-              dat <- list(dat)
-              names(dat) <- ''
+              d <- list(d)
+              names(d) <- ''
             }
             
-            parameters <- analysisParameters('preTreat')
+            
             if (is.null(QCparameters)) {
-              parameters@preTreat <- list(
-                remove = list(class = list(cls = cls,classes = classes)),
+              QCparameters <- analysisParameters('preTreat')
+              QCparameters@preTreat <- list(
+                keep = list(classes = list(cls = cls,classes = QCidx)),
                 occupancyFilter = list(maximum = list(cls = cls,occupancy = 2/3)),
-                impute = list(all = list(occupancy = 2/3,nCores = detectCores()/2)),
-                transform = list(TICnorm = list())
+                impute = list(all = list(occupancy = 2/3,parallel = 'variables',nCores = detectCores() * 0.75,clusterType = getClusterType(),seed = 1234))
               )
-            } else {
-              parameters@preTreat <- QCparameters
             }
             
-            rsd <- map(dat,~{
-              d <- metabolyse(.,info = info, parameters = parameters,verbose = F) %>%
+            rsd <- map(d,~{
+              metabolyse(.,info = i, parameters = QCparameters,verbose = F) %>%
                 preTreatedData() %>%
                 gather('Feature','Intensity') %>%
                 group_by(Feature) %>%
                 summarise(RSD = sd(Intensity)/mean(Intensity))
-              })  %>%
+            })  %>%
               bind_rows(.id = 'Mode')
             
             medians <- rsd %>%
@@ -87,7 +82,7 @@ setMethod('plotRSD',signature = 'Analysis',
                      y = Inf,
                      hjust = 1.5,
                      vjust = 1.3)
-
+            
             pl <- ggplot() +
               geom_histogram(data = rsd,aes_string(x = 'RSD'),fill = ptol_pal()(5)[2],colour = 'black',bins = histBins) +
               geom_vline(data = medians,aes_string(xintercept = 'Median'),linetype = 2,colour = 'red',size = 1) +
@@ -102,6 +97,14 @@ setMethod('plotRSD',signature = 'Analysis',
                     axis.title = element_text(face = 'bold'))
             
             pl
-            
+          }
+)
+
+#' @rdname plotRSD
+#' @export
+
+setMethod('plotRSD',signature = 'Analysis',
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
+            plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,modes = modes,histBins = histBins,title = title)
           }
 )
