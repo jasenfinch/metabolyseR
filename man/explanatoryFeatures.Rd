@@ -18,6 +18,10 @@ explanatoryFeatures(x, ...)
 \item{x}{S4 object of class RandomForest or Univariate}
 
 \item{...}{arguments to parse to method for specific class}
+
+\item{threshold}{threshold below which explanatory features are extracted}
+
+\item{measure}{importance measure on which to retrieve explanatory feautres}
 }
 \description{
 Extract explanatory features from modelling results.

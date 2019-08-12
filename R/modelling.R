@@ -145,6 +145,8 @@ setMethod('modellingResults',signature = 'Analysis',
 #' @rdname explanatoryFeatures
 #' @description Extract explanatory features from modelling results.
 #' @param x S4 object of class RandomForest or Univariate
+#' @param measure importance measure on which to retrieve explanatory feautres
+#' @param threshold threshold below which explanatory features are extracted
 #' @param ... arguments to parse to method for specific class
 #' @export
 
