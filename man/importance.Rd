@@ -4,15 +4,18 @@
 \name{importance}
 \alias{importance}
 \alias{importance,RandomForest-method}
+\alias{importance,Univariate-method}
 \title{importance}
 \usage{
 importance(x)
 
 \S4method{importance}{RandomForest}(x)
+
+\S4method{importance}{Univariate}(x)
 }
 \arguments{
-\item{x}{S4 object of class RandomForest}
+\item{x}{S4 object of class RandomForest or Univariate}
 }
 \description{
-return feature importance resutls from a RandomForest object
+return feature importance resutls from a RandomForest or Univariate classes
 }

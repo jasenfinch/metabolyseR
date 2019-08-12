@@ -137,3 +137,40 @@ setMethod('modellingResults',signature = 'Analysis',
             x@modelling
           }
 )
+
+#' explanatoryFeatures
+#' @rdname explanatoryFeatures
+#' @description Extract explanatory features from modelling results.
+#' @param x S4 object of class RandomForest or Univariate
+#' @param ... arguments to parse to method for specific class
+#' @export
+
+setMethod('explanatoryFeatures',signature = 'Univariate',
+          function(x,threshold = 0.05){
+            importance(x) %>%
+              filter(adjusted.p.value < threshold)
+          }
+) 
+
+#' @rdname explanatoryFeatures
+#' @export
+
+setMethod('explanatoryFeatures',signature = 'RandomForest',
+          function(x,measure = 'FalsePositiveRate', threshold = 0.05){
+            explan <- importance(x) %>%
+              filter(Measure == measure)
+            
+            if ('adjustedPvalue' %in% colnames(explan)) {
+              explan <- explan %>%
+                filter(adjustedPvalue < threshold)
+            } else {
+              message('Permutation results not found, using measure value instead.')
+              explan <- explan %>%
+                filter(Value < threshold)
+            }
+            
+            return(explan)
+          }
+) 
+
+
