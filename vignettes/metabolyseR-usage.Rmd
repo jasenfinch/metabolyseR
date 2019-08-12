@@ -22,7 +22,7 @@ knitr::opts_chunk$set(fig.align = 'center')
 
 Extracting biological information  related to experimental treatments from metabolomics data involves a number of steps; data pre-treatment, assessing the extent of discrimination or association between treatment classes and identifying explanatory features responsible for this.
 The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis.
-Below shows the four analysis elements in that make up metabolyseR.
+Below shows the three analysis elements in that make up metabolyseR.
 
 <center>
 ```{r metabolyseRDiagram,echo=FALSE,fig.width=8}
@@ -69,10 +69,10 @@ parameters <- analysisParameters()
 parameters
 ```
 
-To retrieve parameters for a subset of elements the following can be run, which will return parameters for only the `preTreat` and   `classification` elements. 
+To retrieve parameters for a subset of elements the following can be run, which will return parameters for only the `preTreat` and `modelling` elements. 
 
-```{r parametersElementSubset,eval=FALSE}
-parameters <- analysisParameters(c('preTreat','classification'))
+```{r parametersElementSubset}
+parameters <- analysisParameters(c('preTreat','modelling'))
 parameters
 ```
 
@@ -160,12 +160,11 @@ Data and analysis results can be extracted from this object using the following 
 * `rawData()` - raw data.
 * `rawInfo()` - raw info.
 * `preTreatedData()` - pre-treated data.
-* `preTreatedData()` - pre-treated info.
-* `classificationResults()` - classification results.
-* `featureSelectionResults()` - feature selection results.
+* `preTreatedInfo()` - pre-treated info.
+* `modellingResults()` - modelling results.
 * `correlationResults()` - correlation results.
 
-If data pre-treatment has not been performed prior to classification or feature selection, the raw data will automatically be used.
+If data pre-treatment has not been performed prior to modelling, the raw data will automatically be used.
 The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
 
 #### Re-Analysis
