@@ -5,8 +5,8 @@ digraph preTreat {
 
   # several 'node' statements
   node [style = filled,shape = box,fontname = Helvetica, fontsize = 14, fillcolor = white color = black]
-  preTreat; remove; correction; aggregate; occupancyFilter; QC; impute; transform
+  preTreat; remove; keep; correction; aggregate; occupancyFilter; QC; impute; transform
 
   # several 'edge' statements
-  preTreat -> {remove correction aggregate occupancyFilter QC impute transform} 
+  preTreat -> {remove keep correction aggregate occupancyFilter QC impute transform} 
 }
