@@ -52,8 +52,6 @@ data('abr1')
 
 ## Basic Usage
 
-### Analysis data class
-
 *metabolyseR* has three main functions for performing analyses:
 
 * `analysisParameters` - allows the selection of analysis parameters.
