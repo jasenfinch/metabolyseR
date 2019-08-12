@@ -261,6 +261,11 @@ setGeneric("importance", function(x) {
   standardGeneric("importance")
 })
 
+#' @rdname explanatoryFeatures
+setGeneric('explanatoryFeatures', function(x,...) {
+  standardGeneric("explanatoryFeatures")
+})
+
 #' @rdname plotImportance
 setGeneric("plotImportance", function(x,...) {
   standardGeneric("plotImportance")

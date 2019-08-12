@@ -89,7 +89,7 @@ setMethod('ttest',signature = 'AnalysisData',
             res@results <- results
             
             if (returnModels == T) {
-             res@models <- models
+              res@models <- models
             } 
             
             return(res)
@@ -137,7 +137,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
             results <- models %>%
               map(~{
                 map(.,~{
-                    glance(.)
+                  glance(.)
                 }) %>%
                   bind_rows(.id = 'Feature') %>%
                   mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))

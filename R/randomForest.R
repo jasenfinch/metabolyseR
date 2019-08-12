@@ -716,13 +716,22 @@ setMethod('measures',signature = 'RandomForest',
 
 #' importance
 #' @rdname importance
-#' @description return feature importance resutls from a RandomForest object
-#' @param x S4 object of class RandomForest
+#' @description return feature importance resutls from a RandomForest or Univariate classes
+#' @param x S4 object of class RandomForest or Univariate
 #' @export
 
 setMethod('importance',signature = 'RandomForest',
           function(x){
             x@results$importances
+          }
+)
+
+#' @rdname importance
+#' @export
+
+setMethod('importance',signature = 'Univariate',
+          function(x){
+            x@results
           }
 )
 
