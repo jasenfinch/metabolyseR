@@ -36,42 +36,39 @@
 
 setMethod('plotRSD',signature = 'Analysis',
           function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
-            dat <- rawData(analysis)
-            info <- rawInfo(analysis)
-            
-            classes <- unlist(unique(info[,cls]))[!(unlist(unique(info[,cls])) %in% QCidx)] %>%
-              as.character()
+            d <- rawData(analysis)
+            i <- rawInfo(analysis)
             
             if (modes == T) {
-              feat <- tibble(Feature = colnames(dat)) %>%
+              feat <- tibble(Feature = colnames(d)) %>%
                 mutate(Mode = str_extract(Feature,'[:alpha:]')) 
-              dat <- feat %>%
+              d <- feat %>%
                 select(Mode) %>%
                 unique() %>%
                 unlist() %>%
                 map(~{
-                  dat[,feat$Mode == .]
+                  d[,feat$Mode == .]
                 })
-              names(dat) <- unique(feat$Mode)
+              names(d) <- unique(feat$Mode)
             } else {
-              dat <- list(dat)
-              names(dat) <- ''
+              d <- list(d)
+              names(d) <- ''
             }
             
             parameters <- analysisParameters('preTreat')
             if (is.null(QCparameters)) {
               parameters@preTreat <- list(
-                remove = list(class = list(cls = cls,classes = classes)),
+                keep = list(classes = list(cls = cls,classes = QCidx)),
                 occupancyFilter = list(maximum = list(cls = cls,occupancy = 2/3)),
-                impute = list(all = list(occupancy = 2/3,nCores = detectCores()/2)),
+                impute = list(all = list(occupancy = 2/3,parallel = 'variables',nCores = detectCores() * 0.75,clusterType = getClusterType(),seed = 1234)),
                 transform = list(TICnorm = list())
               )
             } else {
               parameters@preTreat <- QCparameters
             }
             
-            rsd <- map(dat,~{
-              d <- metabolyse(.,info = info, parameters = parameters,verbose = F) %>%
+            rsd <- map(d,~{
+              metabolyse(.,info = i, parameters = parameters,verbose = F) %>%
                 preTreatedData() %>%
                 gather('Feature','Intensity') %>%
                 group_by(Feature) %>%

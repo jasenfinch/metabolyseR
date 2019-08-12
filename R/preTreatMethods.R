@@ -8,6 +8,10 @@ preTreatMethods <- function(method = NULL){
         lapply(params,removeMethods)
       },
       
+      keep = function(params){
+        lapply(params,keepMethods)
+      },
+      
       transform = function(params){
         lapply(params,transformMethods)
       },
