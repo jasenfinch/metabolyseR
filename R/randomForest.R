@@ -6,6 +6,10 @@ permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
     select(cls) %>%
     unlist(use.names = F)
   
+  if (is.character(i) | is.factor(i)) {
+    i <- factor(i)
+  }
+  
   if (nPerm(length(i),length(unique(i))) < n) {
     n <- nPerm(length(i),length(unique(i)))
   }
