@@ -33,6 +33,6 @@ setMethod('plotUnsupervisedRF', signature = 'Analysis',
               d <- x@rawData
             }
             
-            plotUnsupervisedRF(x,cls = cls,rf = rf,label = label,ellipses = ellipses,seed = seed,title = title,legendPosition = legendPosition,labelSize = labelSize)
+            plotUnsupervisedRF(d,cls = cls,rf = rf,label = label,ellipses = ellipses,seed = seed,title = title,legendPosition = legendPosition,labelSize = labelSize)
           }
 )
