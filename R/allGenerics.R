@@ -11,6 +11,11 @@ setGeneric("correlations", function(x) {
   standardGeneric("correlations")
 })
 
+#' @rdname raw
+setGeneric("raw", function(x) {
+  standardGeneric("raw")
+})
+
 #' @rdname rawData
 setGeneric("rawData", function(x) {
   standardGeneric("rawData")
@@ -19,6 +24,11 @@ setGeneric("rawData", function(x) {
 #' @rdname rawInfo
 setGeneric("rawInfo", function(x) {
   standardGeneric("rawInfo")
+})
+
+#' @rdname preTreated
+setGeneric("preTreated", function(x) {
+  standardGeneric("preTreated")
 })
 
 #' @rdname preTreatedData
