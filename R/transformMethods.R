@@ -26,13 +26,13 @@ setMethod('transformAuto',signature = 'AnalysisData',
 
 #' transformRange
 #' @rdname transformRange
-#' @description Range scaling of sample data.
+#' @description Range scaling of sample data. Also known as min-max scaling.
 #' @param d S4 object of class AnalysisData 
 #' @export
 
 setMethod('transformRange',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / (max(.,na.rm = T) - min(.,na.rm = T))})
+            dat(d) <- map_df(d %>% dat(),~{(. - min(.,na.rm = T)) / (max(.,na.rm = T) - min(.,na.rm = T))})
             return(d)
           }
 )
