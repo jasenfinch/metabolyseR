@@ -3,5 +3,5 @@ globalVariables(c('Predictor','Feature','Sample2','Comparison','Measure','Value'
                   'Permutation','.metric','Class','Intensity','Feature1','p','n','Feature2','Intensity1','Intensity2',
                   'log2IntensityRatio','r','ID','Sample','Rep','Count','Occupancy','adjustedPvalue','adjusted.p.value',
                   'Label','predictor','-log10(p)','DF1','Sample1','Proximity','Dimension 1','Dimension 2','x','.level',
-                  'sensitivity','specificity','Mode','RSD','Median','Colour','Index','TIC','y','label'
+                  'sensitivity','specificity','Mode','RSD','Median','Colour','Index','TIC','y','label','batch','correction'
                   ))

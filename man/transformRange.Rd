@@ -14,5 +14,5 @@ transformRange(d)
 \item{d}{S4 object of class AnalysisData}
 }
 \description{
-Range scaling of sample data.
+Range scaling of sample data. Also known as min-max scaling.
 }
