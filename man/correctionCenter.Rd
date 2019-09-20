@@ -6,10 +6,12 @@
 \alias{correctionCenter,AnalysisData-method}
 \title{correctionCenter}
 \usage{
-correctionCenter(d, block = "block", type = "median")
+correctionCenter(d, block = "block", type = "median",
+  nCores = detectCores() * 0.75, clusterType = getClusterType())
 
 \S4method{correctionCenter}{AnalysisData}(d, block = "block",
-  type = "median")
+  type = "median", nCores = detectCores() * 0.75,
+  clusterType = getClusterType())
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}
@@ -17,6 +19,10 @@ correctionCenter(d, block = "block", type = "median")
 \item{block}{info column containing sample block groupings to use for correction}
 
 \item{type}{averaging to use; eg. mean or median}
+
+\item{nCores}{number of cores for parallisation}
+
+\item{clusterType}{cluster type for parallisation}
 }
 \description{
 Batch correction using average centering.
