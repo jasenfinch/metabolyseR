@@ -7,12 +7,14 @@
 #' @export
 
 setMethod('correctionCenter',signature = 'AnalysisData',
-          function(d, block = 'block', type = 'median'){
+          function(d, block = 'block', type = 'median', nCores = detectCores() * 0.75, clusterType = getClusterType()){
             method <- get(type)
             batches <- sinfo(d)[,block] %>% unlist()
+            
+            clus <- makeCluster(nCores,type = clusterType)
+            
             dat(d) <- dat(d) %>%
-              map_df(~{
-                da <- .
+              parLapply(clus,.,function(da,batches,method){
                 batchMeans <- tibble(Intensity = da,batch = batches) %>%
                   group_by(batch) %>%
                   mutate(Intensity = Intensity) %>%
@@ -27,7 +29,11 @@ setMethod('correctionCenter',signature = 'AnalysisData',
                   unlist()
                 correct[correct < 0] <- 0
                 return(correct)
-              })
+              },batches = batches,method = method) %>%
+              as_tibble()
+            
+            stopCluster(clus)
+            
             return(d)
           }
 )
@@ -41,7 +47,9 @@ correctionMethods <- function(method = NULL, description = F){
     center = list(
       description = 'Batch correction using average centering.',
       arguments = c(block = 'info column containing sample block groupings to use for correction',
-                    type = 'averaging to use; eg. mean or median'
+                    type = 'averaging to use; eg. mean or median',
+                    nCores = 'number of cores for parallisation',
+                    clusterType = 'cluster type for parallisation'
       )
     )
   )

@@ -242,7 +242,7 @@ setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = d
 })
 
 #' @rdname  correctionCenter
-setGeneric("correctionCenter", function(d, block = 'block', type = 'median') {
+setGeneric("correctionCenter", function(d, block = 'block', type = 'median', nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("correctionCenter")
 })
 
