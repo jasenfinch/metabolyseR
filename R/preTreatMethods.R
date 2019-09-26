@@ -36,6 +36,14 @@ preTreatMethods <- function(method = NULL){
         lapply(params,correctionMethods)
       }
     )
+    
+    if (!(method %in% names(methods))) {
+      stop(str_c("Pre-treatment element '",
+                 method,
+                 "' not recognised. Available elements include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
+    }
+    
     method <- methods[[method]]
     return(method)
   }
