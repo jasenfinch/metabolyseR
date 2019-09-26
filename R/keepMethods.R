@@ -62,6 +62,13 @@ keepMethods <- function(method = NULL, description = F){
                      arguments = c(variables = 'variables to keep'))
   )
   
+  if (!(method %in% names(methods))) {
+    stop(str_c("Keep method '",
+               method,
+               "' not recognised. Available methods include: ",
+               str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
+  }
+  
   if (description == F) {
     if (is.null(method)) {
       method <- methods

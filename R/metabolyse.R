@@ -50,7 +50,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
   )
     
   elements <- slotNames(analysis@parameters)
-  elements <- elements[sapply(elements,function(x,parameters){length(slot(parameters,x))},parameters = analysis@parameters) > 0]
+  elements <- elements[map_dbl(elements,~{length(slot(analysis@parameters,.))}) > 0]
   
   for (i in elements) {
     method <- get(i)
