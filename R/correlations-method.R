@@ -4,7 +4,8 @@
 #' @param x S4 object of class AnalysisData
 #' @param method correlation method. One of \code{'pearson'} or \code{'spearman'}.
 #' @param pAdjustMethod p-value adjustment method. See \code{?p.adjust} for availabl methods.
-#' @param corPvalue p-value cutoff threshold for significance.
+#' @param corPvalue p-value cutoff threshold for significance
+#' @param ... arguments to pass to specific method
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust na.omit
 #' @importFrom dplyr filter bind_cols left_join rename select mutate distinct
@@ -60,6 +61,8 @@ setMethod('correlations',signature = 'AnalysisData',
             
             return(rs)
           })
+
+#' @rdname correlations
 
 setMethod("correlations", signature = "Analysis",
           function(x){

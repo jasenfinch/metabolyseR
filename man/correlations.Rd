@@ -4,21 +4,26 @@
 \name{correlations}
 \alias{correlations}
 \alias{correlations,AnalysisData-method}
+\alias{correlations,Analysis-method}
 \title{correlations}
 \usage{
 correlations(x, ...)
 
 \S4method{correlations}{AnalysisData}(x, method = "pearson",
   pAdjustMethod = "bonferroni", corPvalue = 0.05)
+
+\S4method{correlations}{Analysis}(x)
 }
 \arguments{
 \item{x}{S4 object of class AnalysisData}
+
+\item{...}{arguments to pass to specific method}
 
 \item{method}{correlation method. One of \code{'pearson'} or \code{'spearman'}.}
 
 \item{pAdjustMethod}{p-value adjustment method. See \code{?p.adjust} for availabl methods.}
 
-\item{corPvalue}{p-value cutoff threshold for significance.}
+\item{corPvalue}{p-value cutoff threshold for significance}
 }
 \description{
 Calculate variable correlations.
