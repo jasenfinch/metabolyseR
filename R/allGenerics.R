@@ -7,7 +7,8 @@ setGeneric("modelling", function(x) {
   standardGeneric("modelling")
 })
 
-setGeneric("correlations", function(x) {
+#' @rdname correlations
+setGeneric("correlations", function(x,...) {
   standardGeneric("correlations")
 })
 

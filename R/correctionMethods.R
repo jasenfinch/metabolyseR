@@ -56,23 +56,28 @@ correctionMethods <- function(method = NULL, description = F){
     )
   )
   
-  if (!(method %in% names(methods))) {
-    stop(str_c("Correction method '",
-               method,
-               "' not recognised. Available methods include: ",
-               str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-  }
-  
   if (description == F) {
     if (is.null(method)) {
       method <- methods
     } else {
+      if (!(method %in% names(methods))) {
+        stop(str_c("Correction method '",
+                   method,
+                   "' not recognised. Available methods include: ",
+                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+      }
       method <- methods[[method]]
     }
   } else {
     if (is.null(method)) {
       method <- descriptions
     } else {
+      if (!(method %in% names(methods))) {
+        stop(str_c("Correction method '",
+                   method,
+                   "' not recognised. Available methods include: ",
+                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+      }
       method <- descriptions[[method]]
     }
   }

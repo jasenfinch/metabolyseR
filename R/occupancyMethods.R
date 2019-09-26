@@ -59,23 +59,28 @@ occupancyMethods <- function(method = NULL, description = F){
                                  occupancy = 'occupancy threshold'))
   )
   
-  if (!(method %in% names(methods))) {
-    stop(str_c("Occupancy method '",
-               method,
-               "' not recognised. Available methods include: ",
-               str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-  }
-  
   if (description == F) {
     if (is.null(method)) {
       method <- methods
     } else {
+      if (!(method %in% names(methods))) {
+        stop(str_c("Occupancy method '",
+                   method,
+                   "' not recognised. Available methods include: ",
+                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+      }
       method <- methods[[method]]
     }
   } else {
     if (is.null(method)) {
       method <- descriptions
     } else {
+      if (!(method %in% names(methods))) {
+        stop(str_c("Occupancy method '",
+                   method,
+                   "' not recognised. Available methods include: ",
+                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+      }
       method <- descriptions[[method]]
     }
   }
