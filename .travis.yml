@@ -1,13 +1,12 @@
 language: r
-
 sudo: required
 cache: packages
 bioc_required: true
 warnings_are_errors: true
 
 apt_packages:
- - libnetcdf-dev
- - netcdf-bin
+  - libnetcdf-dev
+  - netcdf-bin
 
 r:
   - release
@@ -17,9 +16,12 @@ r_github_packages:
   - thomasp85/patchwork
 
 after_success:
-    - Rscript -e 'library(covr); codecov()'
+  - Rscript -e 'library(covr); codecov()'
 
 notifications:
-    email:
+  email: false 
+  slack:
+    rooms:
+      secure: p9+5+rcOIsI3Q0po7Wv8//0JATDLIe0lQ1UDJN1bWU2e3f2QgpTzg+3vQYCSrJzPk8Alqs7VoC1DXY+by3gNSA7ZFuDHUkRQYvLlULSYJ82vsVTjlkFbETlNBIAbpYvGn0Jz71Z7JxKYGpWlVCELMXQtSZqGpW/OmE/jjeXJWy88+GueuEozIpylyVQksh9BWVB9HhWdc4qJ8+tGW6BSN2RIi6/ZQDfCrtAbAsQiKSEJU5x9dh9T/UnKCZIsCsBXdiNteZEjQJ5VMfR9nfA7OdB/Z75uabxF/u9jOy8UKOeDcUVrE9YLvg+e9+UVw4usICulV7VPF6nEi5BrYeVvjXIACLbk6kPptbNERmZuiGcQhlaLFUoJptLBN5ca1pfT4dzMtxbY92uJCo217wHrw4wFwJfIZqrOUaBJkZjQ63h0yIvnSGgC4VhxcP8WOomXB5znsqhu6PFQ+nt448TiERQfe6hEYGjy231x/gFZ3T1sOQ+0ASIwVzD1Du81WbN/ArPUiRdIagPST6m+SzClCii+rZ3VLeGuBmJhpsikIpkz+MCz6163d99cvEOZOEBwQQekK1GKa5x9HD7UPyUt6kUflXXMTpwtBYKMchl271Cvd9sXtFxVXUVvXhXc+c+unX8o6dWiFrtcVL+I4VZZoEyCVgzxzaKP9uPtdIBJWU0=
     on_success: change
     on_failure: change
