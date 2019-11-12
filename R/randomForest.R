@@ -416,7 +416,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
     x <- x %>%
       removeClasses(cls = cls,classes = clsRem$class)
     
-    warning(str_c('Classes with < 3 replicates removed: ',str_c(clsRem$class,collapse = ', ')),call. = F)
+    warning(str_c('Classes with < 3 replicates removed: ',str_c(str_c('"',clsRem$class,'"'),collapse = ', ')),call. = F)
     
     i <- x %>%
       sinfo() %>%
