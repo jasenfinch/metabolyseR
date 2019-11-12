@@ -393,7 +393,7 @@ supervised <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,n
 }
 
 #' @importFrom yardstick metric_set accuracy kap roc_auc
-#' @importFrom dplyr summarise_all
+#' @importFrom dplyr summarise_all group_by_all
 #' @importFrom stringr str_split
 #' @importFrom magrittr set_names
 
