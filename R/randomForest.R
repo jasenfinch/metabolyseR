@@ -399,9 +399,29 @@ supervised <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,n
 
 classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,nCores,clusterType){
   
+  
+  
   i <- x %>%
     sinfo() %>%
     select(cls)
+  
+  clsFreq <- i %>%
+    group_by_all() %>%
+    summarise(n = n())
+  
+  if (T %in% (clsFreq$n < 3)) {
+    clsRem <- clsFreq %>%
+      filter(n < 3)
+    
+    x <- x %>%
+      removeClasses(cls = cls,classes = clsRem$class)
+    
+    warning(str_c('Classes with < 3 replicates removed: ',str_c(clsRem$class,collapse = ', ')),call. = F)
+    
+    i <- x %>%
+      sinfo() %>%
+      select(cls)
+  }
   
   if (length(comparisons) > 0) {
     comp <- comparisons
