@@ -29,7 +29,7 @@ getClusterType <- function(){
 
 modellingParameters <- function(methods){
   
-  availableMethods <- c('ttest','linearRegression','randomForest')
+  availableMethods <- c('anova','ttest','linearRegression','randomForest')
   
   if (is.null(methods)) {
     cat('Available methods:\t',str_c(availableMethods,collapse = '\n\t\t\t'),sep = '')
@@ -50,12 +50,16 @@ modellingParameters <- function(methods){
 modellingMethods <- function(method = NULL, description = F){
   
   methods <- list(
+    anova = anova,
     ttest = ttest,
     linearRegression = linearRegression,
     randomForest = randomForest
   )
   
   descriptions = list(
+    anova = list(description = 'One-way ANOVA',
+                 type = 'Univariate',
+                 documentation = '?anova'),
     ttest = list(description = 'Welch t-test',
                  type = 'Univariate',
                  documentation = '?ttest'),
