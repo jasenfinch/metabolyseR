@@ -247,6 +247,11 @@ setGeneric("correctionCenter", function(d, block = 'block', type = 'median', nCo
   standardGeneric("correctionCenter")
 })
 
+#' @rdname anova
+setGeneric("anova", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+  standardGeneric("anova")
+})
+
 #' @rdname ttest
 setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("ttest")

@@ -21,7 +21,7 @@
 #'     occupancyFilter = list(maximum = list()),
 #'     transform = list(TICnorm = list())
 #' )
-#' p@modelling <- modellingParameters('ttest')
+#' p@modelling <- modellingParameters('anova')
 #' p <- changeParameter('cls','day',p)
 #' p <- changeParameter('nCores',2,p)
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
