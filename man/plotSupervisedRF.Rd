@@ -15,6 +15,7 @@ plotSupervisedRF(
   ROC = T,
   seed = 1234,
   title = "MDS plot of a supervised random forest",
+  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -28,6 +29,7 @@ plotSupervisedRF(
   ROC = T,
   seed = 1234,
   title = "",
+  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -41,6 +43,7 @@ plotSupervisedRF(
   ROC = T,
   seed = 1234,
   title = "",
+  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -62,7 +65,9 @@ plotSupervisedRF(
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
+\item{legend}{TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.}
+
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }

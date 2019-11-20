@@ -5,14 +5,16 @@
 \alias{plotROC,RandomForest-method}
 \title{plotROC}
 \usage{
-plotROC(x, title = "")
+plotROC(x, title = "", legend = TRUE)
 
-\S4method{plotROC}{RandomForest}(x, title = "")
+\S4method{plotROC}{RandomForest}(x, title = "", legend = TRUE)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}
 
 \item{title}{plot title}
+
+\item{legend}{TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.}
 }
 \description{
 plot reciever operator characteristic curves for a RandomForest object.

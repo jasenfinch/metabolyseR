@@ -10,7 +10,8 @@
 #' @param yAxis principle component to plot on the y-axis
 #' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
@@ -29,7 +30,7 @@
 #' @export
 
 setMethod('plotPCA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             
             pca <- prcomp(dat(analysis),scale. = scale,center = center)
             
@@ -106,16 +107,26 @@ setMethod('plotPCA',signature = 'AnalysisData',
             pl <- pl +
               geom_point(aes(colour = Class,shape = Class)) +
               theme_bw() +
-              theme(plot.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'),
-                    legend.title = element_text(face = 'bold'),
-                    legend.position = legendPosition) +
               labs(title = title,
                    x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
                    y = str_c(yAxis,' (Var: ',var[yAxis],'%)')) +
               coord_fixed()
-            return(pl)
             
+            if (legend == TRUE) {
+              pl <- pl +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'),
+                      legend.position = legendPosition)
+            } else {
+              pl <- pl +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'),
+                      legend.position = 'none')
+            }
+            
+            return(pl)
           }
 )
 
@@ -123,13 +134,13 @@ setMethod('plotPCA',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotPCA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             if (ncol(analysis@preTreated %>% dat()) > 0) {
               d <- analysis@preTreated
             } else {
               d <- analysis@rawData
             }
             
-            plotPCA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
+            plotPCA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, ellipses = ellipses, title = title, legend = legend, legendPosition = legendPosition, labelSize = labelSize)
           }
 )

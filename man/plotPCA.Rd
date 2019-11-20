@@ -16,6 +16,7 @@ plotPCA(
   yAxis = "PC2",
   ellipses = T,
   title = "Principle Component Analysis (PCA) plot",
+  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -30,6 +31,7 @@ plotPCA(
   yAxis = "PC2",
   ellipses = T,
   title = "Principle Component Analysis (PCA)",
+  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -44,6 +46,7 @@ plotPCA(
   yAxis = "PC2",
   ellipses = T,
   title = "Principle Component Analysis (PCA)",
+  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -67,7 +70,9 @@ plotPCA(
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}}
+\item{legend}{TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.}
+
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }
