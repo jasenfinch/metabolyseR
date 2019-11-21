@@ -10,7 +10,8 @@
 #' @param yAxis principle component to plot on the y-axis
 #' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @examples 
 #' 
@@ -27,7 +28,7 @@
 #' @export
 
 setMethod('plotLDA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             
             info <- sinfo(analysis) %>%
               select(cls)
@@ -108,15 +109,26 @@ setMethod('plotLDA',signature = 'AnalysisData',
               pl <- pl +
                 geom_point(aes(colour = Class,shape = Class)) +
                 theme_bw() +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      legend.position = 'bottom'
-                ) +
                 labs(title = title,
                      x = str_c(xAxis,' (Tw: ',tw[xAxis],')'),
                      y = str_c(yAxis,' (Tw: ',tw[yAxis],')')) +
                 coord_fixed()
+              
+              if (legend == TRUE) {
+                pl <- pl +
+                  theme(plot.title = element_text(face = 'bold'),
+                        axis.title = element_text(face = 'bold'),
+                        legend.title = element_text(face = 'bold'),
+                        legend.position = 'bottom'
+                  )
+              } else {
+                pl <- pl +
+                  theme(plot.title = element_text(face = 'bold'),
+                        axis.title = element_text(face = 'bold'),
+                        legend.title = element_text(face = 'bold'),
+                        legend.position = 'none'
+                  )
+              }
             } else {
               pl <- lda %>%
                 ggplot(aes(x = Class,y = DF1,colour = Class,shape = Class)) +

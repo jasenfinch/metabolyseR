@@ -29,5 +29,5 @@ test_that('plotExplanatoryHeatmap returns a plot',{
   
   pl <- plotExplanatoryHeatmap(rf$injorder)
   
-  expect_identical(class(pl),c("ggassemble","gg","ggplot"))
+  expect_identical(class(pl),c("patchwork","gg","ggplot"))
 })
