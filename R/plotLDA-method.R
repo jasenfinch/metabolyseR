@@ -14,7 +14,7 @@
 #' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @examples 
-#' 
+#' \dontrun{
 #' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
@@ -24,6 +24,7 @@
 #' )
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)
 #' plotLDA(analysis,cls = 'day')
+#' }
 #' @importFrom ggplot2 stat_ellipse coord_fixed ylab
 #' @export
 

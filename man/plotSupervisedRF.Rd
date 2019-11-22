@@ -75,6 +75,7 @@ plotSupervisedRF(
 plotSupervisedRF
 }
 \examples{
+\dontrun{
 library(metaboData)
 data(abr1)
 p <- analysisParameters('preTreat')
@@ -85,4 +86,5 @@ p@preTreat <- list(
 analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 
 plotSupervisedRF(analysis,cls = 'day',label = 'name')
+}
 }

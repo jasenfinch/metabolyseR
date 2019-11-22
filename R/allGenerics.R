@@ -293,12 +293,41 @@ setGeneric("plotMeasures", function(x, predictor = 'class') {
 })
 
 #' @rdname plotMDS
-setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '',legend = TRUE, legendPosition = 'bottom', labelSize = 2) {
+setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2) {
   standardGeneric("plotMDS")
 })
 
 #' @rdname plotROC
-setGeneric("plotROC", function(x, title = '',legend = TRUE) {
+setGeneric("plotROC", function(x, title = '', legend = TRUE) {
   standardGeneric("plotROC")
 })
 
+#' @rdname changeParameter
+setGeneric("changeParameter", function(parameters,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
+  standardGeneric("changeParameter")
+})
+
+#' @rdname availableCls
+setGeneric("availableCls", function(x,...) {
+  standardGeneric("availableCls")
+})
+
+#' @rdname extractCls
+setGeneric("extractCls", function(x,cls = 'class',...) {
+  standardGeneric("extractCls")
+})
+
+#' @rdname replaceCls
+setGeneric("replaceCls", function(x,value,cls = 'class',...) {
+  standardGeneric("replaceCls")
+})
+
+#' @rdname addCls
+setGeneric("addCls", function(x,cls,value,...) {
+  standardGeneric("addCls")
+})
+
+#' @rdname removeCls
+setGeneric("removeCls", function(x,cls,...) {
+  standardGeneric("removeCls")
+})

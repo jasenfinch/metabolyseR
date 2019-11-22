@@ -80,7 +80,7 @@ plotPCA(
 Plot principle component analysis results of pre-treated data.
 }
 \examples{
-
+\dontrun{
 library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
@@ -90,4 +90,5 @@ p@preTreat <- list(
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
 plotPCA(analysis,cls = 'day')
+}
 }

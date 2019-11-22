@@ -63,12 +63,14 @@ Perform random forest on an AnalysisData object
 Specified class comparisons should be given as a list named according to \code{cls}. Comparisons should be given as class names separated by '~' (eg. '1~2~H').
 }
 \examples{
+\dontrun{
 library(metaboData)
 library(magrittr)
 
 data(abr1)
-x <- analysisData(abr1$neg,abr1$fact) \%>\%
-       occupancyMaximum(cls = 'day') \%>\%
+x <- analysisData(abr1$neg,abr1$fact) %>%
+       occupancyMaximum(cls = 'day') %>%
        transformTICnorm()
 rf <- randomForest(x,cls = 'day')
+}
 }

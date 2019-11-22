@@ -10,7 +10,7 @@
 #' @importFrom ggplot2 scale_colour_manual geom_boxplot
 #' @importFrom stringr str_sub
 #' @examples 
-#' 
+#' \dontrun{
 #' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
@@ -19,7 +19,8 @@
 #'     transform = list(TICnorm = list())
 #' )
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotTIC(analysis,by = 'injorder',colour = 'day',modes = FALSE) 
+#' plotTIC(analysis,by = 'injorder',colour = 'day',modes = FALSE)
+#' }
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',

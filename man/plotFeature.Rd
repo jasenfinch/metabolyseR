@@ -33,6 +33,7 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2)
 Plot a feature trend.
 }
 \examples{
+\dontrun{
 library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
@@ -42,4 +43,5 @@ p@preTreat <- list(
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
 plotFeature(analysis,'N133',cls = 'day')
+}
 }

@@ -17,7 +17,7 @@
 #' @importFrom stringr str_c
 #' @importFrom stats prcomp
 #' @examples 
-#' 
+#' \dontrun{
 #' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
@@ -27,6 +27,7 @@
 #' )
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)
 #' plotPCA(analysis,cls = 'day')
+#' }
 #' @export
 
 setMethod('plotPCA',signature = 'AnalysisData',
