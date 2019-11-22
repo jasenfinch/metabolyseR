@@ -218,7 +218,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
             pl <- res %>%
               split(.$Predictor)
             
-            if (x@type == 'ttest') {
+            if (x@type == 'ttest' | x@type == 'anova') {
               pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
             }
             
@@ -226,9 +226,17 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
               pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
             }
             
-            pl <- wrap_plots(pl)
+            # pl <- wrap_plots(pl)
             
-            return(pl)
+            p <- pl[[1]]
+            
+            if (length(pl) > 1) {
+              for (i in 2:length(pl)) {
+                p <- p + pl[[i]]
+              }  
+            }
+            
+            return(p)
           }
 )
 
