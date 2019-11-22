@@ -3,7 +3,7 @@
 #' @description Sum aggregation of sample data.
 #' @param d S4 object of class Data
 #' @param cls info column to use for class data
-#' @importFrom dplyr tbl_df arrange_
+#' @importFrom dplyr tbl_df arrange_all group_by_all
 #' @export
 
 setMethod('aggregateSum',signature = 'AnalysisData',
@@ -21,8 +21,9 @@ setMethod('aggregateSum',signature = 'AnalysisData',
             sinfo(d) <- d %>%
               sinfo() %>% 
               select(cls) %>%
-              unique() %>%
-              arrange_(cls)
+              group_by_all() %>%
+              summarise() %>%
+              arrange_all()
             
             return(d)
           }
@@ -50,8 +51,9 @@ setMethod('aggregateMean',signature = 'AnalysisData',
             sinfo(d) <- d %>%
               sinfo() %>%
               select(cls) %>%
-              unique() %>%
-              arrange_(cls)
+              group_by_all() %>%
+              summarise() %>%
+              arrange_all()
             
             return(d)
           }
@@ -79,8 +81,9 @@ setMethod('aggregateMedian',signature = 'AnalysisData',
             sinfo(d) <- d %>%
               sinfo() %>% 
               select(cls) %>%
-              unique() %>%
-              arrange_(cls)
+              group_by_all() %>%
+              summarise() %>%
+              arrange_all()
             
             return(d)
           }
