@@ -22,7 +22,7 @@ plotTIC(analysis, by = "injOrder", colour = "block", modes = T)
 Plot total ion counts of sample raw data.
 }
 \examples{
-
+\dontrun{
 library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
@@ -31,5 +31,6 @@ p@preTreat <- list(
     transform = list(TICnorm = list())
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
-plotTIC(analysis,by = 'injorder',colour = 'day',modes = FALSE) 
+plotTIC(analysis,by = 'injorder',colour = 'day',modes = FALSE)
+}
 }

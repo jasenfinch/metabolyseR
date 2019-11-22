@@ -8,6 +8,7 @@
 #' @param labelSize sample label size
 #' @importFrom ggplot2 ggtitle
 #' @examples 
+#' \dontrun{
 #' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters(c('preTreat'))
@@ -17,6 +18,7 @@
 #' )
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)
 #' plotFeature(analysis,'N133',cls = 'day')
+#' }
 #' @export
 
 setMethod('plotFeature',signature = 'Analysis',

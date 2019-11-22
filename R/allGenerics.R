@@ -293,12 +293,16 @@ setGeneric("plotMeasures", function(x, predictor = 'class') {
 })
 
 #' @rdname plotMDS
-setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '',legend = TRUE, legendPosition = 'bottom', labelSize = 2) {
+setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2) {
   standardGeneric("plotMDS")
 })
 
 #' @rdname plotROC
-setGeneric("plotROC", function(x, title = '',legend = TRUE) {
+setGeneric("plotROC", function(x, title = '', legend = TRUE) {
   standardGeneric("plotROC")
 })
 
+#' @rdname changeParameter
+setGeneric("changeParameter", function(parameters,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
+  standardGeneric("changeParameter")
+})

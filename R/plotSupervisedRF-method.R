@@ -13,6 +13,7 @@
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom patchwork plot_annotation wrap_plots
 #' @examples 
+#' \dontrun{
 #' library(metaboData)
 #' data(abr1)
 #' p <- analysisParameters('preTreat')
@@ -23,6 +24,7 @@
 #' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 #' 
 #' plotSupervisedRF(analysis,cls = 'day',label = 'name')
+#' }
 #' @export
 
 setMethod('plotSupervisedRF',signature = 'AnalysisData',

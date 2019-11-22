@@ -79,7 +79,7 @@ plotLDA(
 Plot linear discriminant analysis resultus of pre-treated data
 }
 \examples{
-
+\dontrun{
 library(metaboData)
 data(abr1)
 p <- analysisParameters(c('preTreat'))
@@ -89,4 +89,5 @@ p@preTreat <- list(
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
 plotLDA(analysis,cls = 'day')
+}
 }

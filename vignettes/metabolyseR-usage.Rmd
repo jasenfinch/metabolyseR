@@ -82,9 +82,17 @@ The example below changes the defaults of all the parameters named `clusterType`
 ```{r changeParameter,eval=F}
 parameters <- analysisParameters()
 parameters
-parameters <- changeParameter('cls','day',parameters)
+parameters <- changeParameter(parameters,'cls','day')
 parameters
 ```
+
+Alternatively the parameters of a specific analysis elements can be targeted using the `elements` argument.
+The following will only alter the `cls` parameter for the pre-treatment element:
+
+```{r changeParameterElement,eval=FALSE}
+parameters <- changeParameter(parameters,'cls','class',elements = 'preTreat')
+```
+
 
 To change parameters individually, the `@` extraction operator can be used to access the relevant slot directly.
 For instance, the following code illustrates how to modify the occupancy threshold parameter for class imputation for data pre-treatment from 2/3 to 1/2.
