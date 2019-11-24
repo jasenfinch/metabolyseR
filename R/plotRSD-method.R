@@ -5,7 +5,6 @@
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
 #' @param QCparameters alternative parameters for QC sample pre-treatment. See details
-#' @param modes split modes if present
 #' @param histBins number of bins to use for histogram plotting
 #' @param title plot title
 #' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
@@ -24,7 +23,7 @@
 #' 
 #' binDat <- binneRlyse(files, 
 #'                        info, 
-#'                        parameters = binParameters(scans = detectInfusionScans(files)))
+#'                        parameters = detectParameters(files))
 #' 
 #' p <- analysisParameters('preTreat')
 #' 
@@ -35,26 +34,9 @@
 #' @export
 
 setMethod('plotRSD',signature = 'AnalysisData',
-          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = ''){
             d <- dat(analysis)
             i <- sinfo(analysis)
-            
-            if (modes == T) {
-              feat <- tibble(Feature = colnames(d)) %>%
-                mutate(Mode = str_extract(Feature,'[:alpha:]')) 
-              d <- feat %>%
-                select(Mode) %>%
-                unique() %>%
-                unlist() %>%
-                map(~{
-                  d[,feat$Mode == .]
-                })
-              names(d) <- unique(feat$Mode)
-            } else {
-              d <- list(d)
-              names(d) <- ''
-            }
-            
             
             if (is.null(QCparameters)) {
               QCparameters <- analysisParameters('preTreat')
@@ -65,17 +47,27 @@ setMethod('plotRSD',signature = 'AnalysisData',
               )
             }
             
-            rsd <- map(d,~{
+            rsd <- d %>% 
               metabolyse(.,info = i, parameters = QCparameters,verbose = F) %>%
                 preTreatedData() %>%
                 gather('Feature','Intensity') %>%
                 group_by(Feature) %>%
                 summarise(RSD = sd(Intensity)/mean(Intensity))
-            })  %>%
-              bind_rows(.id = 'Mode')
+            
+            cs <- rsd %>%
+              group_by(RSD) %>%
+              summarise(sum = n()) %>%
+              mutate(cs = cumsum(sum))
+            
+            csDist <- ggplot(cs,aes(x = RSD,y = cs)) + 
+              geom_line(colour = ptol_pal()(1)) + 
+              theme_bw() +
+              labs(title = 'Cumulative distribution',
+                   y = 'Cumulative frequency') +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'))
             
             medians <- rsd %>%
-              group_by(Mode) %>%
               summarise(Median = median(RSD)) %>%
               mutate(Label = str_c('Median: ',Median %>% round(3)),
                      x = Inf,
@@ -83,20 +75,21 @@ setMethod('plotRSD',signature = 'AnalysisData',
                      hjust = 1.5,
                      vjust = 1.3)
             
-            pl <- ggplot() +
+            RSDdist <- ggplot() +
               geom_histogram(data = rsd,aes_string(x = 'RSD'),fill = ptol_pal()(5)[2],colour = 'black',bins = histBins) +
-              geom_vline(data = medians,aes_string(xintercept = 'Median'),linetype = 2,colour = 'red',size = 1) +
+              geom_vline(data = medians,aes_string(xintercept = 'Median'),
+                         linetype = 2,colour = 'red',size = 1) +
               geom_text(data = medians,
-                        aes_string(x = 'x', y = 'y', label = 'Label',hjust = 'hjust',vjust = 'vjust'),size = 3) +
+                        aes_string(x = 'x', y = 'y', label = 'Label',hjust = 'hjust',vjust = 'vjust'),
+                        size = 3) +
               theme_bw() +
-              facet_wrap(~Mode) +
-              labs(title = title,
-                   y = 'Count',
+              labs(title = 'Frequency distribution',
+                   y = 'Frequency',
                    caption = 'Red dash line shows median RSD value') +
               theme(plot.title = element_text(face = 'bold'),
                     axis.title = element_text(face = 'bold'))
             
-            pl
+            RSDdist + csDist
           }
 )
 
@@ -104,7 +97,7 @@ setMethod('plotRSD',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotRSD',signature = 'Analysis',
-          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
-            plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,modes = modes,histBins = histBins,title = title)
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = 'Relative standard deviation distributions'){
+            plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,histBins = histBins,title = title)
           }
 )
