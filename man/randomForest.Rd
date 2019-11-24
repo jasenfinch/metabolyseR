@@ -68,8 +68,8 @@ library(metaboData)
 library(magrittr)
 
 data(abr1)
-x <- analysisData(abr1$neg,abr1$fact) %>%
-       occupancyMaximum(cls = 'day') %>%
+x <- analysisData(abr1$neg,abr1$fact) \%>\%
+       occupancyMaximum(cls = 'day') \%>\%
        transformTICnorm()
 rf <- randomForest(x,cls = 'day')
 }
