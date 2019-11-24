@@ -21,9 +21,8 @@ plotRSD(
   cls = "class",
   QCidx = "QC",
   QCparameters = NULL,
-  modes = T,
   histBins = 30,
-  title = "Relative standard deviation distributions"
+  title = ""
 )
 
 \S4method{plotRSD}{Analysis}(
@@ -31,7 +30,6 @@ plotRSD(
   cls = "class",
   QCidx = "QC",
   QCparameters = NULL,
-  modes = T,
   histBins = 30,
   title = "Relative standard deviation distributions"
 )
@@ -44,8 +42,6 @@ plotRSD(
 \item{QCidx}{QC sample label}
 
 \item{QCparameters}{alternative parameters for QC sample pre-treatment. See details}
-
-\item{modes}{split modes if present}
 
 \item{histBins}{number of bins to use for histogram plotting}
 
@@ -69,7 +65,7 @@ info <- runinfo("FIE-HRMS","BdistachyonEcotypes")
 
 binDat <- binneRlyse(files, 
                        info, 
-                       parameters = binParameters(scans = detectInfusionScans(files)))
+                       parameters = detectParameters(files))
 
 p <- analysisParameters('preTreat')
 
