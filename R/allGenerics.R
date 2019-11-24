@@ -58,7 +58,7 @@ setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', mode
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
+setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = 'Relative standard deviation distributions'){
   standardGeneric('plotRSD')
 })
 
