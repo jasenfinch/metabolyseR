@@ -11,7 +11,6 @@ plotRSD(
   cls = "class",
   QCidx = "QC",
   QCparameters = NULL,
-  modes = T,
   histBins = 30,
   title = "Relative standard deviation distributions"
 )
@@ -31,7 +30,7 @@ plotRSD(
   QCidx = "QC",
   QCparameters = NULL,
   histBins = 30,
-  title = "Relative standard deviation distributions"
+  title = ""
 )
 }
 \arguments{

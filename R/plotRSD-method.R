@@ -89,7 +89,10 @@ setMethod('plotRSD',signature = 'AnalysisData',
               theme(plot.title = element_text(face = 'bold'),
                     axis.title = element_text(face = 'bold'))
             
-            RSDdist + csDist
+            RSDdist + 
+              csDist + 
+              plot_annotation(title = title,
+                              theme = theme(plot.title = element_text(face = 'bold')))
           }
 )
 
@@ -97,7 +100,7 @@ setMethod('plotRSD',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotRSD',signature = 'Analysis',
-          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = 'Relative standard deviation distributions'){
+          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = ''){
             plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,histBins = histBins,title = title)
           }
 )
