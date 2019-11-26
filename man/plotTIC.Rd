@@ -2,21 +2,26 @@
 % Please edit documentation in R/allGenerics.R, R/plotTIC-method.R
 \name{plotTIC}
 \alias{plotTIC}
+\alias{plotTIC,AnalysisData-method}
 \alias{plotTIC,Analysis-method}
 \title{plotTIC}
 \usage{
-plotTIC(analysis, by = "injOrder", colour = "block", modes = T)
+plotTIC(analysis, by = "injOrder", colour = "block", ...)
 
-\S4method{plotTIC}{Analysis}(analysis, by = "injOrder", colour = "block", modes = T)
+\S4method{plotTIC}{AnalysisData}(analysis, by = "injOrder", colour = "block")
+
+\S4method{plotTIC}{Analysis}(analysis, by = "injOrder", colour = "block", type = "raw")
 }
 \arguments{
-\item{analysis}{object of class Analysis containing analysis results}
+\item{analysis}{object of class Analysis or AnalysisData containing analysis results}
 
 \item{by}{info column to plot against}
 
 \item{colour}{info column to provide colour labels}
 
-\item{modes}{split modes if present}
+\item{...}{arguments to pass to the appropriate method}
+
+\item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
 Plot total ion counts of sample raw data.
@@ -31,6 +36,6 @@ p@preTreat <- list(
     transform = list(TICnorm = list())
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
-plotTIC(analysis,by = 'injorder',colour = 'day',modes = FALSE)
+plotTIC(analysis,by = 'injorder',colour = 'day')
 }
 }
