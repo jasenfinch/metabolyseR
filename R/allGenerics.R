@@ -53,12 +53,12 @@ setGeneric("correlationResults", function(x) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', modes = T){
+setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block',...){
   standardGeneric('plotTIC')
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
+setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = 'Relative standard deviation distributions'){
   standardGeneric('plotRSD')
 })
 
