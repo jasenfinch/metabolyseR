@@ -1,19 +1,29 @@
 #' changeParameter
+#' @rdname changeParameter
 #' @description change analysis parameters
 #' @param parameterName Name of the parameter to change
 #' @param newValue New value of the parameter
 #' @param parameters S4 object of class AnalysisParameters in which to change parameters
+#' @param elements Character vector of analysis elements to target parameter change. Can be one of "preTreat", "modelling" or "correlations".
 #' @details
 #' For the parameter name selected, all parameters with that name will be altered.
 #' To individually change identically named parameters use the \code{@} operator to access the appropriate slot directly.
 #' @examples 
 #' p <- analysisParameters()
-#' p <- changeParameter('clusterType','PSOCK',p)
+#' p <- changeParameter(p,'clusterType','PSOCK')
+#' @importFrom purrr map_lgl
 #' @export
 
-changeParameter <- function(parameterName,newValue,parameters) {
+setMethod('changeParameter',signature = 'AnalysisParameters',
+          function(parameters,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
   
-  elements <- slotNames(parameters)
+  ele <- slotNames(parameters)
+  
+  if (F %in% (map_lgl(elements,~{. %in% ele}))) {
+    e <- str_c('"',ele,'"')
+    stop(str_c('Elements can only include ',str_c(e,collapse = ', ')))
+  }
+  
   elements <- elements[sapply(elements,function(x,parameters){
     length(slot(parameters,x))
   },parameters = parameters) > 0]
@@ -63,4 +73,4 @@ changeParameter <- function(parameterName,newValue,parameters) {
   }
   
   return(parameters)
-}
+})

@@ -53,22 +53,22 @@ setGeneric("correlationResults", function(x) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', modes = T){
+setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block',...){
   standardGeneric('plotTIC')
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, modes = T, histBins = 30, title = 'Relative standard deviation distributions'){
+setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = 'Relative standard deviation distributions'){
   standardGeneric('plotRSD')
 })
 
 #' @rdname plotPCA
-setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotPCA')
 })
 
 #' @rdname plotLDA
-setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotLDA')
 })
 
@@ -83,12 +83,12 @@ setGeneric('plotExplanatoryHeatmap',function(x, threshold = 0.05, distanceMeasur
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotSupervisedRF')
 })
 
 #' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, ellipses = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, ellipses = T, seed = 1234, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotUnsupervisedRF')
 })
 
@@ -247,6 +247,11 @@ setGeneric("correctionCenter", function(d, block = 'block', type = 'median', nCo
   standardGeneric("correctionCenter")
 })
 
+#' @rdname anova
+setGeneric("anova", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+  standardGeneric("anova")
+})
+
 #' @rdname ttest
 setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("ttest")
@@ -288,12 +293,41 @@ setGeneric("plotMeasures", function(x, predictor = 'class') {
 })
 
 #' @rdname plotMDS
-setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legendPosition = 'bottom', labelSize = 2) {
+setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2) {
   standardGeneric("plotMDS")
 })
 
 #' @rdname plotROC
-setGeneric("plotROC", function(x, title = '') {
+setGeneric("plotROC", function(x, title = '', legend = TRUE) {
   standardGeneric("plotROC")
 })
 
+#' @rdname changeParameter
+setGeneric("changeParameter", function(parameters,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
+  standardGeneric("changeParameter")
+})
+
+#' @rdname availableCls
+setGeneric("availableCls", function(x,...) {
+  standardGeneric("availableCls")
+})
+
+#' @rdname extractCls
+setGeneric("extractCls", function(x,cls = 'class',...) {
+  standardGeneric("extractCls")
+})
+
+#' @rdname replaceCls
+setGeneric("replaceCls", function(x,value,cls = 'class',...) {
+  standardGeneric("replaceCls")
+})
+
+#' @rdname addCls
+setGeneric("addCls", function(x,cls,value,...) {
+  standardGeneric("addCls")
+})
+
+#' @rdname removeCls
+setGeneric("removeCls", function(x,cls,...) {
+  standardGeneric("removeCls")
+})

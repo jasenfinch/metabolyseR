@@ -3,8 +3,6 @@ library(metaboData)
 context('plotRSD')
 
 test_that('plotRSD returns a plot',{
-  data(abr1)
-  
   d <- analysisData(abr1$neg[,300:400],abr1$fact)
   
   p <- analysisParameters('preTreat')
@@ -16,5 +14,5 @@ test_that('plotRSD returns a plot',{
   
   pl <- plotRSD(d,cls = 'day',QCidx = '5',QCparameters = p)
   
-  expect_identical(class(pl),c('gg','ggplot'))
+  expect_identical(class(pl),c('patchwork','gg','ggplot'))
 })

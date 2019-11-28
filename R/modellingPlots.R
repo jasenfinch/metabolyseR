@@ -163,7 +163,8 @@ setMethod('plotImportance',signature = 'RandomForest',
 #' @param label info column to use for sample labels. Set to NULL for no labels.
 #' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}
+#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE. 
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate_all
@@ -173,7 +174,7 @@ setMethod('plotImportance',signature = 'RandomForest',
 #' @export
 
 setMethod('plotMDS',signature = 'RandomForest',
-          function(x,cls = 'class', label = NULL, ellipses = T, title = '', legendPosition = 'bottom', labelSize = 2){
+          function(x,cls = 'class', label = NULL, ellipses = T, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             
             if (!(cls %in% {x@data %>% sinfo() %>% colnames()})) {
               stop(str_c('Info column ',cls,'not found!'))
@@ -286,12 +287,24 @@ setMethod('plotMDS',signature = 'RandomForest',
             
             pl <- ggplot(mds,aes(x = `Dimension 1`,y = `Dimension 2`)) +
               coord_fixed() +
-              theme_bw() +
-              theme(plot.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'),
-                    legend.title = element_text(face = 'bold'),
-                    legend.position = legendPosition
-              )
+              theme_bw()
+            
+            if (legend == TRUE) {
+              pl <- pl +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'),
+                      legend.position = legendPosition
+                )
+            } else {
+              pl <- pl +
+                theme(
+                  plot.title = element_text(face = 'bold'),
+                  axis.title = element_text(face = 'bold'),
+                  legend.position = 'none'
+                )
+            }
+              
             
             if (isTRUE(ellipses) & !(is.null(cls))) {
               pl <- pl +
@@ -366,12 +379,13 @@ setMethod('plotMDS',signature = 'RandomForest',
 #' @description plot reciever operator characteristic curves for a RandomForest object.
 #' @param x S4 object of class RandomForest
 #' @param title plot title
+#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE. 
 #' @importFrom ggplot2 geom_abline geom_line guide_legend
 #' @importFrom yardstick roc_curve
 #' @export
 
 setMethod('plotROC',signature = 'RandomForest',
-          function(x,title = ''){
+          function(x,title = '',legend = TRUE){
             
             if (x@type != 'classification') {
               stop('ROC curves can only be plotted for classification!')
@@ -414,9 +428,6 @@ setMethod('plotROC',signature = 'RandomForest',
                 geom_line(aes(x = 1 - specificity, y = sensitivity,group = .level,colour = .level)) +
                 geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
-                theme(legend.position = 'bottom',
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold')) +
                 facet_wrap(~Comparison) +
                 coord_fixed() +
                 guides(colour = guide_legend(title = x@results$measures$Predictor[1])) +
@@ -437,13 +448,21 @@ setMethod('plotROC',signature = 'RandomForest',
                 geom_line(aes(x = 1 - specificity, y = sensitivity),colour = ptol_pal()(1)) +
                 geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
-                theme(legend.position = 'bottom',
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold')) +
                 facet_wrap(~Comparison) +
                 coord_fixed() +
                 guides(colour = guide_legend(title = 'Class')) +
                 labs(title = title)
+            }
+            
+            if (legend == TRUE) {
+              pl <- pl +
+                theme(legend.position = 'bottom',
+                      axis.title = element_text(face = 'bold'),
+                      legend.title = element_text(face = 'bold'))
+            } else {
+              pl <- pl +
+                theme(legend.position = 'none',
+                      axis.title = element_text(face = 'bold'))
             }
             
             return(pl)

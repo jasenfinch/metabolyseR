@@ -2,6 +2,9 @@
 #' @description Create an S4 AnalysisData object.
 #' @param data sample data
 #' @param info saple info
+#' @examples 
+#' library(metaboData)
+#' a <- analysisData(data = abr1$neg,info = abr1$fact)
 #' @export
 
 analysisData <- function(data,info){

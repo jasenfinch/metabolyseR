@@ -14,3 +14,7 @@ analysisData(data, info)
 \description{
 Create an S4 AnalysisData object.
 }
+\examples{
+library(metaboData)
+a <- analysisData(data = abr1$neg,info = abr1$fact)
+}

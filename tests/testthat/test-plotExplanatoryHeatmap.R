@@ -25,9 +25,9 @@ test_that('plotExplanatoryHeatmap returns a plot',{
 
 test_that('plotExplanatoryHeatmap returns a plot',{
   d <- analysisData(abr1$neg[,200:250],abr1$fact)
-  rf <- randomForest(d,cls = 'injorder',perm = 3)
+  rf <- randomForest(d,cls = 'injorder',perm = 3,nCores = 2)
   
   pl <- plotExplanatoryHeatmap(rf$injorder)
   
-  expect_identical(class(pl),c("ggassemble","gg","ggplot"))
+  expect_identical(class(pl),c("patchwork","gg","ggplot"))
 })
