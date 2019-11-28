@@ -92,7 +92,7 @@ setMethod('modelling',signature = 'Analysis',
             verbose <- x@log$verbose
             if (verbose == T) {
               startTime <- proc.time()
-              cat(blue('Modelling'),cli::symbol$continue,'\r',sep = '') 
+              message(blue('Modelling '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
             params <- x@parameters@modelling
             
@@ -127,7 +127,7 @@ setMethod('modelling',signature = 'Analysis',
                 round(1) %>%
                 seconds_to_period() %>%
                 str_c('[',.,']')
-              cat(blue('Modelling '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
+              message(blue('\rModelling '),'\t',green(cli::symbol$tick),' ',elapsed)
             }
             return(x)
           }

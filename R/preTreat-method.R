@@ -6,7 +6,7 @@ setMethod("preTreat", signature = "Analysis",
             verbose <- x@log$verbose
             if (verbose == T) {
               startTime <- proc.time()
-              cat(blue('Pre-treatment'),cli::symbol$continue,'\r',sep = '') 
+              message(blue('Pre-treatment '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
             params <- x@parameters@preTreat
             d <- analysisData(rawData(x), rawInfo(x))
@@ -33,7 +33,7 @@ setMethod("preTreat", signature = "Analysis",
                 round(1) %>%
                 seconds_to_period() %>%
                 str_c('[',.,']')
-              cat(blue('Pre-treatment '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
+              message('\r',blue('Pre-treatment '),'\t',green(cli::symbol$tick),' ',elapsed)
             }
             return(x)
           }

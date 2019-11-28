@@ -34,10 +34,17 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
   
   if (verbose == T) {
     startTime <- proc.time()
-    cat('\n',blue('metabolyseR'),' ',red(str_c('v',version)),' ',analysisStart,'\n',sep = '')
-    cat(rep('_',console_width()),'\n',sep = '')
-    print(parameters)
-    cat(rep('_',console_width()),'\n\n',sep = '')
+    message(blue('\nmetabolyseR '),' ',red(str_c('v',version)),' ',analysisStart)
+    message(str_c(rep('_',console_width()),collapse = ''))
+    params <- parameters %>%
+      {capture.output(print(.))} %>%
+      {
+        .[1] <- yellow(.[1])
+        return(.)
+      } %>%
+      str_c(collapse = '\n')
+    message(params)
+    message(str_c(rep('_',console_width()),collapse = ''))
   }
   
   analysis <- new('Analysis',
@@ -65,8 +72,8 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
       seconds_to_period() %>%
       str_c('[',.,']')
     
-    cat(rep('_',console_width()),'\n',sep = '')
-    cat('\n',green('Complete! '),elapsed,'\n\n',sep = '')
+    message(str_c(rep('_',console_width()),collapse = ''))
+    message('\n',green('Complete! '),elapsed,'\n')
   }
   return(analysis)
 }
