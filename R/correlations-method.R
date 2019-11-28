@@ -69,7 +69,7 @@ setMethod("correlations", signature = "Analysis",
             verbose <- x@log$verbose
             if (verbose == T) {
               startTime <- proc.time()
-              cat(blue('Correlations'),cli::symbol$continue,'\r',sep = '') 
+              message(blue('Correlations '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
             
             parameters <- x@parameters@correlations
@@ -93,7 +93,7 @@ setMethod("correlations", signature = "Analysis",
                 round(1) %>%
                 seconds_to_period() %>%
                 str_c('[',.,']')
-              cat(blue('Correlations '),'\t\t',green(cli::symbol$tick),' ',elapsed,'\n',sep = '')
+              message(blue('\rCorrelations '),'\t',green(cli::symbol$tick),' ',elapsed)
             }
             return(x)
           }
