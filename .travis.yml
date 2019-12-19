@@ -12,9 +12,6 @@ r:
   - release
   - devel
 
-r_github_packages:
-  - thomasp85/patchwork
-
 after_success:
   - Rscript -e 'library(covr); codecov()'
 
