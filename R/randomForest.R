@@ -442,8 +442,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
         map(~{
           comparison <- str_split(.,'~')[[1]]
           
-          cda <- keepClasses(x,inf,classes = sinfo(x) %>%
-                                 .[[inf]])
+          cda <- keepClasses(x,inf,classes = comparison)
           
           pred <- cda %>%
             sinfo() %>%
