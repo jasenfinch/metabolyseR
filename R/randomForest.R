@@ -442,17 +442,30 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
         map(~{
           comparison <- str_split(.,'~')[[1]]
           
-          cda <- removeClasses(x,inf,classes = sinfo(x) %>%
-                                 select(inf) %>%
-                                 unlist() %>%
-                                 unique() %>%
-                                 .[!(. %in% comparison)])
+          cda <- keepClasses(x,inf,classes = sinfo(x) %>%
+                                 .[[inf]])
           
           pred <- cda %>%
             sinfo() %>%
             select(inf) %>%
             unlist(use.names = F) %>%
             factor()
+          
+          predFreq <- pred %>%
+            tibble(cls = .) %>%
+            group_by_all() %>%
+            summarise(n = n())
+          
+          if (length(unique(predFreq$n)) > 1) {
+            message('Unbalanced classes detected. Stratifying sample size to the smallest class size.')
+            
+            ss <- pred %>%
+              table() %>%
+              min() %>%
+              rep(length(unique(pred)))
+            
+            rf <- c(rf,list(strata = pred,sampsize = ss))
+          }
           
           if (reps < nCores) {
             nSlaves <- length(reps)
