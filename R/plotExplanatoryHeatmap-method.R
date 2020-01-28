@@ -9,8 +9,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
       classes <- r$Comparison %>%
         unique() %>%
         str_split('~') %>%
-        .[[1]] %>%
-        as.vector() %>%
+        unlist() %>%
         unique()
       
       feat <- r$Feature %>%
