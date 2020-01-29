@@ -116,7 +116,7 @@ setMethod('show',signature = 'Analysis',
 )
 
 #' show-AnalysisData
-#' @description show method for Data class
+#' @description show method for AnalysisData class
 #' @param object S4 object of class AnalysisData
 #' @export
 
@@ -128,4 +128,37 @@ setMethod('show',signature = 'AnalysisData',
             cat('Info:',ncol(sinfo(object)),'\n')
             cat('\n')
           }
-          )
+)
+
+#' show-RandomForest
+#' @description Show method for RandomForest class.
+#' @param object S4 object of class RandomForest
+#' @export
+
+setMethod('show',signature = 'RandomForest',
+          function(object){
+            if (object@type != 'unsupervised') {
+              cat('\nRandom forest',object@type,'\n\n')  
+            } else {
+              cat('\nUnsupervised random forest\n\n')
+            }
+            
+            cat('Samples:\t',nrow(dat(object@data)),'\n')
+            cat('Features:\t',ncol(dat(object@data)),'\n')
+            
+            if (object@type != 'unsupervised') {
+              cat('Predictor:\t',measures(object) %>%
+                    .$Predictor %>%
+                    unique() %>%
+                    str_c(collapse = ', '),'\n')  
+            }
+            
+            if (object@type == 'classification') {
+              cat('# comparisons:\t',measures(object) %>%
+                    .$Comparison %>%
+                    unique() %>%
+                    length(),'\n')
+            }
+            
+            cat('\n')
+          })
