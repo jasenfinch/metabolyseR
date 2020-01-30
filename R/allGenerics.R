@@ -117,6 +117,11 @@ setGeneric("aggregateMedian", function(d,cls = 'class') {
   standardGeneric("aggregateMedian")
 })
 
+#' @rdname occupancy
+setGeneric("occupancy", function(x, cls = 'class') {
+  standardGeneric("occupancy")
+})
+
 #' @rdname occupancyMaximum
 setGeneric("occupancyMaximum", function(dat, cls = 'class', occupancy = 2/3) {
   standardGeneric("occupancyMaximum")
