@@ -99,7 +99,7 @@ setMethod('anova',signature = 'AnalysisData',
               bind_rows(.id = 'Predictor')
             
             res <- new('Univariate')
-            res@type <- 'anova'
+            res@type <- 'ANOVA'
             res@data <- x
             res@results <- results
             
@@ -197,7 +197,7 @@ setMethod('ttest',signature = 'AnalysisData',
               bind_rows(.id = 'Predictor')
             
             res <- new('Univariate')
-            res@type <- 'ttest'
+            res@type <- 't-test'
             res@data <- x
             res@results <- results
             
@@ -258,7 +258,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
               bind_rows(.id = 'Predictor')
             
             res <- new('Univariate')
-            res@type <- 'linearRegression'
+            res@type <- 'linear regression'
             res@data <- x
             res@results <- results
             
