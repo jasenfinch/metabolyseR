@@ -73,7 +73,7 @@ setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T,
 })
 
 #' @rdname plotFeature
-setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, ...){
   standardGeneric('plotFeature')
 })
 
@@ -90,6 +90,11 @@ setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NU
 #' @rdname plotUnsupervisedRF
 setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, ellipses = T, seed = 1234, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotUnsupervisedRF')
+})
+
+#' @rdname plotOccupancy
+setGeneric('plotOccupancy',function(x,cls = 'class', ...){
+  standardGeneric('plotOccupancy')
 })
 
 #' @rdname dat

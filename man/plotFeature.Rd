@@ -8,9 +8,16 @@
 \alias{plotFeature,RandomForest-method}
 \title{plotFeature}
 \usage{
-plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2)
+plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
 
-\S4method{plotFeature}{Analysis}(analysis, feature, cls = "class", label = NULL, labelSize = 2)
+\S4method{plotFeature}{Analysis}(
+  analysis,
+  feature,
+  cls = "class",
+  label = NULL,
+  labelSize = 2,
+  type = "preTreated"
+)
 
 \S4method{plotFeature}{AnalysisData}(analysis, feature, cls = "class", label = NULL, labelSize = 2)
 
@@ -28,6 +35,8 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2)
 \item{label}{info column to use for sample labels}
 
 \item{labelSize}{sample label size}
+
+\item{type}{\code{raw} or \code{preTreated} data to plot}
 }
 \description{
 Plot a feature trend.
