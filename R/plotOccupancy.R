@@ -8,6 +8,11 @@
 
 setMethod('plotOccupancy',signature = 'AnalysisData',
           function(x,cls = 'class'){
+            
+            if (clsExtract(x,cls) %>% is.numeric()) {
+              stop("Argument 'cls' should be either a factor or character",call. = FALSE)  
+            }
+            
             occ <- occupancy(x,cls = cls)
             
             d <- ggplot(occ,aes_string(x = 'Occupancy',group = cls,colour = cls)) +

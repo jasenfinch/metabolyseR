@@ -85,5 +85,6 @@ Collate: allGenerics.R
     modellingPlots.R
     keepMethods.R
     info.R
+    plotOccupancy.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
