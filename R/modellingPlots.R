@@ -51,17 +51,16 @@ setMethod('plotImportance',signature = 'Univariate',
 #' @export
 
 setMethod('plotMeasures',signature = 'RandomForest',
-          function(x, predictor = 'class'){
+          function(x){
             
             if (x@type == 'Unsupervised') {
               stop('No measures to plot for unsupervised random forest.')
             }
             
-            res <- x@results$measures
+            res <- measures(x)
             
-            if (!(predictor %in% unique(res$Predictor))) {
-              stop('Predictor not found!')
-            }
+            predictor <- res$Predictor %>%
+              unique()
             
             if (x@type == 'classification') {
               pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
@@ -98,7 +97,7 @@ setMethod('plotMeasures',signature = 'RandomForest',
 setMethod('plotImportance',signature = 'RandomForest',
           function(x){
             
-            res <- x@results$importances
+            res <- importance(x)
             predictor <- res$Predictor[1]
             
             if ('adjustedPvalue' %in% colnames(res)) {

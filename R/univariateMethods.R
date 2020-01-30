@@ -269,3 +269,4 @@ setMethod('linearRegression',signature = 'AnalysisData',
             return(res)
           }
 )
+            

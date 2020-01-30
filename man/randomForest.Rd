@@ -42,7 +42,7 @@ randomForest(
 
 \item{reps}{number of repetitions to perform}
 
-\item{binary}{TRUE/FALSE should binary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.}
+\item{binary}{TRUE/FALSE should bnary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.}
 
 \item{comparisons}{list of comparisons to perform. Ignored for unsupervised and regression. See details.}
 
