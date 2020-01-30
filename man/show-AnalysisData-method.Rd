@@ -10,5 +10,5 @@
 \item{object}{S4 object of class AnalysisData}
 }
 \description{
-show method for Data class
+show method for AnalysisData class
 }
