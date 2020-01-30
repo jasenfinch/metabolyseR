@@ -307,27 +307,27 @@ setGeneric("changeParameter", function(parameters,parameterName,newValue,element
   standardGeneric("changeParameter")
 })
 
-#' @rdname availableCls
-setGeneric("availableCls", function(x,...) {
-  standardGeneric("availableCls")
+#' @rdname clsAvailable
+setGeneric("clsAvailable", function(x,...) {
+  standardGeneric("clsAvailable")
 })
 
-#' @rdname extractCls
-setGeneric("extractCls", function(x,cls = 'class',...) {
-  standardGeneric("extractCls")
+#' @rdname clsExtract
+setGeneric("clsExtract", function(x,cls = 'class', ...) {
+  standardGeneric("clsExtract")
 })
 
-#' @rdname replaceCls
-setGeneric("replaceCls", function(x,value,cls = 'class',...) {
-  standardGeneric("replaceCls")
+#' @rdname clsReplace
+setGeneric("clsReplace", function(x,value,cls = 'class', ...) {
+  standardGeneric("clsReplace")
 })
 
-#' @rdname addCls
-setGeneric("addCls", function(x,cls,value,...) {
-  standardGeneric("addCls")
+#' @rdname clsAdd
+setGeneric("clsAdd", function(x,cls,value,...) {
+  standardGeneric("clsAdd")
 })
 
-#' @rdname removeCls
-setGeneric("removeCls", function(x,cls,...) {
-  standardGeneric("removeCls")
+#' @rdname clsRemove
+setGeneric("clsRemove", function(x,cls,...) {
+  standardGeneric("clsRemove")
 })

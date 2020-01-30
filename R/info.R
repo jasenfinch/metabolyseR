@@ -1,20 +1,20 @@
-#' availableCls
-#' @rdname availableCls
+#' clsAvailable
+#' @rdname clsAvailable
 #' @description Return available sample info columns from an Analysis or AnalysisData object.
 #' @param x S4 object of class Analysis or AnalysisData
 #' @param type \code{raw} or \code{preTreated} sample information
 #' @param ... arguments to pass to specific method
 #' @export
 
-setMethod('availableCls',signature = 'AnalysisData',function(x){
+setMethod('clsAvailable',signature = 'AnalysisData',function(x){
   x %>%
     sinfo() %>%
     colnames()
 })
 
-#' @rdname availableCls
+#' @rdname clsAvailable
 
-setMethod('availableCls',signature = 'Analysis',function(x,type = 'raw'){
+setMethod('clsAvailable',signature = 'Analysis',function(x,type = 'raw'){
   types <- c('raw','preTreated')
   if (!(type %in% types)) {
     stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
@@ -24,11 +24,11 @@ setMethod('availableCls',signature = 'Analysis',function(x,type = 'raw'){
   
   x %>%
     sl() %>%
-    availableCls()
+    clsAvailable()
 })
 
-#' extractCls
-#' @rdname extractCls
+#' clsExtract
+#' @rdname clsExtract
 #' @description Extract a given sample info column from an Analysis or AnalysisData object.
 #' @param x S4 object of class Analysis or AnalysisData
 #' @param cls sample info column to extract
@@ -36,16 +36,16 @@ setMethod('availableCls',signature = 'Analysis',function(x,type = 'raw'){
 #' @param ... arguments to pass to specific method
 #' @export
 
-setMethod('extractCls',signature = 'AnalysisData',function(x, cls = 'class'){
+setMethod('clsExtract',signature = 'AnalysisData',function(x, cls = 'class'){
   x %>%
     sinfo() %>%
     select(cls) %>%
     deframe()
 })
 
-#' @rdname extractCls
+#' @rdname clsExtract
 
-setMethod('extractCls',signature = 'Analysis',function(x, cls = 'class', type = 'raw'){
+setMethod('clsExtract',signature = 'Analysis',function(x, cls = 'class', type = 'raw'){
   types <- c('raw','preTreated')
   if (!(type %in% types)) {
     stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
@@ -55,11 +55,11 @@ setMethod('extractCls',signature = 'Analysis',function(x, cls = 'class', type = 
   
   x %>%
     sl() %>%
-    extractCls(cls = cls)
+    clsExtract(cls = cls)
 })
 
-#' replaceCls
-#' @rdname replaceCls
+#' clsReplace
+#' @rdname clsReplace
 #' @description Replace a given sample info column from an Analysis or AnalysisData object.
 #' @param x S4 object of class Analysis or AnalysisData
 #' @param value vactor of new sample information for replacement
@@ -68,8 +68,8 @@ setMethod('extractCls',signature = 'Analysis',function(x, cls = 'class', type = 
 #' @param ... arguments to pass to specific method
 #' @export
 
-setMethod('replaceCls',signature = 'AnalysisData',function(x,value,cls = 'class'){
-  if (!(cls %in% availableCls(x))) {
+setMethod('clsReplace',signature = 'AnalysisData',function(x,value,cls = 'class'){
+  if (!(cls %in% clsAvailable(x))) {
     stop(str_c('Class information column "',cls,'" not present.'))
   }
   
@@ -77,9 +77,9 @@ setMethod('replaceCls',signature = 'AnalysisData',function(x,value,cls = 'class'
   return(x)
 })
 
-#' @rdname replaceCls
+#' @rdname clsReplace
 
-setMethod('replaceCls',signature = 'Analysis',function(x, value, cls = 'class', type = 'raw'){
+setMethod('clsReplace',signature = 'Analysis',function(x, value, cls = 'class', type = 'raw'){
   types <- c('raw','preTreated')
   if (!(type %in% types)) {
     stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
@@ -90,13 +90,13 @@ setMethod('replaceCls',signature = 'Analysis',function(x, value, cls = 'class', 
   
   sl(x) <- x %>%
     sl() %>%
-    replaceCls(value = value,cls = cls)
+    clsReplace(value = value,cls = cls)
   
   return(x)
 })
 
-#' addCls
-#' @rdname addCls
+#' clsAdd
+#' @rdname clsAdd
 #' @description Add a sample info column to a Analysis or AnalysisData object.
 #' @param x S4 object of class Analysis or AnalysisData
 #' @param cls name of new sample information column
@@ -106,8 +106,8 @@ setMethod('replaceCls',signature = 'Analysis',function(x, value, cls = 'class', 
 #' @importFrom rlang :=
 #' @export
 
-setMethod('addCls',signature = 'AnalysisData',function(x,cls,value){
-  if (cls %in% availableCls(x)) {
+setMethod('clsAdd',signature = 'AnalysisData',function(x,cls,value){
+  if (cls %in% clsAvailable(x)) {
     stop(str_c('Class information column "',cls,'" already present.'))
   }
   
@@ -117,9 +117,9 @@ setMethod('addCls',signature = 'AnalysisData',function(x,cls,value){
   return(x)
 })
 
-#' @rdname addCls
+#' @rdname clsAdd
 
-setMethod('addCls',signature = 'Analysis',function(x,cls,value,type = 'raw'){
+setMethod('clsAdd',signature = 'Analysis',function(x,cls,value,type = 'raw'){
   types <- c('raw','preTreated')
   if (!(type %in% types)) {
     stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
@@ -130,13 +130,13 @@ setMethod('addCls',signature = 'Analysis',function(x,cls,value,type = 'raw'){
   
   sl(x) <- x %>%
     sl() %>%
-    addCls(value = value,cls = cls)
+    clsAdd(value = value,cls = cls)
   
   return(x)
 })
 
-#' removeCls
-#' @rdname removeCls
+#' clsRemove
+#' @rdname clsRemove
 #' @description Remove a sample info column from a Analysis or AnalysisData object.
 #' @param x S4 object of class Analysis or AnalysisData
 #' @param cls name of sample information column to remove
@@ -144,8 +144,8 @@ setMethod('addCls',signature = 'Analysis',function(x,cls,value,type = 'raw'){
 #' @param ... arguments to pass to specific method
 #' @export
 
-setMethod('removeCls',signature = 'AnalysisData',function(x,cls){
-  if (!(cls %in% availableCls(x))) {
+setMethod('clsRemove',signature = 'AnalysisData',function(x,cls){
+  if (!(cls %in% clsAvailable(x))) {
     stop(str_c('Class information column "',cls,'" not present.'))
   }
   
@@ -156,9 +156,9 @@ setMethod('removeCls',signature = 'AnalysisData',function(x,cls){
   return(x)
 })
 
-#' @rdname removeCls
+#' @rdname clsRemove
 
-setMethod('removeCls',signature = 'Analysis',function(x,cls,type = 'raw'){
+setMethod('clsRemove',signature = 'Analysis',function(x,cls,type = 'raw'){
   types <- c('raw','preTreated')
   if (!(type %in% types)) {
     stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
@@ -169,7 +169,7 @@ setMethod('removeCls',signature = 'Analysis',function(x,cls,type = 'raw'){
   
   sl(x) <- x %>%
     sl() %>%
-    removeCls(cls)
+    clsRemove(cls)
   
   return(x)
 })

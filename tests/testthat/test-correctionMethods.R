@@ -27,7 +27,7 @@ test_that('methods work',{
   m <- names(correctionMethods())
   d <- analysisData(abr1$neg[,200:250],abr1$fact) %>%
     keepClasses(classes = c(1,6))
-  d <- addCls(d,'block',1)
+  d <- clsAdd(d,'block',1)
   m <- map(m,~{
     method <- correctionMethods(.)
     res <- method(d)
