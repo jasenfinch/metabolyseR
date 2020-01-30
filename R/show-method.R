@@ -162,3 +162,28 @@ setMethod('show',signature = 'RandomForest',
             
             cat('\n')
           })
+
+#' show-Univariate
+#' @description Show method for the Univariate class.
+#' @param object S4 object of class Univariate
+#' @export
+
+setMethod('show',signature = 'Univariate',
+          function(object){
+            cat('\nUnivariate',object@type,'analysis\n\n')  
+            
+            cat('Samples:\t',nrow(dat(object@data)),'\n')
+            cat('Features:\t',ncol(dat(object@data)),'\n')
+            cat('Predictors:\t',importance(object) %>%
+                  .$Predictor %>%
+                  unique() %>%
+                  str_c(collapse = ', '),'\n')  
+            if (object@type != 'linear regression') {
+              cat('# comparisons:\t',importance(object) %>%
+                    .$Comparison %>%
+                    unique() %>%
+                    length(),'\n')
+              
+            }
+            cat('\n')
+          })
