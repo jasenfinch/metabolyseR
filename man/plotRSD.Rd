@@ -6,23 +6,9 @@
 \alias{plotRSD,Analysis-method}
 \title{plotRSD}
 \usage{
-plotRSD(
-  analysis,
-  cls = "class",
-  QCidx = "QC",
-  QCparameters = NULL,
-  histBins = 30,
-  title = "Relative standard deviation distributions"
-)
+plotRSD(analysis, cls = "class", ...)
 
-\S4method{plotRSD}{AnalysisData}(
-  analysis,
-  cls = "class",
-  QCidx = "QC",
-  QCparameters = NULL,
-  histBins = 30,
-  title = ""
-)
+\S4method{plotRSD}{AnalysisData}(analysis, cls = "class")
 
 \S4method{plotRSD}{Analysis}(
   analysis,

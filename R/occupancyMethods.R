@@ -8,7 +8,7 @@
 
 setMethod('occupancyMaximum',signature = 'AnalysisData',
           function(dat,cls = 'class', occupancy = 2/3){
-            occ <- occMat(dat,cls)
+            occ <- occupancy(dat,cls)
             fd <- occ %>%
               group_by(Feature) %>%
               summarise(Occupancy = max(Occupancy)) %>%
@@ -31,7 +31,7 @@ setMethod('occupancyMaximum',signature = 'AnalysisData',
 
 setMethod('occupancyMinimum',signature = 'AnalysisData',
           function(dat,cls = 'class', occupancy = 2/3){
-            occ <- occMat(dat,cls)
+            occ <- occupancy(dat,cls)
             fd <- occ %>%
               group_by(Feature) %>%
               summarise(Occupancy = min(Occupancy)) %>%
