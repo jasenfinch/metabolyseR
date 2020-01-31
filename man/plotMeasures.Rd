@@ -7,7 +7,7 @@
 \usage{
 plotMeasures(x, predictor = "class")
 
-\S4method{plotMeasures}{RandomForest}(x, predictor = "class")
+\S4method{plotMeasures}{RandomForest}(x)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}

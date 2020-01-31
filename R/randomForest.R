@@ -700,7 +700,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
 #' @param cls vector of info columns to use for predictor information. Set to NULL for unsupervised.
 #' @param rf named list of arguments to pass to randomForest::randomForest
 #' @param reps number of repetitions to perform
-#' @param binary TRUE/FALSE should binary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.
+#' @param binary TRUE/FALSE should bnary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.
 #' @param comparisons list of comparisons to perform. Ignored for unsupervised and regression. See details. 
 #' @param perm number of permutations to perform. Ignored for unsupervised.
 #' @param returnModels TRUE/FALSE should model objects be returned.
@@ -770,4 +770,3 @@ setMethod('importance',signature = 'Univariate',
             x@results
           }
 )
-

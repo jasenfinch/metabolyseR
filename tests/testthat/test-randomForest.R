@@ -2,10 +2,11 @@ library(metaboData)
 
 data("abr1")
 
+d <- analysisData(abr1$neg[,200:250],abr1$fact)
+
 context('randomForest')
 
 test_that('unsupervised random forest works',{
-  d <- analysisData(abr1$neg[,200:250],abr1$fact)
   rf <- randomForest(d,cls = NULL,nCores = 2)
   
   expect_true(is.list(rf))
@@ -13,8 +14,7 @@ test_that('unsupervised random forest works',{
 })
 
 test_that('random forest classification works',{
-  d <- analysisData(abr1$neg[,200:250],abr1$fact)
-  rf <- randomForest(d,cls = 'day',perm = 3,nCores = 2)
+  rf <- randomForest(d,cls = 'day',perm = 3,nCores = 2,returnModels = TRUE)
   
   plMDS <- plotMDS(rf$day,cls = 'day')
   plROC <- plotROC(rf$day)
@@ -29,8 +29,17 @@ test_that('random forest classification works',{
   expect_identical(class(plImportance),c("gg","ggplot"))
 })
 
+test_that('binary classification works',{
+  d <- d %>%
+    keepClasses(cls = 'day',classes = c('H','5'))
+  
+  rf <- randomForest(d,cls = 'day',nCores = 2,binary = TRUE)
+  
+  expect_true(is.list(rf))
+  expect_true(class(rf$day) == 'RandomForest')
+})
+
 test_that('random forest regression works',{
-  d <- analysisData(abr1$neg[,200:250],abr1$fact)
   rf <- randomForest(d,cls = 'injorder',perm = 3,nCores = 2)
   
   expect_true(is.list(rf))

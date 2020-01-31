@@ -6,6 +6,8 @@
 #' @param cls info column to use for class labels
 #' @param label info column to use for sample labels
 #' @param labelSize sample label size
+#' @param type \code{raw} or \code{preTreated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @importFrom ggplot2 ggtitle
 #' @examples 
 #' \dontrun{
@@ -22,8 +24,11 @@
 #' @export
 
 setMethod('plotFeature',signature = 'Analysis',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
-            analysis@preTreated %>%
+          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, type = 'preTreated'){
+            ty <- get(type)
+            
+            analysis %>%
+              ty() %>%
               plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
           })
 

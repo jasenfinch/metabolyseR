@@ -8,28 +8,25 @@
 \alias{plotExplanatoryHeatmap,Analysis-method}
 \title{plotExplanatoryHeatmap}
 \usage{
-plotExplanatoryHeatmap(
-  x,
-  threshold = 0.05,
-  distanceMeasure = "euclidean",
-  clusterMethod = "ward.D2",
-  featureNames = T
-)
+plotExplanatoryHeatmap(x, ...)
 
 \S4method{plotExplanatoryHeatmap}{Univariate}(
   x,
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
-  featureNames = T
+  featureNames = TRUE,
+  dendrogram = TRUE
 )
 
 \S4method{plotExplanatoryHeatmap}{RandomForest}(
   x,
+  measure = "FalsePositiveRate",
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
-  featureNames = T
+  featureNames = TRUE,
+  dendrogram = TRUE
 )
 
 \S4method{plotExplanatoryHeatmap}{Analysis}(
@@ -43,6 +40,8 @@ plotExplanatoryHeatmap(
 \arguments{
 \item{x}{object of class Univariate, RandomForest or Analysis containing modelling results}
 
+\item{...}{arguments to pass to the appropriate method}
+
 \item{threshold}{score threshold to use for specifying explantory features}
 
 \item{distanceMeasure}{distance measure to use for clustering. See details.}
@@ -50,6 +49,10 @@ plotExplanatoryHeatmap(
 \item{clusterMethod}{clustering method to use. See details}
 
 \item{featureNames}{should feature names be plotted?}
+
+\item{dendrogram}{TRUE/FALSE. Should the dendrogram be plotted?}
+
+\item{measure}{importance measure on which to retrieve explanatory feautres}
 }
 \description{
 plot a heatmap of explanatory features

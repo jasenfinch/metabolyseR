@@ -59,3 +59,84 @@ setMethod('sinfo',signature = 'AnalysisData',
   x@info <- value
   return(x)
 }
+
+#' features
+#' @rdname features
+#' @description Return a vector of the feature names.
+#' @param x S4 object of class AnalysisData or Analysis
+#' @param type return features from \code{raw} or \code{preTreated} data
+#' @param ... arguments to pass to the appropriate method
+#' @export
+
+setMethod('features',signature = 'AnalysisData',
+          function(x){
+            x %>%
+              dat() %>%
+              colnames()
+          }) 
+
+#' @rdname features
+#' @export
+
+setMethod('features',signature = 'Analysis',
+          function(x,type = 'raw'){
+            ty <- get(type)
+            
+            x %>%
+              ty() %>%
+              features()
+          })
+
+#' nFeatures
+#' @rdname nFeatures
+#' @description Return the number of features.
+#' @param x S4 object of class AnalysisData or Analysis
+#' @param type return the number features from \code{raw} or \code{preTreated} data
+#' @param ... arguments to pass to the appropriate method
+#' @export
+
+setMethod('nFeatures',signature = 'AnalysisData',
+          function(x){
+            x %>%
+              features() %>%
+              length()
+          })
+
+#' @rdname nFeatures
+#' @export
+
+setMethod('nFeatures',signature = 'Analysis',
+          function(x,type = 'raw'){
+            ty <- get(type)
+            
+            x %>%
+              ty() %>%
+              nFeatures()
+          })
+
+#' nSamples
+#' @rdname nSamples
+#' @description Return the number of samoles.
+#' @param x S4 object of class AnalysisData or Analysis
+#' @param type return the number samples from \code{raw} or \code{preTreated} data
+#' @param ... arguments to pass to the appropriate method
+#' @export
+
+setMethod('nSamples',signature = 'AnalysisData',
+          function(x){
+            x %>%
+              dat() %>%
+              nrow()
+          })
+
+#' @rdname nSamples
+#' @export
+
+setMethod('nSamples',signature = 'Analysis',
+          function(x,type = 'raw'){
+            ty <- get(type)
+            
+            x %>%
+              ty() %>%
+              nSamples()
+          })

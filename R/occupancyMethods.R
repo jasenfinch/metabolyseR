@@ -8,7 +8,7 @@
 
 setMethod('occupancyMaximum',signature = 'AnalysisData',
           function(dat,cls = 'class', occupancy = 2/3){
-            occ <- occMat(dat,cls)
+            occ <- occupancy(dat,cls)
             fd <- occ %>%
               group_by(Feature) %>%
               summarise(Occupancy = max(Occupancy)) %>%
@@ -31,7 +31,7 @@ setMethod('occupancyMaximum',signature = 'AnalysisData',
 
 setMethod('occupancyMinimum',signature = 'AnalysisData',
           function(dat,cls = 'class', occupancy = 2/3){
-            occ <- occMat(dat,cls)
+            occ <- occupancy(dat,cls)
             fd <- occ %>%
               group_by(Feature) %>%
               summarise(Occupancy = min(Occupancy)) %>%
@@ -87,30 +87,45 @@ occupancyMethods <- function(method = NULL, description = F){
   return(method)
 }
 
-occMat <- function(dat,cls){
-  d <- dat %>%
-    dat() %>%
-    mutate(Class = unlist(dat %>% sinfo() %>% .[,cls],use.names = F))
-  
-  clsSize <- d %>%
-    group_by(Class) %>%
-    summarise(Frequency = n())
-  
-  d <- d %>%
-    rowid_to_column(var = 'Sample') %>%
-    gather('Feature','Intensity',-Class,-Sample) %>%
-    filter(Intensity > 0)
-  
-  occ <- clsSize %>%
-    split(1:nrow(.)) %>%
-    map(~{
-      cla <- .
-      cl <- d %>%
-        filter(Class == cla$Class) %>%
-        group_by(Class,Feature) %>%
-        summarise(N = n()) %>%
-        mutate(Occupancy = N / cla$Frequency)
-    }) %>%
-    bind_rows()
-  return(occ)
-}
+#' occupancy
+#' @rdname occupancy
+#' @description Return tibble containg proportional class occupancy for each feature for a given class info column.
+#' @param x S4 object of class AnalysisData
+#' @param cls info column to use for class data
+#' @importFrom dplyr ungroup
+#' @export
+
+setMethod('occupancy',signature = 'AnalysisData',
+          function(x,cls = 'class'){
+            
+            d <- x %>%
+              dat() %>%
+              mutate(Class = clsExtract(x,cls))
+            
+            clsSize <- d %>%
+              group_by(Class) %>%
+              summarise(Frequency = n())
+            
+            d <- d %>%
+              rowid_to_column(var = 'Sample') %>%
+              gather('Feature','Intensity',-Class,-Sample) %>%
+              filter(Intensity > 0)
+            
+            vars <- 'Class'
+            names(vars) <- cls
+            
+            occ <- clsSize %>%
+              split(1:nrow(.)) %>%
+              map(~{
+                cla <- .
+                cl <- d %>%
+                  filter(Class == cla$Class) %>%
+                  group_by(Class,Feature) %>%
+                  summarise(N = n()) %>%
+                  mutate(`Occupancy` = N / cla$Frequency)
+              }) %>%
+              bind_rows() %>%
+              rename(!!vars) %>%
+              ungroup()
+            return(occ)
+          })

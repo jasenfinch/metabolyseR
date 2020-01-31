@@ -53,12 +53,12 @@ setGeneric("correlationResults", function(x) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block',...){
+setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', ...){
   standardGeneric('plotTIC')
 })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = 'Relative standard deviation distributions'){
+setGeneric('plotRSD', function(analysis, cls = 'class', ...){
   standardGeneric('plotRSD')
 })
 
@@ -73,12 +73,12 @@ setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T,
 })
 
 #' @rdname plotFeature
-setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, ...){
   standardGeneric('plotFeature')
 })
 
 #' @rdname plotExplanatoryHeatmap
-setGeneric('plotExplanatoryHeatmap',function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+setGeneric('plotExplanatoryHeatmap',function(x, ...){
   standardGeneric('plotExplanatoryHeatmap')
 })
 
@@ -92,6 +92,11 @@ setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = N
   standardGeneric('plotUnsupervisedRF')
 })
 
+#' @rdname plotOccupancy
+setGeneric('plotOccupancy',function(x,cls = 'class', ...){
+  standardGeneric('plotOccupancy')
+})
+
 #' @rdname dat
 setGeneric("dat", function(x) {
   standardGeneric("dat")
@@ -100,6 +105,21 @@ setGeneric("dat", function(x) {
 #' @rdname sinfo
 setGeneric("sinfo", function(x) {
   standardGeneric("sinfo")
+})
+
+#' @rdname features
+setGeneric("features", function(x, ...) {
+  standardGeneric("features")
+})
+
+#' @rdname nFeatures
+setGeneric("nFeatures", function(x, ...) {
+  standardGeneric("nFeatures")
+})
+
+#' @rdname nSamples
+setGeneric("nSamples", function(x, ...) {
+  standardGeneric("nSamples")
 })
 
 #' @rdname aggregateSum
@@ -115,6 +135,11 @@ setGeneric("aggregateMean", function(d,cls = 'class') {
 #' @rdname aggregateMedian
 setGeneric("aggregateMedian", function(d,cls = 'class') {
   standardGeneric("aggregateMedian")
+})
+
+#' @rdname occupancy
+setGeneric("occupancy", function(x, cls = 'class') {
+  standardGeneric("occupancy")
 })
 
 #' @rdname occupancyMaximum
@@ -307,27 +332,32 @@ setGeneric("changeParameter", function(parameters,parameterName,newValue,element
   standardGeneric("changeParameter")
 })
 
-#' @rdname availableCls
-setGeneric("availableCls", function(x,...) {
-  standardGeneric("availableCls")
+#' @rdname clsAvailable
+setGeneric("clsAvailable", function(x,...) {
+  standardGeneric("clsAvailable")
 })
 
-#' @rdname extractCls
-setGeneric("extractCls", function(x,cls = 'class',...) {
-  standardGeneric("extractCls")
+#' @rdname clsExtract
+setGeneric("clsExtract", function(x,cls = 'class', ...) {
+  standardGeneric("clsExtract")
 })
 
-#' @rdname replaceCls
-setGeneric("replaceCls", function(x,value,cls = 'class',...) {
-  standardGeneric("replaceCls")
+#' @rdname clsReplace
+setGeneric("clsReplace", function(x,value,cls = 'class', ...) {
+  standardGeneric("clsReplace")
 })
 
-#' @rdname addCls
-setGeneric("addCls", function(x,cls,value,...) {
-  standardGeneric("addCls")
+#' @rdname clsAdd
+setGeneric("clsAdd", function(x,cls,value,...) {
+  standardGeneric("clsAdd")
 })
 
-#' @rdname removeCls
-setGeneric("removeCls", function(x,cls,...) {
-  standardGeneric("removeCls")
+#' @rdname clsRemove
+setGeneric("clsRemove", function(x,cls,...) {
+  standardGeneric("clsRemove")
+})
+
+#' @rdname rsd
+setGeneric("rsd", function(x,cls = 'class') {
+  standardGeneric("rsd")
 })

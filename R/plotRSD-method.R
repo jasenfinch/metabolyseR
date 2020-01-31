@@ -7,11 +7,13 @@
 #' @param QCparameters alternative parameters for QC sample pre-treatment. See details
 #' @param histBins number of bins to use for histogram plotting
 #' @param title plot title
+#' @param ... arguments to pass to the appropriate method
 #' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
 #' @importFrom stringr str_extract
 #' @importFrom purrr map
 #' @importFrom stats median
-#' @importFrom ggplot2 geom_histogram geom_text
+#' @importFrom ggplot2 geom_histogram geom_text geom_density
+#' @importFrom patchwork plot_layout
 #' @examples \dontrun{
 #' 
 #' library(metaboData)
@@ -34,7 +36,60 @@
 #' @export
 
 setMethod('plotRSD',signature = 'AnalysisData',
+          function(analysis, cls = 'class'){
+            
+            if (clsExtract(analysis,cls) %>% is.numeric()) {
+              stop("Argument 'cls' should be either a factor or character",call. = FALSE)  
+            }
+            
+            x <- rsd(analysis,cls = cls)
+            
+            d <- ggplot(x,aes_string(x = 'RSD',colour = cls,group = cls)) +
+              geom_density() +
+              theme_bw() +
+              labs(title = 'Density distrubution') +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold'),
+                    legend.position = 'bottom')
+            
+            cs <- x %>%
+              group_by_at(c(cls,'RSD')) %>%
+              summarise(sum = n()) %>%
+              mutate(cs = cumsum(sum))
+            
+            csDist <- ggplot(cs,aes_string(x = 'RSD',y = 'cs',colour = cls)) + 
+              geom_line() + 
+              theme_bw() +
+              labs(title = 'Cumulative distribution',
+                   y = 'Cumulative frequency') +
+              theme(plot.title = element_text(face = 'bold'),
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold'),
+                    legend.position = 'bottom')
+            
+            if (length(clsExtract(analysis,cls) %>% unique()) < 12) {
+              d <- d +
+                scale_colour_ptol()
+              
+              csDist <- csDist +
+                scale_colour_ptol()
+            }
+            
+            pl <- d + csDist
+            
+            return(pl)
+          }
+)
+
+#' @rdname plotRSD
+#' @export
+
+setMethod('plotRSD',signature = 'Analysis',
           function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = ''){
+            
+            analysis <- raw(analysis)
+            
             d <- dat(analysis)
             i <- sinfo(analysis)
             
@@ -49,10 +104,10 @@ setMethod('plotRSD',signature = 'AnalysisData',
             
             rsd <- d %>% 
               metabolyse(.,info = i, parameters = QCparameters,verbose = F) %>%
-                preTreatedData() %>%
-                gather('Feature','Intensity') %>%
-                group_by(Feature) %>%
-                summarise(RSD = sd(Intensity)/mean(Intensity))
+              preTreatedData() %>%
+              gather('Feature','Intensity') %>%
+              group_by(Feature) %>%
+              summarise(RSD = sd(Intensity)/mean(Intensity))
             
             cs <- rsd %>%
               group_by(RSD) %>%
@@ -93,14 +148,6 @@ setMethod('plotRSD',signature = 'AnalysisData',
               csDist + 
               plot_annotation(title = title,
                               theme = theme(plot.title = element_text(face = 'bold')))
-          }
-)
-
-#' @rdname plotRSD
-#' @export
-
-setMethod('plotRSD',signature = 'Analysis',
-          function(analysis, cls = 'class', QCidx = 'QC', QCparameters = NULL, histBins = 30, title = ''){
-            plotRSD(analysis@rawData,cls = cls,QCidx = QCidx,QCparameters = QCparameters,histBins = histBins,title = title)
+            
           }
 )

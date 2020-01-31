@@ -6,23 +6,9 @@
 \alias{plotRSD,Analysis-method}
 \title{plotRSD}
 \usage{
-plotRSD(
-  analysis,
-  cls = "class",
-  QCidx = "QC",
-  QCparameters = NULL,
-  histBins = 30,
-  title = "Relative standard deviation distributions"
-)
+plotRSD(analysis, cls = "class", ...)
 
-\S4method{plotRSD}{AnalysisData}(
-  analysis,
-  cls = "class",
-  QCidx = "QC",
-  QCparameters = NULL,
-  histBins = 30,
-  title = ""
-)
+\S4method{plotRSD}{AnalysisData}(analysis, cls = "class")
 
 \S4method{plotRSD}{Analysis}(
   analysis,
@@ -37,6 +23,8 @@ plotRSD(
 \item{analysis}{object of class Analysis containing analysis results}
 
 \item{cls}{info column to use for class labels}
+
+\item{...}{arguments to pass to the appropriate method}
 
 \item{QCidx}{QC sample label}
 
