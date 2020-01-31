@@ -7,6 +7,7 @@
 #' @param QCparameters alternative parameters for QC sample pre-treatment. See details
 #' @param histBins number of bins to use for histogram plotting
 #' @param title plot title
+#' @param ... arguments to pass to the appropriate method
 #' @details If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
 #' @importFrom stringr str_extract
 #' @importFrom purrr map

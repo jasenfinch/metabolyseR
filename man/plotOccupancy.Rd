@@ -17,6 +17,8 @@ plotOccupancy(x, cls = "class", ...)
 
 \item{cls}{info column to use for class labels}
 
+\item{...}{arguments to pass to the appropriate method}
+
 \item{type}{\code{raw} or \code{preTreated} data to plot}
 }
 \description{

@@ -7,6 +7,7 @@
 #' @param label info column to use for sample labels
 #' @param labelSize sample label size
 #' @param type \code{raw} or \code{preTreated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @importFrom ggplot2 ggtitle
 #' @examples 
 #' \dontrun{

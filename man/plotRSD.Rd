@@ -24,6 +24,8 @@ plotRSD(analysis, cls = "class", ...)
 
 \item{cls}{info column to use for class labels}
 
+\item{...}{arguments to pass to the appropriate method}
+
 \item{QCidx}{QC sample label}
 
 \item{QCparameters}{alternative parameters for QC sample pre-treatment. See details}

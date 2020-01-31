@@ -36,6 +36,8 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
 
 \item{labelSize}{sample label size}
 
+\item{...}{arguments to pass to the appropriate method}
+
 \item{type}{\code{raw} or \code{preTreated} data to plot}
 }
 \description{

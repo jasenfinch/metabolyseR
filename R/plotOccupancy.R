@@ -4,6 +4,7 @@
 #' @param x S4 object of class AnalysisData or Analysis
 #' @param cls info column to use for class labels
 #' @param type \code{raw} or \code{preTreated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @export
 
 setMethod('plotOccupancy',signature = 'AnalysisData',
