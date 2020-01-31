@@ -1,6 +1,6 @@
-#' @importFrom ggplot2 ggplot aes_string theme
+#' @importFrom ggplot2 ggplot aes_string theme scale_y_discrete geom_segment scale_x_reverse scale_y_continuous unit
 
-heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames){
+heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames,dendrogram){
   pl %>%
     map(~{
       r <- .
@@ -22,7 +22,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
       
       d <- d %>%
         sinfo() %>%
-        select(pred) %>%
+        select(all_of(pred)) %>%
         bind_cols(d %>%
                     dat()) %>%
         gather('Feature','Intensity',-1) %>%
@@ -38,7 +38,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
         mutate(`Relative Intensity` = Intensity / Total)
       
       suppressWarnings({
-        clusters <- d %>%
+        dend <- d %>%
           select(-Intensity,-Total) %>%
           spread(1,`Relative Intensity`) %>%
           set_rownames(.$Feature) %>%
@@ -48,7 +48,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
           dendro_data()  
       })
       
-      clusters <- clusters$labels$label
+      clusters <- dend$labels$label
       
       d <- d %>%
         tbl_df() %>%
@@ -67,6 +67,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
         ggplot(aes_string(x = pred,y = 'Feature',fill = '`Relative Intensity`')) +
         geom_tile(colour = 'black') +
         scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
+        scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
         labs(title = pred,
              caption = caption,
@@ -76,7 +77,9 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
           theme(plot.title = element_text(face = 'bold'),
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
-                axis.text.x = element_text(angle = 30,hjust = 1)
+                axis.text.x = element_text(angle = 30,hjust = 1),
+                panel.grid = element_blank(),
+                plot.margin = unit(c(0,0,0,0), "pt")
           ) 
       } else {
         plo <- plo +
@@ -84,16 +87,37 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
                 axis.text.x = element_text(angle = 30,hjust = 1),
-                axis.text.y = element_blank()
+                axis.text.y = element_blank(),
+                panel.grid = element_blank(),
+                plot.margin = unit(c(0,0,0,0), "pt")
           ) 
       }
+      
+      if (isTRUE(dendrogram)) {
+        dend_plot <- ggplot() +
+          geom_segment(data = dend$segments,aes(x = y, y = x, xend = yend, yend = xend)) +
+          scale_x_reverse() +
+          scale_y_continuous(breaks = seq_along(dend$labels$label), 
+                             labels = dend$labels$label,position = 'right',
+                             expand = c(0.005,0)) +
+          theme_minimal(base_size = 14) +
+          theme(axis.text.x = element_blank(),
+                panel.grid = element_blank(),
+                plot.margin = unit(c(0,0,0,0), "pt"),
+                axis.text.y = element_blank()) +
+          labs(x = NULL,
+               y = NULL)  
+        
+        plo <- dend_plot + plo + plot_layout(widths = c(1, 2))
+      }
+      
       return(plo)
     })
 }
 
 #' @importFrom ggplot2 scale_fill_gradient2
 
-heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames){
+heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames, dendrogram){
   pl %>%
     map(~{
       r <- .
@@ -120,7 +144,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
         mutate(Predictor = pred)
       
       suppressWarnings({
-        clusters <- d %>%
+        dend <- d %>%
           spread(3,r) %>%
           set_rownames(.$Feature) %>%
           select(-Feature) %>%
@@ -129,7 +153,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
           dendro_data()  
       })
       
-      clusters <- clusters$labels$label
+      clusters <- dend$labels$label
       
       d <- d %>%
         tbl_df() %>%
@@ -146,19 +170,22 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes(x = Predictor,y = Feature,fill = r)) +
+        ggplot(aes_string(x = 'Predictor',y = 'Feature',fill = 'r')) +
         geom_tile(colour = 'black') +
-        scale_fill_gradient2(low = low,mid = mid, high = high,limits=c(-1,1)) +
+        scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
+        scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
         labs(title = pred,
              caption = caption,
-             fill = 'r')
+             fill = 'Relative\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
           theme(plot.title = element_text(face = 'bold'),
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
-                axis.text.x = element_text(angle = 30,hjust = 1)
+                axis.text.x = element_text(angle = 30,hjust = 1),
+                panel.grid = element_blank(),
+                plot.margin = unit(c(0,0,0,0), "pt")
           ) 
       } else {
         plo <- plo +
@@ -166,9 +193,30 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
                 axis.text.x = element_text(angle = 30,hjust = 1),
-                axis.text.y = element_blank()
+                axis.text.y = element_blank(),
+                panel.grid = element_blank(),
+                plot.margin = unit(c(0,0,0,0), "pt")
           ) 
       }
+      
+      if (isTRUE(dendrogram)) {
+        dend_plot <- ggplot() +
+          geom_segment(data = dend$segments,aes(x = y, y = x, xend = yend, yend = xend)) +
+          scale_x_reverse() +
+          scale_y_continuous(breaks = seq_along(dend$labels$label), 
+                             labels = dend$labels$label,position = 'right',
+                             expand = c(0.005,0)) +
+          theme_minimal(base_size = 14) +
+          theme(axis.text.x = element_blank(),
+                panel.grid = element_blank(),
+                plot.margin = unit(c(0,0,0,0), "pt"),
+                axis.text.y = element_blank()) +
+          labs(x = NULL,
+               y = NULL)  
+        
+        plo <- dend_plot + plo + plot_layout(widths = c(1, 2))
+      }
+      
       return(plo)
     })
 }
@@ -177,10 +225,13 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
 #' @rdname plotExplanatoryHeatmap
 #' @description plot a heatmap of explanatory features
 #' @param x object of class Univariate, RandomForest or Analysis containing modelling results
+#' @param measure importance measure on which to retrieve explanatory feautres
 #' @param threshold score threshold to use for specifying explantory features
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details
 #' @param featureNames should feature names be plotted?
+#' @param dendrogram TRUE/FALSE. Should the dendrogram be plotted?
+#' @param ... arguments to pass to the appropriate method
 #' @details 
 #' Options for distance measures are as for \code{dist()}.
 #' Clustering methods are as given for \code{hclust()}.
@@ -209,20 +260,20 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE, dendrogram = TRUE){
             
-            res <- x@results %>%
-              filter(adjusted.p.value < threshold)
+            res <- x %>%
+              explanatoryFeatures()
             
             pl <- res %>%
               split(.$Predictor)
             
-            if (x@type == 'ttest' | x@type == 'anova') {
-              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+            if (x@type == 't-test' | x@type == 'ANOVA') {
+              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
             }
             
-            if (x@type == 'linearRegression') {
-              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+            if (x@type == 'linear regression') {
+              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
             }
             
             # pl <- wrap_plots(pl)
@@ -243,36 +294,13 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
-            
-            res <- x %>%
-              importance()
+          function(x, measure = 'FalsePositiveRate', threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE, dendrogram = TRUE){
             
             if (x@type == 'unsupervised') {
               stop('Cannot plot heatmap for unsupervised random forest.')
             }
             
-            if (x@type == 'classification') {
-              
-              explan <- res %>%
-                filter(Measure == 'FalsePositiveRate')
-              
-              if ('adjustedPvalue' %in% colnames(res)) {
-                explan <- explan %>%
-                  filter(adjustedPvalue < threshold)
-              } else {
-                explan <- explan %>%
-                  filter(Value < threshold)
-              }
-            } else {
-              
-              if (!('adjustedPvalue' %in% colnames(res))) {
-                stop('Permutations should be run for regression analyses.')
-              }
-              
-              explan <- res %>%
-                filter(Measure == 'IncNodePurity',adjustedPvalue < threshold)
-            }
+            explan <- explanatoryFeatures(x,measure = measure,threshold = threshold)
             
             if ('Predictor' %in% colnames(explan)) {
               pl <- explan %>%
@@ -282,11 +310,11 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             }
             
             if (x@type == 'classification') {
-              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
             }
             
             if (x@type == 'regression') {
-              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
             }
             
             pl <- wrap_plots(pl)
