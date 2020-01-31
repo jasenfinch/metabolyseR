@@ -78,7 +78,7 @@ setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL
 })
 
 #' @rdname plotExplanatoryHeatmap
-setGeneric('plotExplanatoryHeatmap',function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+setGeneric('plotExplanatoryHeatmap',function(x, ...){
   standardGeneric('plotExplanatoryHeatmap')
 })
 
@@ -105,6 +105,21 @@ setGeneric("dat", function(x) {
 #' @rdname sinfo
 setGeneric("sinfo", function(x) {
   standardGeneric("sinfo")
+})
+
+#' @rdname features
+setGeneric("features", function(x, ...) {
+  standardGeneric("features")
+})
+
+#' @rdname nFeatures
+setGeneric("nFeatures", function(x, ...) {
+  standardGeneric("nFeatures")
+})
+
+#' @rdname nSamples
+setGeneric("nSamples", function(x, ...) {
+  standardGeneric("nSamples")
 })
 
 #' @rdname aggregateSum
