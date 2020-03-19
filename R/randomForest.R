@@ -20,13 +20,15 @@ permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
   
   clus <- makeCluster(nCores,type = clusterType)
   
-  models <- parLapply(clus,1:n,function(y,d,index){
+  models <- parLapply(clus,1:n,function(y,d,index,rf){
     params <- formals(randomForest::randomForest)
-    params$x <- d %>% dat()
-    params$y <- sample(index)
     params <- c(params,rf)
+    params$x <- d %>% dat()
+    ind <- sample(index)
+    params$y <- ind
+    params$strata <- ind
     do.call(randomForest::randomForest,params)
-  },d = x,index = i) %>%
+  },d = x,index = i,rf = rf) %>%
     set_names(1:n)
   stopCluster(clus)
   
