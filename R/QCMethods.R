@@ -69,12 +69,15 @@ setMethod('QCimpute',signature = 'AnalysisData',
 setMethod('QCrsdFilter',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5){
             QC <- d %>%
-              dat() %>%
-              .[{d %>% sinfo() %>% .[,cls]} == QCidx,]
-            RSD <- apply(QC,2,function(y){sd(y)/mean(y)})
-            dat(d) <- d %>%
-              dat() %>%
-              .[,RSD <= RSDthresh]
+              keepClasses(cls = cls,classes = QCidx)
+            
+            RSD <- QC %>%
+              rsd(cls = cls) %>%
+              filter(RSD <= RSDthresh)
+            
+            d <- d %>%
+              keepVariables(variables = RSD$Feature)
+            
             return(d)
           }
 )
@@ -90,12 +93,8 @@ setMethod('QCrsdFilter',signature = 'AnalysisData',
 
 setMethod('QCremove',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC'){
-            dat(d) <- d %>%
-              dat() %>%
-              .[!({d %>% sinfo() %>% .[,cls]} == QCidx),]
-            sinfo(d) <- d %>%
-              sinfo() %>%
-              .[!({d %>% sinfo() %>% .[,cls]} == QCidx),]
+           d <- d %>%
+             removeClasses(cls = cls,classes = QCidx)
             return(d)
           }
 )
