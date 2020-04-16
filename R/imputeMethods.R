@@ -7,6 +7,7 @@
 #' @param nCores number of cores for parallisation
 #' @param clusterType cluster type for parallisation
 #' @param seed random number seed
+#' @importFrom tidyselect all_of
 #' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',

@@ -182,6 +182,7 @@ setMethod('clsRemove',signature = 'Analysis',function(x,cls,type = 'raw'){
 #' @param descending TRUE/FALSE, arrange samples in descending order
 #' @param type  \code{raw} or \code{preTreated} sample information
 #' @param ... arguments to pass to specific method
+#' @importFrom dplyr desc
 #' @export
 
 setMethod('clsArrange',signature = 'AnalysisData',function(x,cls = 'class', descending = FALSE){

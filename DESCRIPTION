@@ -32,7 +32,8 @@ Imports: Hmisc,
          patchwork,
          yardstick,
          broom,
-         rlang
+         rlang,
+         tidyselect
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
