@@ -8,7 +8,7 @@
 \usage{
 plotImportance(x, ...)
 
-\S4method{plotImportance}{Univariate}(x, predictor = "class")
+\S4method{plotImportance}{Univariate}(x, response = "class")
 
 \S4method{plotImportance}{RandomForest}(x)
 }
@@ -17,7 +17,7 @@ plotImportance(x, ...)
 
 \item{...}{arguments to pass to specific method}
 
-\item{predictor}{Predictor results to plot}
+\item{response}{Response results to plot}
 }
 \description{
 Plot univariate or random forest feature importance.

@@ -24,3 +24,4 @@ setMethod('bindAnalysesRows',signature = 'list',function(x){
   
   return(d)
 })
+
