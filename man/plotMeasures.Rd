@@ -5,14 +5,14 @@
 \alias{plotMeasures,RandomForest-method}
 \title{plotMeasures}
 \usage{
-plotMeasures(x, predictor = "class")
+plotMeasures(x, response = "class")
 
 \S4method{plotMeasures}{RandomForest}(x)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}
 
-\item{predictor}{predictor results to plot}
+\item{response}{response results to plot}
 }
 \description{
 Plot random forest model measures.

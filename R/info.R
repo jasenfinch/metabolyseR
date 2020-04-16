@@ -173,3 +173,59 @@ setMethod('clsRemove',signature = 'Analysis',function(x,cls,type = 'raw'){
   
   return(x)
 })
+
+#' clsArrange
+#' @rdname clsArrange
+#' @description Order samples within an object of class AnalysisData or Analysis by a given sample information column.
+#' @param x S4 object of class AnalysisData or Analysis
+#' @param cls  name of sample information column to arrange by
+#' @param descending TRUE/FALSE, arrange samples in descending order
+#' @param type  \code{raw} or \code{preTreated} sample information
+#' @param ... arguments to pass to specific method
+#' @importFrom dplyr desc
+#' @export
+
+setMethod('clsArrange',signature = 'AnalysisData',function(x,cls = 'class', descending = FALSE){
+  
+  sample_data <- dat(x) %>%
+    bind_cols(sinfo(x) %>%
+                select(all_of(cls)))
+  
+  sample_info <- sinfo(x)
+  
+  if (isTRUE(descending)) {
+    sample_data <- sample_data %>%
+      arrange(desc(!!sym(cls)))
+    
+    sample_info <- sample_info %>%
+      arrange(desc(!!sym(cls)))
+  } else {
+    sample_data <- sample_data %>%
+      arrange(!!sym(cls))
+    
+    sample_info <- sample_info %>%
+      arrange(!!sym(cls))
+  }
+  
+  dat(x) <- sample_data %>%
+    select(-all_of(cls))
+  sinfo(x) <- sample_info
+  
+  return(x)
+})
+
+#' @rdname clsArrange
+
+setMethod('clsArrange',signature = 'Analysis',function(x,cls = 'class', descending = FALSE, type = 'raw'){
+  types <- c('raw','preTreated')
+  if (!(type %in% types)) {
+    stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
+  } 
+  
+  sl <- get(type)
+  `sl<-` <- get(str_c(type,'<-'))
+  
+  sl(x) <- x %>%
+    sl() %>%
+    clsArrange(cls = cls,descending = descending)
+})

@@ -36,7 +36,7 @@ randomForest(
 \arguments{
 \item{x}{S4 object of class AnalysisData}
 
-\item{cls}{vector of info columns to use for predictor information. Set to NULL for unsupervised.}
+\item{cls}{vector of info columns to use for Response information. Set to NULL for unsupervised.}
 
 \item{rf}{named list of arguments to pass to randomForest::randomForest}
 

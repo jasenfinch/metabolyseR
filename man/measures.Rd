@@ -3,11 +3,14 @@
 \name{measures}
 \alias{measures}
 \alias{measures,RandomForest-method}
+\alias{measures,list-method}
 \title{measures}
 \usage{
 measures(x)
 
 \S4method{measures}{RandomForest}(x)
+
+\S4method{measures}{list}(x)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}

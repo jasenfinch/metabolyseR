@@ -49,27 +49,27 @@ classificationMeasures <- function(predictions,permutations){
   class_metrics <- metric_set(accuracy,kap)
   
   meas <- predictions %>%
-    split(.$Predictor) %>%
+    base::split(.$Response) %>%
     map(~{
       d <- .
       d %>%
-        split(.$Comparison) %>%
+        base::split(.$Comparison) %>%
         map(~{
           p <- .
           p %>%
             mutate(obs = factor(obs),pred = factor(pred)) %>%
-            group_by(Predictor,Comparison) %>%
+            group_by(Response,Comparison) %>%
             class_metrics(obs,estimate = pred)
         }) %>%
         bind_rows()
     }) %>%
     bind_rows() %>%
     bind_rows(suppressMessages(predictions %>%
-                                 split(.$Predictor) %>%
+                                 base::split(.$Response) %>%
                                  map(~{
                                    d <- .
                                    d %>%
-                                     split(.$Comparison) %>%
+                                     base::split(.$Comparison) %>%
                                      map(~{
                                        p <- .
                                        
@@ -81,20 +81,20 @@ classificationMeasures <- function(predictions,permutations){
                                          estimate <- levels(p$obs)[1]
                                        }
                                        p %>%
-                                         group_by(Predictor,Comparison) %>%
+                                         group_by(Response,Comparison) %>%
                                          roc_auc(obs,estimate)
                                      }) %>%
                                      bind_rows()
                                  }) %>%
                                  bind_rows())) %>%
     bind_rows(predictions %>%
-                group_by(Predictor,Comparison) %>%
+                group_by(Response,Comparison) %>%
                 summarise(.estimate = mean(margin)) %>%
                 mutate(.metric = 'margin'))
   
   if (length(permutations) > 0) {
     meas <- meas %>%
-      left_join(permutations$measures, by = c("Predictor","Comparison", ".metric")) %>%
+      left_join(permutations$measures, by = c("Response","Comparison", ".metric")) %>%
       mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = F)) %>%
       select(-Mean,-SD)
   }
@@ -106,15 +106,15 @@ classificationMeasures <- function(predictions,permutations){
 
 classificationImportance <- function(importances,permutations){
   imps <- importances %>%
-    group_by(Predictor,Comparison,Feature,Measure) %>%
+    group_by(Response,Comparison,Feature,Measure) %>%
     summarise(Value = mean(Value))
   
   if (length(permutations) > 0) {
     lowertail <- list(MeanDecreaseGini = F,SelectionFrequency = F,FalsePositiveRate = T)
     
     imps <- imps %>%
-      left_join(permutations$importance, by = c("Predictor","Comparison", "Feature", "Measure")) %>%
-      split(.$Measure) %>%
+      left_join(permutations$importance, by = c("Response","Comparison", "Feature", "Measure")) %>%
+      base::split(.$Measure) %>%
       map(~{
         i <- .
         tail <- lowertail[[i$Measure[1]]]
@@ -148,33 +148,33 @@ classificationPermutationMeasures <- function(models){
         }) %>%
           bind_rows(.id = 'Comparison')
       }) %>%
-      bind_rows(.id = 'Predictor') 
+      bind_rows(.id = 'Response') 
   })
   
   class_metrics <- metric_set(accuracy,kap)
   
   meas <- preds %>%
-    split(.$Predictor) %>%
+    base::split(.$Response) %>%
     map(~{
       d <- .
       d %>%
-        split(.$Comparison) %>%
+        base::split(.$Comparison) %>%
         map(~{
           p <- .
           p %>%
             mutate(obs = factor(obs),pred = factor(pred)) %>%
-            group_by(Predictor,Comparison,Permutation) %>%
+            group_by(Response,Comparison,Permutation) %>%
             class_metrics(obs,estimate = pred)
         }) %>%
         bind_rows()
     }) %>%
     bind_rows() %>%
     bind_rows(suppressMessages(preds %>%
-                                 split(.$Predictor) %>%
+                                 base::split(.$Response) %>%
                                  map(~{
                                    d <- .
                                    d %>%
-                                     split(.$Comparison) %>%
+                                     base::split(.$Comparison) %>%
                                      map(~{
                                        p <- .
                                        
@@ -186,17 +186,17 @@ classificationPermutationMeasures <- function(models){
                                          estimate <- levels(p$obs)[1]
                                        }
                                        p %>%
-                                         group_by(Predictor,Comparison,Permutation) %>%
+                                         group_by(Response,Comparison,Permutation) %>%
                                          roc_auc(obs,estimate)
                                      }) %>%
                                      bind_rows()
                                  }) %>%
                                  bind_rows())) %>%
     bind_rows(preds %>%
-                group_by(Predictor,Comparison,Permutation) %>%
+                group_by(Response,Comparison,Permutation) %>%
                 summarise(.estimate = mean(margin)) %>%
                 mutate(.metric = 'margin')) %>%
-    group_by(Predictor,Comparison,.metric) %>%
+    group_by(Response,Comparison,.metric) %>%
     summarise(Mean = mean(.estimate),SD = sd(.estimate))
   
   imps <- models %>%
@@ -213,9 +213,9 @@ classificationPermutationMeasures <- function(models){
       }) %>%
         bind_rows(.id = 'Comparison')
     }) %>%
-    bind_rows(.id = 'Predictor') %>%
-    gather('Measure','Value',-(Predictor:Feature)) %>%
-    group_by(Predictor,Comparison,Feature,Measure) %>%
+    bind_rows(.id = 'Response') %>%
+    gather('Measure','Value',-(Response:Feature)) %>%
+    group_by(Response,Comparison,Feature,Measure) %>%
     summarise(Mean = mean(Value),SD = sd(Value))
   
   return(list(measures = meas,importance = imps))
@@ -224,11 +224,11 @@ classificationPermutationMeasures <- function(models){
 regressionMeasures <- function(predictions,permutations){
   reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
   meas <- predictions %>%
-    split(.$Predictor) %>%
+    base::split(.$Response) %>%
     map(~{
       d <- .
       d %>%
-        group_by(Predictor) %>%
+        group_by(Response) %>%
         reg_metrics(obs,estimate = pred)
     }) %>%
     bind_rows()
@@ -237,7 +237,7 @@ regressionMeasures <- function(predictions,permutations){
     lowertail <- list(rsq = F,mae = T,mape = T,mape = T,rmse = T,ccc = F)
     
     meas <- meas %>%
-      left_join(permutations$measures, by = c("Predictor", ".metric")) %>%
+      left_join(permutations$measures, by = c("Response", ".metric")) %>%
       rowwise() %>%
       mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = lowertail[[.metric]])) %>%
       select(-Mean,-SD)
@@ -248,12 +248,12 @@ regressionMeasures <- function(predictions,permutations){
 
 regressionImportance <- function(importances,permutations){
   imps <- importances %>%
-    group_by(Predictor,Feature,Measure) %>%
+    group_by(Response,Feature,Measure) %>%
     summarise(Value = mean(Value)) 
   
   if (length(permutations) > 0) {
     imps <- imps %>%
-      left_join(permutations$importance, by = c("Predictor", "Feature", "Measure")) %>%
+      left_join(permutations$importance, by = c("Response", "Feature", "Measure")) %>%
       mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = F)) %>%
       group_by(Measure) %>%
       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
@@ -273,20 +273,20 @@ regressionPermutationMeasures <- function(models){
         bind_rows(.id = 'Permutation') %>%
         mutate(Permutation = as.numeric(Permutation))
     }) %>%
-    bind_rows(.id = 'Predictor')
+    bind_rows(.id = 'Response')
   
   reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
   
   meas <- preds %>%
-    split(.$Predictor) %>%
+    base::split(.$Response) %>%
     map(~{
       d <- .
       d %>%
-        group_by(Predictor,Permutation) %>%
+        group_by(Response,Permutation) %>%
         reg_metrics(obs,estimate = pred)
     }) %>%
     bind_rows() %>%
-    group_by(Predictor,.metric) %>%
+    group_by(Response,.metric) %>%
     summarise(Mean = mean(.estimate),SD = sd(.estimate))
   
   imps <- models %>%
@@ -298,9 +298,9 @@ regressionPermutationMeasures <- function(models){
         bind_rows(.id = 'Permutation') %>%
         mutate(Permutation = as.numeric(Permutation))
     }) %>%
-    bind_rows(.id = 'Predictor') %>%
-    gather('Measure','Value',-Predictor,-Permutation,-Feature) %>%
-    group_by(Predictor,Feature,Measure) %>%
+    bind_rows(.id = 'Response') %>%
+    gather('Measure','Value',-Response,-Permutation,-Feature) %>%
+    group_by(Response,Feature,Measure) %>%
     summarise(Mean = mean(Value),SD = sd(Value))
   
   return(list(measures = meas,importance = imps))
@@ -516,7 +516,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
         }) %>%
           bind_rows(.id = 'Comparison')
       }) %>%
-      bind_rows(.id = 'Predictor')
+      bind_rows(.id = 'Response')
   })
   
   importances <- models %>%
@@ -533,8 +533,8 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
       }) %>%
         bind_rows(.id = 'Comparison')
     }) %>%
-    bind_rows(.id = 'Predictor') %>%
-    gather('Measure','Value',-(Predictor:Feature))
+    bind_rows(.id = 'Response') %>%
+    gather('Measure','Value',-(Response:Feature))
   
   proximities <- models %>%
     map(~{
@@ -550,7 +550,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
       }) %>%
         bind_rows(.id = 'Comparison')
     }) %>%
-    bind_rows(.id = 'Predictor')  %>%
+    bind_rows(.id = 'Response')  %>%
     mutate(Sample2 = as.numeric(Sample2))
   
   if (perm > 0) {
@@ -640,7 +640,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
         bind_rows(.id = 'Rep') %>%
         mutate(Rep = as.numeric(Rep))
     }) %>%
-    bind_rows(.id = 'Predictor')
+    bind_rows(.id = 'Response')
   
   importances <- models %>%
     map(~{
@@ -651,8 +651,8 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
         bind_rows(.id = 'Rep') %>%
         mutate(Rep = as.numeric(Rep))
     }) %>%
-    bind_rows(.id = 'Predictor') %>%
-    gather('Measure','Value',-Predictor,-Rep,-Feature)
+    bind_rows(.id = 'Response') %>%
+    gather('Measure','Value',-Response,-Rep,-Feature)
   
   proximities <- models %>%
     map(~{
@@ -665,7 +665,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
         bind_rows(.id = 'Rep') %>%
         mutate(Rep = as.numeric(Rep))
     }) %>%
-    bind_rows(.id = 'Predictor') %>%
+    bind_rows(.id = 'Response') %>%
     mutate(Sample2 = as.numeric(Sample2))
   
   if (perm > 0) {
@@ -699,7 +699,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
 #' @rdname randomForest
 #' @description Perform random forest on an AnalysisData object
 #' @param x S4 object of class AnalysisData
-#' @param cls vector of info columns to use for predictor information. Set to NULL for unsupervised.
+#' @param cls vector of info columns to use for Response information. Set to NULL for unsupervised.
 #' @param rf named list of arguments to pass to randomForest::randomForest
 #' @param reps number of repetitions to perform
 #' @param binary TRUE/FALSE should bnary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.
@@ -752,6 +752,22 @@ setMethod('measures',signature = 'RandomForest',
           }
 )
 
+#' @rdname measures
+
+setMethod('measures',signature = 'list',
+          function(x){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (F %in% (object_classes == 'RandomForest')) {
+              stop('All objects contained within supplied list should be of class RandomForest',call. = FALSE)
+            }
+            
+            x %>%
+              map(measures) %>%
+              bind_rows()
+})
+
 #' importance
 #' @rdname importance
 #' @description return feature importance resutls from a RandomForest or Univariate classes
@@ -760,7 +776,8 @@ setMethod('measures',signature = 'RandomForest',
 
 setMethod('importance',signature = 'RandomForest',
           function(x){
-            x@results$importances
+            x@results$importances %>%
+              ungroup()
           }
 )
 
@@ -769,6 +786,23 @@ setMethod('importance',signature = 'RandomForest',
 
 setMethod('importance',signature = 'Univariate',
           function(x){
-            x@results
+            x@results %>%
+              ungroup()
           }
 )
+
+#' @rdname importance
+
+setMethod('importance',signature = 'list',
+          function(x){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
+              stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+            }
+            
+            x %>%
+              map(importance) %>%
+              bind_rows()
+          })

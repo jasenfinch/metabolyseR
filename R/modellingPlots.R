@@ -2,22 +2,22 @@
 #' @rdname plotImportance
 #' @description Plot univariate or random forest feature importance.
 #' @param x S4 object of class Univariate or RandomForest
-#' @param predictor Predictor results to plot
+#' @param response Response results to plot
 #' @param ... arguments to pass to specific method
 #' @importFrom ggplot2 facet_wrap
 #' @export
 
 setMethod('plotImportance',signature = 'Univariate',
-          function(x, predictor = 'class'){
+          function(x, response = 'class'){
             threshold <- 0.05
             res <- x@results
             
-            if (!(predictor %in% unique(res$Predictor))) {
-              stop('Predictor not found!')
+            if (!(response %in% unique(res$Response))) {
+              stop('Response not found!')
             }
             
             res <- res %>%
-              filter(Predictor == predictor) %>%
+              filter(Response == response) %>%
               mutate(`-log10(p)` = -log10(adjusted.p.value))
             
             pl <- ggplot(res,aes(x = Feature,y = `-log10(p)`)) +
@@ -30,7 +30,7 @@ setMethod('plotImportance',signature = 'Univariate',
                     panel.grid = element_blank(),
                     axis.title = element_text(face = 'bold'),
                     plot.title = element_text(face = 'bold')) +
-              labs(title = predictor,
+              labs(title = response,
                    caption = str_c('Dashed red line shows threshold of ',threshold,'.')) 
             
             if (x@type == 'ttest') {
@@ -46,7 +46,7 @@ setMethod('plotImportance',signature = 'Univariate',
 #' @rdname plotMeasures
 #' @description Plot random forest model measures.
 #' @param x S4 object of class RandomForest
-#' @param predictor predictor results to plot
+#' @param response response results to plot
 #' @importFrom ggplot2 xlim
 #' @export
 
@@ -59,7 +59,7 @@ setMethod('plotMeasures',signature = 'RandomForest',
             
             res <- measures(x)
             
-            predictor <- res$Predictor %>%
+            response <- res$Response %>%
               unique()
             
             if (x@type == 'classification') {
@@ -67,7 +67,7 @@ setMethod('plotMeasures',signature = 'RandomForest',
                 geom_point(shape = 21,fill = ptol_pal()(1)) +
                 theme_bw() +
                 facet_wrap(~.metric) +
-                labs(title = predictor,
+                labs(title = response,
                      x = '') +
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold')) +
@@ -78,7 +78,7 @@ setMethod('plotMeasures',signature = 'RandomForest',
               pl <- ggplot(res,aes(x = .estimate,y = .metric)) +
                 geom_point(shape = 21,fill = ptol_pal()(1)) +
                 theme_bw() +
-                labs(title = predictor,
+                labs(title = response,
                      x = '',
                      y = 'Metric') +
                 theme(plot.title = element_text(face = 'bold'),
@@ -98,7 +98,7 @@ setMethod('plotImportance',signature = 'RandomForest',
           function(x){
             
             res <- importance(x)
-            predictor <- res$Predictor[1]
+            response <- res$Response[1]
             
             if ('adjustedPvalue' %in% colnames(res)) {
               res <- res %>%
@@ -142,7 +142,7 @@ setMethod('plotImportance',signature = 'RandomForest',
             
             if (x@type != 'unsupervised') {
               pl <- pl +
-                labs(title = predictor)
+                labs(title = response)
             }
             
             if (x@type == 'classification') {
@@ -181,7 +181,7 @@ setMethod('plotMDS',signature = 'RandomForest',
             
             if (x@type == 'classification') {
               proximities <- x@proximities %>%
-                split(.$Comparison) %>%
+                base::split(.$Comparison) %>%
                 map(~{
                   d <- .
                   d %>%
@@ -206,7 +206,7 @@ setMethod('plotMDS',signature = 'RandomForest',
               
               if (!is.null(cls)) {
                 mds <- mds %>%
-                  split(.$Comparison) %>%
+                  base::split(.$Comparison) %>%
                   map(~{
                     d <- .
                     
@@ -231,7 +231,7 @@ setMethod('plotMDS',signature = 'RandomForest',
               
               if (!is.null(label)) {
                 mds <- mds %>%
-                  split(.$Comparison) %>%
+                  base::split(.$Comparison) %>%
                   map(~{
                     d <- .
                     comparison <- str_split(d$Comparison[1],'~')[[1]]
@@ -391,7 +391,7 @@ setMethod('plotROC',signature = 'RandomForest',
             }
             
             preds <- x@predictions %>%
-              split(.$Comparison) %>%
+              base::split(.$Comparison) %>%
               map(~{
                 d <- .
                 d <- d %>%
@@ -429,7 +429,7 @@ setMethod('plotROC',signature = 'RandomForest',
                 theme_bw() +
                 facet_wrap(~Comparison) +
                 coord_fixed() +
-                guides(colour = guide_legend(title = x@results$measures$Predictor[1])) +
+                guides(colour = guide_legend(title = x@results$measures$Response[1])) +
                 labs(title = title)
               
               if ((preds$.level %>% unique() %>% length()) <= 12) {

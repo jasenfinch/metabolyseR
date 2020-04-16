@@ -313,7 +313,7 @@ setGeneric("plotImportance", function(x,...) {
 })
 
 #' @rdname plotMeasures
-setGeneric("plotMeasures", function(x, predictor = 'class') {
+setGeneric("plotMeasures", function(x, response = 'class') {
   standardGeneric("plotMeasures")
 })
 
@@ -357,7 +357,22 @@ setGeneric("clsRemove", function(x,cls,...) {
   standardGeneric("clsRemove")
 })
 
+#' @rdname clsArrange
+setGeneric("clsArrange", function(x,cls = 'class', descending = FALSE, ...) {
+  standardGeneric("clsArrange")
+})
+
 #' @rdname rsd
 setGeneric("rsd", function(x,cls = 'class') {
   standardGeneric("rsd")
+})
+
+#' @rdname bindAnalysesRows
+setGeneric('bindAnalysesRows',function(x){
+  standardGeneric('bindAnalysesRows')
+})
+
+#' @rdname split
+setGeneric('split',function(x,cls = 'class'){
+  standardGeneric('split')
 })

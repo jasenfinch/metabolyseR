@@ -31,7 +31,15 @@ test_that('number of method arguments matches description arguments', {
 
 test_that('methods work',{
   m <- names(imputeMethods())
-  d <- analysisData(abr1$neg[abr1$fact$class %in% c('1','6'),500:600],cbind(abr1$fact[abr1$fact$class %in% c('1','6'),],fileOrder = 1:nrow(abr1$fact[abr1$fact$class %in% c('1','6'),])))
+  d <- abr1 %>%
+    {
+      analysisData(.$neg,.$fact)
+    } %>%
+    keepClasses(classes = c(1,6)) %>%
+    {
+      keepVariables(.,variables = features(.)[500:600])
+    }
+
   m <- lapply(m,function(x,dat){
     method <- imputeMethods(x)
     res <- method(d,nCores = 1)

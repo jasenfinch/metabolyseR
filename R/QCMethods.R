@@ -10,17 +10,12 @@
 setMethod('QCoccupancy',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC', occupancy = 2/3){
             method <- occupancyMethods('maximum')
-            QC <- d
-            dat(QC) <- QC %>% 
-              dat() %>% 
-              .[QC %>% sinfo() %>% .[,cls] == QCidx,]
-            sinfo(QC) <- QC %>%
-              sinfo() %>%
-              .[QC %>% sinfo() %>% .[,cls] == QCidx,]
+            QC <- d %>%
+              keepClasses(cls = cls,classes = QCidx)
+            
             QC <- method(QC,cls,occupancy)
-            d@data <- d %>% 
-              dat() %>%
-              .[,colnames(d %>% dat()) %in% colnames(QC %>% dat())]
+            d <- d %>% 
+              keepVariables(variables = features(QC))
             return(d)
           }
 )
@@ -43,20 +38,20 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 setMethod('QCimpute',signature = 'AnalysisData',
           function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             set.seed(seed)
-            QC <- d %>%
-              dat() %>%
-            .[{d %>% sinfo() %>% .[,cls]} == QCidx,]
-            QC <- apply(QC,2,function(x){x[x == 0] <- NA;return(x)})
-            QC[which(QC == 0)] <- NA
-            if (nCores > 1) {
-              cl <- makeCluster(nCores,type = clusterType)
-              registerDoParallel(cl)
-              capture.output(QC <- missForest(QC,parallelize = parallel)$ximp)  
-              stopCluster(cl)
-            } else {
-              capture.output(QC <- missForest(QC)$ximp)  
-            }
-            dat(d)[{d %>% sinfo() %>% .[,cls]} == QCidx,] <- QC
+            QC <-  d %>%
+              keepClasses(cls = cls,classes = QCidx) %>%
+              imputeAll(occupancy = occupancy,
+                        parallel = parallel,
+                        nCores = nCores,
+                        clusterType = clusterType,
+                        seed = seed)
+            
+            dat(d)[d %>% 
+                sinfo() %>% 
+                select(cls) %>%
+                deframe() %>%
+                {. == QCidx},] <- QC %>%
+              dat()
             return(d)
           }
 )
@@ -74,12 +69,15 @@ setMethod('QCimpute',signature = 'AnalysisData',
 setMethod('QCrsdFilter',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5){
             QC <- d %>%
-              dat() %>%
-              .[{d %>% sinfo() %>% .[,cls]} == QCidx,]
-            RSD <- apply(QC,2,function(y){sd(y)/mean(y)})
-            dat(d) <- d %>%
-              dat() %>%
-              .[,RSD <= RSDthresh]
+              keepClasses(cls = cls,classes = QCidx)
+            
+            RSD <- QC %>%
+              rsd(cls = cls) %>%
+              filter(RSD <= RSDthresh)
+            
+            d <- d %>%
+              keepVariables(variables = RSD$Feature)
+            
             return(d)
           }
 )
@@ -95,12 +93,8 @@ setMethod('QCrsdFilter',signature = 'AnalysisData',
 
 setMethod('QCremove',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC'){
-            dat(d) <- d %>%
-              dat() %>%
-              .[!({d %>% sinfo() %>% .[,cls]} == QCidx),]
-            sinfo(d) <- d %>%
-              sinfo() %>%
-              .[!({d %>% sinfo() %>% .[,cls]} == QCidx),]
+           d <- d %>%
+             removeClasses(cls = cls,classes = QCidx)
             return(d)
           }
 )

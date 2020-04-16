@@ -4,6 +4,7 @@
 \alias{importance}
 \alias{importance,RandomForest-method}
 \alias{importance,Univariate-method}
+\alias{importance,list-method}
 \title{importance}
 \usage{
 importance(x)
@@ -11,6 +12,8 @@ importance(x)
 \S4method{importance}{RandomForest}(x)
 
 \S4method{importance}{Univariate}(x)
+
+\S4method{importance}{list}(x)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest or Univariate}

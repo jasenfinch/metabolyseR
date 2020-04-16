@@ -26,7 +26,7 @@ imputeAll(
 \arguments{
 \item{d}{S4 object of class AnalysisData}
 
-\item{occupancy}{occupancy threshold for imputation}
+\item{occupancy}{occupancy threshold for imputation of a given feature}
 
 \item{parallel}{parallel type to use. See `?missForest` for details}
 

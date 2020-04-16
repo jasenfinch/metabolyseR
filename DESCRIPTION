@@ -1,6 +1,6 @@
 Package: metabolyseR
 Title: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data
-Version: 0.12.1
+Version: 0.13.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data.
 biocViews: Metabolomics
@@ -32,11 +32,12 @@ Imports: Hmisc,
          patchwork,
          yardstick,
          broom,
-         rlang
+         rlang,
+         tidyselect
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: knitr,
     rmarkdown,
     DiagrammeR,
@@ -86,5 +87,7 @@ Collate: allGenerics.R
     keepMethods.R
     info.R
     plotOccupancy.R
+    join.R
+    split.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/
