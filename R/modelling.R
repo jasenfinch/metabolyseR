@@ -182,4 +182,20 @@ setMethod('explanatoryFeatures',signature = 'RandomForest',
           }
 ) 
 
+#' @rdname explanatoryFeatures
+#' @export
+
+setMethod('explanatoryFeatures',signature = 'list',
+          function(x,threshold = 0.05, ...){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
+              stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+            }
+            
+            x %>%
+              map(explanatoryFeatures) %>%
+              bind_rows()
+          })
 

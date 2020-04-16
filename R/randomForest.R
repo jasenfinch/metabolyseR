@@ -776,7 +776,8 @@ setMethod('measures',signature = 'list',
 
 setMethod('importance',signature = 'RandomForest',
           function(x){
-            x@results$importances
+            x@results$importances %>%
+              ungroup()
           }
 )
 
@@ -785,7 +786,8 @@ setMethod('importance',signature = 'RandomForest',
 
 setMethod('importance',signature = 'Univariate',
           function(x){
-            x@results
+            x@results %>%
+              ungroup()
           }
 )
 
