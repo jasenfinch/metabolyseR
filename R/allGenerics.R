@@ -313,7 +313,7 @@ setGeneric("plotImportance", function(x,...) {
 })
 
 #' @rdname plotMeasures
-setGeneric("plotMeasures", function(x, predictor = 'class') {
+setGeneric("plotMeasures", function(x, response = 'class') {
   standardGeneric("plotMeasures")
 })
 

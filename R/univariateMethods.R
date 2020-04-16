@@ -96,7 +96,7 @@ setMethod('anova',signature = 'AnalysisData',
                 }) %>%
                   bind_rows(.id = 'Comparison')
               }) %>%
-              bind_rows(.id = 'Predictor')
+              bind_rows(.id = 'Response')
             
             res <- new('Univariate')
             res@type <- 'ANOVA'
@@ -194,7 +194,7 @@ setMethod('ttest',signature = 'AnalysisData',
                 }) %>%
                   bind_rows(.id = 'Comparison')
               }) %>%
-              bind_rows(.id = 'Predictor')
+              bind_rows(.id = 'Response')
             
             res <- new('Univariate')
             res@type <- 't-test'
@@ -255,7 +255,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
                   bind_rows(.id = 'Feature') %>%
                   mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
               }) %>%
-              bind_rows(.id = 'Predictor')
+              bind_rows(.id = 'Response')
             
             res <- new('Univariate')
             res@type <- 'linear regression'

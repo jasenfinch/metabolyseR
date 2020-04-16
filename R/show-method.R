@@ -147,8 +147,8 @@ setMethod('show',signature = 'RandomForest',
             cat('Features:\t',ncol(dat(object@data)),'\n')
             
             if (object@type != 'unsupervised') {
-              cat('Predictor:\t',measures(object) %>%
-                    .$Predictor %>%
+              cat('Response:\t',measures(object) %>%
+                    .$Response %>%
                     unique() %>%
                     str_c(collapse = ', '),'\n')  
             }
@@ -174,8 +174,8 @@ setMethod('show',signature = 'Univariate',
             
             cat('Samples:\t',nrow(dat(object@data)),'\n')
             cat('Features:\t',ncol(dat(object@data)),'\n')
-            cat('Predictors:\t',importance(object) %>%
-                  .$Predictor %>%
+            cat('Responses:\t',importance(object) %>%
+                  .$Response %>%
                   unique() %>%
                   str_c(collapse = ', '),'\n')  
             if (object@type != 'linear regression') {

@@ -4,7 +4,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
   pl %>%
     map(~{
       r <- .
-      pred <- r$Predictor[1]
+      pred <- r$Response[1]
       
       classes <- r$Comparison %>%
         unique() %>%
@@ -122,7 +122,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
     map(~{
       r <- .
       
-      pred <- r$Predictor[1]
+      pred <- r$Response[1]
       
       feat <- r$Feature %>%
         unique()
@@ -141,7 +141,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
         gather('Feature','Intensity',-1,-2) %>%
         group_by(Feature) %>%
         summarise(r = cor(!! p,Intensity)) %>%
-        mutate(Predictor = pred)
+        mutate(Response = pred)
       
       suppressWarnings({
         dend <- d %>%
@@ -158,7 +158,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
       d <- d %>%
         tbl_df() %>%
         mutate(Feature = factor(Feature,levels = clusters)) %>%
-        mutate(Predictor = factor(Predictor))
+        mutate(Response = factor(Response))
       
       caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
       
@@ -170,7 +170,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes_string(x = 'Predictor',y = 'Feature',fill = 'r')) +
+        ggplot(aes_string(x = 'Response',y = 'Feature',fill = 'r')) +
         geom_tile(colour = 'black') +
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
@@ -266,7 +266,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
               explanatoryFeatures()
             
             pl <- res %>%
-              base::split(.$Predictor)
+              base::split(.$Response)
             
             if (x@type == 't-test' | x@type == 'ANOVA') {
               pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
@@ -302,9 +302,9 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             
             explan <- explanatoryFeatures(x,measure = measure,threshold = threshold)
             
-            if ('Predictor' %in% colnames(explan)) {
+            if ('Response' %in% colnames(explan)) {
               pl <- explan %>%
-                base::split(.$Predictor)
+                base::split(.$Response)
             } else {
               pl <- list(explan)
             }

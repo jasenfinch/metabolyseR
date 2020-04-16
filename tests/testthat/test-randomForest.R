@@ -18,7 +18,7 @@ test_that('random forest classification works',{
   
   plMDS <- plotMDS(rf$day,cls = 'day')
   plROC <- plotROC(rf$day)
-  plMeasures <- plotMeasures(rf$day,predictor = 'day')
+  plMeasures <- plotMeasures(rf$day,response = 'day')
   plImportance <- plotImportance(rf$day)
   
   expect_true(is.list(rf))
