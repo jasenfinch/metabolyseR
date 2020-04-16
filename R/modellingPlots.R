@@ -181,7 +181,7 @@ setMethod('plotMDS',signature = 'RandomForest',
             
             if (x@type == 'classification') {
               proximities <- x@proximities %>%
-                split(.$Comparison) %>%
+                base::split(.$Comparison) %>%
                 map(~{
                   d <- .
                   d %>%
@@ -206,7 +206,7 @@ setMethod('plotMDS',signature = 'RandomForest',
               
               if (!is.null(cls)) {
                 mds <- mds %>%
-                  split(.$Comparison) %>%
+                  base::split(.$Comparison) %>%
                   map(~{
                     d <- .
                     
@@ -231,7 +231,7 @@ setMethod('plotMDS',signature = 'RandomForest',
               
               if (!is.null(label)) {
                 mds <- mds %>%
-                  split(.$Comparison) %>%
+                  base::split(.$Comparison) %>%
                   map(~{
                     d <- .
                     comparison <- str_split(d$Comparison[1],'~')[[1]]
@@ -391,7 +391,7 @@ setMethod('plotROC',signature = 'RandomForest',
             }
             
             preds <- x@predictions %>%
-              split(.$Comparison) %>%
+              base::split(.$Comparison) %>%
               map(~{
                 d <- .
                 d <- d %>%

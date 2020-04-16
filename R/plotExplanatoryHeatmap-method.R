@@ -266,7 +266,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
               explanatoryFeatures()
             
             pl <- res %>%
-              split(.$Predictor)
+              base::split(.$Predictor)
             
             if (x@type == 't-test' | x@type == 'ANOVA') {
               pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
@@ -304,7 +304,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             
             if ('Predictor' %in% colnames(explan)) {
               pl <- explan %>%
-                split(.$Predictor)
+                base::split(.$Predictor)
             } else {
               pl <- list(explan)
             }

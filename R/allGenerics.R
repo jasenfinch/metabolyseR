@@ -371,3 +371,8 @@ setGeneric("rsd", function(x,cls = 'class') {
 setGeneric('bindAnalysesRows',function(x){
   standardGeneric('bindAnalysesRows')
 })
+
+#' @rdname split
+setGeneric('split',function(x,cls = 'class'){
+  standardGeneric('split')
+})

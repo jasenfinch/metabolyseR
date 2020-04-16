@@ -142,7 +142,7 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
           function(d){
             dat(d) <- d %>% 
               dat() %>%
-              split(1:nrow(.)) %>%
+              base::split(1:nrow(.)) %>%
               map(~{. / sum(.)}) %>%
               bind_rows() %>%
               as_tibble()

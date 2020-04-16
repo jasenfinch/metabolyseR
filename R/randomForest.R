@@ -49,11 +49,11 @@ classificationMeasures <- function(predictions,permutations){
   class_metrics <- metric_set(accuracy,kap)
   
   meas <- predictions %>%
-    split(.$Predictor) %>%
+    base::split(.$Predictor) %>%
     map(~{
       d <- .
       d %>%
-        split(.$Comparison) %>%
+        base::split(.$Comparison) %>%
         map(~{
           p <- .
           p %>%
@@ -65,11 +65,11 @@ classificationMeasures <- function(predictions,permutations){
     }) %>%
     bind_rows() %>%
     bind_rows(suppressMessages(predictions %>%
-                                 split(.$Predictor) %>%
+                                 base::split(.$Predictor) %>%
                                  map(~{
                                    d <- .
                                    d %>%
-                                     split(.$Comparison) %>%
+                                     base::split(.$Comparison) %>%
                                      map(~{
                                        p <- .
                                        
@@ -114,7 +114,7 @@ classificationImportance <- function(importances,permutations){
     
     imps <- imps %>%
       left_join(permutations$importance, by = c("Predictor","Comparison", "Feature", "Measure")) %>%
-      split(.$Measure) %>%
+      base::split(.$Measure) %>%
       map(~{
         i <- .
         tail <- lowertail[[i$Measure[1]]]
@@ -154,11 +154,11 @@ classificationPermutationMeasures <- function(models){
   class_metrics <- metric_set(accuracy,kap)
   
   meas <- preds %>%
-    split(.$Predictor) %>%
+    base::split(.$Predictor) %>%
     map(~{
       d <- .
       d %>%
-        split(.$Comparison) %>%
+        base::split(.$Comparison) %>%
         map(~{
           p <- .
           p %>%
@@ -170,11 +170,11 @@ classificationPermutationMeasures <- function(models){
     }) %>%
     bind_rows() %>%
     bind_rows(suppressMessages(preds %>%
-                                 split(.$Predictor) %>%
+                                 base::split(.$Predictor) %>%
                                  map(~{
                                    d <- .
                                    d %>%
-                                     split(.$Comparison) %>%
+                                     base::split(.$Comparison) %>%
                                      map(~{
                                        p <- .
                                        
@@ -224,7 +224,7 @@ classificationPermutationMeasures <- function(models){
 regressionMeasures <- function(predictions,permutations){
   reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
   meas <- predictions %>%
-    split(.$Predictor) %>%
+    base::split(.$Predictor) %>%
     map(~{
       d <- .
       d %>%
@@ -278,7 +278,7 @@ regressionPermutationMeasures <- function(models){
   reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
   
   meas <- preds %>%
-    split(.$Predictor) %>%
+    base::split(.$Predictor) %>%
     map(~{
       d <- .
       d %>%
