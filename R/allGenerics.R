@@ -357,7 +357,17 @@ setGeneric("clsRemove", function(x,cls,...) {
   standardGeneric("clsRemove")
 })
 
+#' @rdname clsArrange
+setGeneric("clsArrange", function(x,cls = 'class', descending = FALSE, ...) {
+  standardGeneric("clsArrange")
+})
+
 #' @rdname rsd
 setGeneric("rsd", function(x,cls = 'class') {
   standardGeneric("rsd")
+})
+
+#' @rdname bindAnalysesRows
+setGeneric('bindAnalysesRows',function(x){
+  standardGeneric('bindAnalysesRows')
 })

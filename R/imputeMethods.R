@@ -2,7 +2,7 @@
 #' @rdname imputeAll
 #' @description Impute missing values across all samples using Random Forest.
 #' @param d S4 object of class AnalysisData
-#' @param occupancy occupancy threshold for imputation
+#' @param occupancy occupancy threshold for imputation of a given feature
 #' @param parallel parallel type to use. See `?missForest` for details
 #' @param nCores number of cores for parallisation
 #' @param clusterType cluster type for parallisation
@@ -12,9 +12,30 @@
 setMethod('imputeAll',signature = 'AnalysisData',
           function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
             
+            d <- clsAdd(d,cls = 'dummy',rep(1,nSamples(d)))
+            
+            occ <- occupancy(d,cls = 'dummy')
+            
+            low_occ <- occ %>%
+              filter(Occupancy < occupancy) %>%
+              select(Feature) %>%
+              distinct() %>%
+              deframe()
+            
+            d_low_occ <- d %>%
+              keepVariables(low_occ)
+            
+            d_to_impute <- d %>%
+              removeVariables(low_occ)
+            
             set.seed(seed)
-            da <- as.matrix(d %>% dat())
+            
+            da <- d_to_impute %>%
+              dat() %>%
+              as.matrix()
+            
             da[da == 0] <- NA
+            
             if (nCores > 1) {
               cl <- makeCluster(nCores,type = clusterType)
               registerDoParallel(cl)
@@ -24,7 +45,15 @@ setMethod('imputeAll',signature = 'AnalysisData',
               capture.output(da <- missForest(da))  
             }
             
-            dat(d) <- as_tibble(da$ximp)
+            dat(d_to_impute) <- as_tibble(da$ximp)
+            
+            feat <- features(d)
+            
+            dat(d) <- bind_cols(dat(d_to_impute),dat(d_low_occ)) %>%
+              select(all_of(feat))
+            
+            d <- clsRemove(d,cls = 'dummy')
+            
             return(d)
           }
 )
@@ -43,66 +72,40 @@ setMethod('imputeAll',signature = 'AnalysisData',
 
 setMethod('imputeClass',signature = 'AnalysisData',
           function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
-            set.seed(seed)
-            if (length(as.character(sort(unique(unlist(sinfo(d)[,cls]))))) < nCores) {
-              nCores <- length(as.character(sort(unique(unlist(sinfo(d)[,cls])))))
+            
+            d <- d %>%
+              clsAdd(cls = 'dummy_ind',1:nSamples(d))
+            
+            ind_classes <- d %>%
+              clsExtract(cls) %>%
+              unique()
+            
+            if (length(ind_classes) < nCores) {
+              nCores <- length(ind_classes)
             }
-            
-            classes <- sinfo(d) %>%
-              select(Class = cls)
-            
-            dat(d) <- dat(d) %>%
-              rowid_to_column(var = 'ID') %>%
-              bind_cols(classes)
-            
-            da <- dat(d) %>%
-              split(.$Class)
             
             clus <- makeCluster(nCores,type = clusterType)
             
-            da <- parLapply(clus,da,function(da,occupancy){
-              idx <- da %>% 
-                select(ID,Class)
-              
-              occ <- da %>%
-                gather('Feature','Intensity',-ID,-Class) %>%
-                group_by(Class,Feature) %>%
-                filter(Intensity > 0) %>%
-                summarise(Count = n()) %>%
-                mutate(Occupancy = Count/nrow(da)) %>%
-                filter(Occupancy >= occupancy)
-              
-              lowOcc <- da %>%
-                select(-ID,-Class)
-              lowOcc <- lowOcc[,!(colnames(lowOcc) %in% occ$Feature)]
-              
-              da <- da %>%
-                select(colnames(da)[colnames(da) %in% occ$Feature])
-              
-              x <- da %>%
-                rowid_to_column(var = 'ID') %>%
-                gather('Feature','Intensity',-ID)
-              
-              if (0 %in% x$Intensity) {
-                capture.output(da <- missForest(da))
-                da <- da$ximp %>%
-                  as_tibble()
-              }
-              
-              da <- da %>%
-                bind_cols(lowOcc,idx)
-              
-              return(da)
-            },occupancy = occupancy)
+            d <- ind_classes %>%
+              parLapply(cl = clus,.,function(ind_class,d,cls,occupancy,seed){
+                
+                d %>%
+                  keepClasses(cls = cls,classes = ind_class) %>%
+                  imputeAll(occupancy = occupancy,nCores = 1,seed = seed)
+              },d = d,
+              cls = cls,
+              occupancy = occupancy,
+              seed = seed)
             stopCluster(clus)
             
-            dat(d) <- dat(d) %>%
-              bind_rows() %>%
-              arrange(ID) %>%
-              select(-ID,-Class)
+            d <- d %>%
+              bindAnalysesRows() %>%
+              clsArrange(cls = 'dummy_ind') %>%
+              clsRemove(cls = 'dummy_ind')
+            
             return(d)
           }
-          )
+)
 
 
 #' @importFrom missForest missForest
