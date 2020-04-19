@@ -92,15 +92,17 @@ occupancyMethods <- function(method = NULL, description = F){
 #' @description Return tibble containg proportional class occupancy for each feature for a given class info column.
 #' @param x S4 object of class AnalysisData
 #' @param cls info column to use for class data
-#' @importFrom dplyr ungroup
+#' @importFrom dplyr ungroup full_join
 #' @export
 
 setMethod('occupancy',signature = 'AnalysisData',
           function(x,cls = 'class'){
             
+            feat <- tibble(Feature = features(x))
+            
             d <- x %>%
-              dat() %>%
-              mutate(Class = clsExtract(x,cls))
+            dat() %>%
+           mutate(Class = clsExtract(x,cls))
             
             clsSize <- d %>%
               group_by(Class) %>%
@@ -127,5 +129,19 @@ setMethod('occupancy',signature = 'AnalysisData',
               bind_rows() %>%
               rename(!!vars) %>%
               ungroup()
+            
+            unoccupied <- feat %>%
+              filter(!(Feature %in% occ$Feature)) %>%
+              mutate(N = 0,Occupancy = 0,dummy = 1) %>%
+              full_join(clsSize %>%
+                          select(Class) %>%
+                            rename(!!cls := Class) %>%
+                            mutate(dummy = 1),by = 'dummy') %>%
+              select(!!cls,Feature,N,Occupancy)
+              
+            occ <- occ %>%
+              bind_rows(unoccupied) %>%
+              arrange(!!sym(cls),Feature)
+              
             return(occ)
           })
