@@ -5,6 +5,7 @@
 \alias{plotExplanatoryHeatmap}
 \alias{plotExplanatoryHeatmap,Univariate-method}
 \alias{plotExplanatoryHeatmap,RandomForest-method}
+\alias{plotExplanatoryHeatmap,list-method}
 \alias{plotExplanatoryHeatmap,Analysis-method}
 \title{plotExplanatoryHeatmap}
 \usage{
@@ -27,6 +28,14 @@ plotExplanatoryHeatmap(x, ...)
   clusterMethod = "ward.D2",
   featureNames = TRUE,
   dendrogram = TRUE
+)
+
+\S4method{plotExplanatoryHeatmap}{list}(
+  x,
+  threshold = 0.05,
+  distanceMeasure = "euclidean",
+  clusterMethod = "ward.D2",
+  featureNames = T
 )
 
 \S4method{plotExplanatoryHeatmap}{Analysis}(
