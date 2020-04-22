@@ -38,3 +38,15 @@ test_that('clsRemove works',{
   b <- clsRemove(a,'class')
   expect_false('class' %in% clsAvailable(b))
 })
+
+test_that('clsArrange works',{
+  b <- clsArrange(a,'class')
+  expect_identical(clsExtract(a) %>%
+                     sort(),
+                   clsExtract(b))
+})
+
+test_that('clsRename works',{
+  b <- clsRename(a,'rep','replicate')
+  expect_true('replicate' %in% clsAvailable(b))
+})
