@@ -36,7 +36,6 @@ browseVignettes('metabolyseR')
 ``` r
 library(metabolyseR)
 library(metaboData)
-library(magrittr)
 ```
 
 ``` r
