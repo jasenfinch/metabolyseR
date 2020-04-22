@@ -4,6 +4,7 @@
 \alias{plotImportance}
 \alias{plotImportance,Univariate-method}
 \alias{plotImportance,RandomForest-method}
+\alias{plotImportance,list-method}
 \title{plotImportance}
 \usage{
 plotImportance(x, ...)
@@ -11,6 +12,8 @@ plotImportance(x, ...)
 \S4method{plotImportance}{Univariate}(x, response = "class")
 
 \S4method{plotImportance}{RandomForest}(x)
+
+\S4method{plotImportance}{list}(x)
 }
 \arguments{
 \item{x}{S4 object of class Univariate or RandomForest}
