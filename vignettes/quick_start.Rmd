@@ -17,13 +17,14 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(metabolyseR)
 library(metaboData)
+library(magrittr)
 ```
 
 ```{r analysis_data}
 d <- analysisData(abr1$neg,abr1$fact)
 ```
 
-```{r}
+```{r print_analysis_data}
 print(d)
 ```
 
@@ -41,18 +42,29 @@ plotPCA(d,cls = 'day')
 plotSupervisedRF(d,cls = 'day')
 ```
 
-```{r}
+```{r random_forest}
 rf_results <- d %>%
   randomForest(cls = 'day',binary = TRUE)
 ```
 
-```{r}
+```{r rf_measures}
 plotMeasures(rf_results,response = 'day')
 ```
 
-```{r}
+```{r rf_heatmap}
 plotExplanatoryHeatmap(rf_results)
 ```
+
+```{r correlations}
+correlation <- d %>%
+  correlations()
+```
+
+```{r correlation_results}
+correlation
+```
+
+
 
 
 
