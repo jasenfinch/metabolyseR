@@ -42,55 +42,6 @@ setMethod('plotImportance',signature = 'Univariate',
           }
 )
 
-#' plotMeasures
-#' @rdname plotMeasures
-#' @description Plot random forest model measures.
-#' @param x S4 object of class RandomForest
-#' @param response response results to plot
-#' @importFrom ggplot2 xlim
-#' @export
-
-setMethod('plotMeasures',signature = 'RandomForest',
-          function(x){
-            
-            if (x@type == 'Unsupervised') {
-              stop('No measures to plot for unsupervised random forest.')
-            }
-            
-            res <- measures(x)
-            
-            response <- res$Response %>%
-              unique()
-            
-            if (x@type == 'classification') {
-              pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
-                geom_point(shape = 21,fill = ptol_pal()(1)) +
-                theme_bw() +
-                facet_wrap(~.metric) +
-                labs(title = response,
-                     x = '') +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold')) +
-                xlim(c(min(res$.estimate),1))  
-            }
-            
-            if (x@type == 'regression') {
-              pl <- ggplot(res,aes(x = .estimate,y = .metric)) +
-                geom_point(shape = 21,fill = ptol_pal()(1)) +
-                theme_bw() +
-                labs(title = response,
-                     x = '',
-                     y = 'Metric') +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'))
-            }
-            
-            
-            return(pl)
-          }
-)
-
-#' plotImportance
 #' @rdname plotImportance
 #' @export
 
@@ -153,6 +104,84 @@ setMethod('plotImportance',signature = 'RandomForest',
             return(pl)
           }
 )
+
+#' @rdname plotImportance
+#' @export
+
+setMethod('plotImportance',signature = 'list',function(x){
+  object_classes <- x %>%
+    map_chr(class)
+  
+  if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
+    stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+  }
+  
+  x %>%
+    map(plotImportance)
+})
+
+#' plotMeasures
+#' @rdname plotMeasures
+#' @description Plot random forest model measures.
+#' @param x S4 object of class RandomForest
+#' @param response response results to plot
+#' @importFrom ggplot2 xlim
+#' @export
+
+setMethod('plotMeasures',signature = 'RandomForest',
+          function(x){
+            
+            if (x@type == 'Unsupervised') {
+              stop('No measures to plot for unsupervised random forest.')
+            }
+            
+            res <- measures(x)
+            
+            response <- res$Response %>%
+              unique()
+            
+            if (x@type == 'classification') {
+              pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
+                geom_point(shape = 21,fill = ptol_pal()(1)) +
+                theme_bw() +
+                facet_wrap(~.metric) +
+                labs(title = response,
+                     x = '') +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold')) +
+                xlim(c(min(res$.estimate),1))  
+            }
+            
+            if (x@type == 'regression') {
+              pl <- ggplot(res,aes(x = .estimate,y = .metric)) +
+                geom_point(shape = 21,fill = ptol_pal()(1)) +
+                theme_bw() +
+                labs(title = response,
+                     x = '',
+                     y = 'Metric') +
+                theme(plot.title = element_text(face = 'bold'),
+                      axis.title = element_text(face = 'bold'))
+            }
+            
+            
+            return(pl)
+          }
+)
+
+#' @rdname plotMeasures
+#' @export
+
+setMethod('plotMeasures',signature = 'list',function(x){
+  object_classes <- x %>%
+    map_chr(class)
+  
+  if (F %in% (object_classes == 'RandomForest')) {
+    stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+  }
+  
+  x %>%
+    map(plotMeasures)
+})
 
 #' plotMDS
 #' @rdname plotMDS
