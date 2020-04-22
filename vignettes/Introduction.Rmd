@@ -9,7 +9,7 @@ output:
     highlight: github
     theme: tactile
 vignette: >
-  %\VignetteIndexEntry{metabolyseR-usage}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
