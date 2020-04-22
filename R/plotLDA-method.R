@@ -32,10 +32,9 @@ setMethod('plotLDA',signature = 'AnalysisData',
           function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             
             info <- sinfo(analysis) %>%
-              select(cls)
-            colnames(info)[1] <- 'Class'
+              select(all_of(cls))
             
-            lda <- nlda(dat(analysis),cl = info$Class,scale = scale,center = center)
+            lda <- nlda(dat(analysis),cl = info[,cls] %>% deframe(),scale = scale,center = center)
             
             classLength <- lda$cl %>%
               unique() %>%
@@ -47,13 +46,13 @@ setMethod('plotLDA',signature = 'AnalysisData',
             lda <- lda$x %>%
               as_tibble() %>%
               bind_cols(info) %>%
-              mutate(Class = factor(Class))
+              mutate(!!cls := factor(!!sym(cls)))
             
             
             
             if (classLength > 2) {
               lda <- lda %>%
-                select(Class,xAxis = xAxis,yAxis = yAxis)
+                select(all_of(cls),xAxis = all_of(xAxis),yAxis = all_of(yAxis))
               
               if (!is.null(label)) {
                 lda <- lda %>%
@@ -67,7 +66,7 @@ setMethod('plotLDA',signature = 'AnalysisData',
               
               if (isTRUE(ellipses)) {
                 pl <- pl +
-                  stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
+                  stat_ellipse(aes(fill = !!sym(cls)),alpha = 0.3,geom = 'polygon',type = 'norm')
               }
               
               if (!is.null(label)) {
@@ -108,7 +107,7 @@ setMethod('plotLDA',signature = 'AnalysisData',
                 pl <- pl + scale_shape_manual(values = val)
               }
               pl <- pl +
-                geom_point(aes(colour = Class,shape = Class)) +
+                geom_point(aes(colour = !!sym(cls),shape = !!sym(cls))) +
                 theme_bw() +
                 labs(title = title,
                      x = str_c(xAxis,' (Tw: ',tw[xAxis],')'),
@@ -132,7 +131,7 @@ setMethod('plotLDA',signature = 'AnalysisData',
               }
             } else {
               pl <- lda %>%
-                ggplot(aes(x = Class,y = DF1,colour = Class,shape = Class)) +
+                ggplot(aes(x = !!sym(cls),y = DF1,colour = !!sym(cls),shape = !!sym(cls))) +
                 geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
                 geom_point() +
                 scale_colour_ptol() +

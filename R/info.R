@@ -229,3 +229,37 @@ setMethod('clsArrange',signature = 'Analysis',function(x,cls = 'class', descendi
     sl() %>%
     clsArrange(cls = cls,descending = descending)
 })
+
+#' clsRename
+#' @rdname clsRename
+#' @description Rename a sample information column within an object of AnalysisData or Analysis.
+#' @param x S4 object of class Analysis or AnalysisData
+#' @param cls  sample information column to rename
+#' @param newName new column name
+#' @param type  \code{raw} or \code{preTreated} sample information
+#' @param ... arguments to pass to specific method
+#' @export
+
+setMethod('clsRename',signature = 'AnalysisData',function(x,cls,newName){
+  sinfo(x) <- x %>%
+    sinfo() %>%
+    rename(!!newName := !!cls)
+  
+  return(x)
+})
+
+#' @rdname clsRename
+
+setMethod('clsRename',signature = 'Analysis',function(x,cls,newName, type = 'raw'){
+  types <- c('raw','preTreated')
+  if (!(type %in% types)) {
+    stop(str_c('Type should be one of ',str_c(str_c('"',types,'"'),collapse = ' or ')))
+  } 
+  
+  sl <- get(type)
+  `sl<-` <- get(str_c(type,'<-'))
+  
+  sl(x) <- x %>%
+    sl() %>%
+    clsRename(cls = cls,newName = newName)
+})

@@ -3,11 +3,14 @@
 \name{plotMeasures}
 \alias{plotMeasures}
 \alias{plotMeasures,RandomForest-method}
+\alias{plotMeasures,list-method}
 \title{plotMeasures}
 \usage{
 plotMeasures(x, response = "class")
 
 \S4method{plotMeasures}{RandomForest}(x)
+
+\S4method{plotMeasures}{list}(x)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}

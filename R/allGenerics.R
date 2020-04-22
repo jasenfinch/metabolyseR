@@ -362,6 +362,11 @@ setGeneric("clsArrange", function(x,cls = 'class', descending = FALSE, ...) {
   standardGeneric("clsArrange")
 })
 
+#' @rdname clsRename
+setGeneric("clsRename", function(x,cls,newName, ...) {
+  standardGeneric("clsRename")
+})
+
 #' @rdname rsd
 setGeneric("rsd", function(x,cls = 'class') {
   standardGeneric("rsd")
