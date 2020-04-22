@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This example will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
+This example analysis will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
 It is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
 The analysis will also include use of the pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package.
 First load the necessary packages.
@@ -121,18 +121,8 @@ plotExplanatoryHeatmap(anova_results,
 
 Many of the explanatory features can be seen to be most highly abundant in the final infection time point `5`.
 
-Finally, box plots of the trends of individual features can be plotted such as the `N341` feature below.
+Finally, box plots of the trends of individual features can be plotted, such as the `N341` feature below.
 
 ```{r feature_plot}
 plotFeature(d,feature = 'N341',cls = 'day')
 ```
-
-
-
-
-
-
-
-
-
-
