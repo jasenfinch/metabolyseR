@@ -36,8 +36,8 @@ setMethod('plotPCA',signature = 'AnalysisData',
             pca <- prcomp(dat(analysis),scale. = scale,center = center)
             
             info <- sinfo(analysis) %>%
-              select(Class = cls) %>%
-              mutate(Class = factor(Class))
+              select(cls) %>%
+              mutate(!!cls := factor(!!sym(cls)))
             
             var <- pca$sdev
             var <- round(var^2/sum(var^2) * 100,2)
@@ -45,7 +45,7 @@ setMethod('plotPCA',signature = 'AnalysisData',
             
             pca <- pca$x %>%
               as_tibble() %>%
-              select(xAxis = xAxis,yAxis = yAxis) %>%
+              select(xAxis = all_of(xAxis),yAxis = all_of(yAxis)) %>%
               bind_cols(info)
             
             if (!is.null(label)) {
@@ -60,7 +60,7 @@ setMethod('plotPCA',signature = 'AnalysisData',
             
             if (isTRUE(ellipses)) {
               pl <- pl +
-                stat_ellipse(aes(fill = Class),alpha = 0.3,geom = 'polygon',type = 'norm')
+                stat_ellipse(aes(fill = !!sym(cls)),alpha = 0.3,geom = 'polygon',type = 'norm')
             }
             
             if (!is.null(label)) {
@@ -106,7 +106,7 @@ setMethod('plotPCA',signature = 'AnalysisData',
             }
             
             pl <- pl +
-              geom_point(aes(colour = Class,shape = Class)) +
+              geom_point(aes(colour = !!sym(cls),shape = !!sym(cls))) +
               theme_bw() +
               labs(title = title,
                    x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
