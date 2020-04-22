@@ -70,7 +70,8 @@ setMethod('plotTIC',signature = 'AnalysisData',
             
             pl + 
               theme(legend.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'))
+                    axis.title = element_text(face = 'bold'),
+                    panel.grid = element_blank())
           }
 )
 

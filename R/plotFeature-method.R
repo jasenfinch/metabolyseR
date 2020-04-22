@@ -72,7 +72,8 @@ setMethod('plotFeature',signature = 'AnalysisData',
                 theme_bw() +
                 ggtitle(feature) +
                 theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold')) +
+                      plot.title = element_text(face = 'bold'),
+                      panel.grid = element_blank()) +
                 guides(fill = FALSE)
               
               if (classes <= 12) {
@@ -93,7 +94,8 @@ setMethod('plotFeature',signature = 'AnalysisData',
                 ggtitle(feature) +
                 xlab(cls) +
                 theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold'))
+                      plot.title = element_text(face = 'bold'),
+                      panel.grid = element_blank())
             }
             
             if (!is.null(label)) {

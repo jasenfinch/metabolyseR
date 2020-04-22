@@ -119,14 +119,16 @@ setMethod('plotLDA',signature = 'AnalysisData',
                   theme(plot.title = element_text(face = 'bold'),
                         axis.title = element_text(face = 'bold'),
                         legend.title = element_text(face = 'bold'),
-                        legend.position = 'bottom'
+                        legend.position = 'bottom',
+                        panel.grid = element_blank()
                   )
               } else {
                 pl <- pl +
                   theme(plot.title = element_text(face = 'bold'),
                         axis.title = element_text(face = 'bold'),
                         legend.title = element_text(face = 'bold'),
-                        legend.position = 'none'
+                        legend.position = 'none',
+                        panel.grid = element_blank()
                   )
               }
             } else {

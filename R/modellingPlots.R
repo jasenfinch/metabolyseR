@@ -160,7 +160,8 @@ setMethod('plotMeasures',signature = 'RandomForest',
                      x = '',
                      y = 'Metric') +
                 theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'))
+                      axis.title = element_text(face = 'bold'),
+                      panel.grid = element_blank())
             }
             
             
@@ -322,14 +323,16 @@ setMethod('plotMDS',signature = 'RandomForest',
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
                       legend.title = element_text(face = 'bold'),
-                      legend.position = legendPosition
+                      legend.position = legendPosition,
+                      panel.grid = element_blank()
                 )
             } else {
               pl <- pl +
                 theme(
                   plot.title = element_text(face = 'bold'),
                   axis.title = element_text(face = 'bold'),
-                  legend.position = 'none'
+                  legend.position = 'none',
+                  panel.grid = element_blank()
                 )
             }
               
@@ -486,11 +489,13 @@ setMethod('plotROC',signature = 'RandomForest',
               pl <- pl +
                 theme(legend.position = 'bottom',
                       axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'))
+                      legend.title = element_text(face = 'bold'),
+                      panel.grid = element_blank())
             } else {
               pl <- pl +
                 theme(legend.position = 'none',
-                      axis.title = element_text(face = 'bold'))
+                      axis.title = element_text(face = 'bold'),
+                      panel.grid = element_blank())
             }
             
             return(pl)

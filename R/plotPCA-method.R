@@ -118,13 +118,15 @@ setMethod('plotPCA',signature = 'AnalysisData',
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
                       legend.title = element_text(face = 'bold'),
-                      legend.position = legendPosition)
+                      legend.position = legendPosition,
+                      panel.grid = element_blank())
             } else {
               pl <- pl +
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
                       legend.title = element_text(face = 'bold'),
-                      legend.position = 'none')
+                      legend.position = 'none',
+                      panel.grid = element_blank())
             }
             
             return(pl)
