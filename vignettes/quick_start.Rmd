@@ -119,7 +119,7 @@ plotExplanatoryHeatmap(anova_results,
                        featureNames = FALSE)
 ```
 
-Many of the explantory features can be seen to be most highly abundant in the final infection time point `5`.
+Many of the explanatory features can be seen to be most highly abundant in the final infection time point `5`.
 
 Finally, box plots of the trends of individual features can be plotted such as the `N341` feature below.
 
