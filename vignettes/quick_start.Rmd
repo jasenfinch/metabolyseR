@@ -1,8 +1,15 @@
 ---
-title: "Quick start guide"
-output: rmarkdown::html_vignette
+title: "Quick start example analysis"
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
+author: "Jasen Finch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
 vignette: >
-  %\VignetteIndexEntry{Quick start guide}
+  %\VignetteIndexEntry{Quick start example analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -10,58 +17,114 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.align = 'center',
+  message = FALSE
 )
 ```
+
+This example will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
+It is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
+The analysis will also include use of the pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package.
+First load the necessary packages.
 
 ```{r setup}
 library(metabolyseR)
 library(metaboData)
-library(magrittr)
 ```
+
+For this example we will use only the negative acquisition mode data (`abr1$neg`) and sample meta-information (`abr1$fact`).
+Create an `AnalysisData` class object using the following:
 
 ```{r analysis_data}
 d <- analysisData(abr1$neg,abr1$fact)
 ```
 
+The data includes `r nSamples(d)` samples and `r nFeatures(d)` mass spectral features as shown below.
+
 ```{r print_analysis_data}
-print(d)
+d
 ```
+
+The `clsAvailable()` function can be used to identify the columns available in our meta-information table. 
+
+```{r}
+clsAvailable(d)
+```
+
+For this analysis, we will be using the infection time course class information contained in the `day` column.
+This can be extracted and the class frequencies tabulated using the following:
+
+```{r}
+d %>%
+  clsExtract(cls = 'day') %>%
+  table()
+```
+
+As can be seen above, the experiment is made up of six infection time point classes that includes a healthy control class (`H`) and five day infection time points (`1-5`), each with 20 replicates. 
+
+For data pre-treatment prior to statistical analysis, a two-thirds maximum class occupancy filter can be applied.
+Features where the maximum proportion of non-missing data per class above two-thirds are retained.
+A total ion count normalisation will also be applied.
 
 ```{r pre_treat}
 d <- d %>%
-  occupancyMaximum(cls = 'day') %>%
+  occupancyMaximum(cls = 'day', occupancy = 2/3) %>%
   transformTICnorm()
 ```
 
-```{r pca}
-plotPCA(d,cls = 'day')
+```{r pre_treat_result}
+d
 ```
+
+This has reduced the data set to `r nFeatures(d)` relevant features.
+
+The structure of the data can be visualised using both unsupervised and supervised methods. For instance, the first two principle components from a principle component analysis (PCA) of the data with the sample points coloured by infection class can be plotted using: 
+
+```{r pca}
+plotPCA(d,cls = 'day',xAxis = 'PC1',yAxis = 'PC2')
+```
+
+And similarly, multidimensional scaling (MDS) of sample proximity values from a supervised random forest classification model along with receiver operator characteristic (ROC) curves.
 
 ```{r supervised_RF}
 plotSupervisedRF(d,cls = 'day')
 ```
 
-```{r random_forest}
-rf_results <- d %>%
-  randomForest(cls = 'day',binary = TRUE)
+An infection progression can clearly be seen from the least to most infected time points.
+
+For feature selection, one-way analysis of variance (ANOVA) can be performed for each feature to identify features significantly explanatory for the infection time point.
+
+```{r anova}
+anova_results <- d %>%
+  anova(cls = 'day')
 ```
 
-```{r rf_measures}
-plotMeasures(rf_results,response = 'day')
+A table of the significantly explanatory features can be extracted with a bonferroni correction adjusted p value < 0.05 using:
+
+```{r explanatoty_features_extract}
+explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
 ```
 
-```{r rf_heatmap}
-plotExplanatoryHeatmap(rf_results)
+```{r,explanatory_features}
+explan_feat
 ```
 
-```{r correlations}
-correlation <- d %>%
-  correlations()
+The ANOVA has identified `r nrow(explan_feat)` features significantly explanatory over the infection time course.
+A heat map of the mean relative intensity for each class of these explanatory features can be plotted to visualise their trends between the infection time point classes.
+
+```{r rf_heatmap,fig.height=10}
+plotExplanatoryHeatmap(anova_results,
+                       threshold = 0.05,
+                       featureNames = FALSE)
 ```
 
-```{r correlation_results}
-correlation
+Many of the explantory features can be seen to be most highly abundant in the final infection time point `5`.
+
+Finally, box plots of the trends of individual features can be plotted such as the `N341` feature below.
+
+```{r feature_plot}
+plotFeature(d,feature = 'N341',cls = 'day')
 ```
 
 
