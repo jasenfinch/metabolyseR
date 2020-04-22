@@ -13,17 +13,17 @@ status](https://ci.appveyor.com/api/projects/status/github/jasenfinch/metabolyse
 [![codecov](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master/graph/badge.svg)](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master)
 [![license](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg)](https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION)
 
-Methods for pre-treatment, classification, feature selection and
-correlation analyses of metabolomics
-data
+This package provides a tool kit for pre-treatment, modelling, feature
+selection and correlation analyses of metabolomics
+data.
 
-### Installation
+## Installation
 
 ``` r
 devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
 ```
 
-### Vignettes
+## Vignettes
 
 Available vignettes for package usage can be found using the following:
 
@@ -31,7 +31,7 @@ Available vignettes for package usage can be found using the following:
 browseVignettes('metabolyseR')
 ```
 
-### Quick start example analysis
+## Quick start example analysis
 
 This example analysis will use the `abr1` data set from the
 [metaboData](https://github.com/aberHRML/metaboData) package. It is
@@ -194,7 +194,7 @@ plotExplanatoryHeatmap(anova_results,
 Many of the explanatory features can be seen to be most highly abundant
 in the final infection time point `5`.
 
-Finally, box plots of the trends of individual features can be plotted
+Finally, box plots of the trends of individual features can be plotted,
 such as the `N341` feature
 below.
 
