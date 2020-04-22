@@ -1,0 +1,19 @@
+---
+title: "Modelling and feature selection"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modelling and feature selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(metabolyseR)
+```
