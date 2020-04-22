@@ -1,0 +1,86 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, 
+                      comment = "#>",
+                      fig.align = 'center',
+                      fig.path = "man/figures/README-",
+                      message = FALSE)
+```
+
+# metabolyseR
+
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) 
+[![Build status](https://travis-ci.org/jasenfinch/metabolyseR.svg?branch=master)](https://travis-ci.org/jasenfinch/metabolyseR) 
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/jasenfinch/metabolyseR?branch=master&svg=true)](https://ci.appveyor.com/project/jasenfinch/metabolyseR)
+[![codecov](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master/graph/badge.svg)](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master) 
+[![license](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg)](https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION) 
+
+Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data
+
+### Installation
+
+```r
+devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
+```
+
+### Vignettes
+
+Available vignettes for package usage can be found using the following:
+
+```{r,eval=FALSE}
+browseVignettes('metabolyseR')
+```
+
+### Quick start
+
+```{r setup}
+library(metabolyseR)
+library(metaboData)
+```
+
+```{r analysis_data}
+d <- analysisData(abr1$neg,abr1$fact)
+```
+
+```{r print_analysis_data}
+print(d)
+```
+
+```{r pre_treat}
+d <- d %>%
+  occupancyMaximum(cls = 'day') %>%
+  transformTICnorm()
+```
+
+```{r pca}
+plotPCA(d,cls = 'day')
+```
+
+```{r supervised_RF}
+plotSupervisedRF(d,cls = 'day')
+```
+
+```{r random_forest}
+rf_results <- d %>%
+  anova(cls = 'day')
+```
+
+```{r rf_heatmap,fig.height=10}
+plotExplanatoryHeatmap(rf_results,
+                       threshold = 0.05,
+                       featureNames = FALSE)
+```
+
+```{r correlations}
+correlation <- d %>%
+  correlations()
+```
+
+```{r correlation_results}
+correlation
+```

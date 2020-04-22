@@ -5,10 +5,10 @@ Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "
 Description: A tool box for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
 biocViews: Metabolomics
 Depends: R (>= 3.4.0),
-         parallel
+         magrittr
 Imports: Hmisc,
          dplyr,
-         magrittr,
+         parallel,
          missForest,
          randomForest,
          stringr,
