@@ -15,7 +15,7 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
             
             QC <- method(QC,cls,occupancy)
             d <- d %>% 
-              keepVariables(variables = features(QC))
+              keepFeatures(features = features(QC))
             return(d)
           }
 )
@@ -73,10 +73,10 @@ setMethod('QCrsdFilter',signature = 'AnalysisData',
             
             RSD <- QC %>%
               rsd(cls = cls) %>%
-              filter(RSD <= RSDthresh)
+              filter(RSD < RSDthresh)
             
             d <- d %>%
-              keepVariables(variables = RSD$Feature)
+              keepFeatures(features = RSD$Feature)
             
             return(d)
           }
@@ -122,7 +122,7 @@ QCMethods <- function(method = NULL, description = F){
                                 clusterType = 'cluster type for parallisation',
                                 seed = 'random number seed')
     ),
-    RSDfilter = list(description = 'Filter variables based on their relative standard deviation in QC samples',
+    RSDfilter = list(description = 'Filter features based on their relative standard deviation in QC samples',
                      arguments = c(cls = 'info column to use for class labels',
                                    QCidx = 'QC sample label',
                                    RSDthreshold = 'RSD threshold for filtering')),

@@ -30,16 +30,16 @@ setMethod('keepClasses',signature = 'AnalysisData',
           }
 )
 
-#' keepVariables
-#' @rdname keepVariables
-#' @description Keep variables from an AnalysisData object.
+#' keepFeatures
+#' @rdname keepFeatures
+#' @description Keep features from an AnalysisData object.
 #' @param d S4 object of class AnalysisData
-#' @param variables variables to keep
+#' @param features features to keep
 #' @export
 
-setMethod('keepVariables',signature = 'AnalysisData',
-          function(d,variables = character()){
-            dat(d) <- dat(d)[,colnames(dat(d)) %in% variables]
+setMethod('keepFeatures',signature = 'AnalysisData',
+          function(d,features = character()){
+            dat(d) <- dat(d)[,colnames(dat(d)) %in% features]
             return(d)
           }
 )
@@ -48,7 +48,7 @@ keepMethods <- function(method = NULL, description = F){
   methods <- list(
     samples = keepSamples,
     classes = keepClasses,
-    variables = keepVariables 
+    features = keepFeatures
   )
   
   descriptions = list(
@@ -58,8 +58,8 @@ keepMethods <- function(method = NULL, description = F){
     classes = list(description = 'keep classes',
                    arguments = c(cls = 'info column containing class information',
                                  classes = 'classes to keep')),
-    variables = list(description = 'keep variables',
-                     arguments = c(variables = 'variables to keep'))
+    features = list(description = 'keep features',
+                     arguments = c(features = 'features to keep'))
   )
   
   if (description == F) {

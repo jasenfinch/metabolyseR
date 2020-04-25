@@ -30,16 +30,16 @@ setMethod('removeClasses',signature = 'AnalysisData',
           }
 )
 
-#' removeVariables
-#' @rdname removeVariables
-#' @description Remove variables from an AnalysisData object.
+#' removeFeatures
+#' @rdname removeFeatures
+#' @description Remove features from an AnalysisData object.
 #' @param d S4 object of class AnalysisData
-#' @param variables variables to remove
+#' @param features features to remove
 #' @export
 
-setMethod('removeVariables',signature = 'AnalysisData',
-          function(d,variables = character()){
-            dat(d) <- dat(d)[,!(colnames(dat(d)) %in% variables)]
+setMethod('removeFeatures',signature = 'AnalysisData',
+          function(d,features = character()){
+            dat(d) <- dat(d)[,!(colnames(dat(d)) %in% features)]
             return(d)
           }
 )
@@ -48,7 +48,7 @@ removeMethods <- function(method = NULL, description = F){
   methods <- list(
     samples = removeSamples,
     classes = removeClasses,
-    variables = removeVariables 
+    features = removeFeatures 
   )
   
   descriptions = list(
@@ -58,8 +58,8 @@ removeMethods <- function(method = NULL, description = F){
     classes = list(description = 'remove classes',
                  arguments = c(cls = 'info column containing class information',
                                classes = 'classes to remove')),
-    variables = list(description = 'remove variables',
-                    arguments = c(variables = 'variables to remove'))
+    features = list(description = 'remove variables',
+                    arguments = c(features = 'features to remove'))
   )
   
   if (description == F) {

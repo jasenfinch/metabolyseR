@@ -237,9 +237,9 @@ setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
   standardGeneric("removeClasses")
 })
 
-#' @rdname removeVariables
-setGeneric("removeVariables", function(d,variables = character()) {
-  standardGeneric("removeVariables")
+#' @rdname removeFeatures
+setGeneric("removeFeatures", function(d,features = character()) {
+  standardGeneric("removeFeatures")
 })
 
 #' @rdname keepSamples
@@ -252,9 +252,9 @@ setGeneric("keepClasses", function(d,cls = 'class', classes = c()) {
   standardGeneric("keepClasses")
 })
 
-#' @rdname keepVariables
-setGeneric("keepVariables", function(d,variables = character()) {
-  standardGeneric("keepVariables")
+#' @rdname keepFeatures
+setGeneric("keepFeatures", function(d,features = character()) {
+  standardGeneric("keepFeatures")
 })
 
 #' @rdname  imputeAll
