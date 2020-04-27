@@ -410,7 +410,8 @@ setMethod('plotROC',signature = 'RandomForest',
               pl <- pl +
                 theme(legend.position = legendPosition,
                       axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'))
+                      legend.title = element_text(face = 'bold'),
+                      panel.grid = element_blank())
             
             return(pl)
           }
