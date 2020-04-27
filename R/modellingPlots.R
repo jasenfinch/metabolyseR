@@ -410,18 +410,7 @@ setMethod('plotROC',signature = 'RandomForest',
               pl <- pl +
                 theme(legend.position = legendPosition,
                       axis.title = element_text(face = 'bold'),
-<<<<<<< HEAD
-                      legend.title = element_text(face = 'bold'),
-                      panel.grid = element_blank())
-            } else {
-              pl <- pl +
-                theme(legend.position = 'none',
-                      axis.title = element_text(face = 'bold'),
-                      panel.grid = element_blank())
-            }
-=======
                       legend.title = element_text(face = 'bold'))
->>>>>>> devel
             
             return(pl)
           }
