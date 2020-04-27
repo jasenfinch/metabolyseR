@@ -31,13 +31,17 @@
 setMethod('plotLDA',signature = 'AnalysisData',
           function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             
+            classLength <- clsLen(analysis,cls)
+            
+            if (classLength < 2) {
+              stop('More than 1 class needed for PC-LDA.',call. = FALSE)
+            }
+            
             info <- analysis %>%
               clsExtract(cls) %>%
               factor()
             
             lda <- nlda(dat(analysis),cl = info,scale = scale,center = center)
-            
-            classLength <- clsLen(analysis,cls)
             
             tw <- lda$Tw %>%
               round(2)
