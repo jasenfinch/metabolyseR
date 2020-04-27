@@ -24,10 +24,10 @@ setMethod('imputeAll',signature = 'AnalysisData',
               deframe()
             
             d_low_occ <- d %>%
-              keepVariables(low_occ)
+              keepFeatures(low_occ)
             
             d_to_impute <- d %>%
-              removeVariables(low_occ)
+              removeFeatures(low_occ)
             
             set.seed(seed)
             

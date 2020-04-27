@@ -37,7 +37,7 @@ test_that('methods work',{
     } %>%
     keepClasses(classes = c(1,6)) %>%
     {
-      keepVariables(.,variables = features(.)[500:600])
+      keepFeatures(.,features = features(.)[500:600])
     }
 
   m <- lapply(m,function(x,dat){

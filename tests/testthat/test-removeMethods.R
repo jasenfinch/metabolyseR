@@ -36,8 +36,8 @@ test_that('methods work',{
   s <- method(d,idx = 'injorder', samples = c(1,2))
   method <- removeMethods('classes')
   cl <- method(d, cls = 'class', classes = c('1'))
-  method <- removeMethods('variables')
-  var <- method(d, variables = 'N133')
+  method <- removeMethods('features')
+  var <- method(d, features = 'N133')
   
   expect_equal(slotNames(s), c('data','info'))
   expect_equal(slotNames(cl), c('data','info'))

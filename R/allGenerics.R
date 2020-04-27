@@ -63,12 +63,12 @@ setGeneric('plotRSD', function(analysis, cls = 'class', ...){
 })
 
 #' @rdname plotPCA
-setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA) plot', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotPCA')
 })
 
 #' @rdname plotLDA
-setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotLDA')
 })
 
@@ -83,12 +83,12 @@ setGeneric('plotExplanatoryHeatmap',function(x, ...){
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NULL, ellipses = T, ROC = T, seed = 1234, title = 'MDS plot of a supervised random forest', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NULL,shape = FALSE, ellipses = TRUE, ROC = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotSupervisedRF')
 })
 
 #' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, ellipses = T, seed = 1234, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotUnsupervisedRF')
 })
 
@@ -237,9 +237,9 @@ setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
   standardGeneric("removeClasses")
 })
 
-#' @rdname removeVariables
-setGeneric("removeVariables", function(d,variables = character()) {
-  standardGeneric("removeVariables")
+#' @rdname removeFeatures
+setGeneric("removeFeatures", function(d,features = character()) {
+  standardGeneric("removeFeatures")
 })
 
 #' @rdname keepSamples
@@ -252,9 +252,9 @@ setGeneric("keepClasses", function(d,cls = 'class', classes = c()) {
   standardGeneric("keepClasses")
 })
 
-#' @rdname keepVariables
-setGeneric("keepVariables", function(d,variables = character()) {
-  standardGeneric("keepVariables")
+#' @rdname keepFeatures
+setGeneric("keepFeatures", function(d,features = character()) {
+  standardGeneric("keepFeatures")
 })
 
 #' @rdname  imputeAll
@@ -318,12 +318,12 @@ setGeneric("plotMeasures", function(x, response = 'class') {
 })
 
 #' @rdname plotMDS
-setGeneric("plotMDS", function(x,cls = 'class', label = NULL, ellipses = T, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2) {
+setGeneric("plotMDS", function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2) {
   standardGeneric("plotMDS")
 })
 
 #' @rdname plotROC
-setGeneric("plotROC", function(x, title = '', legend = TRUE) {
+setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
   standardGeneric("plotROC")
 })
 

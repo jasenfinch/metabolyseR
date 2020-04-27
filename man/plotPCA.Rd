@@ -10,13 +10,13 @@ plotPCA(
   analysis,
   cls = "class",
   label = NULL,
-  scale = T,
-  center = T,
+  scale = TRUE,
+  center = TRUE,
   xAxis = "PC1",
   yAxis = "PC2",
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "Principle Component Analysis (PCA) plot",
-  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -25,13 +25,13 @@ plotPCA(
   analysis,
   cls = "class",
   label = NULL,
-  scale = T,
-  center = T,
+  scale = TRUE,
+  center = TRUE,
   xAxis = "PC1",
   yAxis = "PC2",
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "Principle Component Analysis (PCA)",
-  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -40,13 +40,13 @@ plotPCA(
   analysis,
   cls = "class",
   label = NULL,
-  scale = T,
-  center = T,
+  scale = TRUE,
+  center = TRUE,
   xAxis = "PC1",
   yAxis = "PC2",
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "Principle Component Analysis (PCA)",
-  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -66,13 +66,13 @@ plotPCA(
 
 \item{yAxis}{principle component to plot on the y-axis}
 
-\item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
+
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
 
 \item{title}{plot title}
 
-\item{legend}{TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.}
-
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.}
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }

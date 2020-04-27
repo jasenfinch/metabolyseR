@@ -56,18 +56,25 @@ Collate: allGenerics.R
     correlations-method.R
     correlationResults-method.R
     imputeMethods.R
+    info.R
+    join.R
+    keepMethods.R
     metabolyse.R
     metabolyseR.R
+    modelling.R
+    modellingPlots.R
     nlda.R
     occupancyMethods.R
     parseParameters.R
     plotExplanatoryHeatmap-method.R
     plotFeature-method.R
     plotLDA-method.R
+    plotOccupancy.R
     plotPCA-method.R
     plotRSD-method.R
     plotSupervisedRF-method.R
     plotTIC-method.R
+    plotting.R
     plotUnsupervisedRF-method.R
     preTreat-method.R
     preTreatedData-method.R
@@ -78,16 +85,10 @@ Collate: allGenerics.R
     rawInfo-method.R
     reAnalyse.R
     removeMethods.R
+    randomForest.R
     show-method.R
+    split.R
     transformMethods.R
     univariateMethods.R
-    modelling.R
-    randomForest.R
-    modellingPlots.R
-    keepMethods.R
-    info.R
-    plotOccupancy.R
-    join.R
-    split.R
 VignetteBuilder: knitr
 Additional_repositories: https://aberhrml.github.io/drat/

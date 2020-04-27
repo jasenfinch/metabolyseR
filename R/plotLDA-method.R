@@ -8,10 +8,10 @@
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
-#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
 #' @param title plot title
-#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @examples 
 #' \dontrun{
@@ -29,117 +29,49 @@
 #' @export
 
 setMethod('plotLDA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
             
-            info <- sinfo(analysis) %>%
-              select(all_of(cls))
+            classLength <- clsLen(analysis,cls)
             
-            lda <- nlda(dat(analysis),cl = info[,cls] %>% deframe(),scale = scale,center = center)
+            if (classLength < 2) {
+              stop('More than 1 class needed for PC-LDA.',call. = FALSE)
+            }
             
-            classLength <- lda$cl %>%
-              unique() %>%
-              length()
+            info <- analysis %>%
+              clsExtract(cls) %>%
+              factor()
+            
+            lda <- nlda(dat(analysis),cl = info,scale = scale,center = center)
             
             tw <- lda$Tw %>%
               round(2)
             
             lda <- lda$x %>%
               as_tibble() %>%
-              bind_cols(info) %>%
-              mutate(!!cls := factor(!!sym(cls)))
-            
-            
+              mutate(!!cls := info)
             
             if (classLength > 2) {
               lda <- lda %>%
-                select(all_of(cls),xAxis = all_of(xAxis),yAxis = all_of(yAxis))
+                select(all_of(c(cls,xAxis,yAxis)))
               
               if (!is.null(label)) {
                 lda <- lda %>%
-                  mutate(Label = info[,label] %>% unlist())
+                  bind_cols(info %>%
+                              select(label()))
               }
               
-              pl <- lda %>%
-                ggplot(aes(x = xAxis,y  = yAxis)) +
-                geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
-                geom_vline(xintercept = 0,linetype = 2,colour = 'grey')
+              classLength <- clsLen(analysis,cls)
               
-              if (isTRUE(ellipses)) {
-                pl <- pl +
-                  stat_ellipse(aes(fill = !!sym(cls)),alpha = 0.3,geom = 'polygon',type = 'norm')
-              }
-              
-              if (!is.null(label)) {
-                pl <- pl +
-                  geom_text_repel(aes(label = Label),size = labelSize)
-              }
-              
-              if (classLength <= 12) {
-                pl <- pl + 
-                  scale_colour_ptol() +
-                  scale_fill_ptol()
-              } else {
-                if (classLength %% 12 == 0) {
-                  pal <- rep(ptol_pal()(12),classLength / 12)
-                } else {
-                  pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
-                }
-                pl <- pl + 
-                  scale_colour_manual(values = pal) +
-                  scale_fill_manual(values = pal)
-              }
-              
-              if (classLength > 6) {
-                sym <- 0:25
-                if (classLength / max(sym) == 1) {
-                  val <- sym
-                }
-                if (classLength / max(sym) < 1) {
-                  val <- sym[1:classLength]
-                }
-                if (classLength / max(sym) > 1) {
-                  if (classLength %% max(sym) == 0) {
-                    val <- rep(sym,classLength / max(sym))
-                  } else {
-                    val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
-                  }
-                }
-                pl <- pl + scale_shape_manual(values = val)
-              }
-              pl <- pl +
-                geom_point(aes(colour = !!sym(cls),shape = !!sym(cls))) +
-                theme_bw() +
-                labs(title = title,
-                     x = str_c(xAxis,' (Tw: ',tw[xAxis],')'),
-                     y = str_c(yAxis,' (Tw: ',tw[yAxis],')')) +
-                coord_fixed()
-              
-              if (legend == TRUE) {
-                pl <- pl +
-                  theme(plot.title = element_text(face = 'bold'),
-                        axis.title = element_text(face = 'bold'),
-                        legend.title = element_text(face = 'bold'),
-                        legend.position = 'bottom',
-                        panel.grid = element_blank()
-                  )
-              } else {
-                pl <- pl +
-                  theme(plot.title = element_text(face = 'bold'),
-                        axis.title = element_text(face = 'bold'),
-                        legend.title = element_text(face = 'bold'),
-                        legend.position = 'none',
-                        panel.grid = element_blank()
-                  )
-              }
+              pl <- scatterPlot(lda,cls,xAxis,yAxis,ellipses,shape,label,labelSize,legendPosition,classLength,title,str_c(xAxis,' (Tw: ',tw[xAxis],')'),str_c(yAxis,' (Tw: ',tw[yAxis],')'))
             } else {
               pl <- lda %>%
-                ggplot(aes(x = !!sym(cls),y = DF1,colour = !!sym(cls),shape = !!sym(cls))) +
-                geom_hline(yintercept = 0,linetype = 2,colour = 'grey') +
-                geom_point() +
-                scale_colour_ptol() +
-                theme_bw() +
-                guides(colour = F,shape = F) +
-                ylab(str_c('DF1',' (Tw: ',tw['DF1'],')'))
+                {
+                  ggplot(.,aes(x = !!sym(cls),y = DF1)) +
+                    geom_hline(yintercept = 0,linetype = 2,colour = 'grey')
+                } %>%
+                plotShape(cls,shape,classLength) %>%
+                plotColour(classLength) %>%
+                plotTheme(legendPosition = 'none',title,xLabel = cls,yLabel = str_c('DF1',' (Tw: ',tw['DF1'],')'))
             }
             
             return(pl)
@@ -150,13 +82,13 @@ setMethod('plotLDA',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotLDA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
             if (ncol(analysis@preTreated %>% dat()) > 0) {
               d <- analysis@preTreated
             } else {
               d <- analysis@rawData
             }
             
-            plotLDA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, ellipses = ellipses, title = title, legend = legend, legendPosition = legendPosition, labelSize = labelSize)
+            plotLDA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, shape = shape, ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
           }
 )
