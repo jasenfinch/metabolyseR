@@ -66,13 +66,13 @@ setMethod('plotPCA',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotPCA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', ellipses = TRUE, title = 'Principle Component Analysis (PCA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
             if (ncol(analysis@preTreated %>% dat()) > 0) {
               d <- analysis@preTreated
             } else {
               d <- analysis@rawData
             }
             
-            plotPCA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, ellipses = ellipses, title = title, legend = legend, legendPosition = legendPosition, labelSize = labelSize)
+            plotPCA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, shape = shape,ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
           }
 )

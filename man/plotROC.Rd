@@ -5,16 +5,16 @@
 \alias{plotROC,RandomForest-method}
 \title{plotROC}
 \usage{
-plotROC(x, title = "", legend = TRUE)
+plotROC(x, title = "", legendPosition = "bottom")
 
-\S4method{plotROC}{RandomForest}(x, title = "", legend = TRUE)
+\S4method{plotROC}{RandomForest}(x, title = "", legendPosition = "bottom")
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}
 
 \item{title}{plot title}
 
-\item{legend}{TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.}
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
 }
 \description{
 plot reciever operator characteristic curves for a RandomForest object.

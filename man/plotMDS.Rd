@@ -9,9 +9,9 @@ plotMDS(
   x,
   cls = "class",
   label = NULL,
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "",
-  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -20,9 +20,9 @@ plotMDS(
   x,
   cls = "class",
   label = NULL,
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "",
-  legend = TRUE,
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -34,13 +34,13 @@ plotMDS(
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
-\item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
+
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
 
 \item{title}{plot title}
 
-\item{legend}{TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.}
-
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.}
+\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }

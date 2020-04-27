@@ -189,10 +189,10 @@ setMethod('plotMeasures',signature = 'list',function(x){
 #' @param x S4 object of class RandomForest
 #' @param cls info column to use for sample labelling, Set to NULL for no labelling. 
 #' @param label info column to use for sample labels. Set to NULL for no labels.
-#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
 #' @param title plot title
-#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE. 
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate_all
@@ -202,7 +202,7 @@ setMethod('plotMeasures',signature = 'list',function(x){
 #' @export
 
 setMethod('plotMDS',signature = 'RandomForest',
-          function(x,cls = 'class', label = NULL, ellipses = T, title = '', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2){
             
             if (!(cls %in% {x@data %>% sinfo() %>% colnames()})) {
               stop(str_c('Info column ',cls,'not found!'))
@@ -274,7 +274,7 @@ setMethod('plotMDS',signature = 'RandomForest',
                     d %>%
                       bind_cols(cda %>%
                                   sinfo() %>%
-                                  select(label) %>%
+                                  select(all_of(label)) %>%
                                   mutate_all(as.character)
                       )  
                   }) %>%
@@ -313,85 +313,9 @@ setMethod('plotMDS',signature = 'RandomForest',
               }
             }
             
-            pl <- ggplot(mds,aes(x = `Dimension 1`,y = `Dimension 2`)) +
-              coord_fixed() +
-              theme_bw()
+            classLength <- clsLen(x@data,cls)
             
-            if (legend == TRUE) {
-              pl <- pl +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      legend.position = legendPosition
-                )
-            } else {
-              pl <- pl +
-                theme(
-                  plot.title = element_text(face = 'bold'),
-                  axis.title = element_text(face = 'bold'),
-                  legend.position = 'none'
-                )
-            }
-              
-            
-            if (isTRUE(ellipses) & !(is.null(cls))) {
-              pl <- pl +
-                stat_ellipse(aes_string(fill = cls),alpha = 0.3,geom = 'polygon',type = 'norm')
-            }
-            
-            if (!is.null(cls)) {
-              classLength <- mds[,cls] %>%
-                unlist(use.names = F) %>%
-                unique() %>%
-                length()
-              
-              if (classLength <= 12) {
-                pl <- pl + 
-                  scale_colour_ptol() +
-                  scale_fill_ptol()
-              } else {
-                if (classLength %% 12 == 0) {
-                  pal <- rep(ptol_pal()(12),classLength / 12)
-                } else {
-                  pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
-                }
-                pl <- pl + 
-                  scale_colour_manual(values = pal) +
-                  scale_fill_manual(values = pal)
-              }
-              
-              if (classLength > 6) {
-                sym <- 0:25
-                if (classLength / max(sym) == 1) {
-                  val <- sym
-                }
-                if (classLength / max(sym) < 1) {
-                  val <- sym[1:classLength]
-                }
-                if (classLength / max(sym) > 1) {
-                  if (classLength %% max(sym) == 0) {
-                    val <- rep(sym,classLength / max(sym))
-                  } else {
-                    val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
-                  }
-                }
-                pl <- pl + scale_shape_manual(values = val)
-              }
-              
-              pl <- pl +
-                geom_point(aes_string(colour = cls,shape = cls))
-            } else {
-              pl <- pl +
-                geom_point(shape = 21,fill = ptol_pal()(1))
-            }
-            
-            if (!is.null(label)) {
-              pl <- pl +
-                geom_text_repel(aes_string(label = label),size = labelSize)
-            }
-            
-            pl <- pl +
-              labs(title = title)
+            pl <- scatterPlot(mds,cls,'Dimension 1','Dimension 2',ellipses,shape,label,labelSize,legendPosition,classLength,title,'Dimension 1','Dimension 2')
             
             if (x@type == 'classification') {
               pl <- pl +
@@ -407,13 +331,13 @@ setMethod('plotMDS',signature = 'RandomForest',
 #' @description plot reciever operator characteristic curves for a RandomForest object.
 #' @param x S4 object of class RandomForest
 #' @param title plot title
-#' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE. 
+#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @importFrom ggplot2 geom_abline geom_line guide_legend
 #' @importFrom yardstick roc_curve
 #' @export
 
 setMethod('plotROC',signature = 'RandomForest',
-          function(x,title = '',legend = TRUE){
+          function(x,title = '', legendPosition = 'bottom'){
             
             if (x@type != 'classification') {
               stop('ROC curves can only be plotted for classification!')
@@ -482,16 +406,10 @@ setMethod('plotROC',signature = 'RandomForest',
                 labs(title = title)
             }
             
-            if (legend == TRUE) {
               pl <- pl +
-                theme(legend.position = 'bottom',
+                theme(legend.position = legendPosition,
                       axis.title = element_text(face = 'bold'),
                       legend.title = element_text(face = 'bold'))
-            } else {
-              pl <- pl +
-                theme(legend.position = 'none',
-                      axis.title = element_text(face = 'bold'))
-            }
             
             return(pl)
           }

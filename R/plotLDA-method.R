@@ -29,7 +29,7 @@
 #' @export
 
 setMethod('plotLDA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
             
             classLength <- clsLen(analysis,cls)
             
@@ -83,13 +83,13 @@ setMethod('plotLDA',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotLDA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
             if (ncol(analysis@preTreated %>% dat()) > 0) {
               d <- analysis@preTreated
             } else {
               d <- analysis@rawData
             }
             
-            plotLDA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, ellipses = ellipses, title = title, legend = legend, legendPosition = legendPosition, labelSize = labelSize)
+            plotLDA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, shape = shape, ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
           }
 )
