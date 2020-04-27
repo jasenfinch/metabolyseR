@@ -10,11 +10,12 @@ plotPCA(
   analysis,
   cls = "class",
   label = NULL,
-  scale = T,
-  center = T,
+  scale = TRUE,
+  center = TRUE,
   xAxis = "PC1",
   yAxis = "PC2",
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "Principle Component Analysis (PCA) plot",
   legend = TRUE,
   legendPosition = "bottom",
@@ -25,11 +26,12 @@ plotPCA(
   analysis,
   cls = "class",
   label = NULL,
-  scale = T,
-  center = T,
+  scale = TRUE,
+  center = TRUE,
   xAxis = "PC1",
   yAxis = "PC2",
-  ellipses = T,
+  shape = FALSE,
+  ellipses = TRUE,
   title = "Principle Component Analysis (PCA)",
   legend = TRUE,
   legendPosition = "bottom",
@@ -65,6 +67,8 @@ plotPCA(
 \item{xAxis}{principle component to plot on the x-axis}
 
 \item{yAxis}{principle component to plot on the y-axis}
+
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points}
 
 \item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
 

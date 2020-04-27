@@ -8,7 +8,8 @@
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
-#' @param ellipses should multivariate normal distribution 95\% confidence ellipses be plotted for each class?
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
 #' @param title plot title
 #' @param legend TRUE/FALSE should a legend be plotted. Useful for many classes. Defaults to TRUE.
 #' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Ignored if \code{legend = FALSE}.
@@ -31,13 +32,17 @@
 #' @export
 
 setMethod('plotPCA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'PC1', yAxis = 'PC2', ellipses = T, title = 'Principle Component Analysis (PCA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA)', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
             
             pca <- prcomp(dat(analysis),scale. = scale,center = center)
             
             info <- sinfo(analysis) %>%
               select(cls) %>%
               mutate(!!cls := factor(!!sym(cls)))
+            
+            classLength <- info %>%
+              unique() %>%
+              nrow()
             
             var <- pca$sdev
             var <- round(var^2/sum(var^2) * 100,2)
@@ -59,8 +64,12 @@ setMethod('plotPCA',signature = 'AnalysisData',
               geom_vline(xintercept = 0,linetype = 2,colour = 'grey')
             
             if (isTRUE(ellipses)) {
-              pl <- pl +
-                stat_ellipse(aes(fill = !!sym(cls)),alpha = 0.3,geom = 'polygon',type = 'norm')
+              if (classLength <= 12) {
+                pl <- pl +
+                  stat_ellipse(aes(colour = !!sym(cls)),geom = 'polygon',type = 'norm',linetype = 5,fill = NA) 
+              } else {
+                message('Number of classes > 12, ellipses removed.')
+              }
             }
             
             if (!is.null(label)) {
@@ -68,9 +77,34 @@ setMethod('plotPCA',signature = 'AnalysisData',
                 geom_text_repel(aes(label = Label),size = labelSize)
             }
             
-            classLength <- info %>%
-              unique() %>%
-              nrow()
+            if (isFALSE(shape) & classLength <= 12) {
+              pl <- pl +
+                geom_point(aes(fill = !!sym(cls)),shape = 21,size = 3) 
+            } else {
+              if (classLength > 12 & isFALSE(shape)) {
+                message('Number of classes > 12, using shape aesthetic.')
+              }
+              
+              if (classLength > 6) {
+                sym <- 0:25
+                if (classLength / max(sym) == 1) {
+                  val <- sym
+                }
+                if (classLength / max(sym) < 1) {
+                  val <- sym[1:classLength]
+                }
+                if (classLength / max(sym) > 1) {
+                  if (classLength %% max(sym) == 0) {
+                    val <- rep(sym,classLength / max(sym))
+                  } else {
+                    val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
+                  }
+                }
+                pl <- pl + 
+                  geom_point(aes(colour = !!sym(cls),shape = !!sym(cls))) +
+                  scale_shape_manual(values = val)
+              }
+            }
             
             if (classLength <= 12) {
               pl <- pl + 
@@ -87,26 +121,7 @@ setMethod('plotPCA',signature = 'AnalysisData',
                 scale_fill_manual(values = pal)
             }
             
-            if (classLength > 6) {
-              sym <- 0:25
-              if (classLength / max(sym) == 1) {
-                val <- sym
-              }
-              if (classLength / max(sym) < 1) {
-                val <- sym[1:classLength]
-              }
-              if (classLength / max(sym) > 1) {
-                if (classLength %% max(sym) == 0) {
-                  val <- rep(sym,classLength / max(sym))
-                } else {
-                  val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
-                }
-              }
-              pl <- pl + scale_shape_manual(values = val)
-            }
-            
             pl <- pl +
-              geom_point(aes(colour = !!sym(cls),shape = !!sym(cls))) +
               theme_bw() +
               labs(title = title,
                    x = str_c(xAxis,' (Var: ',var[xAxis],'%)'),
@@ -118,13 +133,15 @@ setMethod('plotPCA',signature = 'AnalysisData',
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
                       legend.title = element_text(face = 'bold'),
-                      legend.position = legendPosition)
+                      legend.position = legendPosition,
+                      panel.grid = element_blank())
             } else {
               pl <- pl +
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
                       legend.title = element_text(face = 'bold'),
-                      legend.position = 'none')
+                      legend.position = 'none',
+                      panel.grid = element_blank())
             }
             
             return(pl)
