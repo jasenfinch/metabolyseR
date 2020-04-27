@@ -68,9 +68,9 @@ plotPCA(
 
 \item{yAxis}{principle component to plot on the y-axis}
 
-\item{shape}{TRUE/FALSE use shape aesthetic for plot points}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
 
-\item{ellipses}{should multivariate normal distribution 95\% confidence ellipses be plotted for each class?}
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
 
 \item{title}{plot title}
 
