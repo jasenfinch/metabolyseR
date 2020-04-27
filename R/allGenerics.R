@@ -68,7 +68,7 @@ setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = TR
 })
 
 #' @rdname plotLDA
-setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = T, center = T, xAxis = 'DF1', yAxis = 'DF2', ellipses = T, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
+setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legend = TRUE, legendPosition = 'bottom', labelSize = 2){
   standardGeneric('plotLDA')
 })
 

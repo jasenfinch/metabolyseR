@@ -63,23 +63,27 @@ plotLabel <- function(pl,label,labelSize,classLength) {
   return(pl)
 }
 
-plotShape <- function(pl,cls,shape,classLength){
+plotShape <- function(pl,cls,shape,classLength,pointSize = 3){
+  
   if (isFALSE(shape) & classLength <= 12) {
     pl <- pl +
-      geom_point(aes(fill = !!sym(cls)),shape = 21,size = 3) 
+      geom_point(aes(fill = !!sym(cls)),shape = 21,size = pointSize) 
   } else {
     if (classLength > 12 & isFALSE(shape)) {
       message('Number of classes > 12, using shape aesthetic.')
     }
     
+    pl <- pl + 
+      geom_point(aes(colour = !!sym(cls),shape = !!sym(cls)),size = pointSize) 
+    
     if (classLength > 6) {
       val <- shapeValues(classLength)
       
       pl <- pl + 
-        geom_point(aes(colour = !!sym(cls),shape = !!sym(cls))) +
         scale_shape_manual(values = val)
     }
   }
+  return(pl)
 }
 
 plotColour <- function(pl,classLength){
@@ -97,6 +101,7 @@ plotColour <- function(pl,classLength){
       scale_colour_manual(values = pal) +
       scale_fill_manual(values = pal)
   }
+  return(pl)
 }
 
 scatterPlot <- function(d,cls,xAxis,yAxis,ellipses,shape,label,labelSize,legendPosition,classLength,title,xLabel,yLabel){
