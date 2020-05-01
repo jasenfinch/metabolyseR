@@ -79,7 +79,7 @@ d %>%
 As can be seen above, the experiment is made up of six infection time point classes that includes a healthy control class (`H`) and five day infection time points (`1-5`), each with 20 replicates. 
 
 For data pre-treatment prior to statistical analysis, a two-thirds maximum class occupancy filter can be applied.
-Features where the maximum proportion of non-missing data per class above two-thirds are retained.
+Features where the maximum proportion of non-missing data per class is above two-thirds are retained.
 A total ion count normalisation will also be applied.
 
 ```{r pre_treat}
@@ -106,7 +106,7 @@ And similarly, multidimensional scaling (MDS) of sample proximity values from a 
 plotSupervisedRF(d,cls = 'day')
 ```
 
-An infection progression can clearly be seen from the least to most infected time points.
+A progression can clearly be seen from the earliest to latest infected time points.
 
 For feature selection, one-way analysis of variance (ANOVA) can be performed for each feature to identify features significantly explanatory for the infection time point.
 
