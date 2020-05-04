@@ -17,3 +17,42 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(metabolyseR)
 ```
+
+## Modelling
+
+Modelling provides the essential data mining step for extracting biological information from a data set relating to experimental conditions.
+`metabolyseR` provides a number of both univariate and multivariate methods for data mining.
+
+The default parameters for modelling using Random Forest are shown below.
+
+```{r modellingParameters}
+parameters <- analysisParameters('modelling')
+parameters
+```
+
+Parameters for alternative methods or multiple methods can be retrieved using the `modellingParameters()` function as shown below.
+
+```{r changeModellingParameters}
+parameters@modelling <- modellingParameters(c('randomForest','ttest'))
+parameters
+```
+
+Descriptions of each of the parameters can be found in the documentation for a particular method (see table below). 
+
+Modelling analysis can then be performed on the pre-treated data from the previous section.
+
+```{r classificationAnalysis,eval=FALSE}
+analysis <- reAnalyse(analysis,parameters)
+```
+
+The modelling results will then be returned as a list within the `Analysis` object containing the results object for each method.
+
+The table below outlines the modelling methods currently available:
+
+```{r modellingMethods,echo=FALSE,results='asis'}
+metabolyseR:::modellingMethods(description = T) %>%
+  purrr::map(tibble::as_tibble) %>%
+  dplyr::bind_rows(.id = 'Method') %>%
+  {set_colnames(.,stringr::str_to_title(colnames(.)))} %>%
+  knitr::kable()
+```

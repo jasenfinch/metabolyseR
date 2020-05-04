@@ -17,3 +17,338 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(metabolyseR)
 ```
+
+## Pre-Treatment
+
+Data pre-treatment prior to statistical analyses is an essential step in the analysis of metabolomics data as it ensures it's quality and integrity.
+It is also important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be used on the data.
+
+Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
+It itself is made up of a number of elements, which themselves are made up of methods.
+The pre-treatment elements can be seen below.
+
+<center>
+```{r preTreatmentDiagram,echo=FALSE,fig.width=8}
+DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
+```
+</center>
+
+The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
+
+### Parameter Selection
+
+The default pre-treatment parameters can be seen below.
+
+```{r preTreatDefaults}
+analysisParameters('preTreat')
+```
+
+This pre-treatment analysis is made up of three elements that include variable filtering based on QC samples, missing data imputation and data transformation (`QC`, `impute` and `transform` respectively).
+Each of these elements is made up of varying numbers of methods, with each method having its own arguments.
+The order in which these elements and their methods is displayed is the order in which their execution upon the data will take place.
+This allows the fine specification of the data pre-treatment routines that are required for the particular data.
+
+Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
+
+```{r preTreatParameterExample}
+parameters <- analysisParameters('preTreat')
+parameters@preTreat <- list(
+    remove = list(
+      class = list(
+        cls = 'class',
+        classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1:2))])),
+    occupancyFilter = list(
+      maximum = list()),
+    transform = list(
+      TICnorm = list())
+)
+parameters
+```
+
+This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transform the data using a total ion count normalisation.
+
+The pre-treatment routines are specified as a hierarchy of lists within lists.
+Firstly the pre-treatment elements should be specified within a list with the particular element methods specified as lists within these.
+The method arguments are then declared within these lists.
+Empty lists for methods can be specified to use the default arguments; however, element lists should not be empty. 
+
+The pre-treatment routine can then be executed using the following.
+```{r preTreatExample,eval=F}
+analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
+analysis
+```
+
+### Sample and variable removal - `remove`
+
+The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
+
+Variable removal is important if for example there is contaminant features present in a data set. 
+
+The methods and their arguments for the removal of samples is shown in the table below.
+
+```{r removeMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::removeMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::removeMethods())
+defaults <- lapply(metabolyseR:::removeMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Keep samples and variables - `keep`
+
+The opposite of the remove methods discussed above. 
+Useful if there are fewer samples, classes or variables to keep than to remove.
+
+The methods and their arguments for keeping samples is shown in the table below.
+
+```{r keepMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::keepMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::removeMethods())
+defaults <- lapply(metabolyseR:::removeMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+
+### Batch correction `correction`
+
+There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
+With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
+
+```{r correctionMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::correctionMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::correctionMethods())
+defaults <- lapply(metabolyseR:::correctionMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Sample aggregation - `aggregate`
+
+Sample aggregation allows the electronic pooling of samples based on a grouping variable.
+This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
+
+The methods and their arguments are shown in the table below.
+
+```{r aggregateMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::aggregateMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::aggregateMethods())
+defaults <- lapply(metabolyseR:::aggregateMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Variable filtering based on occupancy - `occupancyFilter`
+
+Occupancy provides a useful measure by which to filter variables that are poorly represented (contain a majority of missing values).
+An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses.
+However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.
+
+An occupancy threshold can be applied both minimally and maximally within the class structure.
+A minimally applied threshold would require all the classes to have an occupancy above the threshold for the variable to be retained.
+A maximally applied threshold would require only a single class to have an occupancy above the threshold for the variable to be retained.
+The later strategy has the important benefit of retaining any presence and absence trends that may be present.
+
+The methods and their arguments for occupancy based variable filtering are shown in the table below.
+
+```{r occupancyMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::occupancyMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::occupancyMethods())
+defaults <- lapply(metabolyseR:::occupancyMethods(),formals)
+defaults <- lapply(defaults,function(x){x$dat <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Variable filtering based on QC samples - `QC`
+
+A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
+Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
+If there is class structure within the run this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run.
+QC samples can then be injected between these randomised blocks.
+This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
+
+The technical reproducibility of an acquired variable can be assessed using it's relative standard deviation (RSD) within the QC samples.
+The variable RSDs can then be thresholded to filter out variables that are poorly reproducible across the analytical runs.
+This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure.
+Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
+
+The methods and arguments for variable filtering based upon QC samples are shown in the table below.
+
+```{r QCMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::QCMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::QCMethods())
+defaults <- lapply(metabolyseR:::QCMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Imputation of missing data - `impute`
+
+Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
+Where and how they are imputed are important considerations and is highly related to variable occupancy.
+Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
+
+The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
+Their arguments are shown in the table below.
+
+```{r imputeMethodsTable,echo=FALSE,results='asis'}
+desc <- metabolyseR:::imputeMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::imputeMethods())
+defaults <- lapply(metabolyseR:::imputeMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
+
+### Data transformation - `transform`
+
+Prior to downstream analyses, metabolomics data often require a transformation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variability in sample concentration.
+
+There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
+The methods and their arguments are shown in the table below.
+
+```{r transformMethods,echo=FALSE,results='asis'}
+desc <- metabolyseR:::transformMethods(description = T)
+args <- lapply(desc,function(x){return(x$arguments)})
+args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
+if (T %in% (sapply(args,length) > 1)) {
+  args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+args <- unlist(args)
+if (T %in% sapply(args,function(x){grepl("''",x)})) {
+  args[sapply(args,function(x){grepl("''",x)})] <- lapply(args[sapply(args,function(x){grepl("''",x)})],function(x){''})
+}
+desc <- unlist(lapply(desc,function(x){return(x$description)}))
+meth <- names(metabolyseR:::transformMethods())
+defaults <- lapply(metabolyseR:::transformMethods(),formals)
+defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
+if (T %in% sapply(defaults,is.null)) {
+  defaults[sapply(defaults,is.null)] <- lapply(defaults[sapply(defaults,is.null)],function(x){c(`''` = '')})
+}
+defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
+
+if (T %in% sapply(defaults,function(x){grepl("''",x)})) {
+  defaults[sapply(defaults,function(x){grepl("''",x)})] <- lapply(defaults[sapply(defaults,function(x){grepl("''",x)})],function(x){''})
+}
+
+if (T %in% (sapply(defaults,length) > 1)) {
+  defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
+}
+defaults <- unlist(defaults)
+tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+
+knitr::kable(tab)
+```
