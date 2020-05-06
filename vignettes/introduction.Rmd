@@ -13,7 +13,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+  
 ```{r,include=FALSE}
 knitr::opts_chunk$set(fig.align = 'center')
 library(magrittr)
@@ -50,8 +50,10 @@ vignette('quick_start','metabolyseR')
 Any issues or bugs found while using the package should be reported [here](https://github.com/jasenfinch/metabolyseR/issues).
 
 The examples shown here will use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
+This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. 
+The examples will also include use of the pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package.
 
-Firstly load relevant packages:
+Firstly load the relevant packages:
 
 ```{r libraryLoad,message=FALSE}
 library(metabolyseR)
@@ -60,19 +62,41 @@ library(metaboData)
 
 ## Exploratory analyses
 
-Key requirements for investigators performing exploratory analyses are flexibility and simplicity.
-These are situations where simple questions of the data need to be answered quickly.
+For exploratory analyses, simple questions of the data need to be answered quickly.
+This means that key requirements for any tool used by investigators for performing exploratory analyses are both simple and flexible.
+
+In *metabolyseR*, the `AnalysisData` class is the base S4 class that provides these requirements.
+This is "requires metabolomics data and sample information, rows observations, columns metabolome features (eg. mass spectral signals)"
+
+The following sections will give an overview of the basics in constructing and manipulating these objects as the base for analysis.
 
 ### Analysis data
 
+We can firstly construct an `AnalysisData` object to analyse consisting of two data tables.
+The first contains the metabolomic data where the columns are the metabolome features, the rows the sample observations and the values.
+The second contains the sample meta-information with the row order matching those of the metabolome data table.
+Using the example data, his can be constructed and assigned to the variable `d` by:
+
 ```{r analysis_data}
-d <- analysisData(abr1$neg,abr1$fact)
+d <- analysisData(data = abr1$neg,
+                  info = abr1$fact)
 ```
+
+Where `abr1$neg` is the negative ionisation mode data and `abr1$fact` is the corresponding sample information.
+By printing `d` we can view some basic information about our data.
 
 ```{r print_analysis_data}
 d
 ```
 
+We can also return the numbers of samples and numbers of features respectively using the following:
+
+```{r number_samples_features}
+nSamples(d)
+nFeatures(d)
+```
+
+The dat 
 ```{r dat}
 dat(d)
 ```
@@ -97,7 +121,52 @@ sinfo(d) <- abr1$fact[,1:2]
 d
 ```
 
+```{r analysis_data2,echo=FALSE}
+d <- analysisData(abr1$neg,abr1$fact)
+```
+
 ### Sample information
+
+```{r,results='asis',echo=FALSE}
+getNamespaceExports('metabolyseR') %>% 
+  {.[stringr::str_detect(.,'cls')]} %>% 
+  {.[!stringr::str_detect(.,':')]} %>% 
+  sort() %>% 
+  stringr::str_c('* ',.) %>% 
+  stringr::str_c(collapse = '\n') %>%
+  cat()
+```
+
+```{r}
+clsAvailable(d)
+```
+
+```{r}
+clsExtract(d,cls = 'day')
+```
+```{r}
+clsExtract(d,cls = 'day') %>%
+  table()
+```
+
+```{r}
+d <- clsAdd(d,cls = 'new_class',value = rep(1,nSamples(d)))
+clsAvailable(d)
+```
+
+
+
+### Keeping / removing samples or features
+
+```{r}
+head(features(d))
+```
+
+```{r}
+d %>%
+  keepFeatures(features = head(features(d)))
+```
+
 
 ## Routine analyses
 
@@ -157,16 +226,19 @@ Discussion of parameters particular to the individual analysis elements can be f
 Due to the complex nature of the list structures needed for the analyses containing many components, it is possible to express these parameters more simply in YAML format and parse these into R using `parseParameters()`.
 Below shows an example `.yaml` file that would give the same default `AnalysisParameters` object when `analysisParameters()` is called.
 
-```{r defaultYAML, eval=FALSE}
-library(yaml)
+```{r defaultYAML,echo=FALSE,results='asis'}
 paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
 
-read_yaml(paramFile) %>%
-  as.yaml() %>%
+stringr::str_c("
+```yaml
+",
+yaml::read_yaml(paramFile) %>%
+  yaml::as.yaml(),
+"```") %>%
   cat()
 ```
 
-This can be parsed directly into an `AnalysisParameters` object using the following:
+This can be passed directly into an `AnalysisParameters` object using the following:
 
 ```{r parseParametes,eval=F}
 p <- parseParameters(paramFile)
@@ -175,12 +247,15 @@ p
 
 For more complex pre-treatment situations such as the following:
 
-```{r exampleYAML}
-library(yaml)
+```{r exampleYAML,echo=FALSE,results='asis'}
 exampleParamFile <- system.file('exampleParameters.yaml',package = 'metabolyseR')
 
-read_yaml(exampleParamFile) %>%
-  as.yaml() %>%
+stringr::str_c("
+```yaml
+",
+  yaml::read_yaml(exampleParamFile) %>%
+    yaml::as.yaml(),
+  "```") %>%
   cat()
 ```
 
@@ -200,8 +275,8 @@ This is shown by the following code.
 ```{r metabolyseExample}
 parameters <- analysisParameters(c('preTreat','modelling'))
 parameters@preTreat <- list(
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
+  occupancyFilter = list(maximum = list()),
+  transform = list(TICnorm = list())
 )
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters) 
 analysis
