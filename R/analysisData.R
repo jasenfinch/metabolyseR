@@ -36,7 +36,7 @@ setMethod('dat',signature = 'AnalysisData',
 #' @export
 
 `dat<-` <- function(x,value){
-  x@data <- value
+  x@data <- as_tibble(value)
   return(x)
 }
 
@@ -56,7 +56,7 @@ setMethod('sinfo',signature = 'AnalysisData',
 #' @export
 
 `sinfo<-` <- function(x,value){
-  x@info <- value
+  x@info <- as_tibble(value)
   return(x)
 }
 
