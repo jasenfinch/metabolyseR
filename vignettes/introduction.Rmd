@@ -21,36 +21,85 @@ library(magrittr)
 
 ## Introduction
 
-Extracting biological information  related to experimental treatments from metabolomics data involves a number of steps; data pre-treatment, assessing the extent of discrimination or association between treatment classes and identifying explanatory features responsible for this.
-The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis.
-Below shows the three analysis elements in that make up metabolyseR.
+Extracting biological information, related to experimental treatments, from metabolomics data involves a number of steps; data pre-treatment, assessing the extent of discrimination or association between treatment classes and identifying explanatory features responsible for this.
+The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis and include the following three analysis elements:
 
-<center>
-```{r metabolyseRDiagram,echo=FALSE,fig.width=8}
-  DiagrammeR::grViz(readr::read_file('figures/metabolyseR.gv'))
+* data pre-treatment
+* modelling / data mining
+* correlation analyses
+
+The *metabolyseR* package also distinguishes between the flexibility and simplicity required for **exploratory** analyses and the convenience needed for complex **routine** analyses. 
+This is reflected in the underlying S4 classes and associated methods defined within the package.
+It should be noted that it is useful to understand the principles involved in using *metabolyseR* for exploratory analyses in manipulating and extracting the results generated from routine analyses.
+
+The following document will provide an introduction to the basic usage of the package that includes how to create an manipulate the base classes that are the foundation of *metabolyseR* .
+This will be focused around the application for both exploratory and routine analyses.
+For more detailed information on the individual analysis elements see their associated vignette using:
+
+```{r vignettes, eval=FALSE}
+browseVignettes('metabolyseR')
 ```
-</center>
 
-This document will provide a tutorial on the basic usage of the package, followed by more detailed discussion of each of the analysis elements.
-Lastly, there will be discussion of the tools for the visualisation of the results from these data as well as the integration of metabolyseR into wider metabolomics workflows.
-This allows more bespoke analyses to be performed based on the particular metabolomics technique being used.
+There is also an example quick start analysis vignette provided. 
+This can be found using:
 
-*metabolyseR* has been written to be as generic and versatile as possible to allow analyses to be tailored to the particular needs of the metabolomic technique.
-With this in mind, it's application doesn't need to be restricted only to metabolomics data.
-These analysis elements could, for example, also be suitable for data such as gene expression data where replication allows.
+```{r example_analysis,eval=FALSE}
+vignette('quick_start','metabolyseR')
+```
 
-The examples shown here use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
+Any issues or bugs found while using the package should be reported [here](https://github.com/jasenfinch/metabolyseR/issues).
+
+The examples shown here will use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
 
 Firstly load relevant packages:
 
 ```{r libraryLoad,message=FALSE}
 library(metabolyseR)
 library(metaboData)
-
-data('abr1')
 ```
 
-## Basic Usage
+## Exploratory analyses
+
+Key requirements for investigators performing exploratory analyses are flexibility and simplicity.
+These are situations where simple questions of the data need to be answered quickly.
+
+### Analysis data
+
+```{r analysis_data}
+d <- analysisData(abr1$neg,abr1$fact)
+```
+
+```{r print_analysis_data}
+d
+```
+
+```{r dat}
+dat(d)
+```
+
+```{r new_dat}
+dat(d) <- abr1$pos
+```
+
+```{r print_analysis_data2}
+d
+```
+
+```{r sinfo}
+sinfo(d)
+```
+
+```{r new_sinfo}
+sinfo(d) <- abr1$fact[,1:2]
+```
+
+```{r print_analysis_data3}
+d
+```
+
+### Sample information
+
+## Routine analyses
 
 *metabolyseR* has three main functions for performing analyses:
 
@@ -58,7 +107,8 @@ data('abr1')
 * `metabolyse` - input data and info to analyse using the selected parameters.
 * `reAnalysis` - re-analyse data previously analysed using `metabolyse` based on newly selected parameters.
 
-#### Parameter Selection
+### Parameters
+
 Parameter selection is the fundamental aspect of using *metabolyseR* and will be the most modified as it dictates how the analyses will be performed.
 `analysisParameters` returns an object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
 For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
@@ -142,7 +192,7 @@ p <- parseParameters(exampleParamFile)
 p
 ```
 
-#### Analysis
+### Analysis
 
 Executing analyses is simple using the `metabolyse` function with specification of the data to use, the sample meta-information (info) and the analysis parameters.
 This is shown by the following code.
@@ -173,7 +223,7 @@ Data and analysis results can be extracted from this object using the following 
 If data pre-treatment has not been performed prior to modelling, the raw data will automatically be used.
 The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
 
-#### Re-Analysis
+### Re-Analysis
 
 There are likely to be occasions where analyses need to be re-analysed using a new set of parameters. 
 `reAnalyse` can be used for this.
