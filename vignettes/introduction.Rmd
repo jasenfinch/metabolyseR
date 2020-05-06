@@ -96,28 +96,29 @@ nSamples(d)
 nFeatures(d)
 ```
 
-The dat 
+The data table can be extracted using the `dat` method:
+
 ```{r dat}
 dat(d)
 ```
 
+Or alternatively, can be used to assign a new data table:
+
 ```{r new_dat}
 dat(d) <- abr1$pos
-```
-
-```{r print_analysis_data2}
 d
 ```
+
+The sample information table can be extracted using the `sinfo` method:
 
 ```{r sinfo}
 sinfo(d)
 ```
 
+And similarly used to assign a new sample information table:
+
 ```{r new_sinfo}
 sinfo(d) <- abr1$fact[,1:2]
-```
-
-```{r print_analysis_data3}
 d
 ```
 
@@ -127,39 +128,71 @@ d <- analysisData(abr1$neg,abr1$fact)
 
 ### Sample information
 
-```{r,results='asis',echo=FALSE}
+There are a number of methods that provide utility for querying and altering the sample information within an `AnalysisData` object.
+These methods are all named with the prefix `cls` and include:
+
+```{r cls,results='asis',echo=FALSE}
 getNamespaceExports('metabolyseR') %>% 
   {.[stringr::str_detect(.,'cls')]} %>% 
   {.[!stringr::str_detect(.,':')]} %>% 
   sort() %>% 
-  stringr::str_c('* ',.) %>% 
+  stringr::str_c('* `',.,'`') %>% 
   stringr::str_c(collapse = '\n') %>%
   cat()
 ```
 
-```{r}
+The names of the available sample information columns can be shown using `clsAvailable`.
+
+```{r cls_available}
 clsAvailable(d)
 ```
 
-```{r}
+A given column can be extracted using `clsExtract`. 
+Here, the `day` column is extracted.
+
+```{r cls_extract}
 clsExtract(d,cls = 'day')
 ```
-```{r}
+
+Sample class frequencies could then be computed.
+
+```{r cls_freq}
 clsExtract(d,cls = 'day') %>%
   table()
 ```
 
-```{r}
+It cam be seen that there are 20 samples available in each class.
+
+Another example is the addition of a new sample information column.
+In the following, a column called `new_class` will be added with all samples labelled `1`.
+
+```{r cls_add}
 d <- clsAdd(d,cls = 'new_class',value = rep(1,nSamples(d)))
 clsAvailable(d)
 ```
 
-
-
 ### Keeping / removing samples or features
 
 ```{r}
-head(features(d))
+d %>%
+  clsExtract(cls = 'injorder') %>%
+  head()
+```
+
+```{r}
+d %>%
+  keepSamples(idx = 'injorder',samples = 1:6)
+```
+
+```{r}
+d %>%
+  removeSamples(idx = 'injorder',samples = 1:6)
+```
+
+```{r}
+d %>%
+  features() %>%
+  head()
 ```
 
 ```{r}
@@ -167,6 +200,10 @@ d %>%
   keepFeatures(features = head(features(d)))
 ```
 
+```{r}
+d %>%
+  removeFeatures(features = head(features(d)))
+```
 
 ## Routine analyses
 
