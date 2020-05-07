@@ -22,6 +22,16 @@ getClusterType <- function(){
   return(type)
 }
 
+#' modellingMethods
+#' @description Return names of available modelling methods.
+#' @export
+
+modellingMethods <- function(){
+  getModellingMethods() %>%
+    names()
+}
+
+
 #' modellingParameters
 #' @description Return parameters for a given modelling method.
 #' @param methods character vector of available methods. Set to NULL to print available methods.
@@ -47,7 +57,7 @@ modellingParameters <- function(methods){
     set_names(methods)
 }
 
-modellingMethods <- function(method = NULL, description = F){
+getModellingMethods <- function(method = NULL, description = F){
   
   methods <- list(
     anova = anova,
@@ -94,18 +104,20 @@ setMethod('modelling',signature = 'Analysis',
               startTime <- proc.time()
               message(blue('Modelling '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
-            params <- x@parameters@modelling
+            params <- x %>%
+              parameters() %>%
+              parameters('modelling')
             
             res <- params %>%
               names() %>%
               map(~{
                 i <- .
-                method <- modellingMethods(i)
+                method <- getModellingMethods(i)
                 
                 if (nrow(x@preTreated@data) > 0) {
-                  d <- x@preTreated
+                  d <- preTreated(x)
                 } else {
-                  d <- x@rawData
+                  d <- raw(x)
                 }
                 
                 newPars <- formals(method) %>%
