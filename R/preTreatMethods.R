@@ -1,54 +1,30 @@
 
-getPreTreatElements <- function(method = NULL){
+getPreTreatMethods <- function(element = NULL){
   
-  methods <- list(
-    remove = function(params){
-      lapply(params,removeMethods)
-    },
-    
-    keep = function(params){
-      lapply(params,keepMethods)
-    },
-    
-    transform = function(params){
-      lapply(params,transformMethods)
-    },
-    
-    impute = function(params){
-      lapply(params,imputeMethods)
-    },
-    
-    QC = function(params){
-      lapply(params,QCMethods)
-    },
-    
-    occupancyFilter = function(params){
-      lapply(params,occupancyMethods)
-    },
-    
-    aggregate = function(params){
-      lapply(params,aggregateMethods)
-    },
-    
-    correction = function(params){
-      lapply(params,correctionMethods)
-    }
+  elements <- list(
+    aggregate = aggregateMethods,
+    correction = correctionMethods,
+    impute = imputeMethods,
+    keep = keepMethods,
+    occupancyFilter = occupancyMethods,
+    QC = QCMethods,
+    remove = removeMethods,
+    transform = transformMethods
   )
   
-  if (is.null(method)) {
-    methods %>%
-      names() %>%
+  if (is.null(element)) {
+    elements %>%
       return()
   } else {
-    if (!(method %in% names(methods))) {
+    if (!(element %in% names(elements))) {
       stop(str_c("Pre-treatment element '",
-                 method,
+                 element,
                  "' not recognised. Available elements include: ",
-                 str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
+                 str_c(str_c("'",names(elements),"'"),collapse = ' '),'.'))
     }
     
-    method <- methods[[method]]
-    return(method)
+    element <- elements[[element]]
+    return(element)
   }
 }
 
@@ -57,5 +33,12 @@ getPreTreatElements <- function(method = NULL){
 #' @export
 
 preTreatmentElements <- function(){
-  getPreTreatElements()
+  getPreTreatMethods() %>%
+    names()
+}
+
+preTreatmentMethods <- function(element){
+  getPreTreatMethods(element)() %>%
+    names() %>%
+    sort()
 }

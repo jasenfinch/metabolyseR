@@ -232,15 +232,70 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
             return(x)
           })
 
+#' preTreatmentParameters
+#' @description Return default parameters for given pre-treatment element methods. 
+#' @param methods a named list of element methods
+#' @examples 
+#' p <- preTreatmentParameters(
+#'   list(
+#'     remove = 'classes',
+#'     QC = c('RSDfilter','removeQC'),
+#'     transform = 'TICnorm'
+#'   )
+#' )
+#' @importFrom purrr walk
+#' @export
+
+preTreatmentParameters <- function(methods){
+  
+  if (!is.list(methods)) {
+    stop('Argument "methods" should be a named list of element methods.',call. = FALSE)
+  }
+  
+  if (FALSE %in% (names(methods) %in% preTreatmentElements())) {
+    elements <- preTreatmentElements() %>%
+      str_c('"',.,'"')
+    stop(str_c('List names of argument "methods" can only include ',str_c(elements,collapse = ', '),'.'))
+  }
+  
+  methods %>%
+    names() %>%
+    walk(~{
+      meths <- .x %>%
+        preTreatmentMethods()
+      if (FALSE %in% (methods[[.x]] %in% meths)) {
+        meths <- meths %>%
+          str_c('"',.,'"')
+        stop(str_c('Methods for element "',.x,'" can only include ',str_c(meths,collapse = ', '),'.'),call. = FALSE)
+      }
+    })
+  
+  methods %>%
+    names() %>%
+    map(~{
+      element <- .x %>%
+        getPreTreatMethods()
+      meths <- methods[[.x]] %>%
+        map(~{
+          .x %>%
+            element() %>%
+            formals() %>%
+            .[-1]
+        }) %>%
+        set_names(methods[[.x]])
+    }) %>%
+    set_names(names(methods))
+}
+
 #' modellingParameters
 #' @description Return parameters for a given modelling method.
-#' @param methods character vector of available methods. Set to NULL to print available methods.
+#' @param methods character vector of available methods. Use \code{modellingMethods()} to see available methods.
 #' @export
 
 modellingParameters <- function(methods){
   
-  if (is.null(methods)) {
-    cat('Available methods:\t',str_c(modellingMethods(),collapse = '\n\t\t\t'),sep = '')
+  if (!is.character(methods)) {
+    stop('Argument "methods" should be a character vector.',call. = FALSE)
   }
   
   if (F %in% (methods %in% modellingMethods())) {

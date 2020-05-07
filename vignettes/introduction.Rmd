@@ -239,15 +239,18 @@ This section will introduce how this type of analysis can be performed using *me
 
 ### Analysis parameter selection
 
-Parameter selection is the fundamental aspect for performing routine analyses *metabolyseR* and will be the step requiring the most input from the user.
+Parameter selection is the fundamental aspect for performing routine analyses using *metabolyseR* and will be the step requiring the most input from the user.
 The parameters for an analysis are stored in an S4 object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
+
+The available analysis elements can be shown using:
 
 ```{r analysis_elements}
 analysisElements()
 ```
 
 
-For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
+The `analysisParameters` function can be used to create an `AnalysisParameters` object containing the default parameters.
+TheFor example, the code below will return default parameters for all the *metabolyseR* analysis elements.
 
 ```{r parametersExample,eval=FALSE}
 parameters <- analysisParameters()
