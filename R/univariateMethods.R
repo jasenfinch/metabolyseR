@@ -128,20 +128,12 @@ setMethod('anova',signature = 'AnalysisData',
 setMethod('ttest',signature = 'AnalysisData',
           function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
-            d <- x %>%
-              dat()
-            
-            i <- x %>%
-              sinfo()
-            
-            classes <- i %>%
-              select(cls)
-            
             if (length(comparisons > 0)) {
               pw <- comparisons
             } else {
-              pw <- classes %>%
-                map(getPairwises) 
+              pw <- cls %>%
+                map(binaryComparisons,x = x) %>%
+                set_names(cls)
             }
             
             models <- pw %>%

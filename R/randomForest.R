@@ -403,7 +403,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
   
   i <- x %>%
     sinfo() %>%
-    select(cls)
+    select(all_of(cls))
   
   clsFreq <- i %>%
     group_by_all() %>%
@@ -427,7 +427,10 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
     comp <- comparisons
   } else {
     if (binary == T) {
-      comp <- map(i,getPairwises) 
+      comp <- map(names(i),~{
+        binaryComparisons(x,cls = .x) 
+      }) %>%
+        set_names(names(i))
     } else {
       comp <- map(i,~{unique(.) %>% sort() %>% str_c(collapse = '~')})
     }
@@ -766,7 +769,7 @@ setMethod('measures',signature = 'list',
             x %>%
               map(measures) %>%
               bind_rows()
-})
+          })
 
 #' importance
 #' @rdname importance

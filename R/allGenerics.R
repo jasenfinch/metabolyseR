@@ -389,3 +389,8 @@ setGeneric('bindAnalysesRows',function(x){
 setGeneric('split',function(x,cls = 'class'){
   standardGeneric('split')
 })
+
+#' @rdname binaryComparisons
+setGeneric('binaryComparisons',function(x,cls = 'class'){
+  standardGeneric('binaryComparisons')
+})

@@ -1,13 +1,21 @@
+#' binaryComparisons
+#' @rdname binaryComparisons
+#' @description Return a vector of possible binary comparisons for a given sample information column.
+#' @param x S4 object of class AnalysisData.
+#' @param cls sample information column to use
 #' @importFrom utils combn
 
-getPairwises <- function(cl){
-  cl %>%
-    as.character() %>%
-    unique() %>%
-    sort() %>%
-    combn(2) %>%
-    apply(2,str_c,collapse = '~')
-}
+setMethod('binaryComparisons',signature = 'AnalysisData',
+          function(x,cls = 'class'){
+            x %>%
+              clsExtract(cls) %>%
+              as.character() %>%
+              unique() %>%
+              sort() %>%
+              combn(2) %>%
+              apply(2,str_c,collapse = '~')
+          }
+)
 
 #' getClusterType
 #' @description Return appropriate cluster type for parallel processing based on operating system type.
