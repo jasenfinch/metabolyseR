@@ -4,8 +4,10 @@ context('plotFeature')
 
 test_that('plotFeature returns a plot',{
   data(abr1)
-  p <- analysisParameters(c('preTreat'))
-  p@preTreat <- list(
+  
+  p <- analysisParameters(c('pre-treatment'))
+  
+  parameters(p,'pre-treatment') <- list(
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
   )

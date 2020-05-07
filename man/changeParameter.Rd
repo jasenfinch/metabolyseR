@@ -6,27 +6,22 @@
 \title{changeParameter}
 \usage{
 changeParameter(
-  parameters,
+  x,
   parameterName,
   newValue,
   elements = c("preTreat", "modelling", "correlations")
 )
 
-\S4method{changeParameter}{AnalysisParameters}(
-  parameters,
-  parameterName,
-  newValue,
-  elements = c("preTreat", "modelling", "correlations")
-)
+\S4method{changeParameter}{AnalysisParameters}(x, parameterName, newValue, elements = analysisElements())
 }
 \arguments{
-\item{parameters}{S4 object of class AnalysisParameters in which to change parameters}
-
 \item{parameterName}{Name of the parameter to change}
 
 \item{newValue}{New value of the parameter}
 
-\item{elements}{Character vector of analysis elements to target parameter change. Can be one of "preTreat", "modelling" or "correlations".}
+\item{elements}{Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.}
+
+\item{parameters}{S4 object of class AnalysisParameters in which to change parameters}
 }
 \description{
 change analysis parameters

@@ -40,7 +40,7 @@ The parameter selection for the pre-treatment elements will firstly be discussed
 The default pre-treatment parameters can be seen below.
 
 ```{r preTreatDefaults}
-analysisParameters('preTreat')
+analysisParameters('pre-treatment')
 ```
 
 This pre-treatment analysis is made up of three elements that include variable filtering based on QC samples, missing data imputation and data transformation (`QC`, `impute` and `transform` respectively).
@@ -51,8 +51,8 @@ This allows the fine specification of the data pre-treatment routines that are r
 Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
 
 ```{r preTreatParameterExample}
-parameters <- analysisParameters('preTreat')
-parameters@preTreat <- list(
+parameters <- analysisParameters('pre-treatment')
+parameters@`pre-treatment` <- list(
     remove = list(
       class = list(
         cls = 'class',

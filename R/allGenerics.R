@@ -1,6 +1,6 @@
 
-setGeneric("preTreat", function(x) {
-  standardGeneric("preTreat")
+setGeneric("pre-treatment", function(x) {
+  standardGeneric("pre-treatment")
 })
 
 setGeneric("modelling", function(x) {
@@ -327,8 +327,16 @@ setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
   standardGeneric("plotROC")
 })
 
+setGeneric('parameters',function(x,...){
+  standardGeneric('parameters')
+})
+
+setGeneric('parameters<-',function(x,element,value){
+  standardGeneric('parameters<-')
+})
+
 #' @rdname changeParameter
-setGeneric("changeParameter", function(parameters,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
+setGeneric("changeParameter", function(x,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
   standardGeneric("changeParameter")
 })
 

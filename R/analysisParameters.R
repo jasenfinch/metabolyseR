@@ -1,20 +1,36 @@
+#' analysisElements
+#' @description Return the analysis elements available in metabolyseR.
+#' @export
+
+analysisElements <- function(){
+  new('AnalysisParameters') %>%
+    slotNames()
+}
+
 #' analysisParameters
 #' @description Initiate default analysis parameters for analysis elements.
-#' @param elements character vector containing elements for analysis (see Details). Default includes all available elements.
-#' @details Analysis elements can include:
-#' \itemize{
-#' \item preTreat
-#' \item classification
-#' \item featureSelection
-#' \item correlations
-#' }
+#' @param elements character vector containing elements for analysis. Default includes all available elements from \code{analysisElements}.
 #' @importFrom parallel detectCores
 #' @importFrom methods new
 #' @export
 
-analysisParameters <- function(elements = c('preTreat','modelling','correlations')){
+analysisParameters <- function(elements = analysisElements()){
   
-  if ('preTreat' %in% elements) {
+  if (!is.character(elements)) {
+    stop('Argument "elements" should be a character vector.',call. = FALSE)
+  }
+  
+  if (FALSE %in% (elements %in% analysisElements())) {
+    elements <- analysisElements() %>%
+      str_c('"',.,'"')
+    stop(str_c('Vector elements of argument "elements" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+  }
+  
+  preTreat <- list()
+  modelling <- list()
+  correlations <- list()
+  
+  if ('pre-treatment' %in% elements) {
     preTreat <- list(QC = list(occupancyFilter = as.list(formals(QCMethods('occupancyFilter'))[-1]),
                                impute = as.list(formals(QCMethods('impute'))[-1]),
                                RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
@@ -24,13 +40,10 @@ analysisParameters <- function(elements = c('preTreat','modelling','correlations
     impute = list(class = as.list(formals(imputeMethods('class'))[-1])),
     transform = list(TICnorm = as.list(formals(transformMethods('TICnorm'))[-1]))
     )
-  } else {
-    preTreat <- list()
   }
+  
   if ('modelling' %in% elements) {
     modelling <- modellingParameters('randomForest')
-  } else {
-    modelling <- list()
   }
   if ('correlations' %in% elements) {
     correlations <- list(
@@ -38,15 +51,38 @@ analysisParameters <- function(elements = c('preTreat','modelling','correlations
       pAdjustMethod = 'bonferroni',
       corPvalue = 0.05
     )
-  } else {
-    correlations <- list()
   }
   
   p <- new('AnalysisParameters',
-      preTreat = preTreat,
-      modelling = modelling,
-      correlations = correlations
+           `pre-treatment` = preTreat,
+           modelling = modelling,
+           correlations = correlations
   )
   
   return(p)
 }
+
+
+setMethod('parameters',signature = 'Analysis',
+          function(x){
+            x@parameters
+          }
+)
+
+setMethod('parameters',signature = 'AnalysisParameters',
+          function(x,element){
+            if (!(element %in% analysisElements())) {
+              elements <- analysisElements() %>%
+                str_c('"',.,'"')
+              stop(str_c('Argument "element" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+            }
+            slot(x,element)
+          }
+)
+
+setMethod('parameters<-',signature = 'AnalysisParameters',
+          function(x,element,value){
+            slot(x,element) <- value
+            return(x)
+          }
+)

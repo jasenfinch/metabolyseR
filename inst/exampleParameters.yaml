@@ -1,4 +1,4 @@
-preTreat:
+pre-treatment:
   remove:
     sample:
       idx: fileOrder

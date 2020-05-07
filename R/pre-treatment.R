@@ -1,14 +1,16 @@
 #' @importFrom missForest missForest
 #' @importFrom stringr str_replace_all
 
-setMethod("preTreat", signature = "Analysis",
+setMethod("pre-treatment", signature = "Analysis",
           function(x){
             verbose <- x@log$verbose
             if (verbose == T) {
               startTime <- proc.time()
               message(blue('Pre-treatment '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
-            params <- x@parameters@preTreat
+            params <- x %>%
+              parameters() %>%
+              parameters('pre-treatment')
             d <- analysisData(rawData(x), rawInfo(x))
             
             for (i in 1:length(params)) {

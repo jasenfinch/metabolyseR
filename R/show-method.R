@@ -8,15 +8,15 @@
 setMethod('show',signature = 'AnalysisParameters',
           function(object){
             
-            elements <- slotNames(object)
+            elements <- analysisElements()
             elements <- elements[sapply(elements, function(x,object){
               length(slot(object,x)) != 0
             },object = object) == T]
             names(elements) <- elements
             
-            if ('preTreat' %in% elements) {
-              preTreat <- slot(object,'preTreat')
-              preTreat <- lapply(preTreat,function(x){
+            if ('pre-treatment' %in% elements) {
+              `pre-treatment` <- slot(object,'pre-treatment')
+              `pre-treatment` <- lapply(`pre-treatment`,function(x){
                 x <- lapply(x,function(y){
                   if (length(y) > 0) {
                     n <- paste('\t\t\t',names(y),' = ',y,'\n',sep = '')
@@ -30,8 +30,8 @@ setMethod('show',signature = 'AnalysisParameters',
                 x <- paste(x,collapse = '')
                 return(x)
               })
-              preTreat <- paste('\t',names(preTreat),'\n',preTreat,sep = '')
-              preTreat <- paste(preTreat,collapse = '')
+              `pre-treatment` <- paste('\t',names(`pre-treatment`),'\n',`pre-treatment`,sep = '')
+              `pre-treatment` <- paste(`pre-treatment`,collapse = '')
             }
             
             if ('modelling' %in% elements) {

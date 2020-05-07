@@ -76,7 +76,7 @@ Collate: allGenerics.R
     plotTIC-method.R
     plotting.R
     plotUnsupervisedRF-method.R
-    preTreat-method.R
+    pre-treatment.R
     preTreatedData-method.R
     preTreatedInfo-method.R
     preTreatMethods.R

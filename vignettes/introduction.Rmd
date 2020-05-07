@@ -63,6 +63,7 @@ library(metaboData)
 ## Exploratory analyses
 
 For exploratory analyses, simple questions of the data need to be answered quickly.
+Usually with very few steps required.
 This means that key requirements for any tool used by investigators for performing exploratory analyses are both simple and flexible.
 
 In *metabolyseR*, the `AnalysisData` class is the base S4 class that provides these requirements.
@@ -226,16 +227,26 @@ d %>%
 
 ## Routine analyses
 
-*metabolyseR* has three main functions for performing analyses:
+Routine analyses are those that are often made up of numerous steps where parameters have likely already been previously estabilshed.
+The emphasis here is on convenience with as little code as possible required.
+In these analyses, the necessary analysis elements, order and parameters are first prepared and then the analysis routine subsequently performed in a single step.
+This section will introduce how this type of analysis can be performed using *metabolyseR* and will include four main topics:
 
-* `analysisParameters` - allows the selection of analysis parameters.
-* `metabolyse` - input data and info to analyse using the selected parameters.
-* `reAnalysis` - re-analyse data previously analysed using `metabolyse` based on newly selected parameters.
+* analysis parameter selection
+* performing an analysis
+* performing a reanalysis
+* extracting analysis results
 
-### Parameters
+### Analysis parameter selection
 
-Parameter selection is the fundamental aspect of using *metabolyseR* and will be the most modified as it dictates how the analyses will be performed.
-`analysisParameters` returns an object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
+Parameter selection is the fundamental aspect for performing routine analyses *metabolyseR* and will be the step requiring the most input from the user.
+The parameters for an analysis are stored in an S4 object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
+
+```{r analysis_elements}
+analysisElements()
+```
+
+
 For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
 
 ```{r parametersExample,eval=FALSE}
@@ -246,7 +257,7 @@ parameters
 To retrieve parameters for a subset of elements the following can be run, which will return parameters for only the `preTreat` and `modelling` elements. 
 
 ```{r parametersElementSubset}
-parameters <- analysisParameters(c('preTreat','modelling'))
+parameters <- analysisParameters(c('pre-treatment','modelling'))
 parameters
 ```
 
@@ -265,7 +276,7 @@ Alternatively the parameters of a specific analysis elements can be targeted usi
 The following will only alter the `cls` parameter for the pre-treatment element:
 
 ```{r changeParameterElement,eval=FALSE}
-parameters <- changeParameter(parameters,'cls','class',elements = 'preTreat')
+parameters <- changeParameter(parameters,'cls','class',elements = 'pre-treatment')
 ```
 
 
@@ -323,14 +334,14 @@ p <- parseParameters(exampleParamFile)
 p
 ```
 
-### Analysis
+### Performing an analysis
 
 Executing analyses is simple using the `metabolyse` function with specification of the data to use, the sample meta-information (info) and the analysis parameters.
 This is shown by the following code.
 
 ```{r metabolyseExample}
-parameters <- analysisParameters(c('preTreat','modelling'))
-parameters@preTreat <- list(
+parameters <- analysisParameters(c('pre-treatment','modelling'))
+parameters@`pre-treatment` <- list(
   occupancyFilter = list(maximum = list()),
   transform = list(TICnorm = list())
 )
@@ -341,20 +352,10 @@ analysis
 The data and info can be either `tibble` or `data.frame` structures and the parameters should be an S4 object of class `AnalysisParameters`.
 The order of the rows of the info table should agree with those in the data table.
 
-`metabolyse` returns an S4 object of class `Analysis`.
-Data and analysis results can be extracted from this object using the following functions:
-
-* `rawData()` - raw data.
-* `rawInfo()` - raw info.
-* `preTreatedData()` - pre-treated data.
-* `preTreatedInfo()` - pre-treated info.
-* `modellingResults()` - modelling results.
-* `correlationResults()` - correlation results.
-
 If data pre-treatment has not been performed prior to modelling, the raw data will automatically be used.
 The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
 
-### Re-Analysis
+### Performing a reanalysis
 
 There are likely to be occasions where analyses need to be re-analysed using a new set of parameters. 
 `reAnalyse` can be used for this.
@@ -365,3 +366,16 @@ parameters <- analysisParameters('correlations')
 analysis <- reAnalyse(analysis,parameters)
 analysis
 ```
+
+### Extracting analysis results
+
+
+`metabolyse` returns an S4 object of class `Analysis`.
+Data and analysis results can be extracted from this object using the following functions:
+
+* `rawData()` - raw data.
+* `rawInfo()` - raw info.
+* `preTreatedData()` - pre-treated data.
+* `preTreatedInfo()` - pre-treated info.
+* `modellingResults()` - modelling results.
+* `correlationResults()` - correlation results.

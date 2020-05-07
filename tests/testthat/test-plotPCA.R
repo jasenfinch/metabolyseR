@@ -4,11 +4,14 @@ context('plotPCA')
 
 test_that('plotPCA returns a plot',{
   data(abr1)
-  p <- analysisParameters(c('preTreat'))
-  p@preTreat <- list(
+  
+  p <- analysisParameters(c('pre-treatment'))
+  
+  parameters(p,'pre-treatment') <- list(
     occupancyFilter = list(maximum = list()),
     transform = list(TICnorm = list())
   )
+  
   cls1 <- abr1$neg[abr1$fact$class %in% c('1'),190:200][1:10,]
   cls2 <- abr1$neg[abr1$fact$class %in% c('6'),190:200][1:10,]
   dat <- rbind(cls1,cls2)

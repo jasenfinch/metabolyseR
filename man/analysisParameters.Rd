@@ -4,20 +4,11 @@
 \alias{analysisParameters}
 \title{analysisParameters}
 \usage{
-analysisParameters(elements = c("preTreat", "modelling", "correlations"))
+analysisParameters(elements = analysisElements())
 }
 \arguments{
-\item{elements}{character vector containing elements for analysis (see Details). Default includes all available elements.}
+\item{elements}{character vector containing elements for analysis. Default includes all available elements from \code{analysisElements}.}
 }
 \description{
 Initiate default analysis parameters for analysis elements.
-}
-\details{
-Analysis elements can include:
-\itemize{
-\item preTreat
-\item classification
-\item featureSelection
-\item correlations
-}
 }

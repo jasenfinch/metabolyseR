@@ -16,16 +16,21 @@ setClass('AnalysisData',
 #' AnalysisParameters
 #' @rdname AnalysisParameters-class
 #' @description An S4 class to store analysis parameters
-#' @slot preTreat list containing parameters for data pre-treatment
+#' @slot pre-treatment list containing parameters for data pre-treatment
 #' @slot modelling list containing parameters for modelling
 #' @slot correlations list containing parameters for correlations
 #'@export
 
 setClass('AnalysisParameters',
          slots = list(
-           preTreat = 'list',
+           `pre-treatment` = 'list',
            modelling = 'list',
            correlations = 'list'
+         ),
+         prototype = list(
+           `pre-treatment` = list(),
+           modelling = list(),
+           correlations = list()
          ))
 
 #' Analysis

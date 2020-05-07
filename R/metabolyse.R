@@ -56,7 +56,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
       correlations = tibble()
   )
     
-  elements <- slotNames(analysis@parameters)
+  elements <- analysisElements()
   elements <- elements[map_dbl(elements,~{length(slot(analysis@parameters,.))}) > 0]
   
   for (i in elements) {

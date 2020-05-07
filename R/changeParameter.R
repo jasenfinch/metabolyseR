@@ -4,7 +4,7 @@
 #' @param parameterName Name of the parameter to change
 #' @param newValue New value of the parameter
 #' @param parameters S4 object of class AnalysisParameters in which to change parameters
-#' @param elements Character vector of analysis elements to target parameter change. Can be one of "preTreat", "modelling" or "correlations".
+#' @param elements Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.
 #' @details
 #' For the parameter name selected, all parameters with that name will be altered.
 #' To individually change identically named parameters use the \code{@} operator to access the appropriate slot directly.
@@ -15,9 +15,9 @@
 #' @export
 
 setMethod('changeParameter',signature = 'AnalysisParameters',
-          function(parameters,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
+          function(x,parameterName,newValue,elements = analysisElements()) {
   
-  ele <- slotNames(parameters)
+  ele <- analysisElements()
   
   if (F %in% (map_lgl(elements,~{. %in% ele}))) {
     e <- str_c('"',ele,'"')
@@ -26,10 +26,10 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
   
   elements <- elements[sapply(elements,function(x,parameters){
     length(slot(parameters,x))
-  },parameters = parameters) > 0]
+  },parameters = x) > 0]
   
-  if ('preTreat' %in% elements) {
-    pars <- lapply(parameters@preTreat,function(x,parameterName){
+  if ('pre-treatment' %in% elements) {
+    pars <- lapply(parameters(x,'pre-treatment'),function(x,parameterName){
       x <- lapply(x,function(y,parameterName){names(y)[names(y) == parameterName]},parameterName = parameterName)
       x[sapply(x,length) == 0] <- NULL
       return(x)
@@ -47,14 +47,16 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
     pars <- unlist(pars,recursive = F)
     
     if (!is.null(pars)) {
+      p <- parameters(x,'pre-treatment')
       for (i in 1:length(pars)) {
-        parameters@preTreat[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
+        p[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
       }
+      parameters(x,'pre-treatment') <- p
     }
   }
   
   if ('modelling' %in% elements) {
-    pars <- parameters@modelling %>%
+    pars <- parameters(x,'modelling') %>%
       map(~{
         p <- .
         if (parameterName %in% names(p)) {
@@ -62,15 +64,15 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
         }
         return(p)
       })
-    parameters@modelling <- pars
+    parameters(x,'modelling') <- pars
   }
   
   if ('correlations' %in% elements) {
-    pars <- names(parameters@correlations)
+    pars <- names(parameters(x,'correlations'))
     if (parameterName %in% pars) {
-      parameters@correlations[[parameterName]] <- newValue
+      parameters(x,'correlations')[[parameterName]] <- newValue
     }
   }
   
-  return(parameters)
+  return(x)
 })
