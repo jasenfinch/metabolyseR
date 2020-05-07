@@ -173,36 +173,55 @@ clsAvailable(d)
 
 ### Keeping / removing samples or features
 
+Samples or features can easily be kept or removed from an `AnalysisData` object as is most convenient.
+
+Below can be seen the first 6 sample indexes in the `injorder` column of the sample information.
+
 ```{r}
-d %>%
+samples <- d %>%
   clsExtract(cls = 'injorder') %>%
   head()
+
+print(samples)
 ```
+
+Only these samples could be kept using:
 
 ```{r}
 d %>%
-  keepSamples(idx = 'injorder',samples = 1:6)
+  keepSamples(idx = 'injorder',samples = samples)
 ```
+
+Or removed using:
 
 ```{r}
 d %>%
-  removeSamples(idx = 'injorder',samples = 1:6)
+  removeSamples(idx = 'injorder',samples = samples)
 ```
 
+The process is very similar for keeping or removing specific metabolome features from the data table.
+Below can be seen the first 6 feature names in the data table.
+
 ```{r}
-d %>%
+feat <- d %>%
   features() %>%
   head()
+
+print(feat)
 ```
+
+Only these features can be kept using:
 
 ```{r}
 d %>%
-  keepFeatures(features = head(features(d)))
+  keepFeatures(features = feat)
 ```
+
+Or to remove these features:
 
 ```{r}
 d %>%
-  removeFeatures(features = head(features(d)))
+  removeFeatures(features = feat)
 ```
 
 ## Routine analyses
