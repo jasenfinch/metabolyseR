@@ -237,10 +237,23 @@ This section will introduce how this type of analysis can be performed using *me
 * performing a reanalysis
 * extracting analysis results
 
-### Analysis parameter selection
+### Analysis parameters
 
 Parameter selection is the fundamental aspect for performing routine analyses using *metabolyseR* and will be the step requiring the most input from the user.
 The parameters for an analysis are stored in an S4 object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
+
+The parameters have been named so that they denote the same functionality commonly across all analysis element methods.
+**Discussion of the specific parameters can be found withing the vignettes of the relevant analysis elements.**
+These can be accessed using:
+
+```{r vignettes1, eval=FALSE}
+browseVignettes('metabolyseR')
+```
+
+There are several ways to specify the parameters to use for analysis.
+The first is programatically and the second is through the use of the YAML format.
+
+#### Programatic specification
 
 The available analysis elements can be shown using:
 
@@ -248,50 +261,65 @@ The available analysis elements can be shown using:
 analysisElements()
 ```
 
-
 The `analysisParameters` function can be used to create an `AnalysisParameters` object containing the default parameters.
-TheFor example, the code below will return default parameters for all the *metabolyseR* analysis elements.
+For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
 
-```{r parametersExample,eval=FALSE}
-parameters <- analysisParameters()
-parameters
+```{r parametersExample}
+p <- analysisParameters()
+p
 ```
 
-To retrieve parameters for a subset of elements the following can be run, which will return parameters for only the `preTreat` and `modelling` elements. 
+To retrieve parameters for a subset of analysis elements the following can be run, returning parameters for only the pre-treatment and modelling elements. 
 
 ```{r parametersElementSubset}
-parameters <- analysisParameters(c('pre-treatment','modelling'))
-parameters
+p <- analysisParameters(c('pre-treatment','modelling'))
+p
 ```
 
-These parameters have been named so that a parameters that denote the same functionality will be named commonly across all methods.
 The `changeParameter` function can be used to uniformly change these parameters across all of the selected methods.
-The example below changes the defaults of all the parameters named `clusterType` from `FORK` to `PSOCK`.
+The example below changes the defaults of all the parameters named "cls" from the default "class" to "day".
 
-```{r changeParameter,eval=F}
-parameters <- analysisParameters()
-parameters
-parameters <- changeParameter(parameters,'cls','day')
-parameters
+```{r changeParameter}
+p <- analysisParameters()
+changeParameter(p,'cls') <- 'day'
+p
 ```
 
-Alternatively the parameters of a specific analysis elements can be targeted using the `elements` argument.
-The following will only alter the `cls` parameter for the pre-treatment element:
+Alternatively the parameters of a specific analysis elements can be targeted using the "elements" argument.
+The following will only alter the "cls" parameter back to "class" for the pre-treatment element parameters:
 
-```{r changeParameterElement,eval=FALSE}
-parameters <- changeParameter(parameters,'cls','class',elements = 'pre-treatment')
+```{r changeParameterElement}
+changeParameter(p,'cls',elements = 'pre-treatment') <- 'class'
 ```
 
+Parameters can be extracted from the `AnalysisParameters` class using the `parameters` function for a specified element.
 
-To change parameters individually, the `@` extraction operator can be used to access the relevant slot directly.
-For instance, the following code illustrates how to modify the occupancy threshold parameter for class imputation for data pre-treatment from 2/3 to 1/2.
-
-```{r parametersSetExample,eval=FALSE}
-parameters@preTreat$impute$class$occupancy <- 1/2
-parameters
+```{r parameters}
+parameters(p,'correlations')
 ```
 
-Discussion of parameters particular to the individual analysis elements can be found in the relevant analysis element sections.
+Each analysis element has a function for returning default parameters for specific methods.
+These include `preTreatmentParameters`, `modellingParameters` and `correlationParameters`.
+Each returns a list of the default parameters for a specified methods as shown in the example for `modellingParameters` below.
+
+```{r modellingParameters}
+modellingParameters('anova')
+```
+
+Refer to the documentation (`?`) of each function for sepecific usage details.
+
+The parameters returned by these functions can be assigned to an `AnalysisParameters` object, again using `parameters`'
+
+```{r assign_pre_treatment_parameters}
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+    occupancyFilter = 'maximum',
+    transform = 'TICnorm'
+      )
+  )
+```
+
+#### YAML specification
 
 Due to the complex nature of the list structures needed for the analyses containing many components, it is possible to express these parameters more simply in YAML format and parse these into R using `parseParameters()`.
 Below shows an example `.yaml` file that would give the same default `AnalysisParameters` object when `analysisParameters()` is called.
@@ -343,13 +371,17 @@ Executing analyses is simple using the `metabolyse` function with specification 
 This is shown by the following code.
 
 ```{r metabolyseExample}
-parameters <- analysisParameters(c('pre-treatment','modelling'))
-parameters@`pre-treatment` <- list(
-  occupancyFilter = list(maximum = list()),
-  transform = list(TICnorm = list())
+p <- analysisParameters(c('pre-treatment','modelling'))
+
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+  occupancyFilter = 'maximum',
+  transform = 'TICnorm')
 )
-analysis <- metabolyse(abr1$neg,abr1$fact,parameters) 
-analysis
+
+analysis <- metabolyse(abr1$neg[,1:200],abr1$fact,p) 
+
+print(analysis)
 ```
 
 The data and info can be either `tibble` or `data.frame` structures and the parameters should be an S4 object of class `AnalysisParameters`.
