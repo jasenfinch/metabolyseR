@@ -321,8 +321,9 @@ parameters(p,'pre-treatment') <- preTreatmentParameters(
 
 #### YAML specification
 
-Due to the complex nature of the list structures needed for the analyses containing many components, it is possible to express these parameters more simply in YAML format and parse these into R using `parseParameters()`.
-Below shows an example `.yaml` file that would give the same default `AnalysisParameters` object when `analysisParameters()` is called.
+Due to the relatively complex structure of the parameters needed for the analyses containing many components, it is also possible to specify analysis parameters using the YAML format.
+YAML parameter files (.yaml) can be parsed using the `parseParameters` function.
+The example below shows the YAML specification for the defaults returned by `analysisParameters`.
 
 ```{r defaultYAML,echo=FALSE,results='asis'}
 paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
@@ -338,9 +339,9 @@ yaml::read_yaml(paramFile) %>%
 
 This can be passed directly into an `AnalysisParameters` object using the following:
 
-```{r parseParametes,eval=F}
+```{r parseParametes}
+paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
 p <- parseParameters(paramFile)
-p
 ```
 
 For more complex pre-treatment situations such as the following:
@@ -357,13 +358,16 @@ stringr::str_c("
   cat()
 ```
 
-Where multiple remove steps are needed, these are numbered sequentially.
+Where multiple multiple steps of the same method needed (here is "remove"), these are numbered sequentially.
 Also where multiple values need to be provided to a particular argument (e.g. `classes = c('H','1')`), these should be supplied as a hyphenated list.
 
-```{r}
-p <- parseParameters(exampleParamFile)
-p
+Existing `AnalysisParameters` objects can also be exported to YAML format as shown below:
+
+```{r export_parameters,eval=FALSE}
+p <- analysisParameters()
+exportParameters(p,file = 'analysis_parameters.yaml')
 ```
+
 
 ### Performing an analysis
 
