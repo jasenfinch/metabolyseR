@@ -14,9 +14,9 @@ changeParameter(x, parameterName, elements = analysisElements()) <- value
 
 \item{elements}{Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.}
 
-\item{parameters}{S4 object of class AnalysisParameters in which to change parameters}
+\item{value}{New value of the parameter}
 
-\item{newValue}{New value of the parameter}
+\item{parameters}{S4 object of class AnalysisParameters in which to change parameters}
 }
 \description{
 change analysis parameters

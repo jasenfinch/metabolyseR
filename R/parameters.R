@@ -332,6 +332,9 @@ preTreatmentParameters <- function(methods){
 #' modellingParameters
 #' @description Return parameters for a given modelling method.
 #' @param methods character vector of available methods. Use \code{modellingMethods()} to see available methods.
+#' @examples 
+#' p <- analysisParameters()
+#' parameters(p,'modelling') <- modellingParameters('anova')
 #' @export
 
 modellingParameters <- function(methods){

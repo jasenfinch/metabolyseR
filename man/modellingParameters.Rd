@@ -12,3 +12,7 @@ modellingParameters(methods)
 \description{
 Return parameters for a given modelling method.
 }
+\examples{
+p <- analysisParameters()
+parameters(p,'modelling') <- modellingParameters('anova')
+}
