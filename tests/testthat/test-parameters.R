@@ -39,3 +39,17 @@ test_that('correlations parameters assigned for AnalysisParameters',{
                      names(),
                    c("method","pAdjustMethod","corPvalue"))
 })
+
+test_that('parameters correctly exported and parsed',{
+  p <- analysisParameters()
+  
+  dir <- tempdir()
+  file <- str_c(dir,'/','analysis_parameters.yaml')
+  
+  exportParameters(p,file)
+  
+  pp <- parseParameters(file)
+  
+  expect_true(file.exists(file))
+  expect_s4_class(pp,'AnalysisParameters')
+})
