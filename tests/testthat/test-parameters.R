@@ -15,7 +15,7 @@ test_that('parameters assigned for Analysis objects',{
 
 test_that('parameters extracted for Analysis objects',{
   parameters(a) <- p
-  expect_s4_class(parameters(a),'AnalysisParameters')
+  expect_identical(parameters(a),p)
 })
 
 test_that('parameters extracted for AnalysisParameters objects',{
