@@ -64,12 +64,33 @@ analysisParameters <- function(elements = analysisElements()){
 }
 
 
+#' parameters
+#' @rdname parameters
+#' @description Extract parameters from an Analysis object or extract or set parameters in an AnalysisParameters object.
+#' @param x S4 object of class Analysis
+#' @examples 
+#' p <- analysisParameters()
+#' 
+#' ## extract pre-treatment parameters
+#' parameters(p,'pre-treatment')
+#' 
+#' ## set pre-treatment parameters
+#' parameters(p,'pre-treatment') <- preTreatmentParameters(
+#'   list(
+#'     remove = 'classes',
+#'     QC = c('RSDfilter','removeQC'),
+#'     transform = 'TICnorm'
+#'   )
+#' )
+#' @export
+
 setMethod('parameters',signature = 'Analysis',
           function(x){
             x@parameters
           }
 )
 
+#' @rdname parameters
 setMethod('parameters',signature = 'AnalysisParameters',
           function(x,element){
             if (!(element %in% analysisElements())) {
@@ -81,6 +102,7 @@ setMethod('parameters',signature = 'AnalysisParameters',
           }
 )
 
+#' @rdname parameters
 setMethod('parameters<-',signature = 'AnalysisParameters',
           function(x,element,value){
             
@@ -88,10 +110,6 @@ setMethod('parameters<-',signature = 'AnalysisParameters',
               elements <- analysisElements() %>%
                 str_c('"',.,'"')
               stop(str_c('Argument "element" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
-            }
-            
-            if (!is.list(value)) {
-              stop('Assignment value should be an object of class list.',call. = FALSE)
             }
             
             checkParameters(value,element)
@@ -103,6 +121,26 @@ setMethod('parameters<-',signature = 'AnalysisParameters',
 
 checkPreTreatmentParameters <- function(value){
   
+  if (FALSE %in% (names(value) %in% preTreatmentElements())) {
+    elements <- preTreatmentElements() %>%
+      str_c('"',.,'"')
+    stop(str_c('List names of for replacement value can only include ',str_c(elements,collapse = ', '),'.'))
+  }
+  
+  value %>%
+    names() %>%
+    walk(~{
+      all_methods <- .x %>%
+        preTreatmentMethods()
+      methods <- value %>%
+        .[[.x]] %>%
+        names()
+      if (FALSE %in% (methods %in% all_methods)) {
+        all_methods <- all_methods %>%
+          str_c('"',.,'"')
+        stop(str_c('Methods for element "',.x,'" can only include ',str_c(all_methods,collapse = ', '),'.'),call. = FALSE)
+      }
+    })
 }
 
 checkModellingParameters <- function(value){
@@ -140,12 +178,16 @@ checkCorrelationParameters <- function(value){
 
 checkParameters <- function(value,element){
   
+  if (!is.list(value)) {
+    stop('Replacement value should be an object of class list.',call. = FALSE)
+  }
+  
   if (element == 'pre-treatment') {
-    checkPreTreatmentParameters()
+    checkPreTreatmentParameters(value)
   }
   
   if (element == 'modelling') {
-    checkModellingParameters()
+    checkModellingParameters(value)
   }
   
   if (element == 'correlations') {

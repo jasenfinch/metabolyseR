@@ -7,7 +7,7 @@
 modellingParameters(methods)
 }
 \arguments{
-\item{methods}{character vector of available methods. Set to NULL to print available methods.}
+\item{methods}{character vector of available methods. Use \code{modellingMethods()} to see available methods.}
 }
 \description{
 Return parameters for a given modelling method.

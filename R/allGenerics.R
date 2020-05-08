@@ -327,10 +327,12 @@ setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
   standardGeneric("plotROC")
 })
 
+#' @rdname parameters
 setGeneric('parameters',function(x,...){
   standardGeneric('parameters')
 })
 
+#' @rdname parameters
 setGeneric('parameters<-',function(x,element,value){
   standardGeneric('parameters<-')
 })

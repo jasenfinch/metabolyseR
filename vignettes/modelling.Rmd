@@ -50,7 +50,7 @@ The modelling results will then be returned as a list within the `Analysis` obje
 The table below outlines the modelling methods currently available:
 
 ```{r modellingMethods,echo=FALSE,results='asis'}
-metabolyseR:::modellingMethods(description = T) %>%
+metabolyseR:::getModellingMethods(description = T) %>%
   purrr::map(tibble::as_tibble) %>%
   dplyr::bind_rows(.id = 'Method') %>%
   {set_colnames(.,stringr::str_to_title(colnames(.)))} %>%
