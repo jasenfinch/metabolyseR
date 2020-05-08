@@ -427,3 +427,69 @@ parseParameters <- function(path){
   
   return(ap)
 }
+
+#' exportParameters
+#' @rdname exportParameters
+#' @description Export analysis parameters from AnalysisParameters or Analysis objects to YAML format.
+#' @param x S4 object of class AnalysisParameters or Analysis
+#' @param file File name and path to export to
+#' @importFrom yaml write_yaml
+#' @export
+
+setMethod('exportParameters',signature = 'AnalysisParameters',
+          function(x,file = 'analysis_parameters.yaml'){
+            elements <- analysisElements()
+            
+            p <- elements %>%
+              map(~{
+                parameters(x,.x)
+              }) %>%
+              set_names(elements)
+            
+            ele_len <- map_dbl(p,length)
+            
+            p <- p[ele_len > 0]
+            
+            p %>%
+              names() %>%
+              map(~{
+                params <- p[[.x]]
+                
+                if (.x == 'pre-treatment') {
+                  params <- params %>%
+                    map(~{
+                      .x <- .x %>%
+                        map(~{
+                          .x %>%
+                            map(eval)
+                        })
+                      return(.x)
+                    })
+                }
+                
+                if (.x == 'modelling') {
+                  params <- params %>%
+                    map(~{
+                      .x <- .x %>%
+                        map(eval)
+                      return(.x)
+                    })
+                }
+                
+                return(params)
+              }) %>%
+              set_names(names(p)) %>%
+              write_yaml(file)
+          }
+)
+
+#' @rdname exportParameters
+#' @export
+
+setMethod('exportParameters',signature = 'Analysis',
+          function(x,file = 'analysis_parameters.yaml'){
+            x %>%
+              parameters() %>%
+              exportParameters(file = file)
+          }
+)

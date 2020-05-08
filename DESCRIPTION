@@ -63,7 +63,6 @@ Collate: allGenerics.R
     nlda.R
     occupancyMethods.R
     parameters.R
-    parseParameters.R
     plotExplanatoryHeatmap-method.R
     plotFeature-method.R
     plotLDA-method.R
