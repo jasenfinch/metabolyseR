@@ -91,6 +91,14 @@ setMethod('parameters',signature = 'Analysis',
 )
 
 #' @rdname parameters
+setMethod('parameters<-',signature = 'Analysis',
+          function(x,value){
+            x@parameters <- value
+            return(x)
+          }
+)
+
+#' @rdname parameters
 setMethod('parameters',signature = 'AnalysisParameters',
           function(x,element){
             if (!(element %in% analysisElements())) {
