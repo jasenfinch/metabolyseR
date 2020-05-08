@@ -4,7 +4,30 @@
 #' @param analysis an object of class Analysis containing previous analysis results
 #' @param parameters an object of class Parameters containing parameters for re-analysis
 #' @param verbose should output be printed to the console 
-#' @seealso \link{metabolyse} \link{analysisParameters} \linkS4class{AnalysisParameters} \linkS4class{Analysis}
+#' @examples
+#' #' library(metaboData)
+#' 
+#' ## Generate analysis parameters
+#' p <- analysisParameters(c('pre-treatment','modelling'))
+#' 
+#' ## Alter pre-treatment and modelling parameters to use different methods
+#' parameters(p,'pre-treatment') <- preTreatmentParameters(
+#'   list(occupancyFilter = 'maximum',
+#'        transform = 'TICnorm')
+#' )
+#' parameters(p,'modelling') <- modellingParameters('anova')
+#' 
+#' ## Change "cls" and "nCores" parameters 
+#' changeParameter(p,'cls') <- 'day'
+#' changeParameter(p,'nCores') <- 2
+#' 
+#' ## Run analysis using a subset of the abr1 negative mode data set
+#' analysis <- metabolyse(abr1$neg[,1:200],
+#'                        abr1$fact,
+#'                        p)
+#'                        
+#' ## Re-analyse to include correlation analysis
+#' analysis <- reAnalyse(analysis,parameters = analysisParameters('correlations'))
 #' @export
 
 reAnalyse <- function(analysis,parameters = analysisParameters(), verbose = T){

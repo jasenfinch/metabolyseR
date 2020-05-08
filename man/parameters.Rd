@@ -4,6 +4,7 @@
 \alias{parameters}
 \alias{parameters<-}
 \alias{parameters,Analysis-method}
+\alias{parameters<-,Analysis-method}
 \alias{parameters,AnalysisParameters-method}
 \alias{parameters<-,AnalysisParameters-method}
 \title{parameters}
@@ -13,6 +14,8 @@ parameters(x, ...)
 parameters(x, element) <- value
 
 \S4method{parameters}{Analysis}(x)
+
+\S4method{parameters}{Analysis}(x) <- value
 
 \S4method{parameters}{AnalysisParameters}(x, element)
 
