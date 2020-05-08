@@ -19,19 +19,26 @@ metabolyse(data, info, parameters = analysisParameters(), verbose = T)
 Analyse data based on specified analysis elements.
 }
 \examples{
-\dontrun{
 library(metaboData)
-data(abr1)
+
+## Generate analysis parameters
 p <- analysisParameters()
-p@preTreat <- list(
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
+
+## Alter pre-treatment and modelling parameters to use different methods
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(occupancyFilter = 'maximum',
+       transform = 'TICnorm')
 )
-p@modelling <- modellingParameters('anova')
-p <- changeParameter('cls','day',p)
-p <- changeParameter('nCores',2,p)
-analysis <- metabolyse(abr1$neg,abr1$fact,p)  
-}
+parameters(p,'modelling') <- modellingParameters('anova')
+
+## Change "cls" and "nCores" parameters 
+changeParameter(p,'cls') <- 'day'
+changeParameter(p,'nCores') <- 2
+
+## Run analysis using a subset of the abr1 negative mode data set
+analysis <- metabolyse(abr1$neg[,1:200],
+                       abr1$fact,
+                       p)
 }
 \seealso{
 \linkS4class{AnalysisParameters} \link{analysisParameters}
