@@ -330,7 +330,7 @@ preTreatmentParameters <- function(methods){
 }
 
 #' modellingParameters
-#' @description Return parameters for a given modelling method.
+#' @description Return default parameters for a given modelling method.
 #' @param methods character vector of available methods. Use \code{modellingMethods()} to see available methods.
 #' @examples 
 #' p <- analysisParameters()
@@ -356,7 +356,10 @@ modellingParameters <- function(methods){
 }
 
 #' correlationsParameters
-#' @description Return parameters for correlation analysis
+#' @description Return default parameters for correlation analysis
+#' @examples 
+#' p <- analysisParameters()
+#' parameters(p,'correlations') <- correlationsParameters()
 #' @export
 
 correlationsParameters <- function(){

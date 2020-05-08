@@ -7,5 +7,9 @@
 correlationsParameters()
 }
 \description{
-Return parameters for correlation analysis
+Return default parameters for correlation analysis
+}
+\examples{
+p <- analysisParameters()
+parameters(p,'correlations') <- correlationsParameters()
 }
