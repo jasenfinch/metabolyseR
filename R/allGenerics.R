@@ -338,8 +338,8 @@ setGeneric('parameters<-',function(x,element,value){
 })
 
 #' @rdname changeParameter
-setGeneric("changeParameter", function(x,parameterName,newValue,elements = c('preTreat','modelling','correlations')) {
-  standardGeneric("changeParameter")
+setGeneric("changeParameter<-", function(x,parameterName,elements = analysisElements(), value) {
+  standardGeneric("changeParameter<-")
 })
 
 #' @rdname clsAvailable

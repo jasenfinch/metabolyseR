@@ -199,20 +199,20 @@ checkParameters <- function(value,element){
 #' @rdname changeParameter
 #' @description change analysis parameters
 #' @param parameterName Name of the parameter to change
-#' @param newValue New value of the parameter
 #' @param parameters S4 object of class AnalysisParameters in which to change parameters
 #' @param elements Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.
+#' @param value New value of the parameter
 #' @details
 #' For the parameter name selected, all parameters with that name will be altered.
 #' To individually change identically named parameters use the \code{@} operator to access the appropriate slot directly.
 #' @examples 
 #' p <- analysisParameters()
-#' p <- changeParameter(p,'clusterType','PSOCK')
+#' changeParameter(p,'clusterType') <- 'PSOCK'
 #' @importFrom purrr map_lgl
 #' @export
 
-setMethod('changeParameter',signature = 'AnalysisParameters',
-          function(x,parameterName,newValue,elements = analysisElements()) {
+setMethod('changeParameter<-',signature = 'AnalysisParameters',
+          function(x,parameterName,elements = analysisElements(), value) {
             
             ele <- analysisElements()
             
@@ -246,7 +246,7 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
               if (!is.null(pars)) {
                 p <- parameters(x,'pre-treatment')
                 for (i in 1:length(pars)) {
-                  p[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- newValue
+                  p[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- value
                 }
                 parameters(x,'pre-treatment') <- p
               }
@@ -257,7 +257,7 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
                 map(~{
                   p <- .
                   if (parameterName %in% names(p)) {
-                    p[[parameterName]] <- newValue
+                    p[[parameterName]] <- value
                   }
                   return(p)
                 })
@@ -267,7 +267,7 @@ setMethod('changeParameter',signature = 'AnalysisParameters',
             if ('correlations' %in% elements) {
               pars <- names(parameters(x,'correlations'))
               if (parameterName %in% pars) {
-                parameters(x,'correlations')[[parameterName]] <- newValue
+                parameters(x,'correlations')[[parameterName]] <- value
               }
             }
             
