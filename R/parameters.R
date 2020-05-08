@@ -91,6 +91,7 @@ setMethod('parameters',signature = 'Analysis',
 )
 
 #' @rdname parameters
+#' @export
 setMethod('parameters<-',signature = 'Analysis',
           function(x,value){
             x@parameters <- value
@@ -99,6 +100,7 @@ setMethod('parameters<-',signature = 'Analysis',
 )
 
 #' @rdname parameters
+#' @export
 setMethod('parameters',signature = 'AnalysisParameters',
           function(x,element){
             if (!(element %in% analysisElements())) {
@@ -111,6 +113,7 @@ setMethod('parameters',signature = 'AnalysisParameters',
 )
 
 #' @rdname parameters
+#' @export
 setMethod('parameters<-',signature = 'AnalysisParameters',
           function(x,element,value){
             
