@@ -93,7 +93,9 @@ setMethod("correlations", signature = "Analysis",
               message(blue('Correlations '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
             
-            parameters <- parameters(x,'correlations')
+            params <- x %>%
+              parameters() %>%
+              parameters('correlations')
             
             if (nrow(x %>% preTreatedData()) > 0) {
               d <- x %>% 
@@ -103,7 +105,7 @@ setMethod("correlations", signature = "Analysis",
                 raw()
             }
             
-            rs <- correlations(d,parameters$method,parameters$pAdjustMethod,parameters$corPvalue)
+            rs <- correlations(d,params$method,params$pAdjustMethod,params$corPvalue)
             
             x@correlations <- rs
             x@log$correlations <- date()
