@@ -47,7 +47,7 @@ This can be found using:
 vignette('quick_start','metabolyseR')
 ```
 
-Any issues or bugs found while using the package should be reported [here](https://github.com/jasenfinch/metabolyseR/issues).
+Any issues, bugs or error encountered while using the package should be reported [here](https://github.com/jasenfinch/metabolyseR/issues).
 
 The examples shown here will use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
 This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. 
@@ -371,43 +371,76 @@ exportParameters(p,file = 'analysis_parameters.yaml')
 
 ### Performing an analysis
 
-Executing analyses is simple using the `metabolyse` function with specification of the data to use, the sample meta-information (info) and the analysis parameters.
-This is shown by the following code.
+The analysis is performed in a single, simple step using the `metabolyse` function.
+This accepts the metabolomic data, the sample information and the analysis parameters.
 
-```{r metabolyseExample}
+The metabolomic data table consists of columns containing the metabolome features, the rows the sample observations and the values.
+Similarly, the sample meta-information table should consist of the observations as rows and the meta information as columns.
+**The order of the observation rows of the sample information table should be concordant with the rows in the metabolomics data table.**
+
+We can run an example analysis using the `abr1` data set by first generating the default parameters for pre-treatment and modelling (random forest) analysis elements.
+
+```{r metabolyse_default_parameters}
 p <- analysisParameters(c('pre-treatment','modelling'))
+```
 
+Custom pre-treatment parameters can then be specified to only inlude occupancy filtering and total ion count normalisation. 
+
+```{r custom_pre-treatment_parameters}
 parameters(p,'pre-treatment') <- preTreatmentParameters(
   list(
   occupancyFilter = 'maximum',
   transform = 'TICnorm')
 )
+```
 
+Next the "cls" parameters can be changed to use the "day" sample information column throughout the analysis.
+
+```{r change_cls_parameter}
+changeParameter(p,'cls') <- 'day'
+```
+
+Finally, the analysis can be run in a single step.
+Here only the fist 200 features of the negative ionisation mode data are specified to reduce the analysis time needed for this example.
+
+```{r metabolyse}
 analysis <- metabolyse(abr1$neg[,1:200],abr1$fact,p) 
+```
 
+**Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.**
+
+The `analysis` object containing the analysis results can be printed to provide some basic information about the results of the analysis.
+
+```{r print_analysis_results}
 print(analysis)
 ```
 
-The data and info can be either `tibble` or `data.frame` structures and the parameters should be an S4 object of class `AnalysisParameters`.
-The order of the rows of the info table should agree with those in the data table.
-
-If data pre-treatment has not been performed prior to modelling, the raw data will automatically be used.
-The date and time of each of analysis of each of the elements is also stored and can is displayed when the object is printed.
-
 ### Performing a reanalysis
 
-There are likely to be occasions where analyses need to be re-analysed using a new set of parameters. 
-`reAnalyse` can be used for this.
-It simply requires the specification of the `Analysis` object and parameters for the re-analysis as shown below.
+There are likely to be occasions where an analysis needs to be re-analysed using a new set of parameters. 
+This can be achieved using the `reAnalyse` function.
 
-```{r reAnalyseExample,eval=FALSE}
+In the example below we will run a correlation analysis in addition to the pre-treatment and modelling elements already performed.
+
+Firstly, we can specify the correlation parameters: 
+
+```{r correlation_parameters}
 parameters <- analysisParameters('correlations')
+```
+
+Then perform the re-analysis on our previously analysed `Analysis` object, specifying the additional parameters.
+
+```{r reAnalyseExample}
 analysis <- reAnalyse(analysis,parameters)
-analysis
+```
+
+An overview of the results of the analysis (now including correlations) can then be printed.
+
+```{r print_reanalysis}
+print(analysis)
 ```
 
 ### Extracting analysis results
-
 
 `metabolyse` returns an S4 object of class `Analysis`.
 Data and analysis results can be extracted from this object using the following functions:
