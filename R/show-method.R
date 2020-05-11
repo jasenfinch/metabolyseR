@@ -102,7 +102,7 @@ setMethod('show',signature = 'Analysis',
               mR <- modellingResults(object)
               mR <- str_c('Methods: ',str_c(names(mR),collapse = ','))
               
-              cat('\n\tModelling:\n','\t\t',time,'\n','\t\t',mR,sep = '')
+              cat('\n\tModelling:\n','\t\t',time,'\n','\t\t',mR,'\n',sep = '')
             }
             
             if ('correlations' %in% elements) {
