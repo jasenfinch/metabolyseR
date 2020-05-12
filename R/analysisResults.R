@@ -1,25 +1,25 @@
-#' correlationResults-Analysis
-#' @rdname correlationResults
-#' @description Extract correlation results from an Analysis object
-#' @param x Analysis object
-#' @export
-
-setMethod('correlationResults', signature = 'Analysis',
-          function(x){
-            x <- x@correlations
-            return(x)
-          }
-)
-
-#' modellingResults
-#' @rdname modellingResults
-#' @description Return modelling results from an Analysis object.
+#' analysisResults
+#' @rdname analysisResults
+#' @description Extract analysis results for a given analysis element.
 #' @param x S4 object of class Analysis
+#' @param element Analysis element to extract. Should be one of those returned \code{analysisElements()}.
 #' @export
 
-setMethod('modellingResults',signature = 'Analysis',
-          function(x){
-            x@modelling
+setMethod('analysisResults',signature = 'Analysis',
+          function(x,element){
+            if (!(element %in% analysisElements())) {
+              elements <- analysisElements() %>%
+                str_c('"',.,'"')
+              stop(str_c('Argument "element" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+            }
+            
+            if (element == 'pre-treatment') {
+              d <- preTreated(x)
+            } else {
+              d <- slot(x,element)
+            }
+            
+            return(d)
           }
 )
 

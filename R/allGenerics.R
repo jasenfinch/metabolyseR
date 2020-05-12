@@ -42,16 +42,6 @@ setGeneric("preTreatedInfo", function(x) {
   standardGeneric("preTreatedInfo")
 })
 
-#' @rdname modellingResults
-setGeneric("modellingResults", function(x) {
-  standardGeneric("modellingResults")
-})
-
-#' @rdname correlationResults
-setGeneric("correlationResults", function(x) {
-  standardGeneric("correlationResults")
-})
-
 #' @rdname plotTIC
 setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', ...){
   standardGeneric('plotTIC')
@@ -400,4 +390,9 @@ setGeneric('binaryComparisons',function(x,cls = 'class'){
 #' @rdname exportParameters
 setGeneric('exportParameters',function(x,file = 'analysis_parameters.yaml'){
 standardGeneric('exportParameters')
+})
+
+#' @rdname analysisResults
+setGeneric('analysisResults',function(x,element){
+  standardGeneric('analysisResults')
 })
