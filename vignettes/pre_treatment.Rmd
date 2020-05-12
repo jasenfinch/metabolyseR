@@ -28,12 +28,6 @@ Data pre-treatment is the most faceted aspect of the analysis elements in *metab
 It itself is made up of a number of elements, which themselves are made up of methods.
 The pre-treatment elements can be seen below.
 
-<center>
-```{r preTreatmentDiagram,echo=FALSE,fig.width=8}
-DiagrammeR::grViz(readr::read_file('figures/preTreat.gv'))
-```
-</center>
-
 The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
 
 ### Parameter Selection
