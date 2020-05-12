@@ -49,9 +49,9 @@ Collate: allGenerics.R
     allClasses.R
     aggregateMethods.R
     analysisData.R
+    analysisResults.R
     correctionMethods.R
     correlations-method.R
-    correlationResults-method.R
     imputeMethods.R
     info.R
     join.R
@@ -74,12 +74,8 @@ Collate: allGenerics.R
     plotting.R
     plotUnsupervisedRF-method.R
     pre-treatment.R
-    preTreatedData-method.R
-    preTreatedInfo-method.R
     preTreatMethods.R
     QCMethods.R
-    rawData-method.R
-    rawInfo-method.R
     reAnalyse.R
     removeMethods.R
     randomForest.R

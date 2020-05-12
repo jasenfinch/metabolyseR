@@ -127,18 +127,6 @@ setMethod('modelling',signature = 'Analysis',
           }
 )
 
-#' modellingResults
-#' @rdname modellingResults
-#' @description Return modelling results from an Analysis object.
-#' @param x S4 object of class Analysis
-#' @export
-
-setMethod('modellingResults',signature = 'Analysis',
-          function(x){
-            x@modelling
-          }
-)
-
 #' explanatoryFeatures
 #' @rdname explanatoryFeatures
 #' @description Extract explanatory features from modelling results.
