@@ -2,15 +2,18 @@
 % Please edit documentation in R/allGenerics.R, R/analysisResults.R
 \name{raw}
 \alias{raw}
-\alias{raw,Analysis-method}
 \alias{raw<-}
+\alias{raw,Analysis-method}
+\alias{raw<-,Analysis-method}
 \title{raw}
 \usage{
 raw(x)
 
+raw(x) <- value
+
 \S4method{raw}{Analysis}(x)
 
-raw(x) <- value
+\S4method{raw}{Analysis}(x) <- value
 }
 \arguments{
 \item{x}{S4 object of class Analysis}

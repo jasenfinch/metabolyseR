@@ -346,7 +346,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'list',
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
           function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
             x %>%
-              modellingResults() %>%
+              analysisResults(element = 'modelling') %>%
               map(~{
                 map(.,plotExplanatoryHeatmap,threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames) %>%
                   wrap_plots()  

@@ -67,7 +67,7 @@ setMethod('plotPCA',signature = 'AnalysisData',
 
 setMethod('plotPCA',signature = 'Analysis',
           function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
-            if (ncol(preTreatedData(analysis)) > 0) {
+            if (analysis %>% dat(type = 'pre-treated') %>% ncol() > 0) {
               d <- preTreated(analysis)
             } else {
               d <- raw(analysis)

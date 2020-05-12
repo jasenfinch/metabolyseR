@@ -96,7 +96,7 @@ setMethod('modelling',signature = 'Analysis',
                 i <- .
                 method <- getModellingMethods(i)
                 
-                if (nrow(preTreatedData(x)) > 0) {
+                if (x %>% dat(type = 'pre-treated') %>% nrow() > 0) {
                   d <- preTreated(x)
                 } else {
                   d <- raw(x)

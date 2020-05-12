@@ -6,7 +6,7 @@
 #' @param cls info column to use for class labels
 #' @param label info column to use for sample labels
 #' @param labelSize sample label size
-#' @param type \code{raw} or \code{preTreated} data to plot
+#' @param type \code{raw} or \code{pre-treated} data to plot
 #' @param ... arguments to pass to the appropriate method
 #' @importFrom ggplot2 ggtitle
 #' @examples 
@@ -24,11 +24,20 @@
 #' @export
 
 setMethod('plotFeature',signature = 'Analysis',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, type = 'preTreated'){
-            ty <- get(type)
+          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, type = 'pre-treated'){
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+            }
             
-            analysis %>%
-              ty() %>%
+            if (type == 'pre-treated') {
+             d <- analysis %>%
+               preTreated()
+            } else {
+             d <- analysis %>%
+               raw()
+            }
+            
+            d %>%
               plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
           })
 

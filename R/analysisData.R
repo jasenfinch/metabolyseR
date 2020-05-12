@@ -20,46 +20,6 @@ analysisData <- function(data,info){
   return(d)
 }
 
-#' dat
-#' @rdname dat
-#' @description Return or sest sample data in an AnalysisData object.
-#' @param x S4 object of class AnalysisData 
-#' @export
-
-setMethod('dat',signature = 'AnalysisData',
-          function(x){
-            x@data
-          })
-
-#' @rdname dat
-#' @param value tibble containing sample data
-#' @export
-
-`dat<-` <- function(x,value){
-  x@data <- as_tibble(value)
-  return(x)
-}
-
-#' sinfo
-#' @rdname sinfo
-#' @description Return sample info from an AnalysisData object.
-#' @param x S4 object of class Data 
-#' @export
-
-setMethod('sinfo',signature = 'AnalysisData',
-          function(x){
-            x@info
-          })
-
-#' @rdname sinfo
-#' @param value tibble containing sample info
-#' @export
-
-`sinfo<-` <- function(x,value){
-  x@info <- as_tibble(value)
-  return(x)
-}
-
 #' features
 #' @rdname features
 #' @description Return a vector of the feature names.

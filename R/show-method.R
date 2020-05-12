@@ -81,18 +81,18 @@ setMethod('show',signature = 'Analysis',
             
             time <- object@log$analysis
             
-            rD <- rawData(object)
-            rI <- rawInfo(object)
-            rD <- paste('\t\tNo. samples = ',nrow(rI),'\n','\t\tNo. variables = ',ncol(rD),'\n',sep = '')
+            r <- raw(object)
+            
+            rD <- paste('\t\tNo. samples = ',nSamples(r),'\n','\t\tNo. features = ',nFeatures(),'\n',sep = '')
             
             cat('\n',blue('metabolyseR '),bold(red(str_c('v',object@log$packageVersion %>% as.character()))),yellow('\nAnalysis:\n'),'\t',time,'\n',sep = '')
             cat('\n\tRaw Data:\n',rD,sep = '')
             
             if ('preTreated' %in% elements) {
               time <- object@log$preTreatment
-              pD <- preTreatedData(object)
-              pI <- preTreatedData(object)
-              pD <- paste('\t\tNo. samples = ',nrow(pI),'\n','\t\tNo. variables = ',ncol(pD),'\n',sep = '')
+              p <- preTreated(object,type = 'pre-treated')
+             
+              pD <- paste('\t\tNo. samples = ',nSamples(pI),'\n','\t\tNo. features = ',nFeature(p),'\n',sep = '')
               
               cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
             }

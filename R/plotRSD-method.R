@@ -104,7 +104,7 @@ setMethod('plotRSD',signature = 'Analysis',
             
             rsd <- d %>% 
               metabolyse(.,info = i, parameters = QCparameters,verbose = F) %>%
-              preTreatedData() %>%
+              dat(type = 'pre-treated') %>%
               gather('Feature','Intensity') %>%
               group_by(Feature) %>%
               summarise(RSD = sd(Intensity)/mean(Intensity))

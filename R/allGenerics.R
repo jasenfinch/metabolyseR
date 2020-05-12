@@ -17,14 +17,9 @@ setGeneric("raw", function(x) {
   standardGeneric("raw")
 })
 
-#' @rdname rawData
-setGeneric("rawData", function(x) {
-  standardGeneric("rawData")
-})
-
-#' @rdname rawInfo
-setGeneric("rawInfo", function(x) {
-  standardGeneric("rawInfo")
+#' @rdname raw
+setGeneric("raw<-", function(x,value) {
+  standardGeneric("raw<-")
 })
 
 #' @rdname preTreated
@@ -32,14 +27,9 @@ setGeneric("preTreated", function(x) {
   standardGeneric("preTreated")
 })
 
-#' @rdname preTreatedData
-setGeneric("preTreatedData", function(x) {
-  standardGeneric("preTreatedData")
-})
-
-#' @rdname preTreatedInfo
-setGeneric("preTreatedInfo", function(x) {
-  standardGeneric("preTreatedInfo")
+#' @rdname preTreated
+setGeneric("preTreated<-", function(x,value) {
+  standardGeneric("preTreated<-")
 })
 
 #' @rdname plotTIC
@@ -88,13 +78,23 @@ setGeneric('plotOccupancy',function(x,cls = 'class', ...){
 })
 
 #' @rdname dat
-setGeneric("dat", function(x) {
+setGeneric("dat", function(x,...) {
   standardGeneric("dat")
 })
 
+#' @rdname dat
+setGeneric("dat<-", function(x,value,...) {
+  standardGeneric("dat<-")
+})
+
 #' @rdname sinfo
-setGeneric("sinfo", function(x) {
+setGeneric("sinfo", function(x,...) {
   standardGeneric("sinfo")
+})
+
+#' @rdname sinfo
+setGeneric("sinfo<-", function(x,value,...) {
+  standardGeneric("sinfo<-")
 })
 
 #' @rdname features

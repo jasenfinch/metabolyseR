@@ -97,7 +97,7 @@ setMethod("correlations", signature = "Analysis",
               parameters() %>%
               parameters('correlations')
             
-            if (nrow(x %>% preTreatedData()) > 0) {
+            if (dat(x,type = 'pre-treated') %>% nrow() > 0) {
               d <- x %>% 
                 preTreated()
             } else {

@@ -23,34 +23,6 @@ setMethod('analysisResults',signature = 'Analysis',
           }
 )
 
-#' preTreatedInfo-Analysis
-#' @rdname preTreatedInfo
-#' @description Extract pre-treated info from an Analysis object
-#' @param x Analysis object
-#' @export
-
-setMethod('preTreatedInfo', signature = 'Analysis',
-          function(x){
-            x <- x@`pre-treated` %>%
-              sinfo()
-            return(x)
-          }
-)
-
-#' preTreatedData-Analysis
-#' @rdname preTreatedData
-#' @description Extract pre-treated data from an Analysis object
-#' @param x Analysis object
-#' @export
-
-setMethod('preTreatedData', signature = 'Analysis',
-          function(x){
-            x <- x@`pre-treated` %>%
-              dat()
-            return(x)
-          }
-)
-
 #' preTreated
 #' @rdname preTreated
 #' @description Get or set an AnalysisData object from the preTreated slot of the Analysis class.
@@ -67,35 +39,9 @@ setMethod('preTreated',signature = 'Analysis',
 #' @rdname preTreated
 #' @export
 
-`preTreated<-` <- function(x,value){
-  x@`pre-treated` <- value
-  return(x)
-}
-
-#' rawInfo-Analysis
-#' @rdname rawInfo
-#' @description Extract raw info from an Analysis object
-#' @param x Analysis object
-#' @export
-
-setMethod('rawInfo', signature = 'Analysis',
-          function(x){
-            x <- x@raw %>%
-              sinfo()
-            return(x)
-          }
-)
-
-#' rawData-Analysis
-#' @rdname rawData
-#' @description Extract raw data from an Analysis object
-#' @param x Analysis object
-#' @export
-
-setMethod('rawData', signature = 'Analysis',
-          function(x){
-            x <- x@raw %>%
-              dat()
+setMethod('preTreated<-',signature = 'Analysis',
+          function(x,value){
+            x@`pre-treated` <- value
             return(x)
           }
 )
@@ -116,7 +62,145 @@ setMethod('raw',signature = 'Analysis',
 #' @rdname raw
 #' @export
 
-`raw<-` <- function(x,value){
-  x@raw <- value
-  return(x)
-}
+setMethod('raw<-',signature = 'Analysis',
+          function(x,value){
+            x@raw <- value
+            return(x)
+          }
+)
+
+
+#' dat
+#' @rdname dat
+#' @description Return or sest sample data in an AnalysisData object.
+#' @param x S4 object of class AnalysisData 
+#' @param value tibble containing sample data
+#' @export
+
+setMethod('dat',signature = 'AnalysisData',
+          function(x){
+            x@data
+          })
+
+#' @rdname dat
+#' @export
+
+setMethod("dat<-",signature = 'AnalysisData',
+          function(x,value){
+            x@data <- as_tibble(value)
+            return(x)
+          })
+
+#' @rdname dat
+#' @export
+
+setMethod('dat',signature = 'Analysis',
+          function(x, type = 'pre-treated'){
+            
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              x %>%
+                preTreated() %>%
+                dat()
+            } else {
+              x %>%
+                raw() %>%
+                dat()
+            }
+          }
+)
+
+#' @rdname dat
+#' @export
+
+setMethod('dat<-',signature = 'Analysis',
+          function(x, type = 'pre-treated', value){
+            
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+            }
+            
+            if (tyep == 'pre-treated'){
+              d <- preTreated(x)
+              dat(d) <- value
+              preTreated(x) <- d
+            } else {
+              d <- raw(x)
+              dat(d) <- value
+              raw(x) <- d
+            }
+            
+            return(x)
+          }
+)
+
+#' sinfo
+#' @rdname sinfo
+#' @description Return sample info from an AnalysisData object.
+#' @param x S4 object of class Data 
+#' @param value tibble containing sample info
+#' @export
+
+setMethod('sinfo',signature = 'AnalysisData',
+          function(x){
+            x@info
+          })
+
+#' @rdname sinfo
+#' @export
+
+setMethod('sinfo<-',signature = 'AnalysisData',
+          function(x,value){
+            x@info <- as_tibble(value)
+            return(x)
+          }
+)
+
+#' @rdname sinfo
+#' @export
+
+setMethod('sinfo',signature = 'Analysis',
+          function(x, type = 'raw', value){
+            
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              x %>%
+                preTreated() %>%
+                sinfo()
+            } else {
+              x %>%
+                raw() %>%
+                sinfo()
+            }
+          }
+)
+
+#' @rdname sinfo
+#' @export
+
+setMethod('sinfo<-',signature = 'Analysis',
+          function(x,type = 'raw', value){
+            
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+            }
+            
+            if (tyep == 'pre-treated'){
+              d <- preTreated(x)
+              sinfo(d) <- value
+              preTreated(x) <- d
+            } else {
+              d <- raw(x)
+              sinfo(d) <- value
+              raw(x) <- d
+            }
+            
+            return(x)
+          }
+)

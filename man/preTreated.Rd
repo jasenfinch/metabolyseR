@@ -2,15 +2,18 @@
 % Please edit documentation in R/allGenerics.R, R/analysisResults.R
 \name{preTreated}
 \alias{preTreated}
-\alias{preTreated,Analysis-method}
 \alias{preTreated<-}
+\alias{preTreated,Analysis-method}
+\alias{preTreated<-,Analysis-method}
 \title{preTreated}
 \usage{
 preTreated(x)
 
+preTreated(x) <- value
+
 \S4method{preTreated}{Analysis}(x)
 
-preTreated(x) <- value
+\S4method{preTreated}{Analysis}(x) <- value
 }
 \arguments{
 \item{x}{S4 object of class Analysis}

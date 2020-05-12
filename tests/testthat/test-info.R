@@ -21,7 +21,7 @@ test_that('clsExtract works',{
 test_that('clsReplace works',{
   b <- clsReplace(a,rep(1,120),cls = 'class')
   i <- b %>%
-    rawInfo()
+    sinfo(type = 'raw')
   
   expect_equal(1,unique(i$class))
 })
@@ -29,7 +29,7 @@ test_that('clsReplace works',{
 test_that('clsAdd works',{
   b <- clsAdd(a,'test',rep(1,120))
   i <- b %>%
-    rawInfo()
+    sinfo(type = 'raw')
   expect_true('test' %in% clsAvailable(b))
   expect_equal(1,unique(i$test))
 })
