@@ -10,13 +10,13 @@ changeParameter(x, parameterName, elements = analysisElements()) <- value
 \S4method{changeParameter}{AnalysisParameters}(x, parameterName, elements = analysisElements()) <- value
 }
 \arguments{
+\item{x}{S4 object of class AnalysisParameters}
+
 \item{parameterName}{Name of the parameter to change}
 
 \item{elements}{Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.}
 
 \item{value}{New value of the parameter}
-
-\item{parameters}{S4 object of class AnalysisParameters in which to change parameters}
 }
 \description{
 change analysis parameters

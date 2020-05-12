@@ -23,6 +23,10 @@ parameters(x, element) <- value
 }
 \arguments{
 \item{x}{S4 object of class Analysis}
+
+\item{...}{arguments to pass to the appropriate method}
+
+\item{value}{list containing parameter values}
 }
 \description{
 Extract parameters from an Analysis object or extract or set parameters in an AnalysisParameters object.

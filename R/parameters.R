@@ -68,6 +68,8 @@ analysisParameters <- function(elements = analysisElements()){
 #' @rdname parameters
 #' @description Extract parameters from an Analysis object or extract or set parameters in an AnalysisParameters object.
 #' @param x S4 object of class Analysis
+#' @param value list containing parameter values
+#' @param ... arguments to pass to the appropriate method
 #' @examples 
 #' p <- analysisParameters()
 #' 
@@ -209,8 +211,8 @@ checkParameters <- function(value,element){
 #' changeParameter
 #' @rdname changeParameter
 #' @description change analysis parameters
+#' @param x S4 object of class AnalysisParameters
 #' @param parameterName Name of the parameter to change
-#' @param parameters S4 object of class AnalysisParameters in which to change parameters
 #' @param elements Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.
 #' @param value New value of the parameter
 #' @details
@@ -220,6 +222,7 @@ checkParameters <- function(value,element){
 #' p <- analysisParameters()
 #' changeParameter(p,'clusterType') <- 'PSOCK'
 #' @importFrom purrr map_lgl
+#' @importFrom stats p.adjust.methods
 #' @export
 
 setMethod('changeParameter<-',signature = 'AnalysisParameters',
