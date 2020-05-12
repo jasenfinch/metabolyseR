@@ -25,7 +25,7 @@ setMethod('analysisResults',signature = 'Analysis',
 
 #' preTreated
 #' @rdname preTreated
-#' @description Get or set an AnalysisData object from the preTreated slot of the Analysis class.
+#' @description Get or set an AnalysisData object from the pre-treated slot of the Analysis class.
 #' @param x S4 object of class Analysis
 #' @param value S4 object of class AnalysisData 
 #' @export 
@@ -48,7 +48,7 @@ setMethod('preTreated<-',signature = 'Analysis',
 
 #' raw
 #' @rdname raw
-#' @description Get or set an AnalysisData object from the rawData slot of the Analysis class.
+#' @description Get or set an AnalysisData object from the raw slot of the Analysis class.
 #' @param x S4 object of class Analysis
 #' @param value S4 object of class AnalysisData 
 #' @export 
@@ -72,11 +72,11 @@ setMethod('raw<-',signature = 'Analysis',
 
 #' dat
 #' @rdname dat
-#' @description Return or sest sample data in an AnalysisData object.
-#' @param x S4 object of class AnalysisData 
+#' @description Return or set sample data in an AnalysisData or Analysis objects.
+#' @param x S4 object of class AnalysisData or Analysis
 #' @param type data type to extract or set. Should be one of "raw" or "pre-treated" 
-#' @param value tibble containing sample data
 #' @param ... arguments to pass to the appropriate method
+#' @param value tibble containing sample data
 #' @export
 
 setMethod('dat',signature = 'AnalysisData',
@@ -141,10 +141,10 @@ setMethod('dat<-',signature = 'Analysis',
 
 #' sinfo
 #' @rdname sinfo
-#' @description Return sample info from an AnalysisData object.
-#' @param x S4 object of class Data 
-#' @param x S4 object of class AnalysisData 
-#' @param type Sample information type to extract or set. Should be one of "raw" or "pre-treated" 
+#' @description Return sample info from an AnalysisData or Analysis object.
+#' @param x S4 object of class AnalysisData or Analysis
+#' @param type sample information type to extract or set. Should be one of "raw" or "pre-treated" 
+#' @param ...  arguments to pass to the appropriate method
 #' @param value tibble containing sample info
 #' @export
 

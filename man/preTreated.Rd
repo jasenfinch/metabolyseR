@@ -21,5 +21,5 @@ preTreated(x) <- value
 \item{value}{S4 object of class AnalysisData}
 }
 \description{
-Get or set an AnalysisData object from the preTreated slot of the Analysis class.
+Get or set an AnalysisData object from the pre-treated slot of the Analysis class.
 }

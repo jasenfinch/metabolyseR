@@ -22,7 +22,7 @@ dat(x, ...) <- value
 \S4method{dat}{Analysis}(x, type = "pre-treated") <- value
 }
 \arguments{
-\item{x}{S4 object of class AnalysisData}
+\item{x}{S4 object of class AnalysisData or Analysis}
 
 \item{...}{arguments to pass to the appropriate method}
 
@@ -31,5 +31,5 @@ dat(x, ...) <- value
 \item{type}{data type to extract or set. Should be one of "raw" or "pre-treated"}
 }
 \description{
-Return or sest sample data in an AnalysisData object.
+Return or set sample data in an AnalysisData or Analysis objects.
 }
