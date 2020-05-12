@@ -83,7 +83,7 @@ setGeneric("dat", function(x,...) {
 })
 
 #' @rdname dat
-setGeneric("dat<-", function(x,value,...) {
+setGeneric("dat<-", function(x,...,value) {
   standardGeneric("dat<-")
 })
 
@@ -93,7 +93,7 @@ setGeneric("sinfo", function(x,...) {
 })
 
 #' @rdname sinfo
-setGeneric("sinfo<-", function(x,value,...) {
+setGeneric("sinfo<-", function(x,...,value) {
   standardGeneric("sinfo<-")
 })
 
