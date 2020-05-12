@@ -5,7 +5,7 @@
 #' @param parameters an object of class Parameters containing parameters for re-analysis
 #' @param verbose should output be printed to the console 
 #' @examples
-#' #' library(metaboData)
+#' library(metaboData)
 #' 
 #' ## Generate analysis parameters
 #' p <- analysisParameters(c('pre-treatment','modelling'))
