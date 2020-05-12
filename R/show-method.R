@@ -83,23 +83,23 @@ setMethod('show',signature = 'Analysis',
             
             r <- raw(object)
             
-            rD <- paste('\t\tNo. samples = ',nSamples(r),'\n','\t\tNo. features = ',nFeatures(),'\n',sep = '')
+            rD <- paste('\t\tNo. samples = ',nSamples(r),'\n','\t\tNo. features = ',nFeatures(r),'\n',sep = '')
             
             cat('\n',blue('metabolyseR '),bold(red(str_c('v',object@log$packageVersion %>% as.character()))),yellow('\nAnalysis:\n'),'\t',time,'\n',sep = '')
             cat('\n\tRaw Data:\n',rD,sep = '')
             
-            if ('preTreated' %in% elements) {
+            if ('pre-treated' %in% elements) {
               time <- object@log$preTreatment
-              p <- preTreated(object,type = 'pre-treated')
+              p <- preTreated(object)
              
-              pD <- paste('\t\tNo. samples = ',nSamples(pI),'\n','\t\tNo. features = ',nFeature(p),'\n',sep = '')
+              pD <- paste('\t\tNo. samples = ',nSamples(p),'\n','\t\tNo. features = ',nFeatures(p),'\n',sep = '')
               
               cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
             }
             
             if ('modelling' %in% elements) {
               time <- object@log$modelling
-              mR <- modellingResults(object)
+              mR <- analysisResults(object,element = 'modelling')
               mR <- str_c('Methods: ',str_c(names(mR),collapse = ','))
               
               cat('\n\tModelling:\n','\t\t',time,'\n','\t\t',mR,'\n',sep = '')
@@ -107,7 +107,7 @@ setMethod('show',signature = 'Analysis',
             
             if ('correlations' %in% elements) {
               time <- object@log$correlations
-              corR <- correlationResults(object)
+              corR <- analysisResults(object,element = 'correlations')
               corR <- paste('\t\tNo. correlations = ',nrow(corR),'\n',sep = '')
               cat('\n\tCorrelations:\n','\t\t',time,'\n',corR,sep = '')
             }
