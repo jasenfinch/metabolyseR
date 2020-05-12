@@ -74,7 +74,9 @@ setMethod('raw<-',signature = 'Analysis',
 #' @rdname dat
 #' @description Return or sest sample data in an AnalysisData object.
 #' @param x S4 object of class AnalysisData 
+#' @param type data type to extract or set. Should be one of "raw" or "pre-treated" 
 #' @param value tibble containing sample data
+#' @param ... arguments to pass to the appropriate method
 #' @export
 
 setMethod('dat',signature = 'AnalysisData',
@@ -141,6 +143,8 @@ setMethod('dat<-',signature = 'Analysis',
 #' @rdname sinfo
 #' @description Return sample info from an AnalysisData object.
 #' @param x S4 object of class Data 
+#' @param x S4 object of class AnalysisData 
+#' @param type Sample information type to extract or set. Should be one of "raw" or "pre-treated" 
 #' @param value tibble containing sample info
 #' @export
 

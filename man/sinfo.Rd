@@ -22,9 +22,11 @@ sinfo(x, ...) <- value
 \S4method{sinfo}{Analysis}(x, type = "raw") <- value
 }
 \arguments{
-\item{x}{S4 object of class Data}
+\item{x}{S4 object of class AnalysisData}
 
 \item{value}{tibble containing sample info}
+
+\item{type}{Sample information type to extract or set. Should be one of "raw" or "pre-treated"}
 }
 \description{
 Return sample info from an AnalysisData object.

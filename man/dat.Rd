@@ -24,7 +24,11 @@ dat(x, ...) <- value
 \arguments{
 \item{x}{S4 object of class AnalysisData}
 
+\item{...}{arguments to pass to the appropriate method}
+
 \item{value}{tibble containing sample data}
+
+\item{type}{data type to extract or set. Should be one of "raw" or "pre-treated"}
 }
 \description{
 Return or sest sample data in an AnalysisData object.
