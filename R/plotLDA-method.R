@@ -83,10 +83,10 @@ setMethod('plotLDA',signature = 'AnalysisData',
 
 setMethod('plotLDA',signature = 'Analysis',
           function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
-            if (ncol(analysis@preTreated %>% dat()) > 0) {
-              d <- analysis@preTreated
+            if (ncol(preTreatedData(analysis)) > 0) {
+              d <- preTreated(analysis)
             } else {
-              d <- analysis@rawData
+              d <- raw(analysis)
             }
             
             plotLDA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, shape = shape, ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)

@@ -38,8 +38,8 @@ setClass('AnalysisParameters',
 #' @description An S4 class to store analysis results
 #' @slot log list containing analysis dates and time
 #' @slot parameters class AnalysisParameters containing the analysis parameters
-#' @slot rawData list containing info and raw data
-#' @slot preTreated list containing preTreated info and raw data 
+#' @slot raw list containing info and raw data
+#' @slot pre-treated list containing preTreated info and raw data 
 #' @slot modelling list containing modelling results
 #' @slot correlations tibble containing weighted edgelist of correlations
 #'@export
@@ -48,8 +48,8 @@ setClass('Analysis',
          slots = list(
            log = 'list',
            parameters = 'AnalysisParameters',
-           rawData = 'AnalysisData',
-           preTreated = 'AnalysisData',
+           raw = 'AnalysisData',
+           `pre-treated` = 'AnalysisData',
            modelling = 'list',
            correlations = 'tbl_df'
          )

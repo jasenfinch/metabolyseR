@@ -25,7 +25,7 @@ setMethod("pre-treatment", signature = "Analysis",
                 d <- do.call(m[[j]],newPars %>% as.list())
               }
             }
-            x@preTreated <- d
+            preTreated(x) <- d
             x@log$preTreatment <- date()
             
             if (verbose == T) {

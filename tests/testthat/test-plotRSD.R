@@ -5,7 +5,7 @@ context('plotRSD')
 test_that('plotRSD works for Analysis class',{
   d <- new('Analysis')
   
-  d@rawData <- analysisData(abr1$neg[,300:400],abr1$fact)
+  raw(d) <- analysisData(abr1$neg[,300:400],abr1$fact)
   
   p <- analysisParameters('pre-treatment')
   

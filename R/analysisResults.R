@@ -31,7 +31,7 @@ setMethod('modellingResults',signature = 'Analysis',
 
 setMethod('preTreatedInfo', signature = 'Analysis',
           function(x){
-            x <- x@preTreated %>%
+            x <- x@`pre-treated` %>%
               sinfo()
             return(x)
           }
@@ -45,7 +45,7 @@ setMethod('preTreatedInfo', signature = 'Analysis',
 
 setMethod('preTreatedData', signature = 'Analysis',
           function(x){
-            x <- x@preTreated %>%
+            x <- x@`pre-treated` %>%
               dat()
             return(x)
           }
@@ -60,7 +60,7 @@ setMethod('preTreatedData', signature = 'Analysis',
 
 setMethod('preTreated',signature = 'Analysis',
           function(x){
-            x@preTreated
+            x@`pre-treated`
           }
 )
 
@@ -68,7 +68,7 @@ setMethod('preTreated',signature = 'Analysis',
 #' @export
 
 `preTreated<-` <- function(x,value){
-  x@preTreated <- value
+  x@`pre-treated` <- value
   return(x)
 }
 
@@ -80,7 +80,7 @@ setMethod('preTreated',signature = 'Analysis',
 
 setMethod('rawInfo', signature = 'Analysis',
           function(x){
-            x <- x@rawData %>%
+            x <- x@raw %>%
               sinfo()
             return(x)
           }
@@ -94,7 +94,7 @@ setMethod('rawInfo', signature = 'Analysis',
 
 setMethod('rawData', signature = 'Analysis',
           function(x){
-            x <- x@rawData %>%
+            x <- x@raw %>%
               dat()
             return(x)
           }
@@ -109,7 +109,7 @@ setMethod('rawData', signature = 'Analysis',
 
 setMethod('raw',signature = 'Analysis',
           function(x){
-            x@rawData
+            x@raw
           }
 )
 
@@ -117,6 +117,6 @@ setMethod('raw',signature = 'Analysis',
 #' @export
 
 `raw<-` <- function(x,value){
-  x@rawData <- value
+  x@raw <- value
   return(x)
 }
