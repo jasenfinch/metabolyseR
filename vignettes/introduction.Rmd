@@ -442,12 +442,36 @@ print(analysis)
 
 ### Extracting analysis results
 
-`metabolyse` returns an S4 object of class `Analysis`.
-Data and analysis results can be extracted from this object using the following functions:
+An analysis performed by `metabolyse` returns an S4 object of class `Analysis`.
+There are a number of ways of extracting analysis results from this object.
 
-* `rawData()` - raw data.
-* `rawInfo()` - raw info.
-* `preTreatedData()` - pre-treated data.
-* `preTreatedInfo()` - pre-treated info.
-* `modellingResults()` - modelling results.
-* `correlationResults()` - correlation results.
+Similarly to the `AnalysisData` class, the `dat` and `sinfo` functions can be used to extract the metabolomics data or sample information tables directly for either the "raw" or "pre-treated" data.
+
+For example, to extract the pre-treated metabolomics data from our object `analysis`:
+
+```{r}
+dat(analysis,type = 'pre-treated')
+```
+
+Or to extract the raw sample information:
+
+```{r}
+sinfo(analysis,type = 'raw')
+```
+
+Alternatively the `raw` or `preTreated` functions can be used to extract the `AnalysisData` class objects containing both the metabolomics data and sample information for the raw and pre-treated data respectively.
+
+```{r}
+raw(analysis)
+```
+
+```{r}
+preTreated(analysis)
+```
+
+Lastly the `analysisResults` function can be used to extract the results of any of the analysis elements.
+The following will extract the modelling results:
+
+```{r}
+analysisResults(analysis,element = 'modelling')
+```
