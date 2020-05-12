@@ -125,7 +125,7 @@ setMethod('dat<-',signature = 'Analysis',
               stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
             }
             
-            if (tyep == 'pre-treated'){
+            if (type == 'pre-treated'){
               d <- preTreated(x)
               dat(d) <- value
               preTreated(x) <- d
@@ -195,7 +195,7 @@ setMethod('sinfo<-',signature = 'Analysis',
               stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
             }
             
-            if (tyep == 'pre-treated'){
+            if (type == 'pre-treated'){
               d <- preTreated(x)
               sinfo(d) <- value
               preTreated(x) <- d
