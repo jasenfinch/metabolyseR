@@ -68,6 +68,7 @@ analysisParameters <- function(elements = analysisElements()){
 #' @rdname parameters
 #' @description Extract parameters from an Analysis object or extract or set parameters in an AnalysisParameters object.
 #' @param x S4 object of class Analysis
+#' @param element analysis element for parameters to extract or assign. Should be one of those returned by \code{analysisElements()}
 #' @param value list containing parameter values
 #' @param ... arguments to pass to the appropriate method
 #' @examples 

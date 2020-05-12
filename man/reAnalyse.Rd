@@ -17,7 +17,7 @@ reAnalyse(analysis, parameters = analysisParameters(), verbose = T)
 Re-analyse an object of class Analysis using specified parameters.
 }
 \examples{
-#' library(metaboData)
+library(metaboData)
 
 ## Generate analysis parameters
 p <- analysisParameters(c('pre-treatment','modelling'))
