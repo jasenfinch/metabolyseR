@@ -91,9 +91,9 @@ setClass('RandomForest',
 #' @export
 
 setClass('Univariate',
+         contains = 'AnalysisData',
          slots = list(
            type = 'character',
-           data = 'AnalysisData',
            models = 'list',
            results = 'tbl_df'
          ))

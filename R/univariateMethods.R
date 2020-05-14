@@ -100,7 +100,8 @@ setMethod('anova',signature = 'AnalysisData',
             
             res <- new('Univariate')
             res@type <- 'ANOVA'
-            res@data <- x
+            dat(res) <- dat(x)
+            sinfo(res) <- sinfo(x)
             res@results <- results
             
             if (returnModels == T) {
@@ -190,7 +191,8 @@ setMethod('ttest',signature = 'AnalysisData',
             
             res <- new('Univariate')
             res@type <- 't-test'
-            res@data <- x
+            dat(res) <- dat(x)
+            sinfo(res) <- sinfo(x)
             res@results <- results
             
             if (returnModels == T) {
@@ -251,7 +253,8 @@ setMethod('linearRegression',signature = 'AnalysisData',
             
             res <- new('Univariate')
             res@type <- 'linear regression'
-            res@data <- x
+            dat(res) <- dat(x)
+            sinfo(res) <- sinfo(x)
             res@results <- results
             
             if (returnModels == T) {
