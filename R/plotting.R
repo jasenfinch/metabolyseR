@@ -46,11 +46,13 @@ plotBase <- function(d,xAxis,yAxis){
 }
 
 plotEllipses <- function(pl,cls,ellipses,classLength){
-  if (classLength <= 12) {
-    pl <- pl +
-      stat_ellipse(aes(colour = !!sym(cls)),geom = 'polygon',type = 'norm',linetype = 5,fill = NA) 
-  } else {
-    message('Number of classes > 12, ellipses removed.')
+  if (isTRUE(ellipses)) {
+    if (classLength <= 12) {
+      pl <- pl +
+        stat_ellipse(aes(colour = !!sym(cls)),geom = 'polygon',type = 'norm',linetype = 5,fill = NA) 
+    } else {
+      message('Number of classes > 12, ellipses removed.')
+    }
   }
   return(pl)
 }
