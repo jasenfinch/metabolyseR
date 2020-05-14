@@ -19,7 +19,8 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
             d <- ggplot(occ,aes_string(x = 'Occupancy',group = cls,colour = cls)) +
               geom_density() +
               theme_bw() +
-              labs(title = 'Density distrubution') +
+              labs(title = 'Density distrubution',
+                   y = 'Density') +
               theme(plot.title = element_text(face = 'bold'),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
