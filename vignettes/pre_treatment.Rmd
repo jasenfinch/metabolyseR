@@ -1,6 +1,13 @@
 ---
 title: "Metabolomics data pre-treatment"
-output: rmarkdown::html_vignette
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
+author: "Jasen Finch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
 vignette: >
   %\VignetteIndexEntry{Metabolomics data pre-treatment}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,16 +17,12 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  message = FALSE
 )
 ```
 
-```{r setup}
-library(metabolyseR)
-library(metaboData)
-```
-
-## Pre-Treatment
+## Introduction
 
 Data pre-treatment prior to statistical analyses is an essential step in the analysis of metabolomics data as it ensures it's quality and integrity.
 It is also important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be used on the data.
@@ -29,6 +32,40 @@ It itself is made up of a number of elements, which themselves are made up of me
 The pre-treatment elements can be seen below.
 
 The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
+
+```{r example_analysis,eval=FALSE}
+vignette('introduction','metabolyseR')
+```
+
+```{r example_analysis,eval=FALSE}
+vignette('quick_start','metabolyseR')
+```
+
+The package can be loaded using:
+
+```{r package_load}
+library(metabolyseR)
+```
+
+### Example data
+
+```{r data_load}
+library(metaboData)
+```
+
+```{r example_data}
+d <- analysisData(abr1$neg,abr1$fact)
+```
+
+## Data quality
+
+```{r}
+plotPCA(d,cls = 'day',label = 'injorder')
+```
+
+## Pre-treatment elements
+
+## Routine analyses
 
 ### Parameter Selection
 
