@@ -16,6 +16,8 @@ vignette: >
 
 ```{r, include = FALSE}
 library(knitr)
+library(tibble)
+library(dplyr)
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -30,16 +32,20 @@ It is important that appropriate pre-treatment strategies are used not only for 
 
 Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
 It itself is made up of a number of elements, which themselves are made up of methods.
+The following document will outline the application of each of these pre-treatment elements for use in exploratory analyses then outline how to apply them in routine analyses.
+For an introduction to the usage of *metabolyseR* for both exploratory and routine analyses, see the introduction vignette using:
 
 ```{r introduction_vignette,eval=FALSE}
 vignette('introduction','metabolyseR')
 ```
 
+To further supplement this document, a quick start example analysis is also available as a vignette:
+
 ```{r example_analysis,eval=FALSE}
 vignette('quick_start','metabolyseR')
 ```
 
-The package can be loaded using:
+To begin, the package can be loaded using:
 
 ```{r package_load}
 library(metabolyseR)
@@ -47,9 +53,17 @@ library(metabolyseR)
 
 ### Example data
 
+The examples used here will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
+This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
+The pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package will also be used.
+The example data can be loaded using:
+
 ```{r data_load}
 library(metaboData)
 ```
+
+Only the negative acquisition mode data (`abr1$neg`) will be used along with the sample meta-information (`abr1$fact`).
+Create an `AnalysisData` class object, assigned to the variable `d`, using the following:
 
 ```{r example_data}
 d <- analysisData(abr1$neg,abr1$fact)
@@ -58,7 +72,8 @@ d <- analysisData(abr1$neg,abr1$fact)
 ## Pre-treatment elements
 
 ```{r tableGenerate,include=FALSE}
-tableGenerate <- function(desc){
+tableGenerate <- function(method){
+  desc <- method(description = TRUE)
   args <- lapply(desc,function(x){return(x$arguments)})
   args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
   args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
@@ -67,20 +82,23 @@ tableGenerate <- function(desc){
   }
   args <- unlist(args)
   desc <- unlist(lapply(desc,function(x){return(x$description)}))
-  meth <- names(metabolyseR:::removeMethods())
-  defaults <- lapply(metabolyseR:::removeMethods(),formals)
+  meth <- names(desc)
+  defaults <- lapply(method(),formals)
   defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
-  defaults <- lapply(defaults,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
+  defaults <- lapply(defaults,function(x){tibble(Parameter = names(x),Value = unlist(x))})
   defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
   if (T %in% (sapply(defaults,length) > 1)) {
     defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
   }
   defaults <- unlist(defaults)
-  tab <- tibble::tibble(Method = meth, Description = desc, Arguments = args, Defaults = defaults)
+  tab <- tibble(Method = meth, Description = desc, Arguments = args) %>%
+    left_join(tibble(Method = names(defaults),Defaults = defaults),
+              by = 'Method')
+  return(tab)
 }
 ```
 
-### Sample and variable removal
+### Sample and feature removal
 
 The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
 
@@ -89,12 +107,11 @@ Variable removal is important if for example there is contaminant features prese
 The methods and their arguments for the removal of samples is shown in the table below.
 
 ```{r removeMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::removeMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::removeMethods)
 kable(tab)
 ```
 
-### Keep samples and variables
+### Keep samples and features
 
 The opposite of the remove methods discussed above. 
 Useful if there are fewer samples, classes or variables to keep than to remove.
@@ -102,8 +119,7 @@ Useful if there are fewer samples, classes or variables to keep than to remove.
 The methods and their arguments for keeping samples is shown in the table below.
 
 ```{r keepMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::keepMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::keepMethods)
 kable(tab)
 ```
 
@@ -114,8 +130,7 @@ There can sometimes be artificial batch related variability introduced introduce
 With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
 
 ```{r correctionMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::correctionMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::correctionMethods)
 kable(tab)
 ```
 
@@ -127,8 +142,7 @@ This is useful in situations such as the presence of technical replicates that c
 The methods and their arguments are shown in the table below.
 
 ```{r aggregateMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::aggregateMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::aggregateMethods)
 kable(tab)
 ```
 
@@ -146,12 +160,11 @@ The later strategy has the important benefit of retaining any presence and absen
 The methods and their arguments for occupancy based variable filtering are shown in the table below.
 
 ```{r occupancyMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::occupancyMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::occupancyMethods)
 kable(tab)
 ```
 
-### Variable filtering based on QC samples
+### Variable filtering based on quality control (QC) samples
 
 A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
 Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
@@ -167,8 +180,7 @@ Therefore the variables and variable numbers will not alter if a new class struc
 The methods and arguments for variable filtering based upon QC samples are shown in the table below.
 
 ```{r QCMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::QCMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::QCMethods)
 kable(tab)
 ```
 
@@ -182,8 +194,7 @@ The methods provided here allow both these aspects to be taken into account and 
 Their arguments are shown in the table below.
 
 ```{r imputeMethodsTable,echo=FALSE,results='asis'}
-desc <- metabolyseR:::imputeMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::imputeMethods)
 kable(tab)
 ```
 
@@ -195,8 +206,7 @@ There are a wide range of transformation methods available that are commonly use
 The methods and their arguments are shown in the table below.
 
 ```{r transformMethods,echo=FALSE,results='asis'}
-desc <- metabolyseR:::transformMethods(description = T)
-tab <- tableGenerate(desc)
+tab <- tableGenerate(metabolyseR:::transformMethods)
 kable(tab)
 ```
 
