@@ -21,7 +21,8 @@ library(dplyr)
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  message = FALSE
+  message = FALSE,
+  fig.align = 'center'
 )
 ```
 
@@ -166,29 +167,6 @@ tab <- tableGenerate(metabolyseR:::keepMethods)
 kable(tab)
 ```
 
-
-### Batch/block correction
-
-There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
-With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
-
-```{r correctionMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::correctionMethods)
-kable(tab)
-```
-
-### Sample aggregation
-
-Sample aggregation allows the electronic pooling of samples based on a grouping variable.
-This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
-
-The methods and their arguments are shown in the table below.
-
-```{r aggregateMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::aggregateMethods)
-kable(tab)
-```
-
 ### Variable filtering based on occupancy
 
 Occupancy provides a useful measure by which to filter variables that are poorly represented (contain a majority of missing values).
@@ -207,23 +185,43 @@ tab <- tableGenerate(metabolyseR:::occupancyMethods)
 kable(tab)
 ```
 
-### Variable filtering based on quality control (QC) samples
+### Batch/block correction
 
-A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
-Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
-If there is class structure within the run this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run.
-QC samples can then be injected between these randomised blocks.
-This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
+There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
+With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
 
-The technical reproducibility of an acquired variable can be assessed using it's relative standard deviation (RSD) within the QC samples.
-The variable RSDs can then be thresholded to filter out variables that are poorly reproducible across the analytical runs.
-This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure.
-Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
+```{r correctionMethodsTable,echo=FALSE,results='asis'}
+tab <- tableGenerate(metabolyseR:::correctionMethods)
+kable(tab)
+```
 
-The methods and arguments for variable filtering based upon QC samples are shown in the table below.
+### Sample aggregation
 
-```{r QCMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::QCMethods)
+Sample aggregation allows the electronic pooling of samples based on a grouping variable.
+This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
+
+```{r pca}
+d %>%
+  occupancyMaximum(cls = 'day') %>%
+  plotPCA(cls = 'day')
+```
+
+```{r day_mean}
+day_mean <- d %>%
+  occupancyMaximum(cls = 'day') %>%
+  aggregateMean(cls = 'day')
+```
+
+```{r day_mean_pca}
+plotPCA(day_mean,cls = 'day',ellipses = FALSE)
+```
+
+
+
+The methods and their arguments are shown in the table below.
+
+```{r aggregateMethodsTable,echo=FALSE,results='asis'}
+tab <- tableGenerate(metabolyseR:::aggregateMethods)
 kable(tab)
 ```
 
@@ -250,6 +248,26 @@ The methods and their arguments are shown in the table below.
 
 ```{r transformMethods,echo=FALSE,results='asis'}
 tab <- tableGenerate(metabolyseR:::transformMethods)
+kable(tab)
+```
+
+### Variable filtering based on quality control (QC) samples
+
+A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
+Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
+If there is class structure within the run this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run.
+QC samples can then be injected between these randomised blocks.
+This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
+
+The technical reproducibility of an acquired variable can be assessed using it's relative standard deviation (RSD) within the QC samples.
+The variable RSDs can then be thresholded to filter out variables that are poorly reproducible across the analytical runs.
+This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure.
+Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
+
+The methods and arguments for variable filtering based upon QC samples are shown in the table below.
+
+```{r QCMethodsTable,echo=FALSE,results='asis'}
+tab <- tableGenerate(metabolyseR:::QCMethods)
 kable(tab)
 ```
 
