@@ -21,6 +21,7 @@ library(dplyr)
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  warning = FALSE,
   message = FALSE,
   fig.align = 'center'
 )
@@ -178,6 +179,30 @@ A minimally applied threshold would require all the classes to have an occupancy
 A maximally applied threshold would require only a single class to have an occupancy above the threshold for the variable to be retained.
 The later strategy has the important benefit of retaining any presence and absence trends that may be present.
 
+```{r occupancy}
+d %>%
+  occupancy()
+```
+
+```{r}
+d %>%
+  plotOccupancy(cls = 'day')
+```
+
+```{r}
+filtered_occupancy <- d %>%
+   occupancyMaximum(cls = 'day',occupancy = 2/3)
+```
+
+```{r}
+print(filtered_occupancy)
+```
+
+```{r}
+filtered_occupancy %>%
+  plotOccupancy(cls = 'day')
+```
+
 The methods and their arguments for occupancy based variable filtering are shown in the table below.
 
 ```{r occupancyMethodsTable,echo=FALSE,results='asis'}
@@ -230,6 +255,19 @@ kable(tab)
 Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
 Where and how they are imputed are important considerations and is highly related to variable occupancy.
 Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
+
+```{r}
+d %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  plotLDA(cls = 'day')
+```
+
+```{r}
+d %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  imputeClass(cls = 'day') %>%
+  plotLDA(cls = 'day')
+```
 
 The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
 Their arguments are shown in the table below.
