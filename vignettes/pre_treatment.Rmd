@@ -184,21 +184,21 @@ d %>%
   occupancy()
 ```
 
-```{r}
+```{r plot_occupancy}
 d %>%
   plotOccupancy(cls = 'day')
 ```
 
-```{r}
+```{r filter_occupancy}
 filtered_occupancy <- d %>%
    occupancyMaximum(cls = 'day',occupancy = 2/3)
 ```
 
-```{r}
+```{r print_filtered_occupancy}
 print(filtered_occupancy)
 ```
 
-```{r}
+```{r plot_filtered_occupancy}
 filtered_occupancy %>%
   plotOccupancy(cls = 'day')
 ```
@@ -214,6 +214,17 @@ kable(tab)
 
 There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
 With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
+
+```{r day_TICs}
+d %>%
+  plotTIC(by = 'day',colour = 'day')
+```
+
+```{r correction}
+d %>%
+  correctionCenter(block = 'day',type = 'median',nCores = 2) %>%
+  plotTIC(by = 'day',colour = 'day')
+```
 
 ```{r correctionMethodsTable,echo=FALSE,results='asis'}
 tab <- tableGenerate(metabolyseR:::correctionMethods)
@@ -256,16 +267,16 @@ Missing values can have an important influence on downstream analyses with zero 
 Where and how they are imputed are important considerations and is highly related to variable occupancy.
 Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
 
-```{r}
+```{r lda}
 d %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
   plotLDA(cls = 'day')
 ```
 
-```{r}
+```{r imputed_lda}
 d %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
-  imputeClass(cls = 'day') %>%
+  imputeClass(cls = 'day',nCores = 2) %>%
   plotLDA(cls = 'day')
 ```
 
