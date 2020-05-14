@@ -15,7 +15,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
       feat <- r$Feature %>%
         unique()
       
-      d <- x@data %>%
+      d <- x %>%
         keepClasses(cls = pred,
                     classes = classes) %>%
         keepFeatures(features = feat)
@@ -129,7 +129,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
       
       p <- sym(pred)
       
-      d <- x@data %>%
+      d <- x %>%
         keepFeatures(features = feat)
       
       d <- d %>%

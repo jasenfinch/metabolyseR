@@ -359,7 +359,8 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
   
   res <- new('RandomForest')
   res@type <- 'unsupervised'
-  res@data <- x
+  dat(res) <- dat(x)
+  sinfo(res) <- sinfo(x)
   res@results <- results
   res@importances <- importances
   res@proximities <- proximities
@@ -569,7 +570,8 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
   
   res <- new('RandomForest')
   res@type <- 'classification'
-  res@data <- x
+  dat(res) <- dat(x)
+  sinfo(res) <- sinfo(x)
   res@results <- results
   res@predictions <- predictions
   res@permutations <- permutations
@@ -684,7 +686,8 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
   
   res <- new('RandomForest')
   res@type <- 'regression'
-  res@data <- x
+  dat(res) <- dat(x)
+  sinfo(res) <- sinfo(x)
   res@results <- results
   res@predictions <- predictions
   res@permutations <- permutations

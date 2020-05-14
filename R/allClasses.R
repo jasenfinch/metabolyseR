@@ -69,9 +69,9 @@ setClass('Analysis',
 #' @export
 
 setClass('RandomForest',
+         contains = 'AnalysisData',
          slots = list(
            type = 'character',
-           data = 'AnalysisData',
            results = 'list',
            predictions = 'tbl_df',
            permutations = 'list',

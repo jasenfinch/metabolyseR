@@ -205,7 +205,7 @@ setMethod('plotMeasures',signature = 'list',function(x){
 setMethod('plotMDS',signature = 'RandomForest',
           function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2){
             
-            if (!(cls %in% {x@data %>% sinfo() %>% colnames()})) {
+            if (!(cls %in% {x %>% sinfo() %>% colnames()})) {
               stop(str_c('Info column ',cls,'not found!'))
             }
             
@@ -242,7 +242,7 @@ setMethod('plotMDS',signature = 'RandomForest',
                     
                     comparison <- str_split(d$Comparison[1],'~')[[1]]
                     
-                    cda <- removeClasses(x@data,cls,classes = sinfo(x@data) %>%
+                    cda <- removeClasses(x,cls,classes = sinfo(x) %>%
                                            select(cls) %>%
                                            unlist() %>%
                                            unique() %>%
@@ -266,7 +266,7 @@ setMethod('plotMDS',signature = 'RandomForest',
                     d <- .
                     comparison <- str_split(d$Comparison[1],'~')[[1]]
                     
-                    cda <- removeClasses(x@data,cls,classes = sinfo(x@data) %>%
+                    cda <- removeClasses(x,cls,classes = sinfo(x) %>%
                                            select(cls) %>%
                                            unlist() %>%
                                            unique() %>%
@@ -299,7 +299,7 @@ setMethod('plotMDS',signature = 'RandomForest',
               })  
               if (!is.null(cls)) {
                 mds <- mds %>%
-                  bind_cols(x@data %>%
+                  bind_cols(x %>%
                               sinfo() %>%
                               select(cls) %>%
                               mutate_all(factor)
@@ -308,13 +308,13 @@ setMethod('plotMDS',signature = 'RandomForest',
               
               if (!is.null(label)) {
                 mds <- mds %>%
-                  bind_cols(x@data %>%
+                  bind_cols(x %>%
                               sinfo() %>%
                               select(label))
               }
             }
             
-            classLength <- clsLen(x@data,cls)
+            classLength <- clsLen(x,cls)
 
             pl <- scatterPlot(mds,cls,'Dimension 1','Dimension 2',ellipses,shape,label,labelSize,legendPosition,classLength,title,'Dimension 1','Dimension 2')
             
