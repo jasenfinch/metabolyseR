@@ -69,6 +69,12 @@ Create an `AnalysisData` class object, assigned to the variable `d`, using the f
 d <- analysisData(abr1$neg,abr1$fact)
 ```
 
+```{r print_data}
+print(d)
+```
+
+As can be seen above the data set contains a total of `r nSamples(d)` samples and `r nFeatures(d)` features.
+
 ## Pre-treatment elements
 
 ```{r tableGenerate,include=FALSE}
@@ -102,7 +108,29 @@ tableGenerate <- function(method){
 
 The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
 
+```{r remove_samples}
+d %>%
+  removeSamples(idx = 'injorder',samples = 1)
+```
+
+```{r remove_classes}
+d %>%
+  removeClasses(cls = 'day',classes = 'H')
+```
+
+```{r}
+d %>%
+  features() %>%
+  head()
+```
+
+```{r remove_features}
+d %>%
+  removeFeatures(features = c('N1','N2'))
+```
+
 Variable removal is important if for example there is contaminant features present in a data set. 
+
 
 The methods and their arguments for the removal of samples is shown in the table below.
 
@@ -116,6 +144,21 @@ kable(tab)
 The opposite of the remove methods discussed above. 
 Useful if there are fewer samples, classes or variables to keep than to remove.
 
+```{r keep_samples}
+d %>%
+  keepSamples(idx = 'injorder',samples = 1)
+```
+
+```{r keep_classes}
+d %>%
+  keepClasses(cls = 'day',classes = 'H')
+```
+
+```{r keep_features}
+d %>%
+  keepFeatures(features = c('N1','N2'))
+```
+
 The methods and their arguments for keeping samples is shown in the table below.
 
 ```{r keepMethodsTable,echo=FALSE,results='asis'}
@@ -124,7 +167,7 @@ kable(tab)
 ```
 
 
-### Batch correction
+### Batch/block correction
 
 There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
 With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
@@ -213,6 +256,10 @@ kable(tab)
 ## Routine analyses
 
 The pre-treatment elements can be seen below.
+
+```{r}
+preTreatmentElements()
+```
 
 The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
 
