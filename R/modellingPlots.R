@@ -13,7 +13,7 @@ setMethod('plotImportance',signature = 'Univariate',
             res <- x@results
             
             if (!(response %in% unique(res$Response))) {
-              stop('Response not found!')
+              stop(str_c('Response "',response,'" not found!'),call. = FALSE)
             }
             
             res <- res %>%
@@ -49,7 +49,6 @@ setMethod('plotImportance',signature = 'RandomForest',
           function(x){
             
             res <- importance(x)
-            response <- res$Response[1]
             
             if ('adjustedPvalue' %in% colnames(res)) {
               res <- res %>%
@@ -93,7 +92,7 @@ setMethod('plotImportance',signature = 'RandomForest',
             
             if (x@type != 'unsupervised') {
               pl <- pl +
-                labs(title = response)
+                labs(title = res$Response[1])
             }
             
             if (x@type == 'classification') {
