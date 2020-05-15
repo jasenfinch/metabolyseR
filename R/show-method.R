@@ -143,8 +143,8 @@ setMethod('show',signature = 'RandomForest',
               cat('\nUnsupervised random forest\n\n')
             }
             
-            cat('Samples:\t',nrow(dat(object@data)),'\n')
-            cat('Features:\t',ncol(dat(object@data)),'\n')
+            cat('Samples:\t',nSamples(object),'\n')
+            cat('Features:\t',nFeatures(object),'\n')
             
             if (object@type != 'unsupervised') {
               cat('Response:\t',measures(object) %>%
@@ -172,8 +172,8 @@ setMethod('show',signature = 'Univariate',
           function(object){
             cat('\nUnivariate',object@type,'analysis\n\n')  
             
-            cat('Samples:\t',nrow(dat(object@data)),'\n')
-            cat('Features:\t',ncol(dat(object@data)),'\n')
+            cat('Samples:\t',nSamples(object),'\n')
+            cat('Features:\t',nFeatures(object),'\n')
             cat('Responses:\t',importance(object) %>%
                   .$Response %>%
                   unique() %>%
