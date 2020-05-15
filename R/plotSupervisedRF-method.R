@@ -51,10 +51,10 @@ setMethod('plotSupervisedRF',signature = 'AnalysisData',
 setMethod('plotSupervisedRF', signature = 'Analysis',
           function(x, cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = T, ROC = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
             
-            if (ncol(x@preTreated %>% dat()) > 0) {
-              d <- x@preTreated
+            if (ncol(x %>% dat(type = 'pre-treated')) > 0) {
+              d <- preTreated(x)
             } else {
-              d <- x@rawData
+              d <- raw(x)
             }
             
             plotSupervisedRF(d,cls = cls,rf = rf,label = label,shape = shape,ellipses = ellipses,ROC = ROC,seed = seed,title = title,legendPosition = legendPosition,labelSize = labelSize)
