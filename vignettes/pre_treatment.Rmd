@@ -295,6 +295,30 @@ Prior to downstream analyses, metabolomics data often require a transformation s
 There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
 The methods and their arguments are shown in the table below.
 
+
+```{r occupancy_filter_transform}
+occupancy_filtered <- d %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3)
+```
+
+```{r transform_RF}
+occupancy_filtered %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+```{r log10_RF}
+occupancy_filtered %>%
+  transformLog10() %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+```{r TICnorm_RF}
+occupancy_filtered %>%
+  transformTICnorm() %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+
 ```{r transformMethods,echo=FALSE,results='asis'}
 tab <- tableGenerate(metabolyseR:::transformMethods)
 kable(tab)
@@ -314,6 +338,38 @@ This variable filtering strategy has an advantage over that of occupancy alone a
 Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
 
 The methods and arguments for variable filtering based upon QC samples are shown in the table below.
+
+```{r QC_data}
+QC <- d %>%
+  keepClasses(cls = 'day',classes = 'H')
+```
+
+```{r QC_rsd}
+QC %>%
+  rsd(cls = 'day')
+```
+
+
+```{r QC_rsd_plot}
+QC %>%
+  plotRSD(cls = 'day')
+```
+```{r QC_occupancy_rsd}
+QC %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  plotRSD(cls = 'day')
+```
+
+```{r QC_filtered}
+QC_filtered <- d %>%
+  QCoccupancy(cls = 'day',QCidx = 'H',occupancy = 2/3) %>%
+  QCrsdFilter(cls = 'day',QCidx = 'H',RSDthresh = 0.5)
+```
+
+```{r print_QC_filtered}
+print(QC_filtered)
+```
+
 
 ```{r QCMethodsTable,echo=FALSE,results='asis'}
 tab <- tableGenerate(metabolyseR:::QCMethods)
