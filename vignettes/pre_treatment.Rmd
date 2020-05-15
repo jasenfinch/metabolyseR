@@ -340,11 +340,11 @@ This allows the fine specification of the data pre-treatment routines that are r
 Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
 
 ```{r preTreatParameterExample}
-param <- analysisParameters('pre-treatment')
+p <- analysisParameters('pre-treatment')
 ```
 
 ```{r}
-parameters(param,'pre-treatment') <- preTreatmentParameters(
+parameters(p,'pre-treatment') <- preTreatmentParameters(
   list(
     keep = 'classes',
     occupancyFilter = 'maximum',
@@ -354,12 +354,12 @@ parameters(param,'pre-treatment') <- preTreatmentParameters(
 ```
 
 ```{r}
-changeParameter(param,'cls') <- 'day'
-changeParameter(param,'classes') <- c('H','1','2')
+changeParameter(p,'cls') <- 'day'
+changeParameter(p,'classes') <- c('H','1','2')
 ```
 
 ```{r}
-param
+p
 ```
 
 This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transform the data using a total ion count normalisation.
@@ -372,13 +372,17 @@ Empty lists for methods can be specified to use the default arguments; however, 
 The pre-treatment routine can then be executed using the following.
 
 ```{r preTreatExample}
-analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
+analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
 
 ```{r}
 analysis
 ```
 
+```{r}
+analysis %>%
+  plotSupervisedRF(cls = 'day')
+```
 
 ### Method reference table
 
