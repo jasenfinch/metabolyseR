@@ -18,6 +18,9 @@ vignette: >
 library(knitr)
 library(tibble)
 library(dplyr)
+library(purrr)
+library(stringr)
+
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -79,33 +82,6 @@ As can be seen above the data set contains a total of `r nSamples(d)` samples an
 
 ## Pre-treatment elements
 
-```{r tableGenerate,include=FALSE}
-tableGenerate <- function(method){
-  desc <- method(description = TRUE)
-  args <- lapply(desc,function(x){return(x$arguments)})
-  args <- lapply(args,function(x){tibble::tibble(Parameter = names(x),Value = unlist(x))})
-  args <- lapply(args,function(x){apply(x,1,function(y){paste(y,collapse = ' - ')})})
-  if (T %in% (sapply(args,length) > 1)) {
-    args[sapply(args,length) > 1] <- lapply(args[sapply(args,length) > 1],function(x){paste(x,collapse = '; ')})
-  }
-  args <- unlist(args)
-  desc <- unlist(lapply(desc,function(x){return(x$description)}))
-  meth <- names(desc)
-  defaults <- lapply(method(),formals)
-  defaults <- lapply(defaults,function(x){x$d <- NULL;return(x)})
-  defaults <- lapply(defaults,function(x){tibble(Parameter = names(x),Value = unlist(x))})
-  defaults <- lapply(defaults,function(x){apply(x,1,function(y){paste(y,collapse = ' = ')})})
-  if (T %in% (sapply(defaults,length) > 1)) {
-    defaults[sapply(defaults,length) > 1] <- lapply(defaults[sapply(defaults,length) > 1],function(x){paste(x,collapse = '; ')})
-  }
-  defaults <- unlist(defaults)
-  tab <- tibble(Method = meth, Description = desc, Arguments = args) %>%
-    left_join(tibble(Method = names(defaults),Defaults = defaults),
-              by = 'Method')
-  return(tab)
-}
-```
-
 ### Sample and feature removal
 
 The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
@@ -136,11 +112,6 @@ Variable removal is important if for example there is contaminant features prese
 
 The methods and their arguments for the removal of samples is shown in the table below.
 
-```{r removeMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::removeMethods)
-kable(tab)
-```
-
 ### Keep samples and features
 
 The opposite of the remove methods discussed above. 
@@ -162,11 +133,6 @@ d %>%
 ```
 
 The methods and their arguments for keeping samples is shown in the table below.
-
-```{r keepMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::keepMethods)
-kable(tab)
-```
 
 ### Variable filtering based on occupancy
 
@@ -205,11 +171,6 @@ filtered_occupancy %>%
 
 The methods and their arguments for occupancy based variable filtering are shown in the table below.
 
-```{r occupancyMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::occupancyMethods)
-kable(tab)
-```
-
 ### Batch/block correction
 
 There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
@@ -224,11 +185,6 @@ d %>%
 d %>%
   correctionCenter(block = 'day',type = 'median',nCores = 2) %>%
   plotTIC(by = 'day',colour = 'day')
-```
-
-```{r correctionMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::correctionMethods)
-kable(tab)
 ```
 
 ### Sample aggregation
@@ -256,11 +212,6 @@ plotPCA(day_mean,cls = 'day',ellipses = FALSE)
 
 The methods and their arguments are shown in the table below.
 
-```{r aggregateMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::aggregateMethods)
-kable(tab)
-```
-
 ### Imputation of missing data
 
 Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
@@ -282,11 +233,6 @@ d %>%
 
 The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
 Their arguments are shown in the table below.
-
-```{r imputeMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::imputeMethods)
-kable(tab)
-```
 
 ### Data transformation
 
@@ -316,12 +262,6 @@ occupancy_filtered %>%
 occupancy_filtered %>%
   transformTICnorm() %>%
   plotSupervisedRF(cls = 'day')
-```
-
-
-```{r transformMethods,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::transformMethods)
-kable(tab)
 ```
 
 ### Variable filtering based on quality control (QC) samples
@@ -368,12 +308,6 @@ QC_filtered <- d %>%
 
 ```{r print_QC_filtered}
 print(QC_filtered)
-```
-
-
-```{r QCMethodsTable,echo=FALSE,results='asis'}
-tab <- tableGenerate(metabolyseR:::QCMethods)
-kable(tab)
 ```
 
 ## Routine analyses
@@ -428,3 +362,44 @@ The pre-treatment routine can then be executed using the following.
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
 analysis
 ```
+
+
+### Method reference table
+
+```{r method_reference_table,echo=FALSE}
+metabolyseR:::preTreatmentElements() %>%
+  map(~{
+    methods <- metabolyseR:::preTreatmentMethods(.x)
+    element_methods <- metabolyseR:::getPreTreatMethods(.x)
+    methods %>%
+      map(~{
+        element_methods(.x,description = TRUE) %>%
+          {
+            tibble(Description = .$description,
+                   Arguments = .$arguments %>%
+                     {
+                       str_c(names(.),.,sep = ' - ')
+                     } %>%
+                     str_c(collapse = '; '),
+                   Defaults = .x %>%
+                     element_methods() %>%
+                     formals() %>%
+                     {
+                       . <- .[-1]
+                       return(.)
+                     } %>%
+                     {
+                       str_c(names(.),unlist(.,use.names = FALSE),sep = ' = ')
+                     } %>%
+                     str_c(collapse = '; ')
+            )
+          }
+      }) %>%
+      set_names(methods) %>%
+      bind_rows(.id = 'Method')
+  }) %>%
+  set_names(preTreatmentElements()) %>%
+  bind_rows(.id = 'Element') %>%
+  kable()
+```
+
