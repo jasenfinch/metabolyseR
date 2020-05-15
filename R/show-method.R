@@ -122,7 +122,7 @@ setMethod('show',signature = 'Analysis',
 
 setMethod('show',signature = 'AnalysisData',
           function(object){
-            cat('\nAnalysis Data object containing:\n\n')
+            cat('\nAnalysisData object containing:\n\n')
             cat('Samples:',nrow(dat(object)),'\n')
             cat('Features:',ncol(dat(object)),'\n')
             cat('Info:',ncol(sinfo(object)),'\n')
