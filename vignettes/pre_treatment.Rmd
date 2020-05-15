@@ -314,8 +314,12 @@ print(QC_filtered)
 
 The pre-treatment elements can be seen below.
 
-```{r}
+```{r pre-treatment_elements}
 preTreatmentElements()
+```
+
+```{r pre-treatment_methods}
+preTreatmentMethods('remove')
 ```
 
 The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
@@ -336,18 +340,26 @@ This allows the fine specification of the data pre-treatment routines that are r
 Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
 
 ```{r preTreatParameterExample}
-parameters <- analysisParameters('pre-treatment')
-parameters@`pre-treatment` <- list(
-    remove = list(
-      class = list(
-        cls = 'class',
-        classes = unique(abr1$fact$class)[!(unique(abr1$fact$class) %in% c(1:2))])),
-    occupancyFilter = list(
-      maximum = list()),
-    transform = list(
-      TICnorm = list())
+param <- analysisParameters('pre-treatment')
+```
+
+```{r}
+parameters(param,'pre-treatment') <- preTreatmentParameters(
+  list(
+    keep = 'classes',
+    occupancyFilter = 'maximum',
+    transform = 'TICnorm' 
+  )
 )
-parameters
+```
+
+```{r}
+changeParameter(param,'cls') <- 'day'
+changeParameter(param,'classes') <- c('H','1','2')
+```
+
+```{r}
+param
 ```
 
 This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transform the data using a total ion count normalisation.
@@ -358,8 +370,12 @@ The method arguments are then declared within these lists.
 Empty lists for methods can be specified to use the default arguments; however, element lists should not be empty. 
 
 The pre-treatment routine can then be executed using the following.
-```{r preTreatExample,eval=F}
+
+```{r preTreatExample}
 analysis <- metabolyse(abr1$neg,abr1$fact,parameters)
+```
+
+```{r}
 analysis
 ```
 
