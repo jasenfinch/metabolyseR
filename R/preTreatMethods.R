@@ -37,6 +37,10 @@ preTreatmentElements <- function(){
     names()
 }
 
+#' preTreatmentMethods
+#' @description Return names of available methods for a given pre-treatment element.
+#' @export
+
 preTreatmentMethods <- function(element){
   getPreTreatMethods(element)() %>%
     names() %>%
