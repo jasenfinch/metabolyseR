@@ -28,10 +28,10 @@ setMethod('plotUnsupervisedRF', signature = 'AnalysisData',
 setMethod('plotUnsupervisedRF', signature = 'Analysis',
           function(x,cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
             
-            if (ncol(x@preTreated %>% dat()) > 0) {
-              d <- x@preTreated
+            if (nFeatures(x,type = 'pre-treated') > 0) {
+              d <- preTreated(x)
             } else {
-              d <- x@rawData
+              d <- raw(x)
             }
             
             plotUnsupervisedRF(d,cls = cls,rf = rf,label = label,shape = shape, ellipses = ellipses,seed = seed,title = title,legendPosition = legendPosition,labelSize = labelSize)
