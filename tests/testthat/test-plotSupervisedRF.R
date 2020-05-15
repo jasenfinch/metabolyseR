@@ -18,7 +18,7 @@ test_that('plotSupervisedRF works',{
   
   d <- metabolyse(abr1$neg[,1:200],abr1$fact,p)
   
-  pl <- plotSupervisedRF(d,cls = 'day')
+  pl <- plotSupervisedRF(d,cls = 'day',label = 'name')
   
   expect_true(identical(class(pl),c('patchwork',"gg","ggplot")))
 })

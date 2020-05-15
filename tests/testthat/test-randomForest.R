@@ -15,18 +15,9 @@ test_that('unsupervised random forest works',{
 
 test_that('random forest classification works',{
   rf <- randomForest(d,cls = 'day',perm = 3,nCores = 2,returnModels = TRUE)
-  
-  plMDS <- plotMDS(rf$day,cls = 'day')
-  plROC <- plotROC(rf$day)
-  plMeasures <- plotMeasures(rf$day,response = 'day')
-  plImportance <- plotImportance(rf$day)
-  
+
   expect_true(is.list(rf))
   expect_true(class(rf$day) == 'RandomForest')
-  expect_identical(class(plMDS),c("gg","ggplot"))
-  expect_identical(class(plROC),c("gg","ggplot"))
-  expect_identical(class(plMeasures),c("gg","ggplot"))
-  expect_identical(class(plImportance),c("gg","ggplot"))
 })
 
 test_that('binary classification works',{
