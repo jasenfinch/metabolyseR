@@ -5,6 +5,14 @@ context('parameters')
 p <- analysisParameters()
 a <- new('Analysis')
 
+test_that('analysisParameters works',{
+  p <- analysisParameters()
+  
+  expect_s4_class(p,'AnalysisParameters')
+  expect_error(analysisParameters(1))
+  expect_error(analysisParameters('an_element'))
+})
+
 test_that('parameters assigned for Analysis objects',{
   parameters(a) <- p
   pa <- a %>%
@@ -21,6 +29,8 @@ test_that('parameters extracted for Analysis objects',{
 test_that('parameters extracted for AnalysisParameters objects',{
   params <- parameters(p,'pre-treatment')
   expect_length(params,4)
+  expect_error(parameters(p,'an_element'))
+  expect_error(parameters(p,'an_element') <- analysisParameters())
 })
 
 test_that('pre-treatment parameters assigned for AnalysisParameters',{
@@ -41,12 +51,13 @@ test_that('correlations parameters assigned for AnalysisParameters',{
 })
 
 test_that('parameters correctly exported and parsed',{
-  p <- analysisParameters()
+  a <- new('Analysis')
+  parameters(a) <- analysisParameters()
   
   dir <- tempdir()
   file <- str_c(dir,'/','analysis_parameters.yaml')
   
-  exportParameters(p,file)
+  exportParameters(a,file)
   
   pp <- parseParameters(file)
   

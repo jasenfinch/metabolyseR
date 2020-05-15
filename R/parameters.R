@@ -405,7 +405,7 @@ parseParameters <- function(path){
       return(.)
     })
   
-  if ('preTreat' %in% names(par)) {
+  if ('pre-treatment' %in% names(par)) {
     par$preTreat <- par$preTreat %>%
       map(~{
         map(.,~{
