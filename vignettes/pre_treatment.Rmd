@@ -82,37 +82,39 @@ As can be seen above the data set contains a total of `r nSamples(d)` samples an
 
 ## Pre-treatment elements
 
-### Sample and feature removal
+The following sections will outline the numerous pre-treatment elements available within *metabolyseR*.
+There will be examples of their application during exploratory analyses along with useful visualisations that can aid interpretation of when particular treatments should be applied as well as the effect once they have been used. 
 
-The removal of samples prior to their analysis is important if there are outlier samples included or sample classes that are no longer relevant for the intended analyses.
+### Removal of samples, classes or features
+
+In many situations it will be necessary to remove either individual samples. sample classes or certain features from further analysis. 
+
+Individual samples can be removed using `removeSamples` as below where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument a vector of sample indexes to remove.
 
 ```{r remove_samples}
 d %>%
   removeSamples(idx = 'injorder',samples = 1)
 ```
 
+The `removeClasses` function can be used similarly to remove whole classes from further analysis:
+
 ```{r remove_classes}
 d %>%
   removeClasses(cls = 'day',classes = 'H')
 ```
 
-```{r}
-d %>%
-  features() %>%
-  head()
-```
+The following will enable the removal of specified features as a vector supplied to the `feautres` argument:
 
 ```{r remove_features}
 d %>%
   removeFeatures(features = c('N1','N2'))
 ```
 
-Variable removal is important if for example there is contaminant features present in a data set. 
+There maybe occasions where the numbers of samples, classes or features to remove are greater than the numbers of samples, classes or features that are to be retained.
+In these situations it will be more convenient to directly specify the samples, classes or features to retain.
+Keeping samples, classes or features is outlined in the following section.
 
-
-The methods and their arguments for the removal of samples is shown in the table below.
-
-### Keep samples and features
+### Keeping samples, classes or features
 
 The opposite of the remove methods discussed above. 
 Useful if there are fewer samples, classes or variables to keep than to remove.
@@ -289,11 +291,11 @@ QC %>%
   rsd(cls = 'day')
 ```
 
-
 ```{r QC_rsd_plot}
 QC %>%
   plotRSD(cls = 'day')
 ```
+
 ```{r QC_occupancy_rsd}
 QC %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
