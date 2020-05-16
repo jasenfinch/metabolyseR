@@ -87,9 +87,9 @@ There will be examples of their application during exploratory analyses along wi
 
 ### Removal of samples, classes or features
 
-In many situations it will be necessary to remove either individual samples. sample classes or certain features from further analysis. 
+In many situations it will be necessary to exclude either individual samples, sample classes or certain features from further analysis. 
 
-Individual samples can be removed using `removeSamples` as below where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument a vector of sample indexes to remove.
+Individual samples can be removed using `removeSamples` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument a vector of sample indexes to remove.
 
 ```{r remove_samples}
 d %>%
@@ -116,25 +116,32 @@ Keeping samples, classes or features is outlined in the following section.
 
 ### Keeping samples, classes or features
 
-The opposite of the remove methods discussed above. 
-Useful if there are fewer samples, classes or variables to keep than to remove.
+Often it will be necessary to retain only particular samples, sample classes or certain features for further analysis. 
+
+Individual samples can be kept using `keepSamples` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument, a vector of sample indexes to keep.
 
 ```{r keep_samples}
 d %>%
   keepSamples(idx = 'injorder',samples = 1)
 ```
 
+The `keepClasses` function can be used similarly to keep whole classes for further analysis:
+
 ```{r keep_classes}
 d %>%
   keepClasses(cls = 'day',classes = 'H')
 ```
+
+The following will specify features to keep, with a vector of feature names supplied to the `features` argument:
 
 ```{r keep_features}
 d %>%
   keepFeatures(features = c('N1','N2'))
 ```
 
-The methods and their arguments for keeping samples is shown in the table below.
+There are likely to be occasions where the numbers of samples, classes or features to keep are greater than the numbers of samples, classes or features that are to be excluded.
+In these situations it will be more convenient to directly specify the samples, classes or features to remove.
+Removing samples, classes or features is outlined in the previous section.
 
 ### Variable filtering based on occupancy
 
