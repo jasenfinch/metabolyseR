@@ -145,40 +145,64 @@ Removing samples, classes or features is outlined in the previous section.
 
 ### Variable filtering based on occupancy
 
-Occupancy provides a useful measure by which to filter variables that are poorly represented (contain a majority of missing values).
+Occupancy provides a useful metric by which to filter poorly represented features (features containing a majority zero or missing values).
 An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses.
 However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.
 
-An occupancy threshold can be applied both minimally and maximally within the class structure.
-A minimally applied threshold would require all the classes to have an occupancy above the threshold for the variable to be retained.
-A maximally applied threshold would require only a single class to have an occupancy above the threshold for the variable to be retained.
-The later strategy has the important benefit of retaining any presence and absence trends that may be present.
+The proportional occupancy for each feature within a data set for a given class structure can be calculated using the `occupancy` function, specifying the sample information column using the `cls` argument.
 
 ```{r occupancy}
 d %>%
-  occupancy()
+  occupancy(cls = 'day')
 ```
+
+Alternatively the occupancy distributions can be plotted providing a useful overview of the data set:
 
 ```{r plot_occupancy}
 d %>%
   plotOccupancy(cls = 'day')
 ```
 
-```{r filter_occupancy}
-filtered_occupancy <- d %>%
+It can be seen that there are a number of unoccupied features across all the sample classes with a small rise in the density distribution near 0.
+
+There are two strategies for thresholding occupancy.
+The first is a maximum theshold; where the maximum occupancy across all classes is above the threshold. 
+Therefore, for a feature to be retained, only a single class needs to have an occupancy above the threshold. 
+It is this strategy that will be appropriate for most applications.
+A two-thirds maximum occupancy filter can be applied to the "day" sample information column of our data using:
+
+```{r maximum_occupancy_filter}
+maximum_occupancy_filtered <- d %>%
    occupancyMaximum(cls = 'day',occupancy = 2/3)
 ```
 
-```{r print_filtered_occupancy}
-print(filtered_occupancy)
+It can be seen below that this removes `r nFeatures(d) - nFeatures(maximum_occupancy_filtered)` features.
+
+```{r print_maximum_occupancy}
+print(maximum_occupancy_filtered)
 ```
 
+Plotting the occupancy distributions shows that all the low occupancy features have now been removed.
+
 ```{r plot_filtered_occupancy}
-filtered_occupancy %>%
+maximum_occupancy_filtered %>%
   plotOccupancy(cls = 'day')
 ```
 
-The methods and their arguments for occupancy based variable filtering are shown in the table below.
+The alternative strategy is applying a minimum threshold; where the minimum occupancy across all classes is required to be above the freshold.
+Therefore, for a feautre to be retained, all classes would need to have an occupancy above the threshold.
+A two-thirds minimum occupancy filter can be applied to the "day" sample information column of our data using:
+
+```{r minimum_occupancy_filter}
+minimum_occupancy_filtered <- d %>%
+   occupancyMinimum(cls = 'day',occupancy = 2/3)
+```
+
+It can be seen below that this removes `r nFeatures(d) - nFeatures(minimum_occupancy_filtered)` features.
+
+```{r print_minimum_occupancy}
+print(minimum_occupancy_filtered)
+```
 
 ### Batch/block correction
 
