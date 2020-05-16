@@ -41,6 +41,14 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
                     legend.title = element_text(face = 'bold'),
                     legend.position = 'bottom')
             
+            if (length(clsExtract(x,cls) %>% unique()) < 12) {
+              d <- d +
+                scale_colour_ptol()
+              
+              csDist <- csDist +
+                scale_colour_ptol()
+            }
+            
             pl <- d + csDist
             
             return(pl)
