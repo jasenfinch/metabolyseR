@@ -43,7 +43,8 @@ Suggests: knitr,
     testthat,
     metaboData,
     prettydoc,
-    covr
+    covr,
+    kableExtra
 Collate: allGenerics.R
     allClasses.R
     aggregateMethods.R

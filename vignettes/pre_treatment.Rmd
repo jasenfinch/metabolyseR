@@ -14,12 +14,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 library(knitr)
 library(tibble)
 library(dplyr)
 library(purrr)
 library(stringr)
+library(kableExtra)
 
 opts_chunk$set(
   collapse = TRUE,
@@ -247,6 +248,7 @@ Using a different approach such as the parametric Analysis Of Varience (ANOVA) w
 
 ### Sample aggregation
 
+Metabolomic data can be aggregated using
 Sample aggregation allows the electronic pooling of samples based on a grouping variable.
 This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
 
@@ -286,25 +288,33 @@ d %>%
 
 Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
 Where and how they are imputed are important considerations and is highly related to variable occupancy.
-Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
+The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
 
 ```{r lda}
 d %>%
+  keepClasses(cls = 'day',classes = c('H','5')) %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
   plotLDA(cls = 'day')
 ```
 
-```{r imputed_lda}
+```{r impute_all_lda}
 d %>%
+  keepClasses(cls = 'day',classes = c('H','5')) %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  imputeAll(nCores = 2) %>%
+  plotLDA(cls = 'day')
+```
+
+Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
+```{r imputed_class_lda}
+d %>%
+  keepClasses(cls = 'day',classes = c('H','5')) %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
   imputeClass(cls = 'day',nCores = 2) %>%
   plotLDA(cls = 'day')
 ```
 
-The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
-Their arguments are shown in the table below.
-
-### Variable filtering based on quality control (QC) samples
+### Feature filtering based on quality control (QC) samples
 
 A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
 Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
@@ -460,7 +470,8 @@ metabolyseR:::preTreatmentElements() %>%
   }) %>%
   set_names(preTreatmentElements()) %>%
   bind_rows(.id = 'Element') %>%
-  kable()
+  kable() %>%
+  collapse_rows(columns = 1)
 ```
 
 ## References
