@@ -204,20 +204,27 @@ It can be seen below that this removes `r nFeatures(d) - nFeatures(minimum_occup
 print(minimum_occupancy_filtered)
 ```
 
-### Batch/block correction
+### Data transformation
 
-There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
-With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
+Prior to downstream analyses, metabolomics data often require a transformation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variability in sample concentration.
 
-```{r day_TICs}
+*metabolyseR* provides a wide range of transformation methods that are commonly used for the analysis of metabolomics data.
+
+```{r transform_RF}
 d %>%
-  plotTIC(by = 'day',colour = 'day')
+  plotSupervisedRF(cls = 'day')
 ```
 
-```{r correction}
+```{r log10_RF}
 d %>%
-  correctionCenter(block = 'day',type = 'median',nCores = 2) %>%
-  plotTIC(by = 'day',colour = 'day')
+  transformLog10() %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+```{r TICnorm_RF}
+d %>%
+  transformTICnorm() %>%
+  plotSupervisedRF(cls = 'day')
 ```
 
 ### Sample aggregation
@@ -240,10 +247,21 @@ day_mean <- d %>%
 ```{r day_mean_pca}
 plotPCA(day_mean,cls = 'day',ellipses = FALSE)
 ```
+### Batch/block correction
 
+There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
+With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
 
+```{r day_TICs}
+d %>%
+  plotTIC(by = 'day',colour = 'day')
+```
 
-The methods and their arguments are shown in the table below.
+```{r correction}
+d %>%
+  correctionCenter(block = 'day',type = 'median',nCores = 2) %>%
+  plotTIC(by = 'day',colour = 'day')
+```
 
 ### Imputation of missing data
 
@@ -266,36 +284,6 @@ d %>%
 
 The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
 Their arguments are shown in the table below.
-
-### Data transformation
-
-Prior to downstream analyses, metabolomics data often require a transformation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variability in sample concentration.
-
-There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
-The methods and their arguments are shown in the table below.
-
-
-```{r occupancy_filter_transform}
-occupancy_filtered <- d %>%
-  occupancyMaximum(cls = 'day',occupancy = 2/3)
-```
-
-```{r transform_RF}
-occupancy_filtered %>%
-  plotSupervisedRF(cls = 'day')
-```
-
-```{r log10_RF}
-occupancy_filtered %>%
-  transformLog10() %>%
-  plotSupervisedRF(cls = 'day')
-```
-
-```{r TICnorm_RF}
-occupancy_filtered %>%
-  transformTICnorm() %>%
-  plotSupervisedRF(cls = 'day')
-```
 
 ### Variable filtering based on quality control (QC) samples
 
