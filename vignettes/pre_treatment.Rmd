@@ -34,6 +34,7 @@ opts_chunk$set(
 
 Metabolomics data from any analytical technique requires various data pre-treatment steps prior to subsequent data mining or other downstream analyses and aids both data quality and integrity.
 It is important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be utilised.
+Careful consideration of the pre-treatment steps to be undertaken are required as they can have substantial influence on the results and inferences taken from metabolomic analyses.
 
 Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
 It itself is made up of a number of elements, which themselves are made up of methods.
@@ -206,14 +207,20 @@ print(minimum_occupancy_filtered)
 
 ### Data transformation
 
-Prior to downstream analyses, metabolomics data often require a transformation step to allow the data to meet the assumptions of a particular statistical inference or account for potential variability in sample concentration.
+Prior to downstream analyses, metabolomics data often require transformation to fulfill the assumptions of a particular statistical/data mining technique.
 
-*metabolyseR* provides a wide range of transformation methods that are commonly used for the analysis of metabolomics data.
+There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
+These methods are all named with the prefix `transform`.
+
+The effects of a transformation on a data set can be assessed using a supervised classifcation approach.
+The following performs a supervised random forest analysis of the example data and plots the results using both multidimensional scaling (MDS) and reciever operator characteristic (ROC) curves. 
 
 ```{r transform_RF}
 d %>%
   plotSupervisedRF(cls = 'day')
 ```
+
+Alternatively a log10 transformation can be applied prior to analysis:
 
 ```{r log10_RF}
 d %>%
@@ -221,11 +228,22 @@ d %>%
   plotSupervisedRF(cls = 'day')
 ```
 
+Or a total ion count (TIC) normalisation where each individual sample is corrected by its TIC.
+This is one method that can be used to account for small variablility in sample concentration. 
+
 ```{r TICnorm_RF}
 d %>%
   transformTICnorm() %>%
   plotSupervisedRF(cls = 'day')
 ```
+
+The margin value is a metric that can be used to assess model perfomance.
+Positive values indicate a models ability, on average, to correctly predict the class labels of the analysed data.
+
+As can bee seen in the plots above, the transformations have little effect on the overall structure of the data set.
+However, there are small increases in the margins of the transformed data (model improvement) with the TIC normalised data having the highest.
+Note that here, a non-parametric machine learning approach has been applied to assess the effects of the transformations on the data.
+Using a different approach such as the parametric Analysis Of Varience (ANOVA) which different underlying assumptions will likely give diffent results to the assessment above.
 
 ### Sample aggregation
 
@@ -247,6 +265,7 @@ day_mean <- d %>%
 ```{r day_mean_pca}
 plotPCA(day_mean,cls = 'day',ellipses = FALSE)
 ```
+
 ### Batch/block correction
 
 There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
@@ -444,3 +463,4 @@ metabolyseR:::preTreatmentElements() %>%
   kable()
 ```
 
+## References
