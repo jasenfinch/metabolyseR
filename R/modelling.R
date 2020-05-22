@@ -131,7 +131,7 @@ setMethod('modelling',signature = 'Analysis',
 #' @rdname explanatoryFeatures
 #' @description Extract explanatory features from modelling results.
 #' @param x S4 object of class RandomForest or Univariate
-#' @param measure importance measure on which to retrieve explanatory feautres
+#' @param metric importance metric on which to retrieve explanatory feautres
 #' @param threshold threshold below which explanatory features are extracted
 #' @param ... arguments to parse to method for specific class
 #' @export
@@ -147,18 +147,40 @@ setMethod('explanatoryFeatures',signature = 'Univariate',
 #' @export
 
 setMethod('explanatoryFeatures',signature = 'RandomForest',
-          function(x,measure = 'FalsePositiveRate', threshold = 0.05){
-            explan <- importance(x) %>%
-              filter(Measure == measure)
+          function(x,metric = 'FalsePositiveRate', threshold = 0.05){
             
-            if ('adjustedPvalue' %in% colnames(explan)) {
+            imp <- x %>%
+              importance()
+            
+            metrics <- c('FalsePositiveRate','MeanDecreaseGini','SelectionFrequency')
+            
+            if (!(metric %in% metrics) | !(metric %in% colnames(imp))) {
+              
+              if ('adjustedPvalue' %in% colnames(imp)) {
+                metrics <- c('"adjustedPvalue"',metrics)
+              }
+              
+              metrics <- str_c('"',metrics,'"')
+              
+              stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+            }
+            
+            if (!(metric %in% 'FalsePositiveRate'))
+              explan <- imp
+                filter(Measure == metic)
+            
+            if (metric == 'adjustedPvalue') {
               explan <- explan %>%
                 filter(adjustedPvalue < threshold)
             } else {
-              message('Permutation results not found, using measure value instead.')
-              explan <- explan %>%
-                filter(Value < threshold)
-            }
+              if (measure == 'FalsePositiveRate') {
+                explan <- explan %>%
+                  filter(Value < threshold) 
+              } else {
+                explan <- explan %>%
+                  filter(Value > threshold)
+              }
+            } 
             
             return(explan)
           }
