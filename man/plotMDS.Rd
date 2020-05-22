@@ -3,6 +3,7 @@
 \name{plotMDS}
 \alias{plotMDS}
 \alias{plotMDS,RandomForest-method}
+\alias{plotMDS,list-method}
 \title{plotMDS}
 \usage{
 plotMDS(
@@ -17,6 +18,17 @@ plotMDS(
 )
 
 \S4method{plotMDS}{RandomForest}(
+  x,
+  cls = "class",
+  label = NULL,
+  shape = FALSE,
+  ellipses = TRUE,
+  title = "",
+  legendPosition = "bottom",
+  labelSize = 2
+)
+
+\S4method{plotMDS}{list}(
   x,
   cls = "class",
   label = NULL,

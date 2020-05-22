@@ -326,6 +326,22 @@ setMethod('plotMDS',signature = 'RandomForest',
           }
 )
 
+#' @rdname plotMDS
+#' @export
+
+setMethod('plotMDS',signature = 'list',
+          function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (F %in% (object_classes == 'RandomForest')) {
+              stop('All objects contained within supplied list should be of class RandomForest',call. = FALSE)
+            }
+            
+            x %>%
+              map(plotMDS,cls = cls,label = label,shape = shape,ellipses = ellipses,title = title,legendPosition = legendPosition,labelSize = labelSize)
+          })
+
 #' plotROC
 #' @rdname plotROC
 #' @description plot reciever operator characteristic curves for a RandomForest object.
