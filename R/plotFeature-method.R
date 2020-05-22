@@ -115,21 +115,3 @@ setMethod('plotFeature',signature = 'AnalysisData',
             pl
           }
 )
-
-#' @rdname plotFeature
-#' @export
-
-setMethod('plotFeature',signature = 'Univariate',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
-            analysis@data %>%
-              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
-          })
-
-#' @rdname plotFeature
-#' @export
-
-setMethod('plotFeature',signature = 'RandomForest',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
-            analysis@data %>%
-              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
-          })
