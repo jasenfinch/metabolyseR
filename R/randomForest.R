@@ -375,7 +375,7 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
 supervised <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,nCores,clusterType){
   i <- x %>%
     sinfo() %>%
-    select(cls)
+    select(all_of(cls))
   
   i %>%
     colnames() %>%
@@ -383,8 +383,8 @@ supervised <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,n
       cls <- .
       
       pred <- i %>%
-        select(cls) %>%
-        unlist()
+        select(all_of(cls)) %>%
+        deframe()
       
       if (is.numeric(pred)) {
         regression(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType)
@@ -410,14 +410,19 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
     group_by_all() %>%
     summarise(n = n())
   
-  if (T %in% (clsFreq$n < 5)) {
+  if (any(clsFreq$n < 5)) {
     clsRem <- clsFreq %>%
       filter(n < 5)
     
     x <- x %>%
-      removeClasses(cls = cls,classes = clsRem$class)
+      removeClasses(cls = cls,classes = clsRem %>%
+                      select(all_of(cls)) %>%
+                      deframe())
     
-    warning(str_c('Classes with < 5 replicates removed: ',str_c(str_c('"',clsRem$class,'"'),collapse = ', ')),call. = F)
+    warning(str_c('Classes with < 5 replicates removed: ',str_c(str_c('"',clsRem %>%
+                                                                        select(all_of(cls)) %>%
+                                                                                 deframe(),
+                                                                      '"'),collapse = ', ')),call. = F)
     
     i <- x %>%
       sinfo() %>%
@@ -739,6 +744,10 @@ setMethod('randomForest',signature = 'AnalysisData',
               res <- unsupervised(x,rf,reps,returnModels,seed,nCores,clusterType)
             } else {
               res <- supervised(x,cls,rf,reps,binary,comparisons,perm,returnModels,seed,nCores,clusterType)
+            }
+            
+            if (is.null(cls) | length(cls) == 1) {
+              res <- res[[1]]
             }
             
             return(res)
