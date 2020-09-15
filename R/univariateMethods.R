@@ -96,7 +96,8 @@ setMethod('anova',signature = 'AnalysisData',
                 }) %>%
                   bind_rows(.id = 'Comparison')
               }) %>%
-              bind_rows(.id = 'Response')
+              bind_rows(.id = 'Response') %>%
+              filter(term == 'response')
             
             res <- new('Univariate')
             res@type <- 'ANOVA'
