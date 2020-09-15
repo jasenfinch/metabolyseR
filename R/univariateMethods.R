@@ -1,4 +1,4 @@
-#' anova
+#' ANOVA
 #' @rdname anova
 #' @description One-way analysis of variance (ANOVA).
 #' @param x S4 object of class AnalysisData
@@ -9,7 +9,7 @@
 #' @param nCores number of cores to use for parallelisation
 #' @param clusterType cluster type to use for parallelisation (`?parallel::makeCluster`)
 #' @importFrom dplyr bind_rows
-#' @importFrom broom glance
+#' @importFrom broom tidy
 #' @export
 
 setMethod('anova',signature = 'AnalysisData',
@@ -20,11 +20,11 @@ setMethod('anova',signature = 'AnalysisData',
             
             i <- x %>%
               sinfo() %>%
-              select(cls)
+              select(all_of(cls))
             
             clsFreq <- i %>%
               group_by_all() %>%
-              summarise(n = n())
+              summarise(n = n(),.groups = 'drop')
             
             if (T %in% (clsFreq$n < 3)) {
               clsRem <- clsFreq %>%
@@ -90,7 +90,7 @@ setMethod('anova',signature = 'AnalysisData',
             results <- models %>%
               map(~{
                 map(.,~{
-                  map(.,glance) %>%
+                  map(.,tidy) %>%
                     bind_rows(.id = 'Feature') %>%
                     mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
                 }) %>%

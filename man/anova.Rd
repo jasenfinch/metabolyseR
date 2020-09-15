@@ -3,7 +3,7 @@
 \name{anova}
 \alias{anova}
 \alias{anova,AnalysisData-method}
-\title{anova}
+\title{ANOVA}
 \usage{
 anova(
   x,
