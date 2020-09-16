@@ -12,7 +12,7 @@ test_that('anova works',{
   
   expect_true(class(res) == 'Univariate')
   expect_identical(class(i),c("tbl_df","tbl","data.frame"))
-  expect_equal(ncol(i),15)
+  expect_equal(ncol(i),10)
   expect_equal(nrow(i),51)
 })
 

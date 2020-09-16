@@ -81,7 +81,7 @@ classificationMeasures <- function(predictions,permutations){
                                          estimate <- levels(p$obs)[1]
                                        }
                                        p %>%
-                                         group_by(Response,Comparison) %>%
+                                         group_by(Response) %>%
                                          roc_auc(obs,estimate)
                                      }) %>%
                                      bind_rows()
@@ -121,7 +121,7 @@ classificationImportance <- function(importances,permutations){
         i %>%
           rowwise() %>%
           mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
-          tbl_df()
+          ungroup()
       }) %>%
       bind_rows() %>%
       group_by(Measure) %>%
@@ -407,7 +407,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
   
   clsFreq <- i %>%
     group_by_all() %>%
-    summarise(n = n())
+    summarise(n = n(),.groups = 'drop')
   
   if (T %in% (clsFreq$n < 5)) {
     clsRem <- clsFreq %>%
@@ -455,7 +455,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
           predFreq <- pred %>%
             tibble(cls = .) %>%
             group_by_all() %>%
-            summarise(n = n())
+            summarise(n = n(),.groups = 'drop')
           
           if (length(unique(predFreq$n)) > 1) {
             message('Unbalanced classes detected. Stratifying sample size to the smallest class size.')
@@ -509,7 +509,8 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
             m <- .
             tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
               bind_cols(m$votes %>%
-                          as_tibble())
+                          as_tibble() %>%
+                          mutate_all(as.numeric))
           }) %>%
             bind_rows(.id = 'Rep') %>%
             mutate(Rep = as.numeric(Rep))

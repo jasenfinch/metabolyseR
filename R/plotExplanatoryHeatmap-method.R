@@ -27,11 +27,11 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
                     dat()) %>%
         gather('Feature','Intensity',-1) %>%
         group_by_at(c(pred,'Feature')) %>%
-        summarise(Intensity = mean(Intensity))
+        summarise(Intensity = mean(Intensity),.groups = 'drop')
       
       sums <- d %>%
         group_by(Feature) %>%
-        summarise(Total = max(Intensity))
+        summarise(Total = max(Intensity),.groups = 'drop')
       
       d <- d %>%
         left_join(sums,by = c('Feature')) %>%
@@ -41,6 +41,7 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
         dend <- d %>%
           select(-Intensity,-Total) %>%
           spread(1,`Relative Intensity`) %>%
+          data.frame(check.names = FALSE) %>%
           set_rownames(.$Feature) %>%
           select(-Feature) %>%
           dist(distanceMeasure) %>%
@@ -51,7 +52,6 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
       clusters <- dend$labels$label
       
       d <- d %>%
-        tbl_df() %>%
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate_at(pred,factor)
       
@@ -156,7 +156,7 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
       clusters <- dend$labels$label
       
       d <- d %>%
-        tbl_df() %>%
+        ungroup() %>%
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate(Response = factor(Response))
       
