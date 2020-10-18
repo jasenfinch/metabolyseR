@@ -8,7 +8,7 @@
 #' @export
 
 setMethod('plotImportance',signature = 'Univariate',
-          function(x, response = 'class'){
+          function(x, response = 'class',rank = TRUE){
             threshold <- 0.05
             res <- x@results
             
@@ -19,6 +19,16 @@ setMethod('plotImportance',signature = 'Univariate',
             res <- res %>%
               filter(Response == response) %>%
               mutate(`-log10(p)` = -log10(adjusted.p.value))
+            
+            if (isTRUE(rank)) {
+              res <- res %>%
+                arrange(`-log10(p)`)
+              
+              rank <- res$Feature
+              
+              res <- res %>%
+                mutate(Feature = factor(Feature,levels = rank))
+            }
             
             pl <- ggplot(res,aes(x = Feature,y = `-log10(p)`)) +
               geom_hline(yintercept = -log10(threshold),linetype = 2,colour = 'red') +
@@ -46,68 +56,63 @@ setMethod('plotImportance',signature = 'Univariate',
 #' @export
 
 setMethod('plotImportance',signature = 'RandomForest',
-          function(x){
+          function(x,metric = 'FalsePositveRate',rank = TRUE){
             
-            res <- importance(x)
+            typ <- type(x)
+            metrics <- importanceMetrics(x)
             
-            if ('adjustedPvalue' %in% colnames(res)) {
+            if (!(metric %in% metrics)) {
+              
+              metrics <- str_c('"',metrics,'"')
+              
+              stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+            }
+            
+            res <- importance(x) %>%
+              filter(Metric == metric)
+            
+            if (isTRUE(rank)) {
               res <- res %>%
-                mutate(`-log10(p)` = -log10(adjustedPvalue))
+                arrange(Value)
               
-              if (x@type == 'classfication') {
-                res <- res %>%
-                  filter(Measure == 'FalsePositiveRate')
-              }
+              rank <- res$Feature
               
-              metric <- '`-log10(p)`'
-            } else {
-              if (x@type == 'unsupervised' | x@type == 'classification') {
-                res <- res %>%
-                  filter(Measure == 'FalsePositiveRate') %>%
-                  mutate(`-log10(fpr)` = -log10(Value))
-                metric <- '`-log10(fpr)`'
-              }
-              
-              if (x@type == 'regression') {
-                metric <- 'IncNodePurity'
-                res <- res %>%
-                  filter(Measure == 'IncNodePurity') %>%
-                  spread(Measure,Value)
-              }
-              
+              res <- res %>%
+                mutate(Feature = factor(Feature,levels = rank))
             }
+          
+            res <- res %>%
+              spread(Metric,Value)
             
-            
-            
-            pl <- ggplot(res,aes_string(x = 'Feature',y =
-                                          metric)) +
-              geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
-              theme_bw() +
-              theme(axis.line.x = element_blank(),
-                    axis.ticks.x = element_blank(),
-                    axis.text.x = element_blank(),
-                    panel.grid = element_blank(),
-                    axis.title = element_text(face = 'bold'),
-                    plot.title = element_text(face = 'bold'))
-            
-            if (x@type != 'unsupervised') {
-              pl <- pl +
-                labs(title = res$Response[1])
-            }
-            
-            if (x@type == 'classification') {
-              pl <- pl +
-                facet_wrap(~Comparison)
-            }
-            
-            return(pl)
+          pl <- ggplot(res,aes(x = Feature,y = !!sym(metric))) +
+            geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
+            theme_bw() +
+            theme(axis.line.x = element_blank(),
+                  axis.ticks.x = element_blank(),
+                  axis.text.x = element_blank(),
+                  panel.grid = element_blank(),
+                  axis.title = element_text(face = 'bold'),
+                  plot.title = element_text(face = 'bold'),
+                  plot.caption = element_text(hjust = -1))
+          
+          if (typ != 'unsupervised') {
+            pl <- pl +
+              labs(title = res$Response[1])
+          }
+          
+          if (typ == 'classification') {
+            pl <- pl +
+              facet_wrap(~Comparison)
+          }
+          
+          return(pl)
           }
 )
 
 #' @rdname plotImportance
 #' @export
 
-setMethod('plotImportance',signature = 'list',function(x){
+setMethod('plotImportance',signature = 'list',function(x,metric = 'FalsePositiveRate'){
   object_classes <- x %>%
     map_chr(class)
   
@@ -116,7 +121,7 @@ setMethod('plotImportance',signature = 'list',function(x){
   }
   
   x %>%
-    map(plotImportance)
+    map(plotImportance,metric = metric)
 })
 
 #' plotMeasures
@@ -314,7 +319,7 @@ setMethod('plotMDS',signature = 'RandomForest',
             }
             
             classLength <- clsLen(x,cls)
-
+            
             pl <- scatterPlot(mds,cls,'Dimension 1','Dimension 2',ellipses,shape,label,labelSize,legendPosition,classLength,title,'Dimension 1','Dimension 2')
             
             if (x@type == 'classification') {
@@ -381,11 +386,11 @@ setMethod('plotROC',signature = 'RandomForest',
                 })
               }) %>%
               bind_rows()
-           
+            
             meas <- x@results$measures %>%
               filter(.metric == 'roc_auc') %>%
               mutate(x = 0.8,y = 0, label = str_c('AUC: ',round(.estimate,3)))
-             
+            
             if ('.level' %in% colnames(preds)) {
               preds <- preds %>%
                 arrange(.level,sensitivity)
@@ -407,9 +412,9 @@ setMethod('plotROC',signature = 'RandomForest',
               }  
             } else {
               
-                preds <- preds %>%
-                  arrange(sensitivity)
-                
+              preds <- preds %>%
+                arrange(sensitivity)
+              
               pl <- preds %>%
                 ggplot() +
                 geom_abline(intercept = 0,linetype = 2,colour = 'grey') +
@@ -422,11 +427,11 @@ setMethod('plotROC',signature = 'RandomForest',
                 labs(title = title)
             }
             
-              pl <- pl +
-                theme(legend.position = legendPosition,
-                      axis.title = element_text(face = 'bold'),
-                      legend.title = element_text(face = 'bold'),
-                      panel.grid = element_blank())
+            pl <- pl +
+              theme(legend.position = legendPosition,
+                    axis.title = element_text(face = 'bold'),
+                    legend.title = element_text(face = 'bold'),
+                    panel.grid = element_blank())
             
             return(pl)
           }
