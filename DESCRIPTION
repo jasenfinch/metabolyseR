@@ -4,9 +4,7 @@ Version: 0.13.1
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
 biocViews: Metabolomics
-Depends: R (>= 3.4.0),
-         magrittr,
-         parallel
+Depends: R (>= 3.4.0)
 Imports: Hmisc,
          dplyr,
          missForest,
@@ -32,7 +30,9 @@ Imports: Hmisc,
          yardstick,
          broom,
          rlang,
-         tidyselect
+         tidyselect,
+         magrittr,
+         parallel
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
