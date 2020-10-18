@@ -13,10 +13,10 @@ setMethod("pre-treatment", signature = "Analysis",
               parameters('pre-treatment')
             d <- raw(x)
             
-            for (i in 1:length(params)) {
+            for (i in seq_along(params)) {
               method <- getPreTreatMethods(names(params)[i])
               m <- lapply(names(params[[i]]),method)
-              for (j in 1:length(m)) {
+              for (j in seq_along(m)) {
                 newPars <- formals(m[[j]])
                 if (!(length(params[[i]][[j]]) == 0)) {
                   newPars[names(params[[i]][[j]])] <- params[[i]][[j]]

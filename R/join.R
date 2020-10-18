@@ -8,7 +8,7 @@ setMethod('bindAnalysesRows',signature = 'list',function(x){
   object_classes <- x %>%
     map_chr(class)
   
-  if (F %in% (object_classes == 'AnalysisData')) {
+  if (FALSE %in% (object_classes == 'AnalysisData')) {
     stop('All objects contained within supplied list should be of class AnalysisData',call. = FALSE)
   }
   

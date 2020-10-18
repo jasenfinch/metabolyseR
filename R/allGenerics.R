@@ -351,34 +351,86 @@ setGeneric("imputeAll",
            })
 
 #' @rdname  imputeClass
-setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
-  standardGeneric("imputeClass")
-})
+setGeneric("imputeClass", 
+           function(
+             d, 
+             cls = 'class', 
+             occupancy = 2/3, 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType(), 
+             seed = 1234) 
+           {
+             standardGeneric("imputeClass")
+           })
 
 #' @rdname  correctionCenter
-setGeneric("correctionCenter", function(d, block = 'block', type = 'median', nCores = detectCores() * 0.75, clusterType = getClusterType()) {
-  standardGeneric("correctionCenter")
-})
+setGeneric("correctionCenter", 
+           function(
+             d, 
+             block = 'block', 
+             type = 'median', 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType()) 
+           {
+             standardGeneric("correctionCenter")
+           })
 
 #' @rdname anova
-setGeneric("anova", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
-  standardGeneric("anova")
-})
+setGeneric("anova", 
+           function(
+             x,
+             cls = 'class', 
+             pAdjust = 'bonferroni', 
+             comparisons = list(), 
+             returnModels = FALSE, 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType()) 
+           {
+             standardGeneric("anova")
+           })
 
 #' @rdname ttest
-setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
-  standardGeneric("ttest")
-})
+setGeneric("ttest", 
+           function(
+             x,
+             cls = 'class', 
+             pAdjust = 'bonferroni', 
+             comparisons = list(), 
+             returnModels = FALSE, 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType()) 
+           {
+             standardGeneric("ttest")
+           })
 
 #' @rdname linearRegression
-setGeneric("linearRegression", function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = FALSE) {
-  standardGeneric("linearRegression")
-})
+setGeneric("linearRegression", 
+           function(
+             x, 
+             cls = 'class', 
+             pAdjust = 'bonferroni', 
+             returnModels = FALSE) 
+           {
+             standardGeneric("linearRegression")
+           })
 
 #' @rdname randomForest
-setGeneric("randomForest", function(x, cls = 'class', rf = list(), reps = 1, binary = FALSE, comparisons = list(), perm = 0, returnModels = FALSE, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
-  standardGeneric("randomForest")
-})
+setGeneric("randomForest", 
+           function(
+             x, 
+             cls = 'class',
+             rf = list(), 
+             reps = 1, 
+             binary = FALSE, 
+             comparisons = list(), 
+             perm = 0, 
+             returnModels = FALSE, 
+             seed = 1234, 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType()) 
+           {
+             standardGeneric("randomForest")
+           })
 
 #' @rdname measures
 setGeneric("measures", function(x) {
@@ -426,9 +478,15 @@ setGeneric('parameters<-',function(x,element,value){
 })
 
 #' @rdname changeParameter
-setGeneric("changeParameter<-", function(x,parameterName,elements = analysisElements(), value) {
-  standardGeneric("changeParameter<-")
-})
+setGeneric("changeParameter<-", 
+           function(
+             x,
+             parameterName,
+             elements = analysisElements(), 
+             value) 
+           {
+             standardGeneric("changeParameter<-")
+           })
 
 #' @rdname clsAvailable
 setGeneric("clsAvailable", function(x,...) {

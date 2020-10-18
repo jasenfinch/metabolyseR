@@ -114,7 +114,7 @@ setMethod('imputeClass',signature = 'AnalysisData',
 #' @importFrom dplyr arrange select
 #' @importFrom doParallel registerDoParallel
 
-imputeMethods <- function(method = NULL, description = F){
+imputeMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     
@@ -139,7 +139,7 @@ imputeMethods <- function(method = NULL, description = F){
                                seed = 'random number seed'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

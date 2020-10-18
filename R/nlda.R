@@ -73,7 +73,7 @@
     names(Tw) <- paste("DF", 1:maxg, sep = "")
     
     ## get stats here
-    flip   <- function(x) x[length(x):1]
+    flip   <- function(x) x[rev(seq_along(x))]
     n      <- dim(dat)[1]
     st     <- matrix(0,length(Tw),3)
     st[,1] <- round(Tw,3)

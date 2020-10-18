@@ -260,7 +260,7 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
               
               if (!is.null(pars)) {
                 p <- parameters(x,'pre-treatment')
-                for (i in 1:length(pars)) {
+                for (i in seq_along(pars)) {
                   p[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- value
                 }
                 parameters(x,'pre-treatment') <- p

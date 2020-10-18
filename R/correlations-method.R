@@ -88,7 +88,7 @@ setMethod('correlations',signature = 'AnalysisData',
 setMethod("correlations", signature = "Analysis",
           function(x){
             verbose <- x@log$verbose
-            if (verbose == T) {
+            if (verbose == TRUE) {
               startTime <- proc.time()
               message(blue('Correlations '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
@@ -110,7 +110,7 @@ setMethod("correlations", signature = "Analysis",
             x@correlations <- rs
             x@log$correlations <- date()
             
-            if (verbose == T) {
+            if (verbose == TRUE) {
               endTime <- proc.time()
               elapsed <- {endTime - startTime} %>%
                 .[3] %>%

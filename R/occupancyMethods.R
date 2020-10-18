@@ -117,7 +117,7 @@ setMethod('occupancy',signature = 'AnalysisData',
             names(vars) <- cls
             
             occ <- clsSize %>%
-              base::split(1:nrow(.)) %>%
+              base::split(seq_len(nrow(.))) %>%
               map(~{
                 cla <- .
                 cl <- d %>%
