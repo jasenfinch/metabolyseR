@@ -4,6 +4,7 @@
 #' @param x S4 object of class AnalysisData.
 #' @param cls sample information column to use
 #' @importFrom utils combn
+#' @export
 
 setMethod('binaryComparisons',signature = 'AnalysisData',
           function(x,cls = 'class'){
@@ -48,7 +49,7 @@ getModellingMethods <- function(method = NULL, description = F){
     randomForest = randomForest
   )
   
-  descriptions = list(
+  descriptions <- list(
     anova = list(description = 'One-way ANOVA',
                  type = 'Univariate',
                  documentation = '?anova'),
@@ -154,7 +155,7 @@ setMethod('explanatoryFeatures',signature = 'RandomForest',
             
             metrics <- c('FalsePositiveRate','MeanDecreaseGini','SelectionFrequency')
             
-            if (!(metric %in% metrics) | !(metric %in% colnames(imp))) {
+            if (!(metric %in% metrics) | !(metric %in% unique(imp$Measure))) {
               
               if ('adjustedPvalue' %in% colnames(imp)) {
                 metrics <- c('"adjustedPvalue"',metrics)
@@ -165,9 +166,10 @@ setMethod('explanatoryFeatures',signature = 'RandomForest',
               stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
             }
             
-            if (!(metric %in% 'FalsePositiveRate'))
+            if (!(metric %in% 'FalsePositiveRate')){
               explan <- imp
-                filter(Measure == metic)
+              filter(Measure == metric)
+            }
             
             if (metric == 'adjustedPvalue') {
               explan <- explan %>%
