@@ -40,7 +40,7 @@ setMethod('correctionCenter',signature = 'AnalysisData',
           }
 )
 
-correctionMethods <- function(method = NULL, description = F){
+correctionMethods <- function(method = NULL, description = FALSE){
   methods <- list(
     center = correctionCenter
   )
@@ -56,7 +56,7 @@ correctionMethods <- function(method = NULL, description = F){
     )
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

@@ -167,7 +167,7 @@ transformMethods <- function(method = NULL, description = F){
     TICnorm = transformTICnorm
   )
   
-  descriptions = list(
+  descriptions <- list(
     center = list(description = 'Mean centering',
                   arguments = c(`''` = '')),
     auto = list(description = 'Auto scaling',
@@ -192,7 +192,7 @@ transformMethods <- function(method = NULL, description = F){
                    arguments = c(`''` = ''))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

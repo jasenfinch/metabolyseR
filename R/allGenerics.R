@@ -80,7 +80,8 @@ setGeneric('plotLDA',
              yAxis = 'DF2', 
              shape = FALSE, 
              ellipses = TRUE, 
-             title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', 
+             title = 'Principle Component - 
+             Linear Discriminant Analysis (PC-LDA) plot', 
              legendPosition = 'bottom', 
              labelSize = 2)
            {
@@ -266,19 +267,41 @@ setGeneric("transformTICnorm", function(d) {
 })
 
 #' @rdname QCoccupancy
-setGeneric("QCoccupancy", function(d,cls = 'class', QCidx = 'QC', occupancy = 2/3) {
-  standardGeneric("QCoccupancy")
-})
+setGeneric("QCoccupancy", 
+           function(
+             d,
+             cls = 'class', 
+             QCidx = 'QC', 
+             occupancy = 2/3) 
+           {
+             standardGeneric("QCoccupancy")
+           })
 
 #' @rdname QCimpute
-setGeneric("QCimpute", function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
-  standardGeneric("QCimpute")
-})
+setGeneric("QCimpute", 
+           function(
+             d, 
+             cls = 'class', 
+             QCidx = 'QC', 
+             occupancy = 2/3, 
+             parallel = 'variables', 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType(), 
+             seed = 1234) 
+           {
+             standardGeneric("QCimpute")
+           })
 
 #' @rdname QCrsdFilter
-setGeneric("QCrsdFilter", function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5) {
-  standardGeneric("QCrsdFilter")
-})
+setGeneric("QCrsdFilter", 
+           function(
+             d,
+             cls = 'class',
+             QCidx = 'QC', 
+             RSDthresh = 0.5) 
+           {
+             standardGeneric("QCrsdFilter")
+           })
 
 #' @rdname QCremove
 setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
@@ -316,9 +339,17 @@ setGeneric("keepFeatures", function(d,features = character()) {
 })
 
 #' @rdname  imputeAll
-setGeneric("imputeAll", function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
-  standardGeneric("imputeAll")
-})
+setGeneric("imputeAll", 
+           function(
+             d, 
+             occupancy = 2/3, 
+             parallel = 'variables', 
+             nCores = detectCores() * 0.75, 
+             clusterType = getClusterType(), 
+             seed = 1234) 
+           {
+             standardGeneric("imputeAll")
+           })
 
 #' @rdname  imputeClass
 setGeneric("imputeClass", function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234) {
@@ -331,22 +362,22 @@ setGeneric("correctionCenter", function(d, block = 'block', type = 'median', nCo
 })
 
 #' @rdname anova
-setGeneric("anova", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+setGeneric("anova", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("anova")
 })
 
 #' @rdname ttest
-setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+setGeneric("ttest", function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("ttest")
 })
 
 #' @rdname linearRegression
-setGeneric("linearRegression", function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = F) {
+setGeneric("linearRegression", function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = FALSE) {
   standardGeneric("linearRegression")
 })
 
 #' @rdname randomForest
-setGeneric("randomForest", function(x, cls = 'class', rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
+setGeneric("randomForest", function(x, cls = 'class', rf = list(), reps = 1, binary = FALSE, comparisons = list(), perm = 0, returnModels = FALSE, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()) {
   standardGeneric("randomForest")
 })
 
