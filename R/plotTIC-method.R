@@ -30,14 +30,24 @@ setMethod('plotTIC',signature = 'AnalysisData',
             info <- sinfo(analysis)
             
             index <- info %>%
-              select(by,colour)
+              select(all_of(c(by,colour)))
             
             d <- d %>%
               bind_cols(index) %>%
               mutate(!!colour := factor(!!sym(colour))) %>%
               rowid_to_column(var = 'ID') %>%
-              gather('Feature','Intensity',-ID,-all_of(c(by,colour))) %>%
-              group_by(ID,!!sym(by),!!sym(colour)) %>%
+              gather('Feature','Intensity',-ID,-all_of(c(by,colour)))
+            
+            if (by != colour) {
+              d <- d %>%
+                group_by(ID,!!sym(by),!!sym(colour))
+            } else {
+              d <- d %>%
+                group_by(ID,!!sym(by))
+                
+            }
+            
+            d <- d %>%
               summarise(TIC = sum(Intensity))
             
             classCheck <- d %>%
