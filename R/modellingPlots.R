@@ -3,6 +3,8 @@
 #' @description Plot univariate or random forest feature importance.
 #' @param x S4 object of class Univariate or RandomForest
 #' @param response Response results to plot
+#' @param metric Importance metric to plot
+#' @param rank Rank feature order for plotting
 #' @param ... arguments to pass to specific method
 #' @importFrom ggplot2 facet_wrap
 #' @export
@@ -56,7 +58,7 @@ setMethod('plotImportance',signature = 'Univariate',
 #' @export
 
 setMethod('plotImportance',signature = 'RandomForest',
-          function(x,metric = 'FalsePositveRate',rank = TRUE){
+          function(x,metric = 'FalsePositiveRate',rank = TRUE){
             
             typ <- type(x)
             metrics <- importanceMetrics(x)

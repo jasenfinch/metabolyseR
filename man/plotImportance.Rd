@@ -9,11 +9,11 @@
 \usage{
 plotImportance(x, ...)
 
-\S4method{plotImportance}{Univariate}(x, response = "class")
+\S4method{plotImportance}{Univariate}(x, response = "class", rank = TRUE)
 
-\S4method{plotImportance}{RandomForest}(x)
+\S4method{plotImportance}{RandomForest}(x, metric = "FalsePositiveRate", rank = TRUE)
 
-\S4method{plotImportance}{list}(x)
+\S4method{plotImportance}{list}(x, metric = "FalsePositiveRate")
 }
 \arguments{
 \item{x}{S4 object of class Univariate or RandomForest}
@@ -21,6 +21,10 @@ plotImportance(x, ...)
 \item{...}{arguments to pass to specific method}
 
 \item{response}{Response results to plot}
+
+\item{rank}{Rank feature order for plotting}
+
+\item{metric}{Importance metric to plot}
 }
 \description{
 Plot univariate or random forest feature importance.
