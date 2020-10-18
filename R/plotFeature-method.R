@@ -18,6 +18,8 @@
 #'     occupancyFilter = list(maximum = list()),
 #'     transform = list(TICnorm = list())
 #' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
+#' plotFeature(analysis,'N133',cls = 'day')
 #' }
 #' @export
 
