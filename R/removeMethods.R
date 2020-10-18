@@ -51,7 +51,7 @@ removeMethods <- function(method = NULL, description = F){
     features = removeFeatures 
   )
   
-  descriptions = list(
+  descriptions <- list(
     samples = list(description = 'remove samples',
                   arguments = c(idx = 'info column containing sample indexes',
                                 samples = 'sample indices to remove')),

@@ -19,8 +19,8 @@
     if (any(is.na(dat)) || any(is.na(cl))) 
       stop("NA is not permitted in data set or class labels.")
     
-    if(is.null(prior)){prior=as.vector(table(cl)/length(cl))}
-    if(is.null(names(prior))){names(prior)=levels(cl)}
+    if(is.null(prior)){prior <- as.vector(table(cl)/length(cl))}
+    if(is.null(names(prior))){names(prior) <- levels(cl)}
     
     pc  <- prcomp(dat,scale=scale)     
     
@@ -47,8 +47,8 @@
     B <- T-W
     
     Ng    <- nrow(score)-g
-    P     <- W/(Ng);
-    eP    <- eigen(P);
+    P     <- W/(Ng)
+    eP    <- eigen(P)
     ord   <- sort.list(eP$values)
     V     <- sweep(eP$vectors[,ord,drop=F], 2, sqrt(colSums(eP$vectors[,ord,drop=F]^2)), "/") 
     Dg    <- eP$values[ord]
@@ -62,12 +62,12 @@
     ratio <- solve(Wn)%*%B
     er    <- eigen(ratio)
     ev    <- Re(er$values)  
-    ev[Im(er$values)>0]=0
+    ev[Im(er$values)>0] <- 0
     vec   <- Re(er$vectors)
     ord   <- sort.list(ev,decreasing=T)
     vec   <- sweep(vec[,ord,drop=F], 2, sqrt(colSums(vec[,ord,drop=F]^2)), "/") 
     ev    <- ev[ord]
-    maxg  <- min(c(g-1,dim(vec)[1]));
+    maxg  <- min(c(g-1,dim(vec)[1]))
     vec   <- vec[,1:maxg]                         ## discriminant functions
     Tw    <- ev[1:maxg]
     names(Tw) <- paste("DF", 1:maxg, sep = "")

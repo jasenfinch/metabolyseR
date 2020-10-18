@@ -33,29 +33,72 @@ setGeneric("preTreated<-", function(x,value) {
 })
 
 #' @rdname plotTIC
-setGeneric('plotTIC', function(analysis, by = 'injOrder', colour = 'block', ...){
-  standardGeneric('plotTIC')
-})
+setGeneric('plotTIC', 
+           function(analysis, 
+                    by = 'injOrder', 
+                    colour = 'block', 
+                    ...){
+             standardGeneric('plotTIC')
+           })
 
 #' @rdname plotRSD
-setGeneric('plotRSD', function(analysis, cls = 'class', ...){
-  standardGeneric('plotRSD')
-})
+setGeneric('plotRSD', 
+           function(analysis, 
+                    cls = 'class', 
+                    ...){
+             standardGeneric('plotRSD')
+           })
 
 #' @rdname plotPCA
-setGeneric('plotPCA', function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA) plot', legendPosition = 'bottom', labelSize = 2){
-  standardGeneric('plotPCA')
-})
+setGeneric('plotPCA', 
+           function(
+             analysis, 
+             cls = 'class', 
+             label = NULL, 
+             scale = TRUE, 
+             center = TRUE, 
+             xAxis = 'PC1', 
+             yAxis = 'PC2', 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             title = 'Principle Component Analysis (PCA) plot',
+             legendPosition = 'bottom', 
+             labelSize = 2)
+           {
+             standardGeneric('plotPCA')
+           })
 
 #' @rdname plotLDA
-setGeneric('plotLDA', function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', legendPosition = 'bottom', labelSize = 2){
-  standardGeneric('plotLDA')
-})
+setGeneric('plotLDA', 
+           function(
+             analysis, 
+             cls = 'class', 
+             label = NULL, 
+             scale = TRUE, 
+             center = TRUE, 
+             xAxis = 'DF1', 
+             yAxis = 'DF2', 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             title = 'Principle Component - Linear Discriminant Analysis (PC-LDA) plot', 
+             legendPosition = 'bottom', 
+             labelSize = 2)
+           {
+             standardGeneric('plotLDA')
+           })
 
 #' @rdname plotFeature
-setGeneric('plotFeature',function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, ...){
-  standardGeneric('plotFeature')
-})
+setGeneric('plotFeature',
+           function(
+             analysis, 
+             feature,
+             cls = 'class', 
+             label = NULL, 
+             labelSize = 2, 
+             ...)
+           {
+             standardGeneric('plotFeature')
+           })
 
 #' @rdname plotExplanatoryHeatmap
 setGeneric('plotExplanatoryHeatmap',function(x, ...){
@@ -63,14 +106,39 @@ setGeneric('plotExplanatoryHeatmap',function(x, ...){
 })
 
 #' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',function(x, cls = 'class', rf = list(), label = NULL,shape = FALSE, ellipses = TRUE, ROC = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
-  standardGeneric('plotSupervisedRF')
-})
+setGeneric('plotSupervisedRF',
+           function(
+             x, 
+             cls = 'class', 
+             rf = list(), 
+             label = NULL,
+             shape = FALSE, 
+             ellipses = TRUE, 
+             ROC = TRUE, 
+             seed = 1234, 
+             title = '', 
+             legendPosition = 'bottom', 
+             labelSize = 2)
+           {
+             standardGeneric('plotSupervisedRF')
+           })
 
 #' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',function(x,cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
-  standardGeneric('plotUnsupervisedRF')
-})
+setGeneric('plotUnsupervisedRF',
+           function(
+             x,
+             cls = 'class', 
+             rf = list(), 
+             label = NULL, 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             seed = 1234, 
+             title = '', 
+             legendPosition = 'bottom', 
+             labelSize = 2)
+           {
+             standardGeneric('plotUnsupervisedRF')
+           })
 
 #' @rdname plotOccupancy
 setGeneric('plotOccupancy',function(x,cls = 'class', ...){
@@ -181,12 +249,12 @@ setGeneric("transformLn", function(d,add = 1) {
 setGeneric("transformLog10", function(d,add = 1) {
   standardGeneric("transformLog10")
 })
-    
+
 #' @rdname transformSQRT
 setGeneric("transformSQRT", function(d) {
   standardGeneric("transformSQRT")
 })
-    
+
 #' @rdname transformArcSine
 setGeneric("transformArcSine", function(d) {
   standardGeneric("transformArcSine")
@@ -389,7 +457,7 @@ setGeneric('binaryComparisons',function(x,cls = 'class'){
 
 #' @rdname exportParameters
 setGeneric('exportParameters',function(x,file = 'analysis_parameters.yaml'){
-standardGeneric('exportParameters')
+  standardGeneric('exportParameters')
 })
 
 #' @rdname analysisResults

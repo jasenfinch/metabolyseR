@@ -99,11 +99,14 @@ aggregateMethods <- function(method = NULL, description = F){
   
   descriptions <- list(
     sum = list(description = 'sum aggregate',
-               arguments = c(cls = 'info column to use for aggregation index')),
+               arguments = c(
+                 cls = 'info column to use for aggregation index')),
     mean = list(description = 'mean aggregate',
-                arguments = c(cls = 'info column to use for aggregation index')),
+                arguments = c(
+                  cls = 'info column to use for aggregation index')),
     median = list(description = 'median aggregate',
-                  arguments = c(cls = 'info column to use for aggregation index'))
+                  arguments = c(
+                    cls = 'info column to use for aggregation index'))
   )
   
   if (description == F) {
