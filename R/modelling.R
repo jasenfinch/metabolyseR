@@ -175,7 +175,7 @@ setMethod('explanatoryFeatures',signature = 'RandomForest',
               explan <- explan %>%
                 filter(adjustedPvalue < threshold)
             } else {
-              if (measure == 'FalsePositiveRate') {
+              if (metric == 'FalsePositiveRate') {
                 explan <- explan %>%
                   filter(Value < threshold) 
               } else {

@@ -16,8 +16,7 @@ plotLDA(
   yAxis = "DF2",
   shape = FALSE,
   ellipses = TRUE,
- 
-    title = "Principle Component - \\n             Linear Discriminant Analysis (PC-LDA) plot",
+  title = "PC-LDA",
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -32,7 +31,7 @@ plotLDA(
   yAxis = "DF2",
   shape = FALSE,
   ellipses = TRUE,
-  title = "Principle Component - Linear Discriminant Analysis (PC-LDA)",
+  title = "PC-LDA",
   legendPosition = "bottom",
   labelSize = 2
 )

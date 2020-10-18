@@ -61,7 +61,7 @@ setGeneric('plotPCA',
              yAxis = 'PC2', 
              shape = FALSE, 
              ellipses = TRUE, 
-             title = 'Principle Component Analysis (PCA) plot',
+             title = 'PCA',
              legendPosition = 'bottom', 
              labelSize = 2)
            {
@@ -80,8 +80,7 @@ setGeneric('plotLDA',
              yAxis = 'DF2', 
              shape = FALSE, 
              ellipses = TRUE, 
-             title = 'Principle Component - 
-             Linear Discriminant Analysis (PC-LDA) plot', 
+             title = 'PC-LDA', 
              legendPosition = 'bottom', 
              labelSize = 2)
            {

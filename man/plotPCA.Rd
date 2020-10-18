@@ -16,7 +16,7 @@ plotPCA(
   yAxis = "PC2",
   shape = FALSE,
   ellipses = TRUE,
-  title = "Principle Component Analysis (PCA) plot",
+  title = "PCA",
   legendPosition = "bottom",
   labelSize = 2
 )

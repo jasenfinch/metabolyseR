@@ -29,7 +29,7 @@
 #' @export
 
 setMethod('plotLDA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
+          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'PC-LDA', legendPosition = 'bottom', labelSize = 2){
             
             classLength <- clsLen(analysis,cls)
             

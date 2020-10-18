@@ -20,11 +20,12 @@ library(dplyr)
 library(purrr)
 library(stringr)
 
-knitr::opts_chunk$set(
+opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  warning = FALSE,
   message = FALSE,
-  warning = FALSE
+  fig.align = 'center'
 )
 ```
 
@@ -99,8 +100,8 @@ classification_rf %>%
 ```
 
 ```{r}
-classification_rf %>%
-  explanatoryFeatures(metric = 'MeanDecreaseGini',threshold = 0.1)
+# classification_rf %>%
+#   explanatoryFeatures(metric = 'MeanDecreaseGini',threshold = 0.1)
 ```
 
 ```{r}
@@ -152,13 +153,13 @@ importance(unsupervised_rf)
 ```
 
 ```{r}
-unsupervised_rf %>%
-  explanatoryFeatures()
+# unsupervised_rf %>%
+#   explanatoryFeatures()
 ```
 
 ```{r}
 unsupervised_rf %>%
-  plotFeature(feature = 'N1089',cls = 'day')
+  plotFeature(feature = 'N153',cls = 'day')
 ```
 
 ## Univariate analyses
@@ -196,5 +197,5 @@ Descriptions of each of the parameters can be found in the documentation for a p
 Modelling analysis can then be performed on the pre-treated data from the previous section.
 
 ```{r classificationAnalysis}
-analysis <- metabolyse(abr1$neg,abr1$fact,p)
+# analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
