@@ -1,6 +1,6 @@
 Package: metabolyseR
 Title: Methods for pre-treatment, data mining and correlation analyses of metabolomics data
-Version: 0.13.1
+Version: 0.13.2
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
 biocViews: Metabolomics
@@ -77,6 +77,7 @@ Collate: allGenerics.R
     preTreatMethods.R
     QCMethods.R
     reAnalyse.R
+    reexports.R
     removeMethods.R
     randomForest.R
     show-method.R

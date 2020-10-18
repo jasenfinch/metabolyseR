@@ -3,7 +3,7 @@
 #' @description Sum aggregation of sample data.
 #' @param d S4 object of class Data
 #' @param cls info column to use for class data
-#' @importFrom dplyr tbl_df arrange_all group_by_all
+#' @importFrom dplyr arrange_all group_by_all
 #' @export
 
 setMethod('aggregateSum',signature = 'AnalysisData',
@@ -14,7 +14,7 @@ setMethod('aggregateSum',signature = 'AnalysisData',
               gather('Feature','Intensity',-Class) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = sum(Intensity)) %>%
-              tbl_df() %>%
+              ungroup() %>%
               spread(Feature,Intensity) %>%
               select(-Class)
             
@@ -44,7 +44,7 @@ setMethod('aggregateMean',signature = 'AnalysisData',
               gather('Feature','Intensity',-Class) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = mean(Intensity)) %>%
-              tbl_df() %>%
+              ungroup() %>%
               spread(Feature,Intensity) %>%
               select(-Class)
             
@@ -74,7 +74,7 @@ setMethod('aggregateMedian',signature = 'AnalysisData',
               gather('Feature','Intensity',-Class) %>%
               group_by(Class,Feature) %>%
               summarise(Intensity = median(Intensity)) %>%
-              tbl_df() %>%
+              ungroup() %>%
               spread(Feature,Intensity) %>%
               select(-Class)
             

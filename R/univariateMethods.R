@@ -1,4 +1,4 @@
-#' anova
+#' ANOVA
 #' @rdname anova
 #' @description One-way analysis of variance (ANOVA).
 #' @param x S4 object of class AnalysisData
@@ -96,7 +96,8 @@ setMethod('anova',signature = 'AnalysisData',
                 }) %>%
                   bind_rows(.id = 'Comparison')
               }) %>%
-              bind_rows(.id = 'Response')
+              bind_rows(.id = 'Response') %>%
+              filter(term == 'response')
             
             res <- new('Univariate')
             res@type <- 'ANOVA'
