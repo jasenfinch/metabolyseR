@@ -217,7 +217,7 @@ setMethod('plotMDS',signature = 'RandomForest',
                     group_by(Sample1,Sample2) %>%
                     summarise(Proximity = mean(Proximity)) %>%
                     spread(Sample2,Proximity) %>%
-                    tbl_df() %>%
+                    ungroup() %>%
                     select(-Sample1)
                 }) 
               suppressWarnings({
