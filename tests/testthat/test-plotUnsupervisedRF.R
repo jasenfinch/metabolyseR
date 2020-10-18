@@ -3,20 +3,8 @@ context('plotUnsupervisedRF')
 
 test_that('plotUnsupervisedRF works',{
   
-  p <- analysisParameters(c('pre-treatment'))
-  
-  parameters(p,'pre-treatment') <- preTreatmentParameters(
-    list(
-      keep = 'classes',
-      occupancyFilter = 'maximum',
-      transform = 'TICnorm' 
-    )
-  )
-  
-  changeParameter(p,'classes') <- c('H','1')
-  changeParameter(p,'cls') <- 'day'
-  
-  d <- metabolyse(abr1$neg[,1:200],abr1$fact,p)
+  d <- analysisData(abr1$neg,abr1$fact) %>%
+    keepFeatures(features = features(.)[200:250])
   
   pl <- plotUnsupervisedRF(d,cls = 'day')
   

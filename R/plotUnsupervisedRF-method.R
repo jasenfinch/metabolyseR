@@ -18,7 +18,7 @@ setMethod('plotUnsupervisedRF', signature = 'AnalysisData',
             
             rf <- randomForest(x,cls = NULL,rf = rf,reps = 1,seed = seed,nCores = 1,clusterType = getClusterType())
             
-            plotMDS(rf[[1]],cls = cls,label = label,shape = shape,ellipses = ellipses,title = title,legendPosition = legendPosition,labelSize = labelSize)
+            plotMDS(rf,cls = cls,label = label,shape = shape,ellipses = ellipses,title = title,legendPosition = legendPosition,labelSize = labelSize)
           }
 )
               
