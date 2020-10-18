@@ -139,7 +139,7 @@ classificationPermutationMeasures <- function(models){
         map(.,~{
           map(.$permutations,~{
             m <- .
-            tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
+            tibble(sample = seq_along(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
               bind_cols(m$votes %>%
                           as_tibble())
           }) %>%
@@ -268,7 +268,7 @@ regressionPermutationMeasures <- function(models){
     map(~{
       map(.$permutations,~{
         m <- .
-        tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted)
+        tibble(sample = seq_along(m$y),obs = m$y,pred = m$predicted)
       }) %>%
         bind_rows(.id = 'Permutation') %>%
         mutate(Permutation = as.numeric(Permutation))
@@ -342,7 +342,7 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
   proximities <- models %>%
     map(.,~{.$proximity %>%
         as_tibble() %>%
-        mutate(Sample = 1:nrow(.)) %>%
+        mutate(Sample = seq_len(nrow(.))) %>%
         gather('Sample2','Proximity',-Sample) %>%
         rename(Sample1 = Sample)
     }) %>%
@@ -516,7 +516,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
         map(.,~{
           map(.$models,~{
             m <- .
-            tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
+            tibble(sample = seq_along(m$y),obs = m$y,pred = m$predicted,margin = margin(m)) %>%
               bind_cols(m$votes %>%
                           as_tibble() %>%
                           mutate_all(as.numeric))
@@ -551,7 +551,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
       map(.,~{
         map(.$models,~{.$proximity %>%
             as_tibble() %>%
-            mutate(Sample = 1:nrow(.)) %>%
+            mutate(Sample = seq_len(nrow(.))) %>%
             gather('Sample2','Proximity',-Sample) %>%
             rename(Sample1 = Sample)
         }) %>%
