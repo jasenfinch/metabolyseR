@@ -4,6 +4,7 @@ Version: 0.13.2
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
 URL:  https://jasenfinch.github.io/metabolyseR
+BugReports: https://github.com/jasenfinch/metabolyseR/issues
 biocViews: Metabolomics
 Depends: R (>= 3.4.0)
 Imports: Hmisc,
