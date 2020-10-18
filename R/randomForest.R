@@ -121,7 +121,7 @@ classificationImportance <- function(importances,permutations){
         i %>%
           rowwise() %>%
           mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
-          tbl_df()
+          ungroup()
       }) %>%
       bind_rows() %>%
       group_by(Measure) %>%
