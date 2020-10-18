@@ -38,21 +38,21 @@ test_that('plotImportance works for random forest classification',{
 })
 
 test_that('plotImportance works for random forest regression',{
-  pl <- plotImportance(regression_rf_res)
+  pl <- plotImportance(regression_rf_res,metric = '%IncMSE')
   
   expect_identical(class(pl),c('gg','ggplot'))
 })
 
-test_that('plotMeasures works for random forest classification',{
+test_that('plotMetrics works for random forest classification',{
   pl <- classification_rf_res %>%
-    plotMeasures()
+    plotMetrics()
   
   expect_identical(class(pl),c('gg','ggplot'))
 })
 
-test_that('plotMeasures works for random forest regression',{
+test_that('plotMetrics works for random forest regression',{
   pl <- regression_rf_res %>%
-    plotMeasures()
+    plotMetrics()
   
   expect_identical(class(pl),c('gg','ggplot'))
 })

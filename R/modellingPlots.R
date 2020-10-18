@@ -126,22 +126,22 @@ setMethod('plotImportance',signature = 'list',function(x,metric = 'FalsePositive
     map(plotImportance,metric = metric)
 })
 
-#' plotMeasures
-#' @rdname plotMeasures
-#' @description Plot random forest model measures.
+#' plotMetrics
+#' @rdname plotMetrics
+#' @description Plot random forest model metrics.
 #' @param x S4 object of class RandomForest
 #' @param response response results to plot
 #' @importFrom ggplot2 xlim
 #' @export
 
-setMethod('plotMeasures',signature = 'RandomForest',
+setMethod('plotMetrics',signature = 'RandomForest',
           function(x){
             
             if (x@type == 'Unsupervised') {
-              stop('No measures to plot for unsupervised random forest.')
+              stop('No metrics to plot for unsupervised random forest.')
             }
             
-            res <- measures(x)
+            res <- metrics(x)
             
             response <- res$Response %>%
               unique()
@@ -175,10 +175,10 @@ setMethod('plotMeasures',signature = 'RandomForest',
           }
 )
 
-#' @rdname plotMeasures
+#' @rdname plotMetrics
 #' @export
 
-setMethod('plotMeasures',signature = 'list',function(x){
+setMethod('plotMetrics',signature = 'list',function(x){
   object_classes <- x %>%
     map_chr(class)
   
@@ -187,7 +187,7 @@ setMethod('plotMeasures',signature = 'list',function(x){
   }
   
   x %>%
-    map(plotMeasures)
+    map(plotMetrics)
 })
 
 #' plotMDS
