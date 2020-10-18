@@ -97,7 +97,7 @@ aggregateMethods <- function(method = NULL, description = F){
     median = aggregateMedian
   )
   
-  descriptions = list(
+  descriptions <- list(
     sum = list(description = 'sum aggregate',
                arguments = c(cls = 'info column to use for aggregation index')),
     mean = list(description = 'mean aggregate',

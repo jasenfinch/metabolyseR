@@ -51,7 +51,7 @@ keepMethods <- function(method = NULL, description = F){
     features = keepFeatures
   )
   
-  descriptions = list(
+  descriptions <- list(
     samples = list(description = 'keep samples',
                    arguments = c(idx = 'info column containing sample indexes',
                                  samples = 'sample indices to keep')),
