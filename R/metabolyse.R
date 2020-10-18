@@ -35,11 +35,11 @@
 #'                        p)
 #' @export
 
-metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T){
+metabolyse <- function(data,info,parameters = analysisParameters(), verbose = TRUE){
   version <- packageVersion('metabolyseR') %>% as.character()
   analysisStart <- date()
   
-  if (verbose == T) {
+  if (verbose == TRUE) {
     startTime <- proc.time()
     message(blue('\nmetabolyseR '),' ',red(str_c('v',version)),' ',analysisStart)
     message(str_c(rep('_',console_width()),collapse = ''))
@@ -71,7 +71,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
     analysis <- analysis %>% method() 
   }
   
-  if (verbose == T) {
+  if (verbose == TRUE) {
     endTime <- proc.time()
     elapsed <- {endTime - startTime} %>%
       .[3] %>%

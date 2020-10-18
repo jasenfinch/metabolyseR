@@ -128,6 +128,30 @@ setMethod('modelling',signature = 'Analysis',
           }
 )
 
+#' type
+#' @rdname type
+#' @description Return the random forest analysis type.
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('type',signature = 'RandomForest',function(x){
+  x@type
+})
+
+#' importanceMetrics
+#' @rdname importanceMetrics
+#' @description Return available importance measures from an object of class RandomForest.
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('importanceMetrics',signature = 'RandomForest',function(x){
+  x %>%
+    importance() %>%
+    .$Metric %>%
+    unique() %>%
+    sort()
+})
+
 #' explanatoryFeatures
 #' @rdname explanatoryFeatures
 #' @description Extract explanatory features from modelling results.
@@ -150,43 +174,75 @@ setMethod('explanatoryFeatures',signature = 'Univariate',
 setMethod('explanatoryFeatures',signature = 'RandomForest',
           function(x,metric = 'FalsePositiveRate', threshold = 0.05){
             
-            imp <- x %>%
-              importance()
+            typ <- type(x)
             
-            metrics <- c('FalsePositiveRate','MeanDecreaseGini','SelectionFrequency')
-            
-            if (!(metric %in% metrics) | !(metric %in% unique(imp$Measure))) {
-              
-              if ('adjustedPvalue' %in% colnames(imp)) {
-                metrics <- c('"adjustedPvalue"',metrics)
-              }
-              
-              metrics <- str_c('"',metrics,'"')
-              
-              stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+            if (typ %in% c('unsupervised','classification')) {
+              explan <- explanatoryFeaturesClassification(x,metric,threshold)
             }
             
-            if (!(metric %in% 'FalsePositiveRate')){
-              explan <- imp
-              filter(Measure == metric)
+            if (typ == 'regression') {
+              explan <- explanatoryFeaturesRegression(x,metric,threshold)
             }
-            
-            if (metric == 'adjustedPvalue') {
-              explan <- explan %>%
-                filter(adjustedPvalue < threshold)
-            } else {
-              if (metric == 'FalsePositiveRate') {
-                explan <- explan %>%
-                  filter(Value < threshold) 
-              } else {
-                explan <- explan %>%
-                  filter(Value > threshold)
-              }
-            } 
             
             return(explan)
           }
 ) 
+
+explanatoryFeaturesClassification <- function(x,metric,threshold){
+  
+  imp <- x %>%
+    importance()
+  
+  metrics <- importanceMetrics(x)
+  
+  if (!(metric %in% metrics)) {
+    
+    metrics <- str_c('"',metrics,'"')
+    
+    stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+  }
+  
+  explan <- imp %>%
+    filter(Metric == metric)
+  
+  if (metric == 'FalsePositiveRate') {
+    explan <- explan %>%
+      filter(Value < threshold) 
+  } else {
+    explan <- explan %>%
+      filter(Value > threshold)
+  }
+  
+  return(explan)
+}
+
+explanatoryFeaturesRegression <- function(x,metric,threshold){
+  
+  imp <- x %>%
+    importance()
+  
+  metrics <- importanceMetrics(x)
+  
+  if (!(metric %in% metrics)) {
+    
+    metrics <- str_c('"',metrics,'"')
+    
+    stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+  }
+  
+  explan <- imp %>%
+    filter(Metric == metric)
+  
+  if (metric == '%IncMSE') {
+    explan <- explan %>%
+      filter(Value < threshold) 
+  } else {
+    explan <- explan %>%
+      filter(Value > threshold)
+  }
+  
+  return(explan)
+}
 
 #' @rdname explanatoryFeatures
 #' @export
@@ -196,8 +252,11 @@ setMethod('explanatoryFeatures',signature = 'list',
             object_classes <- x %>%
               map_chr(class)
             
-            if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
-              stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+            if (FALSE %in% (object_classes == 'RandomForest' | 
+                            object_classes == 'Univariate')) {
+              stop(str_c('All objects contained within supplied ',
+                         'list should be of class RandomForest or Univariate'),
+                   call. = FALSE)
             }
             
             x %>%

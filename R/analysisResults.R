@@ -2,7 +2,8 @@
 #' @rdname analysisResults
 #' @description Extract analysis results for a given analysis element.
 #' @param x S4 object of class Analysis
-#' @param element Analysis element to extract. Should be one of those returned \code{analysisElements()}.
+#' @param element Analysis element to extract. 
+#' Should be one of those returned \code{analysisElements()}.
 #' @export
 
 setMethod('analysisResults',signature = 'Analysis',

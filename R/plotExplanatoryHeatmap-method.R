@@ -294,13 +294,13 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
-          function(x, measure = 'FalsePositiveRate', threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE, dendrogram = TRUE){
+          function(x, metric = 'FalsePositiveRate', threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE, dendrogram = TRUE){
             
             if (x@type == 'unsupervised') {
               stop('Cannot plot heatmap for unsupervised random forest.')
             }
             
-            explan <- explanatoryFeatures(x,measure = measure,threshold = threshold)
+            explan <- explanatoryFeatures(x,metric = metric,threshold = threshold)
             
             if ('Response' %in% colnames(explan)) {
               pl <- explan %>%

@@ -22,7 +22,7 @@ plotExplanatoryHeatmap(x, ...)
 
 \S4method{plotExplanatoryHeatmap}{RandomForest}(
   x,
-  measure = "FalsePositiveRate",
+  metric = "FalsePositiveRate",
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",

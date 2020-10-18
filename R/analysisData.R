@@ -9,7 +9,10 @@
 
 analysisData <- function(data,info){
   if (nrow(data) != nrow(info)) {
-    stop('Number of rows in data should match number of rows in info!')
+    stop(
+      str_c('Number of rows in data should',
+            ' match number of rows in info!'),
+      call. = FALSE)
   }
   
   d <- new('AnalysisData')
@@ -41,7 +44,8 @@ setMethod('features',signature = 'AnalysisData',
 setMethod('features',signature = 'Analysis',
           function(x,type = 'raw'){
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated') {
@@ -77,7 +81,8 @@ setMethod('nFeatures',signature = 'Analysis',
           function(x,type = 'raw'){
             
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated') {
@@ -89,7 +94,7 @@ setMethod('nFeatures',signature = 'Analysis',
                 raw() %>%
                 nFeatures()
             }
-
+            
           })
 
 #' nSamples
@@ -113,7 +118,8 @@ setMethod('nSamples',signature = 'AnalysisData',
 setMethod('nSamples',signature = 'Analysis',
           function(x,type = 'raw'){
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated') {

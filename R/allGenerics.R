@@ -432,9 +432,20 @@ setGeneric("randomForest",
              standardGeneric("randomForest")
            })
 
-#' @rdname measures
-setGeneric("measures", function(x) {
-  standardGeneric("measures")
+
+#' @rdname type
+setGeneric("type", function(x) {
+  standardGeneric("type")
+})
+
+#' @rdname metrics
+setGeneric("metrics", function(x) {
+  standardGeneric("metrics")
+})
+
+#' @rdname importanceMetrics
+setGeneric("importanceMetrics", function(x) {
+  standardGeneric("importanceMetrics")
 })
 
 #' @rdname importance
@@ -458,9 +469,19 @@ setGeneric("plotMeasures", function(x, response = 'class') {
 })
 
 #' @rdname plotMDS
-setGeneric("plotMDS", function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2) {
-  standardGeneric("plotMDS")
-})
+setGeneric("plotMDS", 
+           function(
+             x,
+             cls = 'class', 
+             label = NULL, 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             title = '', 
+             legendPosition = 'bottom', 
+             labelSize = 2) 
+           {
+             standardGeneric("plotMDS")
+           })
 
 #' @rdname plotROC
 setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {

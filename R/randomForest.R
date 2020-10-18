@@ -106,25 +106,25 @@ classificationMeasures <- function(predictions,permutations){
 
 classificationImportance <- function(importances,permutations){
   imps <- importances %>%
-    group_by(Response,Comparison,Feature,Measure) %>%
+    group_by(Response,Comparison,Feature,Metric) %>%
     summarise(Value = mean(Value))
   
   if (length(permutations) > 0) {
     lowertail <- list(MeanDecreaseGini = F,SelectionFrequency = F,FalsePositiveRate = T)
     
     imps <- imps %>%
-      left_join(permutations$importance, by = c("Response","Comparison", "Feature", "Measure")) %>%
-      base::split(.$Measure) %>%
+      left_join(permutations$importance, by = c("Response","Comparison", "Feature", "Metric")) %>%
+      base::split(.$Metric) %>%
       map(~{
         i <- .
-        tail <- lowertail[[i$Measure[1]]]
+        tail <- lowertail[[i$Metric[1]]]
         i %>%
           rowwise() %>%
           mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
           ungroup()
       }) %>%
       bind_rows() %>%
-      group_by(Measure) %>%
+      group_by(Metric) %>%
       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
       select(-Mean,-SD)
   }
@@ -214,8 +214,8 @@ classificationPermutationMeasures <- function(models){
         bind_rows(.id = 'Comparison')
     }) %>%
     bind_rows(.id = 'Response') %>%
-    gather('Measure','Value',-(Response:Feature)) %>%
-    group_by(Response,Comparison,Feature,Measure) %>%
+    gather('Metric','Value',-(Response:Feature)) %>%
+    group_by(Response,Comparison,Feature,Metric) %>%
     summarise(Mean = mean(Value),SD = sd(Value))
   
   return(list(measures = meas,importance = imps))
@@ -248,14 +248,14 @@ regressionMeasures <- function(predictions,permutations){
 
 regressionImportance <- function(importances,permutations){
   imps <- importances %>%
-    group_by(Response,Feature,Measure) %>%
+    group_by(Response,Feature,Metric) %>%
     summarise(Value = mean(Value)) 
   
   if (length(permutations) > 0) {
     imps <- imps %>%
-      left_join(permutations$importance, by = c("Response", "Feature", "Measure")) %>%
+      left_join(permutations$importance, by = c("Response", "Feature", "Metric")) %>%
       mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = F)) %>%
-      group_by(Measure) %>%
+      group_by(Metric) %>%
       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
       select(-Mean,-SD)
   }
@@ -299,8 +299,8 @@ regressionPermutationMeasures <- function(models){
         mutate(Permutation = as.numeric(Permutation))
     }) %>%
     bind_rows(.id = 'Response') %>%
-    gather('Measure','Value',-Response,-Permutation,-Feature) %>%
-    group_by(Response,Feature,Measure) %>%
+    gather('Metric','Value',-Response,-Permutation,-Feature) %>%
+    group_by(Response,Feature,Metric) %>%
     summarise(Mean = mean(Value),SD = sd(Value))
   
   return(list(measures = meas,importance = imps))
@@ -337,7 +337,7 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
     }) %>%
     bind_rows(.id = 'Rep') %>%
     mutate(Rep = as.numeric(Rep)) %>%
-    gather('Measure','Value',-Rep,-Feature)
+    gather('Metric','Value',-Rep,-Feature)
   
   proximities <- models %>%
     map(.,~{.$proximity %>%
@@ -353,7 +353,7 @@ unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
   results <- list(
     importances = importances %>%
       select(-Rep) %>%
-      group_by(Feature,Measure) %>%
+      group_by(Feature,Metric) %>%
       summarise(Value = mean(Value))
   )
   
@@ -544,7 +544,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
         bind_rows(.id = 'Comparison')
     }) %>%
     bind_rows(.id = 'Response') %>%
-    gather('Measure','Value',-(Response:Feature))
+    gather('Metric','Value',-(Response:Feature))
   
   proximities <- models %>%
     map(~{
@@ -663,7 +663,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
         mutate(Rep = as.numeric(Rep))
     }) %>%
     bind_rows(.id = 'Response') %>%
-    gather('Measure','Value',-Response,-Rep,-Feature)
+    gather('Metric','Value',-Response,-Rep,-Feature)
   
   proximities <- models %>%
     map(~{
@@ -738,8 +738,9 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
 setMethod('randomForest',signature = 'AnalysisData',
           function(x, cls = 'class', rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
-            rf$keep.forest <- T
-            rf$proximity <- T
+            rf$keep.forest <- TRUE
+            rf$proximity <- TRUE
+            rf$importance <- TRUE
             
             if (is.null(cls)) {
               res <- unsupervised(x,rf,reps,returnModels,seed,nCores,clusterType)
@@ -756,21 +757,21 @@ setMethod('randomForest',signature = 'AnalysisData',
           }
 )
 
-#' measures
-#' @rdname measures
-#' @description return measures results from a RandomForest object
+#' metrics
+#' @rdname metrics
+#' @description return metrics results from a RandomForest object
 #' @param x S4 object of class RandomForest
 #' @export
 
-setMethod('measures',signature = 'RandomForest',
+setMethod('metrics',signature = 'RandomForest',
           function(x){
             x@results$measures
           }
 )
 
-#' @rdname measures
+#' @rdname metrics
 
-setMethod('measures',signature = 'list',
+setMethod('metrics',signature = 'list',
           function(x){
             object_classes <- x %>%
               map_chr(class)

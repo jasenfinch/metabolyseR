@@ -147,14 +147,14 @@ setMethod('show',signature = 'RandomForest',
             cat('Features:\t',nFeatures(object),'\n')
             
             if (object@type != 'unsupervised') {
-              cat('Response:\t',measures(object) %>%
+              cat('Response:\t',metrics(object) %>%
                     .$Response %>%
                     unique() %>%
                     str_c(collapse = ', '),'\n')  
             }
             
             if (object@type == 'classification') {
-              cat('# comparisons:\t',measures(object) %>%
+              cat('# comparisons:\t',metrics(object) %>%
                     .$Comparison %>%
                     unique() %>%
                     length(),'\n')

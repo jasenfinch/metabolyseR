@@ -12,7 +12,8 @@ analysisResults(x, element)
 \arguments{
 \item{x}{S4 object of class Analysis}
 
-\item{element}{Analysis element to extract. Should be one of those returned \code{analysisElements()}.}
+\item{element}{Analysis element to extract. 
+Should be one of those returned \code{analysisElements()}.}
 }
 \description{
 Extract analysis results for a given analysis element.
