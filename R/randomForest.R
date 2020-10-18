@@ -81,7 +81,7 @@ classificationMeasures <- function(predictions,permutations){
                                          estimate <- levels(p$obs)[1]
                                        }
                                        p %>%
-                                         group_by(Response) %>%
+                                         group_by(Response,Comparison) %>%
                                          roc_auc(obs,estimate)
                                      }) %>%
                                      bind_rows()
