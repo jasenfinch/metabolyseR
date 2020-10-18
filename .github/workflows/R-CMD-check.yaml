@@ -67,13 +67,17 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
+          remotes::install_cran(c("rcmdcheck","goodpractice"))
         shell: Rscript {0}
 
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+        
+      - name: Goodpractice
+        run: goodpractice::goodpractice()
         shell: Rscript {0}
         
       - name: Test coverage
