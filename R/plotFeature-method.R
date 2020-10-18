@@ -18,8 +18,6 @@
 #'     occupancyFilter = list(maximum = list()),
 #'     transform = list(TICnorm = list())
 #' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotFeature(analysis,'N133',cls = 'day')
 #' }
 #' @export
 
@@ -47,6 +45,13 @@ setMethod('plotFeature',signature = 'Analysis',
 
 setMethod('plotFeature',signature = 'AnalysisData',
           function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+            
+            feat <- features(analysis)
+            
+            if (!feature %in% feat) {
+              stop(str_c('Feature "',feature,'" is not present in this dataset'),call. = FALSE)
+            }
+            
             d <- dat(analysis)
             i <- sinfo(analysis)
             
