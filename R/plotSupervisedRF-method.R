@@ -32,11 +32,11 @@ setMethod('plotSupervisedRF',signature = 'AnalysisData',
             
             rf <- randomForest(x,cls = cls,rf = rf,reps = 1,seed = seed,nCores = 1,clusterType = getClusterType())
             
-            pl <- plotMDS(rf[[1]],cls = cls,label = label,ellipses = ellipses,title = '',legendPosition = legendPosition,labelSize = labelSize) +
-              labs(caption = str_c('Margin: ',rf[[1]]@results$measures$.estimate[4] %>% round(3)))
+            pl <- plotMDS(rf,cls = cls,label = label,ellipses = ellipses,title = '',legendPosition = legendPosition,labelSize = labelSize) +
+              labs(caption = str_c('Margin: ',rf@results$measures$.estimate[4] %>% round(3)))
             
-            if (isTRUE(ROC) & rf[[1]]@type == 'classification') {
-              pl <- pl + plotROC(rf[[1]],legendPosition = legendPosition) + plot_annotation(title = title,theme = theme(plot.title = element_text(face = 'bold')))
+            if (isTRUE(ROC) & rf@type == 'classification') {
+              pl <- pl + plotROC(rf,legendPosition = legendPosition) + plot_annotation(title = title,theme = theme(plot.title = element_text(face = 'bold')))
             } else {
               pl <- pl + labs(title = title)
             }
