@@ -10,7 +10,7 @@ ttest(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = F,
+  returnModels = FALSE,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()
 )
