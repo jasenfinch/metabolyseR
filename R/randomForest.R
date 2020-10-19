@@ -781,7 +781,7 @@ setMethod('metrics',signature = 'list',
             }
             
             x %>%
-              map(measures) %>%
+              map(metrics) %>%
               bind_rows()
           })
 

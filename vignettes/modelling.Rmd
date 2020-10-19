@@ -91,7 +91,7 @@ classification_rf <- d %>%
 
 ```{r}
 classification_rf %>%
-  measures()
+  metrics()
 ```
 
 ```{r}
@@ -100,27 +100,31 @@ classification_rf %>%
 ```
 
 ```{r}
-# classification_rf %>%
-#   explanatoryFeatures(metric = 'MeanDecreaseGini',threshold = 0.1)
+importanceMetrics(classification_rf)
+```
+
+```{r}
+classification_rf %>%
+  explanatoryFeatures(metric = 'MeanDecreaseGini',threshold = 0.1)
 ```
 
 ```{r}
 d %>%
   randomForest(cls = c('name','day'),nCores = 2) %>%
-  measures()
+  metrics()
 ```
 
 ```{r}
 d %>%
   randomForest(cls = 'day',comparisons = list(day = '1~2~3'),nCores = 2) %>%
-  measures()
+  metrics()
 ```
 
 ```{r}
 d %>%
   keepClasses(cls = 'day',classes = c('1','2','3')) %>%
   randomForest(cls = 'day',binary = TRUE) %>%
-  plotMeasures()
+  plotMetrics()
 ```
 
 ```{r}
@@ -131,7 +135,7 @@ binaryComparisons(d,cls = 'day')
 d %>%
   randomForest(cls = 'day',
                comparisons = list(day = binaryComparisons(d,cls = 'day')[1:4])) %>%
-  plotMeasures()
+  plotMetrics()
 ```
 
 
@@ -153,8 +157,12 @@ importance(unsupervised_rf)
 ```
 
 ```{r}
-# unsupervised_rf %>%
-#   explanatoryFeatures()
+importanceMetrics(unsupervised_rf)
+```
+
+```{r}
+unsupervised_rf %>%
+  explanatoryFeatures()
 ```
 
 ```{r}
@@ -186,6 +194,7 @@ Parameters for alternative methods or multiple methods can be retrieved using th
 
 ```{r changeModellingParameters}
 parameters(p,'modelling') <- modellingParameters(c('randomForest','ttest'))
+changeParameter(p,'cls') <- 'day'
 ```
 
 ```{r print_parameters}
@@ -197,5 +206,5 @@ Descriptions of each of the parameters can be found in the documentation for a p
 Modelling analysis can then be performed on the pre-treated data from the previous section.
 
 ```{r classificationAnalysis}
-# analysis <- metabolyse(abr1$neg,abr1$fact,p)
+analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
