@@ -21,5 +21,6 @@ raw(x) <- value
 \item{value}{S4 object of class AnalysisData}
 }
 \description{
-Get or set an AnalysisData object from the raw slot of the Analysis class.
+Get or set an AnalysisData object from 
+the raw slot of the Analysis class.
 }

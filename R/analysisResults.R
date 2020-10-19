@@ -11,7 +11,9 @@ setMethod('analysisResults',signature = 'Analysis',
             if (!(element %in% analysisElements())) {
               elements <- analysisElements() %>%
                 str_c('"',.,'"')
-              stop(str_c('Argument "element" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+              stop(str_c('Argument "element" should be one of ',
+                         str_c(elements,collapse = ', '),'.'),
+                   call. = FALSE)
             }
             
             if (element == 'pre-treatment') {
@@ -26,7 +28,8 @@ setMethod('analysisResults',signature = 'Analysis',
 
 #' preTreated
 #' @rdname preTreated
-#' @description Get or set an AnalysisData object from the pre-treated slot of the Analysis class.
+#' @description Get or set an AnalysisData object from 
+#' the pre-treated slot of the Analysis class.
 #' @param x S4 object of class Analysis
 #' @param value S4 object of class AnalysisData 
 #' @export 
@@ -49,7 +52,8 @@ setMethod('preTreated<-',signature = 'Analysis',
 
 #' raw
 #' @rdname raw
-#' @description Get or set an AnalysisData object from the raw slot of the Analysis class.
+#' @description Get or set an AnalysisData object from 
+#' the raw slot of the Analysis class.
 #' @param x S4 object of class Analysis
 #' @param value S4 object of class AnalysisData 
 #' @export 
@@ -73,9 +77,11 @@ setMethod('raw<-',signature = 'Analysis',
 
 #' dat
 #' @rdname dat
-#' @description Return or set sample data in an AnalysisData or Analysis objects.
+#' @description Return or set sample data in an 
+#' AnalysisData or Analysis objects.
 #' @param x S4 object of class AnalysisData or Analysis
-#' @param type data type to extract or set. Should be one of "raw" or "pre-treated" 
+#' @param type data type to extract or set. 
+#' Should be one of "raw" or "pre-treated" 
 #' @param ... arguments to pass to the appropriate method
 #' @param value tibble containing sample data
 #' @export
@@ -101,7 +107,8 @@ setMethod('dat',signature = 'Analysis',
           function(x, type = 'pre-treated'){
             
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be one of "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated') {
@@ -123,7 +130,8 @@ setMethod('dat<-',signature = 'Analysis',
           function(x, type = 'pre-treated', value){
             
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be one of "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated'){
@@ -144,7 +152,8 @@ setMethod('dat<-',signature = 'Analysis',
 #' @rdname sinfo
 #' @description Return sample info from an AnalysisData or Analysis object.
 #' @param x S4 object of class AnalysisData or Analysis
-#' @param type sample information type to extract or set. Should be one of "raw" or "pre-treated" 
+#' @param type sample information type to extract or set. 
+#' Should be one of "raw" or "pre-treated" 
 #' @param ...  arguments to pass to the appropriate method
 #' @param value tibble containing sample info
 #' @export
@@ -171,7 +180,8 @@ setMethod('sinfo',signature = 'Analysis',
           function(x, type = 'raw', value){
             
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be one of "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated') {
@@ -193,7 +203,8 @@ setMethod('sinfo<-',signature = 'Analysis',
           function(x,type = 'raw', value){
             
             if (!(type %in% c('raw','pre-treated'))) {
-              stop('Argument "type" should be one of "raw" or "pre-treated".',call. = FALSE)
+              stop('Argument "type" should be one of "raw" or "pre-treated".',
+                   call. = FALSE)
             }
             
             if (type == 'pre-treated'){

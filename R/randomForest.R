@@ -4,7 +4,7 @@ permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
   i <- x %>%
     sinfo() %>%
     select(cls) %>%
-    unlist(use.names = F)
+    unlist(use.names = FALSE)
   
   if (is.character(i) | is.factor(i)) {
     i <- factor(i)
@@ -95,7 +95,7 @@ classificationMeasures <- function(predictions,permutations){
   if (length(permutations) > 0) {
     meas <- meas %>%
       left_join(permutations$measures, by = c("Response","Comparison", ".metric")) %>%
-      mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = F)) %>%
+      mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = FALSE)) %>%
       select(-Mean,-SD)
   }
   
@@ -110,7 +110,7 @@ classificationImportance <- function(importances,permutations){
     summarise(Value = mean(Value))
   
   if (length(permutations) > 0) {
-    lowertail <- list(MeanDecreaseGini = F,SelectionFrequency = F,FalsePositiveRate = T)
+    lowertail <- list(MeanDecreaseGini = FALSE,SelectionFrequency = FALSE,FalsePositiveRate = TRUE)
     
     imps <- imps %>%
       left_join(permutations$importance, by = c("Response","Comparison", "Feature", "Metric")) %>%
@@ -234,7 +234,7 @@ regressionMeasures <- function(predictions,permutations){
     bind_rows()
   
   if (length(permutations) > 0) {
-    lowertail <- list(rsq = F,mae = T,mape = T,mape = T,rmse = T,ccc = F)
+    lowertail <- list(rsq = FALSE,mae = TRUE,mape = TRUE,mape = TRUE,rmse = TRUE,ccc = FALSE)
     
     meas <- meas %>%
       left_join(permutations$measures, by = c("Response", ".metric")) %>%
@@ -254,7 +254,7 @@ regressionImportance <- function(importances,permutations){
   if (length(permutations) > 0) {
     imps <- imps %>%
       left_join(permutations$importance, by = c("Response", "Feature", "Metric")) %>%
-      mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = F)) %>%
+      mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = FALSE)) %>%
       group_by(Metric) %>%
       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
       select(-Mean,-SD)
@@ -422,7 +422,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
     warning(str_c('Classes with < 5 replicates removed: ',str_c(str_c('"',clsRem %>%
                                                                         select(all_of(cls)) %>%
                                                                                  deframe(),
-                                                                      '"'),collapse = ', ')),call. = F)
+                                                                      '"'),collapse = ', ')),call. = FALSE)
     
     i <- x %>%
       sinfo() %>%
@@ -432,7 +432,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
   if (length(comparisons) > 0) {
     comp <- comparisons
   } else {
-    if (binary == T) {
+    if (binary == TRUE) {
       comp <- map(names(i),~{
         binaryComparisons(x,cls = .x) 
       }) %>%
@@ -458,7 +458,7 @@ classification <- function(x,cls,rf,reps,binary,comparisons,perm,returnModels,se
           pred <- cda %>%
             sinfo() %>%
             select(inf) %>%
-            unlist(use.names = F) %>%
+            unlist(use.names = FALSE) %>%
             factor()
           
           predFreq <- pred %>%
@@ -605,7 +605,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
       
       pred <- i %>%
         select(inf) %>%
-        unlist(use.names = F)
+        unlist(use.names = FALSE)
       
       if (reps < nCores) {
         nSlaves <- reps
@@ -646,7 +646,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
     map(~{
       map(.$models,~{
         m <- .
-        tibble(sample = 1:length(m$y),obs = m$y,pred = m$predicted)
+        tibble(sample = seq_along(m$y),obs = m$y,pred = m$predicted)
       }) %>%
         bind_rows(.id = 'Rep') %>%
         mutate(Rep = as.numeric(Rep))
@@ -669,7 +669,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
     map(~{
       map(.$models,~{.$proximity %>%
           as_tibble() %>%
-          mutate(Sample = 1:nrow(.)) %>%
+          mutate(Sample = seq_len(nrow(.))) %>%
           gather('Sample2','Proximity',-Sample) %>%
           rename(Sample1 = Sample)
       }) %>%
@@ -736,7 +736,7 @@ regression <- function(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType){
 #' @export
 
 setMethod('randomForest',signature = 'AnalysisData',
-          function(x, cls = 'class', rf = list(), reps = 1, binary = F, comparisons = list(), perm = 0, returnModels = F, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x, cls = 'class', rf = list(), reps = 1, binary = FALSE, comparisons = list(), perm = 0, returnModels = FALSE, seed = 1234, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             rf$keep.forest <- TRUE
             rf$proximity <- TRUE
@@ -776,7 +776,7 @@ setMethod('metrics',signature = 'list',
             object_classes <- x %>%
               map_chr(class)
             
-            if (F %in% (object_classes == 'RandomForest')) {
+            if (FALSE %in% (object_classes == 'RandomForest')) {
               stop('All objects contained within supplied list should be of class RandomForest',call. = FALSE)
             }
             
@@ -815,7 +815,7 @@ setMethod('importance',signature = 'list',
             object_classes <- x %>%
               map_chr(class)
             
-            if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
+            if (FALSE %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
               stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
             }
             

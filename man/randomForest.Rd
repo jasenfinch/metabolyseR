@@ -24,10 +24,10 @@ randomForest(
   cls = "class",
   rf = list(),
   reps = 1,
-  binary = F,
+  binary = FALSE,
   comparisons = list(),
   perm = 0,
-  returnModels = F,
+  returnModels = FALSE,
   seed = 1234,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()

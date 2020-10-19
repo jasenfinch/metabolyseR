@@ -1,19 +1,28 @@
 
-doCorrelations <- function(x, method = 'pearson', pAdjustMethod = 'bonferroni', corPvalue = 0.05){
+doCorrelations <- function(x, 
+                           method = 'pearson', 
+                           pAdjustMethod = 'bonferroni', 
+                           corPvalue = 0.05)
+{
   
   methods <- eval(formals(rcorr)$type)
   if (!(method %in% methods)) {
     methods <- str_c('"',methods,'"')
-    stop(str_c('Argument "method" should be one of ',str_c(methods,collapse = ', '),'.'),call. = FALSE)
+    stop(str_c('Argument "method" should be one of ',
+               str_c(methods,collapse = ', '),'.'),
+         call. = FALSE)
   }
   
   if (!(pAdjustMethod %in% p.adjust.methods)) {
     methods <- str_c('"',p.adjust.methods,'"')
-    stop(str_c('Argument "pAdjustMethod" should be one of ',str_c(methods,collapse = ', '),'.'),call. = FALSE)
+    stop(str_c('Argument "pAdjustMethod" should be one of ',
+               str_c(methods,collapse = ', '),'.'),
+         call. = FALSE)
   }
   
   if (!is.numeric(corPvalue) | length(corPvalue) > 1) {
-    stop('Argument "corPvalue" should be a single numeric value.',call. = FALSE)
+    stop('Argument "corPvalue" should be a single numeric value.',
+         call. = FALSE)
   }
   
   d <-  x %>%
@@ -65,8 +74,10 @@ doCorrelations <- function(x, method = 'pearson', pAdjustMethod = 'bonferroni', 
 #' @rdname correlations
 #' @description Calculate variable correlations.
 #' @param x S4 object of class AnalysisData
-#' @param method correlation method. One of \code{'pearson'} or \code{'spearman'}.
-#' @param pAdjustMethod p-value adjustment method. See \code{?p.adjust} for availabl methods.
+#' @param method correlation method. 
+#' One of \code{'pearson'} or \code{'spearman'}.
+#' @param pAdjustMethod p-value adjustment method. 
+#' See \code{?p.adjust} for availabl methods.
 #' @param corPvalue p-value cutoff threshold for significance
 #' @param ... arguments to pass to specific method
 #' @importFrom Hmisc rcorr
@@ -79,7 +90,10 @@ doCorrelations <- function(x, method = 'pearson', pAdjustMethod = 'bonferroni', 
 #' @export
 
 setMethod('correlations',signature = 'AnalysisData',
-          function(x, method = 'pearson', pAdjustMethod = 'bonferroni', corPvalue = 0.05){
+          function(x, 
+                   method = 'pearson', 
+                   pAdjustMethod = 'bonferroni', 
+                   corPvalue = 0.05){
             doCorrelations(x, method = method, pAdjustMethod = pAdjustMethod, corPvalue = corPvalue)
           })
 
@@ -90,7 +104,10 @@ setMethod("correlations", signature = "Analysis",
             verbose <- x@log$verbose
             if (verbose == TRUE) {
               startTime <- proc.time()
-              message(blue('Correlations '),cli::symbol$continue,'\r',appendLF = FALSE) 
+              message(blue('Correlations '),
+                      cli::symbol$continue,
+                      '\r',
+                      appendLF = FALSE) 
             }
             
             params <- x %>%
@@ -105,7 +122,10 @@ setMethod("correlations", signature = "Analysis",
                 raw()
             }
             
-            rs <- correlations(d,params$method,params$pAdjustMethod,params$corPvalue)
+            rs <- correlations(d,
+                               params$method,
+                               params$pAdjustMethod,
+                               params$corPvalue)
             
             x@correlations <- rs
             x@log$correlations <- date()
@@ -117,7 +137,11 @@ setMethod("correlations", signature = "Analysis",
                 round(1) %>%
                 seconds_to_period() %>%
                 str_c('[',.,']')
-              message(blue('\rCorrelations '),'\t',green(cli::symbol$tick),' ',elapsed)
+              message(blue('\rCorrelations '),
+                      '\t',
+                      green(cli::symbol$tick),
+                      ' ',
+                      elapsed)
             }
             return(x)
           }

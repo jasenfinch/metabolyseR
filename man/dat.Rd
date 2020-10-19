@@ -28,8 +28,10 @@ dat(x, ...) <- value
 
 \item{value}{tibble containing sample data}
 
-\item{type}{data type to extract or set. Should be one of "raw" or "pre-treated"}
+\item{type}{data type to extract or set. 
+Should be one of "raw" or "pre-treated"}
 }
 \description{
-Return or set sample data in an AnalysisData or Analysis objects.
+Return or set sample data in an 
+AnalysisData or Analysis objects.
 }

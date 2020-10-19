@@ -28,29 +28,29 @@
     
     if(comprank == TRUE)
       rankmat <- qr(cov(dat)*(dim(dat)[1]-1))$rank
-    score <- pc$x[,1:rankmat,drop=F]  
+    score <- pc$x[,1:rankmat,drop=FALSE]  
     
     g  <- nlevels(cl)
     mx <- apply(score,2,mean)
-    T  <- matrix(0,nrow = rankmat,ncol=rankmat)
+    TRUE  <- matrix(0,nrow = rankmat,ncol=rankmat)
     W  <- matrix(0,nrow = rankmat,ncol=rankmat)
     for(j in 1:g){
       idx <- which(cl==levels(cl)[j])
       L   <- length(idx)
-      K   <- score[idx,,drop=F]         
+      K   <- score[idx,,drop=FALSE]         
       zz  <- apply(K,2,mean)
       A   <- K - t(matrix(rep(mx, L),length(mx),L))
       C   <- K - t(matrix(rep(zz, L),length(zz),L))
-      T   <- T + t(A)%*%A
+      TRUE   <- TRUE + t(A)%*%A
       W   <- W + t(C)%*%C
     }
-    B <- T-W
+    B <- TRUE-W
     
     Ng    <- nrow(score)-g
     P     <- W/(Ng)
     eP    <- eigen(P)
     ord   <- sort.list(eP$values)
-    V     <- sweep(eP$vectors[,ord,drop=F], 2, sqrt(colSums(eP$vectors[,ord,drop=F]^2)), "/") 
+    V     <- sweep(eP$vectors[,ord,drop=FALSE], 2, sqrt(colSums(eP$vectors[,ord,drop=FALSE]^2)), "/") 
     Dg    <- eP$values[ord]
     nDg   <- length(Dg)
     Dmean <- sum(diag(P))/nDg
@@ -64,8 +64,8 @@
     ev    <- Re(er$values)  
     ev[Im(er$values)>0] <- 0
     vec   <- Re(er$vectors)
-    ord   <- sort.list(ev,decreasing=T)
-    vec   <- sweep(vec[,ord,drop=F], 2, sqrt(colSums(vec[,ord,drop=F]^2)), "/") 
+    ord   <- sort.list(ev,decreasing=TRUE)
+    vec   <- sweep(vec[,ord,drop=FALSE], 2, sqrt(colSums(vec[,ord,drop=FALSE]^2)), "/") 
     ev    <- ev[ord]
     maxg  <- min(c(g-1,dim(vec)[1]))
     vec   <- vec[,1:maxg]                         ## discriminant functions
@@ -87,7 +87,7 @@
     res$Tw       <- Tw
     res$rankmat  <- rankmat
     res$means    <- pc$center                        
-    res$loadings <- pc$rotation[,1:rankmat,drop=F]%*%vec  ## discriminant functions with PCA
+    res$loadings <- pc$rotation[,1:rankmat,drop=FALSE]%*%vec  ## discriminant functions with PCA
     
     colnames(res$loadings) <- paste("DF", 1:maxg, sep = "")  
     

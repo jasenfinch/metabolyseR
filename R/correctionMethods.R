@@ -2,14 +2,20 @@
 #' @rdname correctionCenter
 #' @description Batch correction using average centering.
 #' @param d S4 object of class AnalysisData
-#' @param block info column containing sample block groupings to use for correction
+#' @param block info column containing sample block 
+#' groupings to use for correction
 #' @param type averaging to use; eg. mean or median
 #' @param nCores number of cores for parallisation
 #' @param clusterType cluster type for parallisation
 #' @export
 
 setMethod('correctionCenter',signature = 'AnalysisData',
-          function(d, block = 'block', type = 'median', nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(d, 
+                   block = 'block', 
+                   type = 'median', 
+                   nCores = detectCores() * 0.75, 
+                   clusterType = getClusterType())
+          {
             method <- get(type)
             batches <- sinfo(d)[,block] %>% unlist()
             
@@ -48,7 +54,8 @@ correctionMethods <- function(method = NULL, description = FALSE){
   descriptions <- list(
     center = list(
       description = 'Batch correction using average centering.',
-      arguments = c(block = 'info column containing sample block groupings to use for correction',
+      arguments = c(block = str_c('info column containing sample block ',
+                                  'groupings to use for correction'),
                     type = 'averaging to use; eg. mean or median',
                     nCores = 'number of cores for parallisation',
                     clusterType = 'cluster type for parallisation'

@@ -28,7 +28,8 @@ sinfo(x, ...) <- value
 
 \item{value}{tibble containing sample info}
 
-\item{type}{sample information type to extract or set. Should be one of "raw" or "pre-treated"}
+\item{type}{sample information type to extract or set. 
+Should be one of "raw" or "pre-treated"}
 }
 \description{
 Return sample info from an AnalysisData or Analysis object.

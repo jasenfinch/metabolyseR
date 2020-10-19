@@ -118,7 +118,7 @@ setMethod('plotImportance',signature = 'list',function(x,metric = 'FalsePositive
   object_classes <- x %>%
     map_chr(class)
   
-  if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
+  if (FALSE %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
     stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
   }
   
@@ -182,7 +182,7 @@ setMethod('plotMetrics',signature = 'list',function(x){
   object_classes <- x %>%
     map_chr(class)
   
-  if (F %in% (object_classes == 'RandomForest')) {
+  if (FALSE %in% (object_classes == 'RandomForest')) {
     stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
   }
   
@@ -341,7 +341,7 @@ setMethod('plotMDS',signature = 'list',
             object_classes <- x %>%
               map_chr(class)
             
-            if (F %in% (object_classes == 'RandomForest')) {
+            if (FALSE %in% (object_classes == 'RandomForest')) {
               stop('All objects contained within supplied list should be of class RandomForest',call. = FALSE)
             }
             

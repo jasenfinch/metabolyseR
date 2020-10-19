@@ -40,7 +40,7 @@ modellingMethods <- function(){
     names()
 }
 
-getModellingMethods <- function(method = NULL, description = F){
+getModellingMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     anova = anova,
@@ -64,7 +64,7 @@ getModellingMethods <- function(method = NULL, description = F){
                         documentation = '?randomForest')
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {
@@ -83,7 +83,7 @@ getModellingMethods <- function(method = NULL, description = F){
 setMethod('modelling',signature = 'Analysis',
           function(x){
             verbose <- x@log$verbose
-            if (verbose == T) {
+            if (verbose == TRUE) {
               startTime <- proc.time()
               message(blue('Modelling '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
@@ -115,7 +115,7 @@ setMethod('modelling',signature = 'Analysis',
             x@modelling <- res
             x@log$modelling <- date()
             
-            if (verbose == T) {
+            if (verbose == TRUE) {
               endTime <- proc.time()
               elapsed <- {endTime - startTime} %>%
                 .[3] %>%
