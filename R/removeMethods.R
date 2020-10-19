@@ -44,7 +44,7 @@ setMethod('removeFeatures',signature = 'AnalysisData',
           }
 )
 
-removeMethods <- function(method = NULL, description = F){
+removeMethods <- function(method = NULL, description = FALSE){
   methods <- list(
     samples = removeSamples,
     classes = removeClasses,
@@ -62,7 +62,7 @@ removeMethods <- function(method = NULL, description = F){
                     arguments = c(features = 'features to remove'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

@@ -49,7 +49,7 @@ setMethod('plotSupervisedRF',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(x, cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = T, ROC = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
+          function(x, cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = TRUE, ROC = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
             
             if (ncol(x %>% dat(type = 'pre-treated')) > 0) {
               d <- preTreated(x)

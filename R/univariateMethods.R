@@ -13,7 +13,7 @@
 #' @export
 
 setMethod('anova',signature = 'AnalysisData',
-          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             d <- x %>%
               dat()
@@ -26,14 +26,14 @@ setMethod('anova',signature = 'AnalysisData',
               group_by_all() %>%
               summarise(n = n(),.groups = 'drop')
             
-            if (T %in% (clsFreq$n < 3)) {
+            if (TRUE %in% (clsFreq$n < 3)) {
               clsRem <- clsFreq %>%
                 filter(n < 3)
               
               x <- x %>%
                 removeClasses(cls = cls,classes = clsRem$class)
               
-              warning(str_c('Classes with < 3 replicates removed: ',str_c(str_c('"',clsRem$class,'"'),collapse = ', ')),call. = F)
+              warning(str_c('Classes with < 3 replicates removed: ',str_c(str_c('"',clsRem$class,'"'),collapse = ', ')),call. = FALSE)
               
               i <- x %>%
                 sinfo() %>%
@@ -105,7 +105,7 @@ setMethod('anova',signature = 'AnalysisData',
             sinfo(res) <- sinfo(x)
             res@results <- results
             
-            if (returnModels == T) {
+            if (returnModels == TRUE) {
               res@models <- models
             } 
             
@@ -128,7 +128,7 @@ setMethod('anova',signature = 'AnalysisData',
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = F, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()){
             
             if (length(comparisons > 0)) {
               pw <- comparisons
@@ -196,7 +196,7 @@ setMethod('ttest',signature = 'AnalysisData',
             sinfo(res) <- sinfo(x)
             res@results <- results
             
-            if (returnModels == T) {
+            if (returnModels == TRUE) {
               res@models <- models
             } 
             
@@ -214,7 +214,7 @@ setMethod('ttest',signature = 'AnalysisData',
 #' @export
 
 setMethod('linearRegression',signature = 'AnalysisData',
-          function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = F){
+          function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = FALSE){
             indep <- x %>%
               sinfo() %>%
               select(cls)
@@ -258,7 +258,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
             sinfo(res) <- sinfo(x)
             res@results <- results
             
-            if (returnModels == T) {
+            if (returnModels == TRUE) {
               res@models <- models
             } 
             

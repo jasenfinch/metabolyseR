@@ -94,7 +94,10 @@ setMethod('correlations',signature = 'AnalysisData',
                    method = 'pearson', 
                    pAdjustMethod = 'bonferroni', 
                    corPvalue = 0.05){
-            doCorrelations(x, method = method, pAdjustMethod = pAdjustMethod, corPvalue = corPvalue)
+            doCorrelations(x, 
+                           method = method,
+                           pAdjustMethod = pAdjustMethod, 
+                           corPvalue = corPvalue)
           })
 
 #' @rdname correlations

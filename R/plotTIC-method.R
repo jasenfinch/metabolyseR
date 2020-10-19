@@ -64,7 +64,7 @@ setMethod('plotTIC',signature = 'AnalysisData',
               theme_bw() +
               xlab(by)
             
-            if (T %in% (classCheck$Frequency > 1)) {
+            if (TRUE %in% (classCheck$Frequency > 1)) {
               pl <- pl + 
                 geom_boxplot(aes(group = !!sym(by)),outlier.shape = NA,colour = 'black') +
                 geom_point(aes(fill = !!sym(colour)),shape = 21,position = 'jitter') +

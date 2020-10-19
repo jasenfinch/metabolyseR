@@ -11,7 +11,7 @@ setMethod('show',signature = 'AnalysisParameters',
             elements <- analysisElements()
             elements <- elements[sapply(elements, function(x,object){
               length(slot(object,x)) != 0
-            },object = object) == T]
+            },object = object) == TRUE]
             names(elements) <- elements
             
             if ('pre-treatment' %in% elements) {
@@ -76,7 +76,7 @@ setMethod('show',signature = 'Analysis',
             elements <- elements[4:length(elements)]
             elements <- elements[sapply(elements, function(x,object){
               length(slot(object,x)) != 0
-            },object = object) == T]
+            },object = object) == TRUE]
             names(elements) <- elements
             
             time <- object@log$analysis

@@ -30,10 +30,10 @@
 #' analysis <- reAnalyse(analysis,parameters = analysisParameters('correlations'))
 #' @export
 
-reAnalyse <- function(analysis,parameters = analysisParameters(), verbose = T){
+reAnalyse <- function(analysis,parameters = analysisParameters(), verbose = TRUE){
   version <- packageVersion('metabolyseR') %>% as.character()
   analysisStart <- date()
-  if (verbose == T) {
+  if (verbose == TRUE) {
     startTime <- proc.time()
     cat('\n',blue('metabolyseR'),' ',red(str_c('v',version)),' ',analysisStart,'\n',sep = '')
     cat(rep('_',console_width()),'\n',sep = '')
@@ -50,7 +50,7 @@ reAnalyse <- function(analysis,parameters = analysisParameters(), verbose = T){
     analysis <- analysis %>% method() 
   }
   
-  if (verbose == T) {
+  if (verbose == TRUE) {
     endTime <- proc.time()
     elapsed <- {endTime - startTime} %>%
       .[3] %>%

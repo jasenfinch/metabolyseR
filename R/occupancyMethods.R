@@ -43,7 +43,7 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
           }
 )
 
-occupancyMethods <- function(method = NULL, description = F){
+occupancyMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     maximum = occupancyMaximum, 
@@ -59,7 +59,7 @@ occupancyMethods <- function(method = NULL, description = F){
                                  occupancy = 'occupancy threshold'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

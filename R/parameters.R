@@ -162,7 +162,7 @@ checkModellingParameters <- function(value){
 }
 
 checkCorrelationParameters <- function(value){
-  if (F %in% (names(value) %in% names(correlationsParameters()))) {
+  if (FALSE %in% (names(value) %in% names(correlationsParameters()))) {
     p <- names(correlationsParameters()) %>%
       str_c('"',.,'"')
     stop(str_c('Correlation parameter values should match',str_c(p,collapse = ', '),'.'))
@@ -231,7 +231,7 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
             
             ele <- analysisElements()
             
-            if (F %in% (map_lgl(elements,~{. %in% ele}))) {
+            if (FALSE %in% (map_lgl(elements,~{. %in% ele}))) {
               e <- str_c('"',ele,'"')
               stop(str_c('Elements can only include ',str_c(e,collapse = ', ')))
             }
@@ -256,7 +256,7 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
                 },pars = pars,n = x)
                 return(pars)
               },pars = pars)
-              pars <- unlist(pars,recursive = F)
+              pars <- unlist(pars,recursive = FALSE)
               
               if (!is.null(pars)) {
                 p <- parameters(x,'pre-treatment')
@@ -358,7 +358,7 @@ modellingParameters <- function(methods){
     stop('Argument "methods" should be a character vector.',call. = FALSE)
   }
   
-  if (F %in% (methods %in% modellingMethods())) {
+  if (FALSE %in% (methods %in% modellingMethods())) {
     stop(str_c('Modelling method not found! Methods should be one of: ',str_c(modellingMethods(),collapse = ', '),'.'))
   }
   
@@ -411,7 +411,7 @@ parseParameters <- function(path){
         map(.,~{
           map(.,~{
             if (is.list(.)) {
-              . <- unlist(.,use.names = F)
+              . <- unlist(.,use.names = FALSE)
             }
             return(.)
           })

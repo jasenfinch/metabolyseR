@@ -4,7 +4,7 @@
 setMethod("pre-treatment", signature = "Analysis",
           function(x){
             verbose <- x@log$verbose
-            if (verbose == T) {
+            if (verbose == TRUE) {
               startTime <- proc.time()
               message(blue('Pre-treatment '),cli::symbol$continue,'\r',appendLF = FALSE) 
             }
@@ -28,7 +28,7 @@ setMethod("pre-treatment", signature = "Analysis",
             preTreated(x) <- d
             x@log$preTreatment <- date()
             
-            if (verbose == T) {
+            if (verbose == TRUE) {
               endTime <- proc.time()
               elapsed <- {endTime - startTime} %>%
                 .[3] %>%

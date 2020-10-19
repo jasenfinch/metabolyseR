@@ -103,7 +103,7 @@ setMethod('plotRSD',signature = 'Analysis',
             }
             
             rsd <- d %>% 
-              metabolyse(.,info = i, parameters = QCparameters,verbose = F) %>%
+              metabolyse(.,info = i, parameters = QCparameters,verbose = FALSE) %>%
               dat(type = 'pre-treated') %>%
               gather('Feature','Intensity') %>%
               group_by(Feature) %>%

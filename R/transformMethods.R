@@ -6,7 +6,7 @@
 
 setMethod('transformCenter',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. - mean(.,na.rm = T)})
+            dat(d) <- map_df(d %>% dat(),~{. - mean(.,na.rm = TRUE)})
             return(d)
           }
 )
@@ -19,7 +19,7 @@ setMethod('transformCenter',signature = 'AnalysisData',
 
 setMethod('transformAuto',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / sd(.,na.rm = T)})
+            dat(d) <- map_df(d %>% dat(),~{. / sd(.,na.rm = TRUE)})
             return(d)
           }
 )
@@ -32,7 +32,7 @@ setMethod('transformAuto',signature = 'AnalysisData',
 
 setMethod('transformRange',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{(. - min(.,na.rm = T)) / (max(.,na.rm = T) - min(.,na.rm = T))})
+            dat(d) <- map_df(d %>% dat(),~{(. - min(.,na.rm = TRUE)) / (max(.,na.rm = TRUE) - min(.,na.rm = TRUE))})
             return(d)
           }
 )
@@ -45,7 +45,7 @@ setMethod('transformRange',signature = 'AnalysisData',
 
 setMethod('transformPareto',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = T)/sqrt(sd(.,na.rm = T))})
+            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = TRUE)/sqrt(sd(.,na.rm = TRUE))})
             return(d)
           }
 )
@@ -58,7 +58,7 @@ setMethod('transformPareto',signature = 'AnalysisData',
 
 setMethod('transformVast',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. * mean(.,na.rm = T)/sd(.,na.rm = T)^2})
+            dat(d) <- map_df(d %>% dat(),~{. * mean(.,na.rm = TRUE)/sd(.,na.rm = TRUE)^2})
             return(d)
           }
 )
@@ -71,7 +71,7 @@ setMethod('transformVast',signature = 'AnalysisData',
 
 setMethod('transformLevel',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = T)})
+            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = TRUE)})
             return(d)
           }
 )
@@ -150,7 +150,7 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
           }
 )
 
-transformMethods <- function(method = NULL, description = F){
+transformMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     

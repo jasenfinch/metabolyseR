@@ -327,11 +327,11 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'list',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE){
             object_classes <- x %>%
               map_chr(class)
             
-            if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
+            if (FALSE %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
               stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
             }
             
@@ -344,7 +344,7 @@ setMethod('plotExplanatoryHeatmap',signature = 'list',
 #' @export
 
 setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = T){
+          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE){
             x %>%
               analysisResults(element = 'modelling') %>%
               map(~{

@@ -99,7 +99,7 @@ setMethod('QCremove',signature = 'AnalysisData',
           }
 )
 
-QCMethods <- function(method = NULL, description = F){
+QCMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     occupancyFilter = QCoccupancy,
@@ -131,7 +131,7 @@ QCMethods <- function(method = NULL, description = F){
                                   QCidx = 'QC sample label'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {
