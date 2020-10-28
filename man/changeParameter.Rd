@@ -14,7 +14,8 @@ changeParameter(x, parameterName, elements = analysisElements()) <- value
 
 \item{parameterName}{Name of the parameter to change}
 
-\item{elements}{Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.}
+\item{elements}{Character vector of analysis elements to target parameter 
+change. Can be any returned by \code{analysisElements}.}
 
 \item{value}{New value of the parameter}
 }
@@ -22,8 +23,9 @@ changeParameter(x, parameterName, elements = analysisElements()) <- value
 change analysis parameters
 }
 \details{
-For the parameter name selected, all parameters with that name will be altered.
-To individually change identically named parameters use the \code{@} operator to access the appropriate slot directly.
+For the parameter name selected, all parameters with that name will 
+be altered. To individually change identically named parameters use 
+the \code{@} operator to access the appropriate slot directly.
 }
 \examples{
 p <- analysisParameters()

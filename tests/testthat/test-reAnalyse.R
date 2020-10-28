@@ -18,7 +18,9 @@ test_that('reAnalyse works',{
                          abr1$fact,
                          p,verbose = FALSE)
   
-  analysis <- reAnalyse(analysis,parameters = analysisParameters('correlations'),verbose = FALSE)
+  analysis <- reAnalyse(analysis,
+                        parameters = analysisParameters('correlations'),
+                        verbose = FALSE)
   
   expect_identical(class(analysis@correlations),c("tbl_df","tbl","data.frame"))
 })

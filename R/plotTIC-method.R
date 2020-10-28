@@ -1,7 +1,8 @@
 #' plotTIC
 #' @rdname plotTIC
 #' @description Plot total ion counts of sample raw data.
-#' @param analysis object of class Analysis or AnalysisData containing analysis results
+#' @param analysis object of class Analysis or AnalysisData containing 
+#' analysis results
 #' @param by info column to plot against
 #' @param colour info column to provide colour labels
 #' @param type \code{raw} or \code{preTreated} sample information
@@ -66,11 +67,17 @@ setMethod('plotTIC',signature = 'AnalysisData',
             
             if (TRUE %in% (classCheck$Frequency > 1)) {
               pl <- pl + 
-                geom_boxplot(aes(group = !!sym(by)),outlier.shape = NA,colour = 'black') +
-                geom_point(aes(fill = !!sym(colour)),shape = 21,position = 'jitter') +
+                geom_boxplot(aes(group = !!sym(by)),
+                             outlier.shape = NA,
+                             colour = 'black') +
+                geom_point(aes(fill = !!sym(colour)),
+                           shape = 21,
+                           position = 'jitter') +
                 guides(fill = FALSE)
             } else {
-              pl <- pl + geom_point(aes(fill = !!sym(colour)),shape = 21,size = 3)
+              pl <- pl + geom_point(aes(fill = !!sym(colour)),
+                                    shape = 21,
+                                    size = 3)
             }
             
             if (colourFreq <= 12) {
@@ -79,7 +86,9 @@ setMethod('plotTIC',signature = 'AnalysisData',
               if (colourFreq %% 12 == 0) {
                 pal <- rep(ptol_pal()(12),nrow(classCheck) / 12)
               } else {
-                pal <- c(rep(ptol_pal()(12),floor(nrow(classCheck) / 12)),ptol_pal()(12)[1:(nrow(classCheck) %% 12)])
+                pal <- c(rep(ptol_pal()(12),
+                             floor(nrow(classCheck) / 12)),
+                         ptol_pal()(12)[1:(nrow(classCheck) %% 12)])
               }
               pl <- pl + scale_fill_manual(values = pal,name = colour)
             }
@@ -95,7 +104,10 @@ setMethod('plotTIC',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',
-          function(analysis, by = 'injOrder', colour = 'block', type = 'raw') {
+          function(analysis, 
+                   by = 'injOrder', 
+                   colour = 'block', 
+                   type = 'raw') {
             ty <- get(type)
             
             ty(analysis) %>%

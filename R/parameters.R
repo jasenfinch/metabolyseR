@@ -10,7 +10,8 @@ analysisElements <- function(){
 
 #' analysisParameters
 #' @description Initiate default analysis parameters for analysis elements.
-#' @param elements character vector containing elements for analysis. Default includes all available elements from \code{analysisElements}.
+#' @param elements character vector containing elements for analysis. 
+#' Default includes all available elements from \code{analysisElements}.
 #' @importFrom parallel detectCores
 #' @importFrom methods new
 #' @export
@@ -18,13 +19,19 @@ analysisElements <- function(){
 analysisParameters <- function(elements = analysisElements()){
   
   if (!is.character(elements)) {
-    stop('Argument "elements" should be a character vector.',call. = FALSE)
+    stop(
+      'Argument "elements" should be a character vector.',
+      call. = FALSE)
   }
   
   if (FALSE %in% (elements %in% analysisElements())) {
     elements <- analysisElements() %>%
       str_c('"',.,'"')
-    stop(str_c('Vector elements of argument "elements" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+    stop(
+      str_c('Vector elements of argument "elements" should be one of ',
+            str_c(elements,collapse = ', '),
+            '.'),
+      call. = FALSE)
   }
   
   preTreat <- list()
@@ -32,14 +39,19 @@ analysisParameters <- function(elements = analysisElements()){
   correlations <- list()
   
   if ('pre-treatment' %in% elements) {
-    preTreat <- list(QC = list(occupancyFilter = as.list(formals(QCMethods('occupancyFilter'))[-1]),
-                               impute = as.list(formals(QCMethods('impute'))[-1]),
-                               RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
-                               removeQC = as.list(formals(QCMethods('removeQC'))[-1])
-    ), 
-    occupancyFilter = list(maximum = as.list(formals(occupancyMethods('maximum'))[-1])),
-    impute = list(class = as.list(formals(imputeMethods('class'))[-1])),
-    transform = list(TICnorm = as.list(formals(transformMethods('TICnorm'))[-1]))
+    preTreat <- list(
+      QC = list(
+        occupancyFilter = as.list(
+          formals(QCMethods('occupancyFilter'))[-1]),
+        impute = as.list(formals(QCMethods('impute'))[-1]),
+        RSDfilter = as.list(formals(QCMethods('RSDfilter'))[-1]),
+        removeQC = as.list(formals(QCMethods('removeQC'))[-1])
+      ), 
+      occupancyFilter = list(
+        maximum = as.list(formals(occupancyMethods('maximum'))[-1])),
+      impute = list(class = as.list(formals(imputeMethods('class'))[-1])),
+      transform = list(
+        TICnorm = as.list(formals(transformMethods('TICnorm'))[-1]))
     )
   }
   
@@ -66,9 +78,11 @@ analysisParameters <- function(elements = analysisElements()){
 
 #' parameters
 #' @rdname parameters
-#' @description Extract parameters from an Analysis object or extract or set parameters in an AnalysisParameters object.
+#' @description Extract parameters from an Analysis object or 
+#' extract or set parameters in an AnalysisParameters object.
 #' @param x S4 object of class Analysis
-#' @param element analysis element for parameters to extract or assign. Should be one of those returned by \code{analysisElements()}
+#' @param element analysis element for parameters to extract or assign. 
+#' Should be one of those returned by \code{analysisElements()}
 #' @param value list containing parameter values
 #' @param ... arguments to pass to the appropriate method
 #' @examples 
@@ -109,7 +123,10 @@ setMethod('parameters',signature = 'AnalysisParameters',
             if (!(element %in% analysisElements())) {
               elements <- analysisElements() %>%
                 str_c('"',.,'"')
-              stop(str_c('Argument "element" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+              stop(
+                str_c('Argument "element" should be one of ',
+                      str_c(elements,collapse = ', '),'.'),
+                call. = FALSE)
             }
             slot(x,element)
           }
@@ -123,7 +140,11 @@ setMethod('parameters<-',signature = 'AnalysisParameters',
             if (!(element %in% analysisElements())) {
               elements <- analysisElements() %>%
                 str_c('"',.,'"')
-              stop(str_c('Argument "element" should be one of ',str_c(elements,collapse = ', '),'.'),call. = FALSE)
+              stop(
+                str_c('Argument "element" should be one of ',
+                      str_c(elements,collapse = ', ')
+                      ,'.'),
+                call. = FALSE)
             }
             
             checkParameters(value,element)
@@ -138,7 +159,10 @@ checkPreTreatmentParameters <- function(value){
   if (FALSE %in% (names(value) %in% preTreatmentElements())) {
     elements <- preTreatmentElements() %>%
       str_c('"',.,'"')
-    stop(str_c('List names of for replacement value can only include ',str_c(elements,collapse = ', '),'.'))
+    stop(
+      str_c('List names of for replacement value can only include ',
+            str_c(elements,collapse = ', '),
+            '.'))
   }
   
   value %>%
@@ -152,7 +176,10 @@ checkPreTreatmentParameters <- function(value){
       if (FALSE %in% (methods %in% all_methods)) {
         all_methods <- all_methods %>%
           str_c('"',.,'"')
-        stop(str_c('Methods for element "',.x,'" can only include ',str_c(all_methods,collapse = ', '),'.'),call. = FALSE)
+        stop(
+          str_c('Methods for element "',.x,'" can only include ',
+                str_c(all_methods,collapse = ', '),'.'),
+          call. = FALSE)
       }
     })
 }
@@ -165,27 +192,39 @@ checkCorrelationParameters <- function(value){
   if (FALSE %in% (names(value) %in% names(correlationsParameters()))) {
     p <- names(correlationsParameters()) %>%
       str_c('"',.,'"')
-    stop(str_c('Correlation parameter values should match',str_c(p,collapse = ', '),'.'))
+    stop(
+      str_c('Correlation parameter values should match',
+            str_c(p,collapse = ', '),
+            '.'),
+      call. = FALSE)
   }
   
   if ('method' %in% names(value)) {
     methods <- eval(formals(rcorr)$type)
     if (!(value$method %in% methods)) {
       methods <- str_c('"',methods,'"')
-      stop(str_c('The value of parameter "method" should be one of ',str_c(methods,collapse = ', '),'.'),call. = FALSE)
+      stop(
+        str_c('The value of parameter "method" should be one of ',
+              str_c(methods,collapse = ', '),'.'),
+        call. = FALSE)
     } 
   }
   
   if ('pAdjustMethod' %in% names(value)) {
     if (!(value$pAdjustMethod %in% p.adjust.methods)) {
       methods <- str_c('"',p.adjust.methods,'"')
-      stop(str_c('The value of parameter "pAdjustMethod" should be one of ',str_c(methods,collapse = ', '),'.'),call. = FALSE)
+      stop(
+        str_c('The value of parameter "pAdjustMethod" should be one of ',
+              str_c(methods,collapse = ', '),'.'),
+        call. = FALSE)
     } 
   }
   
   if ('corPvalue' %in% names(value)) {
     if (!is.numeric(value$corPvalue) | length(value$corPvalue) > 1) {
-      stop('The value of parameter "corPvalue" should be a single numeric value.',call. = FALSE)
+      stop(
+        'The value of parameter "corPvalue" should be a single numeric value.',
+        call. = FALSE)
     }  
   }
 }
@@ -214,11 +253,13 @@ checkParameters <- function(value,element){
 #' @description change analysis parameters
 #' @param x S4 object of class AnalysisParameters
 #' @param parameterName Name of the parameter to change
-#' @param elements Character vector of analysis elements to target parameter change. Can be any returned by \code{analysisElements}.
+#' @param elements Character vector of analysis elements to target parameter 
+#' change. Can be any returned by \code{analysisElements}.
 #' @param value New value of the parameter
 #' @details
-#' For the parameter name selected, all parameters with that name will be altered.
-#' To individually change identically named parameters use the \code{@} operator to access the appropriate slot directly.
+#' For the parameter name selected, all parameters with that name will 
+#' be altered. To individually change identically named parameters use 
+#' the \code{@} operator to access the appropriate slot directly.
 #' @examples 
 #' p <- analysisParameters()
 #' changeParameter(p,'clusterType') <- 'PSOCK'
@@ -241,11 +282,18 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
             },parameters = x) > 0]
             
             if ('pre-treatment' %in% elements) {
-              pars <- lapply(parameters(x,'pre-treatment'),function(x,parameterName){
-                x <- lapply(x,function(y,parameterName){names(y)[names(y) == parameterName]},parameterName = parameterName)
-                x[sapply(x,length) == 0] <- NULL
-                return(x)
-              },parameterName = parameterName)
+              pars <- lapply(
+                parameters(x,'pre-treatment'),
+                function(x,parameterName){
+                  x <- lapply(
+                    x,
+                    function(y,
+                             parameterName){
+                      names(y)[names(y) == parameterName]},
+                    parameterName = parameterName)
+                  x[sapply(x,length) == 0] <- NULL
+                  return(x)
+                },parameterName = parameterName)
               pars[sapply(pars,length) == 0] <- NULL
               pars <- lapply(names(pars),function(x,pars){
                 pars <- pars[[x]]
@@ -290,7 +338,8 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
           })
 
 #' preTreatmentParameters
-#' @description Return default parameters for given pre-treatment element methods. 
+#' @description Return default parameters for given pre-treatment element 
+#' methods. 
 #' @param methods a named list of element methods
 #' @examples 
 #' p <- preTreatmentParameters(
@@ -306,13 +355,19 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
 preTreatmentParameters <- function(methods){
   
   if (!is.list(methods)) {
-    stop('Argument "methods" should be a named list of element methods.',call. = FALSE)
+    stop(
+      'Argument "methods" should be a named list of element methods.',
+      call. = FALSE)
   }
   
   if (FALSE %in% (names(methods) %in% preTreatmentElements())) {
     elements <- preTreatmentElements() %>%
       str_c('"',.,'"')
-    stop(str_c('List names of argument "methods" can only include ',str_c(elements,collapse = ', '),'.'))
+    stop(
+      str_c('List names of argument "methods" can only include ',
+            str_c(elements,collapse = ', '),
+            '.'),
+      call. = FALSE)
   }
   
   methods %>%
@@ -323,7 +378,12 @@ preTreatmentParameters <- function(methods){
       if (FALSE %in% (methods[[.x]] %in% meths)) {
         meths <- meths %>%
           str_c('"',.,'"')
-        stop(str_c('Methods for element "',.x,'" can only include ',str_c(meths,collapse = ', '),'.'),call. = FALSE)
+        stop(
+          str_c('Methods for element "',
+                .x,'" can only include ',
+                str_c(meths,collapse = ', '),
+                '.'),
+          call. = FALSE)
       }
     })
   
@@ -346,7 +406,8 @@ preTreatmentParameters <- function(methods){
 
 #' modellingParameters
 #' @description Return default parameters for a given modelling method.
-#' @param methods character vector of available methods. Use \code{modellingMethods()} to see available methods.
+#' @param methods character vector of available methods. 
+#' Use \code{modellingMethods()} to see available methods.
 #' @examples 
 #' p <- analysisParameters()
 #' parameters(p,'modelling') <- modellingParameters('anova')
@@ -355,11 +416,16 @@ preTreatmentParameters <- function(methods){
 modellingParameters <- function(methods){
   
   if (!is.character(methods)) {
-    stop('Argument "methods" should be a character vector.',call. = FALSE)
+    stop(
+      'Argument "methods" should be a character vector.',
+      call. = FALSE)
   }
   
   if (FALSE %in% (methods %in% modellingMethods())) {
-    stop(str_c('Modelling method not found! Methods should be one of: ',str_c(modellingMethods(),collapse = ', '),'.'))
+    stop(
+      str_c('Modelling method not found! Methods should be one of: ',
+            str_c(modellingMethods(),collapse = ', '),
+            '.'))
   }
   
   methods %>%
@@ -434,7 +500,8 @@ parseParameters <- function(path){
 
 #' exportParameters
 #' @rdname exportParameters
-#' @description Export analysis parameters from AnalysisParameters or Analysis objects to YAML format.
+#' @description Export analysis parameters from AnalysisParameters or 
+#' Analysis objects to YAML format.
 #' @param x S4 object of class AnalysisParameters or Analysis
 #' @param file File name and path to export to
 #' @importFrom yaml write_yaml

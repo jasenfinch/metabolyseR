@@ -7,5 +7,6 @@
 getClusterType()
 }
 \description{
-Return appropriate cluster type for parallel processing based on operating system type.
+Return appropriate cluster type for parallel processing 
+based on operating system type.
 }

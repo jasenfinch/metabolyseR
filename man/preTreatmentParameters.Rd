@@ -10,7 +10,8 @@ preTreatmentParameters(methods)
 \item{methods}{a named list of element methods}
 }
 \description{
-Return default parameters for given pre-treatment element methods.
+Return default parameters for given pre-treatment element 
+methods.
 }
 \examples{
 p <- preTreatmentParameters(

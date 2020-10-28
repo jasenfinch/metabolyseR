@@ -26,12 +26,14 @@ parameters(x, element) <- value
 
 \item{...}{arguments to pass to the appropriate method}
 
-\item{element}{analysis element for parameters to extract or assign. Should be one of those returned by \code{analysisElements()}}
+\item{element}{analysis element for parameters to extract or assign. 
+Should be one of those returned by \code{analysisElements()}}
 
 \item{value}{list containing parameter values}
 }
 \description{
-Extract parameters from an Analysis object or extract or set parameters in an AnalysisParameters object.
+Extract parameters from an Analysis object or 
+extract or set parameters in an AnalysisParameters object.
 }
 \examples{
 p <- analysisParameters()

@@ -20,7 +20,8 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(correctionMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
+  expect_false(F %in% unlist(
+    lapply(n,function(x){x == c('description','arguments')})))
 })
 
 test_that('methods work',{
@@ -34,11 +35,27 @@ test_that('methods work',{
     return(res)
   })
   
-  expect_false(F %in% sapply(m,function(x){identical(slotNames(x),c('data','info'))}))
-  expect_false(F %in% sapply(m,function(x){identical(class(x %>% dat()),c('tbl_df',"tbl","data.frame"))}))
-  expect_false(F %in% sapply(m,function(x){identical(class(x %>% sinfo()),c('tbl_df',"tbl","data.frame"))}))
-  expect_false(F %in% sapply(m,function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
-  expect_false(F %in% sapply(m,function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(sinfo(x)) == row},row = nrow(dat(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x){identical(slotNames(x),c('data','info'))}))
+  expect_false(F %in% sapply(
+    m,
+    function(x){identical(class(x %>% dat()),c('tbl_df',"tbl","data.frame"))}))
+  expect_false(F %in% sapply(
+    m,
+    function(x){identical(class(x %>% 
+                                  sinfo()),
+                          c('tbl_df',"tbl","data.frame"))}))
+  expect_false(F %in% sapply(
+    m,
+    function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x,row){nrow(sinfo(x)) == row},row = nrow(dat(d))))
 })

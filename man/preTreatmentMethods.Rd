@@ -10,5 +10,6 @@ preTreatmentMethods(element)
 \item{element}{pre-treatment element}
 }
 \description{
-Return names of available methods for a given pre-treatment element.
+Return names of available methods for a given pre-treatment 
+element.
 }

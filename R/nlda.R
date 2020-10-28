@@ -50,7 +50,11 @@
     P     <- W/(Ng)
     eP    <- eigen(P)
     ord   <- sort.list(eP$values)
-    V     <- sweep(eP$vectors[,ord,drop=FALSE], 2, sqrt(colSums(eP$vectors[,ord,drop=FALSE]^2)), "/") 
+    V     <- sweep(
+      eP$vectors[,ord,drop=FALSE],
+      2, 
+      sqrt(colSums(eP$vectors[,ord,drop=FALSE]^2)), 
+      "/") 
     Dg    <- eP$values[ord]
     nDg   <- length(Dg)
     Dmean <- sum(diag(P))/nDg
@@ -65,10 +69,14 @@
     ev[Im(er$values)>0] <- 0
     vec   <- Re(er$vectors)
     ord   <- sort.list(ev,decreasing=TRUE)
-    vec   <- sweep(vec[,ord,drop=FALSE], 2, sqrt(colSums(vec[,ord,drop=FALSE]^2)), "/") 
+    vec   <- sweep(
+      vec[,ord,drop=FALSE],
+      2, 
+      sqrt(colSums(vec[,ord,drop=FALSE]^2)),
+      "/") 
     ev    <- ev[ord]
     maxg  <- min(c(g-1,dim(vec)[1]))
-    vec   <- vec[,1:maxg]                         ## discriminant functions
+    vec   <- vec[,1:maxg] ## discriminant functions
     Tw    <- ev[1:maxg]
     names(Tw) <- paste("DF", 1:maxg, sep = "")
     
@@ -80,14 +88,17 @@
     st[,2] <- round(Tw*100/sum(Tw),3)
     st[,3] <- round(sqrt(Tw/(1+Tw)),3)
     st     <- as.data.frame(st)
-    dimnames(st) <- list(paste("DF", 1:maxg, sep = ""),c("Eig","Perceig","Cancor"))
+    dimnames(st) <- list(
+      paste("DF", 1:maxg, sep = ""),
+      c("Eig","Perceig","Cancor"))
     
     res <- list()
     res$stats    <- st
     res$Tw       <- Tw
     res$rankmat  <- rankmat
     res$means    <- pc$center                        
-    res$loadings <- pc$rotation[,1:rankmat,drop=FALSE]%*%vec  ## discriminant functions with PCA
+    res$loadings <- pc$rotation[,1:rankmat,drop=FALSE] %*% 
+      vec  ## discriminant functions with PCA
     
     colnames(res$loadings) <- paste("DF", 1:maxg, sep = "")  
     

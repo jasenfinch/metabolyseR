@@ -8,10 +8,13 @@
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
-#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
-#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. 
+#' Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\%
+#'  confidence ellipses for each class
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
+#' @param legendPosition legend position to pass to legend.position argument 
+#' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
@@ -30,8 +33,20 @@
 #' }
 #' @export
 
-setMethod('plotPCA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotPCA',
+          signature = 'AnalysisData',
+          function(analysis,
+                   cls = 'class', 
+                   label = NULL, 
+                   scale = TRUE, 
+                   center = TRUE, 
+                   xAxis = 'PC1', 
+                   yAxis = 'PC2', 
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   title = 'Principle Component Analysis (PCA)', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2){
             
             pca <- prcomp(dat(analysis),scale. = scale,center = center)
             
@@ -55,8 +70,25 @@ setMethod('plotPCA',signature = 'AnalysisData',
             }
             
             classLength <- clsLen(analysis,cls)
-
-            pl <- scatterPlot(pca,cls,xAxis,yAxis,ellipses,shape,label,labelSize,legendPosition,classLength,title,str_c(xAxis,' (Var: ',var[xAxis],'%)'),str_c(yAxis,' (Var: ',var[yAxis],'%)'))
+            
+            pl <- scatterPlot(
+              pca,
+              cls,
+              xAxis,
+              yAxis,
+              ellipses,
+              shape,
+              label,
+              labelSize,
+              legendPosition,
+              classLength,
+              title,
+              str_c(xAxis,
+                    ' (Var: ',
+                    var[xAxis],'%)'),
+              str_c(yAxis,
+                    ' (Var: ',
+                    var[yAxis],'%)'))
             
             return(pl)
           }
@@ -65,14 +97,37 @@ setMethod('plotPCA',signature = 'AnalysisData',
 #' @rdname plotPCA
 #' @export
 
-setMethod('plotPCA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'PC1', yAxis = 'PC2', shape = FALSE, ellipses = TRUE, title = 'Principle Component Analysis (PCA)', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotPCA',
+          signature = 'Analysis',
+          function(analysis, 
+                   cls = 'class', 
+                   label = NULL, 
+                   scale = TRUE, 
+                   center = TRUE, 
+                   xAxis = 'PC1', 
+                   yAxis = 'PC2', 
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   title = 'PCA', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2){
             if (analysis %>% dat(type = 'pre-treated') %>% ncol() > 0) {
               d <- preTreated(analysis)
             } else {
               d <- raw(analysis)
             }
             
-            plotPCA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, shape = shape,ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
+            plotPCA(d, 
+                    cls = cls, 
+                    label = label, 
+                    scale = scale, 
+                    center = center, 
+                    xAxis = xAxis, 
+                    yAxis = yAxis, 
+                    shape = shape,
+                    ellipses = ellipses, 
+                    title = title, 
+                    legendPosition = legendPosition, 
+                    labelSize = labelSize)
           }
 )

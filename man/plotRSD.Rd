@@ -28,7 +28,8 @@ plotRSD(analysis, cls = "class", ...)
 
 \item{QCidx}{QC sample label}
 
-\item{QCparameters}{alternative parameters for QC sample pre-treatment. See details}
+\item{QCparameters}{alternative parameters for QC sample pre-treatment. 
+See details}
 
 \item{histBins}{number of bins to use for histogram plotting}
 
@@ -38,7 +39,11 @@ plotRSD(analysis, cls = "class", ...)
 Plot RSD distributions of raw data in quality control samples.
 }
 \details{
-If QCparameters is set as \code{NULL}, the default QC pre-treatment parameters are used as given by \code{analysisParameters('preTreat')}. Alternative pre-treatment routines can be used by specifying an \code{AnalysisParameters} object for \code{QCparameters}.
+If QCparameters is set as \code{NULL}, the default QC 
+pre-treatment parameters are used as given by 
+\code{analysisParameters('preTreat')}. Alternative pre-treatment 
+routines can be used by specifying an \code{AnalysisParameters} 
+object for \code{QCparameters}.
 }
 \examples{
 \dontrun{

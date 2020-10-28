@@ -7,7 +7,8 @@
 modellingParameters(methods)
 }
 \arguments{
-\item{methods}{character vector of available methods. Use \code{modellingMethods()} to see available methods.}
+\item{methods}{character vector of available methods. 
+Use \code{modellingMethods()} to see available methods.}
 }
 \description{
 Return default parameters for a given modelling method.

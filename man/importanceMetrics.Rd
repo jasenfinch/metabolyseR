@@ -13,5 +13,6 @@ importanceMetrics(x)
 \item{x}{S4 object of class RandomForest}
 }
 \description{
-Return available importance measures from an object of class RandomForest.
+Return available importance measures from an object 
+of class RandomForest.
 }

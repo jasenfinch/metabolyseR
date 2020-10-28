@@ -30,7 +30,11 @@ setMethod('show',signature = 'AnalysisParameters',
                 x <- paste(x,collapse = '')
                 return(x)
               })
-              `pre-treatment` <- paste('\t',names(`pre-treatment`),'\n',`pre-treatment`,sep = '')
+              `pre-treatment` <- paste('\t',
+                                       names(`pre-treatment`),
+                                       '\n',
+                                       `pre-treatment`,
+                                       sep = '')
               `pre-treatment` <- paste(`pre-treatment`,collapse = '')
             }
             
@@ -44,13 +48,18 @@ setMethod('show',signature = 'AnalysisParameters',
                   x <- ''
                 }
               })
-              modelling <- paste('\t',names(modelling),'\n',modelling,sep = '')
+              modelling <- paste('\t',
+                                 names(modelling),
+                                 '\n',
+                                 modelling,
+                                 sep = '')
               modelling <- paste(modelling,collapse = '')
             }
             
             if ('correlations' %in% elements) {
               correlations <- slot(object,'correlations')
-              correlations <- paste(names(correlations), correlations,sep = ' = ')
+              correlations <- paste(names(correlations), 
+                                    correlations,sep = ' = ')
               correlations <- paste('\t',correlations,sep = '')
               correlations <- paste(correlations,collapse = '\n')
             }
@@ -83,16 +92,36 @@ setMethod('show',signature = 'Analysis',
             
             r <- raw(object)
             
-            rD <- paste('\t\tNo. samples = ',nSamples(r),'\n','\t\tNo. features = ',nFeatures(r),'\n',sep = '')
+            rD <- paste('\t\tNo. samples = ',
+                        nSamples(r),
+                        '\n',
+                        '\t\tNo. features = ',
+                        nFeatures(r),
+                        '\n',
+                        sep = '')
             
-            cat('\n',blue('metabolyseR '),bold(red(str_c('v',object@log$packageVersion %>% as.character()))),yellow('\nAnalysis:\n'),'\t',time,'\n',sep = '')
+            cat('\n',
+                blue('metabolyseR '),
+                bold(red(str_c('v',object@log$packageVersion %>% 
+                                 as.character()))),
+                yellow('\nAnalysis:\n'),
+                '\t',
+                time,
+                '\n',
+                sep = '')
             cat('\n\tRaw Data:\n',rD,sep = '')
             
             if ('pre-treated' %in% elements) {
               time <- object@log$preTreatment
               p <- preTreated(object)
              
-              pD <- paste('\t\tNo. samples = ',nSamples(p),'\n','\t\tNo. features = ',nFeatures(p),'\n',sep = '')
+              pD <- paste('\t\tNo. samples = ',
+                          nSamples(p),
+                          '\n',
+                          '\t\tNo. features = ',
+                          nFeatures(p),
+                          '\n',
+                          sep = '')
               
               cat('\n\tPre-treated Data:\n','\t\t',time,'\n',pD,sep = '')
             }

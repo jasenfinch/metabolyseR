@@ -4,17 +4,20 @@
 \alias{reAnalyse}
 \title{reAnalyse}
 \usage{
-reAnalyse(analysis, parameters = analysisParameters(), verbose = T)
+reAnalyse(analysis, parameters = analysisParameters(), verbose = TRUE)
 }
 \arguments{
-\item{analysis}{an object of class Analysis containing previous analysis results}
+\item{analysis}{an object of class Analysis containing previous 
+analysis results}
 
-\item{parameters}{an object of class Parameters containing parameters for re-analysis}
+\item{parameters}{an object of class Parameters containing parameters for 
+re-analysis}
 
 \item{verbose}{should output be printed to the console}
 }
 \description{
-Re-analyse an object of class Analysis using specified parameters.
+Re-analyse an object of class Analysis using 
+specified parameters.
 }
 \examples{
 library(metaboData)
@@ -39,5 +42,6 @@ analysis <- metabolyse(abr1$neg[,1:200],
                        p)
                        
 ## Re-analyse to include correlation analysis
-analysis <- reAnalyse(analysis,parameters = analysisParameters('correlations'))
+analysis <- reAnalyse(analysis,
+                      parameters = analysisParameters('correlations'))
 }

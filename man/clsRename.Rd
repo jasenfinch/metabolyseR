@@ -24,5 +24,6 @@ clsRename(x, cls, newName, ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Rename a sample information column within an object of AnalysisData or Analysis.
+Rename a sample information column within an object of 
+AnalysisData or Analysis.
 }

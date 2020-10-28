@@ -24,5 +24,6 @@ clsArrange(x, cls = "class", descending = FALSE, ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Order samples within an object of class AnalysisData or Analysis by a given sample information column.
+Order samples within an object of class AnalysisData or 
+Analysis by a given sample information column.
 }

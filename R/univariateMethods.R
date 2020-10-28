@@ -7,13 +7,20 @@
 #' @param comparisons list of comparisons to perform
 #' @param returnModels should models be returned
 #' @param nCores number of cores to use for parallelisation
-#' @param clusterType cluster type to use for parallelisation (`?parallel::makeCluster`)
+#' @param clusterType cluster type to use for parallelisation 
+#' (`?parallel::makeCluster`)
 #' @importFrom dplyr bind_rows
 #' @importFrom broom tidy
 #' @export
 
 setMethod('anova',signature = 'AnalysisData',
-          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,
+                   cls = 'class', 
+                   pAdjust = 'bonferroni', 
+                   comparisons = list(), 
+                   returnModels = FALSE, 
+                   nCores = detectCores() * 0.75,
+                   clusterType = getClusterType()){
             
             d <- x %>%
               dat()
@@ -33,7 +40,12 @@ setMethod('anova',signature = 'AnalysisData',
               x <- x %>%
                 removeClasses(cls = cls,classes = clsRem$class)
               
-              warning(str_c('Classes with < 3 replicates removed: ',str_c(str_c('"',clsRem$class,'"'),collapse = ', ')),call. = FALSE)
+              warning(
+                str_c('Classes with < 3 replicates removed: ',
+                      str_c(str_c('"',
+                                  clsRem$class,'"'),
+                            collapse = ', ')),
+                call. = FALSE)
               
               i <- x %>%
                 sinfo() %>%
@@ -43,7 +55,8 @@ setMethod('anova',signature = 'AnalysisData',
             if (length(comparisons) > 0) {
               comp <- comparisons
             } else {
-              comp <- map(i,~{unique(.) %>% sort() %>% str_c(collapse = '~')})
+              comp <- map(i,~{unique(.) %>% sort() %>% 
+                  str_c(collapse = '~')})
             }
             
             models <- comp %>%
@@ -92,7 +105,8 @@ setMethod('anova',signature = 'AnalysisData',
                 map(.,~{
                   map(.,tidy) %>%
                     bind_rows(.id = 'Feature') %>%
-                    mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
+                    mutate(adjusted.p.value = p.adjust(p.value,
+                                                       method = pAdjust))
                 }) %>%
                   bind_rows(.id = 'Comparison')
               }) %>%
@@ -122,13 +136,20 @@ setMethod('anova',signature = 'AnalysisData',
 #' @param comparisons named list of binary comparisons to analyse
 #' @param returnModels should models be returned
 #' @param nCores number of cores to use for parallelisation
-#' @param clusterType cluster type to use for parallelisation (`?parallel::makeCluster`)
+#' @param clusterType cluster type to use for parallelisation 
+#' (`?parallel::makeCluster`)
 #' @importFrom dplyr bind_rows
 #' @importFrom broom glance
 #' @export
 
 setMethod('ttest',signature = 'AnalysisData',
-          function(x,cls = 'class', pAdjust = 'bonferroni', comparisons = list(), returnModels = FALSE, nCores = detectCores() * 0.75, clusterType = getClusterType()){
+          function(x,
+                   cls = 'class', 
+                   pAdjust = 'bonferroni', 
+                   comparisons = list(), 
+                   returnModels = FALSE, 
+                   nCores = detectCores() * 0.75, 
+                   clusterType = getClusterType()){
             
             if (length(comparisons > 0)) {
               pw <- comparisons
@@ -184,7 +205,8 @@ setMethod('ttest',signature = 'AnalysisData',
                 map(.,~{
                   map(.,glance) %>%
                     bind_rows(.id = 'Feature') %>%
-                    mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
+                    mutate(adjusted.p.value = p.adjust(p.value,
+                                                       method = pAdjust))
                 }) %>%
                   bind_rows(.id = 'Comparison')
               }) %>%
@@ -214,13 +236,18 @@ setMethod('ttest',signature = 'AnalysisData',
 #' @export
 
 setMethod('linearRegression',signature = 'AnalysisData',
-          function(x, cls = 'class', pAdjust = 'bonferroni', returnModels = FALSE){
+          function(x, 
+                   cls = 'class', 
+                   pAdjust = 'bonferroni', 
+                   returnModels = FALSE){
             indep <- x %>%
               sinfo() %>%
               select(cls)
             
-            if (FALSE %in% (map_chr(indep,class) %in% c('integer','numeric'))) {
-              stop('Independent variables need to be numeric')
+            if (FALSE %in% 
+                (map_chr(indep,class) %in% c('integer','numeric'))) {
+              stop('Independent variables need to be numeric',
+                   call. = FALSE)
             }
             
             d <- x %>%
@@ -248,7 +275,8 @@ setMethod('linearRegression',signature = 'AnalysisData',
                   glance(.)
                 }) %>%
                   bind_rows(.id = 'Feature') %>%
-                  mutate(adjusted.p.value = p.adjust(p.value,method = pAdjust))
+                  mutate(adjusted.p.value = p.adjust(p.value,
+                                                     method = pAdjust))
               }) %>%
               bind_rows(.id = 'Response')
             
@@ -265,4 +293,3 @@ setMethod('linearRegression',signature = 'AnalysisData',
             return(res)
           }
 )
-            

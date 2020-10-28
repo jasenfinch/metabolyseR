@@ -18,7 +18,9 @@ shapeValues <- function(classLength){
     if (classLength %% max(sym) == 0) {
       val <- rep(sym,classLength / max(sym))
     } else {
-      val <- c(rep(sym,floor(classLength / max(sym))),sym[1:(classLength %% max(sym))])
+      val <- c(rep(sym,
+                   floor(classLength / max(sym))),
+               sym[1:(classLength %% max(sym))])
     }
   }
   return(val)
@@ -49,7 +51,11 @@ plotEllipses <- function(pl,cls,ellipses,classLength){
   if (isTRUE(ellipses)) {
     if (classLength <= 12) {
       pl <- pl +
-        stat_ellipse(aes(colour = !!sym(cls)),geom = 'polygon',type = 'norm',linetype = 5,fill = NA) 
+        stat_ellipse(aes(colour = !!sym(cls)),
+                     geom = 'polygon',
+                     type = 'norm',
+                     linetype = 5,
+                     fill = NA) 
     } else {
       message('Number of classes > 12, ellipses removed.')
     }
@@ -97,7 +103,9 @@ plotColour <- function(pl,classLength){
     if (classLength %% 12 == 0) {
       pal <- rep(ptol_pal()(12),classLength / 12)
     } else {
-      pal <- c(rep(ptol_pal()(12),floor(classLength / 12)),ptol_pal()(12)[1:(classLength %% 12)])
+      pal <- c(rep(ptol_pal()(12),
+                   floor(classLength / 12)),
+               ptol_pal()(12)[1:(classLength %% 12)])
     }
     pl <- pl + 
       scale_colour_manual(values = pal) +
@@ -106,7 +114,19 @@ plotColour <- function(pl,classLength){
   return(pl)
 }
 
-scatterPlot <- function(d,cls,xAxis,yAxis,ellipses,shape,label,labelSize,legendPosition,classLength,title,xLabel,yLabel){
+scatterPlot <- function(d,
+                        cls,
+                        xAxis,
+                        yAxis,
+                        ellipses,
+                        shape,
+                        label,
+                        labelSize,
+                        legendPosition,
+                        classLength,
+                        title,
+                        xLabel,
+                        yLabel){
   d %>%
   plotBase(xAxis,yAxis) %>%
     plotEllipses(cls,ellipses,classLength) %>%

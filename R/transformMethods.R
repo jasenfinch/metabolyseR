@@ -32,7 +32,11 @@ setMethod('transformAuto',signature = 'AnalysisData',
 
 setMethod('transformRange',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{(. - min(.,na.rm = TRUE)) / (max(.,na.rm = TRUE) - min(.,na.rm = TRUE))})
+            dat(d) <- map_df(
+              d %>% 
+                dat(),
+              ~{(. - min(.,na.rm = TRUE)) / 
+                  (max(.,na.rm = TRUE) - min(.,na.rm = TRUE))})
             return(d)
           }
 )
@@ -45,7 +49,10 @@ setMethod('transformRange',signature = 'AnalysisData',
 
 setMethod('transformPareto',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = TRUE)/sqrt(sd(.,na.rm = TRUE))})
+            dat(d) <- map_df(
+              d %>% 
+                dat(),~{. / mean(.,na.rm = TRUE)/
+                    sqrt(sd(.,na.rm = TRUE))})
             return(d)
           }
 )
@@ -58,7 +65,10 @@ setMethod('transformPareto',signature = 'AnalysisData',
 
 setMethod('transformVast',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. * mean(.,na.rm = TRUE)/sd(.,na.rm = TRUE)^2})
+            dat(d) <- map_df(
+              d %>% 
+                dat(),~{. * mean(.,na.rm = TRUE)/
+                    sd(.,na.rm = TRUE)^2})
             return(d)
           }
 )
@@ -181,7 +191,7 @@ transformMethods <- function(method = NULL, description = FALSE){
     level = list(description = 'Level scaling',
                  arguments = c(`''` = '')),
     ln = list(description = 'Natural log scaling',
-               arguments = c(add = 'value to add prior to transformation')),
+              arguments = c(add = 'value to add prior to transformation')),
     log10 = list(description = 'Log10 scaling',
                  arguments = c(add = 'value to add prior to transformation')),
     sqrt = list(description = 'Square root scaling',

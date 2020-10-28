@@ -1,6 +1,13 @@
-#' @importFrom ggplot2 ggplot aes_string theme scale_y_discrete geom_segment scale_x_reverse scale_y_continuous unit
+#' @importFrom ggplot2 ggplot aes_string theme scale_y_discrete 
+#' @importFrom ggplot2 geom_segment scale_x_reverse scale_y_continuous unit
 
-heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames,dendrogram){
+heatmapClasses <- function(pl, 
+                           x, 
+                           threshold, 
+                           distanceMeasure, 
+                           clusterMethod, 
+                           featureNames,
+                           dendrogram){
   pl %>%
     map(~{
       r <- .
@@ -27,7 +34,8 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
                     dat()) %>%
         gather('Feature','Intensity',-1) %>%
         group_by_at(c(pred,'Feature')) %>%
-        summarise(Intensity = mean(Intensity),.groups = 'drop')
+        summarise(Intensity = mean(Intensity),
+                  .groups = 'drop')
       
       sums <- d %>%
         group_by(Feature) %>%
@@ -55,16 +63,22 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate_at(pred,factor)
       
-      caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
+      caption <- str_c(
+        'Explanatory features had a P value below a threshold of ',
+        threshold,'.')
       
       if (length(feat) > 3000) {
-        caption <- str_c(caption,'\n','Number of features capped at top 3000.')
+        caption <- str_c(
+          caption,'\n',
+          'Number of features capped at top 3000.')
       }
       low <- 'white'
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes_string(x = pred,y = 'Feature',fill = '`Relative Intensity`')) +
+        ggplot(aes_string(x = pred,
+                          y = 'Feature',
+                          fill = '`Relative Intensity`')) +
         geom_tile(colour = 'black') +
         scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
@@ -95,7 +109,9 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
       
       if (isTRUE(dendrogram)) {
         dend_plot <- ggplot() +
-          geom_segment(data = dend$segments,aes(x = y, y = x, xend = yend, yend = xend)) +
+          geom_segment(
+            data = dend$segments,
+            aes(x = y, y = x, xend = yend, yend = xend)) +
           scale_x_reverse() +
           scale_y_continuous(breaks = seq_along(dend$labels$label), 
                              labels = dend$labels$label,position = 'right',
@@ -117,7 +133,13 @@ heatmapClasses <- function(pl, x, threshold, distanceMeasure, clusterMethod, fea
 
 #' @importFrom ggplot2 scale_fill_gradient2
 
-heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, featureNames, dendrogram){
+heatmapRegression <- function(pl, 
+                              x, 
+                              threshold, 
+                              distanceMeasure, 
+                              clusterMethod, 
+                              featureNames, 
+                              dendrogram){
   pl %>%
     map(~{
       r <- .
@@ -160,10 +182,16 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate(Response = factor(Response))
       
-      caption <- str_c('Explanatory features had a P value below a threshold of ',threshold,'.')
+      caption <- str_c(
+        'Explanatory features had a P value below a threshold of ',
+        threshold,
+        '.')
       
       if (length(feat) > 3000) {
-        caption <- str_c(caption,'\n','Number of features capped at top 3000.')
+        caption <- str_c(
+          caption,
+          '\n',
+          'Number of features capped at top 3000.')
       }
       low <- '#00B7FF'
       mid <- 'white'
@@ -201,7 +229,9 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
       
       if (isTRUE(dendrogram)) {
         dend_plot <- ggplot() +
-          geom_segment(data = dend$segments,aes(x = y, y = x, xend = yend, yend = xend)) +
+          geom_segment(
+            data = dend$segments,
+            aes(x = y, y = x, xend = yend, yend = xend)) +
           scale_x_reverse() +
           scale_y_continuous(breaks = seq_along(dend$labels$label), 
                              labels = dend$labels$label,position = 'right',
@@ -224,7 +254,8 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
 #' plotExplanatoryHeatmap
 #' @rdname plotExplanatoryHeatmap
 #' @description plot a heatmap of explanatory features
-#' @param x object of class Univariate, RandomForest or Analysis containing modelling results
+#' @param x object of class Univariate, RandomForest or 
+#' Analysis containing modelling results
 #' @param measure importance measure on which to retrieve explanatory feautres
 #' @param threshold score threshold to use for specifying explantory features
 #' @param distanceMeasure distance measure to use for clustering. See details.
@@ -238,7 +269,8 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
 #' @seealso \link{dist} \link{hclust}
 #' @importFrom stats dist hclust
 #' @importFrom ggdendro dendro_data 
-#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal labs element_blank
+#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal 
+#' @importFrom ggplot2 labs element_blank
 #' @importFrom stringr str_split_fixed
 #' @importFrom tibble deframe
 #' @importFrom dplyr group_by_at mutate_at
@@ -259,8 +291,14 @@ heatmapRegression <- function(pl, x, threshold, distanceMeasure, clusterMethod, 
 #' }
 #' @export
 
-setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE, dendrogram = TRUE){
+setMethod('plotExplanatoryHeatmap',
+          signature = 'Univariate',
+          function(x, 
+                   threshold = 0.05, 
+                   distanceMeasure = "euclidean", 
+                   clusterMethod = 'ward.D2', 
+                   featureNames = TRUE, 
+                   dendrogram = TRUE){
             
             res <- x %>%
               explanatoryFeatures()
@@ -269,11 +307,25 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
               base::split(.$Response)
             
             if (x@type == 't-test' | x@type == 'ANOVA') {
-              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
+              pl <- heatmapClasses(
+                pl,
+                x, 
+                threshold = threshold, 
+                distanceMeasure = distanceMeasure, 
+                clusterMethod = clusterMethod, 
+                featureNames = featureNames,
+                dendrogram = dendrogram)
             }
             
             if (x@type == 'linear regression') {
-              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
+              pl <- heatmapRegression(
+                pl,
+                x, 
+                threshold = threshold, 
+                distanceMeasure = distanceMeasure, 
+                clusterMethod = clusterMethod, 
+                featureNames = featureNames,
+                dendrogram = dendrogram)
             }
             
             # pl <- wrap_plots(pl)
@@ -293,14 +345,23 @@ setMethod('plotExplanatoryHeatmap',signature = 'Univariate',
 #' @rdname plotExplanatoryHeatmap
 #' @export
 
-setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
-          function(x, metric = 'FalsePositiveRate', threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE, dendrogram = TRUE){
+setMethod('plotExplanatoryHeatmap',
+          signature = 'RandomForest',
+          function(x, 
+                   metric = 'FalsePositiveRate',
+                   threshold = 0.05,
+                   distanceMeasure = "euclidean",
+                   clusterMethod = 'ward.D2',
+                   featureNames = TRUE, 
+                   dendrogram = TRUE){
             
             if (x@type == 'unsupervised') {
               stop('Cannot plot heatmap for unsupervised random forest.')
             }
             
-            explan <- explanatoryFeatures(x,metric = metric,threshold = threshold)
+            explan <- explanatoryFeatures(x,
+                                          metric = metric,
+                                          threshold = threshold)
             
             if ('Response' %in% colnames(explan)) {
               pl <- explan %>%
@@ -310,11 +371,25 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
             }
             
             if (x@type == 'classification') {
-              pl <- heatmapClasses(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
+              pl <- heatmapClasses(
+                pl,
+                x, 
+                threshold = threshold, 
+                distanceMeasure = distanceMeasure, 
+                clusterMethod = clusterMethod, 
+                featureNames = featureNames,
+                dendrogram = dendrogram)
             }
             
             if (x@type == 'regression') {
-              pl <- heatmapRegression(pl,x, threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames,dendrogram = dendrogram)
+              pl <- heatmapRegression(
+                pl,
+                x, 
+                threshold = threshold, 
+                distanceMeasure = distanceMeasure, 
+                clusterMethod = clusterMethod, 
+                featureNames = featureNames,
+                dendrogram = dendrogram)
             }
             
             pl <- wrap_plots(pl)
@@ -326,29 +401,52 @@ setMethod('plotExplanatoryHeatmap',signature = 'RandomForest',
 #' @rdname plotExplanatoryHeatmap
 #' @export
 
-setMethod('plotExplanatoryHeatmap',signature = 'list',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE){
+setMethod('plotExplanatoryHeatmap',
+          signature = 'list',
+          function(x,
+                   threshold = 0.05, 
+                   distanceMeasure = "euclidean",
+                   clusterMethod = 'ward.D2',
+                   featureNames = TRUE){
             object_classes <- x %>%
               map_chr(class)
             
-            if (FALSE %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
-              stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+            if (FALSE %in% (object_classes == 'RandomForest' | 
+                            object_classes == 'Univariate')) {
+              stop(
+                str_c('All objects contained within supplied list ',
+                      'should be of class RandomForest or Univariate'),
+                call. = FALSE)
             }
             
             x %>%
-              map(plotExplanatoryHeatmap,threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames)
+              map(plotExplanatoryHeatmap,
+                  threshold = threshold, 
+                  distanceMeasure = distanceMeasure, 
+                  clusterMethod = clusterMethod,
+                  featureNames = featureNames)
           }
 )
 
 #' @rdname plotExplanatoryHeatmap
 #' @export
 
-setMethod('plotExplanatoryHeatmap',signature = 'Analysis',
-          function(x, threshold = 0.05, distanceMeasure = "euclidean", clusterMethod = 'ward.D2', featureNames = TRUE){
+setMethod('plotExplanatoryHeatmap',
+          signature = 'Analysis',
+          function(x,
+                   threshold = 0.05, 
+                   distanceMeasure = "euclidean", 
+                   clusterMethod = 'ward.D2', 
+                   featureNames = TRUE){
             x %>%
               analysisResults(element = 'modelling') %>%
               map(~{
-                map(.,plotExplanatoryHeatmap,threshold = threshold, distanceMeasure = distanceMeasure, clusterMethod = clusterMethod, featureNames = featureNames) %>%
+                map(.,
+                    plotExplanatoryHeatmap,
+                    threshold = threshold, 
+                    distanceMeasure = distanceMeasure, 
+                    clusterMethod = clusterMethod, 
+                    featureNames = featureNames) %>%
                   wrap_plots()  
               })
           }

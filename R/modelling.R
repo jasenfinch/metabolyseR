@@ -1,6 +1,7 @@
 #' binaryComparisons
 #' @rdname binaryComparisons
-#' @description Return a vector of possible binary comparisons for a given sample information column.
+#' @description Return a vector of possible binary comparisons for a 
+#' given sample information column.
 #' @param x S4 object of class AnalysisData.
 #' @param cls sample information column to use
 #' @importFrom utils combn
@@ -19,7 +20,8 @@ setMethod('binaryComparisons',signature = 'AnalysisData',
 )
 
 #' getClusterType
-#' @description Return appropriate cluster type for parallel processing based on operating system type.
+#' @description Return appropriate cluster type for parallel processing 
+#' based on operating system type.
 #' @export
 
 getClusterType <- function(){
@@ -59,9 +61,10 @@ getModellingMethods <- function(method = NULL, description = FALSE){
     linearRegression = list(description = 'Linear regression',
                             type = 'Univariate',
                             documentation = '?linearRegression'),
-    randomForest = list(description = 'Random forest classification, regression or unsupervised',
-                        type = 'Multivariate',
-                        documentation = '?randomForest')
+    randomForest = list(
+      description = 'Random forest classification, regression or unsupervised',
+      type = 'Multivariate',
+      documentation = '?randomForest')
   )
   
   if (description == FALSE) {
@@ -85,7 +88,11 @@ setMethod('modelling',signature = 'Analysis',
             verbose <- x@log$verbose
             if (verbose == TRUE) {
               startTime <- proc.time()
-              message(blue('Modelling '),cli::symbol$continue,'\r',appendLF = FALSE) 
+              message(
+                blue('Modelling '),
+                cli::symbol$continue,
+                '\r',
+                appendLF = FALSE) 
             }
             params <- x %>%
               parameters() %>%
@@ -97,7 +104,9 @@ setMethod('modelling',signature = 'Analysis',
                 i <- .
                 method <- getModellingMethods(i)
                 
-                if (x %>% dat(type = 'pre-treated') %>% nrow() > 0) {
+                if (x %>% 
+                    dat(type = 'pre-treated') %>% 
+                    nrow() > 0) {
                   d <- preTreated(x)
                 } else {
                   d <- raw(x)
@@ -122,7 +131,12 @@ setMethod('modelling',signature = 'Analysis',
                 round(1) %>%
                 seconds_to_period() %>%
                 str_c('[',.,']')
-              message(blue('\rModelling '),'\t',green(cli::symbol$tick),' ',elapsed)
+              message(
+                blue('\rModelling '),
+                '\t',
+                green(cli::symbol$tick),
+                ' ',
+                elapsed)
             }
             return(x)
           }
@@ -140,7 +154,8 @@ setMethod('type',signature = 'RandomForest',function(x){
 
 #' importanceMetrics
 #' @rdname importanceMetrics
-#' @description Return available importance measures from an object of class RandomForest.
+#' @description Return available importance measures from an object 
+#' of class RandomForest.
 #' @param x S4 object of class RandomForest
 #' @export
 
@@ -199,7 +214,10 @@ explanatoryFeaturesClassification <- function(x,metric,threshold){
     
     metrics <- str_c('"',metrics,'"')
     
-    stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+    stop(
+      'Argument "metric" should be one of ',
+      str_c(metrics,collapse = ', '),
+      call. = FALSE)
   }
   
   explan <- imp %>%
@@ -227,7 +245,10 @@ explanatoryFeaturesRegression <- function(x,metric,threshold){
     
     metrics <- str_c('"',metrics,'"')
     
-    stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+    stop(
+      'Argument "metric" should be one of ',
+      str_c(metrics,collapse = ', '),
+      call. = FALSE)
   }
   
   explan <- imp %>%

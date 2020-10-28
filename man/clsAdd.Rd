@@ -24,5 +24,6 @@ clsAdd(x, cls, value, ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Add a sample info column to a Analysis or AnalysisData object.
+Add a sample info column to a Analysis or 
+AnalysisData object.
 }

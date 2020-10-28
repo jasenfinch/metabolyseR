@@ -15,5 +15,6 @@ binaryComparisons(x, cls = "class")
 \item{cls}{sample information column to use}
 }
 \description{
-Return a vector of possible binary comparisons for a given sample information column.
+Return a vector of possible binary comparisons for a 
+given sample information column.
 }

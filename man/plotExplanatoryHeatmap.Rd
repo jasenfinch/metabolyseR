@@ -35,7 +35,7 @@ plotExplanatoryHeatmap(x, ...)
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
-  featureNames = T
+  featureNames = TRUE
 )
 
 \S4method{plotExplanatoryHeatmap}{Analysis}(
@@ -43,11 +43,12 @@ plotExplanatoryHeatmap(x, ...)
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
-  featureNames = T
+  featureNames = TRUE
 )
 }
 \arguments{
-\item{x}{object of class Univariate, RandomForest or Analysis containing modelling results}
+\item{x}{object of class Univariate, RandomForest or 
+Analysis containing modelling results}
 
 \item{...}{arguments to pass to the appropriate method}
 

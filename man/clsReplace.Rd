@@ -24,5 +24,6 @@ clsReplace(x, value, cls = "class", ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Replace a given sample info column from an Analysis or AnalysisData object.
+Replace a given sample info column from an Analysis or 
+AnalysisData object.
 }

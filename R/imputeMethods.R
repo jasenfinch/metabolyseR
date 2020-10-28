@@ -135,22 +135,25 @@ imputeMethods <- function(method = NULL, description = FALSE){
   )
   
   descriptions <- list(
-    all = list(description = str_c('Impute missing values across all ',
-                                   'samples using Random Forest'),
-               arguments = c(
-                 occupancy = 'occupancy threshold for imputation',
-                 parallel = str_c('parallel type to use. ',
-                                  'See `?missForest` for details'),
-                 nCores = 'number of cores for parallisation',
-                 clusterType = 'cluster type for parallisation',
-                 seed = 'random number seed'
-               )),
-    class = list(description = 'Impute missing values class-wise using Random Forest',
-                 arguments = c(cls = 'info column to use for class labels',
-                               occupancy = 'occupancy threshold for imputation', 
-                               nCores = 'number of cores for parallisation',
-                               clusterType = 'cluster type for parallisation',
-                               seed = 'random number seed'))
+    all = list(
+      description = str_c('Impute missing values across all ',
+                          'samples using Random Forest'),
+      arguments = c(
+        occupancy = 'occupancy threshold for imputation',
+        parallel = str_c('parallel type to use. ',
+                         'See `?missForest` for details'),
+        nCores = 'number of cores for parallisation',
+        clusterType = 'cluster type for parallisation',
+        seed = 'random number seed'
+      )),
+    class = list(
+      description = 'Impute missing values class-wise using Random Forest',
+      arguments = c(
+        cls = 'info column to use for class labels',
+        occupancy = 'occupancy threshold for imputation', 
+        nCores = 'number of cores for parallisation',
+        clusterType = 'cluster type for parallisation',
+        seed = 'random number seed'))
   )
   
   if (description == FALSE) {

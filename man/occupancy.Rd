@@ -15,5 +15,6 @@ occupancy(x, cls = "class")
 \item{cls}{info column to use for class data}
 }
 \description{
-Return tibble containg proportional class occupancy for each feature for a given class info column.
+Return tibble containg proportional class occupancy 
+for each feature for a given class info column.
 }

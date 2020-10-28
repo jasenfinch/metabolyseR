@@ -2,7 +2,8 @@
 #' @description Analyse data based on specified analysis elements.
 #' @param  data tibble or data.frame containing data to analyse
 #' @param info tibble or data.frame containing data info or meta data
-#' @param parameters an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}
+#' @param parameters an object of AnalysisParameters class containing 
+#' parameters for analysis. Default calls \code{analysisParameters()}
 #' @param verbose should output be printed to the console 
 #' @importFrom magrittr %>%
 #' @importFrom methods slotNames slot
@@ -35,13 +36,21 @@
 #'                        p)
 #' @export
 
-metabolyse <- function(data,info,parameters = analysisParameters(), verbose = TRUE){
+metabolyse <- function(data,
+                       info,
+                       parameters = analysisParameters(), 
+                       verbose = TRUE){
   version <- packageVersion('metabolyseR') %>% as.character()
   analysisStart <- date()
   
   if (verbose == TRUE) {
     startTime <- proc.time()
-    message(blue('\nmetabolyseR '),' ',red(str_c('v',version)),' ',analysisStart)
+    message(
+      blue('\nmetabolyseR '),
+      ' ',
+      red(str_c('v',version)),
+      ' ',
+      analysisStart)
     message(str_c(rep('_',console_width()),collapse = ''))
     params <- parameters %>%
       {capture.output(print(.))} %>%
@@ -55,16 +64,21 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = TR
   }
   
   analysis <- new('Analysis',
-      log = list(packageVersion = version,analysis = analysisStart,verbose = verbose),
-      parameters = parameters,
-      raw = analysisData(data,info),
-      `pre-treated` = new('AnalysisData'),
-      modelling = list(),
-      correlations = tibble()
+                  log = list(
+                    packageVersion = version,
+                    analysis = analysisStart,
+                    verbose = verbose),
+                  parameters = parameters,
+                  raw = analysisData(data,info),
+                  `pre-treated` = new('AnalysisData'),
+                  modelling = list(),
+                  correlations = tibble()
   )
-    
+  
   elements <- analysisElements()
-  elements <- elements[map_dbl(elements,~{length(slot(analysis@parameters,.))}) > 0]
+  elements <- elements[map_dbl(elements,
+                               ~{length(slot(analysis@parameters,
+                                             .))}) > 0]
   
   for (i in elements) {
     method <- get(i)

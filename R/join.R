@@ -1,6 +1,7 @@
 #' bindAnalysesRows
 #' @rdname bindAnalysesRows
-#' @description Bind rows of objects of class AnalysisData contained within a list.
+#' @description Bind rows of objects of class AnalysisData 
+#' contained within a list.
 #' @param x list object containing S4 objects of class AnalysisData to be bound
 #' @export
 
@@ -9,7 +10,10 @@ setMethod('bindAnalysesRows',signature = 'list',function(x){
     map_chr(class)
   
   if (FALSE %in% (object_classes == 'AnalysisData')) {
-    stop('All objects contained within supplied list should be of class AnalysisData',call. = FALSE)
+    stop(
+      str_c('All objects contained within supplied list should ',
+            'be of class AnalysisData'),
+      call. = FALSE)
   }
   
   sample_info <- x %>%

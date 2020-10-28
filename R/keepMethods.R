@@ -52,14 +52,17 @@ keepMethods <- function(method = NULL, description = FALSE){
   )
   
   descriptions <- list(
-    samples = list(description = 'keep samples',
-                   arguments = c(idx = 'info column containing sample indexes',
-                                 samples = 'sample indices to keep')),
-    classes = list(description = 'keep classes',
-                   arguments = c(cls = 'info column containing class information',
-                                 classes = 'classes to keep')),
-    features = list(description = 'keep features',
-                     arguments = c(features = 'features to keep'))
+    samples = list(
+      description = 'keep samples',
+      arguments = c(idx = 'info column containing sample indexes',
+                    samples = 'sample indices to keep')),
+    classes = list(
+      description = 'keep classes',
+      arguments = c(cls = 'info column containing class information',
+                    classes = 'classes to keep')),
+    features = list(
+      description = 'keep features',
+      arguments = c(features = 'features to keep'))
   )
   
   if (description == FALSE) {

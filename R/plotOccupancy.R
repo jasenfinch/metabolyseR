@@ -11,12 +11,17 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
           function(x,cls = 'class'){
             
             if (clsExtract(x,cls) %>% is.numeric()) {
-              stop("Argument 'cls' should be either a factor or character",call. = FALSE)  
+              stop(
+                "Argument 'cls' should be either a factor or character",
+                call. = FALSE)  
             }
             
             occ <- occupancy(x,cls = cls)
             
-            d <- ggplot(occ,aes_string(x = 'Occupancy',group = cls,colour = cls)) +
+            d <- ggplot(occ,
+                        aes_string(x = 'Occupancy',
+                                   group = cls,
+                                   colour = cls)) +
               geom_density() +
               theme_bw() +
               labs(title = 'Density distrubution',
@@ -31,7 +36,10 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
               summarise(sum = n()) %>%
               mutate(cs = cumsum(sum))
           
-            csDist <- ggplot(cs,aes_string(x = 'Occupancy',y = 'cs',colour = cls)) + 
+            csDist <- ggplot(cs,
+                             aes_string(x = 'Occupancy',
+                                        y = 'cs',
+                                        colour = cls)) + 
               geom_line() + 
               theme_bw() +
               labs(title = 'Cumulative distribution',

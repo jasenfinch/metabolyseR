@@ -15,7 +15,9 @@ setMethod('plotImportance',signature = 'Univariate',
             res <- x@results
             
             if (!(response %in% unique(res$Response))) {
-              stop(str_c('Response "',response,'" not found!'),call. = FALSE)
+              stop(
+                str_c('Response "',response,'" not found!'),
+                call. = FALSE)
             }
             
             res <- res %>%
@@ -33,7 +35,10 @@ setMethod('plotImportance',signature = 'Univariate',
             }
             
             pl <- ggplot(res,aes(x = Feature,y = `-log10(p)`)) +
-              geom_hline(yintercept = -log10(threshold),linetype = 2,colour = 'red') +
+              geom_hline(
+                yintercept = -log10(threshold),
+                linetype = 2,
+                colour = 'red') +
               geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
               theme_bw() +
               theme(axis.line.x = element_blank(),
@@ -43,7 +48,9 @@ setMethod('plotImportance',signature = 'Univariate',
                     axis.title = element_text(face = 'bold'),
                     plot.title = element_text(face = 'bold')) +
               labs(title = response,
-                   caption = str_c('Dashed red line shows threshold of ',threshold,'.')) 
+                   caption = str_c(
+                     'Dashed red line shows threshold of ',
+                     threshold,'.')) 
             
             if (x@type == 'ttest') {
               pl <- pl +
@@ -67,7 +74,10 @@ setMethod('plotImportance',signature = 'RandomForest',
               
               metrics <- str_c('"',metrics,'"')
               
-              stop('Argument "metric" should be one of ',str_c(metrics,collapse = ', '),call. = FALSE)
+              stop(
+                'Argument "metric" should be one of ',
+                str_c(metrics,collapse = ', '),
+                call. = FALSE)
             }
             
             res <- importance(x) %>%
@@ -82,49 +92,55 @@ setMethod('plotImportance',signature = 'RandomForest',
               res <- res %>%
                 mutate(Feature = factor(Feature,levels = rank))
             }
-          
+            
             res <- res %>%
               spread(Metric,Value)
             
-          pl <- ggplot(res,aes(x = Feature,y = !!sym(metric))) +
-            geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
-            theme_bw() +
-            theme(axis.line.x = element_blank(),
-                  axis.ticks.x = element_blank(),
-                  axis.text.x = element_blank(),
-                  panel.grid = element_blank(),
-                  axis.title = element_text(face = 'bold'),
-                  plot.title = element_text(face = 'bold'),
-                  plot.caption = element_text(hjust = -1))
-          
-          if (typ != 'unsupervised') {
-            pl <- pl +
-              labs(title = res$Response[1])
-          }
-          
-          if (typ == 'classification') {
-            pl <- pl +
-              facet_wrap(~Comparison)
-          }
-          
-          return(pl)
+            pl <- ggplot(res,aes(x = Feature,y = !!sym(metric))) +
+              geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
+              theme_bw() +
+              theme(axis.line.x = element_blank(),
+                    axis.ticks.x = element_blank(),
+                    axis.text.x = element_blank(),
+                    panel.grid = element_blank(),
+                    axis.title = element_text(face = 'bold'),
+                    plot.title = element_text(face = 'bold'),
+                    plot.caption = element_text(hjust = -1))
+            
+            if (typ != 'unsupervised') {
+              pl <- pl +
+                labs(title = res$Response[1])
+            }
+            
+            if (typ == 'classification') {
+              pl <- pl +
+                facet_wrap(~Comparison)
+            }
+            
+            return(pl)
           }
 )
 
 #' @rdname plotImportance
 #' @export
 
-setMethod('plotImportance',signature = 'list',function(x,metric = 'FalsePositiveRate'){
-  object_classes <- x %>%
-    map_chr(class)
-  
-  if (FALSE %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
-    stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
-  }
-  
-  x %>%
-    map(plotImportance,metric = metric)
-})
+setMethod('plotImportance',
+          signature = 'list',
+          function(x,metric = 'FalsePositiveRate'){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (FALSE %in% (object_classes == 'RandomForest' | 
+                            object_classes == 'Univariate')) {
+              stop(
+                str_c('All objects contained within supplied list', 
+                      'should be of class RandomForest or Univariate'),
+                call. = FALSE)
+            }
+            
+            x %>%
+              map(plotImportance,metric = metric)
+          })
 
 #' plotMetrics
 #' @rdname plotMetrics
@@ -183,7 +199,10 @@ setMethod('plotMetrics',signature = 'list',function(x){
     map_chr(class)
   
   if (FALSE %in% (object_classes == 'RandomForest')) {
-    stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+    stop(
+      str_c('All objects contained within supplied list',
+            ' should be of class RandomForest or Univariate'),
+      call. = FALSE)
   }
   
   x %>%
@@ -194,12 +213,16 @@ setMethod('plotMetrics',signature = 'list',function(x){
 #' @rdname plotMDS
 #' @description Plot multidimensional scaling plot for a RandomForest object.
 #' @param x S4 object of class RandomForest
-#' @param cls info column to use for sample labelling, Set to NULL for no labelling. 
+#' @param cls info column to use for sample labelling, 
+#' Set to NULL for no labelling. 
 #' @param label info column to use for sample labels. Set to NULL for no labels.
-#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
-#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. 
+#' Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\%
+#' confidence ellipses for each class
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
+#' @param legendPosition legend position to pass to legend.position argument 
+#' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate_all
@@ -208,8 +231,16 @@ setMethod('plotMetrics',signature = 'list',function(x){
 #' @importFrom ggrepel geom_text_repel
 #' @export
 
-setMethod('plotMDS',signature = 'RandomForest',
-          function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotMDS',
+          signature = 'RandomForest',
+          function(x,
+                   cls = 'class',
+                   label = NULL, 
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   title = '', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2){
             
             if (!(cls %in% {x %>% sinfo() %>% colnames()})) {
               stop(str_c('Info column ',cls,'not found!'))
@@ -322,7 +353,20 @@ setMethod('plotMDS',signature = 'RandomForest',
             
             classLength <- clsLen(x,cls)
             
-            pl <- scatterPlot(mds,cls,'Dimension 1','Dimension 2',ellipses,shape,label,labelSize,legendPosition,classLength,title,'Dimension 1','Dimension 2')
+            pl <- scatterPlot(
+              mds,
+              cls,
+              'Dimension 1',
+              'Dimension 2',
+              ellipses,
+              shape,
+              label,
+              labelSize,
+              legendPosition,
+              classLength,
+              title,
+              'Dimension 1',
+              'Dimension 2')
             
             if (x@type == 'classification') {
               pl <- pl +
@@ -336,25 +380,45 @@ setMethod('plotMDS',signature = 'RandomForest',
 #' @rdname plotMDS
 #' @export
 
-setMethod('plotMDS',signature = 'list',
-          function(x,cls = 'class', label = NULL, shape = FALSE, ellipses = TRUE, title = '', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotMDS',
+          signature = 'list',
+          function(x,
+                   cls = 'class',
+                   label = NULL,
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   title = '', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2){
             object_classes <- x %>%
               map_chr(class)
             
             if (FALSE %in% (object_classes == 'RandomForest')) {
-              stop('All objects contained within supplied list should be of class RandomForest',call. = FALSE)
+              stop(
+                str_c('All objects contained within supplied list',
+                      ' should be of class RandomForest'),
+                call. = FALSE)
             }
             
             x %>%
-              map(plotMDS,cls = cls,label = label,shape = shape,ellipses = ellipses,title = title,legendPosition = legendPosition,labelSize = labelSize)
+              map(plotMDS,
+                  cls = cls,
+                  label = label,
+                  shape = shape,
+                  ellipses = ellipses,
+                  title = title,
+                  legendPosition = legendPosition,
+                  labelSize = labelSize)
           })
 
 #' plotROC
 #' @rdname plotROC
-#' @description plot reciever operator characteristic curves for a RandomForest object.
+#' @description plot reciever operator characteristic curves for a 
+#' RandomForest object.
 #' @param x S4 object of class RandomForest
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
+#' @param legendPosition legend position to pass to legend.position 
+#' argument of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @importFrom ggplot2 geom_abline geom_line guide_legend
 #' @importFrom yardstick roc_curve
 #' @export
@@ -391,7 +455,9 @@ setMethod('plotROC',signature = 'RandomForest',
             
             meas <- x@results$measures %>%
               filter(.metric == 'roc_auc') %>%
-              mutate(x = 0.8,y = 0, label = str_c('AUC: ',round(.estimate,3)))
+              mutate(x = 0.8,
+                     y = 0, 
+                     label = str_c('AUC: ',round(.estimate,3)))
             
             if ('.level' %in% colnames(preds)) {
               preds <- preds %>%
@@ -400,12 +466,18 @@ setMethod('plotROC',signature = 'RandomForest',
               pl <- preds %>%
                 ggplot() +
                 geom_abline(intercept = 0,linetype = 2,colour = 'grey') +
-                geom_line(aes(x = 1 - specificity, y = sensitivity,group = .level,colour = .level)) +
+                geom_line(
+                  aes(x = 1 - specificity, 
+                      y = sensitivity,
+                      group = .level,
+                      colour = .level)) +
                 geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
                 facet_wrap(~Comparison) +
                 coord_fixed() +
-                guides(colour = guide_legend(title = x@results$measures$Response[1])) +
+                guides(
+                  colour = guide_legend(
+                    title = x@results$measures$Response[1])) +
                 labs(title = title)
               
               if ((preds$.level %>% unique() %>% length()) <= 12) {
@@ -420,8 +492,13 @@ setMethod('plotROC',signature = 'RandomForest',
               pl <- preds %>%
                 ggplot() +
                 geom_abline(intercept = 0,linetype = 2,colour = 'grey') +
-                geom_line(aes(x = 1 - specificity, y = sensitivity),colour = ptol_pal()(1)) +
-                geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
+                geom_line(
+                  aes(x = 1 - specificity, 
+                      y = sensitivity),
+                  colour = ptol_pal()(1)) +
+                geom_text(
+                  data = meas,
+                  aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
                 facet_wrap(~Comparison) +
                 coord_fixed() +

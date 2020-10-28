@@ -18,5 +18,6 @@ exportParameters(x, file = "analysis_parameters.yaml")
 \item{file}{File name and path to export to}
 }
 \description{
-Export analysis parameters from AnalysisParameters or Analysis objects to YAML format.
+Export analysis parameters from AnalysisParameters or 
+Analysis objects to YAML format.
 }

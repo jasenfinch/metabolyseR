@@ -20,7 +20,7 @@ anova(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = F,
+  returnModels = FALSE,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()
 )
@@ -38,7 +38,8 @@ anova(
 
 \item{nCores}{number of cores to use for parallelisation}
 
-\item{clusterType}{cluster type to use for parallelisation (`?parallel::makeCluster`)}
+\item{clusterType}{cluster type to use for parallelisation 
+(`?parallel::makeCluster`)}
 }
 \description{
 One-way analysis of variance (ANOVA).

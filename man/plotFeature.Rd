@@ -20,7 +20,8 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
 \S4method{plotFeature}{AnalysisData}(analysis, feature, cls = "class", label = NULL, labelSize = 2)
 }
 \arguments{
-\item{analysis}{object of class Analysis, AnalysisData, Univariate or RandomForest containing analysis results}
+\item{analysis}{object of class Analysis, AnalysisData, Univariate 
+or RandomForest containing analysis results}
 
 \item{feature}{feature to plot}
 

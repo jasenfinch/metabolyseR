@@ -40,8 +40,8 @@ plotSupervisedRF(
   rf = list(),
   label = NULL,
   shape = FALSE,
-  ellipses = T,
-  ROC = T,
+  ellipses = TRUE,
+  ROC = TRUE,
   seed = 1234,
   title = "",
   legendPosition = "bottom",
@@ -57,9 +57,11 @@ plotSupervisedRF(
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
-\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. 
+Defaults to TRUE when the number of classes is greater than 12}
 
-\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% 
+confidence ellipses for each class}
 
 \item{ROC}{should reciever-operator characteristics be plotted?}
 
@@ -67,7 +69,8 @@ plotSupervisedRF(
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
+\item{legendPosition}{legend position to pass to legend.position argument 
+of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }

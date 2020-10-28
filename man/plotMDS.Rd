@@ -42,17 +42,21 @@ plotMDS(
 \arguments{
 \item{x}{S4 object of class RandomForest}
 
-\item{cls}{info column to use for sample labelling, Set to NULL for no labelling.}
+\item{cls}{info column to use for sample labelling, 
+Set to NULL for no labelling.}
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
-\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. 
+Defaults to TRUE when the number of classes is greater than 12}
 
-\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\%
+confidence ellipses for each class}
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
+\item{legendPosition}{legend position to pass to legend.position argument 
+of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
 }

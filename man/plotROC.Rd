@@ -14,8 +14,10 @@ plotROC(x, title = "", legendPosition = "bottom")
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
+\item{legendPosition}{legend position to pass to legend.position 
+argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
 }
 \description{
-plot reciever operator characteristic curves for a RandomForest object.
+plot reciever operator characteristic curves for a 
+RandomForest object.
 }

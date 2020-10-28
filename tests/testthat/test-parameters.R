@@ -34,7 +34,8 @@ test_that('parameters extracted for AnalysisParameters objects',{
 })
 
 test_that('pre-treatment parameters assigned for AnalysisParameters',{
-  parameters(p,'pre-treatment') <- preTreatmentParameters(list(transform = 'TICnorm'))
+  parameters(p,'pre-treatment') <- preTreatmentParameters(
+    list(transform = 'TICnorm'))
   expect_identical(parameters(p,'pre-treatment') %>% names(),'transform')
 })
 

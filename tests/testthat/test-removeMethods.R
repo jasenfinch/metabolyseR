@@ -7,7 +7,7 @@ test_that('removeMethods returns methods correctly',{
   expect_false(F %in% m)
 })
 
-  test_that('removeMethods returns descriptions correctly',{
+test_that('removeMethods returns descriptions correctly',{
   m <- sapply(removeMethods(description = T),is.list)
   expect_false(F %in% m)
 })
@@ -20,7 +20,9 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(removeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
+  expect_false(F %in% unlist(lapply(
+    n,
+    function(x){x == c('description','arguments')})))
 })
 
 test_that('number of method arguments matches description arguments', {

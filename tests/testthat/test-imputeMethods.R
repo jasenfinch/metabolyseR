@@ -20,11 +20,13 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(imputeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
+  expect_false(F %in% unlist(lapply(
+    n,function(x){x == c('description','arguments')})))
 })
 
 test_that('number of method arguments matches description arguments', {
-  d <- sapply(imputeMethods(description = T),function(x){length(x$arguments)})
+  d <- sapply(imputeMethods(description = T),
+              function(x){length(x$arguments)})
   m <- sapply(imputeMethods(),function(x){length(formals(x)[-1])})
   expect_equal(d,m)
 })
@@ -39,7 +41,7 @@ test_that('methods work',{
     {
       keepFeatures(.,features = features(.)[500:600])
     }
-
+  
   m <- lapply(m,function(x,dat){
     method <- imputeMethods(x)
     res <- method(d,nCores = 1)
@@ -47,10 +49,22 @@ test_that('methods work',{
   },d = d)
   
   expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
-  expect_false(F %in% sapply(m,function(x){class(dat(x)) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x){class(sinfo(x)) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
-  expect_false(F %in% sapply(m,function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(sinfo(x)) == row},row = nrow(sinfo(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x){class(dat(x)) == c('tbl_df','tbl','data.frame')}))
+  expect_false(F %in% sapply(
+    m,
+    function(x){class(sinfo(x)) == c('tbl_df','tbl','data.frame')}))
+  expect_false(F %in% sapply(
+    m,
+    function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
+  expect_false(F %in% sapply(
+    m,
+    function(x,row){nrow(sinfo(x)) == row},row = nrow(sinfo(d))))
 })

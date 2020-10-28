@@ -36,7 +36,14 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 #' @export
 
 setMethod('QCimpute',signature = 'AnalysisData',
-          function(d, cls = 'class', QCidx = 'QC', occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
+          function(d, 
+                   cls = 'class', 
+                   QCidx = 'QC', 
+                   occupancy = 2/3, 
+                   parallel = 'variables', 
+                   nCores = detectCores() * 0.75, 
+                   clusterType = getClusterType(), 
+                   seed = 1234){
             set.seed(seed)
             QC <-  d %>%
               keepClasses(cls = cls,classes = QCidx) %>%
@@ -47,10 +54,10 @@ setMethod('QCimpute',signature = 'AnalysisData',
                         seed = seed)
             
             dat(d)[d %>% 
-                sinfo() %>% 
-                select(cls) %>%
-                deframe() %>%
-                {. == QCidx},] <- QC %>%
+                     sinfo() %>% 
+                     select(cls) %>%
+                     deframe() %>%
+                     {. == QCidx},] <- QC %>%
               dat()
             return(d)
           }
@@ -93,8 +100,8 @@ setMethod('QCrsdFilter',signature = 'AnalysisData',
 
 setMethod('QCremove',signature = 'AnalysisData',
           function(d,cls = 'class', QCidx = 'QC'){
-           d <- d %>%
-             removeClasses(cls = cls,classes = QCidx)
+            d <- d %>%
+              removeClasses(cls = cls,classes = QCidx)
             return(d)
           }
 )
@@ -109,26 +116,32 @@ QCMethods <- function(method = NULL, description = FALSE){
   ) 
   
   descriptions <- list(
-    occupancyFilter = list(description = 'Filter variables based on occupancy in QC samples',
-                           arguments = c(cls = 'info column to use for class labels',
-                                         QCidx = 'QC sample label',
-                                         occupancy = 'occupancy threshold for filtering')),
-    impute = list(description = 'Impute missing values in QC samples',
-                  arguments = c(cls = 'info column to use for class labels',
-                                QCidx = 'QC sample label',
-                                occupancy = 'occupancy threshold for imputation',
-                                parallel = 'parallel type to use. See `?missForest` for details',
-                                nCores = 'number of cores for parallisation',
-                                clusterType = 'cluster type for parallisation',
-                                seed = 'random number seed')
+    occupancyFilter = list(
+      description = 'Filter variables based on occupancy in QC samples',
+      arguments = c(cls = 'info column to use for class labels',
+                    QCidx = 'QC sample label',
+                    occupancy = 'occupancy threshold for filtering')),
+    impute = list(
+      description = 'Impute missing values in QC samples',
+      arguments = c(cls = 'info column to use for class labels',
+                    QCidx = 'QC sample label',
+                    occupancy = 'occupancy threshold for imputation',
+                    parallel = str_c('parallel type to use. See ',
+                                     '`?missForest` for details'),
+                    nCores = 'number of cores for parallisation',
+                    clusterType = 'cluster type for parallisation',
+                    seed = 'random number seed')
     ),
-    RSDfilter = list(description = 'Filter features based on their relative standard deviation in QC samples',
-                     arguments = c(cls = 'info column to use for class labels',
-                                   QCidx = 'QC sample label',
-                                   RSDthreshold = 'RSD threshold for filtering')),
-    removeQC = list(description = 'Remove QC samples',
-                    arguments = c(cls = 'info column to use for class labels',
-                                  QCidx = 'QC sample label'))
+    RSDfilter = list(
+      description = str_c('Filter features based on their ',
+                          'relative standard deviation in QC samples'),
+      arguments = c(cls = 'info column to use for class labels',
+                    QCidx = 'QC sample label',
+                    RSDthreshold = 'RSD threshold for filtering')),
+    removeQC = list(
+      description = 'Remove QC samples',
+      arguments = c(cls = 'info column to use for class labels',
+                    QCidx = 'QC sample label'))
   )
   
   if (description == FALSE) {
@@ -161,7 +174,8 @@ QCMethods <- function(method = NULL, description = FALSE){
 
 #' rsd
 #' @rdname rsd
-#' @description Calculate relative standard deviation values for each feature per class for a given info column.
+#' @description Calculate relative standard deviation values for each 
+#' feature per class for a given info column.
 #' @param x S4 object of class AnalysisData
 #' @param cls info column to use for class structure
 #' @export
