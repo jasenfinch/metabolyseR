@@ -55,11 +55,8 @@ reAnalyse <- function(analysis,
   }
   
   elements <- slotNames(parameters)
-  elements <- elements[sapply(
-    elements,
-    function(x,
-             parameters){length(slot(parameters,x))},
-    parameters = parameters) > 0]
+  elements <- elements[map_dbl(elements,
+                               ~{length(slot(parameters,.x))}) > 0]
   
   for (i in elements) {
     method <- get(i)

@@ -3,12 +3,12 @@ library(metaboData)
 context('QCMethods')
 
 test_that('QCMethods returns methods correctly',{
-  m <- sapply(QCMethods(),is.function)
+  m <- map_lgl(QCMethods(),is.function)
   expect_false(FALSE %in% m)
 })
 
 test_that('QCMethods returns descriptions correctly',{
-  m <- sapply(QCMethods(description = TRUE),is.list)
+  m <- map_lgl(QCMethods(description = TRUE),is.list)
   expect_false(FALSE %in% m)
 })
 
@@ -26,9 +26,9 @@ test_that('descriptions have correct names', {
 })
 
 test_that('number of method arguments matches description arguments', {
-  d <- sapply(QCMethods(description = TRUE),
-              function(x){length(x$arguments)})
-  m <- sapply(QCMethods(),function(x){length(formals(x)[-1])})
+  d <- map_dbl(QCMethods(description = TRUE),
+              ~{length(.x$arguments)})
+  m <- map_dbl(QCMethods(),~{length(formals(.x)[-1])})
   expect_equal(d,m)
 })
 
@@ -49,16 +49,16 @@ test_that('methods work',{
     return(res)
   })
   
-  expect_false(FALSE %in% sapply(
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(slotNames(x),c('data','info'))}))
-  expect_false(FALSE %in% sapply(
+    ~{identical(slotNames(.x),c('data','info'))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(class(dat(x)),c('tbl_df','tbl','data.frame'))}))
-  expect_false(FALSE %in% sapply(
+    ~{identical(class(dat(.x)),c('tbl_df','tbl','data.frame'))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(class(sinfo(x)),c('tbl_df','tbl','data.frame'))}))
-  expect_false(FALSE %in% sapply(
+    ~{identical(class(sinfo(.x)),c('tbl_df','tbl','data.frame'))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
+    ~{ncol(sinfo(x)) == ncol(sinfo(d))}))
 })

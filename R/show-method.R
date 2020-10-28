@@ -9,9 +9,9 @@ setMethod('show',signature = 'AnalysisParameters',
           function(object){
             
             elements <- analysisElements()
-            elements <- elements[sapply(elements, function(x,object){
-              length(slot(object,x)) != 0
-            },object = object) == TRUE]
+            elements <- elements[map_lgl(
+              elements,
+              ~{length(slot(object,.x)) != 0}) == TRUE]
             names(elements) <- elements
             
             if ('pre-treatment' %in% elements) {
@@ -83,9 +83,9 @@ setMethod('show',signature = 'Analysis',
           function(object){
             elements <- slotNames(object)
             elements <- elements[4:length(elements)]
-            elements <- elements[sapply(elements, function(x,object){
-              length(slot(object,x)) != 0
-            },object = object) == TRUE]
+            elements <- elements[map_lgl(
+              elements, 
+              ~{length(slot(object,.x)) != 0}) == TRUE]
             names(elements) <- elements
             
             time <- object@log$analysis
@@ -114,7 +114,7 @@ setMethod('show',signature = 'Analysis',
             if ('pre-treated' %in% elements) {
               time <- object@log$preTreatment
               p <- preTreated(object)
-             
+              
               pD <- paste('\t\tNo. samples = ',
                           nSamples(p),
                           '\n',

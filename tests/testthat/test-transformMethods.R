@@ -3,12 +3,12 @@ library(metaboData)
 context('transformMethods')
 
 test_that('transformMethods returns methods correctly',{
-  m <- sapply(transformMethods(),is.function)
+  m <- map_lgl(transformMethods(),is.function)
   expect_false(FALSE %in% m)
 })
 
 test_that('transformMethods returns descriptions correctly',{
-  m <- sapply(transformMethods(description = TRUE),is.list)
+  m <- map_lgl(transformMethods(description = TRUE),is.list)
   expect_false(FALSE %in% m)
 })
 
@@ -38,26 +38,26 @@ test_that('methods work',{
     return(res)
   })
   
-  expect_false(FALSE %in% sapply(
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(slotNames(x),c('data','info'))}))
-  expect_false(FALSE %in% sapply(
+    ~{identical(slotNames(.x),c('data','info'))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(class(x %>% dat()),c('tbl_df',"tbl","data.frame"))}))
-  expect_false(FALSE %in% sapply(
+    ~{identical(class(.x %>% dat()),c('tbl_df',"tbl","data.frame"))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(class(x %>% sinfo()),
+    ~{identical(class(.x %>% sinfo()),
                           c('tbl_df',"tbl","data.frame"))}))
-  expect_false(FALSE %in% sapply(
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
-  expect_false(FALSE %in% sapply(
+    ~{ncol(dat(.x)) == ncol(dat(d))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
-  expect_false(FALSE %in% sapply(
+    ~{nrow(dat(.x)) == nrow(dat(d))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
-  expect_false(FALSE %in% sapply(
+    ~{ncol(sinfo(.x)) == ncol(sinfo(d))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,row){nrow(sinfo(x)) == row},row = nrow(dat(d))))
+    ~{nrow(sinfo(x)) == nrow(dat(d))}))
 })

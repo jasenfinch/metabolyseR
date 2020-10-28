@@ -3,12 +3,12 @@ library(metaboData)
 context('aggregateMethods')
 
 test_that('aggregateMethods returns methods correctly',{
-  m <- sapply(aggregateMethods(),is.function)
+  m <- map_lgl(aggregateMethods(),is.function)
   expect_false(FALSE %in% m)
 })
 
 test_that('aggregateMethods returns descriptions correctly',{
-  m <- sapply(aggregateMethods(description = TRUE),is.list)
+  m <- map_lgl(aggregateMethods(description = TRUE),is.list)
   expect_false(FALSE %in% m)
 })
 
@@ -26,9 +26,9 @@ test_that('descriptions have correct names', {
 })
 
 test_that('number of method arguments matches description arguments', {
-  d <- sapply(aggregateMethods(description = TRUE),
-              function(x){length(x$arguments)})
-  m <- sapply(aggregateMethods(),function(x){length(formals(x)[-1])})
+  d <- map_dbl(aggregateMethods(description = TRUE),
+               ~{length(.x$arguments)})
+  m <- map_dbl(aggregateMethods(),~{length(formals(.x)[-1])})
   expect_equal(d,m)
 })
 
@@ -43,17 +43,16 @@ test_that('methods work',{
     res <- method(dat)
     return(res)
   },dat = d)
-  
-  expect_false(FALSE %in% sapply(
+  expect_identical(FALSE %in% map_lgl(
+    m,~{slotNames(.x) == c('data','info')}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){slotNames(x) == c('data','info')}))
-  expect_false(FALSE %in% sapply(
-    m,
-    function(x){class(x) == 'AnalysisData'}))
-  expect_false(FALSE %in% (sapply(
-    m,
-    function(x){nrow(x %>% dat())}) == sapply(
-      m,
-      function(x){nrow(x %>% sinfo())})))
+    ~{class(.x) == 'AnalysisData'}))
+  expect_false(FALSE %in% (map_dbl(
+    m,~{nrow(x %>% 
+               dat())}) == map_dbl(
+                 m,
+                 ~{nrow(.x %>% 
+                          sinfo())})))
 })
 

@@ -277,9 +277,9 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
               stop(str_c('Elements can only include ',str_c(e,collapse = ', ')))
             }
             
-            elements <- elements[sapply(elements,function(x,parameters){
-              length(slot(parameters,x))
-            },parameters = x) > 0]
+            elements <- elements[map_dbl(elements,~{
+              length(slot(x,.x))
+            }) > 0]
             
             if ('pre-treatment' %in% elements) {
               pars <- lapply(
@@ -291,10 +291,10 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
                              parameterName){
                       names(y)[names(y) == parameterName]},
                     parameterName = parameterName)
-                  x[sapply(x,length) == 0] <- NULL
+                  x[map_dbl(x,length) == 0] <- NULL
                   return(x)
                 },parameterName = parameterName)
-              pars[sapply(pars,length) == 0] <- NULL
+              pars[map_dbl(pars,length) == 0] <- NULL
               pars <- lapply(names(pars),function(x,pars){
                 pars <- pars[[x]]
                 pars <- lapply(names(pars),function(y,pars,n){

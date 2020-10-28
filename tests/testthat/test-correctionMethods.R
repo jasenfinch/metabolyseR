@@ -3,13 +3,13 @@ library(metaboData)
 context('correctionMethods')
 
 test_that('correctionMethods returns methods correctly',{
-  m <- sapply(correctionMethods(),is.function)
-  expect_false(F %in% m)
+  m <- map_lgl(correctionMethods(),is.function)
+  expect_false(FALSE %in% m)
 })
 
 test_that('correctionMethods returns descriptions correctly',{
-  m <- sapply(correctionMethods(description = T),is.list)
-  expect_false(F %in% m)
+  m <- map_lgl(correctionMethods(description = T),is.list)
+  expect_false(FALSE %in% m)
 })
 
 test_that('description names match method names',{
@@ -20,7 +20,7 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(correctionMethods(description = T),names)
-  expect_false(F %in% unlist(
+  expect_false(FALSE %in% unlist(
     lapply(n,function(x){x == c('description','arguments')})))
 })
 
@@ -35,27 +35,28 @@ test_that('methods work',{
     return(res)
   })
   
-  expect_false(F %in% sapply(
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(slotNames(x),c('data','info'))}))
-  expect_false(F %in% sapply(
+    ~{identical(slotNames(.x),c('data','info'))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(class(x %>% dat()),c('tbl_df',"tbl","data.frame"))}))
-  expect_false(F %in% sapply(
+    ~{identical(class(.x %>% 
+                        dat()),c('tbl_df',"tbl","data.frame"))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x){identical(class(x %>% 
-                                  sinfo()),
-                          c('tbl_df',"tbl","data.frame"))}))
-  expect_false(F %in% sapply(
+    ~{identical(class(.x %>% 
+                        sinfo()),
+                c('tbl_df',"tbl","data.frame"))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
-  expect_false(F %in% sapply(
+    ~{ncol(dat(.x)) == ncol(dat(d))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
-  expect_false(F %in% sapply(
+    ~{nrow(dat(x)) == nrow(dat(d))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
-  expect_false(F %in% sapply(
+    ~{ncol(sinfo(x)) == ncol(sinfo(d))}))
+  expect_false(FALSE %in% map_lgl(
     m,
-    function(x,row){nrow(sinfo(x)) == row},row = nrow(dat(d))))
+    ~{nrow(sinfo(x)) == nrow(dat(d))}))
 })
