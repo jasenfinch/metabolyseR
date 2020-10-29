@@ -16,7 +16,8 @@ plotUnsupervisedRF(
   seed = 1234,
   title = "",
   legendPosition = "bottom",
-  labelSize = 2
+  labelSize = 2,
+  ...
 )
 
 \S4method{plotUnsupervisedRF}{AnalysisData}(
@@ -42,7 +43,8 @@ plotUnsupervisedRF(
   seed = 1234,
   title = "",
   legendPosition = "bottom",
-  labelSize = 2
+  labelSize = 2,
+  type = "raw"
 )
 }
 \arguments{

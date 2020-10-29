@@ -62,12 +62,21 @@ setMethod('plotUnsupervisedRF',
                    seed = 1234, 
                    title = '', 
                    legendPosition = 'bottom', 
-                   labelSize = 2){
+                   labelSize = 2,
+                   type = 'raw'){
             
-            if (nFeatures(x,type = 'pre-treated') > 0) {
-              d <- preTreated(x)
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              d <- x %>%
+                preTreated()
             } else {
-              d <- raw(x)
+              d <- x %>%
+                raw()
             }
             
             plotUnsupervisedRF(d,
