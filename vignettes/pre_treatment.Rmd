@@ -431,7 +431,7 @@ analysis
 
 ```{r}
 analysis %>%
-  plotSupervisedRF(cls = 'day')
+  plotSupervisedRF(cls = 'day',type = 'pre-treated')
 ```
 
 ### Method reference table
