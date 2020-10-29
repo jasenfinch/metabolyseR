@@ -388,9 +388,13 @@ preTreatmentParameters <- function(methods){
     })
   
   methods %>%
-    names() %>%
+    length() %>%
+    seq_len() %>%
     map(~{
-      element <- .x %>%
+      m <- methods %>%
+        names() %>%
+        .[.x]
+      element <- m %>%
         getPreTreatMethods()
       meths <- methods[[.x]] %>%
         map(~{
