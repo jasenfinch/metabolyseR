@@ -20,7 +20,7 @@ test_that('reAnalyse works',{
   
   analysis <- reAnalyse(analysis,
                         parameters = analysisParameters('correlations'),
-                        verbose = FALSE)
+                        verbose = TRUE)
   
   expect_identical(class(analysis@correlations),c("tbl_df","tbl","data.frame"))
 })
