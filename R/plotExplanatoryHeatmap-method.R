@@ -67,10 +67,10 @@ heatmapClasses <- function(pl,
         'Explanatory features had a P value below a threshold of ',
         threshold,'.')
       
-      if (length(feat) > 3000) {
+      if (length(feat) > 500) {
         caption <- str_c(
           caption,'\n',
-          'Number of features capped at top 3000.')
+          'Number of features capped at top 500.')
       }
       low <- 'white'
       high <- "#F21A00"
@@ -187,11 +187,11 @@ heatmapRegression <- function(pl,
         threshold,
         '.')
       
-      if (length(feat) > 3000) {
+      if (length(feat) > 500) {
         caption <- str_c(
           caption,
           '\n',
-          'Number of features capped at top 3000.')
+          'Number of features capped at top 500.')
       }
       low <- '#00B7FF'
       mid <- 'white'
@@ -328,17 +328,9 @@ setMethod('plotExplanatoryHeatmap',
                 dendrogram = dendrogram)
             }
             
-            # pl <- wrap_plots(pl)
+            pl <- wrap_plots(pl)
             
-            p <- pl[[1]]
-            
-            if (length(pl) > 1) {
-              for (i in 2:length(pl)) {
-                p <- p + pl[[i]]
-              }  
-            }
-            
-            return(p)
+            return(pl)
           }
 )
 
@@ -363,12 +355,8 @@ setMethod('plotExplanatoryHeatmap',
                                           metric = metric,
                                           threshold = threshold)
             
-            if ('Response' %in% colnames(explan)) {
               pl <- explan %>%
                 base::split(.$Response)
-            } else {
-              pl <- list(explan)
-            }
             
             if (x@type == 'classification') {
               pl <- heatmapClasses(
@@ -440,14 +428,9 @@ setMethod('plotExplanatoryHeatmap',
                    featureNames = TRUE){
             x %>%
               analysisResults(element = 'modelling') %>%
-              map(~{
-                map(.,
-                    plotExplanatoryHeatmap,
-                    threshold = threshold, 
-                    distanceMeasure = distanceMeasure, 
-                    clusterMethod = clusterMethod, 
-                    featureNames = featureNames) %>%
-                  wrap_plots()  
-              })
+                 plotExplanatoryHeatmap(threshold = threshold, 
+                                        distanceMeasure = distanceMeasure, 
+                                        clusterMethod = clusterMethod, 
+                                        featureNames = featureNames) 
           }
 )
