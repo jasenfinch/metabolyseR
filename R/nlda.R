@@ -32,7 +32,7 @@
     
     g  <- nlevels(cl)
     mx <- apply(score,2,mean)
-    TRUE  <- matrix(0,nrow = rankmat,ncol=rankmat)
+    t  <- matrix(0,nrow = rankmat,ncol=rankmat)
     W  <- matrix(0,nrow = rankmat,ncol=rankmat)
     for(j in 1:g){
       idx <- which(cl==levels(cl)[j])
@@ -41,10 +41,10 @@
       zz  <- apply(K,2,mean)
       A   <- K - t(matrix(rep(mx, L),length(mx),L))
       C   <- K - t(matrix(rep(zz, L),length(zz),L))
-      TRUE   <- TRUE + t(A)%*%A
+      t   <- t + t(A)%*%A
       W   <- W + t(C)%*%C
     }
-    B <- TRUE-W
+    B <- t-W
     
     Ng    <- nrow(score)-g
     P     <- W/(Ng)

@@ -59,5 +59,5 @@ test_that('methods work',{
     ~{ncol(sinfo(.x)) == ncol(sinfo(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{nrow(sinfo(x)) == nrow(dat(d))}))
+    ~{nrow(sinfo(.x)) == nrow(dat(d))}))
 })

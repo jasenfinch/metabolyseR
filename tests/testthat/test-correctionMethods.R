@@ -52,11 +52,11 @@ test_that('methods work',{
     ~{ncol(dat(.x)) == ncol(dat(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{nrow(dat(x)) == nrow(dat(d))}))
+    ~{nrow(dat(.x)) == nrow(dat(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{ncol(sinfo(x)) == ncol(sinfo(d))}))
+    ~{ncol(sinfo(.x)) == ncol(sinfo(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{nrow(sinfo(x)) == nrow(dat(d))}))
+    ~{nrow(sinfo(.x)) == nrow(dat(d))}))
 })

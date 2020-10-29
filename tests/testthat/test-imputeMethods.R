@@ -26,7 +26,7 @@ test_that('descriptions have correct names', {
 
 test_that('number of method arguments matches description arguments', {
   d <- map_dbl(imputeMethods(description = T),
-              ~{length(.x$arguments)})
+               ~{length(.x$arguments)})
   m <- map_dbl(imputeMethods(),~{length(formals(.x)[-1])})
   expect_equal(d,m)
 })
@@ -42,29 +42,30 @@ test_that('methods work',{
       keepFeatures(.,features = features(.)[500:600])
     }
   
-  m <- lapply(m,function(x,dat){
-    method <- imputeMethods(x)
-    res <- method(d,nCores = 1)
-    return(res)
-  },d = d)
+  m <- m %>%
+    map(~{
+      method <- imputeMethods(.x)
+      res <- method(d,nCores = 1)
+      return(res)
+    })
   
-  expect_false(FALSE %in% map_lgl(m,~{names(.x) == c('Data','Info')}))
+  expect_false(FALSE %in% ('AnalysisData' == map_chr(m,class)))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{class(dat(.x)) == c('tbl_df','tbl','data.frame')}))
+    ~{identical(class(dat(.x)), c('tbl_df','tbl','data.frame'))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{class(sinfo(.x)) == c('tbl_df','tbl','data.frame')}))
+    ~{identical(class(sinfo(.x)),c('tbl_df','tbl','data.frame'))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{ncol(dat(x)) == ncol(dat(d))}))
+    ~{ncol(dat(.x)) == ncol(dat(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{nrow(dat(x)) == nrow(dat(d))}))
+    ~{nrow(dat(.x)) == nrow(dat(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{ncol(sinfo(x)) == ncol(sinfo(d))}))
+    ~{ncol(sinfo(.x)) == ncol(sinfo(d))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{nrow(sinfo(x)) == nrow(sinfo(d))}))
+    ~{nrow(sinfo(.x)) == nrow(sinfo(d))}))
 })

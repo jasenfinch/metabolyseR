@@ -43,13 +43,13 @@ test_that('methods work',{
     res <- method(dat)
     return(res)
   },dat = d)
-  expect_identical(FALSE %in% map_lgl(
-    m,~{slotNames(.x) == c('data','info')}))
+  expect_false(FALSE %in% map_lgl(
+    m,~{identical(slotNames(.x),c('data','info'))}))
   expect_false(FALSE %in% map_lgl(
     m,
     ~{class(.x) == 'AnalysisData'}))
   expect_false(FALSE %in% (map_dbl(
-    m,~{nrow(x %>% 
+    m,~{nrow(.x %>% 
                dat())}) == map_dbl(
                  m,
                  ~{nrow(.x %>% 

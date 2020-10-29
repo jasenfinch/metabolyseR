@@ -60,5 +60,5 @@ test_that('methods work',{
     ~{identical(class(sinfo(.x)),c('tbl_df','tbl','data.frame'))}))
   expect_false(FALSE %in% map_lgl(
     m,
-    ~{ncol(sinfo(x)) == ncol(sinfo(d))}))
+    ~{ncol(sinfo(.x)) == ncol(sinfo(d))}))
 })
