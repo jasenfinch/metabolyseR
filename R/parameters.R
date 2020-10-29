@@ -280,39 +280,20 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
             elements <- elements[map_dbl(elements,~{
               length(slot(x,.x))
             }) > 0]
+
             
             if ('pre-treatment' %in% elements) {
-              pars <- lapply(
-                parameters(x,'pre-treatment'),
-                function(x,parameterName){
-                  x <- lapply(
-                    x,
-                    function(y,
-                             parameterName){
-                      names(y)[names(y) == parameterName]},
-                    parameterName = parameterName)
-                  x[map_dbl(x,length) == 0] <- NULL
-                  return(x)
-                },parameterName = parameterName)
-              pars[map_dbl(pars,length) == 0] <- NULL
-              pars <- lapply(names(pars),function(x,pars){
-                pars <- pars[[x]]
-                pars <- lapply(names(pars),function(y,pars,n){
-                  pars <- pars[[y]]
-                  pars <- c(n,y,pars)
-                  return(pars)
-                },pars = pars,n = x)
-                return(pars)
-              },pars = pars)
-              pars <- unlist(pars,recursive = FALSE)
-              
-              if (!is.null(pars)) {
-                p <- parameters(x,'pre-treatment')
-                for (i in seq_along(pars)) {
-                  p[[pars[[i]][1]]][[pars[[i]][2]]][[pars[[i]][3]]] <- value
-                }
-                parameters(x,'pre-treatment') <- p
-              }
+              parameters(x,'pre-treatment') <- x %>%
+                parameters('pre-treatment') %>%
+                map(~{
+                  .x %>%
+                    map(~{
+                      if (parameterName %in% names(.x)) {
+                        .x[[parameterName]] <- value
+                      }
+                      return(.x)
+                    })
+                })
             }
             
             if ('modelling' %in% elements) {
