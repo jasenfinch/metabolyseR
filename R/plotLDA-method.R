@@ -17,6 +17,8 @@
 #' @param legendPosition legend position to pass to legend.position argument 
 #' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @examples 
 #' \dontrun{
 #' library(metaboData)
@@ -72,8 +74,8 @@ setMethod('plotLDA',
               
               if (!is.null(label)) {
                 lda <- lda %>%
-                  bind_cols(info %>%
-                              select(label()))
+                  bind_cols(sinfo(analysis) %>%
+                              select(all_of(label)))
               }
               
               classLength <- clsLen(analysis,cls)
@@ -123,11 +125,22 @@ setMethod('plotLDA',
                    shape = FALSE, 
                    ellipses = TRUE, 
                    title = 'PC-LDA', 
-                   legendPosition = 'bottom', labelSize = 2){
-            if (analysis %>% dat(type = 'pre-treated') %>% ncol() > 0) {
-              d <- preTreated(analysis)
+                   legendPosition = 'bottom', 
+                   labelSize = 2,
+                   type = 'raw'){
+
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              d <- analysis %>%
+                preTreated()
             } else {
-              d <- raw(analysis)
+              d <- analysis %>%
+                raw()
             }
             
             plotLDA(d, 

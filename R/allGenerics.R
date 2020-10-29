@@ -83,7 +83,8 @@ setGeneric('plotLDA',
              ellipses = TRUE, 
              title = 'PC-LDA', 
              legendPosition = 'bottom', 
-             labelSize = 2)
+             labelSize = 2,
+             ...)
            {
              standardGeneric('plotLDA')
            })
