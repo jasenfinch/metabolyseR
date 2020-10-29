@@ -13,6 +13,8 @@
 #' @param legendPosition legend position to pass to legend.position argument 
 #' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @importFrom stats cmdscale
 #' @export
 

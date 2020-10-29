@@ -120,7 +120,8 @@ setGeneric('plotSupervisedRF',
              seed = 1234, 
              title = '', 
              legendPosition = 'bottom', 
-             labelSize = 2)
+             labelSize = 2,
+             ...)
            {
              standardGeneric('plotSupervisedRF')
            })

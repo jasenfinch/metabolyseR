@@ -70,6 +70,10 @@ confidence ellipses for each class}
 of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
+
+\item{...}{arguments to pass to the appropriate method}
+
+\item{type}{\code{raw} or \code{pre-treated} data to plot}
 }
 \description{
 plotUnsupervisedRF
