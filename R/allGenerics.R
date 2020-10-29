@@ -63,7 +63,8 @@ setGeneric('plotPCA',
              ellipses = TRUE, 
              title = 'PCA',
              legendPosition = 'bottom', 
-             labelSize = 2)
+             labelSize = 2,
+             ...)
            {
              standardGeneric('plotPCA')
            })

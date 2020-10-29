@@ -2,24 +2,26 @@ library(metaboData)
 
 context('plotPCA')
 
-test_that('plotPCA returns a plot',{
-  data(abr1)
+test_that('plotPCA works for both raw and pre-treated Analysis data',{
   
-  p <- analysisParameters(c('pre-treatment'))
-  
-  parameters(p,'pre-treatment') <- list(
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
+  p <- analysisParameters(elements = 'pre-treatment')
+  parameters(p,'pre-treatment') <- preTreatmentParameters(
+    list(
+      keep = 'classes'
+    )
   )
+  changeParameter(p,'classes') <- c(1,6)
   
-  cls1 <- abr1$neg[abr1$fact$class %in% c('1'),190:200][1:10,]
-  cls2 <- abr1$neg[abr1$fact$class %in% c('6'),190:200][1:10,]
-  dat <- rbind(cls1,cls2)
-  inf1 <- abr1$fact[abr1$fact$class %in% c('1'),][1:10,]
-  inf2 <- abr1$fact[abr1$fact$class %in% c('6'),][1:10,]
-  info <- rbind(inf1,inf2)
-  analysis <- metabolyse(dat,info,p,verbose = F)
-  pl <- plotPCA(analysis)
+  d <- metabolyse(abr1$neg[,190:200],abr1$fact,p,verbose = FALSE)
   
-  expect_true(identical(class(pl),c('gg','ggplot')))
+  pl_raw <- plotPCA(d,label = 'injorder',type = 'raw')
+  pl_pre_treated <- plotPCA(d,label = 'injorder',type = 'pre-treated')
+  
+  expect_s3_class(pl_raw,'ggplot')
+  expect_s3_class(pl_pre_treated,'ggplot')
+})
+
+test_that('plotPCA throws error when wrong type specified for Analysis',{
+  d <- new('Analysis')
+  expect_error(plotPCA(d,type = 'wrong'))
 })

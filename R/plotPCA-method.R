@@ -16,6 +16,8 @@
 #' @param legendPosition legend position to pass to legend.position argument 
 #' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
 #' @importFrom stats prcomp
@@ -110,11 +112,21 @@ setMethod('plotPCA',
                    ellipses = TRUE, 
                    title = 'PCA', 
                    legendPosition = 'bottom', 
-                   labelSize = 2){
-            if (analysis %>% dat(type = 'pre-treated') %>% ncol() > 0) {
-              d <- preTreated(analysis)
+                   labelSize = 2,
+                   type = 'raw'){
+            
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              d <- analysis %>%
+                preTreated()
             } else {
-              d <- raw(analysis)
+              d <- analysis %>%
+                raw()
             }
             
             plotPCA(d, 
