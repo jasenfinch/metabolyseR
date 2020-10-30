@@ -280,7 +280,7 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
             elements <- elements[map_dbl(elements,~{
               length(slot(x,.x))
             }) > 0]
-
+            
             
             if ('pre-treatment' %in% elements) {
               parameters(x,'pre-treatment') <- x %>%
@@ -459,14 +459,16 @@ parseParameters <- function(path){
   if ('pre-treatment' %in% names(par)) {
     par$preTreat <- par$preTreat %>%
       map(~{
-        map(.,~{
-          map(.,~{
-            if (is.list(.)) {
-              . <- unlist(.,use.names = FALSE)
-            }
-            return(.)
+        .x %>%
+          map(~{
+            .x %>%
+              map(~{
+                if (is.list(.x)) {
+                  .x <- unlist(.x,use.names = FALSE)
+                }
+                return(.x)
+              })
           })
-        })
       })
   }
   

@@ -65,3 +65,68 @@ test_that('parameters correctly exported and parsed',{
   expect_true(file.exists(file))
   expect_s4_class(pp,'AnalysisParameters')
 })
+
+test_that('an error is thrown when a non list object is supplied to parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'pre-treatment') <- 'wrong')
+})
+
+test_that('an error is thrown when a incorrect pre-treatment elements are supplied to parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'pre-treatment') <- list(wrong = list()))
+})
+
+test_that('an error is thrown when a incorrect methods are supplied to pre-treatment parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'pre-treatment') <- list(remove = list(wrong = 'wrong')))
+})
+
+test_that('an error is thrown when incorrect arguments are supplied to correlation parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'correlations') <- list(wrong = 'wrong'))
+})
+
+test_that('an error is thrown when incorrect correlation method is supplied to parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'correlations') <- list(method = 'wrong'))
+})
+
+test_that('an error is thrown when incorrect p value adjustment method is supplied to correlation parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'correlations') <- list(pAdjustMethod = 'wrong'))
+})
+
+test_that('an error is thrown when a non-numeric value is supplied to correlation p value threshold parameter',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'correlations') <- list(corPvalue = 'wrong'))
+})
+
+test_that('an error is thrown when an incorrect analysis element is supplied changeParameter',{
+  p <- analysisParameters()
+  expect_error(changeParameter(p,elements = 'wrong') <- 'wrong')
+})
+
+test_that('an error is thrown when a non list object is supplied to preTreatmentParameters',{
+  p <- analysisParameters()
+  expect_error(preTreatmentParameters('wrong'))
+})
+
+test_that('an error is thrown when incorrect elements are supplied to preTreatmentParameters',{
+  p <- analysisParameters()
+  expect_error(preTreatmentParameters(list(wrong = 'wrong')))
+})
+
+test_that('an error is thrown when incorrect methods are supplied to preTreatmentParameters',{
+  p <- analysisParameters()
+  expect_error(preTreatmentParameters(list(remove = 'wrong')))
+})
+
+test_that('an error is thrown when a non character vector is supplied to modelling Parameters',{
+  p <- analysisParameters()
+  expect_error(modellingParameters(1))
+})
+
+test_that('an error is thrown when an incorrect method is supplied to modelling Parameters',{
+  p <- analysisParameters()
+  expect_error(modellingParameters('wrong'))
+})
