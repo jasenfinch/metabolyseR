@@ -91,3 +91,52 @@ test_that('analysis results returned for pre-treated data from Analysis',{
     analysisResults(element = 'pre-treatment')
   expect_s4_class(d,'AnalysisData')
 })
+
+test_that('analysisData throws error with sample information and data row mismatch',{
+  expect_error(analysisData(abr1$neg[1:2,],abr1$fact))
+})
+
+test_that('features throws an error with incorrect type',{
+  expect_error(new('Analysis') %>%
+                 features(type = 'wrong'))
+})
+
+test_that('nFeatures throws an error with incorrect type',{
+  expect_error(new('Analysis') %>%
+                 nFeatures(type = 'wrong'))
+})
+
+test_that('nSamples throws an error with incorrect type',{
+  expect_error(new('Analysis') %>%
+                 nSamples(type = 'wrong'))
+})
+
+test_that('features, nFeatures and nSamples can be extracted from Analysis',{
+  p <- analysisParameters(elements = 'pre-treatment')
+  parameters(p,'pre-treatment') <- preTreatmentParameters(
+    list(
+      keep = 'classes'
+    )
+  )
+  changeParameter(p,'classes') <- c(1,6)
+  
+  d <- metabolyse(abr1$neg[,190:200],abr1$fact,p,verbose = FALSE)
+  
+  feat_raw <- features(d,type = 'raw')
+  feat_pre_treated <- features(d,type = 'pre-treated')
+  nFeat_raw <- nFeatures(d,type = 'raw')
+  nFeat_pre_treated <- nFeatures(d,type = 'pre-treated')
+  nSamples_raw <- nSamples(d,type = 'raw')
+  nSamples_pre_treated <- nSamples(d,type = 'pre-treated')
+  
+  expect_length(feat_raw,11)
+  expect_length(feat_pre_treated,11)
+  expect_equal(nFeat_raw,11)
+  expect_equal(nFeat_pre_treated,11)
+  expect_equal(nSamples_raw,120)
+  expect_equal(nSamples_pre_treated,40)
+})
+
+test_that('number of features and samples correctly returned from Analysis',{
+  
+})
