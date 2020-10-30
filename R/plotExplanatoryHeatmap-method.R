@@ -253,7 +253,7 @@ heatmapRegression <- function(pl,
 #' @description plot a heatmap of explanatory features
 #' @param x object of class Univariate, RandomForest or 
 #' Analysis containing modelling results
-#' @param measure importance measure on which to retrieve explanatory feautres
+#' @param metric importance metric on which to retrieve explanatory feautres
 #' @param threshold score threshold to use for specifying explantory features
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details

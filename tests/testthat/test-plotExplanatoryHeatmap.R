@@ -2,7 +2,8 @@ library(metaboData)
 
 context('plotExplanatoryHeatmap')
 
-test_that('plotExplanatoryHeatmap returns a plot for random forest classification Analysis',{
+test_that(str_c('plotExplanatoryHeatmap returns a plot for random',
+                ' forest classification Analysis'),{
   
   p <- analysisParameters(elements = c('pre-treatment','modelling'))
   parameters(p,'pre-treatment') <- preTreatmentParameters(
@@ -33,7 +34,9 @@ test_that('plotExplanatoryHeatmap returns a plot for random forest regression',{
   x <- randomForest(d,cls = 'injorder',perm = 3,nCores = 2)
   
   pl_feat <- plotExplanatoryHeatmap(x,metric = 'IncNodePurity')
-  pl_no_feat <- plotExplanatoryHeatmap(x,metric = 'IncNodePurity',featureNames = FALSE)
+  pl_no_feat <- plotExplanatoryHeatmap(x,
+                                       metric = 'IncNodePurity',
+                                       featureNames = FALSE)
   
   expect_s3_class(pl_feat,"patchwork")
   expect_s3_class(pl_no_feat,"patchwork")

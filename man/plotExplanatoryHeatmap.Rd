@@ -62,7 +62,7 @@ Analysis containing modelling results}
 
 \item{dendrogram}{TRUE/FALSE. Should the dendrogram be plotted?}
 
-\item{measure}{importance measure on which to retrieve explanatory feautres}
+\item{metric}{importance metric on which to retrieve explanatory feautres}
 }
 \description{
 plot a heatmap of explanatory features
@@ -73,17 +73,18 @@ Clustering methods are as given for \code{hclust()}.
 }
 \examples{
 \dontrun{
-
 library(metaboData)
-data(abr1)
-p <- analysisParameters(c('preTreat','featureSelection'))
-p@preTreat <- list(
-    remove = list(class = list(classes = 4:6)),
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
-)
-analysis <- metabolyse(abr1$neg,abr1$fact,p) 
-plotExplanatoryHeatmap(analysis)
+x <- analysisData(data = abr1$neg,info = abr1$fact)
+
+## random forest classification example
+random_forest <- randomForest(x,cls = 'day')
+
+plotExplanatoryHeatmap(random_forest)
+
+## random forest regression example
+random_forest <- randomForest(x,cls = 'injorder')
+
+plotExplanatoryHeatmap(random_forest,metric = '\%IncMSE',threshold = 2)
 }
 }
 \seealso{

@@ -41,7 +41,8 @@ test_that('assign pre-treated data for Analysis',{
   expect_equal(rows,1)
 })
 
-test_that('wrong type throws error for sample information retrieval from Analysis',{
+test_that(str_c('wrong type throws error for sample information',
+                ' retrieval from Analysis'),{
   d <- new('Analysis')
   expect_error(sinfo(d,type = 'wrong'))
 })
@@ -58,7 +59,8 @@ test_that('correctly retrieve pre-treated sample information from Analysis',{
   expect_s3_class(d,'tbl_df')
 })
 
-test_that('sample information assignment for Analysis throws error with wrong type',{
+test_that(str_c('sample information assignment for Analysis throws error',
+                ' with wrong type'),{
   d <- new('Analysis')
   expect_error(sinfo(d,type = 'wrong') <- tibble())
 })
@@ -92,7 +94,8 @@ test_that('analysis results returned for pre-treated data from Analysis',{
   expect_s4_class(d,'AnalysisData')
 })
 
-test_that('analysisData throws error with sample information and data row mismatch',{
+test_that(str_c('analysisData throws error with sample information and',
+                ' data row mismatch'),{
   expect_error(analysisData(abr1$neg[1:2,],abr1$fact))
 })
 

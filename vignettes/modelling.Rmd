@@ -23,8 +23,6 @@ library(stringr)
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  warning = FALSE,
-  message = FALSE,
   fig.align = 'center'
 )
 ```
@@ -206,5 +204,5 @@ Descriptions of each of the parameters can be found in the documentation for a p
 Modelling analysis can then be performed on the pre-treated data from the previous section.
 
 ```{r classificationAnalysis}
-analysis <- metabolyse(abr1$neg,abr1$fact,p)
+# analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
