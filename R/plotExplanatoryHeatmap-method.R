@@ -142,43 +142,40 @@ heatmapRegression <- function(pl,
                               dendrogram){
   pl %>%
     map(~{
-      r <- .
       
-      pred <- r$Response[1]
+      response <- .x$Response[1]
       
-      feat <- r$Feature %>%
+      feat <- .x$Feature %>%
         unique()
       
-      p <- sym(pred)
+      p <- sym(response)
       
       d <- x %>%
         keepFeatures(features = feat)
       
       d <- d %>%
         sinfo() %>%
-        select(pred) %>%
+        select(all_of(response)) %>%
         bind_cols(d %>%
                     dat()) %>%
         rowid_to_column(var = 'Sample') %>%
         gather('Feature','Intensity',-1,-2) %>%
         group_by(Feature) %>%
-        summarise(r = cor(!! p,Intensity)) %>%
-        mutate(Response = pred)
+        summarise(r = cor(!! p,Intensity),.groups = 'drop') %>%
+        mutate(Response = response)
       
-      suppressWarnings({
         dend <- d %>%
           spread(3,r) %>%
+          data.frame(check.names = FALSE) %>%
           set_rownames(.$Feature) %>%
           select(-Feature) %>%
           dist(distanceMeasure) %>%
           hclust(clusterMethod) %>%
           dendro_data()  
-      })
       
       clusters <- dend$labels$label
       
       d <- d %>%
-        ungroup() %>%
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate(Response = factor(Response))
       
@@ -203,7 +200,7 @@ heatmapRegression <- function(pl,
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
-        labs(title = pred,
+        labs(title = response,
              caption = caption,
              fill = 'Relative\nIntensity')
       if (isTRUE(featureNames)) {
@@ -277,17 +274,18 @@ heatmapRegression <- function(pl,
 #' @importFrom magrittr set_rownames
 #' @importFrom rlang sym
 #' @examples \dontrun{
-#' 
 #' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters(c('preTreat','featureSelection'))
-#' p@preTreat <- list(
-#'     remove = list(class = list(classes = 4:6)),
-#'     occupancyFilter = list(maximum = list()),
-#'     transform = list(TICnorm = list())
-#' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p) 
-#' plotExplanatoryHeatmap(analysis)
+#' x <- analysisData(data = abr1$neg,info = abr1$fact)
+#' 
+#' ## random forest classification example
+#' random_forest <- randomForest(x,cls = 'day')
+#' 
+#' plotExplanatoryHeatmap(random_forest)
+#' 
+#' ## random forest regression example
+#' random_forest <- randomForest(x,cls = 'injorder')
+#' 
+#' plotExplanatoryHeatmap(random_forest,metric = '%IncMSE',threshold = 2)
 #' }
 #' @export
 
@@ -328,7 +326,7 @@ setMethod('plotExplanatoryHeatmap',
                 dendrogram = dendrogram)
             }
             
-            pl <- wrap_plots(pl)
+            pl <- wrap_plots(pl) + plot_layout(guides = 'collect')
             
             return(pl)
           }
@@ -380,7 +378,7 @@ setMethod('plotExplanatoryHeatmap',
                 dendrogram = dendrogram)
             }
             
-            pl <- wrap_plots(pl)
+            pl <- wrap_plots(pl) + plot_layout(guides = 'collect')
             
             return(pl)
           }

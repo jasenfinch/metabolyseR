@@ -252,15 +252,8 @@ explanatoryFeaturesRegression <- function(x,metric,threshold){
   }
   
   explan <- imp %>%
-    filter(Metric == metric)
-  
-  if (metric == '%IncMSE') {
-    explan <- explan %>%
-      filter(Value < threshold) 
-  } else {
-    explan <- explan %>%
-      filter(Value > threshold)
-  }
+    filter(Metric == metric) %>%
+    filter(Value > threshold)
   
   return(explan)
 }
