@@ -7,22 +7,26 @@ d <- analysisData(abr1$neg,abr1$fact) %>%
   occupancyMaximum(cls = 'day') %>%
   transformTICnorm()
 
-anova_res <- d %>%
-  anova(cls = 'day')
+ttest_res <- d %>%
+  ttest(cls = 'day')
 
 unsupervised_rf_res <- d %>%
   randomForest(cls = NULL)
 
 classification_rf_res <- d %>%
-  randomForest(cls = 'day')
+  randomForest(cls = c('day','name'))
 
 regression_rf_res <- d %>%
   randomForest(cls = 'class')
 
 test_that('plotImportance works for Univariate class',{
-  pl <- plotImportance(anova_res,response = 'day')
+  pl <- plotImportance(ttest_res,response = 'day')
   
-  expect_identical(class(pl),c("gg","ggplot"))
+  expect_s3_class(pl,'patchwork')
+})
+
+test_that('plotImportance throws an error when incorrect response specified',{
+  expect_error(plotImportance(anova_res,response = 'wrong'))
 })
 
 test_that('plotImportance works for unsupervised random forest',{
@@ -34,7 +38,7 @@ test_that('plotImportance works for unsupervised random forest',{
 test_that('plotImportance works for random forest classification',{
   pl <- plotImportance(classification_rf_res)
   
-  expect_identical(class(pl),c('gg','ggplot'))
+  expect_identical(class(pl),'list')
 })
 
 test_that('plotImportance works for random forest regression',{
@@ -47,7 +51,7 @@ test_that('plotMetrics works for random forest classification',{
   pl <- classification_rf_res %>%
     plotMetrics()
   
-  expect_identical(class(pl),c('gg','ggplot'))
+  expect_identical(class(pl),'list')
 })
 
 test_that('plotMetrics works for random forest regression',{
@@ -55,4 +59,10 @@ test_that('plotMetrics works for random forest regression',{
     plotMetrics()
   
   expect_identical(class(pl),c('gg','ggplot'))
+})
+
+test_that('plotMDS works on a list of random forest objects',{
+  pl <- plotMDS(classification_rf_res)
+  
+  expect_s3_class(pl,'patchwork')
 })

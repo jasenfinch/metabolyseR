@@ -57,11 +57,11 @@ setMethod('plotImportance',signature = 'Univariate',
               }) %>%
               wrap_plots() +
               plot_annotation(title = response,
-                   caption = str_c(
-                     'Dashed red line shows threshold of ',
-                     threshold,'.'),
-                   theme = theme(plot.title = element_text(face = 'bold'),
-                                 plot.caption = element_text(hjust = 0)))
+                              caption = str_c(
+                                'Dashed red line shows threshold of ',
+                                threshold,'.'),
+                              theme = theme(plot.title = element_text(face = 'bold'),
+                                            plot.caption = element_text(hjust = 0)))
             
             return(pl)
           }
@@ -89,39 +89,80 @@ setMethod('plotImportance',signature = 'RandomForest',
             res <- importance(x) %>%
               filter(Metric == metric)
             
-            if (isTRUE(rank)) {
-              res <- res %>%
-                arrange(Value)
-              
-              rank <- res$Feature
-              
-              res <- res %>%
-                mutate(Feature = factor(Feature,levels = rank))
-            }
-            
-            res <- res %>%
-              spread(Metric,Value)
-            
-            pl <- ggplot(res,aes(x = Feature,y = !!sym(metric))) +
-              geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
-              theme_bw() +
-              theme(axis.line.x = element_blank(),
-                    axis.ticks.x = element_blank(),
-                    axis.text.x = element_blank(),
-                    panel.grid = element_blank(),
-                    axis.title = element_text(face = 'bold'),
-                    plot.title = element_text(face = 'bold'),
-                    plot.caption = element_text(hjust = -1))
-            
-            if (typ != 'unsupervised') {
-              pl <- pl +
-                labs(title = res$Response[1])
-            }
-            
             if (typ == 'classification') {
-              pl <- pl +
-                facet_wrap(~Comparison)
+              pl <- res %>%
+                base::split(.$Comparison) %>%
+                map(~{
+                  if (isTRUE(rank)) {
+                    .x <- .x %>%
+                      arrange(Value)
+                    
+                    rank <- .x$Feature
+                    
+                    .x <- .x %>%
+                      mutate(Feature = factor(Feature,levels = rank))
+                  }
+                  
+                  .x <- .x %>%
+                    spread(Metric,Value)
+                  
+                  comparison <- .x$Comparison[1]
+                  
+                  pl <- ggplot(.x,aes(x = Feature,y = !!sym(metric))) +
+                    geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
+                    theme_bw() +
+                    theme(axis.line.x = element_blank(),
+                          axis.ticks.x = element_blank(),
+                          axis.text.x = element_blank(),
+                          panel.grid = element_blank(),
+                          axis.title = element_text(face = 'bold'),
+                          plot.title = element_text(face = 'bold'),
+                          plot.caption = element_text(hjust = -1)) +
+                    labs(title = comparison)
+                  
+                  if (typ != 'unsupervised') {
+                    pl <- pl +
+                      labs(title = res$Response[1])
+                  }
+                  
+                }) %>%
+                wrap_plots()
+            } else {
+              pl <- res %>%
+                {
+                  d <- .
+                  if (isTRUE(rank)) {
+                    d <- d %>%
+                      arrange(Value)
+                    
+                    rank <- d$Feature
+                    
+                    d <- d %>%
+                      mutate(Feature = factor(Feature,levels = rank))
+                  }
+                  return(d)
+                } %>%
+                spread(Metric,Value) %>%
+                {
+                  p <- ggplot(.,aes(x = Feature,y = !!sym(metric))) +
+                    geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
+                    theme_bw() +
+                    theme(axis.line.x = element_blank(),
+                          axis.ticks.x = element_blank(),
+                          axis.text.x = element_blank(),
+                          panel.grid = element_blank(),
+                          axis.title = element_text(face = 'bold'),
+                          plot.title = element_text(face = 'bold'),
+                          plot.caption = element_text(hjust = -1))  
+                  
+                  if (typ != 'unsupervised') {
+                    p <- p +
+                      labs(title = res$Response[1])
+                  }
+                  return(p)
+                }
             }
+            
             
             return(pl)
           }
@@ -389,7 +430,6 @@ setMethod('plotMDS',
 setMethod('plotMDS',
           signature = 'list',
           function(x,
-                   cls = 'class',
                    label = NULL,
                    shape = FALSE, 
                    ellipses = TRUE, 
@@ -407,15 +447,21 @@ setMethod('plotMDS',
             }
             
             x %>%
-              map(plotMDS,
-                  cls = cls,
-                  label = label,
-                  shape = shape,
-                  ellipses = ellipses,
-                  title = title,
-                  legendPosition = legendPosition,
-                  labelSize = labelSize)
-          })
+              names() %>%
+              map(~{
+                plotMDS(x[[.x]],
+                        cls = .x,
+                        label = label,
+                        shape = shape,
+                        ellipses = ellipses,
+                        title = .x,
+                        legendPosition = legendPosition,
+                        labelSize = labelSize)
+                
+              }) %>%
+              wrap_plots()
+          }
+)
 
 #' plotROC
 #' @rdname plotROC
