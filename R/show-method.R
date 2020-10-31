@@ -201,18 +201,21 @@ setMethod('show',signature = 'Univariate',
           function(object){
             cat('\nUnivariate',object@type,'analysis\n\n')  
             
-            cat('Samples:\t',nSamples(object),'\n')
-            cat('Features:\t',nFeatures(object),'\n')
-            cat('Responses:\t',importance(object) %>%
-                  .$Response %>%
-                  unique() %>%
-                  str_c(collapse = ', '),'\n')  
-            if (object@type != 'linear regression') {
-              cat('# comparisons:\t',importance(object) %>%
-                    .$Comparison %>%
+            if (nSamples(object) > 0){
+              cat('Samples:\t',nSamples(object),'\n')
+              cat('Features:\t',nFeatures(object),'\n')
+              cat('Responses:\t',importance(object) %>%
+                    .$Response %>%
                     unique() %>%
-                    length(),'\n')
-              
+                    str_c(collapse = ', '),'\n')  
+              if (object@type != 'linear regression') {
+                cat('# comparisons:\t',importance(object) %>%
+                      .$Comparison %>%
+                      unique() %>%
+                      length(),'\n')
+                
+              }  
             }
+            
             cat('\n')
           })
