@@ -35,7 +35,7 @@ test_that('number of method arguments matches description arguments', {
 test_that('methods work',{
   m <- names(QCMethods())
   d <- analysisData(abr1$neg,abr1$fact) %>%
-    keepFeatures(features = features(.)) %>%
+    keepFeatures(features = features(.)[290:300]) %>%
     keepClasses(classes = c(1,6))
   
   m <- map(m,~{
