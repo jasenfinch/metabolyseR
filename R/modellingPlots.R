@@ -14,10 +14,25 @@ setMethod('plotImportance',signature = 'Univariate',
             
             res <- importance(x)
             
+            available_responses <- res$Response %>%
+              unique()
+            
             if (!(response %in% unique(res$Response))) {
-              stop(
-                str_c('Response "',response,'" not found!'),
-                call. = FALSE)
+              ar <- available_responses %>%
+                str_c('"',.,'"') %>%
+                str_c(collapse = ', ')
+              
+              if (length(available_responses) > 1) {
+                stop(
+                  str_c('Response "',response,'" not found! Responses ',
+                        ar,' are available for this Univariate class object.'),
+                  call. = FALSE) 
+              } else {
+                stop(
+                  str_c('Response "',response,'" not found! Response ',
+                        ar,' is available for this Univariate class object.'),
+                  call. = FALSE)
+              }
             }
             
             res <- res %>%
@@ -180,7 +195,7 @@ setMethod('plotImportance',
             if (FALSE %in% (object_classes == 'RandomForest' | 
                             object_classes == 'Univariate')) {
               stop(
-                str_c('All objects contained within supplied list', 
+                str_c('All objects contained within supplied list ', 
                       'should be of class RandomForest or Univariate'),
                 call. = FALSE)
             }
@@ -200,8 +215,9 @@ setMethod('plotImportance',
 setMethod('plotMetrics',signature = 'RandomForest',
           function(x){
             
-            if (x@type == 'Unsupervised') {
-              stop('No metrics to plot for unsupervised random forest.')
+            if (x@type == 'unsupervised') {
+              stop('No metrics to plot for unsupervised random forest.',
+                   call. = FALSE)
             }
             
             res <- metrics(x)
@@ -290,7 +306,7 @@ setMethod('plotMDS',
                    labelSize = 2){
             
             if (!(cls %in% {x %>% sinfo() %>% colnames()})) {
-              stop(str_c('Info column ',cls,'not found!'))
+              stop(str_c('Info column ',cls,' not found!'))
             }
             
             if (x@type == 'classification') {
