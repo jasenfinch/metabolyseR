@@ -10,9 +10,9 @@
 #' @export
 
 setMethod('plotImportance',signature = 'Univariate',
-          function(x, response = 'class',rank = TRUE){
-            threshold <- 0.05
-            res <- x@results
+          function(x, response = 'class',rank = TRUE,threshold = 0.05){
+            
+            res <- importance(x)
             
             if (!(response %in% unique(res$Response))) {
               stop(
@@ -24,38 +24,44 @@ setMethod('plotImportance',signature = 'Univariate',
               filter(Response == response) %>%
               mutate(`-log10(p)` = -log10(adjusted.p.value))
             
-            if (isTRUE(rank)) {
-              res <- res %>%
-                arrange(`-log10(p)`)
-              
-              rank <- res$Feature
-              
-              res <- res %>%
-                mutate(Feature = factor(Feature,levels = rank))
-            }
-            
-            pl <- ggplot(res,aes(x = Feature,y = `-log10(p)`)) +
-              geom_hline(
-                yintercept = -log10(threshold),
-                linetype = 2,
-                colour = 'red') +
-              geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
-              theme_bw() +
-              theme(axis.line.x = element_blank(),
-                    axis.ticks.x = element_blank(),
-                    axis.text.x = element_blank(),
-                    panel.grid = element_blank(),
-                    axis.title = element_text(face = 'bold'),
-                    plot.title = element_text(face = 'bold')) +
-              labs(title = response,
+            pl <- res %>%
+              base::split(.$Comparison) %>%
+              map(~{
+                if (isTRUE(rank)) {
+                  .x <- .x %>%
+                    arrange(`-log10(p)`)
+                  
+                  rank <- .x$Feature
+                  
+                  .x <- .x %>%
+                    mutate(Feature = factor(Feature,levels = rank))
+                }
+                
+                comparison <- .x$Comparison[1]
+                
+                ggplot(.x,aes(x = Feature,y = `-log10(p)`)) +
+                  geom_hline(
+                    yintercept = -log10(threshold),
+                    linetype = 2,
+                    colour = 'red') +
+                  geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
+                  theme_bw() +
+                  theme(axis.line.x = element_blank(),
+                        axis.ticks.x = element_blank(),
+                        axis.text.x = element_blank(),
+                        panel.grid = element_blank(),
+                        axis.title = element_text(face = 'bold'),
+                        plot.title = element_text(face = 'bold')) +
+                  labs(title = comparison)
+                
+              }) %>%
+              wrap_plots() +
+              plot_annotation(title = response,
                    caption = str_c(
                      'Dashed red line shows threshold of ',
-                     threshold,'.')) 
-            
-            if (x@type == 'ttest') {
-              pl <- pl +
-                facet_wrap(~Comparison)
-            }
+                     threshold,'.'),
+                   theme = theme(plot.title = element_text(face = 'bold'),
+                                 plot.caption = element_text(hjust = 0)))
             
             return(pl)
           }
