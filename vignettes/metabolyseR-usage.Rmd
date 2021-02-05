@@ -26,7 +26,7 @@ Below shows the three analysis elements in that make up metabolyseR.
 
 <center>
 ```{r metabolyseRDiagram,echo=FALSE,fig.width=8}
-  DiagrammeR::grViz(readr::read_file('figures/metabolyseR.gv'))
+DiagrammeR::grViz(readr::read_file('figures/metabolyseR.gv'))
 ```
 </center>
 
@@ -554,7 +554,7 @@ The table below outlines the modelling methods currently available:
 metabolyseR:::modellingMethods(description = T) %>%
   purrr::map(tibble::as_tibble) %>%
   dplyr::bind_rows(.id = 'Method') %>%
-  {set_colnames(.,stringr::str_to_title(colnames(.)))} %>%
+  {magrittr::set_colnames(.,stringr::str_to_title(colnames(.)))} %>%
   knitr::kable()
 ```
 
