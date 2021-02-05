@@ -1,0 +1,3 @@
+#' @rdname reexports
+#' @export
+magrittr::`%>%`

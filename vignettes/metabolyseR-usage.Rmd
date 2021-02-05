@@ -16,7 +16,6 @@ vignette: >
 
 ```{r,include=FALSE}
 knitr::opts_chunk$set(fig.align = 'center')
-library(magrittr)
 ```
 
 ## Introduction
