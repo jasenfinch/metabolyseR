@@ -5,3 +5,4 @@ README.Rmd
 ^docs$
 ^pkgdown$
 ^\.github$
+^codecov\.yml$
