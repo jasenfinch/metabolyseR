@@ -370,7 +370,9 @@ preTreatmentParameters <- function(methods){
   
   methods %>%
     length() %>%
-    seq_len() %>%
+    {
+      seq_len(.) 
+    } %>%
     map(~{
       m <- methods %>%
         names() %>%

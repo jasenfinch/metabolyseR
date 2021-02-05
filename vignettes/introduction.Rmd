@@ -1,6 +1,6 @@
 ---
-title: "metabolyseR"
-subtitle: "`r paste0('v',packageVersion('metabolyseR'))`"
+title: "Introduction"
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
 author: "Jasen Finch"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 

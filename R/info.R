@@ -21,7 +21,8 @@ setMethod('clsAvailable',signature = 'Analysis',function(x,type = 'raw'){
     stop(
       str_c('Type should be one of ',
             str_c(str_c('"',types,'"'),
-                  collapse = ' or ')))
+                  collapse = ' or ')),
+      call. = FALSE)
   } 
   
   sl <- get(type)
@@ -60,7 +61,8 @@ setMethod('clsExtract',
               stop(
                 str_c('Type should be one of ',
                       str_c(str_c('"',types,'"'),
-                            collapse = ' or ')))
+                            collapse = ' or ')),
+                call. = FALSE)
             } 
             
             sl <- get(type)
@@ -86,7 +88,8 @@ setMethod('clsReplace',
           function(x,value,cls = 'class'){
             if (!(cls %in% clsAvailable(x))) {
               stop(
-                str_c('Class information column "',cls,'" not present.'))
+                str_c('Class information column "',cls,'" not present.'),
+                call. = FALSE)
             }
             
             sinfo(x)[,cls] <- value
@@ -103,7 +106,8 @@ setMethod('clsReplace',
               stop(
                 str_c('Type should be one of ',
                       str_c(str_c('"',types,'"'),
-                            collapse = ' or ')))
+                            collapse = ' or ')),
+                call. = FALSE)
             } 
             
             sl <- get(type)
@@ -135,7 +139,8 @@ setMethod('clsAdd',
               stop(
                 str_c('Class information column "',
                       cls,
-                      '" already present.'))
+                      '" already present.'),
+                call. = FALSE)
             }
             
             sinfo(x) <- x %>%
@@ -154,7 +159,8 @@ setMethod('clsAdd',
               stop(
                 str_c('Type should be one of ',
                       str_c(str_c('"',types,'"'),
-                            collapse = ' or ')))
+                            collapse = ' or ')),
+                call. = FALSE)
             } 
             
             sl <- get(type)
@@ -179,7 +185,8 @@ setMethod('clsAdd',
 
 setMethod('clsRemove',signature = 'AnalysisData',function(x,cls){
   if (!(cls %in% clsAvailable(x))) {
-    stop(str_c('Class information column "',cls,'" not present.'))
+    stop(str_c('Class information column "',cls,'" not present.'),
+         call. = FALSE)
   }
   
   sinfo(x) <- x %>%
@@ -199,7 +206,8 @@ setMethod('clsRemove',
               stop(
                 str_c('Type should be one of ',
                       str_c(str_c('"',types,'"'),
-                            collapse = ' or ')))
+                            collapse = ' or ')),
+                call. = FALSE)
             } 
             
             sl <- get(type)
@@ -265,7 +273,8 @@ setMethod('clsArrange',
               stop(
                 str_c('Type should be one of ',
                       str_c(str_c('"',types,'"'),
-                            collapse = ' or ')))
+                            collapse = ' or ')),
+                call. = FALSE)
             } 
             
             sl <- get(type)
@@ -307,7 +316,8 @@ setMethod('clsRename',
               stop(
                 str_c('Type should be one of ',
                       str_c(str_c('"',types,'"'),
-                            collapse = ' or ')))
+                            collapse = ' or ')),
+                call. = FALSE)
             } 
             
             sl <- get(type)
