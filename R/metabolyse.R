@@ -40,7 +40,7 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
       {capture.output(print(.))} %>%
       {
         .[1] <- yellow(.[1])
-        return(.)
+        .
       } %>%
       str_c(collapse = '\n')
     message(params)
