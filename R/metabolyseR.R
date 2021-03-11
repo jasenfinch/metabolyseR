@@ -1,7 +1,7 @@
 
 globalVariables(
   c('Response','Feature','Sample2','Comparison','Measure','Value',
-    'Pvalue','Mean','SD','.','.estimate','Permutation','.metric',
+    'Pvalue','Mean','SD','.','.estimate','Permutation','Metric',
     'Class','Intensity','Feature1','p','n','Feature2','Intensity1',
     'Intensity2','log2IntensityRatio','r','ID','Sample','Rep','Count',
     'Occupancy','adjustedPvalue','adjusted.p.value','Label','response',

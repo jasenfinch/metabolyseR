@@ -454,7 +454,7 @@ metabolyseR:::preTreatmentElements() %>%
                      formals() %>%
                      {
                        . <- .[-1]
-                       return(.)
+                       .
                      } %>%
                      {
                        str_c(names(.),unlist(.,use.names = FALSE),sep = ' = ')

@@ -24,6 +24,8 @@ plotImportance(x, ...)
 
 \item{rank}{Rank feature order for plotting}
 
+\item{threshold}{explanatory threshold line for the output plot}
+
 \item{metric}{Importance metric to plot}
 }
 \description{

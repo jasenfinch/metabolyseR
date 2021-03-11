@@ -5,6 +5,7 @@
 #' @param response Response results to plot
 #' @param metric Importance metric to plot
 #' @param rank Rank feature order for plotting
+#' @param threshold explanatory threshold line for the output plot
 #' @param ... arguments to pass to specific method
 #' @importFrom ggplot2 facet_wrap
 #' @export
