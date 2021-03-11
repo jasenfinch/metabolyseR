@@ -8,7 +8,8 @@ d <- analysisData(abr1$neg,abr1$fact) %>%
   transformTICnorm()
 
 ttest_res <- d %>%
-  ttest(cls = 'day')
+  ttest(cls = 'day',
+        nCores = 2)
 
 unsupervised_rf_res <- d %>%
   randomForest(cls = NULL)
