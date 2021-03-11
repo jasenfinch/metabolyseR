@@ -30,7 +30,6 @@ plotMDS(
 
 \S4method{plotMDS}{list}(
   x,
-  cls = "class",
   label = NULL,
   shape = FALSE,
   ellipses = TRUE,

@@ -9,7 +9,7 @@
 \usage{
 plotImportance(x, ...)
 
-\S4method{plotImportance}{Univariate}(x, response = "class", rank = TRUE)
+\S4method{plotImportance}{Univariate}(x, response = "class", rank = TRUE, threshold = 0.05)
 
 \S4method{plotImportance}{RandomForest}(x, metric = "FalsePositiveRate", rank = TRUE)
 
