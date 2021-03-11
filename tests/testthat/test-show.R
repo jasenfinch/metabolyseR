@@ -21,7 +21,7 @@ test_that('RandomForest class show method works',{
   expect_output(new('RandomForest') %>%
                   {
                     .@type <- 'classification'
-                    return(.)
+                    .
                   } %>%
                   print(),'Random forest classification')
 })

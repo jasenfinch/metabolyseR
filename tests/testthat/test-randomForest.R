@@ -13,7 +13,7 @@ test_that('unsupervised random forest works',{
 })
 
 test_that('random forest classification works',{
-  rf <- randomForest(d,cls = c('day','name'),perm = 3,nCores = 2,returnModels = TRUE)
+  expect_warning(rf <- randomForest(d,cls = c('day','name'),perm = 3,nCores = 2,returnModels = TRUE))
   
   rf_metrics <- metrics(rf)
   rf_importance <- importance(rf)

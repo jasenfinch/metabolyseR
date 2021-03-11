@@ -156,7 +156,7 @@ setMethod('plotImportance',signature = 'RandomForest',
                     d <- d %>%
                       mutate(Feature = factor(Feature,levels = rank))
                   }
-                  return(d)
+                  d
                 } %>%
                 spread(Metric,Value) %>%
                 {
@@ -175,7 +175,7 @@ setMethod('plotImportance',signature = 'RandomForest',
                     p <- p +
                       labs(title = res$Response[1])
                   }
-                  return(p)
+                  p
                 }
             }
             

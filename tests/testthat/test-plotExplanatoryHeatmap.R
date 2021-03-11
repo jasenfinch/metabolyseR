@@ -48,7 +48,7 @@ test_that('plotExplanatoryHeatmap returns a plot for > 500 features',{
     keepFeatures(features = features(.)[400:1000]) %>%
     {
       . <- clsReplace(.,cls = 'class',clsExtract(.,cls = 'day'))
-      return(.)
+      .
     } %>%
     randomForest(cls = c('day','class')) %>%
     plotExplanatoryHeatmap(threshold = 2)

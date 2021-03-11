@@ -13,8 +13,10 @@ ttest_res <- d %>%
 unsupervised_rf_res <- d %>%
   randomForest(cls = NULL)
 
-classification_rf_res <- d %>%
-  randomForest(cls = c('day','name'))
+suppressWarnings(
+  classification_rf_res <- d %>%
+    randomForest(cls = c('day','name'))
+)
 
 regression_rf_res <- d %>%
   randomForest(cls = 'class')

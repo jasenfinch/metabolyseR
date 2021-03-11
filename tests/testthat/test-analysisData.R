@@ -141,5 +141,17 @@ test_that('features, nFeatures and nSamples can be extracted from Analysis',{
 })
 
 test_that('number of features and samples correctly returned from Analysis',{
+  columns <- 190:200
+  p <- analysisParameters(elements = 'pre-treatment')
+  parameters(p,'pre-treatment') <- preTreatmentParameters(
+    list(
+      keep = 'classes'
+    )
+  )
+  changeParameter(p,'classes') <- c(1,6)
   
+  d <- metabolyse(abr1$neg[,columns],abr1$fact,p,verbose = FALSE)
+  
+  expect_equal(nFeatures(d),length(columns))
+  expect_equal(nSamples(d),nrow(abr1$neg))
 })
