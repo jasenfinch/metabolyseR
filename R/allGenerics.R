@@ -442,6 +442,11 @@ setGeneric("type", function(x) {
   standardGeneric("type")
 })
 
+#' @rdname response
+setGeneric("response", function(x) {
+  standardGeneric("response")
+})
+
 #' @rdname metrics
 setGeneric("metrics", function(x) {
   standardGeneric("metrics")

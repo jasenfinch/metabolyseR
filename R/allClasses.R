@@ -59,7 +59,7 @@ setClass('Analysis',
 #' @rdname RandomForest-class
 #' @description An S4 class for random forest results and models
 #' @slot type random forest type
-#' @slot data AnalysisData object of data used for modelling
+#' @slot response response variable name
 #' @slot results list of measure and importance results tables
 #' @slot predictions tibble of model observation predictions
 #' @slot permutations list of permutations measure and importance results tables
@@ -72,6 +72,7 @@ setClass('RandomForest',
          contains = 'AnalysisData',
          slots = list(
            type = 'character',
+           response = 'character',
            results = 'list',
            predictions = 'tbl_df',
            permutations = 'list',
@@ -85,7 +86,7 @@ setClass('RandomForest',
 #' @rdname Univariate-class
 #' @description An S4 class for univariate test models and results.
 #' @slot type univariate test type
-#' @slot data AnalysisData object of tested data
+#' @slot response response
 #' @slot models list of model objects
 #' @slot results tibble containing test results 
 #' @export

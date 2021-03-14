@@ -152,6 +152,16 @@ setMethod('type',signature = 'RandomForest',function(x){
   x@type
 })
 
+#' response
+#' @rdname response
+#' @description Return the response variable name from a random forest analysis.
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('response',signature = 'RandomForest',function(x){
+  x@response
+})
+
 #' importanceMetrics
 #' @rdname importanceMetrics
 #' @description Return available importance measures from an object 

@@ -637,6 +637,7 @@ classification <- function(x,
   
   res <- new('RandomForest')
   res@type <- 'classification'
+  res@response <- cls
   dat(res) <- dat(x)
   sinfo(res) <- sinfo(x)
   res@results <- results
@@ -761,6 +762,7 @@ regression <- function(x,
   
   res <- new('RandomForest')
   res@type <- 'regression'
+  res@response <- cls
   dat(res) <- dat(x)
   sinfo(res) <- sinfo(x)
   res@results <- results
