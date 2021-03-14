@@ -317,7 +317,7 @@ setMethod('plotMDS',
                   d <- .
                   d %>%
                     group_by(Sample1,Sample2) %>%
-                    summarise(Proximity = mean(Proximity)) %>%
+                    summarise(Proximity = mean(Proximity),.groups = 'drop') %>%
                     spread(Sample2,Proximity) %>%
                     ungroup() %>%
                     select(-Sample1)
@@ -339,17 +339,11 @@ setMethod('plotMDS',
                 mds <- mds %>%
                   base::split(.$Comparison) %>%
                   map(~{
-                    d <- .
+                    comparison <- str_split(.x$Comparison[1],'~')[[1]]
                     
-                    comparison <- str_split(d$Comparison[1],'~')[[1]]
+                    cda <- keepClasses(x,response(x),comparison)
                     
-                    cda <- removeClasses(x,cls,classes = sinfo(x) %>%
-                                           select(cls) %>%
-                                           unlist() %>%
-                                           unique() %>%
-                                           .[!(. %in% comparison)])
-                    
-                    d %>%
+                    .x %>%
                       bind_cols(cda %>%
                                   sinfo() %>%
                                   select(cls) %>%
