@@ -6,3 +6,5 @@ README.Rmd
 ^pkgdown$
 ^\.github$
 ^codecov\.yml$
+^doc$
+^Meta$
