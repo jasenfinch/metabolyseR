@@ -1,6 +1,6 @@
 Package: metabolyseR
 Title: Methods for pre-treatment, data mining and correlation analyses of metabolomics data
-Version: 0.13.2
+Version: 0.13.3
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
 URL:  https://jasenfinch.github.io/metabolyseR
