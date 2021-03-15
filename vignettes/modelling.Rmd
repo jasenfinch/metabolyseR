@@ -29,10 +29,6 @@ opts_chunk$set(
 
 ## Introduction
 
-```{r library_load}
-library(metabolyseR)
-```
-
 Modelling provides the essential data mining step for extracting biological information from a data set relating to experimental conditions.
 `metabolyseR` provides a number of both univariate and multivariate methods for data mining.
 
@@ -56,9 +52,9 @@ library(metabolyseR)
 
 ### Example data
 
-The examples used here will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
+The examples used here will use the `abr1` data set from the [metaboData](https://aberhrml.github.io/metaboData/) package. 
 This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
-The pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package will also be used.
+The pipe `%>%` from the [magrittr](https://magrittr.tidyverse.org/) package will also be used.
 The example data can be loaded using:
 
 ```{r data_load}
@@ -82,6 +78,8 @@ As can be seen above the data set contains a total of `r nSamples(d)` samples an
 
 ### Classification
 
+#### Multinomial
+
 ```{r}
 classification_rf <- d %>%
   randomForest(cls = 'day',nCores = 2)
@@ -90,6 +88,16 @@ classification_rf <- d %>%
 ```{r}
 classification_rf %>%
   metrics()
+```
+
+```{r}
+classification_rf %>% 
+  plotMDS(cls = 'day')
+```
+
+```{r}
+classification_rf %>% 
+  plotROC()
 ```
 
 ```{r}
@@ -114,6 +122,12 @@ d %>%
 
 ```{r}
 d %>%
+  randomForest(cls = c('name','day'),nCores = 2) %>%
+  plotMDS()
+```
+
+```{r}
+d %>%
   randomForest(cls = 'day',comparisons = list(day = '1~2~3'),nCores = 2) %>%
   metrics()
 ```
@@ -124,6 +138,8 @@ d %>%
   randomForest(cls = 'day',binary = TRUE) %>%
   plotMetrics()
 ```
+
+#### Binary comparisons
 
 ```{r}
 binaryComparisons(d,cls = 'day')
