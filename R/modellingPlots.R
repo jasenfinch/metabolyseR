@@ -223,8 +223,7 @@ setMethod('plotMetrics',signature = 'RandomForest',
             
             res <- metrics(x)
             
-            response <- res$Response %>%
-              unique()
+            response <- response(x)
             
             if (x@type == 'classification') {
               pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
