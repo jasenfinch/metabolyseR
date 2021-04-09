@@ -20,5 +20,6 @@ clsAvailable(x, ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Return available sample info columns from an Analysis or AnalysisData object.
+Return available sample info columns from an Analysis or
+ AnalysisData object.
 }

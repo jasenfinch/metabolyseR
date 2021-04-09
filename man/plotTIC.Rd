@@ -13,7 +13,8 @@ plotTIC(analysis, by = "injOrder", colour = "block", ...)
 \S4method{plotTIC}{Analysis}(analysis, by = "injOrder", colour = "block", type = "raw")
 }
 \arguments{
-\item{analysis}{object of class Analysis or AnalysisData containing analysis results}
+\item{analysis}{object of class Analysis or AnalysisData containing 
+analysis results}
 
 \item{by}{info column to plot against}
 

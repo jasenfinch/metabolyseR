@@ -16,9 +16,10 @@ plotLDA(
   yAxis = "DF2",
   shape = FALSE,
   ellipses = TRUE,
-  title = "Principle Component - Linear Discriminant Analysis (PC-LDA) plot",
+  title = "PC-LDA",
   legendPosition = "bottom",
-  labelSize = 2
+  labelSize = 2,
+  ...
 )
 
 \S4method{plotLDA}{AnalysisData}(
@@ -31,7 +32,7 @@ plotLDA(
   yAxis = "DF2",
   shape = FALSE,
   ellipses = TRUE,
-  title = "Principle Component - Linear Discriminant Analysis (PC-LDA)",
+  title = "PC-LDA",
   legendPosition = "bottom",
   labelSize = 2
 )
@@ -46,13 +47,15 @@ plotLDA(
   yAxis = "DF2",
   shape = FALSE,
   ellipses = TRUE,
-  title = "Principle Component - Linear Discriminant Analysis (PC-LDA)",
+  title = "PC-LDA",
   legendPosition = "bottom",
-  labelSize = 2
+  labelSize = 2,
+  type = "raw"
 )
 }
 \arguments{
-\item{analysis}{object of class Analysis or AnalysisData containing analysis results}
+\item{analysis}{object of class Analysis or AnalysisData containing 
+analysis results}
 
 \item{cls}{info column to use for sample labelling}
 
@@ -66,15 +69,22 @@ plotLDA(
 
 \item{yAxis}{principle component to plot on the y-axis}
 
-\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. 
+Defaults to TRUE when the number of classes is greater than 12}
 
-\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% 
+confidence ellipses for each class}
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
+\item{legendPosition}{legend position to pass to legend.position argument 
+of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
+
+\item{...}{arguments to pass to the appropriate method}
+
+\item{type}{\code{raw} or \code{pre-treated} data to plot}
 }
 \description{
 Plot linear discriminant analysis resultus of pre-treated data

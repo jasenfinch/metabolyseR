@@ -14,9 +14,9 @@ An S4 class to store analysis results
 
 \item{\code{parameters}}{class AnalysisParameters containing the analysis parameters}
 
-\item{\code{rawData}}{list containing info and raw data}
+\item{\code{raw}}{list containing info and raw data}
 
-\item{\code{preTreated}}{list containing preTreated info and raw data}
+\item{\code{pre-treated}}{list containing preTreated info and raw data}
 
 \item{\code{modelling}}{list containing modelling results}
 

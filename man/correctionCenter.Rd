@@ -24,7 +24,8 @@ correctionCenter(
 \arguments{
 \item{d}{S4 object of class AnalysisData}
 
-\item{block}{info column containing sample block groupings to use for correction}
+\item{block}{info column containing sample block 
+groupings to use for correction}
 
 \item{type}{averaging to use; eg. mean or median}
 

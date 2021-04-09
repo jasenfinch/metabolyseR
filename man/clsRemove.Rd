@@ -22,5 +22,6 @@ clsRemove(x, cls, ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Remove a sample info column from a Analysis or AnalysisData object.
+Remove a sample info column from a Analysis or 
+AnalysisData object.
 }

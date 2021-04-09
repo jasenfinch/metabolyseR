@@ -1,16 +1,27 @@
+#' binaryComparisons
+#' @rdname binaryComparisons
+#' @description Return a vector of possible binary comparisons for a 
+#' given sample information column.
+#' @param x S4 object of class AnalysisData.
+#' @param cls sample information column to use
 #' @importFrom utils combn
+#' @export
 
-getPairwises <- function(cl){
-  cl %>%
-    as.character() %>%
-    unique() %>%
-    sort() %>%
-    combn(2) %>%
-    apply(2,str_c,collapse = '~')
-}
+setMethod('binaryComparisons',signature = 'AnalysisData',
+          function(x,cls = 'class'){
+            x %>%
+              clsExtract(cls) %>%
+              as.character() %>%
+              unique() %>%
+              sort() %>%
+              combn(2) %>%
+              apply(2,str_c,collapse = '~')
+          }
+)
 
 #' getClusterType
-#' @description Return appropriate cluster type for parallel processing based on operating system type.
+#' @description Return appropriate cluster type for parallel processing 
+#' based on operating system type.
 #' @export
 
 getClusterType <- function(){
@@ -22,32 +33,16 @@ getClusterType <- function(){
   return(type)
 }
 
-#' modellingParameters
-#' @description Return parameters for a given modelling method.
-#' @param methods character vector of available methods. Set to NULL to print available methods.
+#' modellingMethods
+#' @description Return names of available modelling methods.
 #' @export
 
-modellingParameters <- function(methods){
-  
-  availableMethods <- c('anova','ttest','linearRegression','randomForest')
-  
-  if (is.null(methods)) {
-    cat('Available methods:\t',str_c(availableMethods,collapse = '\n\t\t\t'),sep = '')
-  }
-  
-  if (F %in% (methods %in% availableMethods)) {
-    stop(str_c('Modelling method not found! Methods should be one of: ',str_c(availableMethods,collapse = ', '),'.'))
-  }
-  
-  methods %>%
-    map(~{
-      formals(.) %>%
-        .[-1]
-    }) %>%
-    set_names(methods)
+modellingMethods <- function(){
+  getModellingMethods() %>%
+    names()
 }
 
-modellingMethods <- function(method = NULL, description = F){
+getModellingMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     anova = anova,
@@ -56,7 +51,7 @@ modellingMethods <- function(method = NULL, description = F){
     randomForest = randomForest
   )
   
-  descriptions = list(
+  descriptions <- list(
     anova = list(description = 'One-way ANOVA',
                  type = 'Univariate',
                  documentation = '?anova'),
@@ -66,12 +61,13 @@ modellingMethods <- function(method = NULL, description = F){
     linearRegression = list(description = 'Linear regression',
                             type = 'Univariate',
                             documentation = '?linearRegression'),
-    randomForest = list(description = 'Random forest classification, regression or unsupervised',
-                        type = 'Multivariate',
-                        documentation = '?randomForest')
+    randomForest = list(
+      description = 'Random forest classification, regression or unsupervised',
+      type = 'Multivariate',
+      documentation = '?randomForest')
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {
@@ -90,22 +86,30 @@ modellingMethods <- function(method = NULL, description = F){
 setMethod('modelling',signature = 'Analysis',
           function(x){
             verbose <- x@log$verbose
-            if (verbose == T) {
+            if (verbose == TRUE) {
               startTime <- proc.time()
-              message(blue('Modelling '),cli::symbol$continue,'\r',appendLF = FALSE) 
+              message(
+                blue('Modelling '),
+                cli::symbol$continue,
+                '\r',
+                appendLF = FALSE) 
             }
-            params <- x@parameters@modelling
+            params <- x %>%
+              parameters() %>%
+              parameters('modelling')
             
             res <- params %>%
               names() %>%
               map(~{
                 i <- .
-                method <- modellingMethods(i)
+                method <- getModellingMethods(i)
                 
-                if (nrow(x@preTreated@data) > 0) {
-                  d <- x@preTreated
+                if (x %>% 
+                    dat(type = 'pre-treated') %>% 
+                    nrow() > 0) {
+                  d <- preTreated(x)
                 } else {
-                  d <- x@rawData
+                  d <- raw(x)
                 }
                 
                 newPars <- formals(method) %>%
@@ -120,36 +124,64 @@ setMethod('modelling',signature = 'Analysis',
             x@modelling <- res
             x@log$modelling <- date()
             
-            if (verbose == T) {
+            if (verbose == TRUE) {
               endTime <- proc.time()
               elapsed <- {endTime - startTime} %>%
                 .[3] %>%
                 round(1) %>%
                 seconds_to_period() %>%
                 str_c('[',.,']')
-              message(blue('\rModelling '),'\t',green(cli::symbol$tick),' ',elapsed)
+              message(
+                blue('\rModelling '),
+                '\t',
+                green(cli::symbol$tick),
+                ' ',
+                elapsed)
             }
             return(x)
           }
 )
 
-#' modellingResults
-#' @rdname modellingResults
-#' @description Return modelling results from an Analysis object.
-#' @param x S4 object of class Analysis
+#' type
+#' @rdname type
+#' @description Return the random forest analysis type.
+#' @param x S4 object of class RandomForest
 #' @export
 
-setMethod('modellingResults',signature = 'Analysis',
-          function(x){
-            x@modelling
-          }
-)
+setMethod('type',signature = 'RandomForest',function(x){
+  x@type
+})
+
+#' response
+#' @rdname response
+#' @description Return the response variable name from a random forest analysis.
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('response',signature = 'RandomForest',function(x){
+  x@response
+})
+
+#' importanceMetrics
+#' @rdname importanceMetrics
+#' @description Return available importance measures from an object 
+#' of class RandomForest.
+#' @param x S4 object of class RandomForest
+#' @export
+
+setMethod('importanceMetrics',signature = 'RandomForest',function(x){
+  x %>%
+    importance() %>%
+    .$Metric %>%
+    unique() %>%
+    sort()
+})
 
 #' explanatoryFeatures
 #' @rdname explanatoryFeatures
 #' @description Extract explanatory features from modelling results.
 #' @param x S4 object of class RandomForest or Univariate
-#' @param measure importance measure on which to retrieve explanatory feautres
+#' @param metric importance metric on which to retrieve explanatory feautres
 #' @param threshold threshold below which explanatory features are extracted
 #' @param ... arguments to parse to method for specific class
 #' @export
@@ -165,22 +197,76 @@ setMethod('explanatoryFeatures',signature = 'Univariate',
 #' @export
 
 setMethod('explanatoryFeatures',signature = 'RandomForest',
-          function(x,measure = 'FalsePositiveRate', threshold = 0.05){
-            explan <- importance(x) %>%
-              filter(Measure == measure)
+          function(x,metric = 'FalsePositiveRate', threshold = 0.05){
             
-            if ('adjustedPvalue' %in% colnames(explan)) {
-              explan <- explan %>%
-                filter(adjustedPvalue < threshold)
-            } else {
-              message('Permutation results not found, using measure value instead.')
-              explan <- explan %>%
-                filter(Value < threshold)
+            typ <- type(x)
+            
+            if (typ %in% c('unsupervised','classification')) {
+              explan <- explanatoryFeaturesClassification(x,metric,threshold)
+            }
+            
+            if (typ == 'regression') {
+              explan <- explanatoryFeaturesRegression(x,metric,threshold)
             }
             
             return(explan)
           }
 ) 
+
+explanatoryFeaturesClassification <- function(x,metric,threshold){
+  
+  imp <- x %>%
+    importance()
+  
+  metrics <- importanceMetrics(x)
+  
+  if (!(metric %in% metrics)) {
+    
+    metrics <- str_c('"',metrics,'"')
+    
+    stop(
+      'Argument "metric" should be one of ',
+      str_c(metrics,collapse = ', '),
+      call. = FALSE)
+  }
+  
+  explan <- imp %>%
+    filter(Metric == metric)
+  
+  if (metric == 'FalsePositiveRate') {
+    explan <- explan %>%
+      filter(Value < threshold) 
+  } else {
+    explan <- explan %>%
+      filter(Value > threshold)
+  }
+  
+  return(explan)
+}
+
+explanatoryFeaturesRegression <- function(x,metric,threshold){
+  
+  imp <- x %>%
+    importance()
+  
+  metrics <- importanceMetrics(x)
+  
+  if (!(metric %in% metrics)) {
+    
+    metrics <- str_c('"',metrics,'"')
+    
+    stop(
+      'Argument "metric" should be one of ',
+      str_c(metrics,collapse = ', '),
+      call. = FALSE)
+  }
+  
+  explan <- imp %>%
+    filter(Metric == metric) %>%
+    filter(Value > threshold)
+  
+  return(explan)
+}
 
 #' @rdname explanatoryFeatures
 #' @export
@@ -190,8 +276,11 @@ setMethod('explanatoryFeatures',signature = 'list',
             object_classes <- x %>%
               map_chr(class)
             
-            if (F %in% (object_classes == 'RandomForest' | object_classes == 'Univariate')) {
-              stop('All objects contained within supplied list should be of class RandomForest or Univariate',call. = FALSE)
+            if (FALSE %in% (object_classes == 'RandomForest' | 
+                            object_classes == 'Univariate')) {
+              stop(str_c('All objects contained within supplied ',
+                         'list should be of class RandomForest or Univariate'),
+                   call. = FALSE)
             }
             
             x %>%

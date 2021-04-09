@@ -1,0 +1,477 @@
+---
+title: "Introduction"
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
+author: "Jasen Finch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r,include=FALSE}
+knitr::opts_chunk$set(fig.align = 'center')
+library(magrittr)
+```
+
+## Introduction
+
+Extracting biological information, related to experimental treatments, from metabolomics data involves a number of steps; data pre-treatment, assessing the extent of discrimination or association between treatment classes and identifying explanatory features responsible for this.
+The *metabolyseR* package provides a suite of methods that encompass these aspects of metabolomics data analysis and include the following three analysis elements:
+
+* data pre-treatment
+* modelling / data mining
+* correlation analyses
+
+The *metabolyseR* package also distinguishes between the flexibility and simplicity required for **exploratory** analyses and the convenience needed for complex **routine** analyses. 
+This is reflected in the underlying S4 classes and associated methods defined within the package.
+It should be noted that it is useful to understand the principles involved in using *metabolyseR* for exploratory analyses in manipulating and extracting the results generated from routine analyses.
+
+The following document will provide an introduction to the basic usage of the package that includes how to create an manipulate the base classes that are the foundation of *metabolyseR* .
+This will be focused around the application for both exploratory and routine analyses.
+For more detailed information on the individual analysis elements see their associated vignette using:
+
+```{r vignettes, eval=FALSE}
+browseVignettes('metabolyseR')
+```
+
+There is also an example quick start analysis vignette provided. 
+This can be found using:
+
+```{r example_analysis,eval=FALSE}
+vignette('quick_start','metabolyseR')
+```
+
+Any issues, bugs or error encountered while using the package should be reported [here](https://github.com/jasenfinch/metabolyseR/issues).
+
+The examples shown here will use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
+This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. 
+The examples will also include use of the pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package.
+
+Firstly load the relevant packages:
+
+```{r libraryLoad,message=FALSE}
+library(metabolyseR)
+library(metaboData)
+```
+
+## Exploratory analyses
+
+For exploratory analyses, simple questions of the data need to be answered quickly.
+Usually with very few steps required.
+This means that key requirements for any tool used by investigators for performing exploratory analyses are both simple and flexible.
+
+In *metabolyseR*, the `AnalysisData` class is the base S4 class that provides these requirements.
+This is "requires metabolomics data and sample information, rows observations, columns metabolome features (eg. mass spectral signals)"
+
+The following sections will give an overview of the basics in constructing and manipulating these objects as the base for analysis.
+
+### Analysis data
+
+We can firstly construct an `AnalysisData` object to analyse consisting of two data tables.
+The first contains the metabolomic data where the columns are the metabolome features, the rows the sample observations and the values.
+The second contains the sample meta-information with the row order matching those of the metabolome data table.
+Using the example data, his can be constructed and assigned to the variable `d` by:
+
+```{r analysis_data}
+d <- analysisData(data = abr1$neg,
+                  info = abr1$fact)
+```
+
+Where `abr1$neg` is the negative ionisation mode data and `abr1$fact` is the corresponding sample information.
+By printing `d` we can view some basic information about our data.
+
+```{r print_analysis_data}
+d
+```
+
+We can also return the numbers of samples and numbers of features respectively using the following:
+
+```{r number_samples_features}
+nSamples(d)
+nFeatures(d)
+```
+
+The data table can be extracted using the `dat` method:
+
+```{r dat}
+dat(d)
+```
+
+Or alternatively, can be used to assign a new data table:
+
+```{r new_dat}
+dat(d) <- abr1$pos
+d
+```
+
+The sample information table can be extracted using the `sinfo` method:
+
+```{r sinfo}
+sinfo(d)
+```
+
+And similarly used to assign a new sample information table:
+
+```{r new_sinfo}
+sinfo(d) <- abr1$fact[,1:2]
+d
+```
+
+```{r analysis_data2,echo=FALSE}
+d <- analysisData(abr1$neg,abr1$fact)
+```
+
+### Sample information
+
+There are a number of methods that provide utility for querying and altering the sample information within an `AnalysisData` object.
+These methods are all named with the prefix `cls` and include:
+
+```{r cls,results='asis',echo=FALSE}
+getNamespaceExports('metabolyseR') %>% 
+  {.[stringr::str_detect(.,'cls')]} %>% 
+  {.[!stringr::str_detect(.,':')]} %>% 
+  sort() %>% 
+  stringr::str_c('* `',.,'`') %>% 
+  stringr::str_c(collapse = '\n') %>%
+  cat()
+```
+
+The names of the available sample information columns can be shown using `clsAvailable`.
+
+```{r cls_available}
+clsAvailable(d)
+```
+
+A given column can be extracted using `clsExtract`. 
+Here, the `day` column is extracted.
+
+```{r cls_extract}
+clsExtract(d,cls = 'day')
+```
+
+Sample class frequencies could then be computed.
+
+```{r cls_freq}
+clsExtract(d,cls = 'day') %>%
+  table()
+```
+
+It cam be seen that there are 20 samples available in each class.
+
+Another example is the addition of a new sample information column.
+In the following, a column called `new_class` will be added with all samples labelled `1`.
+
+```{r cls_add}
+d <- clsAdd(d,cls = 'new_class',value = rep(1,nSamples(d)))
+clsAvailable(d)
+```
+
+### Keeping / removing samples or features
+
+Samples or features can easily be kept or removed from an `AnalysisData` object as is most convenient.
+
+Below can be seen the first 6 sample indexes in the `injorder` column of the sample information.
+
+```{r}
+samples <- d %>%
+  clsExtract(cls = 'injorder') %>%
+  head()
+
+print(samples)
+```
+
+Only these samples could be kept using:
+
+```{r}
+d %>%
+  keepSamples(idx = 'injorder',samples = samples)
+```
+
+Or removed using:
+
+```{r}
+d %>%
+  removeSamples(idx = 'injorder',samples = samples)
+```
+
+The process is very similar for keeping or removing specific metabolome features from the data table.
+Below can be seen the first 6 feature names in the data table.
+
+```{r}
+feat <- d %>%
+  features() %>%
+  head()
+
+print(feat)
+```
+
+Only these features can be kept using:
+
+```{r}
+d %>%
+  keepFeatures(features = feat)
+```
+
+Or to remove these features:
+
+```{r}
+d %>%
+  removeFeatures(features = feat)
+```
+
+## Routine analyses
+
+Routine analyses are those that are often made up of numerous steps where parameters have likely already been previously estabilshed.
+The emphasis here is on convenience with as little code as possible required.
+In these analyses, the necessary analysis elements, order and parameters are first prepared and then the analysis routine subsequently performed in a single step.
+This section will introduce how this type of analysis can be performed using *metabolyseR* and will include four main topics:
+
+* analysis parameter selection
+* performing an analysis
+* performing a reanalysis
+* extracting analysis results
+
+### Analysis parameters
+
+Parameter selection is the fundamental aspect for performing routine analyses using *metabolyseR* and will be the step requiring the most input from the user.
+The parameters for an analysis are stored in an S4 object of class `AnalysisParameters` containing the relevant parameters of the selected analysis elements.
+
+The parameters have been named so that they denote the same functionality commonly across all analysis element methods.
+**Discussion of the specific parameters can be found withing the vignettes of the relevant analysis elements.**
+These can be accessed using:
+
+```{r vignettes1, eval=FALSE}
+browseVignettes('metabolyseR')
+```
+
+There are several ways to specify the parameters to use for analysis.
+The first is programatically and the second is through the use of the YAML format.
+
+#### Programatic specification
+
+The available analysis elements can be shown using:
+
+```{r analysis_elements}
+analysisElements()
+```
+
+The `analysisParameters` function can be used to create an `AnalysisParameters` object containing the default parameters.
+For example, the code below will return default parameters for all the *metabolyseR* analysis elements.
+
+```{r parametersExample}
+p <- analysisParameters()
+p
+```
+
+To retrieve parameters for a subset of analysis elements the following can be run, returning parameters for only the pre-treatment and modelling elements. 
+
+```{r parametersElementSubset}
+p <- analysisParameters(c('pre-treatment','modelling'))
+p
+```
+
+The `changeParameter` function can be used to uniformly change these parameters across all of the selected methods.
+The example below changes the defaults of all the parameters named "cls" from the default "class" to "day".
+
+```{r changeParameter}
+p <- analysisParameters()
+changeParameter(p,'cls') <- 'day'
+p
+```
+
+Alternatively the parameters of a specific analysis elements can be targeted using the "elements" argument.
+The following will only alter the "cls" parameter back to "class" for the pre-treatment element parameters:
+
+```{r changeParameterElement}
+changeParameter(p,'cls',elements = 'pre-treatment') <- 'class'
+```
+
+Parameters can be extracted from the `AnalysisParameters` class using the `parameters` function for a specified element.
+
+```{r parameters}
+parameters(p,'correlations')
+```
+
+Each analysis element has a function for returning default parameters for specific methods.
+These include `preTreatmentParameters`, `modellingParameters` and `correlationParameters`.
+Each returns a list of the default parameters for a specified methods as shown in the example for `modellingParameters` below.
+
+```{r modellingParameters}
+modellingParameters('anova')
+```
+
+Refer to the documentation (`?`) of each function for sepecific usage details.
+
+The parameters returned by these functions can be assigned to an `AnalysisParameters` object, again using `parameters`'
+
+```{r assign_pre_treatment_parameters}
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+    occupancyFilter = 'maximum',
+    transform = 'TICnorm'
+      )
+  )
+```
+
+#### YAML specification
+
+Due to the relatively complex structure of the parameters needed for the analyses containing many components, it is also possible to specify analysis parameters using the YAML format.
+YAML parameter files (.yaml) can be parsed using the `parseParameters` function.
+The example below shows the YAML specification for the defaults returned by `analysisParameters`.
+
+```{r defaultYAML,echo=FALSE,results='asis'}
+paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
+
+stringr::str_c("
+```yaml
+",
+yaml::read_yaml(paramFile) %>%
+  yaml::as.yaml(),
+"```") %>%
+  cat()
+```
+
+This can be passed directly into an `AnalysisParameters` object using the following:
+
+```{r parseParametes}
+paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
+p <- parseParameters(paramFile)
+```
+
+For more complex pre-treatment situations such as the following:
+
+```{r exampleYAML,echo=FALSE,results='asis'}
+exampleParamFile <- system.file('exampleParameters.yaml',package = 'metabolyseR')
+
+stringr::str_c("
+```yaml
+",
+  yaml::read_yaml(exampleParamFile) %>%
+    yaml::as.yaml(),
+  "```") %>%
+  cat()
+```
+
+Where multiple multiple steps of the same method needed (here is "remove"), these are numbered sequentially.
+Also where multiple values need to be provided to a particular argument (e.g. `classes = c('H','1')`), these should be supplied as a hyphenated list.
+
+Existing `AnalysisParameters` objects can also be exported to YAML format as shown below:
+
+```{r export_parameters,eval=FALSE}
+p <- analysisParameters()
+exportParameters(p,file = 'analysis_parameters.yaml')
+```
+
+
+### Performing an analysis
+
+The analysis is performed in a single, simple step using the `metabolyse` function.
+This accepts the metabolomic data, the sample information and the analysis parameters.
+
+The metabolomic data table consists of columns containing the metabolome features, the rows the sample observations and the values.
+Similarly, the sample meta-information table should consist of the observations as rows and the meta information as columns.
+**The order of the observation rows of the sample information table should be concordant with the rows in the metabolomics data table.**
+
+We can run an example analysis using the `abr1` data set by first generating the default parameters for pre-treatment and modelling (random forest) analysis elements.
+
+```{r metabolyse_default_parameters}
+p <- analysisParameters(c('pre-treatment','modelling'))
+```
+
+Custom pre-treatment parameters can then be specified to only inlude occupancy filtering and total ion count normalisation. 
+
+```{r custom_pre-treatment_parameters}
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+  occupancyFilter = 'maximum',
+  transform = 'TICnorm')
+)
+```
+
+Next the "cls" parameters can be changed to use the "day" sample information column throughout the analysis.
+
+```{r change_cls_parameter}
+changeParameter(p,'cls') <- 'day'
+```
+
+Finally, the analysis can be run in a single step.
+Here only the fist 200 features of the negative ionisation mode data are specified to reduce the analysis time needed for this example.
+
+```{r metabolyse}
+analysis <- metabolyse(abr1$neg[,1:200],abr1$fact,p) 
+```
+
+**Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.**
+
+The `analysis` object containing the analysis results can be printed to provide some basic information about the results of the analysis.
+
+```{r print_analysis_results}
+print(analysis)
+```
+
+### Performing a reanalysis
+
+There are likely to be occasions where an analysis needs to be re-analysed using a new set of parameters. 
+This can be achieved using the `reAnalyse` function.
+
+In the example below we will run a correlation analysis in addition to the pre-treatment and modelling elements already performed.
+
+Firstly, we can specify the correlation parameters: 
+
+```{r correlation_parameters}
+parameters <- analysisParameters('correlations')
+```
+
+Then perform the re-analysis on our previously analysed `Analysis` object, specifying the additional parameters.
+
+```{r reAnalyseExample}
+analysis <- reAnalyse(analysis,parameters)
+```
+
+An overview of the results of the analysis (now including correlations) can then be printed.
+
+```{r print_reanalysis}
+print(analysis)
+```
+
+### Extracting analysis results
+
+An analysis performed by `metabolyse` returns an S4 object of class `Analysis`.
+There are a number of ways of extracting analysis results from this object.
+
+Similarly to the `AnalysisData` class, the `dat` and `sinfo` functions can be used to extract the metabolomics data or sample information tables directly for either the "raw" or "pre-treated" data.
+
+For example, to extract the pre-treated metabolomics data from our object `analysis`:
+
+```{r}
+dat(analysis,type = 'pre-treated')
+```
+
+Or to extract the raw sample information:
+
+```{r}
+sinfo(analysis,type = 'raw')
+```
+
+Alternatively the `raw` or `preTreated` functions can be used to extract the `AnalysisData` class objects containing both the metabolomics data and sample information for the raw and pre-treated data respectively.
+
+```{r}
+raw(analysis)
+```
+
+```{r}
+preTreated(analysis)
+```
+
+Lastly the `analysisResults` function can be used to extract the results of any of the analysis elements.
+The following will extract the modelling results:
+
+```{r}
+analysisResults(analysis,element = 'modelling')
+```

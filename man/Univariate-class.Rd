@@ -12,7 +12,7 @@ An S4 class for univariate test models and results.
 \describe{
 \item{\code{type}}{univariate test type}
 
-\item{\code{data}}{AnalysisData object of tested data}
+\item{\code{response}}{response}
 
 \item{\code{models}}{list of model objects}
 

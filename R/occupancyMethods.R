@@ -13,7 +13,10 @@ setMethod('occupancyMaximum',signature = 'AnalysisData',
               group_by(Feature) %>%
               summarise(Occupancy = max(Occupancy)) %>%
               filter(Occupancy >= occupancy)
-            feat <- colnames(dat %>% dat)[colnames(dat %>% dat) %in% unique(fd$Feature)]
+            feat <- colnames(dat %>% 
+                               dat)[colnames(dat %>% 
+                                               dat) %in% 
+                                      unique(fd$Feature)]
             dat@data <- dat %>%
               dat %>%
               select(feat)
@@ -36,30 +39,35 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
               group_by(Feature) %>%
               summarise(Occupancy = min(Occupancy)) %>%
               filter(Occupancy >= occupancy)
-            feat <- colnames(dat %>% dat())[colnames(dat %>% dat()) %in% unique(fd$Feature)]
+            feat <- colnames(dat %>% 
+                               dat())[colnames(dat %>% 
+                                                 dat()) %in% 
+                                        unique(fd$Feature)]
             dat@data <- dat@data %>%
               select(feat)
             return(dat)
           }
 )
 
-occupancyMethods <- function(method = NULL, description = F){
+occupancyMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     maximum = occupancyMaximum, 
     minimum = occupancyMinimum
   )
   
-  descriptions = list(
-    maximum = list(description = 'maximum thresholded class occupancy filtering', 
-                   arguments = c(cls = 'info column to use for class labels', 
-                                 occupancy = 'occupancy threshold')),
-    minimum = list(description = 'minimum thresholded class occupancy filtering', 
-                   arguments = c(cls = 'info column to use for class labels', 
-                                 occupancy = 'occupancy threshold'))
+  descriptions <- list(
+    maximum = list(
+      description = 'maximum thresholded class occupancy filtering', 
+      arguments = c(cls = 'info column to use for class labels', 
+                    occupancy = 'occupancy threshold')),
+    minimum = list(
+      description = 'minimum thresholded class occupancy filtering', 
+      arguments = c(cls = 'info column to use for class labels', 
+                    occupancy = 'occupancy threshold'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {
@@ -67,7 +75,10 @@ occupancyMethods <- function(method = NULL, description = F){
         stop(str_c("Occupancy method '",
                    method,
                    "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+                   str_c(
+                     str_c("'",names(methods),"'"),
+                     collapse = ', '),
+                   '.'))
       }
       method <- methods[[method]]
     }
@@ -89,7 +100,8 @@ occupancyMethods <- function(method = NULL, description = F){
 
 #' occupancy
 #' @rdname occupancy
-#' @description Return tibble containg proportional class occupancy for each feature for a given class info column.
+#' @description Return tibble containg proportional class occupancy 
+#' for each feature for a given class info column.
 #' @param x S4 object of class AnalysisData
 #' @param cls info column to use for class data
 #' @importFrom dplyr ungroup full_join
@@ -101,8 +113,8 @@ setMethod('occupancy',signature = 'AnalysisData',
             feat <- tibble(Feature = features(x))
             
             d <- x %>%
-            dat() %>%
-           mutate(Class = clsExtract(x,cls))
+              dat() %>%
+              mutate(Class = clsExtract(x,cls))
             
             clsSize <- d %>%
               group_by(Class) %>%
@@ -117,7 +129,7 @@ setMethod('occupancy',signature = 'AnalysisData',
             names(vars) <- cls
             
             occ <- clsSize %>%
-              base::split(1:nrow(.)) %>%
+              base::split(seq_len(nrow(.))) %>%
               map(~{
                 cla <- .
                 cl <- d %>%
@@ -135,13 +147,13 @@ setMethod('occupancy',signature = 'AnalysisData',
               mutate(N = 0,Occupancy = 0,dummy = 1) %>%
               full_join(clsSize %>%
                           select(Class) %>%
-                            rename(!!cls := Class) %>%
-                            mutate(dummy = 1),by = 'dummy') %>%
+                          rename(!!cls := Class) %>%
+                          mutate(dummy = 1),by = 'dummy') %>%
               select(!!cls,Feature,N,Occupancy)
-              
+            
             occ <- occ %>%
               bind_rows(unoccupied) %>%
               arrange(!!sym(cls),Feature)
-              
+            
             return(occ)
           })

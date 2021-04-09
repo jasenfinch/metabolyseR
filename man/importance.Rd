@@ -19,5 +19,6 @@ importance(x)
 \item{x}{S4 object of class RandomForest or Univariate}
 }
 \description{
-return feature importance resutls from a RandomForest or Univariate classes
+return feature importance resutls from a RandomForest 
+or Univariate classes
 }

@@ -9,62 +9,25 @@
 
 analysisData <- function(data,info){
   if (nrow(data) != nrow(info)) {
-    stop('Number of rows in data should match number of rows in info!')
+    stop(
+      str_c('Number of rows in data should',
+            ' match number of rows in info!'),
+      call. = FALSE)
   }
   
   d <- new('AnalysisData')
-  d@data <- data %>%
+  dat(d) <- data %>%
     as_tibble()
-  d@info <- info %>%
+  sinfo(d) <- info %>%
     as_tibble()
   return(d)
-}
-
-#' dat
-#' @rdname dat
-#' @description Return or sest sample data in an AnalysisData object.
-#' @param x S4 object of class AnalysisData 
-#' @export
-
-setMethod('dat',signature = 'AnalysisData',
-          function(x){
-            x@data
-          })
-
-#' @rdname dat
-#' @param value tibble containing sample data
-#' @export
-
-`dat<-` <- function(x,value){
-  x@data <- as_tibble(value)
-  return(x)
-}
-
-#' sinfo
-#' @rdname sinfo
-#' @description Return sample info from an AnalysisData object.
-#' @param x S4 object of class Data 
-#' @export
-
-setMethod('sinfo',signature = 'AnalysisData',
-          function(x){
-            x@info
-          })
-
-#' @rdname sinfo
-#' @param value tibble containing sample info
-#' @export
-
-`sinfo<-` <- function(x,value){
-  x@info <- as_tibble(value)
-  return(x)
 }
 
 #' features
 #' @rdname features
 #' @description Return a vector of the feature names.
 #' @param x S4 object of class AnalysisData or Analysis
-#' @param type return features from \code{raw} or \code{preTreated} data
+#' @param type return features from "raw" or "pre-treated" data
 #' @param ... arguments to pass to the appropriate method
 #' @export
 
@@ -80,18 +43,27 @@ setMethod('features',signature = 'AnalysisData',
 
 setMethod('features',signature = 'Analysis',
           function(x,type = 'raw'){
-            ty <- get(type)
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be "raw" or "pre-treated".',
+                   call. = FALSE)
+            }
             
-            x %>%
-              ty() %>%
-              features()
+            if (type == 'pre-treated') {
+              x %>%
+                preTreated() %>%
+                features()
+            } else {
+              x %>%
+                raw() %>%
+                features()
+            }
           })
 
 #' nFeatures
 #' @rdname nFeatures
 #' @description Return the number of features.
 #' @param x S4 object of class AnalysisData or Analysis
-#' @param type return the number features from \code{raw} or \code{preTreated} data
+#' @param type return features from "raw" or "pre-treated" data
 #' @param ... arguments to pass to the appropriate method
 #' @export
 
@@ -107,18 +79,29 @@ setMethod('nFeatures',signature = 'AnalysisData',
 
 setMethod('nFeatures',signature = 'Analysis',
           function(x,type = 'raw'){
-            ty <- get(type)
             
-            x %>%
-              ty() %>%
-              nFeatures()
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be "raw" or "pre-treated".',
+                   call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              x %>%
+                preTreated() %>%
+                nFeatures()
+            } else {
+              x %>%
+                raw() %>%
+                nFeatures()
+            }
+            
           })
 
 #' nSamples
 #' @rdname nSamples
 #' @description Return the number of samoles.
 #' @param x S4 object of class AnalysisData or Analysis
-#' @param type return the number samples from \code{raw} or \code{preTreated} data
+#' @param type return features from "raw" or "pre-treated" data
 #' @param ... arguments to pass to the appropriate method
 #' @export
 
@@ -134,9 +117,18 @@ setMethod('nSamples',signature = 'AnalysisData',
 
 setMethod('nSamples',signature = 'Analysis',
           function(x,type = 'raw'){
-            ty <- get(type)
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop('Argument "type" should be "raw" or "pre-treated".',
+                   call. = FALSE)
+            }
             
-            x %>%
-              ty() %>%
-              nSamples()
+            if (type == 'pre-treated') {
+              x %>%
+                preTreated() %>%
+                nSamples()
+            } else {
+              x %>%
+                raw() %>%
+                nSamples()
+            }
           })

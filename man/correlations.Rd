@@ -22,9 +22,11 @@ correlations(x, ...)
 
 \item{...}{arguments to pass to specific method}
 
-\item{method}{correlation method. One of \code{'pearson'} or \code{'spearman'}.}
+\item{method}{correlation method. 
+One of \code{'pearson'} or \code{'spearman'}.}
 
-\item{pAdjustMethod}{p-value adjustment method. See \code{?p.adjust} for availabl methods.}
+\item{pAdjustMethod}{p-value adjustment method. 
+See \code{?p.adjust} for availabl methods.}
 
 \item{corPvalue}{p-value cutoff threshold for significance}
 }

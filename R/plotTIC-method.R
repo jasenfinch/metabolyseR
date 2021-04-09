@@ -1,7 +1,8 @@
 #' plotTIC
 #' @rdname plotTIC
 #' @description Plot total ion counts of sample raw data.
-#' @param analysis object of class Analysis or AnalysisData containing analysis results
+#' @param analysis object of class Analysis or AnalysisData containing 
+#' analysis results
 #' @param by info column to plot against
 #' @param colour info column to provide colour labels
 #' @param type \code{raw} or \code{preTreated} sample information
@@ -30,47 +31,72 @@ setMethod('plotTIC',signature = 'AnalysisData',
             info <- sinfo(analysis)
             
             index <- info %>%
-              select(Index = by,Colour = colour)
+              select(all_of(c(by,colour)))
             
             d <- d %>%
               bind_cols(index) %>%
-              mutate(Colour = factor(Colour)) %>%
+              mutate(!!colour := factor(!!sym(colour))) %>%
               rowid_to_column(var = 'ID') %>%
-              gather('Feature','Intensity',-ID,-Index,-Colour) %>%
-              group_by(ID,Index,Colour) %>%
+              gather('Feature','Intensity',-ID,-all_of(c(by,colour)))
+            
+            if (by != colour) {
+              d <- d %>%
+                group_by(ID,!!sym(by),!!sym(colour))
+            } else {
+              d <- d %>%
+                group_by(ID,!!sym(by))
+                
+            }
+            
+            d <- d %>%
               summarise(TIC = sum(Intensity))
             
             classCheck <- d %>%
-              group_by(Index) %>%
+              group_by(!!sym(by)) %>%
               summarise(Frequency = n())
             
+            colourFreq <- analysis %>%
+              clsExtract(cls = colour) %>%
+              unique() %>%
+              length()
+            
             pl <- d %>%
-              ggplot(aes(x = Index,y = TIC)) +
+              ggplot(aes(x = !!sym(by),y = TIC)) +
               theme_bw() +
               xlab(by)
             
-            if (T %in% (classCheck$Frequency > 1)) {
+            if (TRUE %in% (classCheck$Frequency > 1)) {
               pl <- pl + 
-                geom_boxplot(aes(group = Index),outlier.shape = NA,colour = 'black') +
-                geom_point(aes(fill = Colour),shape = 21,position = 'jitter')
+                geom_boxplot(aes(group = !!sym(by)),
+                             outlier.shape = NA,
+                             colour = 'black') +
+                geom_point(aes(fill = !!sym(colour)),
+                           shape = 21,
+                           position = 'jitter') +
+                guides(fill = FALSE)
             } else {
-              pl <- pl + geom_point(aes(fill = Colour),shape = 21)
+              pl <- pl + geom_point(aes(fill = !!sym(colour)),
+                                    shape = 21,
+                                    size = 3)
             }
             
-            if (nrow(classCheck) <= 12) {
+            if (colourFreq <= 12) {
               pl <- pl + scale_fill_ptol()
             } else {
-              if (nrow(classCheck) %% 12 == 0) {
+              if (colourFreq %% 12 == 0) {
                 pal <- rep(ptol_pal()(12),nrow(classCheck) / 12)
               } else {
-                pal <- c(rep(ptol_pal()(12),floor(nrow(classCheck) / 12)),ptol_pal()(12)[1:(nrow(classCheck) %% 12)])
+                pal <- c(rep(ptol_pal()(12),
+                             floor(nrow(classCheck) / 12)),
+                         ptol_pal()(12)[1:(nrow(classCheck) %% 12)])
               }
               pl <- pl + scale_fill_manual(values = pal,name = colour)
             }
             
             pl + 
               theme(legend.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'))
+                    axis.title = element_text(face = 'bold'),
+                    panel.grid = element_blank())
           }
 )
 
@@ -78,7 +104,10 @@ setMethod('plotTIC',signature = 'AnalysisData',
 #' @export
 
 setMethod('plotTIC',signature = 'Analysis',
-          function(analysis, by = 'injOrder', colour = 'block', type = 'raw') {
+          function(analysis, 
+                   by = 'injOrder', 
+                   colour = 'block', 
+                   type = 'raw') {
             ty <- get(type)
             
             ty(analysis) %>%

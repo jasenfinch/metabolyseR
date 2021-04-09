@@ -17,7 +17,7 @@ nSamples(x, ...)
 
 \item{...}{arguments to pass to the appropriate method}
 
-\item{type}{return the number samples from \code{raw} or \code{preTreated} data}
+\item{type}{return features from "raw" or "pre-treated" data}
 }
 \description{
 Return the number of samoles.

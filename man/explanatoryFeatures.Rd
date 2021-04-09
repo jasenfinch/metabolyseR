@@ -11,7 +11,7 @@ explanatoryFeatures(x, ...)
 
 \S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
 
-\S4method{explanatoryFeatures}{RandomForest}(x, measure = "FalsePositiveRate", threshold = 0.05)
+\S4method{explanatoryFeatures}{RandomForest}(x, metric = "FalsePositiveRate", threshold = 0.05)
 
 \S4method{explanatoryFeatures}{list}(x, threshold = 0.05, ...)
 }
@@ -22,7 +22,7 @@ explanatoryFeatures(x, ...)
 
 \item{threshold}{threshold below which explanatory features are extracted}
 
-\item{measure}{importance measure on which to retrieve explanatory feautres}
+\item{metric}{importance metric on which to retrieve explanatory feautres}
 }
 \description{
 Extract explanatory features from modelling results.

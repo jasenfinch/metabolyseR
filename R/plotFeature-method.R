@@ -1,12 +1,13 @@
 #' plotFeature
 #' @rdname plotFeature
 #' @description Plot a feature trend.
-#' @param analysis object of class Analysis, AnalysisData, Univariate or RandomForest containing analysis results
+#' @param analysis object of class Analysis, AnalysisData, Univariate 
+#' or RandomForest containing analysis results
 #' @param feature feature to plot
 #' @param cls info column to use for class labels
 #' @param label info column to use for sample labels
 #' @param labelSize sample label size
-#' @param type \code{raw} or \code{preTreated} data to plot
+#' @param type \code{raw} or \code{pre-treated} data to plot
 #' @param ... arguments to pass to the appropriate method
 #' @importFrom ggplot2 ggtitle
 #' @examples 
@@ -18,29 +19,61 @@
 #'     occupancyFilter = list(maximum = list()),
 #'     transform = list(TICnorm = list())
 #' )
+#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
+#' plotFeature(analysis,'N133',cls = 'day')
 #' }
 #' @export
 
-setMethod('plotFeature',signature = 'Analysis',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2, type = 'preTreated'){
-            ty <- get(type)
+setMethod('plotFeature',
+          signature = 'Analysis',
+          function(analysis, 
+                   feature, 
+                   cls = 'class', 
+                   label = NULL, 
+                   labelSize = 2, 
+                   type = 'pre-treated'){
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
+            }
             
-            analysis %>%
-              ty() %>%
-              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
+            if (type == 'pre-treated') {
+             d <- analysis %>%
+               preTreated()
+            } else {
+             d <- analysis %>%
+               raw()
+            }
+            
+            d %>%
+              plotFeature(feature = feature,
+                          cls = cls,
+                          label = label,
+                          labelSize = labelSize)
           })
 
 #' @rdname plotFeature
-#' @importFrom ggplot2 aes geom_point theme_bw element_text guides scale_fill_manual xlab
+#' @importFrom ggplot2 aes geom_point theme_bw element_text guides 
+#' @importFrom ggplot2 scale_fill_manual xlab
 #' @export
 
-setMethod('plotFeature',signature = 'AnalysisData',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
+setMethod('plotFeature',
+          signature = 'AnalysisData',
+          function(analysis, 
+                   feature, 
+                   cls = 'class', 
+                   label = NULL, 
+                   labelSize = 2){
             
             feat <- features(analysis)
             
             if (!feature %in% feat) {
-              stop(str_c('Feature "',feature,'" is not present in this dataset'),call. = FALSE)
+              stop(
+                str_c('Feature "',
+                      feature,
+                      '" is not present in this dataset'),
+                call. = FALSE)
             }
             
             d <- dat(analysis)
@@ -77,7 +110,8 @@ setMethod('plotFeature',signature = 'AnalysisData',
                 theme_bw() +
                 ggtitle(feature) +
                 theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold')) +
+                      plot.title = element_text(face = 'bold'),
+                      panel.grid = element_blank()) +
                 guides(fill = FALSE)
               
               if (classes <= 12) {
@@ -86,7 +120,9 @@ setMethod('plotFeature',signature = 'AnalysisData',
                 if (classes %% 12 == 0) {
                   pal <- rep(ptol_pal()(12),classes / 12)
                 } else {
-                  pal <- c(rep(ptol_pal()(12),floor(classes / 12)),ptol_pal()(12)[1:(classes %% 12)])
+                  pal <- c(
+                    rep(ptol_pal()(12),floor(classes / 12)),
+                    ptol_pal()(12)[1:(classes %% 12)])
                 }
                 pl <- pl + scale_fill_manual(values = pal)
               }
@@ -98,7 +134,8 @@ setMethod('plotFeature',signature = 'AnalysisData',
                 ggtitle(feature) +
                 xlab(cls) +
                 theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold'))
+                      plot.title = element_text(face = 'bold'),
+                      panel.grid = element_blank())
             }
             
             if (!is.null(label)) {
@@ -109,21 +146,3 @@ setMethod('plotFeature',signature = 'AnalysisData',
             pl
           }
 )
-
-#' @rdname plotFeature
-#' @export
-
-setMethod('plotFeature',signature = 'Univariate',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
-            analysis@data %>%
-              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
-          })
-
-#' @rdname plotFeature
-#' @export
-
-setMethod('plotFeature',signature = 'RandomForest',
-          function(analysis, feature, cls = 'class', label = NULL, labelSize = 2){
-            analysis@data %>%
-              plotFeature(feature = feature,cls = cls,label = label,labelSize = labelSize)
-          })

@@ -4,11 +4,15 @@ context('metabolyse')
 
 test_that('metabolyse-works', {
   p <- analysisParameters()
-  p@preTreat <- list(
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
+  
+  parameters(p,'pre-treatment') <- preTreatmentParameters(
+    list(
+      occupancyFilter = 'maximum',
+      transform = 'TICnorm')
   )
-  p@modelling$randomForest$nCores <- 1
+  
+  changeParameter(p,'nCores','modelling') <- 1
+  
   cls1 <- abr1$neg[abr1$fact$class %in% c('1'),190:200][1:10,]
   cls2 <- abr1$neg[abr1$fact$class %in% c('6'),190:200][1:10,]
   dat <- rbind(cls1,cls2)

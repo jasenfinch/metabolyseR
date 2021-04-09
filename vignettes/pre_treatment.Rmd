@@ -1,0 +1,475 @@
+---
+title: "Metabolomics data pre-treatment"
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
+author: "Jasen Finch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
+vignette: >
+  %\VignetteIndexEntry{Metabolomics data pre-treatment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+library(tibble)
+library(dplyr)
+library(purrr)
+library(stringr)
+library(kableExtra)
+
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = 'center'
+)
+```
+
+## Introduction
+
+Metabolomics data from any analytical technique requires various data pre-treatment steps prior to subsequent data mining or other downstream analyses and aids both data quality and integrity.
+It is important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be utilised.
+Careful consideration of the pre-treatment steps to be undertaken are required as they can have substantial influence on the results and inferences taken from metabolomic analyses.
+
+Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
+It itself is made up of a number of elements, which themselves are made up of methods.
+The following document will outline the application of each of these pre-treatment elements for use in exploratory analyses then outline how to apply them in routine analyses.
+For an introduction to the usage of *metabolyseR* for both exploratory and routine analyses, see the introduction vignette using:
+
+```{r introduction_vignette,eval=FALSE}
+vignette('introduction','metabolyseR')
+```
+
+To further supplement this document, a quick start example analysis is also available as a vignette:
+
+```{r example_analysis,eval=FALSE}
+vignette('quick_start','metabolyseR')
+```
+
+To begin, the package can be loaded using:
+
+```{r package_load}
+library(metabolyseR)
+```
+
+### Example data
+
+The examples used here will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
+This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
+The pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package will also be used.
+The example data can be loaded using:
+
+```{r data_load}
+library(metaboData)
+```
+
+Only the negative acquisition mode data (`abr1$neg`) will be used along with the sample meta-information (`abr1$fact`).
+Create an `AnalysisData` class object, assigned to the variable `d`, using the following:
+
+```{r example_data}
+d <- analysisData(abr1$neg,abr1$fact)
+```
+
+```{r print_data}
+print(d)
+```
+
+As can be seen above the data set contains a total of `r nSamples(d)` samples and `r nFeatures(d)` features.
+
+## Pre-treatment elements
+
+The following sections will outline the numerous pre-treatment elements available within *metabolyseR*.
+There will be examples of their application during exploratory analyses along with useful visualisations that can aid interpretation of when particular treatments should be applied as well as the effect once they have been used. 
+
+### Removal of samples, classes or features
+
+In many situations it will be necessary to exclude either individual samples, sample classes or certain features from further analysis. 
+
+Individual samples can be removed using `removeSamples` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument a vector of sample indexes to remove.
+
+```{r remove_samples}
+d %>%
+  removeSamples(idx = 'injorder',samples = 1)
+```
+
+The `removeClasses` function can be used similarly to remove whole classes from further analysis:
+
+```{r remove_classes}
+d %>%
+  removeClasses(cls = 'day',classes = 'H')
+```
+
+The following will enable the removal of specified features as a vector supplied to the `feautres` argument:
+
+```{r remove_features}
+d %>%
+  removeFeatures(features = c('N1','N2'))
+```
+
+There maybe occasions where the numbers of samples, classes or features to remove are greater than the numbers of samples, classes or features that are to be retained.
+In these situations it will be more convenient to directly specify the samples, classes or features to retain.
+Keeping samples, classes or features is outlined in the following section.
+
+### Keeping samples, classes or features
+
+Often it will be necessary to retain only particular samples, sample classes or certain features for further analysis. 
+
+Individual samples can be kept using `keepSamples` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument, a vector of sample indexes to keep.
+
+```{r keep_samples}
+d %>%
+  keepSamples(idx = 'injorder',samples = 1)
+```
+
+The `keepClasses` function can be used similarly to keep whole classes for further analysis:
+
+```{r keep_classes}
+d %>%
+  keepClasses(cls = 'day',classes = 'H')
+```
+
+The following will specify features to keep, with a vector of feature names supplied to the `features` argument:
+
+```{r keep_features}
+d %>%
+  keepFeatures(features = c('N1','N2'))
+```
+
+There are likely to be occasions where the numbers of samples, classes or features to keep are greater than the numbers of samples, classes or features that are to be excluded.
+In these situations it will be more convenient to directly specify the samples, classes or features to remove.
+Removing samples, classes or features is outlined in the previous section.
+
+### Variable filtering based on occupancy
+
+Occupancy provides a useful metric by which to filter poorly represented features (features containing a majority zero or missing values).
+An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses.
+However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.
+
+The proportional occupancy for each feature within a data set for a given class structure can be calculated using the `occupancy` function, specifying the sample information column using the `cls` argument.
+
+```{r occupancy}
+d %>%
+  occupancy(cls = 'day')
+```
+
+Alternatively the occupancy distributions can be plotted providing a useful overview of the data set:
+
+```{r plot_occupancy}
+d %>%
+  plotOccupancy(cls = 'day')
+```
+
+It can be seen that there are a number of unoccupied features across all the sample classes with a small rise in the density distribution near 0.
+
+There are two strategies for thresholding occupancy.
+The first is a maximum theshold; where the maximum occupancy across all classes is above the threshold. 
+Therefore, for a feature to be retained, only a single class needs to have an occupancy above the threshold. 
+It is this strategy that will be appropriate for most applications.
+A two-thirds maximum occupancy filter can be applied to the "day" sample information column of our data using:
+
+```{r maximum_occupancy_filter}
+maximum_occupancy_filtered <- d %>%
+   occupancyMaximum(cls = 'day',occupancy = 2/3)
+```
+
+It can be seen below that this removes `r nFeatures(d) - nFeatures(maximum_occupancy_filtered)` features.
+
+```{r print_maximum_occupancy}
+print(maximum_occupancy_filtered)
+```
+
+Plotting the occupancy distributions shows that all the low occupancy features have now been removed.
+
+```{r plot_filtered_occupancy}
+maximum_occupancy_filtered %>%
+  plotOccupancy(cls = 'day')
+```
+
+The alternative strategy is applying a minimum threshold; where the minimum occupancy across all classes is required to be above the freshold.
+Therefore, for a feautre to be retained, all classes would need to have an occupancy above the threshold.
+A two-thirds minimum occupancy filter can be applied to the "day" sample information column of our data using:
+
+```{r minimum_occupancy_filter}
+minimum_occupancy_filtered <- d %>%
+   occupancyMinimum(cls = 'day',occupancy = 2/3)
+```
+
+It can be seen below that this removes `r nFeatures(d) - nFeatures(minimum_occupancy_filtered)` features.
+
+```{r print_minimum_occupancy}
+print(minimum_occupancy_filtered)
+```
+
+### Data transformation
+
+Prior to downstream analyses, metabolomics data often require transformation to fulfill the assumptions of a particular statistical/data mining technique.
+
+There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
+These methods are all named with the prefix `transform`.
+
+The effects of a transformation on a data set can be assessed using a supervised classifcation approach.
+The following performs a supervised random forest analysis of the example data and plots the results using both multidimensional scaling (MDS) and reciever operator characteristic (ROC) curves. 
+
+```{r transform_RF}
+d %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+Alternatively a log10 transformation can be applied prior to analysis:
+
+```{r log10_RF}
+d %>%
+  transformLog10() %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+Or a total ion count (TIC) normalisation where each individual sample is corrected by its TIC.
+This is one method that can be used to account for small variablility in sample concentration. 
+
+```{r TICnorm_RF}
+d %>%
+  transformTICnorm() %>%
+  plotSupervisedRF(cls = 'day')
+```
+
+The margin value is a metric that can be used to assess model perfomance.
+Positive values indicate a models ability, on average, to correctly predict the class labels of the analysed data.
+
+As can bee seen in the plots above, the transformations have little effect on the overall structure of the data set.
+However, there are small increases in the margins of the transformed data (model improvement) with the TIC normalised data having the highest.
+Note that here, a non-parametric machine learning approach has been applied to assess the effects of the transformations on the data.
+Using a different approach such as the parametric Analysis Of Varience (ANOVA) which different underlying assumptions will likely give diffent results to the assessment above.
+
+### Sample aggregation
+
+Metabolomic data can be aggregated using
+Sample aggregation allows the electronic pooling of samples based on a grouping variable.
+This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
+
+```{r pca}
+d %>%
+  occupancyMaximum(cls = 'day') %>%
+  plotPCA(cls = 'day')
+```
+
+```{r day_mean}
+day_mean <- d %>%
+  occupancyMaximum(cls = 'day') %>%
+  aggregateMean(cls = 'day')
+```
+
+```{r day_mean_pca}
+plotPCA(day_mean,cls = 'day',ellipses = FALSE)
+```
+
+### Batch/block correction
+
+There can sometimes be artificial batch related variability introduced introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
+With appropriate sample randomisation (see section Variable filtering based on QC samples) batch related variability can be corrected for using the methods shown in the table below.
+
+```{r day_TICs}
+d %>%
+  plotTIC(by = 'day',colour = 'day')
+```
+
+```{r correction}
+d %>%
+  correctionCenter(block = 'day',type = 'median',nCores = 2) %>%
+  plotTIC(by = 'day',colour = 'day')
+```
+
+### Imputation of missing data
+
+Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
+Where and how they are imputed are important considerations and is highly related to variable occupancy.
+The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
+
+```{r lda}
+d %>%
+  keepClasses(cls = 'day',classes = c('H','5')) %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  plotLDA(cls = 'day')
+```
+
+```{r impute_all_lda}
+d %>%
+  keepClasses(cls = 'day',classes = c('H','5')) %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  imputeAll(nCores = 2) %>%
+  plotLDA(cls = 'day')
+```
+
+Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination.
+```{r imputed_class_lda}
+d %>%
+  keepClasses(cls = 'day',classes = c('H','5')) %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  imputeClass(cls = 'day',nCores = 2) %>%
+  plotLDA(cls = 'day')
+```
+
+### Feature filtering based on quality control (QC) samples
+
+A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set.
+Within an analytical run, the QC sample is analysed intermittently at equal intervals throughout the run.
+If there is class structure within the run this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run.
+QC samples can then be injected between these randomised blocks.
+This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.
+
+The technical reproducibility of an acquired variable can be assessed using it's relative standard deviation (RSD) within the QC samples.
+The variable RSDs can then be thresholded to filter out variables that are poorly reproducible across the analytical runs.
+This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure.
+Therefore the variables and variable numbers will not alter if a new class structure is imposed upon the data.
+
+The methods and arguments for variable filtering based upon QC samples are shown in the table below.
+
+```{r QC_data}
+QC <- d %>%
+  keepClasses(cls = 'day',classes = 'H')
+```
+
+```{r QC_rsd}
+QC %>%
+  rsd(cls = 'day')
+```
+
+```{r QC_rsd_plot}
+QC %>%
+  plotRSD(cls = 'day')
+```
+
+```{r QC_occupancy_rsd}
+QC %>%
+  occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
+  plotRSD(cls = 'day')
+```
+
+```{r QC_filtered}
+QC_filtered <- d %>%
+  QCoccupancy(cls = 'day',QCidx = 'H',occupancy = 2/3) %>%
+  QCrsdFilter(cls = 'day',QCidx = 'H',RSDthresh = 0.5)
+```
+
+```{r print_QC_filtered}
+print(QC_filtered)
+```
+
+## Routine analyses
+
+The pre-treatment elements can be seen below.
+
+```{r pre-treatment_elements}
+preTreatmentElements()
+```
+
+```{r pre-treatment_methods}
+preTreatmentMethods('remove')
+```
+
+The parameter selection for the pre-treatment elements will firstly be discussed, with more in-depth discussion on the methods of the individual elements to follow. 
+
+### Parameter Selection
+
+The default pre-treatment parameters can be seen below.
+
+```{r preTreatDefaults}
+analysisParameters('pre-treatment')
+```
+
+This pre-treatment analysis is made up of three elements that include variable filtering based on QC samples, missing data imputation and data transformation (`QC`, `impute` and `transform` respectively).
+Each of these elements is made up of varying numbers of methods, with each method having its own arguments.
+The order in which these elements and their methods is displayed is the order in which their execution upon the data will take place.
+This allows the fine specification of the data pre-treatment routines that are required for the particular data.
+
+Pre-treatment routines can be customised by altering the `preTreat` slot within the `AnalysisParameters` object as shown below.
+
+```{r preTreatParameterExample}
+p <- analysisParameters('pre-treatment')
+```
+
+```{r}
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+    keep = 'classes',
+    occupancyFilter = 'maximum',
+    transform = 'TICnorm' 
+  )
+)
+```
+
+```{r}
+changeParameter(p,'cls') <- 'day'
+changeParameter(p,'classes') <- c('H','1','2')
+```
+
+```{r}
+p
+```
+
+This routine will firstly remove a number of classes, filter the variables based on class occupancy and then transform the data using a total ion count normalisation.
+
+The pre-treatment routines are specified as a hierarchy of lists within lists.
+Firstly the pre-treatment elements should be specified within a list with the particular element methods specified as lists within these.
+The method arguments are then declared within these lists.
+Empty lists for methods can be specified to use the default arguments; however, element lists should not be empty. 
+
+The pre-treatment routine can then be executed using the following.
+
+```{r preTreatExample}
+analysis <- metabolyse(abr1$neg,abr1$fact,p)
+```
+
+```{r}
+analysis
+```
+
+```{r}
+analysis %>%
+  plotSupervisedRF(cls = 'day',type = 'pre-treated')
+```
+
+### Method reference table
+
+```{r method_reference_table,echo=FALSE}
+metabolyseR:::preTreatmentElements() %>%
+  map(~{
+    methods <- metabolyseR:::preTreatmentMethods(.x)
+    element_methods <- metabolyseR:::getPreTreatMethods(.x)
+    methods %>%
+      map(~{
+        element_methods(.x,description = TRUE) %>%
+          {
+            tibble(Description = .$description,
+                   Arguments = .$arguments %>%
+                     {
+                       str_c(names(.),.,sep = ' - ')
+                     } %>%
+                     str_c(collapse = '; '),
+                   Defaults = .x %>%
+                     element_methods() %>%
+                     formals() %>%
+                     {
+                       . <- .[-1]
+                       .
+                     } %>%
+                     {
+                       str_c(names(.),unlist(.,use.names = FALSE),sep = ' = ')
+                     } %>%
+                     str_c(collapse = '; ')
+            )
+          }
+      }) %>%
+      set_names(methods) %>%
+      bind_rows(.id = 'Method')
+  }) %>%
+  set_names(preTreatmentElements()) %>%
+  bind_rows(.id = 'Element') %>%
+  kable() %>%
+  collapse_rows(columns = 1)
+```
+
+## References

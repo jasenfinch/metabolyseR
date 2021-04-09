@@ -44,25 +44,28 @@ setMethod('keepFeatures',signature = 'AnalysisData',
           }
 )
 
-keepMethods <- function(method = NULL, description = F){
+keepMethods <- function(method = NULL, description = FALSE){
   methods <- list(
     samples = keepSamples,
     classes = keepClasses,
     features = keepFeatures
   )
   
-  descriptions = list(
-    samples = list(description = 'keep samples',
-                   arguments = c(idx = 'info column containing sample indexes',
-                                 samples = 'sample indices to keep')),
-    classes = list(description = 'keep classes',
-                   arguments = c(cls = 'info column containing class information',
-                                 classes = 'classes to keep')),
-    features = list(description = 'keep features',
-                     arguments = c(features = 'features to keep'))
+  descriptions <- list(
+    samples = list(
+      description = 'keep samples',
+      arguments = c(idx = 'info column containing sample indexes',
+                    samples = 'sample indices to keep')),
+    classes = list(
+      description = 'keep classes',
+      arguments = c(cls = 'info column containing class information',
+                    classes = 'classes to keep')),
+    features = list(
+      description = 'keep features',
+      arguments = c(features = 'features to keep'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

@@ -16,7 +16,8 @@ plotUnsupervisedRF(
   seed = 1234,
   title = "",
   legendPosition = "bottom",
-  labelSize = 2
+  labelSize = 2,
+  ...
 )
 
 \S4method{plotUnsupervisedRF}{AnalysisData}(
@@ -42,7 +43,8 @@ plotUnsupervisedRF(
   seed = 1234,
   title = "",
   legendPosition = "bottom",
-  labelSize = 2
+  labelSize = 2,
+  type = "raw"
 )
 }
 \arguments{
@@ -54,17 +56,24 @@ plotUnsupervisedRF(
 
 \item{label}{info column to use for sample labels. Set to NULL for no labels.}
 
-\item{shape}{TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12}
+\item{shape}{TRUE/FALSE use shape aesthetic for plot points. 
+Defaults to TRUE when the number of classes is greater than 12}
 
-\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class}
+\item{ellipses}{TRUE/FALSE, plot multivariate normal distribution 95\% 
+confidence ellipses for each class}
 
 \item{seed}{random number seed}
 
 \item{title}{plot title}
 
-\item{legendPosition}{legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.}
+\item{legendPosition}{legend position to pass to legend.position argument 
+of \code{ggplot2::theme}. Set to "none" to remove legend.}
 
 \item{labelSize}{label size. Ignored if \code{label} is \code{NULL}}
+
+\item{...}{arguments to pass to the appropriate method}
+
+\item{type}{\code{raw} or \code{pre-treated} data to plot}
 }
 \description{
 plotUnsupervisedRF

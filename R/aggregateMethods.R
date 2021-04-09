@@ -89,7 +89,7 @@ setMethod('aggregateMedian',signature = 'AnalysisData',
           }
 )
 
-aggregateMethods <- function(method = NULL, description = F){
+aggregateMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     sum = aggregateSum,
@@ -97,16 +97,19 @@ aggregateMethods <- function(method = NULL, description = F){
     median = aggregateMedian
   )
   
-  descriptions = list(
+  descriptions <- list(
     sum = list(description = 'sum aggregate',
-               arguments = c(cls = 'info column to use for aggregation index')),
+               arguments = c(
+                 cls = 'info column to use for aggregation index')),
     mean = list(description = 'mean aggregate',
-                arguments = c(cls = 'info column to use for aggregation index')),
+                arguments = c(
+                  cls = 'info column to use for aggregation index')),
     median = list(description = 'median aggregate',
-                  arguments = c(cls = 'info column to use for aggregation index'))
+                  arguments = c(
+                    cls = 'info column to use for aggregation index'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

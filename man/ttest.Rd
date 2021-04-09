@@ -10,7 +10,7 @@ ttest(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = F,
+  returnModels = FALSE,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()
 )
@@ -20,7 +20,7 @@ ttest(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = F,
+  returnModels = FALSE,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()
 )
@@ -38,7 +38,8 @@ ttest(
 
 \item{nCores}{number of cores to use for parallelisation}
 
-\item{clusterType}{cluster type to use for parallelisation (`?parallel::makeCluster`)}
+\item{clusterType}{cluster type to use for parallelisation 
+(`?parallel::makeCluster`)}
 }
 \description{
 Welch t-test

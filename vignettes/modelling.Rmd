@@ -1,0 +1,224 @@
+---
+title: "Modelling and feature selection"
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
+author: "Jasen Finch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
+vignette: >
+  %\VignetteIndexEntry{Modelling and feature selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+library(dplyr)
+library(purrr)
+library(stringr)
+
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = 'center'
+)
+```
+
+## Introduction
+
+Modelling provides the essential data mining step for extracting biological information from a data set relating to experimental conditions.
+`metabolyseR` provides a number of both univariate and multivariate methods for data mining.
+
+For an introduction to the usage of *metabolyseR* for both exploratory and routine analyses, see the introduction vignette using:
+
+```{r introduction_vignette,eval=FALSE}
+vignette('introduction','metabolyseR')
+```
+
+To further supplement this document, a quick start example analysis is also available as a vignette:
+
+```{r example_analysis,eval=FALSE}
+vignette('quick_start','metabolyseR')
+```
+
+To begin, the package can be loaded using:
+
+```{r package_load}
+library(metabolyseR)
+```
+
+### Example data
+
+The examples used here will use the `abr1` data set from the [metaboData](https://aberhrml.github.io/metaboData/) package. 
+This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
+The pipe `%>%` from the [magrittr](https://magrittr.tidyverse.org/) package will also be used.
+The example data can be loaded using:
+
+```{r data_load}
+library(metaboData)
+```
+
+Only the negative acquisition mode data (`abr1$neg`) will be used along with the sample meta-information (`abr1$fact`).
+Create an `AnalysisData` class object, assigned to the variable `d`, using the following:
+
+```{r example_data}
+d <- analysisData(abr1$neg[,1:500],abr1$fact)
+```
+
+```{r print_data}
+print(d)
+```
+
+As can be seen above the data set contains a total of `r nSamples(d)` samples and `r nFeatures(d)` features.
+
+## Random Forest
+
+### Classification
+
+#### Multinomial
+
+```{r}
+classification_rf <- d %>%
+  randomForest(cls = 'day',nCores = 2)
+```
+
+```{r}
+classification_rf %>%
+  metrics()
+```
+
+```{r}
+classification_rf %>% 
+  plotMDS(cls = 'day')
+```
+
+```{r}
+classification_rf %>% 
+  plotROC()
+```
+
+```{r}
+classification_rf %>%
+  importance()
+```
+
+```{r}
+importanceMetrics(classification_rf)
+```
+
+```{r}
+classification_rf %>%
+  explanatoryFeatures(metric = 'MeanDecreaseGini',threshold = 0.1)
+```
+
+```{r}
+d %>%
+  randomForest(cls = c('name','day'),nCores = 2) %>%
+  metrics()
+```
+
+```{r}
+d %>%
+  randomForest(cls = c('name','day'),nCores = 2) %>%
+  plotMDS()
+```
+
+```{r}
+d %>%
+  randomForest(cls = 'day',comparisons = list(day = '1~2~3'),nCores = 2) %>%
+  metrics()
+```
+
+```{r}
+d %>%
+  keepClasses(cls = 'day',classes = c('1','2','3')) %>%
+  randomForest(cls = 'day',binary = TRUE) %>%
+  plotMetrics()
+```
+
+#### Binary comparisons
+
+```{r}
+binaryComparisons(d,cls = 'day')
+```
+
+```{r}
+d %>%
+  randomForest(cls = 'day',
+               comparisons = list(day = binaryComparisons(d,cls = 'day')[1:4])) %>%
+  plotMetrics()
+```
+
+
+### Regression
+
+### Unsupervised
+
+```{r}
+unsupervised_rf <- d %>%
+  randomForest(cls = NULL)
+```
+
+```{r}
+plotMDS(unsupervised_rf,cls = 'day')
+```
+
+```{r}
+importance(unsupervised_rf)
+```
+
+```{r}
+importanceMetrics(unsupervised_rf)
+```
+
+```{r}
+unsupervised_rf %>%
+  explanatoryFeatures()
+```
+
+```{r}
+unsupervised_rf %>%
+  plotFeature(feature = 'N153',cls = 'day')
+```
+
+## Univariate analyses
+
+## Routine analyses
+
+The default parameters for modelling using Random Forest are shown below.
+
+```{r parameters}
+p <- analysisParameters(c('pre-treatment','modelling'))
+```
+
+```{r pre-treatment_parameters}
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+    keep = 'classes',
+    occupancyFilter = 'maximum',
+    transform = 'TICnorm' 
+  )
+)
+```
+
+Parameters for alternative methods or multiple methods can be retrieved using the `modellingParameters()` function as shown below.
+
+```{r changeModellingParameters}
+parameters(p,'modelling') <- modellingParameters(c('randomForest','ttest'))
+changeParameter(p,'cls') <- 'day'
+```
+
+```{r print_parameters}
+p
+```
+
+Descriptions of each of the parameters can be found in the documentation for a particular method (see table below). 
+
+Modelling analysis can then be performed on the pre-treated data from the previous section.
+
+```{r classificationAnalysis}
+# analysis <- metabolyse(abr1$neg,abr1$fact,p)
+```

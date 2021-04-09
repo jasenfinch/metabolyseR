@@ -4,13 +4,18 @@
 #' @param cls info column to use for sample classes
 #' @param rf list of additional parameters to pass to randomForest
 #' @param label info column to use for sample labels. Set to NULL for no labels.
-#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
-#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. 
+#' Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% 
+#' confidence ellipses for each class
 #' @param ROC should reciever-operator characteristics be plotted?
 #' @param seed random number seed
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
+#' @param legendPosition legend position to pass to legend.position argument 
+#' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @importFrom patchwork plot_annotation wrap_plots
 #' @examples 
 #' \dontrun{
@@ -27,16 +32,46 @@
 #' }
 #' @export
 
-setMethod('plotSupervisedRF',signature = 'AnalysisData',
-          function(x, cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = TRUE, ROC = TRUE, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotSupervisedRF',
+          signature = 'AnalysisData',
+          function(x, 
+                   cls = 'class', 
+                   rf = list(), 
+                   label = NULL, 
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   ROC = TRUE, 
+                   seed = 1234, 
+                   title = '', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2){
             
-            rf <- randomForest(x,cls = cls,rf = rf,reps = 1,seed = seed,nCores = 1,clusterType = getClusterType())
+            rf <- randomForest(x,
+                               cls = cls,
+                               rf = rf,
+                               reps = 1,
+                               seed = seed,
+                               nCores = 1,
+                               clusterType = getClusterType())
             
-            pl <- plotMDS(rf[[1]],cls = cls,label = label,ellipses = ellipses,title = '',legendPosition = legendPosition,labelSize = labelSize) +
-              labs(caption = str_c('Margin: ',rf[[1]]@results$measures$.estimate[4] %>% round(3)))
+            pl <- plotMDS(rf,
+                          cls = cls,
+                          label = label,
+                          ellipses = ellipses,
+                          title = '',
+                          legendPosition = legendPosition,
+                          labelSize = labelSize) +
+              labs(
+                caption = str_c('Margin: ',
+                                rf@results$measures$.estimate[4] %>% 
+                                  round(3)))
             
-            if (isTRUE(ROC) & rf[[1]]@type == 'classification') {
-              pl <- pl + plotROC(rf[[1]],legendPosition = legendPosition) + plot_annotation(title = title,theme = theme(plot.title = element_text(face = 'bold')))
+            if (isTRUE(ROC) & rf@type == 'classification') {
+              pl <- pl + 
+                plotROC(rf,legendPosition = legendPosition) + 
+                plot_annotation(
+                  title = title,
+                  theme = theme(plot.title = element_text(face = 'bold')))
             } else {
               pl <- pl + labs(title = title)
             }
@@ -48,15 +83,45 @@ setMethod('plotSupervisedRF',signature = 'AnalysisData',
 #' @rdname plotSupervisedRF
 #' @export
 
-setMethod('plotSupervisedRF', signature = 'Analysis',
-          function(x, cls = 'class', rf = list(), label = NULL, shape = FALSE, ellipses = T, ROC = T, seed = 1234, title = '', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotSupervisedRF', 
+          signature = 'Analysis',
+          function(x, 
+                   cls = 'class', 
+                   rf = list(), 
+                   label = NULL, 
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   ROC = TRUE, 
+                   seed = 1234, 
+                   title = '', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2,
+                   type = 'raw'){
             
-            if (ncol(x@preTreated %>% dat()) > 0) {
-              d <- x@preTreated
-            } else {
-              d <- x@rawData
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
             }
             
-            plotSupervisedRF(d,cls = cls,rf = rf,label = label,shape = shape,ellipses = ellipses,ROC = ROC,seed = seed,title = title,legendPosition = legendPosition,labelSize = labelSize)
+            if (type == 'pre-treated') {
+              d <- x %>%
+                preTreated()
+            } else {
+              d <- x %>%
+                raw()
+            } 
+            
+            plotSupervisedRF(d,
+                             cls = cls,
+                             rf = rf,
+                             label = label,
+                             shape = shape,
+                             ellipses = ellipses,
+                             ROC = ROC,
+                             seed = seed,
+                             title = title,
+                             legendPosition = legendPosition,
+                             labelSize = labelSize)
           }
 )

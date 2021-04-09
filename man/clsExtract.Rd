@@ -22,5 +22,6 @@ clsExtract(x, cls = "class", ...)
 \item{type}{\code{raw} or \code{preTreated} sample information}
 }
 \description{
-Extract a given sample info column from an Analysis or AnalysisData object.
+Extract a given sample info column from an Analysis or 
+AnalysisData object.
 }

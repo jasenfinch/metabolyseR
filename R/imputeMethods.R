@@ -11,7 +11,12 @@
 #' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',
-          function(d, occupancy = 2/3, parallel = 'variables', nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
+          function(d, 
+                   occupancy = 2/3, 
+                   parallel = 'variables', 
+                   nCores = detectCores() * 0.75, 
+                   clusterType = getClusterType(), 
+                   seed = 1234){
             
             d <- clsAdd(d,cls = 'dummy',rep(1,nSamples(d)))
             
@@ -72,7 +77,13 @@ setMethod('imputeAll',signature = 'AnalysisData',
 #' @export
 
 setMethod('imputeClass',signature = 'AnalysisData',
-          function(d, cls = 'class', occupancy = 2/3, nCores = detectCores() * 0.75, clusterType = getClusterType(), seed = 1234){
+          function(d, 
+                   cls = 'class', 
+                   occupancy = 2/3, 
+                   nCores = detectCores() * 0.75, 
+                   clusterType = getClusterType(), 
+                   seed = 1234)
+          {
             
             d <- d %>%
               clsAdd(cls = 'dummy_ind',1:nSamples(d))
@@ -114,7 +125,7 @@ setMethod('imputeClass',signature = 'AnalysisData',
 #' @importFrom dplyr arrange select
 #' @importFrom doParallel registerDoParallel
 
-imputeMethods <- function(method = NULL, description = F){
+imputeMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     
@@ -124,22 +135,28 @@ imputeMethods <- function(method = NULL, description = F){
   )
   
   descriptions <- list(
-    all = list(description = 'Impute missing values across all samples using Random Forest',
-               arguments = c(occupancy = 'occupancy threshold for imputation',
-                             parallel = 'parallel type to use. See `?missForest` for details',
-                             nCores = 'number of cores for parallisation',
-                             clusterType = 'cluster type for parallisation',
-                             seed = 'random number seed'
-               )),
-    class = list(description = 'Impute missing values class-wise using Random Forest',
-                 arguments = c(cls = 'info column to use for class labels',
-                               occupancy = 'occupancy threshold for imputation', 
-                               nCores = 'number of cores for parallisation',
-                               clusterType = 'cluster type for parallisation',
-                               seed = 'random number seed'))
+    all = list(
+      description = str_c('Impute missing values across all ',
+                          'samples using Random Forest'),
+      arguments = c(
+        occupancy = 'occupancy threshold for imputation',
+        parallel = str_c('parallel type to use. ',
+                         'See `?missForest` for details'),
+        nCores = 'number of cores for parallisation',
+        clusterType = 'cluster type for parallisation',
+        seed = 'random number seed'
+      )),
+    class = list(
+      description = 'Impute missing values class-wise using Random Forest',
+      arguments = c(
+        cls = 'info column to use for class labels',
+        occupancy = 'occupancy threshold for imputation', 
+        nCores = 'number of cores for parallisation',
+        clusterType = 'cluster type for parallisation',
+        seed = 'random number seed'))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

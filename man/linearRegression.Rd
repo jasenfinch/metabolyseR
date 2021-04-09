@@ -5,9 +5,19 @@
 \alias{linearRegression,AnalysisData-method}
 \title{linearRegression}
 \usage{
-linearRegression(x, cls = "class", pAdjust = "bonferroni", returnModels = F)
+linearRegression(
+  x,
+  cls = "class",
+  pAdjust = "bonferroni",
+  returnModels = FALSE
+)
 
-\S4method{linearRegression}{AnalysisData}(x, cls = "class", pAdjust = "bonferroni", returnModels = F)
+\S4method{linearRegression}{AnalysisData}(
+  x,
+  cls = "class",
+  pAdjust = "bonferroni",
+  returnModels = FALSE
+)
 }
 \arguments{
 \item{x}{S4 object of class AnalysisData}

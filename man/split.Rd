@@ -15,7 +15,8 @@ split(x, cls = "class")
 \item{cls}{sample information column to use for splitting}
 }
 \description{
-Split an object of class AnalysisData into a list based given class information.
+Split an object of class AnalysisData into a list based 
+given class information.
 }
 \examples{
 library(metaboData)

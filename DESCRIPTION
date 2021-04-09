@@ -1,14 +1,14 @@
 Package: metabolyseR
-Title: Methods for Pre-Treatment, Classification, Feature Selection and Correlation Analyses of Metabolomics Data
-Version: 0.13.4
+Title: Methods for pre-treatment, data mining and correlation analyses of metabolomics data
+Version: 0.14.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
-Description: A tool box for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
+Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
+URL:  https://jasenfinch.github.io/metabolyseR
+BugReports: https://github.com/jasenfinch/metabolyseR/issues
 biocViews: Metabolomics
-Depends: R (>= 3.4.0),
-         parallel
+Depends: R (>= 3.4.0)
 Imports: Hmisc,
          dplyr,
-         magrittr,
          missForest,
          randomForest,
          stringr,
@@ -21,40 +21,38 @@ Imports: Hmisc,
          purrr,
          doParallel,
          e1071,
-         MASS,
          forestControl,
          crayon,
          yaml,
          cli,
          lubridate,
          ggrepel,
-         ROCR,
          patchwork,
          yardstick,
          broom,
          rlang,
-         tidyselect
+         tidyselect,
+         magrittr,
+         parallel
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown,
-    DiagrammeR,
     readr,
     testthat,
     metaboData,
     prettydoc,
-    covr
+    covr,
+    kableExtra
 Collate: allGenerics.R
     allClasses.R
     aggregateMethods.R
     analysisData.R
-    analysisParameters.R
-    changeParameter.R
+    analysisResults.R
     correctionMethods.R
     correlations-method.R
-    correlationResults-method.R
     imputeMethods.R
     info.R
     join.R
@@ -65,7 +63,7 @@ Collate: allGenerics.R
     modellingPlots.R
     nlda.R
     occupancyMethods.R
-    parseParameters.R
+    parameters.R
     plotExplanatoryHeatmap-method.R
     plotFeature-method.R
     plotLDA-method.R
@@ -76,13 +74,9 @@ Collate: allGenerics.R
     plotTIC-method.R
     plotting.R
     plotUnsupervisedRF-method.R
-    preTreat-method.R
-    preTreatedData-method.R
-    preTreatedInfo-method.R
+    pre-treatment.R
     preTreatMethods.R
     QCMethods.R
-    rawData-method.R
-    rawInfo-method.R
     reAnalyse.R
     reexports.R
     removeMethods.R

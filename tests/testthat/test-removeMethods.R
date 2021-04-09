@@ -3,12 +3,12 @@ library(metaboData)
 context('removeMethods')
 
 test_that('removeMethods returns methods correctly',{
-  m <- sapply(removeMethods(),is.function)
+  m <- map_lgl(removeMethods(),is.function)
   expect_false(F %in% m)
 })
 
-  test_that('removeMethods returns descriptions correctly',{
-  m <- sapply(removeMethods(description = T),is.list)
+test_that('removeMethods returns descriptions correctly',{
+  m <- map_lgl(removeMethods(description = T),is.list)
   expect_false(F %in% m)
 })
 
@@ -20,17 +20,19 @@ test_that('description names match method names',{
 
 test_that('descriptions have correct names', {
   n <- lapply(removeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
+  expect_false(F %in% unlist(lapply(
+    n,
+    function(x){x == c('description','arguments')})))
 })
 
 test_that('number of method arguments matches description arguments', {
-  d <- sapply(removeMethods(description = T),function(x){length(x$arguments)})
-  m <- sapply(removeMethods(),function(x){length(formals(x)[-1])})
+  d <- map_dbl(removeMethods(description = T),~{length(.x$arguments)})
+  m <- map_dbl(removeMethods(),~{length(formals(.x)[-1])})
   expect_equal(d,m)
 })
 
 test_that('methods work',{
-  data("abr1")
+
   d <- analysisData(abr1$neg,abr1$fact)
   method <- removeMethods('samples')
   s <- method(d,idx = 'injorder', samples = c(1,2))

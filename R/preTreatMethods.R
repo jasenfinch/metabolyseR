@@ -1,50 +1,50 @@
 
-preTreatMethods <- function(method = NULL){
-  if (is.null(method)) {
-    cat('Available Methods:',paste(c('remove','transform','impute','QC','occupancyFilter','aggregate','correction'),collapse = ' '))
+getPreTreatMethods <- function(element = NULL){
+  
+  elements <- list(
+    aggregate = aggregateMethods,
+    correction = correctionMethods,
+    impute = imputeMethods,
+    keep = keepMethods,
+    occupancyFilter = occupancyMethods,
+    QC = QCMethods,
+    remove = removeMethods,
+    transform = transformMethods
+  )
+  
+  if (is.null(element)) {
+    elements %>%
+      return()
   } else {
-    methods <- list(
-      remove = function(params){
-        lapply(params,removeMethods)
-      },
-      
-      keep = function(params){
-        lapply(params,keepMethods)
-      },
-      
-      transform = function(params){
-        lapply(params,transformMethods)
-      },
-      
-      impute = function(params){
-        lapply(params,imputeMethods)
-      },
-      
-      QC = function(params){
-        lapply(params,QCMethods)
-      },
-      
-      occupancyFilter = function(params){
-        lapply(params,occupancyMethods)
-      },
-      
-      aggregate = function(params){
-        lapply(params,aggregateMethods)
-      },
-      
-      correction = function(params){
-        lapply(params,correctionMethods)
-      }
-    )
-    
-    if (!(method %in% names(methods))) {
+    if (!(element %in% names(elements))) {
       stop(str_c("Pre-treatment element '",
-                 method,
+                 element,
                  "' not recognised. Available elements include: ",
-                 str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
+                 str_c(str_c("'",names(elements),"'"),collapse = ' '),'.'))
     }
     
-    method <- methods[[method]]
-    return(method)
+    element <- elements[[element]]
+    return(element)
   }
+}
+
+#' preTreatmentElements
+#' @description Return names of available pre-treatment elements
+#' @export
+
+preTreatmentElements <- function(){
+  getPreTreatMethods() %>%
+    names()
+}
+
+#' preTreatmentMethods
+#' @description Return names of available methods for a given pre-treatment 
+#' element.
+#' @param element pre-treatment element
+#' @export
+
+preTreatmentMethods <- function(element){
+  getPreTreatMethods(element)() %>%
+    names() %>%
+    sort()
 }

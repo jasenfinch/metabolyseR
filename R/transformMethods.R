@@ -6,7 +6,7 @@
 
 setMethod('transformCenter',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. - mean(.,na.rm = T)})
+            dat(d) <- map_df(d %>% dat(),~{. - mean(.,na.rm = TRUE)})
             return(d)
           }
 )
@@ -19,7 +19,7 @@ setMethod('transformCenter',signature = 'AnalysisData',
 
 setMethod('transformAuto',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / sd(.,na.rm = T)})
+            dat(d) <- map_df(d %>% dat(),~{. / sd(.,na.rm = TRUE)})
             return(d)
           }
 )
@@ -32,7 +32,11 @@ setMethod('transformAuto',signature = 'AnalysisData',
 
 setMethod('transformRange',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{(. - min(.,na.rm = T)) / (max(.,na.rm = T) - min(.,na.rm = T))})
+            dat(d) <- map_df(
+              d %>% 
+                dat(),
+              ~{(. - min(.,na.rm = TRUE)) / 
+                  (max(.,na.rm = TRUE) - min(.,na.rm = TRUE))})
             return(d)
           }
 )
@@ -45,7 +49,10 @@ setMethod('transformRange',signature = 'AnalysisData',
 
 setMethod('transformPareto',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = T)/sqrt(sd(.,na.rm = T))})
+            dat(d) <- map_df(
+              d %>% 
+                dat(),~{. / mean(.,na.rm = TRUE)/
+                    sqrt(sd(.,na.rm = TRUE))})
             return(d)
           }
 )
@@ -58,7 +65,10 @@ setMethod('transformPareto',signature = 'AnalysisData',
 
 setMethod('transformVast',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. * mean(.,na.rm = T)/sd(.,na.rm = T)^2})
+            dat(d) <- map_df(
+              d %>% 
+                dat(),~{. * mean(.,na.rm = TRUE)/
+                    sd(.,na.rm = TRUE)^2})
             return(d)
           }
 )
@@ -71,7 +81,7 @@ setMethod('transformVast',signature = 'AnalysisData',
 
 setMethod('transformLevel',signature = 'AnalysisData',
           function(d){
-            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = T)})
+            dat(d) <- map_df(d %>% dat(),~{. / mean(.,na.rm = TRUE)})
             return(d)
           }
 )
@@ -142,7 +152,7 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
           function(d){
             dat(d) <- d %>% 
               dat() %>%
-              base::split(1:nrow(.)) %>%
+              base::split(seq_len(nrow(.))) %>%
               map(~{. / sum(.)}) %>%
               bind_rows() %>%
               as_tibble()
@@ -150,7 +160,7 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
           }
 )
 
-transformMethods <- function(method = NULL, description = F){
+transformMethods <- function(method = NULL, description = FALSE){
   
   methods <- list(
     
@@ -167,7 +177,7 @@ transformMethods <- function(method = NULL, description = F){
     TICnorm = transformTICnorm
   )
   
-  descriptions = list(
+  descriptions <- list(
     center = list(description = 'Mean centering',
                   arguments = c(`''` = '')),
     auto = list(description = 'Auto scaling',
@@ -181,7 +191,7 @@ transformMethods <- function(method = NULL, description = F){
     level = list(description = 'Level scaling',
                  arguments = c(`''` = '')),
     ln = list(description = 'Natural log scaling',
-               arguments = c(add = 'value to add prior to transformation')),
+              arguments = c(add = 'value to add prior to transformation')),
     log10 = list(description = 'Log10 scaling',
                  arguments = c(add = 'value to add prior to transformation')),
     sqrt = list(description = 'Square root scaling',
@@ -192,7 +202,7 @@ transformMethods <- function(method = NULL, description = F){
                    arguments = c(`''` = ''))
   )
   
-  if (description == F) {
+  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {

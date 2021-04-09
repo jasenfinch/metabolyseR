@@ -10,10 +10,10 @@ randomForest(
   cls = "class",
   rf = list(),
   reps = 1,
-  binary = F,
+  binary = FALSE,
   comparisons = list(),
   perm = 0,
-  returnModels = F,
+  returnModels = FALSE,
   seed = 1234,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()
@@ -24,10 +24,10 @@ randomForest(
   cls = "class",
   rf = list(),
   reps = 1,
-  binary = F,
+  binary = FALSE,
   comparisons = list(),
   perm = 0,
-  returnModels = F,
+  returnModels = FALSE,
   seed = 1234,
   nCores = detectCores() * 0.75,
   clusterType = getClusterType()
@@ -36,15 +36,19 @@ randomForest(
 \arguments{
 \item{x}{S4 object of class AnalysisData}
 
-\item{cls}{vector of info columns to use for Response information. Set to NULL for unsupervised.}
+\item{cls}{vector of info columns to use for Response information. 
+Set to NULL for unsupervised.}
 
 \item{rf}{named list of arguments to pass to randomForest::randomForest}
 
 \item{reps}{number of repetitions to perform}
 
-\item{binary}{TRUE/FALSE should bnary comparisons be performed. Ignored for unsupervised and regression. Ignored if \code{comparisons} specified.}
+\item{binary}{TRUE/FALSE should bnary comparisons be performed. 
+Ignored for unsupervised and regression. Ignored if \code{comparisons}
+ specified.}
 
-\item{comparisons}{list of comparisons to perform. Ignored for unsupervised and regression. See details.}
+\item{comparisons}{list of comparisons to perform. 
+Ignored for unsupervised and regression. See details.}
 
 \item{perm}{number of permutations to perform. Ignored for unsupervised.}
 
@@ -60,7 +64,9 @@ randomForest(
 Perform random forest on an AnalysisData object
 }
 \details{
-Specified class comparisons should be given as a list named according to \code{cls}. Comparisons should be given as class names separated by '~' (eg. '1~2~H').
+Specified class comparisons should be given as a list named 
+according to \code{cls}. Comparisons should be given as class names 
+separated by '~' (eg. '1~2~H').
 }
 \examples{
 \dontrun{

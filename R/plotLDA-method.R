@@ -1,18 +1,24 @@
 #' plotLDA
 #' @rdname plotLDA
 #' @description Plot linear discriminant analysis resultus of pre-treated data
-#' @param analysis object of class Analysis or AnalysisData containing analysis results
+#' @param analysis object of class Analysis or AnalysisData containing 
+#' analysis results
 #' @param cls info column to use for sample labelling
 #' @param label info column to use for sample labels. Set to NULL for no labels.
 #' @param scale scale the data
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
 #' @param yAxis principle component to plot on the y-axis
-#' @param shape TRUE/FALSE use shape aesthetic for plot points. Defaults to TRUE when the number of classes is greater than 12
-#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% confidence ellipses for each class
+#' @param shape TRUE/FALSE use shape aesthetic for plot points. 
+#' Defaults to TRUE when the number of classes is greater than 12
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% 
+#' confidence ellipses for each class
 #' @param title plot title
-#' @param legendPosition legend position to pass to legend.position argument of \code{ggplot2::theme}. Set to "none" to remove legend.
+#' @param legendPosition legend position to pass to legend.position argument 
+#' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param ... arguments to pass to the appropriate method
 #' @examples 
 #' \dontrun{
 #' library(metaboData)
@@ -28,8 +34,20 @@
 #' @importFrom ggplot2 stat_ellipse coord_fixed ylab scale_colour_manual
 #' @export
 
-setMethod('plotLDA',signature = 'AnalysisData',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
+setMethod('plotLDA',
+          signature = 'AnalysisData',
+          function(analysis, 
+                   cls = 'class', 
+                   label = NULL,
+                   scale = TRUE, 
+                   center = TRUE, 
+                   xAxis = 'DF1', 
+                   yAxis = 'DF2', 
+                   shape = FALSE, 
+                   ellipses = TRUE,
+                   title = 'PC-LDA', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2){
             
             classLength <- clsLen(analysis,cls)
             
@@ -56,14 +74,25 @@ setMethod('plotLDA',signature = 'AnalysisData',
               
               if (!is.null(label)) {
                 lda <- lda %>%
-                  bind_cols(info %>%
-                              select(label()))
+                  bind_cols(sinfo(analysis) %>%
+                              select(all_of(label)))
               }
               
               classLength <- clsLen(analysis,cls)
               
-              pl <- scatterPlot(lda,cls,xAxis,yAxis,ellipses,shape,label,labelSize,legendPosition,classLength,title,str_c(xAxis,' (Tw: ',tw[xAxis],')'),str_c(yAxis,' (Tw: ',tw[yAxis],')'))
-              
+              pl <- scatterPlot(lda,
+                                cls,
+                                xAxis,
+                                yAxis,
+                                ellipses,
+                                shape,
+                                label,
+                                labelSize,
+                                legendPosition,
+                                classLength,
+                                title,
+                                str_c(xAxis,' (Tw: ',tw[xAxis],')'),
+                                str_c(yAxis,' (Tw: ',tw[yAxis],')'))
             } else {
               pl <- lda %>%
                 {
@@ -72,7 +101,9 @@ setMethod('plotLDA',signature = 'AnalysisData',
                 } %>%
                 plotShape(cls,shape,classLength) %>%
                 plotColour(classLength) %>%
-                plotTheme(legendPosition = 'none',title,xLabel = cls,yLabel = str_c('DF1',' (Tw: ',tw['DF1'],')'))
+                plotTheme(legendPosition = 'none',
+                          title,xLabel = cls,
+                          yLabel = str_c('DF1',' (Tw: ',tw['DF1'],')'))
             }
             
             return(pl)
@@ -82,14 +113,47 @@ setMethod('plotLDA',signature = 'AnalysisData',
 #' @rdname plotLDA
 #' @export
 
-setMethod('plotLDA',signature = 'Analysis',
-          function(analysis, cls = 'class', label = NULL, scale = TRUE, center = TRUE, xAxis = 'DF1', yAxis = 'DF2', shape = FALSE, ellipses = TRUE, title = 'Principle Component - Linear Discriminant Analysis (PC-LDA)', legendPosition = 'bottom', labelSize = 2){
-            if (ncol(analysis@preTreated %>% dat()) > 0) {
-              d <- analysis@preTreated
-            } else {
-              d <- analysis@rawData
+setMethod('plotLDA',
+          signature = 'Analysis',
+          function(analysis, 
+                   cls = 'class', 
+                   label = NULL, 
+                   scale = TRUE, 
+                   center = TRUE, 
+                   xAxis = 'DF1', 
+                   yAxis = 'DF2', 
+                   shape = FALSE, 
+                   ellipses = TRUE, 
+                   title = 'PC-LDA', 
+                   legendPosition = 'bottom', 
+                   labelSize = 2,
+                   type = 'raw'){
+
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
             }
             
-            plotLDA(d, cls = cls, label = label, scale = scale, center = center, xAxis = xAxis, yAxis = yAxis, shape = shape, ellipses = ellipses, title = title, legendPosition = legendPosition, labelSize = labelSize)
+            if (type == 'pre-treated') {
+              d <- analysis %>%
+                preTreated()
+            } else {
+              d <- analysis %>%
+                raw()
+            }
+            
+            plotLDA(d, 
+                    cls = cls, 
+                    label = label, 
+                    scale = scale, 
+                    center = center, 
+                    xAxis = xAxis, 
+                    yAxis = yAxis, 
+                    shape = shape, 
+                    ellipses = ellipses, 
+                    title = title, 
+                    legendPosition = legendPosition, 
+                    labelSize = labelSize)
           }
 )

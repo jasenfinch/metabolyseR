@@ -13,5 +13,6 @@ bindAnalysesRows(x)
 \item{x}{list object containing S4 objects of class AnalysisData to be bound}
 }
 \description{
-Bind rows of objects of class AnalysisData contained within a list.
+Bind rows of objects of class AnalysisData 
+contained within a list.
 }

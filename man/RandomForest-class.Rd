@@ -12,7 +12,7 @@ An S4 class for random forest results and models
 \describe{
 \item{\code{type}}{random forest type}
 
-\item{\code{data}}{AnalysisData object of data used for modelling}
+\item{\code{response}}{response variable name}
 
 \item{\code{results}}{list of measure and importance results tables}
 

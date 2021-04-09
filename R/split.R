@@ -1,6 +1,7 @@
 #' split
 #' @rdname split
-#' @description Split an object of class AnalysisData into a list based given class information.
+#' @description Split an object of class AnalysisData into a list based 
+#' given class information.
 #' @param x S4 object of class AnalysisData
 #' @param cls sample information column to use for splitting
 #' @examples 

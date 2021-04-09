@@ -4,8 +4,6 @@
 \alias{plotFeature}
 \alias{plotFeature,Analysis-method}
 \alias{plotFeature,AnalysisData-method}
-\alias{plotFeature,Univariate-method}
-\alias{plotFeature,RandomForest-method}
 \title{plotFeature}
 \usage{
 plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
@@ -16,17 +14,14 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
   cls = "class",
   label = NULL,
   labelSize = 2,
-  type = "preTreated"
+  type = "pre-treated"
 )
 
 \S4method{plotFeature}{AnalysisData}(analysis, feature, cls = "class", label = NULL, labelSize = 2)
-
-\S4method{plotFeature}{Univariate}(analysis, feature, cls = "class", label = NULL, labelSize = 2)
-
-\S4method{plotFeature}{RandomForest}(analysis, feature, cls = "class", label = NULL, labelSize = 2)
 }
 \arguments{
-\item{analysis}{object of class Analysis, AnalysisData, Univariate or RandomForest containing analysis results}
+\item{analysis}{object of class Analysis, AnalysisData, Univariate 
+or RandomForest containing analysis results}
 
 \item{feature}{feature to plot}
 
@@ -38,7 +33,7 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
 
 \item{...}{arguments to pass to the appropriate method}
 
-\item{type}{\code{raw} or \code{preTreated} data to plot}
+\item{type}{\code{raw} or \code{pre-treated} data to plot}
 }
 \description{
 Plot a feature trend.

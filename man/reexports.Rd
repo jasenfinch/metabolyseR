@@ -3,6 +3,7 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
+\alias{detectCores}
 \alias{\%>\%}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -12,5 +13,7 @@ below to see their documentation.
 
 \describe{
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
+
+  \item{parallel}{\code{\link[parallel]{detectCores}}}
 }}
 
