@@ -12,8 +12,6 @@ An S4 class for univariate test models and results.
 \describe{
 \item{\code{type}}{univariate test type}
 
-\item{\code{response}}{response}
-
 \item{\code{models}}{list of model objects}
 
 \item{\code{results}}{tibble containing test results}
