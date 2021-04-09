@@ -110,8 +110,11 @@ setMethod('plotFeature',
                 theme_bw() +
                 ggtitle(feature) +
                 theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold'),
-                      panel.grid = element_blank()) +
+                      plot.title = element_text(face = 'bold',
+                                                hjust = 0.5),
+                      panel.grid = element_blank(),
+                      panel.border = element_blank(),
+                      axis.line = element_line()) +
                 guides(fill = FALSE)
               
               if (classes <= 12) {
@@ -134,8 +137,11 @@ setMethod('plotFeature',
                 ggtitle(feature) +
                 xlab(cls) +
                 theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold'),
-                      panel.grid = element_blank())
+                      plot.title = element_text(face = 'bold',
+                                                hjust = 0.5),
+                      panel.grid = element_blank(),
+                      panel.border = element_blank(),
+                      axis.line = element_line())
             }
             
             if (!is.null(label)) {

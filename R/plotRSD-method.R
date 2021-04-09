@@ -55,10 +55,14 @@ setMethod('plotRSD',signature = 'AnalysisData',
               geom_density() +
               theme_bw() +
               labs(title = 'Density distrubution') +
-              theme(plot.title = element_text(face = 'bold'),
+              theme(plot.title = element_text(face = 'bold',
+                                              hjust = 0.5),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
-                    legend.position = 'bottom')
+                    legend.position = 'bottom',
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line())
             
             cs <- x %>%
               group_by_at(c(cls,'RSD')) %>%
@@ -70,10 +74,14 @@ setMethod('plotRSD',signature = 'AnalysisData',
               theme_bw() +
               labs(title = 'Cumulative distribution',
                    y = 'Cumulative frequency') +
-              theme(plot.title = element_text(face = 'bold'),
+              theme(plot.title = element_text(face = 'bold',
+                                              hjust = 0.5),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
-                    legend.position = 'bottom')
+                    legend.position = 'bottom',
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line())
             
             if (length(clsExtract(analysis,cls) %>% unique()) < 12) {
               d <- d +
@@ -140,8 +148,12 @@ setMethod('plotRSD',signature = 'Analysis',
               theme_bw() +
               labs(title = 'Cumulative distribution',
                    y = 'Cumulative frequency') +
-              theme(plot.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'))
+              theme(plot.title = element_text(face = 'bold',
+                                              hjust = 0.5),
+                    axis.title = element_text(face = 'bold'),
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line())
             
             medians <- rsd %>%
               summarise(Median = median(RSD)) %>%
@@ -171,8 +183,12 @@ setMethod('plotRSD',signature = 'Analysis',
               labs(title = 'Frequency distribution',
                    y = 'Frequency',
                    caption = 'Red dash line shows median RSD value') +
-              theme(plot.title = element_text(face = 'bold'),
-                    axis.title = element_text(face = 'bold'))
+              theme(plot.title = element_text(face = 'bold',
+                                              hjust = 0.5),
+                    axis.title = element_text(face = 'bold'),
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line())
             
             RSDdist + 
               csDist + 

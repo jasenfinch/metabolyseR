@@ -32,7 +32,8 @@ plotTheme <- function(pl,legendPosition,title,xLabel,yLabel){
          x = xLabel,
          y = yLabel) +
     theme_bw() +
-    theme(plot.title = element_text(face = 'bold'),
+    theme(plot.title = element_text(face = 'bold',
+                                    hjust = 0.5),
           axis.title = element_text(face = 'bold'),
           legend.title = element_text(face = 'bold'),
           legend.position = legendPosition,

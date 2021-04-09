@@ -30,7 +30,10 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
               theme(plot.title = element_text(face = 'bold'),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
-                    legend.position = 'bottom')
+                    legend.position = 'bottom',
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line())
             
             cs <- occ %>%
               group_by_at(c(cls,'Occupancy')) %>%
