@@ -98,7 +98,6 @@ setClass('RandomForest',
 #' @rdname Univariate-class
 #' @description An S4 class for univariate test models and results.
 #' @slot type univariate test type
-#' @slot response response
 #' @slot models list of model objects
 #' @slot results tibble containing test results 
 #' @export
