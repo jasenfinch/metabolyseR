@@ -13,6 +13,18 @@ setClass('AnalysisData',
          prototype = list(data = tibble(),info = tibble())
 )
 
+setValidity('AnalysisData',function(object){
+  
+  data <- dat(object)
+  info <- sinfo(object)
+  
+  if (nrow(data) != nrow(info)) {
+      'Number of rows in data should match number of rows in sample information!'
+  } else {
+    TRUE
+  }
+})
+
 #' AnalysisParameters
 #' @rdname AnalysisParameters-class
 #' @description An S4 class to store analysis parameters

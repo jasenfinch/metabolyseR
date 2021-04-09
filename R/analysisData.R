@@ -8,18 +8,11 @@
 #' @export
 
 analysisData <- function(data,info){
-  if (nrow(data) != nrow(info)) {
-    stop(
-      str_c('Number of rows in data should',
-            ' match number of rows in info!'),
-      call. = FALSE)
-  }
   
-  d <- new('AnalysisData')
-  dat(d) <- data %>%
-    as_tibble()
-  sinfo(d) <- info %>%
-    as_tibble()
+  d <- new('AnalysisData',
+           data = as_tibble(data),
+           info = as_tibble(info))
+
   return(d)
 }
 
