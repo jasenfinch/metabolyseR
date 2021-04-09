@@ -160,9 +160,10 @@ checkPreTreatmentParameters <- function(value){
     elements <- preTreatmentElements() %>%
       str_c('"',.,'"')
     stop(
-      str_c('List names of for replacement value can only include ',
+      str_c('List names for replacement value can only include ',
             str_c(elements,collapse = ', '),
-            '.'))
+            '.'),
+      call. = FALSE)
   }
   
   value %>%
@@ -185,7 +186,32 @@ checkPreTreatmentParameters <- function(value){
 }
 
 checkModellingParameters <- function(value){
+  if (FALSE %in% (names(value) %in%(modellingMethods()))) {
+    methods <- modellingMethods() %>% 
+      str_c('"',.,'"')
+    stop(str_c('List modelling methods names for replacement can only include ',
+         str_c(methods,collapse = ', '),'.'),
+         call. = FALSE)
+  }
   
+  value %>%
+    names() %>%
+    walk(~{
+      all_parameters <- .x %>%
+        modellingParameters() %>% 
+        .[[1]] %>% 
+        names()
+      parameters <- value[[.x]] %>%
+        names()
+      if (FALSE %in% (parameters %in% all_parameters)) {
+        all_parameters <- all_parameters %>%
+          str_c('"',.,'"')
+        stop(
+          str_c('Parameters for method "',.x,'" can only include ',
+                str_c(all_parameters,collapse = ', '),'.'),
+          call. = FALSE)
+      }
+    })
 }
 
 checkCorrelationParameters <- function(value){
