@@ -1,6 +1,6 @@
 Package: metabolyseR
-Title: Methods for pre-treatment, data mining and correlation analyses of metabolomics data
-Version: 0.13.3
+Title: Methods for Pre-Treatment, Classification, Feature Selection and Correlation Analyses of Metabolomics Data
+Version: 0.13.4
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A tool box for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
 biocViews: Metabolomics
@@ -84,6 +84,7 @@ Collate: allGenerics.R
     rawData-method.R
     rawInfo-method.R
     reAnalyse.R
+    reexports.R
     removeMethods.R
     randomForest.R
     show-method.R
@@ -91,4 +92,4 @@ Collate: allGenerics.R
     transformMethods.R
     univariateMethods.R
 VignetteBuilder: knitr
-Additional_repositories: https://aberhrml.github.io/drat/
+Remotes: aberHRML/metaboData
