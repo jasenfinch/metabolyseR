@@ -187,7 +187,7 @@ setMethod('importanceMetrics',signature = 'RandomForest',function(x){
 #' @export
 
 setMethod('explanatoryFeatures',signature = 'Univariate',
-          function(x,threshold = 0.05){
+          function(x,threshold = 0.05,...){
             importance(x) %>%
               filter(adjusted.p.value < threshold)
           }
@@ -284,7 +284,17 @@ setMethod('explanatoryFeatures',signature = 'list',
             }
             
             x %>%
-              map(explanatoryFeatures) %>%
-              bind_rows()
+              map(explanatoryFeatures,...) %>%
+              bind_rows(.id = 'Method')
+          })
+
+#' @rdname explanatoryFeatures
+#' @export
+
+setMethod('explanatoryFeatures',signature = 'Analysis',
+          function(x,threshold = 0.05, ...){
+            x %>% 
+              analysisResults(element = 'modelling') %>% 
+              explanatoryFeatures(...)
           })
 

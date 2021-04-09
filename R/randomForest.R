@@ -932,5 +932,14 @@ setMethod('importance',signature = 'list',
             
             x %>%
               map(importance) %>%
-              bind_rows()
+              bind_rows(.id = 'Method')
+          })
+
+#' @rdname importance
+
+setMethod('importance',signature = 'Analysis',
+          function(x){
+            x %>% 
+              analysisResults(element = 'modelling') %>% 
+              importance()
           })

@@ -5,15 +5,18 @@
 \alias{explanatoryFeatures,Univariate-method}
 \alias{explanatoryFeatures,RandomForest-method}
 \alias{explanatoryFeatures,list-method}
+\alias{explanatoryFeatures,Analysis-method}
 \title{explanatoryFeatures}
 \usage{
 explanatoryFeatures(x, ...)
 
-\S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
+\S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05, ...)
 
 \S4method{explanatoryFeatures}{RandomForest}(x, metric = "FalsePositiveRate", threshold = 0.05)
 
 \S4method{explanatoryFeatures}{list}(x, threshold = 0.05, ...)
+
+\S4method{explanatoryFeatures}{Analysis}(x, threshold = 0.05, ...)
 }
 \arguments{
 \item{x}{S4 object of class RandomForest or Univariate}
