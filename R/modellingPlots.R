@@ -232,8 +232,15 @@ setMethod('plotMetrics',signature = 'RandomForest',
                 facet_wrap(~.metric) +
                 labs(title = response,
                      x = '') +
-                theme(plot.title = element_text(face = 'bold'),
-                      axis.title = element_text(face = 'bold')) +
+                theme(plot.title = element_text(face = 'bold',
+                                                hjust = 0.5),
+                      axis.title = element_text(face = 'bold'),
+                      panel.border = element_blank(),
+                      panel.grid.major.y = element_blank(),
+                      panel.grid.minor.x = element_blank(),
+                      axis.line = element_line(),
+                      strip.background = element_blank(),
+                      strip.text = element_text(face = 'bold')) +
                 xlim(c(min(res$.estimate),1))  
             }
             
@@ -246,7 +253,12 @@ setMethod('plotMetrics',signature = 'RandomForest',
                      y = 'Metric') +
                 theme(plot.title = element_text(face = 'bold'),
                       axis.title = element_text(face = 'bold'),
-                      panel.grid = element_blank())
+                      panel.grid.major.y = element_blank(),
+                      panel.grid.minor.x = element_blank(),
+                      panel.border = element_blank(),
+                      axis.line = element_line(),
+                      strip.background = element_blank(),
+                      strip.text = element_text(face = 'bold'))
             }
             
             
