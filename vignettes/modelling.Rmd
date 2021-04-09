@@ -209,6 +209,7 @@ Parameters for alternative methods or multiple methods can be retrieved using th
 ```{r changeModellingParameters}
 parameters(p,'modelling') <- modellingParameters(c('randomForest','ttest'))
 changeParameter(p,'cls') <- 'day'
+changeParameter(p,'classes') <- c('H','1')
 ```
 
 ```{r print_parameters}
@@ -220,5 +221,5 @@ Descriptions of each of the parameters can be found in the documentation for a p
 Modelling analysis can then be performed on the pre-treated data from the previous section.
 
 ```{r classificationAnalysis}
-# analysis <- metabolyse(abr1$neg,abr1$fact,p)
+analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
