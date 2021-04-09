@@ -71,14 +71,24 @@ test_that('an error is thrown when a non list object is supplied to parameters',
   expect_error(parameters(p,'pre-treatment') <- 'wrong')
 })
 
-test_that('an error is thrown when a incorrect pre-treatment elements are supplied to parameters',{
+test_that('an error is thrown when an incorrect pre-treatment elements are supplied to parameters',{
   p <- analysisParameters()
   expect_error(parameters(p,'pre-treatment') <- list(wrong = list()))
 })
 
-test_that('an error is thrown when a incorrect methods are supplied to pre-treatment parameters',{
+test_that('an error is thrown when an incorrect methods are supplied to pre-treatment parameters',{
   p <- analysisParameters()
   expect_error(parameters(p,'pre-treatment') <- list(remove = list(wrong = 'wrong')))
+})
+
+test_that('an error is thrown when an incorrect modelling method is supplied to parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'modelling') <- list(wrong = list()))
+})
+
+test_that('an error is thrown when an incorrect modelling parameter is supplied to modelling parameters',{
+  p <- analysisParameters()
+  expect_error(parameters(p,'modelling') <- list(randomForest = list(wrong = 'wrong')))
 })
 
 test_that('an error is thrown when incorrect arguments are supplied to correlation parameters',{
