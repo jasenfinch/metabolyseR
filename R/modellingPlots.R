@@ -572,7 +572,11 @@ setMethod('plotROC',signature = 'RandomForest',
               theme(legend.position = legendPosition,
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
-                    panel.grid = element_blank())
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line(),
+                    strip.background = element_blank(),
+                    strip.text = element_text(face = 'bold'))
             
             return(pl)
           }

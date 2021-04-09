@@ -5,6 +5,7 @@
 #' @param cls info column to use for class labels
 #' @param type \code{raw} or \code{preTreated} data to plot
 #' @param ... arguments to pass to the appropriate method
+#' @importFrom ggplot2 element_line
 #' @export
 
 setMethod('plotOccupancy',signature = 'AnalysisData',
@@ -47,7 +48,10 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
               theme(plot.title = element_text(face = 'bold'),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
-                    legend.position = 'bottom')
+                    legend.position = 'bottom',
+                    panel.grid = element_blank(),
+                    panel.border = element_blank(),
+                    axis.line = element_line())
             
             if (length(clsExtract(x,cls) %>% unique()) < 12) {
               d <- d +

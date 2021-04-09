@@ -36,7 +36,11 @@ plotTheme <- function(pl,legendPosition,title,xLabel,yLabel){
           axis.title = element_text(face = 'bold'),
           legend.title = element_text(face = 'bold'),
           legend.position = legendPosition,
-          panel.grid = element_blank())
+          panel.grid = element_blank(),
+          panel.border = element_blank(),
+          axis.line = element_line(),
+          strip.background = element_blank(),
+          strip.text = element_text(face = 'bold'))
   
 }
 
