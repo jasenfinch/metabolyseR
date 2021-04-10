@@ -513,8 +513,8 @@ classification <- function(x,
           
           pred <- cda %>%
             sinfo() %>%
-            select(inf) %>%
-            unlist(use.names = FALSE) %>%
+            select(all_of(inf)) %>%
+            deframe() %>%
             factor()
           
           predFreq <- pred %>%
@@ -568,18 +568,18 @@ classification <- function(x,
     }) %>%
     set_names(colnames(i))
   
-  suppressWarnings({
+  suppressMessages({
     predictions <- models %>%
       map(~{
-        map(.,~{
-          map(.$models,~{
-            m <- .
+        map(.x,~{
+          map(.x$models,~{
+            m <- .x
             tibble(sample = seq_along(m$y),
                    obs = m$y,
                    pred = m$predicted,
                    margin = margin(m)) %>%
               bind_cols(m$votes %>%
-                          as_tibble() %>%
+                          as_tibble(.name_repair = 'minimal') %>%
                           mutate_all(as.numeric))
           }) %>%
             bind_rows(.id = 'Rep') %>%
