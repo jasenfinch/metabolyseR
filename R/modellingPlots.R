@@ -317,8 +317,10 @@ setMethod('plotMDS',
                    legendPosition = 'bottom', 
                    labelSize = 2){
             
-            if (!(cls %in% {x %>% sinfo() %>% colnames()})) {
-              stop(str_c('Info column ',cls,' not found!'))
+            if (!is.null(cls)) {
+              if (!(cls %in% {x %>% sinfo() %>% colnames()})) {
+                stop(str_c('Info column ',cls,' not found!'))
+              } 
             }
             
             if (x@type == 'classification') {
@@ -420,7 +422,11 @@ setMethod('plotMDS',
               }
             }
             
-            classLength <- clsLen(x,cls)
+            if (!is.null(cls)) {
+              classLength <- clsLen(x,cls) 
+            } else {
+              classLength <- 1
+            }
             
             pl <- scatterPlot(
               mds,

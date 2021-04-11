@@ -54,15 +54,24 @@ plotBase <- function(d,xAxis,yAxis){
 
 plotEllipses <- function(pl,cls,ellipses,classLength){
   if (isTRUE(ellipses)) {
-    if (classLength <= 12) {
-      pl <- pl +
-        stat_ellipse(aes(colour = !!sym(cls)),
-                     geom = 'polygon',
-                     type = 'norm',
-                     linetype = 5,
-                     fill = NA) 
+    if (!is.null(cls)){
+      if (classLength <= 12) {
+        pl <- pl +
+          stat_ellipse(aes(colour = !!sym(cls)),
+                       geom = 'polygon',
+                       type = 'norm',
+                       linetype = 5,
+                       fill = NA) 
+      } else {
+        message('Number of classes > 12, ellipses removed.')
+      }  
     } else {
-      message('Number of classes > 12, ellipses removed.')
+     pl <- pl +
+       stat_ellipse(colour = ptol_pal()(1),
+                    geom = 'polygon',
+                    type = 'norm',
+                    linetype = 5,
+                    fill = NA)
     }
   }
   return(pl)
@@ -78,24 +87,30 @@ plotLabel <- function(pl,label,labelSize,classLength) {
 
 plotShape <- function(pl,cls,shape,classLength,pointSize = 3){
   
-  if (isFALSE(shape) & classLength <= 12) {
+  if (is.null(cls)){
     pl <- pl +
-      geom_point(aes(fill = !!sym(cls)),shape = 21,size = pointSize) 
+      geom_point(size = pointSize,shape = 21,fill = ptol_pal()(1))
   } else {
-    if (classLength > 12 & isFALSE(shape)) {
-      message('Number of classes > 12, using shape aesthetic.')
-    }
-    
-    pl <- pl + 
-      geom_point(aes(colour = !!sym(cls),shape = !!sym(cls)),size = pointSize) 
-    
-    if (classLength > 6) {
-      val <- shapeValues(classLength)
+    if (isFALSE(shape) & classLength <= 12) {
+      pl <- pl +
+        geom_point(aes(fill = !!sym(cls)),shape = 21,size = pointSize) 
+    } else {
+      if (classLength > 12 & isFALSE(shape)) {
+        message('Number of classes > 12, using shape aesthetic.')
+      }
       
       pl <- pl + 
-        scale_shape_manual(values = val)
-    }
+        geom_point(aes(colour = !!sym(cls),shape = !!sym(cls)),size = pointSize) 
+      
+      if (classLength > 6) {
+        val <- shapeValues(classLength)
+        
+        pl <- pl + 
+          scale_shape_manual(values = val)
+      }
+    }  
   }
+  
   return(pl)
 }
 
@@ -132,12 +147,17 @@ scatterPlot <- function(d,
                         title,
                         xLabel,
                         yLabel){
-  d %>%
-  plotBase(xAxis,yAxis) %>%
+  pl <- d %>%
+    plotBase(xAxis,yAxis) %>% 
     plotEllipses(cls,ellipses,classLength) %>%
     plotLabel(label,labelSize,classLength) %>%
-    plotShape(cls,shape,classLength) %>%
-    plotColour(classLength) %>%
+    plotShape(cls,shape,classLength) 
+  
+  if (!is.null(cls)){
+    pl <- pl %>%
+      plotColour(classLength)  
+  }
+  pl %>%
     plotTheme(legendPosition,
               title = title,
               xLabel = xLabel,
