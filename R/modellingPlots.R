@@ -67,7 +67,8 @@ setMethod('plotImportance',signature = 'Univariate',
                         axis.text.x = element_blank(),
                         panel.grid = element_blank(),
                         axis.title = element_text(face = 'bold'),
-                        plot.title = element_text(face = 'bold')) +
+                        plot.title = element_text(face = 'bold',
+                                                  hjust = 0.5)) +
                   labs(title = comparison)
                 
               }) %>%
@@ -76,7 +77,8 @@ setMethod('plotImportance',signature = 'Univariate',
                               caption = str_c(
                                 'Dashed red line shows threshold of ',
                                 threshold,'.'),
-                              theme = theme(plot.title = element_text(face = 'bold'),
+                              theme = theme(plot.title = element_text(face = 'bold',
+                                                                      hjust = 0.5),
                                             plot.caption = element_text(hjust = 0)))
             
             return(pl)
@@ -132,7 +134,8 @@ setMethod('plotImportance',signature = 'RandomForest',
                           axis.text.x = element_blank(),
                           panel.grid = element_blank(),
                           axis.title = element_text(face = 'bold'),
-                          plot.title = element_text(face = 'bold'),
+                          plot.title = element_text(face = 'bold',
+                                                    hjust = 0.5),
                           plot.caption = element_text(hjust = -1)) +
                     labs(title = comparison)
                   
@@ -168,7 +171,8 @@ setMethod('plotImportance',signature = 'RandomForest',
                           axis.text.x = element_blank(),
                           panel.grid = element_blank(),
                           axis.title = element_text(face = 'bold'),
-                          plot.title = element_text(face = 'bold'),
+                          plot.title = element_text(face = 'bold',
+                                                    hjust = 0.5),
                           plot.caption = element_text(hjust = -1))  
                   
                   if (typ != 'unsupervised') {
