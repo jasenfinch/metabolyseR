@@ -189,7 +189,8 @@ setMethod('importanceMetrics',signature = 'RandomForest',function(x){
 setMethod('explanatoryFeatures',signature = 'Univariate',
           function(x,threshold = 0.05,...){
             importance(x) %>%
-              filter(adjusted.p.value < threshold)
+              filter(adjusted.p.value < threshold) %>% 
+              arrange(adjusted.p.value)
           }
 ) 
 
@@ -235,10 +236,12 @@ explanatoryFeaturesClassification <- function(x,metric,threshold){
   
   if (metric == 'FalsePositiveRate') {
     explan <- explan %>%
-      filter(Value < threshold) 
+      filter(Value < threshold) %>% 
+      arrange(Value)
   } else {
     explan <- explan %>%
-      filter(Value > threshold)
+      filter(Value > threshold) %>% 
+      arrange(desc(Value))
   }
   
   return(explan)
@@ -263,7 +266,8 @@ explanatoryFeaturesRegression <- function(x,metric,threshold){
   
   explan <- imp %>%
     filter(Metric == metric) %>%
-    filter(Value > threshold)
+    filter(Value > threshold) %>% 
+    arrange(desc(Value))
   
   return(explan)
 }

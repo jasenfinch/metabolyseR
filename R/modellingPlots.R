@@ -62,10 +62,11 @@ setMethod('plotImportance',signature = 'Univariate',
                     colour = 'red') +
                   geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
                   theme_bw() +
-                  theme(axis.line.x = element_blank(),
-                        axis.ticks.x = element_blank(),
+                  theme(axis.ticks.x = element_blank(),
                         axis.text.x = element_blank(),
                         panel.grid = element_blank(),
+                        panel.border = element_blank(),
+                        axis.line = element_line(),
                         axis.title = element_text(face = 'bold'),
                         plot.title = element_text(face = 'bold',
                                                   hjust = 0.5)) +
@@ -129,10 +130,11 @@ setMethod('plotImportance',signature = 'RandomForest',
                   pl <- ggplot(.x,aes(x = Feature,y = !!sym(metric))) +
                     geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
                     theme_bw() +
-                    theme(axis.line.x = element_blank(),
-                          axis.ticks.x = element_blank(),
+                    theme(axis.ticks.x = element_blank(),
                           axis.text.x = element_blank(),
                           panel.grid = element_blank(),
+                          panel.border = element_blank(),
+                          axis.line = element_line(),
                           axis.title = element_text(face = 'bold'),
                           plot.title = element_text(face = 'bold',
                                                     hjust = 0.5),
@@ -166,10 +168,11 @@ setMethod('plotImportance',signature = 'RandomForest',
                   p <- ggplot(.,aes(x = Feature,y = !!sym(metric))) +
                     geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
                     theme_bw() +
-                    theme(axis.line.x = element_blank(),
-                          axis.ticks.x = element_blank(),
+                    theme(axis.ticks.x = element_blank(),
                           axis.text.x = element_blank(),
                           panel.grid = element_blank(),
+                          panel.border = element_blank(),
+                          axis.line = element_line(),
                           axis.title = element_text(face = 'bold'),
                           plot.title = element_text(face = 'bold',
                                                     hjust = 0.5),
