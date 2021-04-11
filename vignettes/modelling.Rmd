@@ -79,7 +79,7 @@ As can be seen above the data set contains a total of `r nSamples(d)` samples an
 Random forest is a versatile ensemble machine learning approach based on forests of decision trees for multivariate data mining.
 This can include **unsupervised** analysis, **classification** of discrete response variables and **regression** of continuous responses.
 
-Random forest can be performed in `metabolyseR` using the `randomForest` function.
+Random forest can be performed in `metabolyseR` using the `randomForest` method.
 For further details on the arguments for using this function, see `?randomForest`.
 This implementation of random forest in `metabolyseR` utilises the `randomForest` package.
 See `?randomForest::randomForest` for more information about that implementation.
@@ -88,7 +88,7 @@ See `?randomForest::randomForest` for more information about that implementation
 
 The unsupervised random forest approach can be useful starting point for analysis in any experimental context.
 It can be used to give a general overview of the structure of the data and to identify an possible problems such as the presence of outliers samples or splits in the data caused by the impact of analytical or sample preparation factors. 
-Unsupervised random forest can have advantages in these assessments over other approaches such as Principle Component Analysis (PCA) as it is less sensitive to the effect of a single feature that in fact could have little overall impact relative to the other hundreds that could be present in a data set.
+Unsupervised random forest can have advantages in these assessments over other approaches such as Principle Component Analysis (PCA). It is less sensitive to the effect of a single feature that in fact could have little overall impact relative to the other hundreds that could be present in a data set.
 
 The examples below will show the use of unsupervised random forest for assessing the general structure of the example data set and the presence of outlier samples.
 
@@ -101,7 +101,7 @@ unsupervised_rf <- d %>%
 
 The type of random forest that has been performed can be checked using the `type` method.
 
-```{r rf-type}
+```{r unsupervised-type}
 type(unsupervised_rf)
 ```
 
@@ -116,7 +116,7 @@ unsupervised_rf <- clsAdd(unsupervised_rf,
                           rep(1,nSamples(unsupervised_rf)))
 ```
 
-The MDS plot visualised using the following, specifying the `single` class information column by which to colour the observation points.
+An MDS plot can be visualised using the following, specifying the `single` class information column by which to colour the observation points.
 The individual points are also labelled by their injection order to enable the identification of individual samples if necessary.
 
 ```{r outlier-detect}
@@ -140,22 +140,35 @@ plotMDS(unsupervised_rf,
 This shows that it is indeed the experimental factor of interest that is having the greatest impact on the structure of the data.
 The progression of the experimental time points are obvious across Dimension 1.
 
-```{r importance-metrics}
+The available feature importance metrics for a random forest analysis can be retrieved by:
+
+```{r unsupervised-importance-metrics}
 importanceMetrics(unsupervised_rf)
 ```
 
-```{r}
+And the importance values of these metrics for each feature can returned using:
+
+```{r unsupervised-importance}
 importance(unsupervised_rf)
 ```
 
-```{r}
+The explanatory features for a given threshold can be extracted for any the importance metric.
+The following will extract the explanatory features below a threshold of 0.05 based on the false positive rate metric.
+
+```{r unsupervised-explanatory}
 unsupervised_rf %>%
-  explanatoryFeatures()
+  explanatoryFeatures(metric = "FalsePositiveRate", 
+                      threshold = 0.05) %>% 
+  arrange(Value)
 ```
 
-```{r}
+In this example there are `r explanatoryFeatures(unsupervised_rf) %>% nrow()` explanatory features.
+
+The trend of the most highly ranked explanatory feature against the `day` factor can be plotted using the `plotFeature` method.
+
+```{r unsupervised-feature}
 unsupervised_rf %>%
-  plotFeature(feature = 'N153',
+  plotFeature(feature = 'N425',
               cls = 'day')
 ```
 
@@ -176,15 +189,19 @@ Multinomial classification is for situations where more than
 
 Multinomial classification can be performed on the `day` response variable of the example data set using the following:
 
-```{r classification}
+```{r multinomial}
 multinomial_rf <- d %>%
   randomForest(cls = 'day',
                nCores = 2)
 ```
 
+```{r multinomial-type}
+type(multinomial_rf)
+```
+
 To assess the model performance we can extract a table of the performance metrics:
 
-```{r classification-metrics }
+```{r multinomial-metrics }
 multinomial_rf %>%
   metrics()
 ```
@@ -198,38 +215,38 @@ d %>%
   table()
 ```
 
-```{r classification-mds}
+```{r multinomial-mds}
 multinomial_rf %>% 
   plotMDS(cls = 'day')
 ```
 
-```{r classification-roc}
+```{r multinomial-roc}
 multinomial_rf %>% 
   plotROC()
 ```
 
-```{r classification-importance}
+```{r multinomial-importance}
 multinomial_rf %>%
   importance()
 ```
 
-```{r classification-importance-metrics}
+```{r multinomial-importance-metrics}
 importanceMetrics(multinomial_rf)
 ```
 
-```{r classification-explanatory}
+```{r multinomial-explanatory}
 multinomial_rf %>%
   explanatoryFeatures(metric = 'MeanDecreaseGini',
                       threshold = 0.1)
 ```
 
-```{r classification-multiple-responses}
+```{r multinomial-multiple-responses}
 d %>%
   randomForest(cls = c('name','day'),nCores = 2) %>%
   metrics()
 ```
 
-```{r classification-multiple-mds}
+```{r multinomial-multiple-mds}
 d %>%
   randomForest(cls = c('name','day'),nCores = 2) %>%
   plotMDS()
@@ -249,7 +266,7 @@ d %>%
   metrics()
 ```
 
-```{r}
+```{r classification-comparison-metrics}
 d %>%
   keepClasses(cls = 'day',
               classes = c('1','2','3')) %>%
