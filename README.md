@@ -147,7 +147,7 @@ anova_results <- d %>%
 ```
 
 A table of the significantly explanatory features can be extracted with
-a bonferroni correction adjusted p value \< 0.05 using:
+a bonferroni correction adjusted p value &lt; 0.05 using:
 
 ``` r
 explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
@@ -156,18 +156,18 @@ explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
 ``` r
 explan_feat
 #> # A tibble: 379 x 10
-#>    Response Comparison Feature term     df    sumsq   meansq statistic  p.value
-#>    <chr>    <chr>      <chr>   <chr> <dbl>    <dbl>    <dbl>     <dbl>    <dbl>
-#>  1 day      1~2~3~4~5… N113    resp…     5 2.16e- 8 4.32e- 9     24.5  1.07e-16
-#>  2 day      1~2~3~4~5… N115    resp…     5 2.96e- 8 5.93e- 9     22.0  2.20e-15
-#>  3 day      1~2~3~4~5… N117    resp…     5 1.01e- 8 2.02e- 9     28.6  1.11e-18
-#>  4 day      1~2~3~4~5… N119    resp…     5 1.74e- 8 3.48e- 9     54.8  9.33e-29
-#>  5 day      1~2~3~4~5… N130    resp…     5 4.60e-10 9.19e-11     18.7  1.46e-13
-#>  6 day      1~2~3~4~5… N131    resp…     5 4.19e- 9 8.38e-10      7.34 5.39e- 6
-#>  7 day      1~2~3~4~5… N132    resp…     5 2.89e- 9 5.79e-10     10.4  2.95e- 8
-#>  8 day      1~2~3~4~5… N133    resp…     5 7.00e- 5 1.40e- 5    126.   8.63e-45
-#>  9 day      1~2~3~4~5… N137    resp…     5 2.25e- 8 4.49e- 9     37.7  1.21e-22
-#> 10 day      1~2~3~4~5… N139    resp…     5 5.06e- 9 1.01e- 9     16.2  4.83e-12
+#>    Response Comparison  Feature term     df    sumsq   meansq statistic  p.value
+#>    <chr>    <chr>       <chr>   <chr> <dbl>    <dbl>    <dbl>     <dbl>    <dbl>
+#>  1 day      1~2~3~4~5~H N113    resp…     5 2.16e- 8 4.32e- 9     24.5  1.07e-16
+#>  2 day      1~2~3~4~5~H N115    resp…     5 2.96e- 8 5.93e- 9     22.0  2.20e-15
+#>  3 day      1~2~3~4~5~H N117    resp…     5 1.01e- 8 2.02e- 9     28.6  1.11e-18
+#>  4 day      1~2~3~4~5~H N119    resp…     5 1.74e- 8 3.48e- 9     54.8  9.33e-29
+#>  5 day      1~2~3~4~5~H N130    resp…     5 4.60e-10 9.19e-11     18.7  1.46e-13
+#>  6 day      1~2~3~4~5~H N131    resp…     5 4.19e- 9 8.38e-10      7.34 5.39e- 6
+#>  7 day      1~2~3~4~5~H N132    resp…     5 2.89e- 9 5.79e-10     10.4  2.95e- 8
+#>  8 day      1~2~3~4~5~H N133    resp…     5 7.00e- 5 1.40e- 5    126.   8.63e-45
+#>  9 day      1~2~3~4~5~H N137    resp…     5 2.25e- 8 4.49e- 9     37.7  1.21e-22
+#> 10 day      1~2~3~4~5~H N139    resp…     5 5.06e- 9 1.01e- 9     16.2  4.83e-12
 #> # … with 369 more rows, and 1 more variable: adjusted.p.value <dbl>
 ```
 
