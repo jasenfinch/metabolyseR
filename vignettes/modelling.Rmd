@@ -108,20 +108,12 @@ type(unsupervised_rf)
 To assess the resulting model, the proximity of the observations can be visualised using multidimensional scaling (MDS) as shown below.
 
 Firstly, the presence of outlier samples will be assessed.
-A single class response factor named `single` will first be added to the sample information to aid visualisation.
-
-```{r add-single-class}
-unsupervised_rf <- clsAdd(unsupervised_rf,
-                          'single',
-                          rep(1,nSamples(unsupervised_rf)))
-```
-
 An MDS plot can be visualised using the following, specifying the `single` class information column by which to colour the observation points.
 The individual points are also labelled by their injection order to enable the identification of individual samples if necessary.
 
 ```{r outlier-detect}
 plotMDS(unsupervised_rf,
-        cls = 'single',
+        cls = NULL,
         label = 'injorder',
         labelSize = 3,
         title = 'Outlier detection')
@@ -315,6 +307,53 @@ binary_rf %>%
 ```
 
 ### Regression
+
+```{r}
+regression_rf <- d %>% 
+  randomForest(cls = 'injorder',
+               nCores = 2)
+```
+
+```{r}
+type(regression_rf)
+```
+
+```{r}
+regression_rf %>% 
+  metrics()
+```
+
+```{r}
+regression_rf %>% 
+  plotMDS(cls = NULL,
+          ellipses = FALSE,
+          label = 'injorder',
+          labelSize = 3)
+```
+
+```{r}
+regression_rf %>% 
+  importanceMetrics()
+```
+
+```{r}
+regression_rf %>% 
+  plotImportance(metric = "%IncMSE", 
+                 rank = FALSE)
+```
+
+```{r}
+regression_rf %>% 
+  explanatoryFeatures(metric = '%IncMSE',
+                      threshold = 5) %>% 
+  arrange(desc(Value))
+```
+
+```{r}
+regression_rf %>% 
+  plotFeature(feature = 'N283',
+              cls = 'injorder')
+```
 
 ## Univariate analyses
 
