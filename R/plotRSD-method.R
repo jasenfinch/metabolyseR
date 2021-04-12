@@ -122,8 +122,6 @@ setMethod('plotRSD',signature = 'Analysis',
                 impute = list(
                   all = list(occupancy = 2/3,
                              parallel = 'variables',
-                             nCores = detectCores() * 0.75,
-                             clusterType = getClusterType(),
                              seed = 1234))
               )
             }

@@ -122,9 +122,6 @@ setMethod('anova',signature = 'AnalysisData',
 #' @param pAdjust p value adjustment method
 #' @param comparisons named list of binary comparisons to analyse
 #' @param returnModels should models be returned
-#' @param nCores number of cores to use for parallelisation
-#' @param clusterType cluster type to use for parallelisation 
-#' (`?parallel::makeCluster`)
 #' @importFrom dplyr bind_rows
 #' @importFrom broom glance
 #' @export

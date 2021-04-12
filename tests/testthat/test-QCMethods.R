@@ -2,6 +2,8 @@ library(metaboData)
 
 context('QCMethods')
 
+plan(future::multisession,workers = 2)
+
 test_that('QCMethods returns methods correctly',{
   m <- map_lgl(QCMethods(),is.function)
   expect_false(FALSE %in% m)

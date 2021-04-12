@@ -1,5 +1,7 @@
 nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
+#' @importFrom stats runif
+
 permute <- function(x,cls,rf,n = 1000){
   i <- x %>%
     sinfo() %>%

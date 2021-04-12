@@ -17,10 +17,6 @@ imputeClass(d, cls = "class", occupancy = 2/3, seed = 1234)
 \item{occupancy}{occupancy threshold for imputation}
 
 \item{seed}{random number seed}
-
-\item{nCores}{number of cores for parallisation}
-
-\item{clusterType}{cluster type for parallisation}
 }
 \description{
 Impute missing values class-wise using Random Forest.

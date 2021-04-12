@@ -4,8 +4,6 @@
 #' @param d S4 object of class AnalysisData
 #' @param occupancy occupancy threshold for imputation of a given feature
 #' @param parallel parallel type to use. See `?missForest` for details
-#' @param nCores number of cores for parallisation
-#' @param clusterType cluster type for parallisation
 #' @param seed random number seed
 #' @importFrom tidyselect all_of
 #' @importFrom doFuture registerDoFuture
@@ -68,8 +66,6 @@ setMethod('imputeAll',signature = 'AnalysisData',
 #' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param occupancy occupancy threshold for imputation
-#' @param nCores number of cores for parallisation
-#' @param clusterType cluster type for parallisation
 #' @param seed random number seed
 #' @importFrom dplyr n
 #' @importFrom furrr furrr_options

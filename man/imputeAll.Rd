@@ -17,10 +17,6 @@ imputeAll(d, occupancy = 2/3, parallel = "variables", seed = 1234)
 \item{parallel}{parallel type to use. See `?missForest` for details}
 
 \item{seed}{random number seed}
-
-\item{nCores}{number of cores for parallisation}
-
-\item{clusterType}{cluster type for parallisation}
 }
 \description{
 Impute missing values across all samples using Random Forest.
