@@ -19,7 +19,7 @@ suppressWarnings(
 )
 
 regression_rf_res <- d %>%
-  randomForest(cls = 'class')
+  randomForest(cls = 'injorder')
 
 test_that('plotImportance works for Univariate class',{
   pl <- plotImportance(ttest_res,response = 'day')

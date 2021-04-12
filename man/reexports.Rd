@@ -5,7 +5,6 @@
 \alias{reexports}
 \alias{\%>\%}
 \alias{plan}
-\alias{registerDoFuture}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -13,8 +12,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{doFuture}{\code{\link[doFuture]{registerDoFuture}}}
-
   \item{future}{\code{\link[future]{plan}}}
 
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}

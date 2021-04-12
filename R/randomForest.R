@@ -1,6 +1,6 @@
 nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
-permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
+permute <- function(x,cls,rf,n = 1000){
   i <- x %>%
     sinfo() %>%
     select(cls) %>%
@@ -14,23 +14,18 @@ permute <- function(x,cls,rf,n = 1000, nCores, clusterType){
     n <- nPerm(length(i),length(unique(i)))
   }
   
-  if (n < nCores) {
-    nCores <- n
-  }
-  
-  clus <- makeCluster(nCores,type = clusterType)
-  
-  models <- parLapply(clus,1:n,function(y,d,index,rf){
+  models <- future_map(1:n,~{
     params <- formals(randomForest::randomForest)
     params <- c(params,rf)
-    params$x <- d %>% dat()
-    ind <- sample(index)
+    params$x <- x %>% dat()
+    ind <- sample(i)
     params$y <- ind
     params$strata <- ind
     do.call(randomForest::randomForest,params)
-  },d = x,index = i,rf = rf) %>%
+  },future.seed = runif(1) %>% 
+    {. * 100000} %>% 
+    round()) %>%
     set_names(1:n)
-  stopCluster(clus)
   
   return(models)
 }
@@ -330,25 +325,17 @@ regressionPermutationMeasures <- function(models){
 
 #' @importFrom forestControl fpr_fs
 
-unsupervised <- function(x,rf,reps,returnModels,seed,nCores,clusterType,...){
-  
-  if (reps < nCores) {
-    nCores <- reps
-  }
+unsupervised <- function(x,rf,reps,returnModels,seed,...){
   
   set.seed(seed)
   
-  clus <- makeCluster(nCores,clusterType)
-  
-  models <- parLapply(clus,1:reps,function(y,d,rf){
+  models <- future_map(1:reps,~{
     params <- formals(randomForest::randomForest)
-    params$x <- d %>% dat()
+    params$x <- x %>% dat()
     params <- c(params,rf)
     do.call(randomForest::randomForest,params)
-  },d = x,rf = rf) %>%
+  },.options = furrr_options(seed = seed)) %>%
     set_names(1:reps)
-  
-  stopCluster(clus)
   
   importances <- models %>%
     map(~{
@@ -402,9 +389,7 @@ supervised <- function(x,
                        comparisons,
                        perm,
                        returnModels,
-                       seed,
-                       nCores,
-                       clusterType){
+                       seed){
   i <- x %>%
     sinfo() %>%
     select(all_of(cls))
@@ -419,7 +404,13 @@ supervised <- function(x,
         deframe()
       
       if (is.numeric(pred)) {
-        regression(x,cls,rf,reps,perm,returnModels,seed,nCores,clusterType)
+        regression(x,
+                   cls,
+                   rf,
+                   reps,
+                   perm,
+                   returnModels,
+                   seed)
       } else {
         classification(x,
                        cls,
@@ -429,9 +420,7 @@ supervised <- function(x,
                        comparisons,
                        perm,
                        returnModels,
-                       seed,
-                       nCores,
-                       clusterType)
+                       seed)
       }
     }) %>%
     set_names(colnames(i))
@@ -450,9 +439,7 @@ classification <- function(x,
                            comparisons,
                            perm,
                            returnModels,
-                           seed,
-                           nCores,
-                           clusterType){
+                           seed){
   
   i <- x %>%
     sinfo() %>%
@@ -535,25 +522,16 @@ classification <- function(x,
             rf <- c(rf,list(strata = pred,sampsize = ss))
           }
           
-          if (reps < nCores) {
-            nSlaves <- length(reps)
-          } else {
-            nSlaves <- nCores
-          }
-          
           set.seed(seed)
           
-          clus <- makeCluster(nSlaves,type = clusterType)
-          
-          mod <- parLapply(clus,1:reps,function(y,d,pred,rf){
+          mod <- future_map(1:reps,~{
             params <- formals(randomForest::randomForest)
-            params$x <- d %>% dat()
+            params$x <- cda %>% dat()
             params$y <- pred
             params <- c(params,rf)
             do.call(randomForest::randomForest,params)
-          },d = cda,pred = pred,rf = rf) %>%
+          },.options = furrr_options(seed = seed)) %>%
             set_names(1:reps)
-          stopCluster(clus)
           
           mod <- list(models = mod)
           
@@ -661,9 +639,7 @@ regression <- function(x,
                        reps,
                        perm,
                        returnModels,
-                       seed,
-                       nCores,
-                       clusterType){
+                       seed){
   i <- x %>%
     sinfo() %>%
     select(cls)
@@ -677,26 +653,16 @@ regression <- function(x,
         select(inf) %>%
         unlist(use.names = FALSE)
       
-      if (reps < nCores) {
-        nSlaves <- reps
-      } else {
-        nSlaves <- nCores
-      }
-      
       set.seed(seed)
       
-      clus <- makeCluster(nSlaves,type = clusterType)
-      
-      mod <- parLapply(clus,1:reps,function(y,d,pred,rf){
+      mod <- future_map(1:reps,~{
         params <- formals(randomForest::randomForest)
-        params$x <- d %>% dat()
+        params$x <- x %>% dat()
         params$y <- pred
         params <- c(params,rf)
         do.call(randomForest::randomForest,params)
-      },d = x,pred = pred,rf = rf) %>%
+      },.options = furrr_options(seed = seed)) %>%
         set_names(1:reps)
-      
-      stopCluster(clus)
       
       mod <- list(models = mod)
       
@@ -832,9 +798,7 @@ setMethod('randomForest',signature = 'AnalysisData',
                                   rf,
                                   reps,
                                   returnModels,
-                                  seed,
-                                  nCores,
-                                  clusterType)
+                                  seed)
             } else {
               res <- supervised(x,
                                 cls,
@@ -844,9 +808,7 @@ setMethod('randomForest',signature = 'AnalysisData',
                                 comparisons,
                                 perm,
                                 returnModels,
-                                seed,
-                                nCores,
-                                clusterType)
+                                seed)
             }
             
             if (is.null(cls) | length(cls) == 1) {

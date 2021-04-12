@@ -8,6 +8,7 @@
 #' @param clusterType cluster type for parallisation
 #' @param seed random number seed
 #' @importFrom tidyselect all_of
+#' @importFrom doFuture registerDoFuture
 #' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',
@@ -15,6 +16,8 @@ setMethod('imputeAll',signature = 'AnalysisData',
                    occupancy = 2/3, 
                    parallel = 'variables', 
                    seed = 1234){
+            
+            registerDoFuture()
             
             d <- clsAdd(d,cls = 'dummy',rep(1,nSamples(d)))
             
@@ -40,9 +43,11 @@ setMethod('imputeAll',signature = 'AnalysisData',
             
             da[da == 0] <- NA
             
-            capture.output({
-              da <- missForest(da,parallelize = parallel)
-            })  
+            suppressWarnings({
+              capture.output({
+                da <- missForest(da,parallelize = parallel)
+              })  
+            })
             
             dat(d_to_impute) <- as_tibble(da$ximp)
             
@@ -67,6 +72,7 @@ setMethod('imputeAll',signature = 'AnalysisData',
 #' @param clusterType cluster type for parallisation
 #' @param seed random number seed
 #' @importFrom dplyr n
+#' @importFrom furrr furrr_options
 #' @export
 
 setMethod('imputeClass',signature = 'AnalysisData',
@@ -88,10 +94,8 @@ setMethod('imputeClass',signature = 'AnalysisData',
                 d %>%
                   keepClasses(cls = cls,classes = .x) %>%
                   imputeAll(occupancy = occupancy,seed = seed,parallel = 'no')
-              },d = d,
-              cls = cls,
-              occupancy = occupancy,
-              seed = seed)
+              },
+              .options = furrr_options(seed = seed))
             
             d <- d %>%
               bindAnalysesRows() %>%
