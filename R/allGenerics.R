@@ -288,8 +288,6 @@ setGeneric("QCimpute",
              QCidx = 'QC', 
              occupancy = 2/3, 
              parallel = 'variables', 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType(), 
              seed = 1234) 
            {
              standardGeneric("QCimpute")
@@ -347,8 +345,6 @@ setGeneric("imputeAll",
              d, 
              occupancy = 2/3, 
              parallel = 'variables', 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType(), 
              seed = 1234) 
            {
              standardGeneric("imputeAll")
@@ -360,8 +356,6 @@ setGeneric("imputeClass",
              d, 
              cls = 'class', 
              occupancy = 2/3, 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType(), 
              seed = 1234) 
            {
              standardGeneric("imputeClass")
@@ -373,8 +367,6 @@ setGeneric("correctionCenter",
              d, 
              block = 'block', 
              type = 'median', 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType()) 
            {
              standardGeneric("correctionCenter")
            })
@@ -387,8 +379,6 @@ setGeneric("anova",
              pAdjust = 'bonferroni', 
              comparisons = list(), 
              returnModels = FALSE, 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType()) 
            {
              standardGeneric("anova")
            })
@@ -401,8 +391,6 @@ setGeneric("ttest",
              pAdjust = 'bonferroni', 
              comparisons = list(), 
              returnModels = FALSE, 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType()) 
            {
              standardGeneric("ttest")
            })
@@ -430,8 +418,6 @@ setGeneric("randomForest",
              perm = 0, 
              returnModels = FALSE, 
              seed = 1234, 
-             nCores = detectCores() * 0.75, 
-             clusterType = getClusterType()) 
            {
              standardGeneric("randomForest")
            })
