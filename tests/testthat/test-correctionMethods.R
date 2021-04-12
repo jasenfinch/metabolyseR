@@ -31,7 +31,7 @@ test_that('methods work',{
   d <- clsAdd(d,'block',1)
   m <- map(m,~{
     method <- correctionMethods(.)
-    res <- method(d,nCores = 2)
+    res <- method(d)
     return(res)
   })
   
