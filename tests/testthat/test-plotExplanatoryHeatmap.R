@@ -31,7 +31,7 @@ test_that(str_c('plotExplanatoryHeatmap returns a plot for random',
 test_that('plotExplanatoryHeatmap returns a plot for random forest regression',{
   d <- analysisData(abr1$neg,abr1$fact) %>%
     keepFeatures(features = features(.)[200:250])
-  x <- randomForest(d,cls = 'injorder',perm = 3,nCores = 2)
+  x <- randomForest(d,cls = 'injorder',perm = 3)
   
   pl_feat <- plotExplanatoryHeatmap(x,metric = 'IncNodePurity')
   pl_no_feat <- plotExplanatoryHeatmap(x,
