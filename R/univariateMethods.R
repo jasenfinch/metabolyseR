@@ -161,18 +161,12 @@ setMethod('ttest',signature = 'AnalysisData',
                 pred <- .
                 ps <- pw[[pred]]
                 
-                if (length(ps) < nCores) {
-                  nCores <- length(ps)
-                }
-                
-                clus <- makeCluster(nCores,type = clusterType)
-                
                 r <- ps %>%
-                  parLapply(cl = clus,X = .,fun = function(z,da,pred){
-                    p <- z  
-                    pc <- str_split(p,'~')[[1]]
+                  future_map(~{
+        
+                    pc <- str_split(.x,'~')[[1]]
                     
-                    pad <- removeClasses(da,pred,classes = sinfo(da) %>%
+                    pad <- removeClasses(x,pred,classes = sinfo(x) %>%
                                            select(pred) %>%
                                            unlist() %>%
                                            unique() %>%
@@ -189,9 +183,8 @@ setMethod('ttest',signature = 'AnalysisData',
                       map(~{
                         t.test(. ~ response)
                       })
-                  },da = x,pred = pred) %>%
+                  }) %>%
                   set_names(pw[[pred]])
-                stopCluster(clus)
                 return(r)
               }) %>%
               set_names(names(pw))
