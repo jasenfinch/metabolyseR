@@ -606,3 +606,31 @@ setMethod('plotROC',signature = 'RandomForest',
             return(pl)
           }
 )
+
+#' @rdname plotROC
+#' @export
+
+setMethod('plotROC',
+          signature = 'list',
+          function(x,title = '', legendPosition = 'bottom'){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (FALSE %in% (object_classes == 'RandomForest')) {
+              stop(
+                str_c('All objects contained within supplied list',
+                      ' should be of class RandomForest'),
+                call. = FALSE)
+            }
+            
+            x %>%
+              names() %>%
+              map(~{
+                plotROC(x[[.x]],
+                       title = title,
+                       legendPosition = legendPosition)
+                
+              }) %>%
+              wrap_plots()
+          }
+)
