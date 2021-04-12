@@ -10,9 +10,7 @@ anova(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = FALSE,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType()
+  returnModels = FALSE
 )
 
 \S4method{anova}{AnalysisData}(
@@ -20,9 +18,7 @@ anova(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = FALSE,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType()
+  returnModels = FALSE
 )
 }
 \arguments{

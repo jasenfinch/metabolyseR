@@ -5,23 +5,9 @@
 \alias{imputeAll,AnalysisData-method}
 \title{imputeAll}
 \usage{
-imputeAll(
-  d,
-  occupancy = 2/3,
-  parallel = "variables",
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType(),
-  seed = 1234
-)
+imputeAll(d, occupancy = 2/3, parallel = "variables", seed = 1234)
 
-\S4method{imputeAll}{AnalysisData}(
-  d,
-  occupancy = 2/3,
-  parallel = "variables",
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType(),
-  seed = 1234
-)
+\S4method{imputeAll}{AnalysisData}(d, occupancy = 2/3, parallel = "variables", seed = 1234)
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}
@@ -30,11 +16,11 @@ imputeAll(
 
 \item{parallel}{parallel type to use. See `?missForest` for details}
 
+\item{seed}{random number seed}
+
 \item{nCores}{number of cores for parallisation}
 
 \item{clusterType}{cluster type for parallisation}
-
-\item{seed}{random number seed}
 }
 \description{
 Impute missing values across all samples using Random Forest.

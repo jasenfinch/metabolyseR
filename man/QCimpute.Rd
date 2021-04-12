@@ -11,8 +11,6 @@ QCimpute(
   QCidx = "QC",
   occupancy = 2/3,
   parallel = "variables",
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType(),
   seed = 1234
 )
 
@@ -22,8 +20,6 @@ QCimpute(
   QCidx = "QC",
   occupancy = 2/3,
   parallel = "variables",
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType(),
   seed = 1234
 )
 }
@@ -38,11 +34,11 @@ QCimpute(
 
 \item{parallel}{parallel type to use. See `?missForest` for details}
 
+\item{seed}{random number seed}
+
 \item{nCores}{number of cores for parallisation}
 
 \item{clusterType}{cluster type for parallisation}
-
-\item{seed}{random number seed}
 }
 \description{
 QC imputation.

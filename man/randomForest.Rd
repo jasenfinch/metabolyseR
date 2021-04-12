@@ -14,9 +14,7 @@ randomForest(
   comparisons = list(),
   perm = 0,
   returnModels = FALSE,
-  seed = 1234,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType()
+  seed = 1234
 )
 
 \S4method{randomForest}{AnalysisData}(
@@ -28,9 +26,7 @@ randomForest(
   comparisons = list(),
   perm = 0,
   returnModels = FALSE,
-  seed = 1234,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType()
+  seed = 1234
 )
 }
 \arguments{

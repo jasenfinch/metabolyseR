@@ -5,23 +5,9 @@
 \alias{imputeClass,AnalysisData-method}
 \title{imputeClass}
 \usage{
-imputeClass(
-  d,
-  cls = "class",
-  occupancy = 2/3,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType(),
-  seed = 1234
-)
+imputeClass(d, cls = "class", occupancy = 2/3, seed = 1234)
 
-\S4method{imputeClass}{AnalysisData}(
-  d,
-  cls = "class",
-  occupancy = 2/3,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType(),
-  seed = 1234
-)
+\S4method{imputeClass}{AnalysisData}(d, cls = "class", occupancy = 2/3, seed = 1234)
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}
@@ -30,11 +16,11 @@ imputeClass(
 
 \item{occupancy}{occupancy threshold for imputation}
 
+\item{seed}{random number seed}
+
 \item{nCores}{number of cores for parallisation}
 
 \item{clusterType}{cluster type for parallisation}
-
-\item{seed}{random number seed}
 }
 \description{
 Impute missing values class-wise using Random Forest.

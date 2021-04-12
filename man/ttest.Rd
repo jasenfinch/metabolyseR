@@ -10,9 +10,7 @@ ttest(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = FALSE,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType()
+  returnModels = FALSE
 )
 
 \S4method{ttest}{AnalysisData}(
@@ -20,9 +18,7 @@ ttest(
   cls = "class",
   pAdjust = "bonferroni",
   comparisons = list(),
-  returnModels = FALSE,
-  nCores = detectCores() * 0.75,
-  clusterType = getClusterType()
+  returnModels = FALSE
 )
 }
 \arguments{
