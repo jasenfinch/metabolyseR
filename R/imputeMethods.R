@@ -121,7 +121,6 @@ setMethod('imputeClass',signature = 'AnalysisData',
 
 
 #' @importFrom missForest missForest
-#' @importFrom parallel makeCluster stopCluster parLapply
 #' @importFrom dplyr arrange select
 #' @importFrom doParallel registerDoParallel
 

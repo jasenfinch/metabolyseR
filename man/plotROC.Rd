@@ -3,11 +3,14 @@
 \name{plotROC}
 \alias{plotROC}
 \alias{plotROC,RandomForest-method}
+\alias{plotROC,list-method}
 \title{plotROC}
 \usage{
 plotROC(x, title = "", legendPosition = "bottom")
 
 \S4method{plotROC}{RandomForest}(x, title = "", legendPosition = "bottom")
+
+\S4method{plotROC}{list}(x, title = "", legendPosition = "bottom")
 }
 \arguments{
 \item{x}{S4 object of class RandomForest}

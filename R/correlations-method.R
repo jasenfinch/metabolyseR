@@ -83,7 +83,6 @@ doCorrelations <- function(x,
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust na.omit
 #' @importFrom dplyr filter bind_cols left_join rename select mutate distinct
-#' @importFrom parallel parApply makeCluster stopCluster
 #' @importFrom tidyr gather
 #' @importFrom tibble tibble as_tibble
 #' @importFrom purrr map_df

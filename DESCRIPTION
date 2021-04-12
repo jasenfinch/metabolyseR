@@ -32,8 +32,7 @@ Imports: Hmisc,
          broom,
          rlang,
          tidyselect,
-         magrittr,
-         parallel
+         magrittr
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

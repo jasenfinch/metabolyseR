@@ -12,7 +12,6 @@ analysisElements <- function(){
 #' @description Initiate default analysis parameters for analysis elements.
 #' @param elements character vector containing elements for analysis. 
 #' Default includes all available elements from \code{analysisElements}.
-#' @importFrom parallel detectCores
 #' @importFrom methods new
 #' @export
 
