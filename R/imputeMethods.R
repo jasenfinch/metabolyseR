@@ -109,7 +109,6 @@ setMethod('imputeClass',signature = 'AnalysisData',
 
 #' @importFrom missForest missForest
 #' @importFrom dplyr arrange select
-#' @importFrom doParallel registerDoParallel
 
 imputeMethods <- function(method = NULL, description = FALSE){
   
