@@ -6,9 +6,6 @@
 #' @param pAdjust p value adjustment method
 #' @param comparisons list of comparisons to perform
 #' @param returnModels should models be returned
-#' @param nCores number of cores to use for parallelisation
-#' @param clusterType cluster type to use for parallelisation 
-#' (`?parallel::makeCluster`)
 #' @importFrom dplyr bind_rows
 #' @importFrom broom tidy
 #' @export
@@ -63,18 +60,11 @@ setMethod('anova',signature = 'AnalysisData',
                 pred <- .
                 ps <- comp[[pred]]
                 
-                if (length(ps) < nCores) {
-                  nCores <- length(ps)
-                }
-                
-                clus <- makeCluster(nCores,type = clusterType)
-                
                 r <- ps %>%
-                  parLapply(cl = clus,X = .,fun = function(z,da,pred){
-                    p <- z  
-                    pc <- str_split(p,'~')[[1]]
+                  future_map(~{
+                    pc <- str_split(.x,'~')[[1]]
                     
-                    pad <- removeClasses(da,pred,classes = sinfo(da) %>%
+                    pad <- removeClasses(x,pred,classes = sinfo(x) %>%
                                            select(pred) %>%
                                            unlist() %>%
                                            unique() %>%
@@ -91,9 +81,8 @@ setMethod('anova',signature = 'AnalysisData',
                       map(~{
                         aov(. ~ response)
                       })
-                  },da = x,pred = pred) %>%
+                  }) %>%
                   set_names(comp[[pred]])
-                stopCluster(clus)
                 return(r)
               }) %>%
               set_names(names(comp))
