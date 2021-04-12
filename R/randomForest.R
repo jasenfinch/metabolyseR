@@ -22,9 +22,9 @@ permute <- function(x,cls,rf,n = 1000){
     params$y <- ind
     params$strata <- ind
     do.call(randomForest::randomForest,params)
-  },future.seed = runif(1) %>% 
+  },.options = furrr_options(seed = runif(1) %>% 
     {. * 100000} %>% 
-    round()) %>%
+    round())) %>%
     set_names(1:n)
   
   return(models)
@@ -536,7 +536,7 @@ classification <- function(x,
           mod <- list(models = mod)
           
           if (perm > 0) {
-            perms <- permute(x,cls,rf,n = perm,nCores,clusterType)
+            perms <- permute(x,cls,rf,n = perm)
             mod <- c(mod,list(permutations = perms))
           }
           
@@ -667,7 +667,7 @@ regression <- function(x,
       mod <- list(models = mod)
       
       if (perm > 0) {
-        perms <- permute(x,cls,rf,n = perm,nCores,clusterType)
+        perms <- permute(x,cls,rf,n = perm)
       } else {
         perms <- list()
       }
@@ -760,8 +760,6 @@ regression <- function(x,
 #' @param perm number of permutations to perform. Ignored for unsupervised.
 #' @param returnModels TRUE/FALSE should model objects be returned.
 #' @param seed random number seed
-#' @param nCores number of cores to use for parallisation.
-#' @param clusterType cluster type for parallisation
 #' @details Specified class comparisons should be given as a list named 
 #' according to \code{cls}. Comparisons should be given as class names 
 #' separated by '~' (eg. '1~2~H').
