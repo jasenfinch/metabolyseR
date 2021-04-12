@@ -63,15 +63,6 @@ heatmapClasses <- function(pl,
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate_at(pred,factor)
       
-      caption <- str_c(
-        'Explanatory features had a P value below a threshold of ',
-        threshold,'.')
-      
-      if (length(feat) > 500) {
-        caption <- str_c(
-          caption,'\n',
-          'Number of features capped at top 500.')
-      }
       low <- 'white'
       high <- "#F21A00"
       
@@ -84,11 +75,11 @@ heatmapClasses <- function(pl,
         scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
         labs(title = pred,
-             caption = caption,
              fill = 'Relative\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
-          theme(plot.title = element_text(face = 'bold'),
+          theme(plot.title = element_text(face = 'bold',
+                                          hjust = 0.5),
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
                 axis.text.x = element_text(angle = 30,hjust = 1),
@@ -97,7 +88,8 @@ heatmapClasses <- function(pl,
           ) 
       } else {
         plo <- plo +
-          theme(plot.title = element_text(face = 'bold'),
+          theme(plot.title = element_text(face = 'bold',
+                                          hjust = 0.5),
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
                 axis.text.x = element_text(angle = 30,hjust = 1),
@@ -164,14 +156,14 @@ heatmapRegression <- function(pl,
         summarise(r = cor(!! p,Intensity),.groups = 'drop') %>%
         mutate(Response = response)
       
-        dend <- d %>%
-          spread(3,r) %>%
-          data.frame(check.names = FALSE) %>%
-          set_rownames(.$Feature) %>%
-          select(-Feature) %>%
-          dist(distanceMeasure) %>%
-          hclust(clusterMethod) %>%
-          dendro_data()  
+      dend <- d %>%
+        spread(3,r) %>%
+        data.frame(check.names = FALSE) %>%
+        set_rownames(.$Feature) %>%
+        select(-Feature) %>%
+        dist(distanceMeasure) %>%
+        hclust(clusterMethod) %>%
+        dendro_data()  
       
       clusters <- dend$labels$label
       
@@ -179,17 +171,6 @@ heatmapRegression <- function(pl,
         mutate(Feature = factor(Feature,levels = clusters)) %>%
         mutate(Response = factor(Response))
       
-      caption <- str_c(
-        'Explanatory features had a P value below a threshold of ',
-        threshold,
-        '.')
-      
-      if (length(feat) > 500) {
-        caption <- str_c(
-          caption,
-          '\n',
-          'Number of features capped at top 500.')
-      }
       low <- '#00B7FF'
       mid <- 'white'
       high <- "#F21A00"
@@ -201,11 +182,11 @@ heatmapRegression <- function(pl,
         scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
         labs(title = response,
-             caption = caption,
              fill = 'Relative\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
-          theme(plot.title = element_text(face = 'bold'),
+          theme(plot.title = element_text(face = 'bold',
+                                          hjust = 0.5),
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
                 axis.text.x = element_text(angle = 30,hjust = 1),
@@ -214,7 +195,8 @@ heatmapRegression <- function(pl,
           ) 
       } else {
         plo <- plo +
-          theme(plot.title = element_text(face = 'bold'),
+          theme(plot.title = element_text(face = 'bold',
+                                          hjust = 0.5),
                 axis.title = element_text(face = 'bold'),
                 legend.title = element_text(face = 'bold'),
                 axis.text.x = element_text(angle = 30,hjust = 1),
@@ -326,7 +308,23 @@ setMethod('plotExplanatoryHeatmap',
                 dendrogram = dendrogram)
             }
             
-            pl <- wrap_plots(pl) + plot_layout(guides = 'collect')
+            feat <- res$feature %>% 
+              unique()
+            
+            caption <- str_c(
+              'Explanatory features had a P value below a threshold of ',
+              threshold,'.')
+            
+            if (length(feat) > 500) {
+              caption <- str_c(
+                caption,'\n',
+                'Number of features capped at top 500.')
+            }
+            
+            pl <- wrap_plots(pl) + 
+              plot_annotation(caption = caption,
+                              theme = theme(plot.caption = element_text(hjust = 0))) +
+              plot_layout(guides = 'collect')
             
             return(pl)
           }
@@ -353,8 +351,8 @@ setMethod('plotExplanatoryHeatmap',
                                           metric = metric,
                                           threshold = threshold)
             
-              pl <- explan %>%
-                base::split(.$Response)
+            pl <- explan %>%
+              base::split(.$Response)
             
             if (x@type == 'classification') {
               pl <- heatmapClasses(
@@ -378,7 +376,29 @@ setMethod('plotExplanatoryHeatmap',
                 dendrogram = dendrogram)
             }
             
-            pl <- wrap_plots(pl) + plot_layout(guides = 'collect')
+            feat <- explan$Feature %>% 
+              unique()
+            
+            if (metric == 'FalsePositiveRate') {
+              direction <- 'below'  
+            } else {
+              direction <- 'above'
+            }
+            
+            caption <- str_c(
+              'Explanatory features had an importance value ',direction, ' a threshold of ',
+              threshold,'.')
+            
+            if (length(feat) > 500) {
+              caption <- str_c(
+                caption,'\n',
+                'Number of features capped at top 500.')
+            }
+            
+            pl <- wrap_plots(pl) + 
+              plot_annotation(caption = caption,
+                              theme = theme(plot.caption = element_text(hjust = 0))) +
+              plot_layout(guides = 'collect')
             
             return(pl)
           }
@@ -426,9 +446,9 @@ setMethod('plotExplanatoryHeatmap',
                    featureNames = TRUE){
             x %>%
               analysisResults(element = 'modelling') %>%
-                 plotExplanatoryHeatmap(threshold = threshold, 
-                                        distanceMeasure = distanceMeasure, 
-                                        clusterMethod = clusterMethod, 
-                                        featureNames = featureNames) 
+              plotExplanatoryHeatmap(threshold = threshold, 
+                                     distanceMeasure = distanceMeasure, 
+                                     clusterMethod = clusterMethod, 
+                                     featureNames = featureNames) 
           }
 )
