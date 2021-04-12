@@ -150,8 +150,7 @@ The following will extract the explanatory features below a threshold of 0.05 ba
 ```{r unsupervised-explanatory}
 unsupervised_rf %>%
   explanatoryFeatures(metric = "FalsePositiveRate", 
-                      threshold = 0.05) %>% 
-  arrange(Value)
+                      threshold = 0.05)
 ```
 
 In this example there are `r explanatoryFeatures(unsupervised_rf) %>% nrow()` explanatory features.
@@ -167,7 +166,7 @@ unsupervised_rf %>%
 ### Classification
 
 Random forest classification assesses the extent of discrimination (difference) between classes of a discrete response variable. 
-This includes both multinomial (number of classes > 2) and binary (number of classes = 2) comparisons.
+This includes both **multinomial** (number of classes > 2) and **binary** (number of classes = 2) comparisons.
 
 In multinomial situations, the suitability of a multinomial comparison versus multiple binary comparisons can depend on the experimental context.
 For instance, in a treatment/control experiment that includes multiple time points, a multinomial comparison using all available classes could be useful to visualise the general structure of the data. 
@@ -176,73 +175,9 @@ An investigator could then identify the relevant binary comparisons to the biolo
 
 #### Multinomial comparisons
 
-In situations 
-Multinomial classification is for situations where more than 
+In experiments with more than two classes, multinomial random forest classification can be used to assess the discrimination between the classes and give an overview of the relative structure between classes.
 
-Multinomial classification can be performed on the `day` response variable of the example data set using the following:
-
-```{r multinomial}
-multinomial_rf <- d %>%
-  randomForest(cls = 'day',
-               nCores = 2)
-```
-
-```{r multinomial-type}
-type(multinomial_rf)
-```
-
-To assess the model performance we can extract a table of the performance metrics:
-
-```{r multinomial-metrics }
-multinomial_rf %>%
-  metrics()
-```
-
-These metrics include **accuracy**, **Cohen's kappa** (kap), **area under the receiver operator characteristic curve** (roc_auc) and **margin**.
-Each metric has both strengths and weaknesses depending on the context of the classification such as an imbalance of observations between the classes.
-
-```{r class-frequencies}
-d %>% 
-  clsExtract(cls = 'day') %>% 
-  table()
-```
-
-```{r multinomial-mds}
-multinomial_rf %>% 
-  plotMDS(cls = 'day')
-```
-
-```{r multinomial-roc}
-multinomial_rf %>% 
-  plotROC()
-```
-
-```{r multinomial-importance}
-multinomial_rf %>%
-  importance()
-```
-
-```{r multinomial-importance-metrics}
-importanceMetrics(multinomial_rf)
-```
-
-```{r multinomial-explanatory}
-multinomial_rf %>%
-  explanatoryFeatures(metric = 'MeanDecreaseGini',
-                      threshold = 0.1)
-```
-
-```{r multinomial-multiple-responses}
-d %>%
-  randomForest(cls = c('name','day'),nCores = 2) %>%
-  metrics()
-```
-
-```{r multinomial-multiple-mds}
-d %>%
-  randomForest(cls = c('name','day'),nCores = 2) %>%
-  plotMDS()
-```
+The example data set consists of a total of `r clsExtract(d,'day') %>% unique() %>% length()` classes for the `day` response variable.
 
 ```{r classification-classes}
 d %>% 
@@ -250,51 +185,184 @@ d %>%
   unique()
 ```
 
+Multinomial classification can be performed by:
+
+```{r multinomial}
+multinomial_rf <- d %>%
+  randomForest(cls = 'day',
+               nCores = 2)
+```
+
+The correct type of random forest can be checked.
+
+```{r multinomial-type}
+type(multinomial_rf)
+```
+The performance of this model can be assessed using metrics based on the success of the out of bag (OOB) predictions.
+The performance metrics can be extracted using:
+
+```{r multinomial-metrics }
+multinomial_rf %>%
+  metrics()
+```
+
+These metrics include **accuracy**, **Cohen's kappa** (kap), **area under the receiver operator characteristic curve** (roc_auc, ROC-AUC) and **margin**.
+These
+Each metric has both strengths and weaknesses that depending on the context of the classification such as the balance of observations between the classes.
+As shown below, the class frequencies for this example are balanced with 20 observations per class. 
+
+```{r class-frequencies}
+d %>% 
+  clsExtract(cls = 'day') %>% 
+  table()
+```
+
+In this context, each of these metrics could be used to assess the predictive performance of the model.
+The margin metric is the difference between the proportion of votes for the correct class and the maximum proportion of votes for the other classes for a given observation. 
+A positive margin value indicates correct classification and values greater than 0.2 can be considered as the models having strong predictive power.
+The margin also allows the extent of discrimination to be discerned even in very distinct cases above where both the accuracy and ROC-AUC would be registering values of 1.
+
+In this example, the values of all the metrics suggest that the model is showing good predictive performance.
+This can be investigated further by plotting the MDS of observation proximity values. 
+
+```{r multinomial-mds}
+multinomial_rf %>% 
+  plotMDS(cls = 'day')
+```
+
+This shows that the model is able to discriminate highly between classes such as `5` and `H`.
+It is less able to discriminate more similar classes such as `H` and `1` or `4` and `5` whose confidence ellipses show a high degree of overlap.
+This makes sense in the context of this experiment as these are adjacent time points that are more likely to be similar than time points at each end of the experiment.
+
+The ROC curves can also be plotted as shown below.
+
+```{r multinomial-roc}
+multinomial_rf %>% 
+  plotROC()
+```
+
+Classes with their line further from the central dashed line are those that were predicted with the greatest reliability by the model.
+This plot shows that both the `H` and `1` classes were least reliably predicted which is likely as a result of their close proximity shown in the MDS plot previously.
+
+Importance metrics can be used to identify the metabolome features that contribute most to the class discrimination in the model.
+The available importance metrics for this model are shown below.
+
+```{r multinomial-importance-metrics}
+importanceMetrics(multinomial_rf)
+```
+
+Here we will use the false positive rate metric with a threshold of below 0.05 to identify explanatory features for the `day` response variable.
+
+```{r multinomial-explanatory}
+multinomial_rf %>%
+  explanatoryFeatures(metric = 'FalsePositiveRate',
+                      threshold = 0.05)
+```
+
+As shown above there were a total of `r multinomial_rf %>% explanatoryFeatures(metric = 'FalsePositiveRate',threshold = 0.05) %>% nrow()` explanatory features identified.
+
+Within a multinomial experiment, it is also possible to specify the exact class comparisons to include, where it might not be suitable to compare all the classes at once using the `comparisons` argument.
+This should be specified as a named list, the corresponding to the `cls` argument.
+Each named element should then consist of a vector of comparisons, the classes to compare separated using the `~`.
+
+The following specifies two comparisons (`H~1~2`,`H~1~5`) for the `day` response variable and displays the performance metrics. 
+
 ```{r classification-comparison}
 d %>%
   randomForest(cls = 'day',
-               comparisons = list(day = '1~2~3'),
+               comparisons = list(day = c('H~1~2',
+                                          'H~1~5')),
                nCores = 2) %>%
   metrics()
 ```
 
-```{r classification-comparison-metrics}
+The MDS and ROC curve plots can also be plotted simultaneously for the two comparisons.
+
+```{r classification-comparison-mds-roc,fig.height=8}
 d %>%
-  keepClasses(cls = 'day',
-              classes = c('1','2','3')) %>%
   randomForest(cls = 'day',
-               binary = TRUE) %>%
-  plotMetrics()
+               comparisons = list(day = c('H~1~2',
+                                          'H~1~5')),
+               nCores = 2) %>%
+  {plotMDS(.,cls = 'day') +
+      plotROC(.) +
+      patchwork::plot_layout(ncol = 1)}
+```
+
+Similarly, it is also possible to model multiple response factors with a single random forest call by specifying a vector of response class information column names to the `cls` argument.
+In the following, both the `name` and `day` response factors will be analysed and the performance metrics returned in a single table.
+
+```{r multinomial-multiple-responses}
+d %>%
+  randomForest(cls = c('name','day'),nCores = 2) %>%
+  metrics()
+```
+
+The MDS plots can also be returned for both models simultaneously.
+
+```{r multinomial-multiple-mds}
+d %>%
+  randomForest(cls = c('name','day'),nCores = 2) %>%
+  plotMDS()
 ```
 
 #### Binary comparisons
 
-```{r}
+It may in some cases be preferable to analyse class comparisons as multiple binary comparisons.
+
+The possible binary comparisons for a given response variable can be displayed using the `binaryComparisons` method.
+Below shows the `r `length(binaryComparisons(d,cls = 'day'))` for the `day` response variable.
+
+```{r binary-comparisons}
 binaryComparisons(d,cls = 'day')
 ```
 
-```{r}
+For this example we will only use the binary comparisons containing the `H` class.
+
+```{r select-binary-comparisons}
 binary_comparisons <- binaryComparisons(d,cls = 'day') %>% 
   .[stringr::str_detect(.,'H')]
 ```
 
+The binary comparisons can then be performed using the following.
 
-```{r}
+```{r binary-rf}
 binary_rf <- d %>%
   randomForest(cls = 'day',
                comparisons = list(day = binary_comparisons))
 ```
 
-```{r}
+To run all possible binary comparisons, the `binary = TRUE` argument could instead be used.
+
+The MDS plots for each comparison can be visualised to inspect the comparisons.
+
+
+```{r binary-mds}
+binary_rf %>% 
+  plotMDS(cls = 'day')
+```
+
+These plots show good separation in all the comparisons except `H~1` which is also shown by the plot of the performance metrics below.
+Each of the comparisons are showing perfect performance for the accuracy, Cohen's kappa and ROC-AUC metrics as well as very high margin values except for `H~1`.
+
+```{r binary-metrics}
 binary_rf %>% 
   plotMetrics()
 ```
 
-```{r}
+The explanatory features for these comparisons can be extracted as below using the false positive rate metric and a cut-off threshold of 0.05.
+This give a total of `r nrow(explanatoryFeatures(binary_rf))` explanatory features.
+
+```{r binary-explanatory}
 binary_rf %>% 
-  explanatoryFeatures()
+  explanatoryFeatures(metric = 'FalsePositiveRate',
+                      threshold = 0.05)
 ```
-```{r}
+
+A heatmap of these explanatory features can be plotted to show their mean relative intensities across the experiment time points.
+Here, the classes are also refactored to customise the order of the classes on the x-axis.
+
+```{r binary-heatmap,fig.height=12,fig.width=5}
 refactor_cls <- clsExtract(binary_rf,
                            cls = 'day') %>% 
   factor(.,levels = c('H','1','2','3','4','5'))
@@ -303,7 +371,9 @@ binary_rf <- clsReplace(binary_rf,
                         value = refactor_cls,
                         cls = 'day')
 binary_rf %>% 
-  plotExplanatoryHeatmap()
+  plotExplanatoryHeatmap(metric = 'FalsePositiveRate',
+                      threshold = 0.05,
+                      featureNames = TRUE)
 ```
 
 ### Regression
@@ -345,8 +415,7 @@ regression_rf %>%
 ```{r}
 regression_rf %>% 
   explanatoryFeatures(metric = '%IncMSE',
-                      threshold = 5) %>% 
-  arrange(desc(Value))
+                      threshold = 5)
 ```
 
 ```{r}
@@ -356,6 +425,12 @@ regression_rf %>%
 ```
 
 ## Univariate analyses
+
+### T-test
+
+### ANOVA
+
+### Linear regression
 
 ## Routine analyses
 
