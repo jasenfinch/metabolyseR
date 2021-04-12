@@ -428,9 +428,29 @@ regression_rf %>%
 
 ### T-test
 
+```{r t-test}
+# ttest_analysis <- ttest(d,
+#                         cls = 'day',
+#                         comparisons = list(day = c('H~1',
+#                                                    'H~2',
+#                                                    'H~5')),
+#                         nCores = 2) 
+```
+
 ### ANOVA
 
+```{r anova}
+anova_analysis <- anova(d,
+                        cls = 'day',
+                        nCores = 2)
+```
+
 ### Linear regression
+
+```{r linear-regression}
+lr_analysis <- linearRegression(d,
+                                cls = 'injorder')
+```
 
 ## Routine analyses
 
