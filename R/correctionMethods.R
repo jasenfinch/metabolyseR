@@ -5,42 +5,35 @@
 #' @param block info column containing sample block 
 #' groupings to use for correction
 #' @param type averaging to use; eg. mean or median
-#' @param nCores number of cores for parallisation
-#' @param clusterType cluster type for parallisation
+#' @importFrom furrr 
 #' @export
 
 setMethod('correctionCenter',signature = 'AnalysisData',
           function(d, 
                    block = 'block', 
-                   type = 'median', 
-                   nCores = detectCores() * 0.75, 
-                   clusterType = getClusterType())
+                   type = 'median')
           {
             method <- get(type)
             batches <- sinfo(d)[,block] %>% unlist()
             
-            clus <- makeCluster(nCores,type = clusterType)
-            
             dat(d) <- dat(d) %>%
-              parLapply(clus,.,function(da,batches,method){
-                batchMeans <- tibble(Intensity = da,batch = batches) %>%
+              future_map(~{
+                batchMeans <- tibble(Intensity = .x,batch = batches) %>%
                   group_by(batch) %>%
                   mutate(Intensity = Intensity) %>%
                   summarise(Median = method(Intensity)) %>%
                   mutate(correction = Median - method(Median))
                 
-                correct <- tibble(Intensity = da,batch = batches) %>%
+                correct <- tibble(Intensity = .x,batch = batches) %>%
                   left_join(batchMeans, by = "batch") %>%
                   mutate(Intensity = Intensity) %>%
                   mutate(Intensity = Intensity - correction) %>%
-                  dplyr::select(-correction,-Median,-batch) %>%
+                  select(-correction,-Median,-batch) %>%
                   unlist()
                 correct[correct < 0] <- 0
                 return(correct)
               },batches = batches,method = method) %>%
               as_tibble()
-            
-            stopCluster(clus)
             
             return(d)
           }

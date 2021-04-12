@@ -14,8 +14,6 @@ setMethod('imputeAll',signature = 'AnalysisData',
           function(d, 
                    occupancy = 2/3, 
                    parallel = 'variables', 
-                   nCores = detectCores() * 0.75, 
-                   clusterType = getClusterType(), 
                    seed = 1234){
             
             d <- clsAdd(d,cls = 'dummy',rep(1,nSamples(d)))
@@ -80,8 +78,6 @@ setMethod('imputeClass',signature = 'AnalysisData',
           function(d, 
                    cls = 'class', 
                    occupancy = 2/3, 
-                   nCores = detectCores() * 0.75, 
-                   clusterType = getClusterType(), 
                    seed = 1234)
           {
             

@@ -366,7 +366,7 @@ setGeneric("correctionCenter",
            function(
              d, 
              block = 'block', 
-             type = 'median', 
+             type = 'median') 
            {
              standardGeneric("correctionCenter")
            })
@@ -378,7 +378,7 @@ setGeneric("anova",
              cls = 'class', 
              pAdjust = 'bonferroni', 
              comparisons = list(), 
-             returnModels = FALSE, 
+             returnModels = FALSE)
            {
              standardGeneric("anova")
            })
@@ -390,7 +390,7 @@ setGeneric("ttest",
              cls = 'class', 
              pAdjust = 'bonferroni', 
              comparisons = list(), 
-             returnModels = FALSE, 
+             returnModels = FALSE) 
            {
              standardGeneric("ttest")
            })
@@ -417,7 +417,7 @@ setGeneric("randomForest",
              comparisons = list(), 
              perm = 0, 
              returnModels = FALSE, 
-             seed = 1234, 
+             seed = 1234)
            {
              standardGeneric("randomForest")
            })

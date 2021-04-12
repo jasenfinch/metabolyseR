@@ -41,8 +41,6 @@ setMethod('QCimpute',signature = 'AnalysisData',
                    QCidx = 'QC', 
                    occupancy = 2/3, 
                    parallel = 'variables', 
-                   nCores = detectCores() * 0.75, 
-                   clusterType = getClusterType(), 
                    seed = 1234){
             set.seed(seed)
             QC <-  d %>%
