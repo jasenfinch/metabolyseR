@@ -80,6 +80,13 @@ print(d)
 
 As can be seen above the data set contains a total of `r nSamples(d)` samples and `r nFeatures(d)` features.
 
+### Parallel processing
+
+```{r parallel}
+plan(future::multisession,workers = 2)
+```
+
+
 ## Pre-treatment elements
 
 The following sections will outline the numerous pre-treatment elements available within *metabolyseR*.
@@ -278,7 +285,7 @@ d %>%
 
 ```{r correction}
 d %>%
-  correctionCenter(block = 'day',type = 'median',nCores = 2) %>%
+  correctionCenter(block = 'day',type = 'median') %>%
   plotTIC(by = 'day',colour = 'day')
 ```
 
@@ -299,7 +306,7 @@ d %>%
 d %>%
   keepClasses(cls = 'day',classes = c('H','5')) %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
-  imputeAll(nCores = 2) %>%
+  imputeAll(parallel = 'variables') %>%
   plotLDA(cls = 'day')
 ```
 
@@ -308,7 +315,7 @@ Imputation accuracy is likely to be reduced if data is sparse or there is underl
 d %>%
   keepClasses(cls = 'day',classes = c('H','5')) %>%
   occupancyMaximum(cls = 'day',occupancy = 2/3) %>%
-  imputeClass(cls = 'day',nCores = 2) %>%
+  imputeClass(cls = 'day') %>%
   plotLDA(cls = 'day')
 ```
 

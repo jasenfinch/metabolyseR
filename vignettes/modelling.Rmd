@@ -189,8 +189,7 @@ Multinomial classification can be performed by:
 
 ```{r multinomial}
 multinomial_rf <- d %>%
-  randomForest(cls = 'day',
-               nCores = 2)
+  randomForest(cls = 'day')
 ```
 
 The correct type of random forest can be checked.
@@ -271,8 +270,7 @@ The following specifies two comparisons (`H~1~2`,`H~1~5`) for the `day` response
 d %>%
   randomForest(cls = 'day',
                comparisons = list(day = c('H~1~2',
-                                          'H~1~5')),
-               nCores = 2) %>%
+                                          'H~1~5'))) %>%
   metrics()
 ```
 
@@ -282,8 +280,7 @@ The MDS and ROC curve plots can also be plotted simultaneously for the two compa
 d %>%
   randomForest(cls = 'day',
                comparisons = list(day = c('H~1~2',
-                                          'H~1~5')),
-               nCores = 2) %>%
+                                          'H~1~5'))) %>%
   {plotMDS(.,cls = 'day') +
       plotROC(.) +
       patchwork::plot_layout(ncol = 1)}
@@ -294,7 +291,7 @@ In the following, both the `name` and `day` response factors will be analysed an
 
 ```{r multinomial-multiple-responses}
 d %>%
-  randomForest(cls = c('name','day'),nCores = 2) %>%
+  randomForest(cls = c('name','day')) %>%
   metrics()
 ```
 
@@ -302,7 +299,7 @@ The MDS plots can also be returned for both models simultaneously.
 
 ```{r multinomial-multiple-mds}
 d %>%
-  randomForest(cls = c('name','day'),nCores = 2) %>%
+  randomForest(cls = c('name','day')) %>%
   plotMDS()
 ```
 
@@ -380,8 +377,7 @@ binary_rf %>%
 
 ```{r}
 regression_rf <- d %>% 
-  randomForest(cls = 'injorder',
-               nCores = 2)
+  randomForest(cls = 'injorder')
 ```
 
 ```{r}
@@ -441,8 +437,7 @@ regression_rf %>%
 
 ```{r anova}
 anova_analysis <- anova(d,
-                        cls = 'day',
-                        nCores = 2)
+                        cls = 'day')
 ```
 
 ### Linear regression
