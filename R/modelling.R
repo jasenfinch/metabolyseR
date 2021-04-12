@@ -19,20 +19,6 @@ setMethod('binaryComparisons',signature = 'AnalysisData',
           }
 )
 
-#' getClusterType
-#' @description Return appropriate cluster type for parallel processing 
-#' based on operating system type.
-#' @export
-
-getClusterType <- function(){
-  if (.Platform$OS.type == 'windows') {
-    type <- 'PSOCK'
-  } else {
-    type <- 'FORK'
-  }
-  return(type)
-}
-
 #' modellingMethods
 #' @description Return names of available modelling methods.
 #' @export
