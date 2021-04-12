@@ -60,6 +60,20 @@ library(metabolyseR)
 library(metaboData)
 ```
 
+## Parallel processing
+
+The package supports parallel processing using the [future](https://CRAN.R-project.org/package=future) package.
+
+By default, processing by `metabolyseR` will be done seqentially.
+However, parallel processing can be activated prior to processing by specifying a parallel backend using `plan()`.
+The following example specifies using the `multisession` backend (muliple background R sessions) with two worker processes.
+
+```{r plan}
+plan(future::multisession,workers = 2)
+```
+
+See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel backends that are available.
+
 ## Exploratory analyses
 
 For exploratory analyses, simple questions of the data need to be answered quickly.
