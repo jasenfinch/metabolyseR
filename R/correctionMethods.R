@@ -49,9 +49,7 @@ correctionMethods <- function(method = NULL, description = FALSE){
       description = 'Batch correction using average centering.',
       arguments = c(block = str_c('info column containing sample block ',
                                   'groupings to use for correction'),
-                    type = 'averaging to use; eg. mean or median',
-                    nCores = 'number of cores for parallisation',
-                    clusterType = 'cluster type for parallisation'
+                    type = 'averaging to use; eg. mean or median'
       )
     )
   )

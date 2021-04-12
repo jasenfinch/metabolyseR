@@ -2,30 +2,33 @@ library(metaboData)
 
 context('imputeMethods')
 
+registerDoFuture()
+plan(future::multisession,workers = 2)
+
 test_that('imputeMethods returns methods correctly',{
   m <- map_lgl(imputeMethods(),is.function)
   expect_false(F %in% m)
 })
 
 test_that('imputeMethods returns descriptions correctly',{
-  m <- map_lgl(imputeMethods(description = T),is.list)
-  expect_false(F %in% m)
+  m <- map_lgl(imputeMethods(description = TRUE),is.list)
+  expect_false(FALSE %in% m)
 })
 
 test_that('description names match method names',{
-  d <- names(imputeMethods(description = T))
+  d <- names(imputeMethods(description = TRUE))
   m <- names(imputeMethods())
   expect_equal(d,m)
 })
 
 test_that('descriptions have correct names', {
-  n <- lapply(imputeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(
+  n <- lapply(imputeMethods(description = TRUE),names)
+  expect_false(FALSE %in% unlist(lapply(
     n,function(x){x == c('description','arguments')})))
 })
 
 test_that('number of method arguments matches description arguments', {
-  d <- map_dbl(imputeMethods(description = T),
+  d <- map_dbl(imputeMethods(description = TRUE),
                ~{length(.x$arguments)})
   m <- map_dbl(imputeMethods(),~{length(formals(.x)[-1])})
   expect_equal(d,m)
@@ -45,7 +48,7 @@ test_that('methods work',{
   m <- m %>%
     map(~{
       method <- imputeMethods(.x)
-      res <- method(d,nCores = 1)
+      res <- method(d)
       return(res)
     })
   

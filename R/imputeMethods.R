@@ -40,14 +40,9 @@ setMethod('imputeAll',signature = 'AnalysisData',
             
             da[da == 0] <- NA
             
-            if (nCores > 1) {
-              cl <- makeCluster(nCores,type = clusterType)
-              registerDoParallel(cl)
-              capture.output(da <- missForest(da,parallelize = parallel))  
-              stopCluster(cl)
-            } else {
-              capture.output(da <- missForest(da))  
-            }
+            capture.output({
+              da <- missForest(da,parallelize = parallel)
+            })  
             
             dat(d_to_impute) <- as_tibble(da$ximp)
             
@@ -84,27 +79,20 @@ setMethod('imputeClass',signature = 'AnalysisData',
             d <- d %>%
               clsAdd(cls = 'dummy_ind',1:nSamples(d))
             
-            ind_classes <- d %>%
-              clsExtract(cls) %>%
+            ind_classes <- d %>% 
+              clsExtract(cls) %>% 
               unique()
             
-            if (length(ind_classes) < nCores) {
-              nCores <- length(ind_classes)
-            }
-            
-            clus <- makeCluster(nCores,type = clusterType)
-            
             d <- ind_classes %>%
-              parLapply(cl = clus,.,function(ind_class,d,cls,occupancy,seed){
+              future_map(~{
                 
                 d %>%
-                  keepClasses(cls = cls,classes = ind_class) %>%
-                  imputeAll(occupancy = occupancy,nCores = 1,seed = seed)
+                  keepClasses(cls = cls,classes = .x) %>%
+                  imputeAll(occupancy = occupancy,seed = seed)
               },d = d,
               cls = cls,
               occupancy = occupancy,
               seed = seed)
-            stopCluster(clus)
             
             d <- d %>%
               bindAnalysesRows() %>%
@@ -137,8 +125,6 @@ imputeMethods <- function(method = NULL, description = FALSE){
         occupancy = 'occupancy threshold for imputation',
         parallel = str_c('parallel type to use. ',
                          'See `?missForest` for details'),
-        nCores = 'number of cores for parallisation',
-        clusterType = 'cluster type for parallisation',
         seed = 'random number seed'
       )),
     class = list(
@@ -146,8 +132,6 @@ imputeMethods <- function(method = NULL, description = FALSE){
       arguments = c(
         cls = 'info column to use for class labels',
         occupancy = 'occupancy threshold for imputation', 
-        nCores = 'number of cores for parallisation',
-        clusterType = 'cluster type for parallisation',
         seed = 'random number seed'))
   )
   
