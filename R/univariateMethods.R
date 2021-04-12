@@ -18,9 +18,7 @@ setMethod('anova',signature = 'AnalysisData',
                    cls = 'class', 
                    pAdjust = 'bonferroni', 
                    comparisons = list(), 
-                   returnModels = FALSE, 
-                   nCores = detectCores() * 0.75,
-                   clusterType = getClusterType()){
+                   returnModels = FALSE){
             
             d <- x %>%
               dat()
@@ -147,9 +145,7 @@ setMethod('ttest',signature = 'AnalysisData',
                    cls = 'class', 
                    pAdjust = 'bonferroni', 
                    comparisons = list(), 
-                   returnModels = FALSE, 
-                   nCores = detectCores() * 0.75, 
-                   clusterType = getClusterType()){
+                   returnModels = FALSE){
             
             if (length(comparisons > 0)) {
               pw <- comparisons

@@ -821,9 +821,7 @@ setMethod('randomForest',signature = 'AnalysisData',
                    comparisons = list(), 
                    perm = 0, 
                    returnModels = FALSE, 
-                   seed = 1234, 
-                   nCores = detectCores() * 0.75, 
-                   clusterType = getClusterType()){
+                   seed = 1234){
             
             rf$keep.forest <- TRUE
             rf$proximity <- TRUE
