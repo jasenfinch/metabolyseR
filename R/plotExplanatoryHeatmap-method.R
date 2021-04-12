@@ -308,7 +308,7 @@ setMethod('plotExplanatoryHeatmap',
                 dendrogram = dendrogram)
             }
             
-            feat <- res$feature %>% 
+            feat <- res$Feature %>% 
               unique()
             
             caption <- str_c(
