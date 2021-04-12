@@ -50,9 +50,7 @@ setMethod('plotSupervisedRF',
                                cls = cls,
                                rf = rf,
                                reps = 1,
-                               seed = seed,
-                               nCores = 1,
-                               clusterType = getClusterType())
+                               seed = seed)
             
             pl <- plotMDS(rf,
                           cls = cls,

@@ -35,9 +35,7 @@ setMethod('plotUnsupervisedRF',
                                cls = NULL,
                                rf = rf,
                                reps = 1,
-                               seed = seed,
-                               nCores = 1,
-                               clusterType = getClusterType())
+                               seed = seed)
             
             plotMDS(rf,
                     cls = cls,
