@@ -31,11 +31,6 @@ ttest(
 \item{comparisons}{named list of binary comparisons to analyse}
 
 \item{returnModels}{should models be returned}
-
-\item{nCores}{number of cores to use for parallelisation}
-
-\item{clusterType}{cluster type to use for parallelisation 
-(`?parallel::makeCluster`)}
 }
 \description{
 Welch t-test
