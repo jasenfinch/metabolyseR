@@ -12,7 +12,6 @@ test_that('reAnalyse works',{
   parameters(p,'modelling') <- modellingParameters('anova')
   
   changeParameter(p,'cls') <- 'day'
-  changeParameter(p,'nCores') <- 2
   
   analysis <- metabolyse(abr1$neg[,1:200],
                          abr1$fact,
