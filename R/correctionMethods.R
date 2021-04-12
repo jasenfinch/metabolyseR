@@ -5,7 +5,7 @@
 #' @param block info column containing sample block 
 #' groupings to use for correction
 #' @param type averaging to use; eg. mean or median
-#' @importFrom furrr 
+#' @importFrom furrr future_map 
 #' @export
 
 setMethod('correctionCenter',signature = 'AnalysisData',
