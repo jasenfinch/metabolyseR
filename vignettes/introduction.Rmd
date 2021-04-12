@@ -49,9 +49,9 @@ vignette('quick_start','metabolyseR')
 
 Any issues, bugs or error encountered while using the package should be reported [here](https://github.com/jasenfinch/metabolyseR/issues).
 
-The examples shown here will use the `abr1` data set from the *[metaboData](https://github.com/aberHRML/metaboData)* package (`?metaboData::abr1`).
+The examples shown here will use the `abr1` data set from the [metaboData](https://aberhrml.github.io/metaboData/) package (`?metaboData::abr1`).
 This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. 
-The examples will also include use of the pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package.
+The examples will also include use of the pipe `%>%` from the [magrittr](https://magrittr.tidyverse.org/) package.
 
 Firstly load the relevant packages:
 

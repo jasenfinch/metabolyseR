@@ -31,12 +31,12 @@ browseVignettes('metabolyseR')
 ## Quick start example analysis
 
 This example analysis will use the `abr1` data set from the
-[metaboData](https://github.com/aberHRML/metaboData) package. It is
+[metaboData](https://aberhrml.github.io/metaboData/) package. It is
 nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting
 data from a plant-pathogen infection time course experiment. The
 analysis will also include use of the pipe `%>%` from the
-[magrittr](https://cran.r-project.org/web/packages/magrittr/index.html)
-package. First load the necessary packages.
+[magrittr](https://magrittr.tidyverse.org/) package. First load the
+necessary packages.
 
 ``` r
 library(metabolyseR)
@@ -156,18 +156,18 @@ explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
 ``` r
 explan_feat
 #> # A tibble: 379 x 10
-#>    Response Comparison  Feature term     df    sumsq   meansq statistic  p.value
-#>    <chr>    <chr>       <chr>   <chr> <dbl>    <dbl>    <dbl>     <dbl>    <dbl>
-#>  1 day      1~2~3~4~5~H N113    resp…     5 2.16e- 8 4.32e- 9     24.5  1.07e-16
-#>  2 day      1~2~3~4~5~H N115    resp…     5 2.96e- 8 5.93e- 9     22.0  2.20e-15
-#>  3 day      1~2~3~4~5~H N117    resp…     5 1.01e- 8 2.02e- 9     28.6  1.11e-18
-#>  4 day      1~2~3~4~5~H N119    resp…     5 1.74e- 8 3.48e- 9     54.8  9.33e-29
-#>  5 day      1~2~3~4~5~H N130    resp…     5 4.60e-10 9.19e-11     18.7  1.46e-13
-#>  6 day      1~2~3~4~5~H N131    resp…     5 4.19e- 9 8.38e-10      7.34 5.39e- 6
-#>  7 day      1~2~3~4~5~H N132    resp…     5 2.89e- 9 5.79e-10     10.4  2.95e- 8
-#>  8 day      1~2~3~4~5~H N133    resp…     5 7.00e- 5 1.40e- 5    126.   8.63e-45
-#>  9 day      1~2~3~4~5~H N137    resp…     5 2.25e- 8 4.49e- 9     37.7  1.21e-22
-#> 10 day      1~2~3~4~5~H N139    resp…     5 5.06e- 9 1.01e- 9     16.2  4.83e-12
+#>    Response Comparison  Feature term      df   sumsq   meansq statistic  p.value
+#>    <chr>    <chr>       <chr>   <chr>  <dbl>   <dbl>    <dbl>     <dbl>    <dbl>
+#>  1 day      1~2~3~4~5~H N341    respo…     5 3.88e-4  7.76e-5     137.  1.55e-46
+#>  2 day      1~2~3~4~5~H N133    respo…     5 7.00e-5  1.40e-5     126.  8.63e-45
+#>  3 day      1~2~3~4~5~H N163    respo…     5 6.01e-5  1.20e-5     117.  2.95e-43
+#>  4 day      1~2~3~4~5~H N1087   respo…     5 2.42e-6  4.84e-7      99.8 5.61e-40
+#>  5 day      1~2~3~4~5~H N171    respo…     5 2.25e-7  4.50e-8      95.7 3.84e-39
+#>  6 day      1~2~3~4~5~H N513    respo…     5 3.38e-6  6.76e-7      95.3 4.78e-39
+#>  7 day      1~2~3~4~5~H N1025   respo…     5 2.78e-6  5.56e-7      91.0 3.91e-38
+#>  8 day      1~2~3~4~5~H N342    respo…     5 3.71e-6  7.41e-7      90.3 5.32e-38
+#>  9 day      1~2~3~4~5~H N1083   respo…     5 5.11e-5  1.02e-5      89.0 1.06e-37
+#> 10 day      1~2~3~4~5~H N1085   respo…     5 1.10e-5  2.19e-6      83.4 1.92e-36
 #> # … with 369 more rows, and 1 more variable: adjusted.p.value <dbl>
 ```
 

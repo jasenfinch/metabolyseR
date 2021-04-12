@@ -58,9 +58,9 @@ library(metabolyseR)
 
 ### Example data
 
-The examples used here will use the `abr1` data set from the [metaboData](https://github.com/aberHRML/metaboData) package. 
+The examples used here will use the `abr1` data set from the [metaboData](https://aberhrml.github.io/metaboData/) package. 
 This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
-The pipe `%>%` from the [magrittr](https://cran.r-project.org/web/packages/magrittr/index.html) package will also be used.
+The pipe `%>%` from the [magrittr](https://magrittr.tidyverse.org/) package will also be used.
 The example data can be loaded using:
 
 ```{r data_load}
