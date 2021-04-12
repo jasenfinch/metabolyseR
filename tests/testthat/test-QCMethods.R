@@ -27,7 +27,7 @@ test_that('descriptions have correct names', {
 
 test_that('number of method arguments matches description arguments', {
   d <- map_dbl(QCMethods(description = TRUE),
-              ~{length(.x$arguments)})
+               ~{length(.x$arguments)})
   m <- map_dbl(QCMethods(),~{length(formals(.x)[-1])})
   expect_equal(d,m)
 })
@@ -40,13 +40,7 @@ test_that('methods work',{
   
   m <- map(m,~{
     method <- QCMethods(.)
-    if (. == 'impute') {
-      res <- method(d, cls = 'class', QCidx = '1',nCores = 2)
-    } else {
-      res <- method(d, cls = 'class', QCidx = '1')  
-    }
-    
-    return(res)
+    method(d, cls = 'class', QCidx = '1')  
   })
   
   expect_false(FALSE %in% map_lgl(

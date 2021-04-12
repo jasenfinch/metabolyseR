@@ -28,8 +28,6 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 #' @param QCidx QC sample label
 #' @param occupancy occupancy threshold for imputation
 #' @param parallel parallel type to use. See `?missForest` for details
-#' @param nCores number of cores for parallisation
-#' @param clusterType cluster type for parallisation
 #' @param seed random number seed
 #' @importFrom missForest missForest
 #' @importFrom utils capture.output
@@ -47,8 +45,6 @@ setMethod('QCimpute',signature = 'AnalysisData',
               keepClasses(cls = cls,classes = QCidx) %>%
               imputeAll(occupancy = occupancy,
                         parallel = parallel,
-                        nCores = nCores,
-                        clusterType = clusterType,
                         seed = seed)
             
             dat(d)[d %>% 
@@ -126,8 +122,6 @@ QCMethods <- function(method = NULL, description = FALSE){
                     occupancy = 'occupancy threshold for imputation',
                     parallel = str_c('parallel type to use. See ',
                                      '`?missForest` for details'),
-                    nCores = 'number of cores for parallisation',
-                    clusterType = 'cluster type for parallisation',
                     seed = 'random number seed')
     ),
     RSDfilter = list(
