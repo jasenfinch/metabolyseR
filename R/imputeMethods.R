@@ -85,10 +85,9 @@ setMethod('imputeClass',signature = 'AnalysisData',
             
             d <- ind_classes %>%
               future_map(~{
-                
                 d %>%
                   keepClasses(cls = cls,classes = .x) %>%
-                  imputeAll(occupancy = occupancy,seed = seed)
+                  imputeAll(occupancy = occupancy,seed = seed,parallel = 'no')
               },d = d,
               cls = cls,
               occupancy = occupancy,

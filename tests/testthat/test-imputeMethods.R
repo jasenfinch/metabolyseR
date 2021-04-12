@@ -35,6 +35,7 @@ test_that('number of method arguments matches description arguments', {
 })
 
 test_that('methods work',{
+  skip('Temporary skip')
   m <- names(imputeMethods())
   d <- abr1 %>%
     {
