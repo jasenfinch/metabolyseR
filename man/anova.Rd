@@ -31,11 +31,6 @@ anova(
 \item{comparisons}{list of comparisons to perform}
 
 \item{returnModels}{should models be returned}
-
-\item{nCores}{number of cores to use for parallelisation}
-
-\item{clusterType}{cluster type to use for parallelisation 
-(`?parallel::makeCluster`)}
 }
 \description{
 One-way analysis of variance (ANOVA).

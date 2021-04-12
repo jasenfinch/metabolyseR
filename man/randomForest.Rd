@@ -51,10 +51,6 @@ Ignored for unsupervised and regression. See details.}
 \item{returnModels}{TRUE/FALSE should model objects be returned.}
 
 \item{seed}{random number seed}
-
-\item{nCores}{number of cores to use for parallisation.}
-
-\item{clusterType}{cluster type for parallisation}
 }
 \description{
 Perform random forest on an AnalysisData object

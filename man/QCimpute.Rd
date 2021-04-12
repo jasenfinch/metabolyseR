@@ -35,10 +35,6 @@ QCimpute(
 \item{parallel}{parallel type to use. See `?missForest` for details}
 
 \item{seed}{random number seed}
-
-\item{nCores}{number of cores for parallisation}
-
-\item{clusterType}{cluster type for parallisation}
 }
 \description{
 QC imputation.
