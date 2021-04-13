@@ -457,29 +457,29 @@ Similarly to the `AnalysisData` class, the `dat()` and `sinfo()` functions can b
 
 For example, to extract the pre-treated metabolomics data from our object `analysis`:
 
-```{r}
+```{r extract-data}
 dat(analysis,type = 'pre-treated')
 ```
 
 Or to extract the raw sample information:
 
-```{r}
+```{r extract-info}
 sinfo(analysis,type = 'raw')
 ```
 
 Alternatively the `raw` or `preTreated` functions can be used to extract the `AnalysisData` class objects containing both the metabolomics data and sample information for the raw and pre-treated data respectively.
 
-```{r}
+```{r extract-raw}
 raw(analysis)
 ```
 
-```{r}
+```{r extrace-pre-treated}
 preTreated(analysis)
 ```
 
 Lastly the `analysisResults` function can be used to extract the results of any of the analysis elements.
 The following will extract the modelling results:
 
-```{r}
+```{r analysis-results}
 analysisResults(analysis,element = 'modelling')
 ```
