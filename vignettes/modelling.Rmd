@@ -391,7 +391,7 @@ binary_rf %>%
 
 Random forest regression can be used to assess the extent of association of the metabolomic data with continuous response variables.
 
-In this example, the extent of association of injection order with the example data will be assessed
+In this example, the extent of association of injection order with the example data will be assessed.
 
 ```{r regression-rf}
 regression_rf <- d %>% 
@@ -404,10 +404,21 @@ Check the random forest type.
 type(regression_rf)
 ```
 
+The regression model performance metrics based on the OOB prediction error can be extracted using the following:
+
 ```{r regression-metrics}
 regression_rf %>% 
   metrics()
 ```
+
+These regression metrics include **R^2^** (`rsq`), **mean absolute error** (`mae`), **mean absolute percentage error** (`mape`), **root mean squared error** (`rmse`) and the **concordance correlation coefficient** (`ccc`). 
+
+The R^2^ and concordance correlation coefficient metrics suggest that there is some association of features with the injection order although this is weak.
+This is in agreement with mean absolute error metric that shows that on average, the injection order could only be predicted to an accuracy of 23 injection order positions.
+
+The MDS plot belows the relative proximities of the samples based on this injection order regression model.
+This shows that for the most part, there is little correspondence of the sample positions with their injection order.
+However, there is a small grouping of samples twoards the end of the run around sample ~99 to 120 suggesting that there could have been some analytical issues, for certain features, towards the end of the mass spectral analytical run.
 
 ```{r regression-mds}
 regression_rf %>% 
@@ -417,10 +428,15 @@ regression_rf %>%
           labelSize = 3)
 ```
 
+The available feature importance metrics for this regression model can be listed.
+
 ```{r regression-importance-metrics}
 regression_rf %>% 
   importanceMetrics()
 ```
+
+The feature importance metrics can be plotted to give an overview of their distribution.
+The following will plot the **percentage increase in the mean squared error** (`%IncMSE`) importance metric.
 
 ```{r regression-importance-plot}
 regression_rf %>% 
@@ -428,17 +444,25 @@ regression_rf %>%
                  rank = FALSE)
 ```
 
+This shows that there are only a few features that are contributing to the association with injection order.
+These explanatory features can be extracted with the following, using a threshold of above 5.
+
 ```{r regressions-explanatory}
 regression_rf %>% 
   explanatoryFeatures(metric = '%IncMSE',
                       threshold = 5)
 ```
 
+This returned a total of `r explanatoryFeatures(regression_rf,metric = '%IncMSE',threshold = 5) %>% nrow()` explanatory features above this threshold.
+The top ranked feature `N283` can be plotted to investigate it's trend in relation to injection order.
+
 ```{r regression-feature}
 regression_rf %>% 
   plotFeature(feature = 'N283',
               cls = 'injorder')
 ```
+
+This shows an increase in the intensity of that feature for samples above 100 in the injection order which corresponds with the cluster that was seen in the MDS plot above.
 
 ## Univariate analyses
 
