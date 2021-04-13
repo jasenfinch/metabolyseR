@@ -14,6 +14,7 @@ plotExplanatoryHeatmap(x, ...)
 \S4method{plotExplanatoryHeatmap}{Univariate}(
   x,
   threshold = 0.05,
+  title = "",
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE,
@@ -24,6 +25,7 @@ plotExplanatoryHeatmap(x, ...)
   x,
   metric = "FalsePositiveRate",
   threshold = 0.05,
+  title = "",
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE,
@@ -33,6 +35,7 @@ plotExplanatoryHeatmap(x, ...)
 \S4method{plotExplanatoryHeatmap}{list}(
   x,
   threshold = 0.05,
+  title = "",
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE
@@ -41,6 +44,7 @@ plotExplanatoryHeatmap(x, ...)
 \S4method{plotExplanatoryHeatmap}{Analysis}(
   x,
   threshold = 0.05,
+  title = "",
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE
@@ -53,6 +57,8 @@ Analysis containing modelling results}
 \item{...}{arguments to pass to the appropriate method}
 
 \item{threshold}{score threshold to use for specifying explantory features}
+
+\item{title}{plot title}
 
 \item{distanceMeasure}{distance measure to use for clustering. See details.}
 

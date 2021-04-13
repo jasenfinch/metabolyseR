@@ -4,6 +4,7 @@
 heatmapClasses <- function(pl, 
                            x, 
                            threshold, 
+                           title,
                            distanceMeasure, 
                            clusterMethod, 
                            featureNames,
@@ -74,7 +75,7 @@ heatmapClasses <- function(pl,
         scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
-        labs(title = pred,
+        labs(title = title,
              fill = 'Relative\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
@@ -128,6 +129,7 @@ heatmapClasses <- function(pl,
 heatmapRegression <- function(pl, 
                               x, 
                               threshold, 
+                              title,
                               distanceMeasure, 
                               clusterMethod, 
                               featureNames, 
@@ -181,7 +183,7 @@ heatmapRegression <- function(pl,
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
-        labs(title = response,
+        labs(title = title,
              fill = 'Relative\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
@@ -237,6 +239,7 @@ heatmapRegression <- function(pl,
 #' Analysis containing modelling results
 #' @param metric importance metric on which to retrieve explanatory feautres
 #' @param threshold score threshold to use for specifying explantory features
+#' @param title plot title
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details
 #' @param featureNames should feature names be plotted?
@@ -275,6 +278,7 @@ setMethod('plotExplanatoryHeatmap',
           signature = 'Univariate',
           function(x, 
                    threshold = 0.05, 
+                   title = '',
                    distanceMeasure = "euclidean", 
                    clusterMethod = 'ward.D2', 
                    featureNames = TRUE, 
@@ -291,6 +295,7 @@ setMethod('plotExplanatoryHeatmap',
                 pl,
                 x, 
                 threshold = threshold, 
+                title = title,
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
@@ -302,6 +307,7 @@ setMethod('plotExplanatoryHeatmap',
                 pl,
                 x, 
                 threshold = threshold, 
+                title = title,
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
@@ -338,6 +344,7 @@ setMethod('plotExplanatoryHeatmap',
           function(x, 
                    metric = 'FalsePositiveRate',
                    threshold = 0.05,
+                   title = '',
                    distanceMeasure = "euclidean",
                    clusterMethod = 'ward.D2',
                    featureNames = TRUE, 
@@ -359,6 +366,7 @@ setMethod('plotExplanatoryHeatmap',
                 pl,
                 x, 
                 threshold = threshold, 
+                title = title,
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
@@ -370,6 +378,7 @@ setMethod('plotExplanatoryHeatmap',
                 pl,
                 x, 
                 threshold = threshold, 
+                title = title,
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
@@ -426,11 +435,16 @@ setMethod('plotExplanatoryHeatmap',
             }
             
             x %>%
-              map(plotExplanatoryHeatmap,
-                  threshold = threshold, 
-                  distanceMeasure = distanceMeasure, 
-                  clusterMethod = clusterMethod,
-                  featureNames = featureNames)
+              names() %>% 
+              map(~{plotExplanatoryHeatmap(
+                x[[.x]],
+                threshold = threshold, 
+                title = .x,
+                distanceMeasure = distanceMeasure, 
+                clusterMethod = clusterMethod,
+                featureNames = featureNames
+              )
+              })
           }
 )
 
