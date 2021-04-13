@@ -21,5 +21,7 @@ test_that('reAnalyse works',{
                         parameters = analysisParameters('correlations'),
                         verbose = TRUE)
   
-  expect_identical(class(analysis@correlations),c("tbl_df","tbl","data.frame"))
+  expect_s3_class(analysisResults(analysis,'correlations'),"tbl_df")
+  expect_s3_class(importance(analysis),"tbl_df")
+  expect_s3_class(explanatoryFeatures(analysis),"tbl_df")
 })
