@@ -452,6 +452,11 @@ ttest_analysis <- ttest(d,
                                                    'H~5')))
 ```
 
+```{r t-test-explanatory}
+explanatoryFeatures(ttest_analysis,
+                    threshold = 0.05)
+```
+
 ### ANOVA
 
 ```{r anova}
@@ -459,11 +464,21 @@ anova_analysis <- anova(d,
                         cls = 'day')
 ```
 
+```{r anova-explanatory}
+explanatoryFeatures(anova_analysis,
+                    threshold = 0.05)
+```
+
+
 ### Linear regression
 
 ```{r linear-regression}
 lr_analysis <- linearRegression(d,
                                 cls = 'injorder')
+```
+
+```{r linear-regression-explanatory}
+explanatoryFeatures(lr_analysis)
 ```
 
 ## Routine analyses
@@ -524,6 +539,6 @@ explanatory_features %>%
 
 ```{r}
 plotExplanatoryHeatmap(analysis) %>% 
-  wrap_plots()
+  patchwork::wrap_plots()
 ```
 
