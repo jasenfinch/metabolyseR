@@ -179,7 +179,7 @@ unsupervised_rf %>%
 
 ### Classification
 
-Random forest classification assesses the extent of discrimination (difference) between classes of a discrete response variable. 
+Random forest classification can be used to assess the extent of discrimination (difference) between classes of a discrete response variable. 
 This includes both **multinomial** (number of classes > 2) and **binary** (number of classes = 2) comparisons.
 
 In multinomial situations, the suitability of a multinomial comparison versus multiple binary comparisons can depend on the experimental context.
@@ -389,21 +389,27 @@ binary_rf %>%
 
 ### Regression
 
-```{r}
+Random forest regression can be used to assess the extent of association of the metabolomic data with continuous response variables.
+
+In this example, the extent of association of injection order with the example data will be assessed
+
+```{r regression-rf}
 regression_rf <- d %>% 
   randomForest(cls = 'injorder')
 ```
 
-```{r}
+Check the random forest type.
+
+```{r regression-type}
 type(regression_rf)
 ```
 
-```{r}
+```{r regression-metrics}
 regression_rf %>% 
   metrics()
 ```
 
-```{r}
+```{r regression-mds}
 regression_rf %>% 
   plotMDS(cls = NULL,
           ellipses = FALSE,
@@ -411,24 +417,24 @@ regression_rf %>%
           labelSize = 3)
 ```
 
-```{r}
+```{r regression-importance-metrics}
 regression_rf %>% 
   importanceMetrics()
 ```
 
-```{r}
+```{r regression-importance-plot}
 regression_rf %>% 
   plotImportance(metric = "%IncMSE", 
                  rank = FALSE)
 ```
 
-```{r}
+```{r regressions-explanatory}
 regression_rf %>% 
   explanatoryFeatures(metric = '%IncMSE',
                       threshold = 5)
 ```
 
-```{r}
+```{r regression-feature}
 regression_rf %>% 
   plotFeature(feature = 'N283',
               cls = 'injorder')
@@ -439,12 +445,11 @@ regression_rf %>%
 ### T-test
 
 ```{r t-test}
-# ttest_analysis <- ttest(d,
-#                         cls = 'day',
-#                         comparisons = list(day = c('H~1',
-#                                                    'H~2',
-#                                                    'H~5')),
-#                         nCores = 2) 
+ttest_analysis <- ttest(d,
+                        cls = 'day',
+                        comparisons = list(day = c('H~1',
+                                                   'H~2',
+                                                   'H~5')))
 ```
 
 ### ANOVA
@@ -484,7 +489,7 @@ Parameters for alternative methods or multiple methods can be retrieved using th
 ```{r changeModellingParameters}
 parameters(p,'modelling') <- modellingParameters(c('randomForest','ttest'))
 changeParameter(p,'cls') <- 'day'
-changeParameter(p,'classes') <- c('H','1')
+changeParameter(p,'classes') <- c('H','2')
 ```
 
 ```{r print_parameters}
@@ -498,3 +503,27 @@ Modelling analysis can then be performed on the pre-treated data from the previo
 ```{r classificationAnalysis}
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
+
+```{r}
+analysisResults(analysis,'modelling')
+```
+
+
+```{r}
+explanatory_features <- analysis %>% 
+  explanatoryFeatures()
+
+print(explanatory_features)
+```
+
+```{r}
+explanatory_features %>% 
+  group_by(Method) %>% 
+  summarise(N = n())
+```
+
+```{r}
+plotExplanatoryHeatmap(analysis) %>% 
+  wrap_plots()
+```
+
