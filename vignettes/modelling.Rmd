@@ -119,6 +119,12 @@ The type of random forest that has been performed can be checked using the `type
 type(unsupervised_rf)
 ```
 
+Or by printing the results object.
+
+```{r unsupervised-print}
+unsupervised_rf
+```
+
 To assess the resulting model, the proximity of the observations can be visualised using multidimensional scaling (MDS) as shown below.
 
 Firstly, the presence of outlier samples will be assessed.
@@ -204,13 +210,10 @@ Multinomial classification can be performed by:
 ```{r multinomial}
 multinomial_rf <- d %>%
   randomForest(cls = 'day')
+
+print(multinomial_rf)
 ```
 
-The correct type of random forest can be checked.
-
-```{r multinomial-type}
-type(multinomial_rf)
-```
 The performance of this model can be assessed using metrics based on the success of the out of bag (OOB) predictions.
 The performance metrics can be extracted using:
 
@@ -341,6 +344,8 @@ The binary comparisons can then be performed using the following.
 binary_rf <- d %>%
   randomForest(cls = 'day',
                comparisons = list(day = binary_comparisons))
+
+print(binary_rf)
 ```
 
 To run all possible binary comparisons, the `binary = TRUE` argument could instead be used.
@@ -396,12 +401,8 @@ In this example, the extent of association of injection order with the example d
 ```{r regression-rf}
 regression_rf <- d %>% 
   randomForest(cls = 'injorder')
-```
 
-Check the random forest type.
-
-```{r regression-type}
-type(regression_rf)
+print(regression_rf)
 ```
 
 The regression model performance metrics based on the OOB prediction error can be extracted using the following:
@@ -493,6 +494,8 @@ ttest_analysis <- ttest(d,
                         comparisons = list(day = c('H~1',
                                                    'H~2',
                                                    'H~5')))
+
+print(ttest_analysis)
 ```
 
 The explanatory features that show a significant difference between the response categories can be extracted as shown below.
@@ -520,6 +523,8 @@ However, the `comparisons` argument can be used to select particular comparisons
 ```{r anova}
 anova_analysis <- anova(d,
                         cls = 'day')
+
+print(anova_analysis)
 ```
 
 The explanatory features that are significantly different between the categories can then be extracted.
@@ -545,6 +550,8 @@ In the example below, the example data will be regressed against injection order
 ```{r linear-regression}
 lr_analysis <- linearRegression(d,
                                 cls = 'injorder')
+
+print(lr_analysis)
 ```
 
 The explanatory features can then be extracted.
@@ -563,11 +570,13 @@ plotFeature(lr_analysis,
 
 ## Routine analyses
 
-The default parameters for modelling using Random Forest are shown below.
+For routine analyses, the initial analysis parameters for pre-treatment of the data and then the modelling can be selected.
 
 ```{r parameters}
 p <- analysisParameters(c('pre-treatment','modelling'))
 ```
+
+More specific parameters for pre-treatment of the example data can be declared using the following.
 
 ```{r pre-treatment_parameters}
 parameters(p,'pre-treatment') <- preTreatmentParameters(
@@ -579,34 +588,49 @@ parameters(p,'pre-treatment') <- preTreatmentParameters(
 )
 ```
 
+The `modellingMethods()` function can be used to list the modelling methods that are currently available in `metabolyseR`.
+
 ```{r modelling-methods}
 modellingMethods()
 ```
 
-Parameters for alternative methods or multiple methods can be retrieved using the `modellingParameters()` function as shown below.
+The `modellingParameters()` function can be used to retrieve the default parameters for specific modelling methods.
+Below, the default modelling parameters for the `randomForest` and `ttest` methods are specified.
 
-```{r changeModellingParameters}
+```{r select-parameters}
 parameters(p,'modelling') <- modellingParameters(c('randomForest','ttest'))
+```
+
+The class parameters can the be universily specified for both the pre-treatment and modelling elements.
+For this example, the `day` response variable will be used with just the `H` and `2` classes.
+
+```{r change-parameters}
 changeParameter(p,'cls') <- 'day'
 changeParameter(p,'classes') <- c('H','2')
 ```
+
+This gives the following parameters for the analysis.
 
 ```{r print_parameters}
 p
 ```
 
-Descriptions of each of the parameters can be found in the documentation for a particular method (see table below). 
-
-Modelling analysis can then be performed on the pre-treated data from the previous section.
+The analysis can then be executed.
 
 ```{r classificationAnalysis}
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
 
+The results for the modelling can be specifically extracted using the following. 
+
 ```{r modelling-results}
 analysisResults(analysis,'modelling')
 ```
 
+This returns the results as a list containing the modelling results objects for each specified method.
+
+Alternatively, the modelling results can be assess directly from the `Analysis` object.
+Below shows the extraction of the explanatory features, using default parameters for each method, with the results returned in a single table.
 
 ```{r explanatory features}
 explanatory_features <- analysis %>% 
@@ -615,11 +639,7 @@ explanatory_features <- analysis %>%
 print(explanatory_features)
 ```
 
-```{r explanatory-methods}
-explanatory_features %>% 
-  group_by(Method) %>% 
-  summarise(N = n())
-```
+Heat maps of the explanatory features can also be plotted for both the modelling methods.
 
 ```{r explanatory-heatmap}
 plotExplanatoryHeatmap(analysis) %>% 
