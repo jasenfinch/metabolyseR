@@ -466,7 +466,26 @@ This shows an increase in the intensity of that feature for samples above 100 in
 
 ## Univariate analyses
 
-### T-test
+Univariate methods select features explanatory for response variables, with features tested on an individual basis.
+These methods offer simplicity and easy interpretation in their use, however they provide no information as to how features may interact.
+
+The univariate methods currently available in `metabolyseR` include Welch's t-test, analysis of variance (ANOVA) and linear regression.
+The following sections will provide brief examples of the use of each of these methods.
+
+### Welch's t-test
+
+Welch's t-test can be used to select explanatory metabolome features for binary comparisons of discrete variables.
+By default, all the possible binary comparisons for the categories of a response variable will be tested.
+
+Below shows the possible binary comparisons for the `day` response variable for the example data set.
+
+```{r t-test-binary-comparisons}
+binaryComparisons(d,
+                  cls = 'day')
+```
+
+For the following example, only a subset of comparisons will be tested.
+These will be selected by supplying a list to the `comparisons` argument.
 
 ```{r t-test}
 ttest_analysis <- ttest(d,
@@ -476,33 +495,70 @@ ttest_analysis <- ttest(d,
                                                    'H~5')))
 ```
 
+The explanatory features that show a significant difference between the response categories can be extracted as shown below.
+
 ```{r t-test-explanatory}
 explanatoryFeatures(ttest_analysis,
                     threshold = 0.05)
 ```
 
+This will threshold the features based on their adjusted p-value, found in the `adjusted.p.value` column of the table.
+The results of all of the features can be returned using the `importance()` method.
+
+A heat map of the explanatory features can be plotted to inspect the relative trends of the explanatory features in relation to the response `variable`.
+
+```{r t-test-heatmap,fig.height=7,fig.width=5}
+plotExplanatoryHeatmap(ttest_analysis)
+```
+
 ### ANOVA
+
+ANOVA can be used to select explanatory features for discrete response variables with 3 or more categories.
+The following example will compare all the categories in the `day` response variable.
+However, the `comparisons` argument can be used to select particular comparisons of interest.
 
 ```{r anova}
 anova_analysis <- anova(d,
                         cls = 'day')
 ```
 
+The explanatory features that are significantly different between the categories can then be extracted.
+
 ```{r anova-explanatory}
 explanatoryFeatures(anova_analysis,
                     threshold = 0.05)
 ```
 
+The top ranked explanatory feature `N341` can be plotted to inspect it's trend relative to the `day` response variable.
+
+```{r anova-feature}
+plotFeature(anova_analysis,
+            feature = 'N341',
+            cls = 'day')
+```
 
 ### Linear regression
+
+Univariate linear regression can be used to associate a continuous response variable with metabolome features.
+In the example below, the example data will be regressed against injection order to identify any linearly associate metabolome features. 
 
 ```{r linear-regression}
 lr_analysis <- linearRegression(d,
                                 cls = 'injorder')
 ```
 
+The explanatory features can then be extracted.
+
 ```{r linear-regression-explanatory}
 explanatoryFeatures(lr_analysis)
+```
+
+The top ranked explanatory feature `N283` can be plotted to inspect inspects it's association with injection order.
+
+```{r linear-regression-feature}
+plotFeature(lr_analysis,
+            feature = 'N283',
+            cls = 'injorder')
 ```
 
 ## Routine analyses
@@ -521,6 +577,10 @@ parameters(p,'pre-treatment') <- preTreatmentParameters(
     transform = 'TICnorm' 
   )
 )
+```
+
+```{r modelling-methods}
+modellingMethods()
 ```
 
 Parameters for alternative methods or multiple methods can be retrieved using the `modellingParameters()` function as shown below.
@@ -543,25 +603,25 @@ Modelling analysis can then be performed on the pre-treated data from the previo
 analysis <- metabolyse(abr1$neg,abr1$fact,p)
 ```
 
-```{r}
+```{r modelling-results}
 analysisResults(analysis,'modelling')
 ```
 
 
-```{r}
+```{r explanatory features}
 explanatory_features <- analysis %>% 
   explanatoryFeatures()
 
 print(explanatory_features)
 ```
 
-```{r}
+```{r explanatory-methods}
 explanatory_features %>% 
   group_by(Method) %>% 
   summarise(N = n())
 ```
 
-```{r}
+```{r explanatory-heatmap}
 plotExplanatoryHeatmap(analysis) %>% 
   patchwork::wrap_plots()
 ```
