@@ -133,7 +133,7 @@ setMethod('ttest',signature = 'AnalysisData',
                    comparisons = list(), 
                    returnModels = FALSE){
             
-            if (length(comparisons > 0)) {
+            if (length(comparisons) > 0) {
               pw <- comparisons
             } else {
               pw <- cls %>%
