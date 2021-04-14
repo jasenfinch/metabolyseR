@@ -79,21 +79,21 @@ As can be seen above the data set contains a total of `r nSamples(d)` samples an
 The package supports parallel processing using the [future](https://CRAN.R-project.org/package=future) package.
 
 By default, processing by `metabolyseR` will be done seqentially.
-However, parallel processing can be activated, prior to analysis, by specifying a parallel backend using `plan()`.
-The following example specifies using the `multisession` backend (muliple background R sessions) with two worker processes.
+However, parallel processing can be activated, prior to analysis, by specifying a parallel implementation using `plan()`.
+The following example specifies using the `multisession` implementation (muliple background R sessions) with two worker processes.
 
 ```{r plan}
 plan(future::multisession,workers = 2)
 ```
 
-See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel backends that are available.
+See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel implementations that are available.
 
 ## Random Forest
 
 Random forest is a versatile ensemble machine learning approach based on forests of decision trees for multivariate data mining.
 This can include **unsupervised** analysis, **classification** of discrete response variables and **regression** of continuous responses.
 
-Random forest can be performed in `metabolyseR` using the `randomForest` method.
+Random forest can be performed in `metabolyseR` using the `randomForest()` method.
 For further details on the arguments for using this function, see `?randomForest`.
 This implementation of random forest in `metabolyseR` utilises the `randomForest` package.
 See `?randomForest::randomForest` for more information about that implementation.
@@ -101,12 +101,13 @@ See `?randomForest::randomForest` for more information about that implementation
 ### Unsupervised
 
 The unsupervised random forest approach can be useful starting point for analysis in any experimental context.
-It can be used to give a general overview of the structure of the data and to identify an possible problems such as the presence of outliers samples or splits in the data caused by the impact of analytical or sample preparation factors. 
+It can be used to give a general overview of the structure of the data and to identify any possible problems. 
+These could include situations such as the presence of outliers samples or splits in the data caused by the impact of analytical or sample preparation factors. 
 Unsupervised random forest can have advantages in these assessments over other approaches such as Principle Component Analysis (PCA). It is less sensitive to the effect of a single feature that in fact could have little overall impact relative to the other hundreds that could be present in a data set.
 
 The examples below will show the use of unsupervised random forest for assessing the general structure of the example data set and the presence of outlier samples.
 
-Unsupervised random forest can be performed by setting the `cls` argument to `NULL`:
+Unsupervised random forest can be performed by setting the `cls` argument of `randomForest()` to `NULL`:
 
 ```{r unsupervised}
 unsupervised_rf <- d %>%
@@ -125,10 +126,8 @@ Or by printing the results object.
 unsupervised_rf
 ```
 
-To assess the resulting model, the proximity of the observations can be visualised using multidimensional scaling (MDS) as shown below.
-
 Firstly, the presence of outlier samples will be assessed.
-An MDS plot can be visualised using the following, specifying the `single` class information column by which to colour the observation points.
+A multidimensional scaling (MDS) plot can be used to visualise the relative proximity of the observations, as shown in the following.
 The individual points are also labelled by their injection order to enable the identification of individual samples if necessary.
 
 ```{r outlier-detect}
@@ -164,7 +163,7 @@ And the importance values of these metrics for each feature can returned using:
 importance(unsupervised_rf)
 ```
 
-The explanatory features for a given threshold can be extracted for any the importance metric.
+The explanatory features for a given threshold can be extracted for any of the importance metrics.
 The following will extract the explanatory features below a threshold of 0.05 based on the false positive rate metric.
 
 ```{r unsupervised-explanatory}
@@ -175,7 +174,7 @@ unsupervised_rf %>%
 
 In this example there are `r explanatoryFeatures(unsupervised_rf) %>% nrow()` explanatory features.
 
-The trend of the most highly ranked explanatory feature against the `day` factor can be plotted using the `plotFeature` method.
+The trend of the most highly ranked explanatory feature against the `day` factor can be plotted using the `plotFeature()` method.
 
 ```{r unsupervised-feature}
 unsupervised_rf %>%
@@ -191,7 +190,7 @@ This includes both **multinomial** (number of classes > 2) and **binary** (numbe
 In multinomial situations, the suitability of a multinomial comparison versus multiple binary comparisons can depend on the experimental context.
 For instance, in a treatment/control experiment that includes multiple time points, a multinomial comparison using all available classes could be useful to visualise the general structure of the data. 
 However, it could make any extracted explanatory features difficult to reason about as to how they relate to the individual experimental time point or treatment conditions.
-An investigator could then identify the relevant binary comparisons to the biological question and focus the further classification comparisons to better select for explanatory features.
+An investigator could instead identify the binary comparisons relevant to the biological question and focus the further classification comparisons to better select for explanatory features.
 
 #### Multinomial comparisons
 
@@ -223,8 +222,7 @@ multinomial_rf %>%
 ```
 
 These metrics include **accuracy**, **Cohen's kappa** (kap), **area under the receiver operator characteristic curve** (roc_auc, ROC-AUC) and **margin**.
-These
-Each metric has both strengths and weaknesses that depending on the context of the classification such as the balance of observations between the classes.
+Each metric has both strengths and weaknesses that depend on the context of the classification such as the balance of observations between the classes.
 As shown below, the class frequencies for this example are balanced with 20 observations per class. 
 
 ```{r class-frequencies}
@@ -234,7 +232,7 @@ d %>%
 ```
 
 In this context, each of these metrics could be used to assess the predictive performance of the model.
-The margin metric is the difference between the proportion of votes for the correct class and the maximum proportion of votes for the other classes for a given observation. 
+The margin metric is the difference between the proportion of votes for the correct class and the maximum proportion of votes for the other classes for a given observation which is then averaged across all the observations. 
 A positive margin value indicates correct classification and values greater than 0.2 can be considered as the models having strong predictive power.
 The margin also allows the extent of discrimination to be discerned even in very distinct cases above where both the accuracy and ROC-AUC would be registering values of 1.
 
@@ -258,7 +256,7 @@ multinomial_rf %>%
 ```
 
 Classes with their line further from the central dashed line are those that were predicted with the greatest reliability by the model.
-This plot shows that both the `H` and `1` classes were least reliably predicted which is likely as a result of their close proximity shown in the MDS plot previously.
+This plot shows that both the `H` and `1` classes were least reliably predicted which is a result of their close proximity shown in the MDS plot previously.
 
 Importance metrics can be used to identify the metabolome features that contribute most to the class discrimination in the model.
 The available importance metrics for this model are shown below.
@@ -267,7 +265,7 @@ The available importance metrics for this model are shown below.
 importanceMetrics(multinomial_rf)
 ```
 
-Here we will use the false positive rate metric with a threshold of below 0.05 to identify explanatory features for the `day` response variable.
+Here, we will use the false positive rate metric with a threshold of below 0.05 to identify explanatory features for the `day` response variable.
 
 ```{r multinomial-explanatory}
 multinomial_rf %>%
@@ -324,8 +322,8 @@ d %>%
 
 It may in some cases be preferable to analyse class comparisons as multiple binary comparisons.
 
-The possible binary comparisons for a given response variable can be displayed using the `binaryComparisons` method.
-Below shows the `r `length(binaryComparisons(d,cls = 'day'))` for the `day` response variable.
+The possible binary comparisons for a given response variable can be displayed using the `binaryComparisons()` method.
+Below shows the `r length(binaryComparisons(d,cls = 'day'))` comparisons for the `day` response variable.
 
 ```{r binary-comparisons}
 binaryComparisons(d,cls = 'day')
@@ -352,14 +350,13 @@ To run all possible binary comparisons, the `binary = TRUE` argument could inste
 
 The MDS plots for each comparison can be visualised to inspect the comparisons.
 
-
 ```{r binary-mds}
 binary_rf %>% 
   plotMDS(cls = 'day')
 ```
 
 These plots show good separation in all the comparisons except `H~1` which is also shown by the plot of the performance metrics below.
-Each of the comparisons are showing perfect performance for the accuracy, Cohen's kappa and ROC-AUC metrics as well as very high margin values except for `H~1`.
+Each of the comparisons are showing perfect performance for the accuracy, Cohen's kappa and ROC-AUC metrics as well as very high margin values except for the `H~1` comparison.
 
 ```{r binary-metrics}
 binary_rf %>% 
@@ -367,7 +364,7 @@ binary_rf %>%
 ```
 
 The explanatory features for these comparisons can be extracted as below using the false positive rate metric and a cut-off threshold of 0.05.
-This give a total of `r nrow(explanatoryFeatures(binary_rf))` explanatory features.
+This gives a total of `r nrow(explanatoryFeatures(binary_rf))` explanatory features.
 
 ```{r binary-explanatory}
 binary_rf %>% 
@@ -405,7 +402,7 @@ regression_rf <- d %>%
 print(regression_rf)
 ```
 
-The regression model performance metrics based on the OOB prediction error can be extracted using the following:
+The regression model performance metrics, based on the OOB prediction error, can be extracted using the following:
 
 ```{r regression-metrics}
 regression_rf %>% 
@@ -414,12 +411,13 @@ regression_rf %>%
 
 These regression metrics include **R^2^** (`rsq`), **mean absolute error** (`mae`), **mean absolute percentage error** (`mape`), **root mean squared error** (`rmse`) and the **concordance correlation coefficient** (`ccc`). 
 
-The R^2^ and concordance correlation coefficient metrics suggest that there is some association of features with the injection order although this is weak.
+The R^2^ and concordance correlation coefficient metrics suggest that there is some association of features with the injection order, although this is weak.
 This is in agreement with mean absolute error metric that shows that on average, the injection order could only be predicted to an accuracy of 23 injection order positions.
 
 The MDS plot belows the relative proximities of the samples based on this injection order regression model.
 This shows that for the most part, there is little correspondence of the sample positions with their injection order.
-However, there is a small grouping of samples twoards the end of the run around sample ~99 to 120 suggesting that there could have been some analytical issues, for certain features, towards the end of the mass spectral analytical run.
+However, there is a small grouping of samples towards the end of the run around sample ~99 to 120. 
+It suggests that there could have been some analytical issues, for certain features, towards the end of the mass spectral analytical run.
 
 ```{r regression-mds}
 regression_rf %>% 
@@ -467,7 +465,7 @@ This shows an increase in the intensity of that feature for samples above 100 in
 
 ## Univariate analyses
 
-Univariate methods select features explanatory for response variables, with features tested on an individual basis.
+Univariate methods select features, explanatory for response variables, with features tested on an individual basis.
 These methods offer simplicity and easy interpretation in their use, however they provide no information as to how features may interact.
 
 The univariate methods currently available in `metabolyseR` include Welch's t-test, analysis of variance (ANOVA) and linear regression.
@@ -545,7 +543,7 @@ plotFeature(anova_analysis,
 ### Linear regression
 
 Univariate linear regression can be used to associate a continuous response variable with metabolome features.
-In the example below, the example data will be regressed against injection order to identify any linearly associate metabolome features. 
+In the example below, the example data will be regressed against injection order to identify any linearly associated metabolome features. 
 
 ```{r linear-regression}
 lr_analysis <- linearRegression(d,
