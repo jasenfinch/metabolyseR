@@ -31,12 +31,13 @@ opts_chunk$set(
 
 ## Introduction
 
-Metabolomics data from any analytical technique requires various data pre-treatment steps prior to subsequent data mining or other downstream analyses and aids both data quality and integrity.
+Metabolomics data from any analytical technique requires various data pre-treatment steps prior to subsequent data mining or other downstream analyses.
+This aids both the data quality and integrity.
 It is important that appropriate pre-treatment strategies are used not only for the analytical technique being applied but are also suitable for the statistical or machine learning analyses that are to be utilised.
-Careful consideration of the pre-treatment steps to be undertaken are required as they can have substantial influence on the results and inferences taken from metabolomic analyses.
+Careful consideration of the pre-treatment steps to be undertaken are required as they can have a substantial influence on the results and inferences taken from metabolomic analyses.
 
 Data pre-treatment is the most faceted aspect of the analysis elements in *metabolyseR*.
-It itself is made up of a number of elements, which themselves are made up of methods.
+It is itself made up of a number of elements, which themselves are made up of methods.
 The following document will outline the application of each of these pre-treatment elements for use in exploratory analyses then outline how to apply them in routine analyses.
 For an introduction to the usage of *metabolyseR* for both exploratory and routine analyses, see the introduction vignette using:
 
@@ -86,13 +87,13 @@ The package supports parallel processing using the [future](https://CRAN.R-proje
 
 By default, processing by `metabolyseR` will be done seqentially.
 However, parallel processing can be activated, prior to analysis, by specifying a parallel backend using `plan()`.
-The following example specifies using the `multisession` backend (muliple background R sessions) with two worker processes.
+The following example specifies using the `multisession` implementation (muliple background R sessions) with two worker processes.
 
 ```{r plan}
 plan(future::multisession,workers = 2)
 ```
 
-See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel backends that are available.
+See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel implementations that are available.
 
 ## Pre-treatment elements
 
