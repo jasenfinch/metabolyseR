@@ -113,7 +113,7 @@ explan_feat
 The ANOVA has identified `r nrow(explan_feat)` features significantly explanatory over the infection time course.
 A heat map of the mean relative intensity for each class of these explanatory features can be plotted to visualise their trends between the infection time point classes.
 
-```{r rf_heatmap,fig.height=10}
+```{r rf_heatmap,fig.height=10,fig.width=5}
 plotExplanatoryHeatmap(anova_results,
                        threshold = 0.05,
                        featureNames = FALSE)
@@ -124,5 +124,5 @@ Many of the explanatory features can be seen to be most highly abundant in the f
 Finally, box plots of the trends of individual features can be plotted, such as the `N341` feature below.
 
 ```{r feature_plot}
-plotFeature(d,feature = 'N341',cls = 'day')
+plotFeature(anova_results,feature = 'N341',cls = 'day')
 ```
