@@ -27,7 +27,8 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
               theme_bw() +
               labs(title = 'Density distrubution',
                    y = 'Density') +
-              theme(plot.title = element_text(face = 'bold'),
+              theme(plot.title = element_text(face = 'bold',
+                                              hjust = 0.5),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
                     legend.position = 'bottom',
@@ -48,7 +49,8 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
               theme_bw() +
               labs(title = 'Cumulative distribution',
                    y = 'Cumulative frequency') +
-              theme(plot.title = element_text(face = 'bold'),
+              theme(plot.title = element_text(face = 'bold',
+                                              hjust = 0.5),
                     axis.title = element_text(face = 'bold'),
                     legend.title = element_text(face = 'bold'),
                     legend.position = 'bottom',
