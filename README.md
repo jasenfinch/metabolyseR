@@ -13,22 +13,41 @@ status](https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.sv
 [![license](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg)](https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION)
 <!-- badges: end -->
 
-This package provides a tool kit for pre-treatment, modelling, feature
-selection and correlation analyses of metabolomics data.
+> **A tool kit for pre-treatment, modelling, feature selection and
+> correlation analyses of metabolomics data.**
+
+## Overview
+
+This package provides a tool kit of methods for metabolomics analyses
+that includes:
+
+-   data pre-treatment
+-   multivariate and univariate modelling/data mining techniques
+-   correlation analysis
 
 ## Installation
+
+The `metabolyseR` package can be installed from GitHub using the
+following:
 
 ``` r
 devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
 ```
 
-## Vignettes
+## Learn more
 
-Available vignettes for package usage can be found using the following:
+The package documentation can be browsed online at
+<https://jasenfinch.github.io/metabolyseR/>.
 
-``` r
-browseVignettes('metabolyseR')
-```
+If this is your first time using `metabolyseR` see the
+[Introduction](https://jasenfinch.github.io/metabolyseR/articles/introduction.html)
+vignette or the quick start analysis below for information on how to get
+started.
+
+If you believe you’ve found a bug in `metabolyseR`, please file a bug
+(and, if possible, a [reproducible
+example](https://reprex.tidyverse.org)) at
+<https://github.com/jasenfinch/metabolyseR/issues>.
 
 ## Quick start example analysis
 
@@ -193,7 +212,7 @@ Finally, box plots of the trends of individual features can be plotted,
 such as the `N341` feature below.
 
 ``` r
-plotFeature(d,feature = 'N341',cls = 'day')
+plotFeature(anova_results,feature = 'N341',cls = 'day')
 ```
 
 <img src="man/figures/README-feature_plot-1.png" style="display: block; margin: auto;" />
