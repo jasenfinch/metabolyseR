@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">metabolyseR</a>
+      <a href="../articles/introduction.html">Introduction</a>
     </li>
     <li>
       <a href="../articles/modelling.html">Modelling and feature selection</a>
@@ -112,7 +112,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jasenfinch/metabolyseR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -199,19 +199,19 @@ object for <code>QCparameters</code>.</p>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/binneR'>binneR</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberHRML.github.io/binneR/'>binneR</a></span><span class='op'>)</span>
 
 <span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/metaboData/man/filePaths.html'>filePaths</a></span><span class='op'>(</span><span class='st'>"FIE-HRMS"</span>,<span class='st'>"BdistachyonEcotypes"</span><span class='op'>)</span>
 
 <span class='va'>info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/metaboData/man/runinfo.html'>runinfo</a></span><span class='op'>(</span><span class='st'>"FIE-HRMS"</span>,<span class='st'>"BdistachyonEcotypes"</span><span class='op'>)</span>
 
-<span class='va'>binDat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/binneR/man/binneRlyse.html'>binneRlyse</a></span><span class='op'>(</span><span class='va'>files</span>, 
+<span class='va'>binDat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://aberHRML.github.io/binneR/reference/binneRlyse.html'>binneRlyse</a></span><span class='op'>(</span><span class='va'>files</span>, 
                        <span class='va'>info</span>, 
-                       parameters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/binneR/man/detectParameters.html'>detectParameters</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span><span class='op'>)</span>
+                       parameters <span class='op'>=</span> <span class='fu'><a href='https://aberHRML.github.io/binneR/reference/detectParameters.html'>detectParameters</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'preTreat'</span><span class='op'>)</span>
 
-<span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metabolyse.html'>metabolyse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/binneR/man/binnedData.html'>binnedData</a></span><span class='op'>(</span><span class='va'>binDat</span><span class='op'>)</span><span class='op'>$</span><span class='va'>n</span>,<span class='fu'><a href='https://rdrr.io/pkg/binneR/man/info.html'>info</a></span><span class='op'>(</span><span class='va'>binDat</span><span class='op'>)</span>,<span class='va'>p</span><span class='op'>)</span>
+<span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metabolyse.html'>metabolyse</a></span><span class='op'>(</span><span class='fu'><a href='https://aberHRML.github.io/binneR/reference/results.html'>binnedData</a></span><span class='op'>(</span><span class='va'>binDat</span><span class='op'>)</span><span class='op'>$</span><span class='va'>n</span>,<span class='fu'>info</span><span class='op'>(</span><span class='va'>binDat</span><span class='op'>)</span>,<span class='va'>p</span><span class='op'>)</span>
 
 <span class='fu'>plotRSD</span><span class='op'>(</span><span class='va'>analysis</span><span class='op'>)</span>
 <span class='op'>}</span>

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.13.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">metabolyseR</a>
+      <a href="../articles/introduction.html">Introduction</a>
     </li>
     <li>
       <a href="../articles/modelling.html">Modelling and feature selection</a>
@@ -112,7 +112,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/jasenfinch/metabolyseR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -138,22 +138,10 @@
     <p>Batch correction using average centering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>correctionCenter</span><span class='op'>(</span>
-  <span class='va'>d</span>,
-  block <span class='op'>=</span> <span class='st'>"block"</span>,
-  type <span class='op'>=</span> <span class='st'>"median"</span>,
-  nCores <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>0.75</span>,
-  clusterType <span class='op'>=</span> <span class='fu'><a href='getClusterType.html'>getClusterType</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span>
+    <pre class="usage"><span class='fu'>correctionCenter</span><span class='op'>(</span><span class='va'>d</span>, block <span class='op'>=</span> <span class='st'>"block"</span>, type <span class='op'>=</span> <span class='st'>"median"</span><span class='op'>)</span>
 
 <span class='co'># S4 method for AnalysisData</span>
-<span class='fu'>correctionCenter</span><span class='op'>(</span>
-  <span class='va'>d</span>,
-  block <span class='op'>=</span> <span class='st'>"block"</span>,
-  type <span class='op'>=</span> <span class='st'>"median"</span>,
-  nCores <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>0.75</span>,
-  clusterType <span class='op'>=</span> <span class='fu'><a href='getClusterType.html'>getClusterType</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='fu'>correctionCenter</span><span class='op'>(</span><span class='va'>d</span>, block <span class='op'>=</span> <span class='st'>"block"</span>, type <span class='op'>=</span> <span class='st'>"median"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,14 +158,6 @@ groupings to use for correction</p></td>
     <tr>
       <th>type</th>
       <td><p>averaging to use; eg. mean or median</p></td>
-    </tr>
-    <tr>
-      <th>nCores</th>
-      <td><p>number of cores for parallisation</p></td>
-    </tr>
-    <tr>
-      <th>clusterType</th>
-      <td><p>cluster type for parallisation</p></td>
     </tr>
     </table>
 
