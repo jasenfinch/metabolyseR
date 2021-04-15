@@ -5,9 +5,9 @@
 \alias{bindRows,list-method}
 \title{Bind \code{AnalysisData} objects by row}
 \usage{
-bindRows(x)
+bindRows(d)
 
-\S4method{bindRows}{list}(x)
+\S4method{bindRows}{list}(d)
 }
 \arguments{
 \item{d}{list object containing S4 objects of class AnalysisData to be bound}

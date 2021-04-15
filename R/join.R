@@ -13,14 +13,14 @@
 #' bindRows(d)
 #' @export
 
-setGeneric('bindRows',function(x){
+setGeneric('bindRows',function(d){
   standardGeneric('bindRows')
 })
 
 #' @rdname bind
 
-setMethod('bindRows',signature = 'list',function(x){
-  object_classes <- x %>%
+setMethod('bindRows',signature = 'list',function(d){
+  object_classes <- d %>%
     map_chr(class)
   
   if (FALSE %in% (object_classes == 'AnalysisData')) {
@@ -30,11 +30,11 @@ setMethod('bindRows',signature = 'list',function(x){
       call. = FALSE)
   }
   
-  sample_info <- x %>%
+  sample_info <- d %>%
     map(sinfo) %>%
     bind_rows()
   
-  sample_data <- x %>%
+  sample_data <- d %>%
     map(dat) %>%
     bind_rows()
   
