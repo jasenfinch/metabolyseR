@@ -98,13 +98,14 @@ See the future package [documentation](https://CRAN.R-project.org/package=future
 ## Pre-treatment elements
 
 The following sections will outline the numerous pre-treatment elements available within *metabolyseR*.
-There will be examples of their application during exploratory analyses along with useful visualisations that can aid interpretation of when particular treatments should be applied as well as their effect once they have been used. 
+There will be examples of their application during exploratory analyses along with useful visualisations.
+These can aid interpretation of when particular treatments should be applied as well as their effect once they have been used. 
 
 ### Removal of samples, classes or features
 
-In many situations it will be necessary to exclude either individual samples, sample classes or certain features from further analysis. 
+In many situations, it will be necessary to exclude either individual samples, sample classes or certain features from further analysis. 
 
-Individual samples can be removed using `removeSamples` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument a vector of sample indexes to remove.
+Individual samples can be removed using `removeSamples()` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument a vector of sample indexes to remove.
 
 ```{r remove_samples}
 d %>%
@@ -125,7 +126,7 @@ d %>%
   removeFeatures(features = c('N1','N2'))
 ```
 
-There maybe occasions where the numbers of samples, classes or features to remove are greater than the numbers of samples, classes or features that are to be retained.
+There could be occasions where the numbers of samples, classes or features to remove are greater than the numbers of samples, classes or features that are to be retained.
 In these situations it will be more convenient to directly specify the samples, classes or features to retain.
 Keeping samples, classes or features is outlined in the following section.
 
@@ -133,14 +134,14 @@ Keeping samples, classes or features is outlined in the following section.
 
 Often it will be necessary to retain only particular samples, sample classes or certain features for further analysis. 
 
-Individual samples can be kept using `keepSamples` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument, a vector of sample indexes to keep.
+Individual samples can be kept using `keepSamples()` as below, where the `idx` argument stipulates the sample information column cotaining the sample indexes and the `samples` argument, a vector of sample indexes to keep.
 
 ```{r keep_samples}
 d %>%
   keepSamples(idx = 'injorder',samples = 1)
 ```
 
-The `keepClasses` function can be used similarly to keep whole classes for further analysis:
+The `keepClasses()` method can be used similarly to keep whole classes for further analysis:
 
 ```{r keep_classes}
 d %>%
@@ -164,7 +165,7 @@ Occupancy provides a useful metric by which to filter poorly represented feature
 An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses.
 However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.
 
-The proportional occupancy for each feature within a data set for a given class structure can be calculated using the `occupancy` function, specifying the sample information column using the `cls` argument.
+The proportional occupancy for each feature within a data set for a given class structure can be calculated using the `occupancy()` method, specifying the sample information column using the `cls` argument.
 
 ```{r occupancy}
 d %>%
@@ -204,7 +205,7 @@ maximum_occupancy_filtered %>%
   plotOccupancy(cls = 'day')
 ```
 
-The alternative strategy is by applying a minimum threshold; where the minimum occupancy across all classes is required to be above the freshold.
+The alternative strategy is by applying a minimum threshold; where the minimum occupancy across all classes is required to be above the threshold.
 Therefore, for a feature to be retained, all classes would need to have an occupancy above the threshold.
 A two-thirds minimum occupancy filter can be applied to the `day` sample information column of our data using:
 
@@ -254,19 +255,19 @@ d %>%
 The margin value is a metric that can be used to assess model perfomance.
 Positive values indicate a models ability, on average, to correctly predict the class labels of the analysed data.
 
-As can bee seen in the plots above, the transformations have little effect on the overall structure of the data set.
+As can be seen in the plots above, the transformations have little effect on the overall structure of the data set.
 However, there are small increases in the margins of the transformed data (model improvement).
 Note that here, a non-parametric machine learning approach has been applied to assess the effects of the transformations on the data.
-Using a different approach such as the parametric Analysis Of Varience (ANOVA) which different underlying assumptions will likely give diffent results to the assessment above.
+Using a different approach such as the parametric analysis Of variance (ANOVA) which different underlying assumptions will likely give different results to the assessment above.
 
 ### Sample aggregation
 
 Sample aggregation allows the electronic pooling of samples based on a grouping variable.
 This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
-`metabolyseR` provides methods for mean, median and sum aggregating data and each starts with the `aggregate` prefix.
+`metabolyseR` provides methods for mean, median and sum aggregation and each starts with the `aggregate` prefix.
 
-Below shows a principle component analysis (PCA) plot of the example data coloured by the classes of `day` sample information column.
-It is first maximum occupancy filtered to remove empty columns.
+Below shows a principle component analysis (PCA) plot of the example data coloured by the classes of the `day` sample information column.
+It is first maximum occupancy filtered to remove empty features.
 
 ```{r pca}
 d %>%
@@ -291,9 +292,9 @@ plotPCA(day_mean,cls = 'day',ellipses = FALSE)
 ### Batch/block correction
 
 There can sometimes be artificial batch related variability introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation.
-With appropriate sample randomisation (see section Feature filtering based on QC samples) batch related variability can be corrected for using an average centring correction method on the individual features.
+With appropriate sample randomisation (see section on feature filtering based on QC samples), batch related variability can be corrected for using an average centring correction method, applied to the individual features.
 
-The plot below shows differences in the total ion count distributions for each of the classes in the `day` sample information column.
+The plot below shows differences in the TIC distributions for each of the classes in the `day` sample information column.
 
 ```{r day_TICs}
 d %>%
@@ -318,7 +319,7 @@ plotTIC(corrected_data,
 ### Imputation of missing data
 
 Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests.
-Where and how they are imputed are important considerations and is highly related to variable occupancy.
+Where and how they are imputed are important considerations and this is highly related to variable occupancy.
 The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the [*missForest*]( https://CRAN.R-project.org/package=missForest) package.
 
 Below shows a Linear Discriminant Analysis (LDA) plot of the example data.
@@ -371,7 +372,8 @@ The variable RSDs can then be filtered below a threshold value to remove metabol
 This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure.
 Therefore, the variables and variable numbers will not alter if a new class structure is imposed upon the data.
 
-The example data set does not include QC samples so for this example the `H` class will be used.
+The example data set does not include QC samples.
+For this example, the `H` class will be used.
 
 Firstly, the RSD distribution will be assessed for the only `H` class. 
 The following retains only the `H` class samples to aid visualisation.
@@ -405,19 +407,19 @@ QC %>%
   plotRSD(cls = 'day')
 ```
 
-`metabolyseR` contains a number of methods for applying pre-treatment routines specifically on QC samples.
-These are all prefixed with `QC` and include feature filtering of a data set based the occupancy of the QC class, imputation of the QC class only, feature filtering based in the RSD values of the QC class and removal of only the QC class.
+`metabolyseR` contains a number of methods for applying pre-treatment routines specifically on QC samples and are all prefixed with `QC`.
+These include methods for feature filtering of a data set based the occupancy of the QC class, imputation of the QC class only, feature filtering based in the RSD values of the QC class and removal of only the QC class.
 
 Below shows an example of applying some of these QC methods.
 This will first filter the features in the data set based on the occupancy of the QC class.
 Then the features are filtered based on the RSD values of the QC class
-using an RSD threshold of 0.5.
+using an RSD threshold of 50%.
 The class index of the QC samples is specified using the `QCidx` argument.
 
 ```{r QC_filtered}
 QC_filtered <- d %>%
   QCoccupancy(cls = 'day',QCidx = 'H',occupancy = 2/3) %>%
-  QCrsdFilter(cls = 'day',QCidx = 'H',RSDthresh = 0.5)
+  QCrsdFilter(cls = 'day',QCidx = 'H',RSDthresh = 50)
 ```
 
 This removes a total of `r nFeatures(d) - nFeatures(QC_filtered)` features.
@@ -440,7 +442,7 @@ The available methods for a specified pre-treatment element can be viewed using:
 preTreatmentMethods('remove')
 ```
 
-The default pre-treatment parameters can first assigned to the variable `p`.
+The default pre-treatment parameters can first be assigned to the variable `p`.
 
 ```{r preTreatParameterExample}
 p <- analysisParameters('pre-treatment')
