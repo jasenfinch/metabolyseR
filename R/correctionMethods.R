@@ -39,45 +39,22 @@ setMethod('correctionCenter',signature = 'AnalysisData',
           }
 )
 
-correctionMethods <- function(method = NULL, description = FALSE){
+correctionMethods <- function(method = NULL){
   methods <- list(
     center = correctionCenter
   )
   
-  descriptions <- list(
-    center = list(
-      description = 'Batch correction using average centering.',
-      arguments = c(block = str_c('info column containing sample block ',
-                                  'groupings to use for correction'),
-                    type = 'averaging to use; eg. mean or median'
-      )
-    )
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Correction method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Correction method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("Correction method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
     }
+    method <- methods[[method]]
   }
+  
   return(method)
 }

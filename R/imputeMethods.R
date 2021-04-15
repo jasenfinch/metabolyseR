@@ -106,7 +106,7 @@ setMethod('imputeClass',signature = 'AnalysisData',
 #' @importFrom missForest missForest
 #' @importFrom dplyr arrange select
 
-imputeMethods <- function(method = NULL, description = FALSE){
+imputeMethods <- function(method = NULL){
   
   methods <- list(
     
@@ -115,48 +115,17 @@ imputeMethods <- function(method = NULL, description = FALSE){
     class = imputeClass
   )
   
-  descriptions <- list(
-    all = list(
-      description = str_c('Impute missing values across all ',
-                          'samples using Random Forest'),
-      arguments = c(
-        occupancy = 'occupancy threshold for imputation',
-        parallel = str_c('parallel type to use. ',
-                         'See `?missForest` for details'),
-        seed = 'random number seed'
-      )),
-    class = list(
-      description = 'Impute missing values class-wise using Random Forest',
-      arguments = c(
-        cls = 'info column to use for class labels',
-        occupancy = 'occupancy threshold for imputation', 
-        seed = 'random number seed'))
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Impute method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Impute method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("Impute method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
     }
+    method <- methods[[method]]
   }
+  
   return(method)
 }

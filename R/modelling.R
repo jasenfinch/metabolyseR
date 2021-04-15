@@ -28,7 +28,7 @@ modellingMethods <- function(){
     names()
 }
 
-getModellingMethods <- function(method = NULL, description = FALSE){
+getModellingMethods <- function(method = NULL){
   
   methods <- list(
     anova = anova,
@@ -37,35 +37,12 @@ getModellingMethods <- function(method = NULL, description = FALSE){
     randomForest = randomForest
   )
   
-  descriptions <- list(
-    anova = list(description = 'One-way ANOVA',
-                 type = 'Univariate',
-                 documentation = '?anova'),
-    ttest = list(description = 'Welch t-test',
-                 type = 'Univariate',
-                 documentation = '?ttest'),
-    linearRegression = list(description = 'Linear regression',
-                            type = 'Univariate',
-                            documentation = '?linearRegression'),
-    randomForest = list(
-      description = 'Random forest classification, regression or unsupervised',
-      type = 'Multivariate',
-      documentation = '?randomForest')
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      method <- descriptions[[method]]
-    }
+    method <- methods[[method]]
   }
+  
   return(method)
 }
 

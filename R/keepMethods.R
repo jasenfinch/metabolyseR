@@ -44,52 +44,25 @@ setMethod('keepFeatures',signature = 'AnalysisData',
           }
 )
 
-keepMethods <- function(method = NULL, description = FALSE){
+keepMethods <- function(method = NULL){
   methods <- list(
     samples = keepSamples,
     classes = keepClasses,
     features = keepFeatures
   )
   
-  descriptions <- list(
-    samples = list(
-      description = 'keep samples',
-      arguments = c(idx = 'info column containing sample indexes',
-                    samples = 'sample indices to keep')),
-    classes = list(
-      description = 'keep classes',
-      arguments = c(cls = 'info column containing class information',
-                    classes = 'classes to keep')),
-    features = list(
-      description = 'keep features',
-      arguments = c(features = 'features to keep'))
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Keep method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Keep method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("Keep method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
     }
+    method <- methods[[method]]
   }
+  
   return(method)
 }
 

@@ -160,7 +160,7 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
           }
 )
 
-transformMethods <- function(method = NULL, description = FALSE){
+transformMethods <- function(method = NULL){
   
   methods <- list(
     
@@ -177,55 +177,17 @@ transformMethods <- function(method = NULL, description = FALSE){
     TICnorm = transformTICnorm
   )
   
-  descriptions <- list(
-    center = list(description = 'Mean centering',
-                  arguments = c(`''` = '')),
-    auto = list(description = 'Auto scaling',
-                arguments = c(`''` = '')),
-    range = list(description = 'Range scaling',
-                 arguments = c(`''` = '')),
-    pareto = list(description = 'Pareto scaling',
-                  arguments = c(`''` = '')),
-    vast = list(description = 'Vast scaling',
-                arguments = c(`''` = '')),
-    level = list(description = 'Level scaling',
-                 arguments = c(`''` = '')),
-    ln = list(description = 'Natural log scaling',
-              arguments = c(add = 'value to add prior to transformation')),
-    log10 = list(description = 'Log10 scaling',
-                 arguments = c(add = 'value to add prior to transformation')),
-    sqrt = list(description = 'Square root scaling',
-                arguments = c(`''` = '')),
-    asinh = list(description = 'Arc-sine scaling',
-                 arguments = c(`''` = '')),
-    TICnorm = list(description = 'Total ion count normalisation',
-                   arguments = c(`''` = ''))
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Transform method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Transform method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("Transform method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
     }
+    method <- methods[[method]]
   }
+  
   return(method)
 }

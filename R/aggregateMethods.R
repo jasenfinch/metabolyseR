@@ -89,7 +89,7 @@ setMethod('aggregateMedian',signature = 'AnalysisData',
           }
 )
 
-aggregateMethods <- function(method = NULL, description = FALSE){
+aggregateMethods <- function(method = NULL){
   
   methods <- list(
     sum = aggregateSum,
@@ -97,42 +97,16 @@ aggregateMethods <- function(method = NULL, description = FALSE){
     median = aggregateMedian
   )
   
-  descriptions <- list(
-    sum = list(description = 'sum aggregate',
-               arguments = c(
-                 cls = 'info column to use for aggregation index')),
-    mean = list(description = 'mean aggregate',
-                arguments = c(
-                  cls = 'info column to use for aggregation index')),
-    median = list(description = 'median aggregate',
-                  arguments = c(
-                    cls = 'info column to use for aggregation index'))
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Aggregate method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Aggregate method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("Aggregate method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
     }
+    method <- methods[[method]]
   }
   return(method)
 }

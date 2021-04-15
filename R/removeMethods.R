@@ -51,18 +51,6 @@ removeMethods <- function(method = NULL, description = FALSE){
     features = removeFeatures 
   )
   
-  descriptions <- list(
-    samples = list(description = 'remove samples',
-                  arguments = c(idx = 'info column containing sample indexes',
-                                samples = 'sample indices to remove')),
-    classes = list(description = 'remove classes',
-                 arguments = c(cls = 'info column containing class information',
-                               classes = 'classes to remove')),
-    features = list(description = 'remove variables',
-                    arguments = c(features = 'features to remove'))
-  )
-  
-  if (description == FALSE) {
     if (is.null(method)) {
       method <- methods
     } else {
@@ -74,19 +62,7 @@ removeMethods <- function(method = NULL, description = FALSE){
       }
       method <- methods[[method]]
     }
-  } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Remove method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
-    }
-  }
+ 
   return(method)
 }
 

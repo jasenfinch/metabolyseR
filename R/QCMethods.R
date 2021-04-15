@@ -100,7 +100,7 @@ setMethod('QCremove',signature = 'AnalysisData',
           }
 )
 
-QCMethods <- function(method = NULL, description = FALSE){
+QCMethods <- function(method = NULL){
   
   methods <- list(
     occupancyFilter = QCoccupancy,
@@ -109,58 +109,18 @@ QCMethods <- function(method = NULL, description = FALSE){
     removeQC = QCremove
   ) 
   
-  descriptions <- list(
-    occupancyFilter = list(
-      description = 'Filter variables based on occupancy in QC samples',
-      arguments = c(cls = 'info column to use for class labels',
-                    QCidx = 'QC sample label',
-                    occupancy = 'occupancy threshold for filtering')),
-    impute = list(
-      description = 'Impute missing values in QC samples',
-      arguments = c(cls = 'info column to use for class labels',
-                    QCidx = 'QC sample label',
-                    occupancy = 'occupancy threshold for imputation',
-                    parallel = str_c('parallel type to use. See ',
-                                     '`?missForest` for details'),
-                    seed = 'random number seed')
-    ),
-    RSDfilter = list(
-      description = str_c('Filter features based on their ',
-                          'relative standard deviation in QC samples'),
-      arguments = c(cls = 'info column to use for class labels',
-                    QCidx = 'QC sample label',
-                    RSDthreshold = 'RSD (%) threshold for filtering')),
-    removeQC = list(
-      description = 'Remove QC samples',
-      arguments = c(cls = 'info column to use for class labels',
-                    QCidx = 'QC sample label'))
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("QC method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("QC method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("QC method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
     }
+    method <- methods[[method]]
   }
+  
   return(method)
 }
 

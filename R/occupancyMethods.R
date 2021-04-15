@@ -49,52 +49,28 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
           }
 )
 
-occupancyMethods <- function(method = NULL, description = FALSE){
+occupancyMethods <- function(method = NULL){
   
   methods <- list(
     maximum = occupancyMaximum, 
     minimum = occupancyMinimum
   )
   
-  descriptions <- list(
-    maximum = list(
-      description = 'maximum thresholded class occupancy filtering', 
-      arguments = c(cls = 'info column to use for class labels', 
-                    occupancy = 'occupancy threshold')),
-    minimum = list(
-      description = 'minimum thresholded class occupancy filtering', 
-      arguments = c(cls = 'info column to use for class labels', 
-                    occupancy = 'occupancy threshold'))
-  )
-  
-  if (description == FALSE) {
-    if (is.null(method)) {
-      method <- methods
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Occupancy method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(
-                     str_c("'",names(methods),"'"),
-                     collapse = ', '),
-                   '.'))
-      }
-      method <- methods[[method]]
-    }
+  if (is.null(method)) {
+    method <- methods
   } else {
-    if (is.null(method)) {
-      method <- descriptions
-    } else {
-      if (!(method %in% names(methods))) {
-        stop(str_c("Occupancy method '",
-                   method,
-                   "' not recognised. Available methods include: ",
-                   str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-      }
-      method <- descriptions[[method]]
+    if (!(method %in% names(methods))) {
+      stop(str_c("Occupancy method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(
+                   str_c("'",names(methods),"'"),
+                   collapse = ', '),
+                 '.'))
     }
+    method <- methods[[method]]
   }
+  
   return(method)
 }
 
