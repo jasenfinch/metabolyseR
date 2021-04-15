@@ -7,31 +7,6 @@ setGeneric("modelling", function(x) {
   standardGeneric("modelling")
 })
 
-#' @rdname correlations
-setGeneric("correlations", function(x,...) {
-  standardGeneric("correlations")
-})
-
-#' @rdname raw
-setGeneric("raw", function(x) {
-  standardGeneric("raw")
-})
-
-#' @rdname raw
-setGeneric("raw<-", function(x,value) {
-  standardGeneric("raw<-")
-})
-
-#' @rdname preTreated
-setGeneric("preTreated", function(x) {
-  standardGeneric("preTreated")
-})
-
-#' @rdname preTreated
-setGeneric("preTreated<-", function(x,value) {
-  standardGeneric("preTreated<-")
-})
-
 #' @rdname plotTIC
 setGeneric('plotTIC', 
            function(analysis, 
@@ -147,41 +122,6 @@ setGeneric('plotUnsupervisedRF',
 #' @rdname plotOccupancy
 setGeneric('plotOccupancy',function(x,cls = 'class', ...){
   standardGeneric('plotOccupancy')
-})
-
-#' @rdname dat
-setGeneric("dat", function(x,...) {
-  standardGeneric("dat")
-})
-
-#' @rdname dat
-setGeneric("dat<-", function(x,...,value) {
-  standardGeneric("dat<-")
-})
-
-#' @rdname sinfo
-setGeneric("sinfo", function(x,...) {
-  standardGeneric("sinfo")
-})
-
-#' @rdname sinfo
-setGeneric("sinfo<-", function(x,...,value) {
-  standardGeneric("sinfo<-")
-})
-
-#' @rdname features
-setGeneric("features", function(x, ...) {
-  standardGeneric("features")
-})
-
-#' @rdname nFeatures
-setGeneric("nFeatures", function(x, ...) {
-  standardGeneric("nFeatures")
-})
-
-#' @rdname nSamples
-setGeneric("nSamples", function(x, ...) {
-  standardGeneric("nSamples")
 })
 
 #' @rdname anova
@@ -340,9 +280,4 @@ setGeneric('binaryComparisons',function(x,cls = 'class'){
 #' @rdname exportParameters
 setGeneric('exportParameters',function(x,file = 'analysis_parameters.yaml'){
   standardGeneric('exportParameters')
-})
-
-#' @rdname analysisResults
-setGeneric('analysisResults',function(x,element){
-  standardGeneric('analysisResults')
 })

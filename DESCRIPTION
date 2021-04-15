@@ -50,11 +50,11 @@ Suggests: knitr,
     kableExtra
 Collate: allGenerics.R
     allClasses.R
+    analysis-accessors.R
     aggregate.R
     analysisData.R
-    analysisResults.R
     correction.R
-    correlations-method.R
+    correlations.R
     impute.R
     info.R
     join.R
