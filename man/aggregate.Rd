@@ -27,7 +27,7 @@ aggregateSum(d, cls = "class")
 \item{cls}{info column to use for class data}
 }
 \value{
-An S4 object of class \code{AnalysisData} containing the transformed data.
+An S4 object of class \code{AnalysisData} containing the aggregated data.
 }
 \description{
 Aggregation of sample features based on a grouping variable.
@@ -72,5 +72,4 @@ d \%>\%
 d \%>\% 
  aggregateSum(cls = 'day') \%>\% 
  plotPCA(cls = 'day',ellipses = FALSE)
- 
 }

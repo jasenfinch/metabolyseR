@@ -261,16 +261,6 @@ setGeneric("imputeClass",
              standardGeneric("imputeClass")
            })
 
-#' @rdname  correctionCenter
-setGeneric("correctionCenter", 
-           function(
-             d, 
-             block = 'block', 
-             type = 'median') 
-           {
-             standardGeneric("correctionCenter")
-           })
-
 #' @rdname anova
 setGeneric("anova", 
            function(

@@ -3,7 +3,7 @@
 #' @description Aggregation of sample features based on a grouping variable.
 #' @param d S4 object of class `AnalysisData`
 #' @param cls info column to use for class data
-#' @return  An S4 object of class `AnalysisData` containing the transformed data.
+#' @return  An S4 object of class `AnalysisData` containing the aggregated data.
 #' @details 
 #' Sample aggregation allows the electronic pooling of sample features based on a grouping variable. 
 #' This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
@@ -38,7 +38,6 @@
 #' d %>% 
 #'  aggregateSum(cls = 'day') %>% 
 #'  plotPCA(cls = 'day',ellipses = FALSE)
-#'  
 #' @export
 
 setGeneric("aggregateMean", function(d,cls = 'class') {

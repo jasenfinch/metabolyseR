@@ -53,7 +53,7 @@ Collate: allGenerics.R
     aggregate.R
     analysisData.R
     analysisResults.R
-    correctionMethods.R
+    correction.R
     correlations-method.R
     imputeMethods.R
     info.R
