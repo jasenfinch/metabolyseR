@@ -1,6 +1,5 @@
 #' Remove samples, classes or features
 #' @rdname remove
-#' @al
 #' @description Exclusion of samples, classes or features from an `AnalysisData` object.
 #' @param d S4 object of class `AnalysisData`
 #' @param idx info column containing sample indexes
@@ -28,14 +27,11 @@
 #'  ## Remove samples
 #'  d %>% 
 #'   removeSamples(idx = 'injorder',samples = c(1,10))
+#' @export
 
-setMethod('removeSamples',signature = 'AnalysisData',
-          function(d,idx = 'fileOrder', samples = c()){
-            dat(d) <- dat(d)[!(unlist(sinfo(d)[,idx]) %in% samples),]
-            sinfo(d) <- sinfo(d)[!(unlist(sinfo(d)[,idx]) %in% samples),]
-            return(d)
-          }
-)
+setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
+  standardGeneric("removeClasses")
+})
 
 #' @rdname remove
 
@@ -48,10 +44,34 @@ setMethod('removeClasses',signature = 'AnalysisData',
 )
 
 #' @rdname remove
+#' @export
+
+setGeneric("removeFeatures", function(d,features = character()) {
+  standardGeneric("removeFeatures")
+})
+
+#' @rdname remove
 
 setMethod('removeFeatures',signature = 'AnalysisData',
           function(d,features = character()){
             dat(d) <- dat(d)[,!(colnames(dat(d)) %in% features)]
+            return(d)
+          }
+)
+
+#' @rdname remove
+#' @export
+
+setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c()) {
+  standardGeneric("removeSamples")
+})
+
+#' @rdname remove
+
+setMethod('removeSamples',signature = 'AnalysisData',
+          function(d,idx = 'fileOrder', samples = c()){
+            dat(d) <- dat(d)[!(unlist(sinfo(d)[,idx]) %in% samples),]
+            sinfo(d) <- sinfo(d)[!(unlist(sinfo(d)[,idx]) %in% samples),]
             return(d)
           }
 )
