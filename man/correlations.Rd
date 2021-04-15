@@ -3,7 +3,6 @@
 \name{correlations}
 \alias{correlations}
 \alias{correlations,AnalysisData-method}
-\alias{correlations,Analysis-method}
 \title{correlations}
 \usage{
 correlations(d, ...)
@@ -14,11 +13,9 @@ correlations(d, ...)
   pAdjustMethod = "bonferroni",
   corPvalue = 0.05
 )
-
-\S4method{correlations}{Analysis}(d)
 }
 \arguments{
-\item{d}{S4 object of class \code{AnalysisData} or \code{Analysis}}
+\item{d}{S4 object of class \code{AnalysisData}}
 
 \item{...}{arguments to pass to specific method}
 
@@ -27,6 +24,9 @@ correlations(d, ...)
 \item{pAdjustMethod}{p-value adjustment method. See \code{?p.adjust} for available methods.}
 
 \item{corPvalue}{p-value cut-off threshold for significance}
+}
+\value{
+A tibble containing results of significantly correlated features.
 }
 \description{
 Feature correlation analysis.
