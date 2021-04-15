@@ -1,9 +1,5 @@
-#' show-AnalysisParameters
-#' @description show method for AnalysisParameters class. 
-#' @param object S4 object of class AnalysisParameters
 #' @importFrom methods show
 #' @importFrom purrr map_dbl map_chr
-#' @export
 
 setMethod('show',signature = 'AnalysisParameters',
           function(object){
@@ -72,12 +68,8 @@ setMethod('show',signature = 'AnalysisParameters',
           }
 )
 
-#' show-Analysis
-#' @description show method for Analysis class. 
-#' @param object S4 object of class Analysis
 #' @importFrom methods show
 #' @importFrom crayon blue bold red
-#' @export
 
 setMethod('show',signature = 'Analysis',
           function(object){
@@ -144,11 +136,6 @@ setMethod('show',signature = 'Analysis',
           }
 )
 
-#' show-AnalysisData
-#' @description show method for AnalysisData class
-#' @param object S4 object of class AnalysisData
-#' @export
-
 setMethod('show',signature = 'AnalysisData',
           function(object){
             cat('\nAnalysisData object containing:\n\n')
@@ -158,11 +145,6 @@ setMethod('show',signature = 'AnalysisData',
             cat('\n')
           }
 )
-
-#' show-RandomForest
-#' @description Show method for RandomForest class.
-#' @param object S4 object of class RandomForest
-#' @export
 
 setMethod('show',signature = 'RandomForest',
           function(object){
@@ -191,11 +173,6 @@ setMethod('show',signature = 'RandomForest',
             
             cat('\n')
           })
-
-#' show-Univariate
-#' @description Show method for the Univariate class.
-#' @param object S4 object of class Univariate
-#' @export
 
 setMethod('show',signature = 'Univariate',
           function(object){
