@@ -3,18 +3,27 @@
 \name{occupancy}
 \alias{occupancy}
 \alias{occupancy,AnalysisData-method}
-\title{occupancy}
+\title{Calculate feature class occupancies}
 \usage{
 occupancy(d, cls = "class")
 
 \S4method{occupancy}{AnalysisData}(d, cls = "class")
 }
 \arguments{
-\item{d}{S4 object of class AnalysisData}
+\item{d}{S4 object of class \code{AnalysisData}}
 
-\item{cls}{info column to use for class data}
+\item{cls}{sample information column to use for which to compute class occupancies}
+}
+\value{
+A tibble containing feature class proportional occupancies.
 }
 \description{
-Return tibble containg proportional class occupancy
-for each feature for a given class info column.
+Calculate the class occupancies of all features in an \code{AnalysisData} object.
+}
+\examples{
+library(metaboData)
+
+d <- analysisData(abr1$neg[,200:300],abr1$fact)
+
+occupancy(d,cls = 'day')
 }

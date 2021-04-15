@@ -83,13 +83,18 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
           }
 )
 
-#' occupancy
+#' Calculate feature class occupancies
 #' @rdname occupancy
-#' @description Return tibble containg proportional class occupancy 
-#' for each feature for a given class info column.
-#' @param d S4 object of class AnalysisData
-#' @param cls info column to use for class data
-#' @importFrom dplyr ungroup full_join
+#' @description Calculate the class occupancies of all features in an `AnalysisData` object.
+#' @param d S4 object of class `AnalysisData`
+#' @param cls sample information column to use for which to compute class occupancies
+#' @return A tibble containing feature class proportional occupancies.
+#' @examples
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact)
+#' 
+#' occupancy(d,cls = 'day')
 #' @export
 
 setGeneric("occupancy", function(d, cls = 'class') {
@@ -97,6 +102,8 @@ setGeneric("occupancy", function(d, cls = 'class') {
 })
 
 #' @rdname occupancy
+#' @importFrom dplyr ungroup full_join
+#' @importFrom tidyr drop_na
 
 setMethod('occupancy',signature = 'AnalysisData',
           function(d,cls = 'class'){
@@ -127,7 +134,8 @@ setMethod('occupancy',signature = 'AnalysisData',
                   filter(Class == cla$Class) %>%
                   group_by(Class,Feature) %>%
                   summarise(N = n()) %>%
-                  mutate(`Occupancy` = N / cla$Frequency)
+                  mutate(`Class total` = cla$Frequency,
+                         Occupancy = N / cla$Frequency)
               }) %>%
               bind_rows() %>%
               rename(!!vars) %>%
@@ -137,11 +145,11 @@ setMethod('occupancy',signature = 'AnalysisData',
               filter(!(Feature %in% occ$Feature)) %>%
               mutate(N = 0,Occupancy = 0,dummy = 1) %>%
               full_join(clsSize %>%
-                          select(Class) %>%
+                          select(Class,Frequency) %>%
                           rename(!!cls := Class) %>%
                           mutate(dummy = 1),by = 'dummy') %>%
-              select(!!cls,Feature,N,Occupancy)
-            
+              select(!!cls,Feature,N,`Class total` = Frequency,Occupancy) %>% 
+              drop_na(Feature)
             occ <- occ %>%
               bind_rows(unoccupied) %>%
               arrange(!!sym(cls),Feature)
