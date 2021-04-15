@@ -91,6 +91,13 @@
 #' d %>% 
 #'  transformVast() %>% 
 #'  plotLDA(cls = 'day')
+#' @export
+
+setGeneric("transformArcSine", function(d) {
+  standardGeneric("transformArcSine")
+})
+
+#' @rdname transform
 
 setMethod('transformArcSine',signature = 'AnalysisData',
           function(d){
@@ -98,6 +105,13 @@ setMethod('transformArcSine',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformAuto", function(d) {
+  standardGeneric("transformAuto")
+})
 
 #' @rdname transform
 
@@ -109,6 +123,13 @@ setMethod('transformAuto',signature = 'AnalysisData',
 )
 
 #' @rdname transform
+#' @export
+
+setGeneric("transformCenter", function(d) {
+  standardGeneric("transformCenter")
+})
+
+#' @rdname transform
 
 setMethod('transformCenter',signature = 'AnalysisData',
           function(d){
@@ -118,6 +139,13 @@ setMethod('transformCenter',signature = 'AnalysisData',
 )
 
 #' @rdname transform
+#' @export
+
+setGeneric("transformLevel", function(d) {
+  standardGeneric("transformLevel")
+})
+
+#' @rdname transform
 
 setMethod('transformLevel',signature = 'AnalysisData',
           function(d){
@@ -125,6 +153,13 @@ setMethod('transformLevel',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformLn", function(d,add = 1) {
+  standardGeneric("transformLn")
+})
 
 #' @rdname transform
 
@@ -137,6 +172,13 @@ setMethod('transformLn',signature = 'AnalysisData',
 )
 
 #' @rdname transform
+#' @export
+
+setGeneric("transformLog10", function(d,add = 1) {
+  standardGeneric("transformLog10")
+})
+
+#' @rdname transform
 
 setMethod('transformLog10',signature = 'AnalysisData',
           function(d, add = 1){
@@ -145,6 +187,13 @@ setMethod('transformLog10',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformPareto", function(d) {
+  standardGeneric("transformPareto")
+})
 
 #' @rdname transform
 
@@ -157,6 +206,13 @@ setMethod('transformPareto',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformRange", function(d) {
+  standardGeneric("transformRange")
+})
 
 #' @rdname transform
 
@@ -172,6 +228,13 @@ setMethod('transformRange',signature = 'AnalysisData',
 )
 
 #' @rdname transform
+#' @export
+
+setGeneric("transformSQRT", function(d) {
+  standardGeneric("transformSQRT")
+})
+
+#' @rdname transform
 
 setMethod('transformSQRT',signature = 'AnalysisData',
           function(d){
@@ -179,6 +242,13 @@ setMethod('transformSQRT',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformTICnorm", function(d) {
+  standardGeneric("transformTICnorm")
+})
 
 #' @rdname transform
 
@@ -193,6 +263,13 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformVast", function(d) {
+  standardGeneric("transformVast")
+})
 
 #' @rdname transform
 
