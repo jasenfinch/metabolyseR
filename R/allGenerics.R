@@ -1,12 +1,4 @@
 
-setGeneric("pre-treatment", function(x) {
-  standardGeneric("pre-treatment")
-})
-
-setGeneric("modelling", function(x) {
-  standardGeneric("modelling")
-})
-
 #' @rdname plotTIC
 setGeneric('plotTIC', 
            function(analysis, 

@@ -46,6 +46,10 @@ getModellingMethods <- function(method = NULL){
   return(method)
 }
 
+setGeneric("modelling", function(x) {
+  standardGeneric("modelling")
+})
+
 setMethod('modelling',signature = 'Analysis',
           function(x){
             verbose <- x@log$verbose
