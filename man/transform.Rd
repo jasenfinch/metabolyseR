@@ -70,15 +70,20 @@ transformTICnorm(d)
 \S4method{transformVast}{AnalysisData}(d)
 }
 \arguments{
-\item{d}{S4 object of class AnalysisData}
+\item{d}{S4 object of class \code{AnalysisData}}
+
+\item{add}{value to add prior to transformation}
+}
+\value{
+An S4 object of class \code{AnalysisData} containing the transformed data.
 }
 \description{
-Methods for data pre-treatment scaling, transformation and normalisation.
+Methods for data scaling, transformation and normalisation.
 }
 \section{Methods}{
 
 \itemize{
-\item \code{transformArcSine}: Arc-Sine transformation.
+\item \code{transformArcSine}: Arc-sine transformation.
 \item \code{transformAuto}: Auto scaling.
 \item \code{transformCenter}: Mean centring.
 \item \code{transformLevel}: Level scaling.
@@ -92,4 +97,39 @@ Methods for data pre-treatment scaling, transformation and normalisation.
 }
 }
 
-\concept{Pre-treatment}
+\examples{
+d <- analysisData(abr1$neg[,200:300],abr1$fact)
+
+## Arc-sine transformation
+d \%>\% transformArcSine()
+
+## Auto scaling
+d \%>\% transformAuto()
+
+## Mean centring
+d \%>\% transformCenter()
+
+## Level scaling
+d \%>\% transformLevel()
+
+## Natural logarithmic transformation
+d \%>\% transformLn()
+
+## Logarithmic transformation
+d \%>\% transformLog10
+
+## Pareto scaling
+d \%>\% transformPareto
+
+## Range scaling
+d \%>\% transformRange()
+
+## Square root scaling
+d \%>\% transformSQRT()
+
+## Total ion count nromalisation
+d \%>\% transformTICnorm()
+
+## Vast scaling
+d \%>\% transformVast()
+}

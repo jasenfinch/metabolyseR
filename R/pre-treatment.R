@@ -47,3 +47,35 @@ setMethod("pre-treatment", signature = "Analysis",
             return(x)
           }
 )
+
+transformMethods <- function(method = NULL){
+  
+  methods <- list(
+    
+    center = transformCenter,
+    auto = transformAuto,
+    range = transformRange,
+    pareto = transformPareto,
+    vast = transformVast,
+    level = transformLevel,
+    ln = transformLn,
+    log10 = transformLog10,
+    sqrt = transformSQRT,
+    asinh = transformArcSine,
+    TICnorm = transformTICnorm
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Transform method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}

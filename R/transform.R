@@ -1,10 +1,11 @@
 #' Scaling, transformation and normalisation methods
 #' @rdname transform
-#' @family Pre-treatment
-#' @description Methods for data pre-treatment scaling, transformation and normalisation.
-#' @param d S4 object of class AnalysisData 
+#' @description Methods for data scaling, transformation and normalisation.
+#' @param d S4 object of class `AnalysisData` 
+#' @param add value to add prior to transformation
+#' @return An S4 object of class `AnalysisData` containing the transformed data.
 #' @section Methods:
-#' * `transformArcSine`: Arc-Sine transformation.
+#' * `transformArcSine`: Arc-sine transformation.
 #' * `transformAuto`: Auto scaling.
 #' * `transformCenter`: Mean centring.
 #' * `transformLevel`: Level scaling.
@@ -15,6 +16,41 @@
 #' * `transformSQRT`: Square root transformation.
 #' * `transformTICnorm`: Total ion count normalisation.
 #' * `transformVast`: Vast scaling.
+#' @examples 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact)
+#' 
+#' ## Arc-sine transformation
+#' d %>% transformArcSine()
+#' 
+#' ## Auto scaling
+#' d %>% transformAuto()
+#' 
+#' ## Mean centring
+#' d %>% transformCenter()
+#' 
+#' ## Level scaling
+#' d %>% transformLevel()
+#' 
+#' ## Natural logarithmic transformation
+#' d %>% transformLn()
+#' 
+#' ## Logarithmic transformation
+#' d %>% transformLog10
+#' 
+#' ## Pareto scaling
+#' d %>% transformPareto
+#' 
+#' ## Range scaling
+#' d %>% transformRange()
+#' 
+#' ## Square root scaling
+#' d %>% transformSQRT()
+#' 
+#' ## Total ion count nromalisation
+#' d %>% transformTICnorm()
+#' 
+#' ## Vast scaling
+#' d %>% transformVast()
 
 setMethod('transformArcSine',signature = 'AnalysisData',
           function(d){
@@ -129,35 +165,3 @@ setMethod('transformVast',signature = 'AnalysisData',
             return(d)
           }
 )
-
-transformMethods <- function(method = NULL){
-  
-  methods <- list(
-    
-    center = transformCenter,
-    auto = transformAuto,
-    range = transformRange,
-    pareto = transformPareto,
-    vast = transformVast,
-    level = transformLevel,
-    ln = transformLn,
-    log10 = transformLog10,
-    sqrt = transformSQRT,
-    asinh = transformArcSine,
-    TICnorm = transformTICnorm
-  )
-  
-  if (is.null(method)) {
-    method <- methods
-  } else {
-    if (!(method %in% names(methods))) {
-      stop(str_c("Transform method '",
-                 method,
-                 "' not recognised. Available methods include: ",
-                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-    }
-    method <- methods[[method]]
-  }
-  
-  return(method)
-}
