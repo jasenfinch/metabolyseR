@@ -63,12 +63,12 @@ setMethod('QCimpute',signature = 'AnalysisData',
 #' @param d S4 object of class AnalysisData
 #' @param cls info column to use for class labels
 #' @param QCidx QC sample label
-#' @param RSDthresh RSD threshold for filtering
+#' @param RSDthresh RSD (%) threshold for filtering
 #' @importFrom stats sd
 #' @export
 
 setMethod('QCrsdFilter',signature = 'AnalysisData',
-          function(d,cls = 'class', QCidx = 'QC', RSDthresh = 0.5){
+          function(d,cls = 'class', QCidx = 'QC', RSDthresh = 50){
             QC <- d %>%
               keepClasses(cls = cls,classes = QCidx)
             
@@ -129,7 +129,7 @@ QCMethods <- function(method = NULL, description = FALSE){
                           'relative standard deviation in QC samples'),
       arguments = c(cls = 'info column to use for class labels',
                     QCidx = 'QC sample label',
-                    RSDthreshold = 'RSD threshold for filtering')),
+                    RSDthreshold = 'RSD (%) threshold for filtering')),
     removeQC = list(
       description = 'Remove QC samples',
       arguments = c(cls = 'info column to use for class labels',
@@ -166,7 +166,7 @@ QCMethods <- function(method = NULL, description = FALSE){
 
 #' rsd
 #' @rdname rsd
-#' @description Calculate relative standard deviation values for each 
+#' @description Calculate relative standard deviation (RSD) percent values for each 
 #' feature per class for a given info column.
 #' @param x S4 object of class AnalysisData
 #' @param cls info column to use for class structure
@@ -182,6 +182,6 @@ setMethod('rsd',signature = 'AnalysisData',
               mutate(Class = clsExtract(x,cls)) %>%
               gather(Feature,Intensity,-Class) %>%
               group_by(Class,Feature) %>%
-              summarise(RSD = sd(Intensity)/mean(Intensity)) %>%
+              summarise(RSD = sd(Intensity)/mean(Intensity) * 100,.groups = 'drop') %>%
               rename(!!vars)
           })

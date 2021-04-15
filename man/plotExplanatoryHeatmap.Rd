@@ -35,7 +35,6 @@ plotExplanatoryHeatmap(x, ...)
 \S4method{plotExplanatoryHeatmap}{list}(
   x,
   threshold = 0.05,
-  title = "",
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE
@@ -44,7 +43,6 @@ plotExplanatoryHeatmap(x, ...)
 \S4method{plotExplanatoryHeatmap}{Analysis}(
   x,
   threshold = 0.05,
-  title = "",
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE

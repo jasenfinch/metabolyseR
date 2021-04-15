@@ -7,7 +7,7 @@
 \usage{
 QCrsdFilter(d, cls = "class", QCidx = "QC", RSDthresh = 0.5)
 
-\S4method{QCrsdFilter}{AnalysisData}(d, cls = "class", QCidx = "QC", RSDthresh = 0.5)
+\S4method{QCrsdFilter}{AnalysisData}(d, cls = "class", QCidx = "QC", RSDthresh = 50)
 }
 \arguments{
 \item{d}{S4 object of class AnalysisData}
@@ -16,7 +16,7 @@ QCrsdFilter(d, cls = "class", QCidx = "QC", RSDthresh = 0.5)
 
 \item{QCidx}{QC sample label}
 
-\item{RSDthresh}{RSD threshold for filtering}
+\item{RSDthresh}{RSD (%) threshold for filtering}
 }
 \description{
 QC relative standard deviation (RSD) filtering..

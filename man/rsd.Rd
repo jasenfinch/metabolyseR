@@ -15,6 +15,6 @@ rsd(x, cls = "class")
 \item{cls}{info column to use for class structure}
 }
 \description{
-Calculate relative standard deviation values for each 
+Calculate relative standard deviation (RSD) percent values for each 
 feature per class for a given info column.
 }

@@ -54,7 +54,9 @@ setMethod('plotRSD',signature = 'AnalysisData',
             d <- ggplot(x,aes_string(x = 'RSD',colour = cls,group = cls)) +
               geom_density() +
               theme_bw() +
-              labs(title = 'Density distrubution') +
+              labs(title = 'Density distrubution',
+                   x = 'RSD (%)',
+                   y = 'Density') +
               theme(plot.title = element_text(face = 'bold',
                                               hjust = 0.5),
                     axis.title = element_text(face = 'bold'),
@@ -73,6 +75,7 @@ setMethod('plotRSD',signature = 'AnalysisData',
               geom_line() + 
               theme_bw() +
               labs(title = 'Cumulative distribution',
+                   x = 'RSD (%)',
                    y = 'Cumulative frequency') +
               theme(plot.title = element_text(face = 'bold',
                                               hjust = 0.5),
@@ -134,7 +137,7 @@ setMethod('plotRSD',signature = 'Analysis',
               dat(type = 'pre-treated') %>%
               gather('Feature','Intensity') %>%
               group_by(Feature) %>%
-              summarise(RSD = sd(Intensity)/mean(Intensity))
+              summarise(RSD = sd(Intensity)/mean(Intensity) * 100)
             
             cs <- rsd %>%
               group_by(RSD) %>%
@@ -145,6 +148,7 @@ setMethod('plotRSD',signature = 'Analysis',
               geom_line(colour = ptol_pal()(1)) + 
               theme_bw() +
               labs(title = 'Cumulative distribution',
+                   x = 'RSD (%)',
                    y = 'Cumulative frequency') +
               theme(plot.title = element_text(face = 'bold',
                                               hjust = 0.5),
@@ -179,6 +183,7 @@ setMethod('plotRSD',signature = 'Analysis',
                         size = 3) +
               theme_bw() +
               labs(title = 'Frequency distribution',
+                   x = 'RSD (%)',
                    y = 'Frequency',
                    caption = 'Red dash line shows median RSD value') +
               theme(plot.title = element_text(face = 'bold',
