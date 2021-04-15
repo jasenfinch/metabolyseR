@@ -4,6 +4,12 @@
 #' @param d S4 object of class `AnalysisData` 
 #' @param add value to add prior to transformation
 #' @return An S4 object of class `AnalysisData` containing the transformed data.
+#' @details 
+#' Prior to downstream analyses, metabolomics data often require transformation to fulfil the assumptions of a particular statistical/data mining technique.
+#' Before applying a transformation, it is important to consider the effects that the transformation will have on the data, as this can greatly effect the outcome of further downstream analyses.
+#' It is also important to consider at what stage in the pre-treatment routine a transformation is applied as this too could introduce artefacts into the data.
+#' The best practice is to apply a transformation as the last in a pre-treatment routine after all other steps have been taken. 
+#' There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data.
 #' @section Methods:
 #' * `transformArcSine`: Arc-sine transformation.
 #' * `transformAuto`: Auto scaling.
@@ -17,40 +23,74 @@
 #' * `transformTICnorm`: Total ion count normalisation.
 #' * `transformVast`: Vast scaling.
 #' @examples 
-#' d <- analysisData(abr1$neg[,200:300],abr1$fact)
+#' 
+#' ## Each of the following examples shows the application of the transformation and then 
+#' ## a Linear Discriminant Analysis is plotted to show it's effect on the data structure.
+#' 
+#' ## Initial example data preparation
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact) %>% 
+#'  occupancyMaximum(occupancy = 2/3)
+#' 
+#' d %>% 
+#'  plotLDA(cls = 'day')
+#'  
 #' 
 #' ## Arc-sine transformation
-#' d %>% transformArcSine()
+#' d %>% 
+#'  transformArcSine() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Auto scaling
-#' d %>% transformAuto()
+#' d %>% 
+#'  transformAuto() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Mean centring
-#' d %>% transformCenter()
+#' d %>% 
+#'  transformCenter()%>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Level scaling
-#' d %>% transformLevel()
+#' d %>% 
+#'  transformLevel() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Natural logarithmic transformation
-#' d %>% transformLn()
+#' d %>% 
+#'  transformLn() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Logarithmic transformation
-#' d %>% transformLog10
+#' d %>% 
+#'  transformLog10()%>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Pareto scaling
-#' d %>% transformPareto
+#' d %>% 
+#'  transformPareto() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Range scaling
-#' d %>% transformRange()
+#' d %>% 
+#'  transformRange() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Square root scaling
-#' d %>% transformSQRT()
+#' d %>% 
+#'  transformSQRT() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Total ion count nromalisation
-#' d %>% transformTICnorm()
+#' d %>% 
+#'  transformTICnorm() %>% 
+#'  plotLDA(cls = 'day')
 #' 
 #' ## Vast scaling
-#' d %>% transformVast()
+#' d %>% 
+#'  transformVast() %>% 
+#'  plotLDA(cls = 'day')
 
 setMethod('transformArcSine',signature = 'AnalysisData',
           function(d){
