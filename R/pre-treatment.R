@@ -48,6 +48,50 @@ setMethod("pre-treatment", signature = "Analysis",
           }
 )
 
+aggregateMethods <- function(method = NULL){
+  
+  methods <- list(
+    sum = aggregateSum,
+    mean = aggregateMean,
+    median = aggregateMedian
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Aggregate method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  return(method)
+}
+
+keepMethods <- function(method = NULL){
+  methods <- list(
+    samples = keepSamples,
+    classes = keepClasses,
+    features = keepFeatures
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Keep method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}
+
 removeMethods <- function(method = NULL, description = FALSE){
   methods <- list(
     samples = removeSamples,

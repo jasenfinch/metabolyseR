@@ -50,7 +50,7 @@ Suggests: knitr,
     kableExtra
 Collate: allGenerics.R
     allClasses.R
-    aggregateMethods.R
+    aggregate.R
     analysisData.R
     analysisResults.R
     correctionMethods.R
@@ -58,7 +58,7 @@ Collate: allGenerics.R
     imputeMethods.R
     info.R
     join.R
-    keepMethods.R
+    keep.R
     metabolyse.R
     metabolyseR.R
     modelling.R

@@ -184,21 +184,6 @@ setGeneric("nSamples", function(x, ...) {
   standardGeneric("nSamples")
 })
 
-#' @rdname aggregateSum
-setGeneric("aggregateSum", function(d,cls = 'class') {
-  standardGeneric("aggregateSum")
-})
-
-#' @rdname aggregateMean
-setGeneric("aggregateMean", function(d,cls = 'class') {
-  standardGeneric("aggregateMean")
-})
-
-#' @rdname aggregateMedian
-setGeneric("aggregateMedian", function(d,cls = 'class') {
-  standardGeneric("aggregateMedian")
-})
-
 #' @rdname occupancy
 setGeneric("occupancy", function(x, cls = 'class') {
   standardGeneric("occupancy")
@@ -252,21 +237,6 @@ setGeneric("QCrsdFilter",
 #' @rdname QCremove
 setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
-})
-
-#' @rdname keepSamples
-setGeneric("keepSamples", function(d,idx = 'fileOrder', samples = c()) {
-  standardGeneric("keepSamples")
-})
-
-#' @rdname keepClasses
-setGeneric("keepClasses", function(d,cls = 'class', classes = c()) {
-  standardGeneric("keepClasses")
-})
-
-#' @rdname keepFeatures
-setGeneric("keepFeatures", function(d,features = character()) {
-  standardGeneric("keepFeatures")
 })
 
 #' @rdname  imputeAll
