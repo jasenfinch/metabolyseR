@@ -1,6 +1,7 @@
 #' Remove samples, classes or features
 #' @rdname remove
-#' @description Remove samples, classes or features from an AnalysisData object.
+#' @al
+#' @description Exclusion of samples, classes or features from an `AnalysisData` object.
 #' @param d S4 object of class `AnalysisData`
 #' @param idx info column containing sample indexes
 #' @param samples sample indexes to remove
@@ -13,16 +14,20 @@
 #' * `removeFeatures`: Remove features.
 #' * `removeSamples`: Remove samples.
 #' @examples 
+#' library(metaboData)
 #'  d <- analysisData(abr1$neg[,200:300],abr1$fact)
 #'  
 #'  ## Remove classes
-#'  d %>% removeClasses(cls = 'day',classes = 'H')
+#'  d %>% 
+#'   removeClasses(cls = 'day',classes = 'H')
 #'  
 #'  ## Remove features
-#'  d %>% removeFeatures(features = c('N200','N201'))
+#'  d %>% 
+#'   removeFeatures(features = c('N200','N201'))
 #'  
 #'  ## Remove samples
-#'  d %>% removeSamples(idx = 'injorder',samples = c(1,10))
+#'  d %>% 
+#'   removeSamples(idx = 'injorder',samples = c(1,10))
 
 setMethod('removeSamples',signature = 'AnalysisData',
           function(d,idx = 'fileOrder', samples = c()){

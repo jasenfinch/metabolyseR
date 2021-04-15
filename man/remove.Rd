@@ -38,7 +38,7 @@ removeFeatures(d, features = character())
 An S4 object of class \code{AnalysisData} with samples, classes or features removed.
 }
 \description{
-Remove samples, classes or features from an AnalysisData object.
+Exclusion of samples, classes or features from an \code{AnalysisData} object.
 }
 \section{Methods}{
 
@@ -50,14 +50,23 @@ Remove samples, classes or features from an AnalysisData object.
 }
 
 \examples{
+library(metaboData)
  d <- analysisData(abr1$neg[,200:300],abr1$fact)
  
  ## Remove classes
- d \%>\% removeClasses(cls = 'day',classes = 'H')
+ d \%>\% 
+  removeClasses(cls = 'day',classes = 'H')
  
  ## Remove features
- d \%>\% removeFeatures(features = c('N200','N201'))
+ d \%>\% 
+  removeFeatures(features = c('N200','N201'))
  
  ## Remove samples
- d \%>\% removeSamples(idx = 'injorder',samples = c(1,10))
+ d \%>\% 
+  removeSamples(idx = 'injorder',samples = c(1,10))
 }
+\seealso{
+Other analysis-data pre-treatment: 
+\code{\link{transformCenter}()}
+}
+\concept{analysis-data pre-treatment}
