@@ -79,7 +79,6 @@ Collate: allGenerics.R
     pre-treatment.R
     preTreatMethods.R
     QC.R
-    reAnalyse.R
     reexports.R
     remove.R
     randomForest.R

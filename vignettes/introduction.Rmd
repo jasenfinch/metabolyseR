@@ -236,7 +236,7 @@ d %>%
 
 ## Routine analyses
 
-Routine analyses are those that are often made up of numerous steps where parameters have likely already been previously estabilshed.
+Routine analyses are those that are often made up of numerous steps where parameters have likely already been previously established.
 The emphasis here is on convenience with as little code as possible required.
 In these analyses, the necessary analysis elements, order and parameters are first prepared and then the analysis routine subsequently performed in a single step.
 This section will introduce how this type of analysis can be performed using *metabolyseR* and will include four main topics:
