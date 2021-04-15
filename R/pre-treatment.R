@@ -136,7 +136,29 @@ keepMethods <- function(method = NULL){
   return(method)
 }
 
-
+QCMethods <- function(method = NULL){
+  
+  methods <- list(
+    occupancyFilter = QCoccupancy,
+    impute = QCimpute,
+    RSDfilter = QCrsdFilter,
+    removeQC = QCremove
+  ) 
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("QC method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}
 
 removeMethods <- function(method = NULL, description = FALSE){
   methods <- list(

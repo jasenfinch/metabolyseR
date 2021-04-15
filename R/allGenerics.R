@@ -199,46 +199,6 @@ setGeneric("occupancyMinimum", function(dat, cls = 'class', occupancy = 2/3) {
   standardGeneric("occupancyMinimum")
 })
 
-#' @rdname QCoccupancy
-setGeneric("QCoccupancy", 
-           function(
-             d,
-             cls = 'class', 
-             QCidx = 'QC', 
-             occupancy = 2/3) 
-           {
-             standardGeneric("QCoccupancy")
-           })
-
-#' @rdname QCimpute
-setGeneric("QCimpute", 
-           function(
-             d, 
-             cls = 'class', 
-             QCidx = 'QC', 
-             occupancy = 2/3, 
-             parallel = 'variables', 
-             seed = 1234) 
-           {
-             standardGeneric("QCimpute")
-           })
-
-#' @rdname QCrsdFilter
-setGeneric("QCrsdFilter", 
-           function(
-             d,
-             cls = 'class',
-             QCidx = 'QC', 
-             RSDthresh = 0.5) 
-           {
-             standardGeneric("QCrsdFilter")
-           })
-
-#' @rdname QCremove
-setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
-  standardGeneric("QCremove")
-})
-
 #' @rdname anova
 setGeneric("anova", 
            function(

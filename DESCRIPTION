@@ -78,11 +78,12 @@ Collate: allGenerics.R
     plotUnsupervisedRF-method.R
     pre-treatment.R
     preTreatMethods.R
-    QCMethods.R
+    QC.R
     reAnalyse.R
     reexports.R
     remove.R
     randomForest.R
+    rsd.R
     show-method.R
     split.R
     transform.R
