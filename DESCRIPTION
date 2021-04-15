@@ -38,6 +38,7 @@ Imports: Hmisc,
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown,
@@ -84,7 +85,7 @@ Collate: allGenerics.R
     randomForest.R
     show-method.R
     split.R
-    transformMethods.R
+    transform.R
     univariateMethods.R
 VignetteBuilder: knitr
 Remotes: aberHRML/metaboData

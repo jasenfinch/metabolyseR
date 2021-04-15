@@ -214,57 +214,68 @@ setGeneric("occupancyMinimum", function(dat, cls = 'class', occupancy = 2/3) {
   standardGeneric("occupancyMinimum")
 })
 
-#' @rdname transformCenter
+#' @rdname transform
+#' @export
 setGeneric("transformCenter", function(d) {
   standardGeneric("transformCenter")
 })
 
-#' @rdname transformAuto
+#' @rdname transform
+#' @export
 setGeneric("transformAuto", function(d) {
   standardGeneric("transformAuto")
 })
 
-#' @rdname transformRange
+#' @rdname transform
+#' @export
 setGeneric("transformRange", function(d) {
   standardGeneric("transformRange")
 })
 
-#' @rdname transformPareto
+#' @rdname transform
+#' @export
 setGeneric("transformPareto", function(d) {
   standardGeneric("transformPareto")
 })
 
-#' @rdname transformLevel
+#' @rdname transform
+#' @export
 setGeneric("transformLevel", function(d) {
   standardGeneric("transformLevel")
 })
 
-#' @rdname transformVast
+#' @rdname transform
+#' @export
 setGeneric("transformVast", function(d) {
   standardGeneric("transformVast")
 })
 
-#' @rdname transformLn
+#' @rdname transform
+#' @export
 setGeneric("transformLn", function(d,add = 1) {
   standardGeneric("transformLn")
 })
 
-#' @rdname transformLog10
+#' @rdname transform
+#' @export
 setGeneric("transformLog10", function(d,add = 1) {
   standardGeneric("transformLog10")
 })
 
-#' @rdname transformSQRT
+#' @rdname transform
+#' @export
 setGeneric("transformSQRT", function(d) {
   standardGeneric("transformSQRT")
 })
 
-#' @rdname transformArcSine
+#' @rdname transform
+#' @export
 setGeneric("transformArcSine", function(d) {
   standardGeneric("transformArcSine")
 })
 
-#' @rdname transformTICnorm
+#' @rdname transform
+#' @export
 setGeneric("transformTICnorm", function(d) {
   standardGeneric("transformTICnorm")
 })
