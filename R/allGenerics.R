@@ -184,21 +184,6 @@ setGeneric("nSamples", function(x, ...) {
   standardGeneric("nSamples")
 })
 
-#' @rdname occupancy
-setGeneric("occupancy", function(x, cls = 'class') {
-  standardGeneric("occupancy")
-})
-
-#' @rdname occupancyMaximum
-setGeneric("occupancyMaximum", function(dat, cls = 'class', occupancy = 2/3) {
-  standardGeneric("occupancyMaximum")
-})
-
-#' @rdname occupancyMinimum
-setGeneric("occupancyMinimum", function(dat, cls = 'class', occupancy = 2/3) {
-  standardGeneric("occupancyMinimum")
-})
-
 #' @rdname anova
 setGeneric("anova", 
            function(

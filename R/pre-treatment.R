@@ -136,6 +136,31 @@ keepMethods <- function(method = NULL){
   return(method)
 }
 
+occupancyMethods <- function(method = NULL){
+  
+  methods <- list(
+    maximum = occupancyMaximum, 
+    minimum = occupancyMinimum
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Occupancy method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(
+                   str_c("'",names(methods),"'"),
+                   collapse = ', '),
+                 '.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}
+
 QCMethods <- function(method = NULL){
   
   methods <- list(
