@@ -53,14 +53,14 @@ setMethod("correlations", signature = "Analysis",
               parameters('correlations')
             
             if (dat(d,type = 'pre-treated') %>% nrow() > 0) {
-              d <- d %>% 
+              da <- d %>% 
                 preTreated()
             } else {
-              d <- d %>%
+              da <- d %>%
                 raw()
             }
             
-            rs <- correlations(d,
+            rs <- correlations(da,
                                params$method,
                                params$pAdjustMethod,
                                params$corPvalue)
