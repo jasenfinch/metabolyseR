@@ -1,141 +1,68 @@
-#' clsAvailable
-#' @rdname clsAvailable
-#' @description Return available sample info columns from an Analysis or
-#'  AnalysisData object.
-#' @param x S4 object of class Analysis or AnalysisData
-#' @param type \code{raw} or \code{preTreated} sample information
-#' @param ... arguments to pass to specific method
-#' @export
-
-setMethod('clsAvailable',signature = 'AnalysisData',function(x){
-  x %>%
-    sinfo() %>%
-    colnames()
-})
-
-#' @rdname clsAvailable
-
-setMethod('clsAvailable',signature = 'Analysis',function(x,type = 'raw'){
-  types <- c('raw','preTreated')
-  if (!(type %in% types)) {
-    stop(
-      str_c('Type should be one of ',
-            str_c(str_c('"',types,'"'),
-                  collapse = ' or ')),
-      call. = FALSE)
-  } 
-  
-  sl <- get(type)
-  
-  x %>%
-    sl() %>%
-    clsAvailable()
-})
-
-#' clsExtract
-#' @rdname clsExtract
-#' @description Extract a given sample info column from an Analysis or 
-#' AnalysisData object.
-#' @param x S4 object of class Analysis or AnalysisData
+#' Sample meta information wrangling
+#' @rdname cls
+#' @description Query or alter sample meta information in `AnalysisData` or `Analysis` class objects.
+#' @param d S4 object of class Analysis or AnalysisData
 #' @param cls sample info column to extract
-#' @param type \code{raw} or \code{preTreated} sample information
-#' @param ... arguments to pass to specific method
-#' @export
-
-setMethod('clsExtract',
-          signature = 'AnalysisData',
-          function(x, cls = 'class'){
-            x %>%
-              sinfo() %>%
-              select(cls) %>%
-              deframe()
-          })
-
-#' @rdname clsExtract
-
-setMethod('clsExtract',
-          signature = 'Analysis',
-          function(x, cls = 'class', type = 'raw'){
-            types <- c('raw','preTreated')
-            if (!(type %in% types)) {
-              stop(
-                str_c('Type should be one of ',
-                      str_c(str_c('"',types,'"'),
-                            collapse = ' or ')),
-                call. = FALSE)
-            } 
-            
-            sl <- get(type)
-            
-            x %>%
-              sl() %>%
-              clsExtract(cls = cls)
-          })
-
-#' clsReplace
-#' @rdname clsReplace
-#' @description Replace a given sample info column from an Analysis or 
-#' AnalysisData object.
-#' @param x S4 object of class Analysis or AnalysisData
 #' @param value vactor of new sample information for replacement
-#' @param cls sample info column to replace
-#' @param type \code{raw} or \code{preTreated} sample information
+#' @param type `raw` or `pre-treated` sample information
+#' @param descending TRUE/FALSE, arrange samples in descending order
+#' @param newName new column name
 #' @param ... arguments to pass to specific method
+#' @section Methods:
+#' * `clsAdd`: Add a sample information column.
+#' * `clsArrange`: Arrange sample row order by a specified sample information column.
+#' * `clsAvailable`: Retrieve the names of the available sample information columns.
+#' * `clsExtract`: Extract the values of a specified sample information column.
+#' * `clsRemove`: Remove a sample information column.
+#' * `clsRename`: Rename a sample information column.
+#' * `clsReplace`: Replace a sample information column.
+#' @examples 
+#' library(metaboData)
+#' d <- analysisData(abr1$neg,abr1$fact)
+#' 
+#' ## Add a sample information column named 'new'
+#' d <- clsAdd(d,'new',1:nSamples(d))
+#' 
+#' print(d)
+#' 
+#' ## Arrange the row orders by the 'day' column
+#' d <- clsArrange(d,'day')
+#' 
+#' clsExtract(d,'day')
+#' 
+#' ## Retreive the available sample information column names
+#' clsAvailable(d)
+#' 
+#' ## Extract the values of the 'day' column
+#' clsExtract(d,'day')
+#' 
+#' ## Remove the 'class' column
+#' d <- clsRemove(d,'class')
+#' 
+#' clsAvailable(d)
+#' 
+#' ## Rename the 'day' column to 'treatment'
+#' d <- clsRename(d,'day','treatment')
+#' 
+#' clsAvailable(d)
+#' 
+#' ## Replace the values of the 'treatment' column
+#' d <- clsReplace(d,rep(1,nSamples(d)),'treatment')
+#' 
+#' clsExtract(d,'treatment')
 #' @export
 
-setMethod('clsReplace',
-          signature = 'AnalysisData',
-          function(x,value,cls = 'class'){
-            if (!(cls %in% clsAvailable(x))) {
-              stop(
-                str_c('Class information column "',cls,'" not present.'),
-                call. = FALSE)
-            }
-            
-            sinfo(x)[,cls] <- value
-            return(x)
-          })
+setGeneric("clsAdd", function(d,cls,value,...) {
+  standardGeneric("clsAdd")
+})
 
-#' @rdname clsReplace
-
-setMethod('clsReplace',
-          signature = 'Analysis',
-          function(x, value, cls = 'class', type = 'raw'){
-            types <- c('raw','preTreated')
-            if (!(type %in% types)) {
-              stop(
-                str_c('Type should be one of ',
-                      str_c(str_c('"',types,'"'),
-                            collapse = ' or ')),
-                call. = FALSE)
-            } 
-            
-            sl <- get(type)
-            `sl<-` <- get(str_c(type,'<-'))
-            
-            sl(x) <- x %>%
-              sl() %>%
-              clsReplace(value = value,cls = cls)
-            
-            return(x)
-          })
-
-#' clsAdd
-#' @rdname clsAdd
-#' @description Add a sample info column to a Analysis or 
-#' AnalysisData object.
-#' @param x S4 object of class Analysis or AnalysisData
-#' @param cls name of new sample information column
-#' @param value new sample information to add
-#' @param type \code{raw} or \code{preTreated} sample information
-#' @param ... arguments to pass to specific method
+#' @rdname cls
 #' @importFrom rlang :=
-#' @export
 
 setMethod('clsAdd',
           signature = 'AnalysisData',
-          function(x,cls,value){
-            if (cls %in% clsAvailable(x)) {
+          function(d,cls,value){
+            if (cls %in% clsAvailable(d)) {
               stop(
                 str_c('Class information column "',
                       cls,
@@ -143,104 +70,55 @@ setMethod('clsAdd',
                 call. = FALSE)
             }
             
-            sinfo(x) <- x %>%
+            sinfo(d) <- d %>%
               sinfo() %>%
               mutate({{cls}} := value)
-            return(x)
+            return(d)
           })
 
-#' @rdname clsAdd
+#' @rdname cls
 
 setMethod('clsAdd',
           signature = 'Analysis',
-          function(x,cls,value,type = 'raw'){
-            types <- c('raw','preTreated')
-            if (!(type %in% types)) {
-              stop(
-                str_c('Type should be one of ',
-                      str_c(str_c('"',types,'"'),
-                            collapse = ' or ')),
-                call. = FALSE)
-            } 
+          function(d,cls,value,type = c('raw','pre-treated')){
+            type <- match.arg(type,
+                              choices = c('raw',
+                                               'pre-treated'))
             
-            sl <- get(type)
-            `sl<-` <- get(str_c(type,'<-'))
+            if (type == 'raw'){
+              sl <- get('raw')  
+              `sl<-` <- get(str_c('raw','<-'))
+            } else {
+              sl <- get('preTreated')
+              `sl<-` <- get(str_c('preTreated','<-'))
+            }
             
-            sl(x) <- x %>%
+            sl(d) <- d %>%
               sl() %>%
               clsAdd(value = value,cls = cls)
             
-            return(x)
+            return(d)
           })
 
-#' clsRemove
-#' @rdname clsRemove
-#' @description Remove a sample info column from a Analysis or 
-#' AnalysisData object.
-#' @param x S4 object of class Analysis or AnalysisData
-#' @param cls name of sample information column to remove
-#' @param type \code{raw} or \code{preTreated} sample information
-#' @param ... arguments to pass to specific method
+#' @rdname cls
 #' @export
 
-setMethod('clsRemove',signature = 'AnalysisData',function(x,cls){
-  if (!(cls %in% clsAvailable(x))) {
-    stop(str_c('Class information column "',cls,'" not present.'),
-         call. = FALSE)
-  }
-  
-  sinfo(x) <- x %>%
-    sinfo() %>%
-    select(-{{cls}})
-  
-  return(x)
+setGeneric("clsArrange", function(d,cls = 'class', descending = FALSE, ...) {
+  standardGeneric("clsArrange")
 })
 
-#' @rdname clsRemove
-
-setMethod('clsRemove',
-          signature = 'Analysis',
-          function(x,cls,type = 'raw'){
-            types <- c('raw','preTreated')
-            if (!(type %in% types)) {
-              stop(
-                str_c('Type should be one of ',
-                      str_c(str_c('"',types,'"'),
-                            collapse = ' or ')),
-                call. = FALSE)
-            } 
-            
-            sl <- get(type)
-            `sl<-` <- get(str_c(type,'<-'))
-            
-            sl(x) <- x %>%
-              sl() %>%
-              clsRemove(cls)
-            
-            return(x)
-          })
-
-#' clsArrange
-#' @rdname clsArrange
-#' @description Order samples within an object of class AnalysisData or 
-#' Analysis by a given sample information column.
-#' @param x S4 object of class AnalysisData or Analysis
-#' @param cls  name of sample information column to arrange by
-#' @param descending TRUE/FALSE, arrange samples in descending order
-#' @param type  \code{raw} or \code{preTreated} sample information
-#' @param ... arguments to pass to specific method
+#' @rdname cls
 #' @importFrom dplyr desc
-#' @export
 
 setMethod('clsArrange',
           signature = 'AnalysisData',
-          function(x,cls = 'class', descending = FALSE){
+          function(d,cls = 'class', descending = FALSE){
             
-            sample_data <- dat(x) %>%
-              bind_cols(sinfo(x) %>%
+            sample_data <- dat(d) %>%
+              bind_cols(sinfo(d) %>%
                           select(all_of(cls)))
             
-            sample_info <- sinfo(x)
+            sample_info <- sinfo(d)
             
             if (isTRUE(descending)) {
               sample_data <- sample_data %>%
@@ -256,74 +134,237 @@ setMethod('clsArrange',
                 arrange(!!sym(cls))
             }
             
-            dat(x) <- sample_data %>%
+            dat(d) <- sample_data %>%
               select(-all_of(cls))
-            sinfo(x) <- sample_info
+            sinfo(d) <- sample_info
             
-            return(x)
+            return(d)
           })
 
-#' @rdname clsArrange
+#' @rdname cls
 
 setMethod('clsArrange',
           signature = 'Analysis',
-          function(x,cls = 'class', descending = FALSE, type = 'raw'){
-            types <- c('raw','preTreated')
-            if (!(type %in% types)) {
-              stop(
-                str_c('Type should be one of ',
-                      str_c(str_c('"',types,'"'),
-                            collapse = ' or ')),
-                call. = FALSE)
-            } 
+          function(d,cls = 'class', descending = FALSE, type = c('raw','pre-treated')){
+            type <- match.arg(type,
+                              choices = c('raw',
+                                          'pre-treated'))
             
-            sl <- get(type)
-            `sl<-` <- get(str_c(type,'<-'))
+            if (type == 'raw'){
+              sl <- get('raw')  
+              `sl<-` <- get(str_c('raw','<-'))
+            } else {
+              sl <- get('preTreated')
+              `sl<-` <- get(str_c('preTreated','<-'))
+            }
             
-            sl(x) <- x %>%
+            sl(d) <- d %>%
               sl() %>%
               clsArrange(cls = cls,descending = descending)
           })
 
-#' clsRename
-#' @rdname clsRename
-#' @description Rename a sample information column within an object of 
-#' AnalysisData or Analysis.
-#' @param x S4 object of class Analysis or AnalysisData
-#' @param cls  sample information column to rename
-#' @param newName new column name
-#' @param type  \code{raw} or \code{preTreated} sample information
-#' @param ... arguments to pass to specific method
+#' @rdname cls
 #' @export
+
+setGeneric("clsAvailable", function(d,...) {
+  standardGeneric("clsAvailable")
+})
+
+#' @rdname cls
+
+setMethod('clsAvailable',signature = 'AnalysisData',function(d){
+  d %>%
+    sinfo() %>%
+    colnames()
+})
+
+#' @rdname cls
+
+setMethod('clsAvailable',signature = 'Analysis',function(d,type = c('raw','pre-treated')){
+  type <- match.arg(type,
+                    choices = c('raw',
+                                'pre-treated'))
+  
+  if (type == 'raw'){
+    sl <- get('raw')  
+  } else {
+    sl <- get('preTreated')
+  }
+  
+  d %>%
+    sl() %>%
+    clsAvailable()
+})
+
+#' @rdname cls
+#' @export
+
+setGeneric("clsExtract", function(d,cls = 'class', ...) {
+  standardGeneric("clsExtract")
+})
+
+#' @rdname cls
+
+setMethod('clsExtract',
+          signature = 'AnalysisData',
+          function(d, cls = 'class'){
+            d %>%
+              sinfo() %>%
+              select(cls) %>%
+              deframe()
+          })
+
+#' @rdname cls
+
+setMethod('clsExtract',
+          signature = 'Analysis',
+          function(d,cls = 'class',type = c('raw','pre-treated')){
+            type <- match.arg(type,
+                              choices = c('raw',
+                                          'pre-treated'))
+            
+            if (type == 'raw'){
+              sl <- get('raw')  
+            } else {
+              sl <- get('preTreated')
+            }
+            
+            d %>%
+              sl() %>%
+              clsExtract(cls = cls)
+          })
+
+#' @rdname cls
+#' @export
+
+setGeneric("clsRemove", function(d,cls,...) {
+  standardGeneric("clsRemove")
+})
+
+#' @rdname cls
+
+setMethod('clsRemove',signature = 'AnalysisData',function(d,cls){
+  if (!(cls %in% clsAvailable(d))) {
+    stop(str_c('Class information column "',cls,'" not present.'),
+         call. = FALSE)
+  }
+  
+  sinfo(d) <- d %>%
+    sinfo() %>%
+    select(-{{cls}})
+  
+  return(d)
+})
+
+#' @rdname cls
+
+setMethod('clsRemove',
+          signature = 'Analysis',
+          function(d,cls,type = c('raw','pre-treated')){
+            type <- match.arg(type,
+                              choices = c('raw',
+                                          'pre-treated'))
+            
+            if (type == 'raw'){
+              sl <- get('raw')  
+              `sl<-` <- get(str_c('raw','<-'))
+            } else {
+              sl <- get('preTreated')
+              `sl<-` <- get(str_c('preTreated','<-'))
+            }
+            
+            sl(d) <- d %>%
+              sl() %>%
+              clsRemove(cls)
+            
+            return(d)
+          })
+
+#' @rdname cls
+#' @export
+
+setGeneric("clsRename", function(d,cls,newName, ...) {
+  standardGeneric("clsRename")
+})
+
+#' @rdname cls
 
 setMethod('clsRename',
           signature = 'AnalysisData',
-          function(x,cls,newName){
-            sinfo(x) <- x %>%
+          function(d,cls,newName){
+            sinfo(d) <- d %>%
               sinfo() %>%
               rename(!!newName := !!cls)
             
-            return(x)
+            return(d)
           })
 
-#' @rdname clsRename
+#' @rdname cls
 
 setMethod('clsRename',
           signature = 'Analysis',
-          function(x,cls,newName, type = 'raw'){
-            types <- c('raw','preTreated')
-            if (!(type %in% types)) {
-              stop(
-                str_c('Type should be one of ',
-                      str_c(str_c('"',types,'"'),
-                            collapse = ' or ')),
-                call. = FALSE)
-            } 
+          function(d,cls,newName, type = c('raw','pre-treated')){
+            type <- match.arg(type,
+                              choices = c('raw',
+                                          'pre-treated'))
             
-            sl <- get(type)
-            `sl<-` <- get(str_c(type,'<-'))
+            if (type == 'raw'){
+              sl <- get('raw')  
+              `sl<-` <- get(str_c('raw','<-'))
+            } else {
+              sl <- get('preTreated')
+              `sl<-` <- get(str_c('preTreated','<-'))
+            }
             
-            sl(x) <- x %>%
+            sl(d) <- d %>%
               sl() %>%
               clsRename(cls = cls,newName = newName)
+          })
+
+#' @rdname cls
+#' @export
+
+setGeneric("clsReplace", function(d,value,cls = 'class', ...) {
+  standardGeneric("clsReplace")
+})
+
+#' @rdname cls
+#' @description Replace a given sample info column from an Analysis or 
+#' AnalysisData object.
+
+setMethod('clsReplace',
+          signature = 'AnalysisData',
+          function(d,value,cls = 'class'){
+            if (!(cls %in% clsAvailable(d))) {
+              stop(
+                str_c('Class information column "',cls,'" not present.'),
+                call. = FALSE)
+            }
+            
+            sinfo(d)[,cls] <- value
+            return(d)
+          })
+
+#' @rdname cls
+
+setMethod('clsReplace',
+          signature = 'Analysis',
+          function(d, value, cls = 'class', type = c('raw','pre-treated')){
+            type <- match.arg(type,
+                              choices = c('raw',
+                                          'pre-treated'))
+            
+            if (type == 'raw'){
+              sl <- get('raw')  
+              `sl<-` <- get(str_c('raw','<-'))
+            } else {
+              sl <- get('preTreated')
+              `sl<-` <- get(str_c('preTreated','<-'))
+            }
+            
+            sl(d) <- d %>%
+              sl() %>%
+              clsReplace(value = value,cls = cls)
+            
+            return(d)
           })

@@ -317,41 +317,6 @@ setGeneric("changeParameter<-",
              standardGeneric("changeParameter<-")
            })
 
-#' @rdname clsAvailable
-setGeneric("clsAvailable", function(x,...) {
-  standardGeneric("clsAvailable")
-})
-
-#' @rdname clsExtract
-setGeneric("clsExtract", function(x,cls = 'class', ...) {
-  standardGeneric("clsExtract")
-})
-
-#' @rdname clsReplace
-setGeneric("clsReplace", function(x,value,cls = 'class', ...) {
-  standardGeneric("clsReplace")
-})
-
-#' @rdname clsAdd
-setGeneric("clsAdd", function(x,cls,value,...) {
-  standardGeneric("clsAdd")
-})
-
-#' @rdname clsRemove
-setGeneric("clsRemove", function(x,cls,...) {
-  standardGeneric("clsRemove")
-})
-
-#' @rdname clsArrange
-setGeneric("clsArrange", function(x,cls = 'class', descending = FALSE, ...) {
-  standardGeneric("clsArrange")
-})
-
-#' @rdname clsRename
-setGeneric("clsRename", function(x,cls,newName, ...) {
-  standardGeneric("clsRename")
-})
-
 #' @rdname rsd
 setGeneric("rsd", function(x,cls = 'class') {
   standardGeneric("rsd")
