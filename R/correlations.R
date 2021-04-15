@@ -1,11 +1,12 @@
 #' correlations
 #' @rdname correlations
 #' @description Feature correlation analysis.
-#' @param d S4 object of class `AnalysisData` or `Analysis`
+#' @param d S4 object of class `AnalysisData`
 #' @param method correlation method. One of `pearson` or `spearman`.
 #' @param pAdjustMethod p-value adjustment method. See `?p.adjust` for available methods.
 #' @param corPvalue p-value cut-off threshold for significance
 #' @param ... arguments to pass to specific method
+#' @return A tibble containing results of significantly correlated features.
 #' @details 
 #' Correlation analyses can be used to identify associated features within data sets.
 #' This can be useful to identifying clusters of related features that can be used to annotate metabolites within data sets.
@@ -34,8 +35,6 @@ setMethod('correlations',signature = 'AnalysisData',
                            pAdjustMethod = pAdjustMethod, 
                            corPvalue = corPvalue)
           })
-
-#' @rdname correlations
 
 setMethod("correlations", signature = "Analysis",
           function(d){
