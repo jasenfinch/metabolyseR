@@ -147,6 +147,7 @@ setMethod('importanceMetrics',signature = 'RandomForest',function(x){
 #' @param metric importance metric on which to retrieve explanatory feautres
 #' @param threshold threshold below which explanatory features are extracted
 #' @param ... arguments to parse to method for specific class
+#' @importFrom dplyr arrange
 #' @export
 
 setMethod('explanatoryFeatures',signature = 'Univariate',

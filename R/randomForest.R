@@ -429,7 +429,7 @@ supervised <- function(x,
 }
 
 #' @importFrom yardstick metric_set accuracy kap roc_auc
-#' @importFrom dplyr summarise_all group_by_all
+#' @importFrom dplyr summarise_all group_by_all n
 #' @importFrom stringr str_split
 #' @importFrom magrittr set_names
 

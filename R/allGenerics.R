@@ -239,28 +239,6 @@ setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
 
-#' @rdname  imputeAll
-setGeneric("imputeAll", 
-           function(
-             d, 
-             occupancy = 2/3, 
-             parallel = 'variables', 
-             seed = 1234) 
-           {
-             standardGeneric("imputeAll")
-           })
-
-#' @rdname  imputeClass
-setGeneric("imputeClass", 
-           function(
-             d, 
-             cls = 'class', 
-             occupancy = 2/3, 
-             seed = 1234) 
-           {
-             standardGeneric("imputeClass")
-           })
-
 #' @rdname anova
 setGeneric("anova", 
            function(

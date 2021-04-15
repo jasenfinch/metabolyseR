@@ -1,13 +1,58 @@
-#' imputeAll
-#' @rdname imputeAll
-#' @description Impute missing values across all samples using Random Forest.
-#' @param d S4 object of class AnalysisData
-#' @param occupancy occupancy threshold for imputation of a given feature
+#' Missing data imputation
+#' @rdname  impute
+#' @description Impute missing values using random forest imputation.
+#' @param d S4 object of class `AnalysisData`
+#' @param cls info column to use for class labels
+#' @param occupancy occupancy threshold above which missing values of a feature will be imputed
 #' @param parallel parallel type to use. See `?missForest` for details
 #' @param seed random number seed
+#' @return An S4 object of class `AnalysisData` containing the data after imputation.
+#' @details 
+#' Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests. 
+#' Where and how they are imputed are important considerations and is highly related to variable occupancy. 
+#' The methods provided here allow both these aspects to be taken into account and utilise random forest imputation using the `missForest` package.
+#' @section Methods:
+#' * `imputeAll`: Impute missing values across all sample features.
+#' * `imputeClass`: Impute missing values class-wise.
+#' @examples 
+#' ## Each of the following examples shows the application of each imputation method and then 
+#' ## a Linear Discriminant Analysis is plotted to show it's effect on the data structure.
+#' 
+#' ## Initial example data preparation
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact) %>% 
+#'  occupancyMaximum(occupancy = 2/3)
+#' 
+#' d %>% 
+#'  plotLDA(cls = 'day')
+#'  
+#' ## Missing value imputation across all samples
+#' d %>% 
+#'  imputeAll(parallel = 'no') %>% 
+#'  plotLDA(cls = 'day')
+#' 
+#' ## Missing value imputation class-wise
+#' d %>% 
+#'  imputeClass(cls = 'day') %>% 
+#'  plotLDA(cls = 'day')
+#' @export
+
+setGeneric("imputeAll", 
+           function(
+             d, 
+             occupancy = 2/3, 
+             parallel = 'variables', 
+             seed = 1234) 
+           {
+             standardGeneric("imputeAll")
+           })
+
+#' @rdname impute
+#' @importFrom missForest missForest
+#' @importFrom dplyr select
 #' @importFrom tidyselect all_of
 #' @importFrom doFuture registerDoFuture
-#' @export
 
 setMethod('imputeAll',signature = 'AnalysisData',
           function(d, 
@@ -60,16 +105,21 @@ setMethod('imputeAll',signature = 'AnalysisData',
           }
 )
 
-#' imputeClass
-#' @rdname imputeClass
-#' @description Impute missing values class-wise using Random Forest.
-#' @param d S4 object of class AnalysisData
-#' @param cls info column to use for class labels
-#' @param occupancy occupancy threshold for imputation
-#' @param seed random number seed
-#' @importFrom dplyr n
-#' @importFrom furrr furrr_options
+#' @rdname  impute
 #' @export
+
+setGeneric("imputeClass", 
+           function(
+             d, 
+             cls = 'class', 
+             occupancy = 2/3, 
+             seed = 1234) 
+           {
+             standardGeneric("imputeClass")
+           })
+
+#' @rdname impute
+#' @importFrom furrr furrr_options
 
 setMethod('imputeClass',signature = 'AnalysisData',
           function(d, 
@@ -101,31 +151,3 @@ setMethod('imputeClass',signature = 'AnalysisData',
             return(d)
           }
 )
-
-
-#' @importFrom missForest missForest
-#' @importFrom dplyr arrange select
-
-imputeMethods <- function(method = NULL){
-  
-  methods <- list(
-    
-    all = imputeAll,
-    
-    class = imputeClass
-  )
-  
-  if (is.null(method)) {
-    method <- methods
-  } else {
-    if (!(method %in% names(methods))) {
-      stop(str_c("Impute method '",
-                 method,
-                 "' not recognised. Available methods include: ",
-                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
-    }
-    method <- methods[[method]]
-  }
-  
-  return(method)
-}

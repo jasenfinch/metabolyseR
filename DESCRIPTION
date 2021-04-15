@@ -55,7 +55,7 @@ Collate: allGenerics.R
     analysisResults.R
     correction.R
     correlations-method.R
-    imputeMethods.R
+    impute.R
     info.R
     join.R
     keep.R

@@ -70,6 +70,50 @@ aggregateMethods <- function(method = NULL){
   return(method)
 }
 
+correctionMethods <- function(method = NULL){
+  methods <- list(
+    center = correctionCenter
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Correction method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}
+
+imputeMethods <- function(method = NULL){
+  
+  methods <- list(
+    
+    all = imputeAll,
+    
+    class = imputeClass
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Impute method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}
+
 keepMethods <- function(method = NULL){
   methods <- list(
     samples = keepSamples,
@@ -91,6 +135,8 @@ keepMethods <- function(method = NULL){
   
   return(method)
 }
+
+
 
 removeMethods <- function(method = NULL, description = FALSE){
   methods <- list(
