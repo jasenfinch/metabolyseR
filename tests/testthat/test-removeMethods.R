@@ -7,30 +7,6 @@ test_that('removeMethods returns methods correctly',{
   expect_false(F %in% m)
 })
 
-test_that('removeMethods returns descriptions correctly',{
-  m <- map_lgl(removeMethods(description = T),is.list)
-  expect_false(F %in% m)
-})
-
-test_that('description names match method names',{
-  d <- names(removeMethods(description = T))
-  m <- names(removeMethods())
-  expect_equal(d,m)
-})
-
-test_that('descriptions have correct names', {
-  n <- lapply(removeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(
-    n,
-    function(x){x == c('description','arguments')})))
-})
-
-test_that('number of method arguments matches description arguments', {
-  d <- map_dbl(removeMethods(description = T),~{length(.x$arguments)})
-  m <- map_dbl(removeMethods(),~{length(formals(.x)[-1])})
-  expect_equal(d,m)
-})
-
 test_that('methods work',{
 
   d <- analysisData(abr1$neg,abr1$fact)

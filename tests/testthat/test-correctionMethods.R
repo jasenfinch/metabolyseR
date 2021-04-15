@@ -7,23 +7,6 @@ test_that('correctionMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
-test_that('correctionMethods returns descriptions correctly',{
-  m <- map_lgl(correctionMethods(description = T),is.list)
-  expect_false(FALSE %in% m)
-})
-
-test_that('description names match method names',{
-  d <- names(correctionMethods(description = T))
-  m <- names(correctionMethods())
-  expect_equal(d,m)
-})
-
-test_that('descriptions have correct names', {
-  n <- lapply(correctionMethods(description = T),names)
-  expect_false(FALSE %in% unlist(
-    lapply(n,function(x){x == c('description','arguments')})))
-})
-
 test_that('methods work',{
   m <- names(correctionMethods())
   d <- analysisData(abr1$neg[,200:250],abr1$fact) %>%

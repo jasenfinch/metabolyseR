@@ -21,11 +21,6 @@ suppressWarnings(
 regression_rf_res <- d %>%
   randomForest(cls = 'injorder')
 
-test_that('modelling methods descriptions correctly returned',{
-  methods <- getModellingMethods(description = TRUE)
-  expect_type(methods,'list')
-})
-
 test_that('plotImportance works for Univariate class',{
   pl <- plotImportance(ttest_res,response = 'day')
   

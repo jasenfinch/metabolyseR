@@ -9,31 +9,6 @@ test_that('QCMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
-test_that('QCMethods returns descriptions correctly',{
-  m <- map_lgl(QCMethods(description = TRUE),is.list)
-  expect_false(FALSE %in% m)
-})
-
-test_that('description names match method names',{
-  d <- names(QCMethods(description = TRUE))
-  m <- names(QCMethods())
-  expect_equal(d,m)
-})
-
-test_that('descriptions have correct names', {
-  n <- lapply(QCMethods(description = TRUE),names)
-  expect_false(FALSE %in% unlist(lapply(
-    n,
-    function(x){x == c('description','arguments')})))
-})
-
-test_that('number of method arguments matches description arguments', {
-  d <- map_dbl(QCMethods(description = TRUE),
-               ~{length(.x$arguments)})
-  m <- map_dbl(QCMethods(),~{length(formals(.x)[-1])})
-  expect_equal(d,m)
-})
-
 test_that('methods work',{
   m <- names(QCMethods())
   d <- analysisData(abr1$neg,abr1$fact) %>%

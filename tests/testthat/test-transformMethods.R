@@ -7,24 +7,6 @@ test_that('transformMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
-test_that('transformMethods returns descriptions correctly',{
-  m <- map_lgl(transformMethods(description = TRUE),is.list)
-  expect_false(FALSE %in% m)
-})
-
-test_that('description names match method names',{
-  d <- names(transformMethods(description = TRUE))
-  m <- names(transformMethods())
-  expect_equal(d,m)
-})
-
-test_that('descriptions have correct names', {
-  n <- lapply(transformMethods(description = TRUE),names)
-  expect_false(FALSE %in% unlist(lapply(
-    n,
-    function(x){x == c('description','arguments')})))
-})
-
 test_that('methods work',{
   m <- names(transformMethods())
   
