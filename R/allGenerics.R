@@ -249,11 +249,6 @@ setGeneric("changeParameter<-",
              standardGeneric("changeParameter<-")
            })
 
-#' @rdname bindAnalysesRows
-setGeneric('bindAnalysesRows',function(x){
-  standardGeneric('bindAnalysesRows')
-})
-
 #' @rdname binaryComparisons
 setGeneric('binaryComparisons',function(x,cls = 'class'){
   standardGeneric('binaryComparisons')

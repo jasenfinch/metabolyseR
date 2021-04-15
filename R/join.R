@@ -1,11 +1,25 @@
-#' bindAnalysesRows
-#' @rdname bindAnalysesRows
-#' @description Bind rows of objects of class AnalysisData 
-#' contained within a list.
-#' @param x list object containing S4 objects of class AnalysisData to be bound
+#' Bind `AnalysisData` objects by row
+#' @rdname bind
+#' @description Bind the rows of AnalysisData objects contained within a list.
+#' @param d list object containing S4 objects of class AnalysisData to be bound
+#' @return An S4 object of class AnalysisData containg the bound data sets.
+#' @examples 
+#' library(metaboData)
+#' d <- list(
+#'  negative = analysisData(abr1$neg,abr1$fact),
+#'  positive = analysisData(abr1$pos,abr1$fact)
+#'  )
+#'
+#' bindRows(d)
 #' @export
 
-setMethod('bindAnalysesRows',signature = 'list',function(x){
+setGeneric('bindRows',function(x){
+  standardGeneric('bindRows')
+})
+
+#' @rdname bind
+
+setMethod('bindRows',signature = 'list',function(x){
   object_classes <- x %>%
     map_chr(class)
   
