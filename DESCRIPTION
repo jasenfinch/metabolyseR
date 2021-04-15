@@ -81,7 +81,7 @@ Collate: allGenerics.R
     QCMethods.R
     reAnalyse.R
     reexports.R
-    removeMethods.R
+    remove.R
     randomForest.R
     show-method.R
     split.R

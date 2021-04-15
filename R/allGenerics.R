@@ -320,17 +320,20 @@ setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
   standardGeneric("QCremove")
 })
 
-#' @rdname removeSamples
+#' @rdname remove
+#' @export
 setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c()) {
   standardGeneric("removeSamples")
 })
 
-#' @rdname removeClasses
+#' @rdname remove
+#' @export
 setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
   standardGeneric("removeClasses")
 })
 
-#' @rdname removeFeatures
+#' @rdname remove
+#' @export
 setGeneric("removeFeatures", function(d,features = character()) {
   standardGeneric("removeFeatures")
 })

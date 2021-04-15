@@ -48,6 +48,28 @@ setMethod("pre-treatment", signature = "Analysis",
           }
 )
 
+removeMethods <- function(method = NULL, description = FALSE){
+  methods <- list(
+    samples = removeSamples,
+    classes = removeClasses,
+    features = removeFeatures 
+  )
+  
+  if (is.null(method)) {
+    method <- methods
+  } else {
+    if (!(method %in% names(methods))) {
+      stop(str_c("Remove method '",
+                 method,
+                 "' not recognised. Available methods include: ",
+                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+    }
+    method <- methods[[method]]
+  }
+  
+  return(method)
+}
+
 transformMethods <- function(method = NULL){
   
   methods <- list(
