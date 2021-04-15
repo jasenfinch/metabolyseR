@@ -3,9 +3,9 @@
 \docType{class}
 \name{AnalysisParameters-class}
 \alias{AnalysisParameters-class}
-\title{AnalysisParameters}
+\title{AnalysisParameters S4 class}
 \description{
-An S4 class to store analysis parameters
+An S4 class to store analysis parameters.
 }
 \section{Slots}{
 

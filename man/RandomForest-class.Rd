@@ -3,9 +3,9 @@
 \docType{class}
 \name{RandomForest-class}
 \alias{RandomForest-class}
-\title{RandomForest}
+\title{RandomForest S4 class}
 \description{
-An S4 class for random forest results and models
+An S4 class for random forest results and models.
 }
 \section{Slots}{
 

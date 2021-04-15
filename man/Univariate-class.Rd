@@ -3,7 +3,7 @@
 \docType{class}
 \name{Univariate-class}
 \alias{Univariate-class}
-\title{Univariate}
+\title{Univariate S4 class}
 \description{
 An S4 class for univariate test models and results.
 }
