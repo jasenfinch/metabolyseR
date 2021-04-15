@@ -7,7 +7,7 @@
 analysisParameters(elements = analysisElements())
 }
 \arguments{
-\item{elements}{character vector containing elements for analysis. 
+\item{elements}{character vector containing elements for analysis.
 Default includes all available elements from \code{analysisElements}.}
 }
 \description{
