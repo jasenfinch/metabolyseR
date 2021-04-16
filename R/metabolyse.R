@@ -1,39 +1,71 @@
-#' metabolyse 
-#' @description Analyse data based on specified analysis elements.
-#' @param  data tibble or data.frame containing data to analyse
+#' Perform an analysis
+#' @rdname metabolyse
+#' @description Perform analyses containing multiple analysis element steps.
+#' @param data tibble or data.frame containing data to analyse
 #' @param info tibble or data.frame containing data info or meta data
-#' @param parameters an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}
+#' @param parameters an object of AnalysisParameters class containing 
+#' parameters for analysis. Default calls \code{analysisParameters()}
 #' @param verbose should output be printed to the console 
+#' @param analysis an object of class Analysis containing previous 
+#' analysis results
+#' @return An S4 object of class `Analysis`.
+#' @details 
+#' Routine analyses are those that are often made up of numerous steps where parameters have likely already been previously established. 
+#' The emphasis here is on convenience with as little code as possible required.
+#' In these analyses, the necessary analysis elements, order and parameters are first prepared and then the analysis routine subsequently performed in a single step.
+#' The `metabolyse` function provides this utility, where the metabolome data, sample meta information and analysis parameters are provided.
+#' The `reAnalyse` method can be used to perform further analyses on the results.
+#' @examples 
+#' library(metaboData)
+#' 
+#' ## Generate analysis parameters
+#' p <- analysisParameters(c('pre-treatment','modelling'))
+#' 
+#' ## Alter pre-treatment and modelling parameters to use different methods
+#' parameters(p,'pre-treatment') <- preTreatmentParameters(
+#'   list(occupancyFilter = 'maximum',
+#'        transform = 'TICnorm')
+#' )
+#' parameters(p,'modelling') <- modellingParameters('anova')
+#' 
+#' ## Change "cls" and "nCores" parameters 
+#' changeParameter(p,'cls') <- 'day'
+#' changeParameter(p,'nCores') <- 2
+#' 
+#' ## Run analysis using a subset of the abr1 negative mode data set
+#' analysis <- metabolyse(abr1$neg[,1:200],
+#'                        abr1$fact,
+#'                        p)
+#'                        
+#' ## Re-analyse to include correlation analysis
+#' analysis <- reAnalyse(analysis,
+#'                       parameters = analysisParameters('correlations'))
+#'
+#' print(analysis)
+#' 
 #' @importFrom methods slotNames slot
 #' @importFrom tibble tibble as_tibble 
 #' @importFrom utils packageVersion
 #' @importFrom cli console_width
 #' @importFrom crayon yellow green
 #' @importFrom lubridate seconds_to_period
-#' @seealso \linkS4class{AnalysisParameters} \link{analysisParameters}
-#' @examples 
-#' \dontrun{
-#' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters()
-#' p@preTreat <- list(
-#'     occupancyFilter = list(maximum = list()),
-#'     transform = list(TICnorm = list())
-#' )
-#' p@modelling <- modellingParameters('anova')
-#' p <- changeParameter('cls','day',p)
-#' p <- changeParameter('nCores',2,p)
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
-#' }
 #' @export
 
-metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T){
+metabolyse <- function(data,
+                       info,
+                       parameters = analysisParameters(), 
+                       verbose = TRUE){
   version <- packageVersion('metabolyseR') %>% as.character()
   analysisStart <- date()
   
-  if (verbose == T) {
+  if (verbose == TRUE) {
     startTime <- proc.time()
-    message(blue('\nmetabolyseR '),' ',red(str_c('v',version)),' ',analysisStart)
+    message(
+      blue('\nmetabolyseR '),
+      ' ',
+      red(str_c('v',version)),
+      ' ',
+      analysisStart)
     message(str_c(rep('_',console_width()),collapse = ''))
     params <- parameters %>%
       {capture.output(print(.))} %>%
@@ -47,23 +79,28 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
   }
   
   analysis <- new('Analysis',
-      log = list(packageVersion = version,analysis = analysisStart,verbose = verbose),
-      parameters = parameters,
-      rawData = analysisData(data,info),
-      preTreated = new('AnalysisData'),
-      modelling = list(),
-      correlations = tibble()
+                  log = list(
+                    packageVersion = version,
+                    analysis = analysisStart,
+                    verbose = verbose),
+                  parameters = parameters,
+                  raw = analysisData(data,info),
+                  `pre-treated` = new('AnalysisData'),
+                  modelling = list(),
+                  correlations = tibble()
   )
-    
-  elements <- slotNames(analysis@parameters)
-  elements <- elements[map_dbl(elements,~{length(slot(analysis@parameters,.))}) > 0]
+  
+  elements <- analysisElements()
+  elements <- elements[map_dbl(elements,
+                               ~{length(slot(analysis@parameters,
+                                             .))}) > 0]
   
   for (i in elements) {
     method <- get(i)
     analysis <- analysis %>% method() 
   }
   
-  if (verbose == T) {
+  if (verbose == TRUE) {
     endTime <- proc.time()
     elapsed <- {endTime - startTime} %>%
       .[3] %>%
@@ -76,3 +113,58 @@ metabolyse <- function(data,info,parameters = analysisParameters(), verbose = T)
   }
   return(analysis)
 }
+
+#' @rdname metabolyse
+#' @export
+
+setGeneric('reAnalyse',
+           function(analysis,parameters = analysisParameters(),verbose = TRUE){
+             standardGeneric('reAnalyse')
+})
+
+#' @rdname metabolyse
+#' @importFrom methods slot slot<-
+
+setMethod('reAnalyse',signature = 'Analysis',function(analysis,
+                      parameters = analysisParameters(), 
+                      verbose = TRUE){
+  version <- packageVersion('metabolyseR') %>% as.character()
+  analysisStart <- date()
+  if (verbose == TRUE) {
+    startTime <- proc.time()
+    cat('\n',
+        blue('metabolyseR'),
+        ' ',
+        red(str_c('v',version)),
+        ' ',
+        analysisStart,
+        '\n',
+        sep = '')
+    cat(rep('_',console_width()),'\n',sep = '')
+    print(parameters)
+    cat(rep('_',console_width()),'\n\n',sep = '')
+  }
+  
+  elements <- slotNames(parameters)
+  elements <- elements[map_dbl(elements,
+                               ~{length(slot(parameters,.x))}) > 0]
+  
+  for (i in elements) {
+    method <- get(i)
+    slot(analysis@parameters,i) <- slot(parameters,i)
+    analysis <- analysis %>% method() 
+  }
+  
+  if (verbose == TRUE) {
+    endTime <- proc.time()
+    elapsed <- {endTime - startTime} %>%
+      .[3] %>%
+      round(1) %>%
+      seconds_to_period() %>%
+      str_c('[',.,']')
+    
+    cat(rep('_',console_width()),'\n',sep = '')
+    cat('\n',green('Complete! '),elapsed,'\n\n',sep = '')
+  }
+  return(analysis)
+})

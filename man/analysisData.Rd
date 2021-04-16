@@ -2,19 +2,24 @@
 % Please edit documentation in R/analysisData.R
 \name{analysisData}
 \alias{analysisData}
-\title{analysisData}
+\title{AnalysisData class constructor}
 \usage{
 analysisData(data, info)
 }
 \arguments{
-\item{data}{sample data}
+\item{data}{table containing sample metabolomic data}
 
-\item{info}{saple info}
+\item{info}{table containing sample meta information}
+}
+\value{
+An S4 object of class Analysis.
 }
 \description{
-Create an S4 AnalysisData object.
+Create an AnalysisData S4 object.
 }
 \examples{
 library(metaboData)
-a <- analysisData(data = abr1$neg,info = abr1$fact)
+d <- analysisData(data = abr1$neg,info = abr1$fact)
+
+print(d)
 }

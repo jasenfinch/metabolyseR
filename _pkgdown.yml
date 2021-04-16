@@ -1,0 +1,74 @@
+destination: docs
+
+url: https://jasenfinch.github.io/metabolyseR/
+
+reference:
+  - title: Analysis S4 classes
+    contents:
+    - Analysis-class
+    - AnalysisData-class
+    - metabolyse
+    - analysisData
+    - dat
+    - clsAdd
+    
+  - title: Analysis parameters
+    contents:
+    - AnalysisParameters-class
+    - analysisElements
+    - analysisParameters
+    - parameters
+    - changeParameter<-
+    - exportParameters
+    - parseParameters
+    - preTreatmentElements
+    - modellingMethods
+    - correlationsParameters
+    
+  - title: Pre-treatment
+    contents:
+    - aggregateMean
+    - correctionCenter
+    - imputeAll
+    - keepClasses
+    - occupancyMaximum
+    - QCimpute
+    - removeSamples
+    - transformCenter
+    
+  - title: Modelling
+    contents:
+    - RandomForest-class
+    - Univariate-class
+    - randomForest
+    - anova
+    - ttest
+    - linearRegression
+    - binaryComparisons
+
+  - title: Correlations
+    contents:
+    - correlations
+
+  - title: Plotting
+    contents:
+    - plotFeature
+    - plotOccupancy
+    - plotRSD
+    - plotTIC
+    - plotPCA
+    - plotLDA
+    - plotUnsupervisedRF
+    - plotSupervisedRF
+    - plotMDS
+    - plotROC
+    - plotMetrics
+    - plotImportance
+    - plotExplanatoryHeatmap
+    
+  - title: Miscellaneous
+    contents:
+    - bindRows
+    - split
+    - rsd
+    - occupancy

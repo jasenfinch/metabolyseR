@@ -3,16 +3,16 @@
 \docType{class}
 \name{RandomForest-class}
 \alias{RandomForest-class}
-\title{RandomForest}
+\title{RandomForest S4 class}
 \description{
-An S4 class for random forest results and models
+An S4 class for random forest results and models.
 }
 \section{Slots}{
 
 \describe{
 \item{\code{type}}{random forest type}
 
-\item{\code{data}}{AnalysisData object of data used for modelling}
+\item{\code{response}}{response variable name}
 
 \item{\code{results}}{list of measure and importance results tables}
 

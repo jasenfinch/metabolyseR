@@ -1,0 +1,646 @@
+---
+title: "Modelling and feature selection"
+subtitle: "`r paste0('metabolyseR v',packageVersion('metabolyseR'))`"
+author: "Jasen Finch"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  prettydoc::html_pretty:
+    toc: true
+    highlight: github
+    theme: tactile
+vignette: >
+  %\VignetteIndexEntry{Modelling and feature selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+library(dplyr)
+library(purrr)
+library(stringr)
+
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = 'center'
+)
+```
+
+## Introduction
+
+Modelling provides the essential data mining step for extracting biological information and explanatory metabolome features from a data set relating to the experimental conditions.
+`metabolyseR` provides a number of both univariate and multivariate methods for data mining.
+
+For an introduction to the usage of *metabolyseR* for both exploratory and routine analyses, see the introduction vignette using:
+
+```{r introduction-vignette,eval=FALSE}
+vignette('introduction','metabolyseR')
+```
+
+To further supplement this document, a quick start example analysis is also available as a vignette:
+
+```{r example-analysis,eval=FALSE}
+vignette('quick_start','metabolyseR')
+```
+
+To begin, the package can be loaded using:
+
+```{r package-load}
+library(metabolyseR)
+```
+
+### Example data
+
+The examples used here will use the `abr1` data set from the [metaboData](https://aberhrml.github.io/metaboData/) package. 
+This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment.
+The pipe `%>%` from the [magrittr](https://magrittr.tidyverse.org/) package will also be used.
+The example data can be loaded using:
+
+```{r data-load}
+library(metaboData)
+```
+
+Only the negative acquisition mode data (`abr1$neg`) will be used along with the sample meta-information (`abr1$fact`).
+Create an `AnalysisData` class object, assigned to the variable `d`, using the following:
+
+```{r example-data}
+d <- analysisData(abr1$neg[,1:500],abr1$fact)
+```
+
+```{r print-data}
+print(d)
+```
+
+As can be seen above the data set contains a total of `r nSamples(d)` samples and `r nFeatures(d)` features.
+
+### Parallel processing
+
+The package supports parallel processing using the [future](https://CRAN.R-project.org/package=future) package.
+
+By default, processing by `metabolyseR` will be done seqentially.
+However, parallel processing can be activated, prior to analysis, by specifying a parallel implementation using `plan()`.
+The following example specifies using the `multisession` implementation (muliple background R sessions) with two worker processes.
+
+```{r plan}
+plan(future::multisession,workers = 2)
+```
+
+See the future package [documentation](https://CRAN.R-project.org/package=future) for more information on the types of parallel implementations that are available.
+
+## Random Forest
+
+Random forest is a versatile ensemble machine learning approach based on forests of decision trees for multivariate data mining.
+This can include **unsupervised** analysis, **classification** of discrete response variables and **regression** of continuous responses.
+
+Random forest can be performed in `metabolyseR` using the `randomForest()` method.
+For further details on the arguments for using this function, see `?randomForest`.
+This implementation of random forest in `metabolyseR` utilises the `randomForest` package.
+See `?randomForest::randomForest` for more information about that implementation.
+
+### Unsupervised
+
+The unsupervised random forest approach can be useful starting point for analysis in any experimental context.
+It can be used to give a general overview of the structure of the data and to identify any possible problems. 
+These could include situations such as the presence of outliers samples or splits in the data caused by the impact of analytical or sample preparation factors. 
+Unsupervised random forest can have advantages in these assessments over other approaches such as Principle Component Analysis (PCA). It is less sensitive to the effect of a single feature that in fact could have little overall impact relative to the other hundreds that could be present in a data set.
+
+The examples below will show the use of unsupervised random forest for assessing the general structure of the example data set and the presence of outlier samples.
+
+Unsupervised random forest can be performed by setting the `cls` argument of `randomForest()` to `NULL`:
+
+```{r unsupervised}
+unsupervised_rf <- d %>%
+  randomForest(cls = NULL)
+```
+
+The type of random forest that has been performed can be checked using the `type` method.
+
+```{r unsupervised-type}
+type(unsupervised_rf)
+```
+
+Or by printing the results object.
+
+```{r unsupervised-print}
+unsupervised_rf
+```
+
+Firstly, the presence of outlier samples will be assessed.
+A multidimensional scaling (MDS) plot can be used to visualise the relative proximity of the observations, as shown in the following.
+The individual points are also labelled by their injection order to enable the identification of individual samples if necessary.
+
+```{r outlier-detect}
+plotMDS(unsupervised_rf,
+        cls = NULL,
+        label = 'injorder',
+        labelSize = 3,
+        title = 'Outlier detection')
+```
+
+From the plot above, it can be seen that it is unlikely that any of the samples can be considered as outliers as all the samples are found within the 95% confidence ellipse.
+
+The structure of these observations can be investigated further by colouring the points by a different experimental factor.
+This will be by the `day` class column which is the main experimental factor of interest in this experiment. 
+
+```{r unsupervised-rf}
+plotMDS(unsupervised_rf,
+        cls = 'day')
+```
+
+This shows that it is indeed the experimental factor of interest that is having the greatest impact on the structure of the data.
+The progression of the experimental time points are obvious across Dimension 1.
+
+The available feature importance metrics for a random forest analysis can be retrieved by:
+
+```{r unsupervised-importance-metrics}
+importanceMetrics(unsupervised_rf)
+```
+
+And the importance values of these metrics for each feature can returned using:
+
+```{r unsupervised-importance}
+importance(unsupervised_rf)
+```
+
+The explanatory features for a given threshold can be extracted for any of the importance metrics.
+The following will extract the explanatory features below a threshold of 0.05 based on the false positive rate metric.
+
+```{r unsupervised-explanatory}
+unsupervised_rf %>%
+  explanatoryFeatures(metric = "FalsePositiveRate", 
+                      threshold = 0.05)
+```
+
+In this example there are `r explanatoryFeatures(unsupervised_rf) %>% nrow()` explanatory features.
+
+The trend of the most highly ranked explanatory feature against the `day` factor can be plotted using the `plotFeature()` method.
+
+```{r unsupervised-feature}
+unsupervised_rf %>%
+  plotFeature(feature = 'N425',
+              cls = 'day')
+```
+
+### Classification
+
+Random forest classification can be used to assess the extent of discrimination (difference) between classes of a discrete response variable. 
+This includes both **multinomial** (number of classes > 2) and **binary** (number of classes = 2) comparisons.
+
+In multinomial situations, the suitability of a multinomial comparison versus multiple binary comparisons can depend on the experimental context.
+For instance, in a treatment/control experiment that includes multiple time points, a multinomial comparison using all available classes could be useful to visualise the general structure of the data. 
+However, it could make any extracted explanatory features difficult to reason about as to how they relate to the individual experimental time point or treatment conditions.
+An investigator could instead identify the binary comparisons relevant to the biological question and focus the further classification comparisons to better select for explanatory features.
+
+#### Multinomial comparisons
+
+In experiments with more than two classes, multinomial random forest classification can be used to assess the discrimination between the classes and give an overview of the relative structure between classes.
+
+The example data set consists of a total of `r clsExtract(d,'day') %>% unique() %>% length()` classes for the `day` response variable.
+
+```{r classification-classes}
+d %>% 
+  clsExtract(cls = 'day') %>% 
+  unique()
+```
+
+Multinomial classification can be performed by:
+
+```{r multinomial}
+multinomial_rf <- d %>%
+  randomForest(cls = 'day')
+
+print(multinomial_rf)
+```
+
+The performance of this model can be assessed using metrics based on the success of the out of bag (OOB) predictions.
+The performance metrics can be extracted using:
+
+```{r multinomial-metrics }
+multinomial_rf %>%
+  metrics()
+```
+
+These metrics include **accuracy**, **Cohen's kappa** (kap), **area under the receiver operator characteristic curve** (roc_auc, ROC-AUC) and **margin**.
+Each metric has both strengths and weaknesses that depend on the context of the classification such as the balance of observations between the classes.
+As shown below, the class frequencies for this example are balanced with 20 observations per class. 
+
+```{r class-frequencies}
+d %>% 
+  clsExtract(cls = 'day') %>% 
+  table()
+```
+
+In this context, each of these metrics could be used to assess the predictive performance of the model.
+The margin metric is the difference between the proportion of votes for the correct class and the maximum proportion of votes for the other classes for a given observation which is then averaged across all the observations. 
+A positive margin value indicates correct classification and values greater than 0.2 can be considered as the models having strong predictive power.
+The margin also allows the extent of discrimination to be discerned even in very distinct cases above where both the accuracy and ROC-AUC would be registering values of 1.
+
+In this example, the values of all the metrics suggest that the model is showing good predictive performance.
+This can be investigated further by plotting the MDS of observation proximity values. 
+
+```{r multinomial-mds}
+multinomial_rf %>% 
+  plotMDS(cls = 'day')
+```
+
+This shows that the model is able to discriminate highly between classes such as `5` and `H`.
+It is less able to discriminate more similar classes such as `H` and `1` or `4` and `5` whose confidence ellipses show a high degree of overlap.
+This makes sense in the context of this experiment as these are adjacent time points that are more likely to be similar than time points at each end of the experiment.
+
+The ROC curves can also be plotted as shown below.
+
+```{r multinomial-roc}
+multinomial_rf %>% 
+  plotROC()
+```
+
+Classes with their line further from the central dashed line are those that were predicted with the greatest reliability by the model.
+This plot shows that both the `H` and `1` classes were least reliably predicted which is a result of their close proximity shown in the MDS plot previously.
+
+Importance metrics can be used to identify the metabolome features that contribute most to the class discrimination in the model.
+The available importance metrics for this model are shown below.
+
+```{r multinomial-importance-metrics}
+importanceMetrics(multinomial_rf)
+```
+
+Here, we will use the false positive rate metric with a threshold of below 0.05 to identify explanatory features for the `day` response variable.
+
+```{r multinomial-explanatory}
+multinomial_rf %>%
+  explanatoryFeatures(metric = 'FalsePositiveRate',
+                      threshold = 0.05)
+```
+
+As shown above there were a total of `r multinomial_rf %>% explanatoryFeatures(metric = 'FalsePositiveRate',threshold = 0.05) %>% nrow()` explanatory features identified.
+
+Within a multinomial experiment, it is also possible to specify the exact class comparisons to include, where it might not be suitable to compare all the classes at once using the `comparisons` argument.
+This should be specified as a named list, the corresponding to the `cls` argument.
+Each named element should then consist of a vector of comparisons, the classes to compare separated using the `~`.
+
+The following specifies two comparisons (`H~1~2`,`H~1~5`) for the `day` response variable and displays the performance metrics. 
+
+```{r classification-comparison}
+d %>%
+  randomForest(cls = 'day',
+               comparisons = list(day = c('H~1~2',
+                                          'H~1~5'))) %>%
+  metrics()
+```
+
+The MDS and ROC curve plots can also be plotted simultaneously for the two comparisons.
+
+```{r classification-comparison-mds-roc,fig.height=8}
+d %>%
+  randomForest(cls = 'day',
+               comparisons = list(day = c('H~1~2',
+                                          'H~1~5'))) %>%
+  {plotMDS(.,cls = 'day') +
+      plotROC(.) +
+      patchwork::plot_layout(ncol = 1)}
+```
+
+Similarly, it is also possible to model multiple response factors with a single random forest call by specifying a vector of response class information column names to the `cls` argument.
+In the following, both the `name` and `day` response factors will be analysed and the performance metrics returned in a single table.
+
+```{r multinomial-multiple-responses}
+d %>%
+  randomForest(cls = c('name','day')) %>%
+  metrics()
+```
+
+The MDS plots can also be returned for both models simultaneously.
+
+```{r multinomial-multiple-mds}
+d %>%
+  randomForest(cls = c('name','day')) %>%
+  plotMDS()
+```
+
+#### Binary comparisons
+
+It may in some cases be preferable to analyse class comparisons as multiple binary comparisons.
+
+The possible binary comparisons for a given response variable can be displayed using the `binaryComparisons()` method.
+Below shows the `r length(binaryComparisons(d,cls = 'day'))` comparisons for the `day` response variable.
+
+```{r binary-comparisons}
+binaryComparisons(d,cls = 'day')
+```
+
+For this example we will only use the binary comparisons containing the `H` class.
+
+```{r select-binary-comparisons}
+binary_comparisons <- binaryComparisons(d,cls = 'day') %>% 
+  .[stringr::str_detect(.,'H')]
+```
+
+The binary comparisons can then be performed using the following.
+
+```{r binary-rf}
+binary_rf <- d %>%
+  randomForest(cls = 'day',
+               comparisons = list(day = binary_comparisons))
+
+print(binary_rf)
+```
+
+To run all possible binary comparisons, the `binary = TRUE` argument could instead be used.
+
+The MDS plots for each comparison can be visualised to inspect the comparisons.
+
+```{r binary-mds}
+binary_rf %>% 
+  plotMDS(cls = 'day')
+```
+
+These plots show good separation in all the comparisons except `H~1` which is also shown by the plot of the performance metrics below.
+Each of the comparisons are showing perfect performance for the accuracy, Cohen's kappa and ROC-AUC metrics as well as very high margin values except for the `H~1` comparison.
+
+```{r binary-metrics}
+binary_rf %>% 
+  plotMetrics()
+```
+
+The explanatory features for these comparisons can be extracted as below using the false positive rate metric and a cut-off threshold of 0.05.
+This gives a total of `r nrow(explanatoryFeatures(binary_rf))` explanatory features.
+
+```{r binary-explanatory}
+binary_rf %>% 
+  explanatoryFeatures(metric = 'FalsePositiveRate',
+                      threshold = 0.05)
+```
+
+A heatmap of these explanatory features can be plotted to show their mean relative intensities across the experiment time points.
+Here, the classes are also refactored to customise the order of the classes on the x-axis.
+
+```{r binary-heatmap,fig.height=12,fig.width=5}
+refactor_cls <- clsExtract(binary_rf,
+                           cls = 'day') %>% 
+  factor(.,levels = c('H','1','2','3','4','5'))
+
+binary_rf <- clsReplace(binary_rf,
+                        value = refactor_cls,
+                        cls = 'day')
+binary_rf %>% 
+  plotExplanatoryHeatmap(metric = 'FalsePositiveRate',
+                      threshold = 0.05,
+                      featureNames = TRUE)
+```
+
+### Regression
+
+Random forest regression can be used to assess the extent of association of the metabolomic data with continuous response variables.
+
+In this example, the extent of association of injection order with the example data will be assessed.
+
+```{r regression-rf}
+regression_rf <- d %>% 
+  randomForest(cls = 'injorder')
+
+print(regression_rf)
+```
+
+The regression model performance metrics, based on the OOB prediction error, can be extracted using the following:
+
+```{r regression-metrics}
+regression_rf %>% 
+  metrics()
+```
+
+These regression metrics include **R^2^** (`rsq`), **mean absolute error** (`mae`), **mean absolute percentage error** (`mape`), **root mean squared error** (`rmse`) and the **concordance correlation coefficient** (`ccc`). 
+
+The R^2^ and concordance correlation coefficient metrics suggest that there is some association of features with the injection order, although this is weak.
+This is in agreement with mean absolute error metric that shows that on average, the injection order could only be predicted to an accuracy of 23 injection order positions.
+
+The MDS plot belows the relative proximities of the samples based on this injection order regression model.
+This shows that for the most part, there is little correspondence of the sample positions with their injection order.
+However, there is a small grouping of samples towards the end of the run around sample ~99 to 120. 
+It suggests that there could have been some analytical issues, for certain features, towards the end of the mass spectral analytical run.
+
+```{r regression-mds}
+regression_rf %>% 
+  plotMDS(cls = NULL,
+          ellipses = FALSE,
+          label = 'injorder',
+          labelSize = 3)
+```
+
+The available feature importance metrics for this regression model can be listed.
+
+```{r regression-importance-metrics}
+regression_rf %>% 
+  importanceMetrics()
+```
+
+The feature importance metrics can be plotted to give an overview of their distribution.
+The following will plot the **percentage increase in the mean squared error** (`%IncMSE`) importance metric.
+
+```{r regression-importance-plot}
+regression_rf %>% 
+  plotImportance(metric = "%IncMSE", 
+                 rank = FALSE)
+```
+
+This shows that there are only a few features that are contributing to the association with injection order.
+These explanatory features can be extracted with the following, using a threshold of above 5.
+
+```{r regressions-explanatory}
+regression_rf %>% 
+  explanatoryFeatures(metric = '%IncMSE',
+                      threshold = 5)
+```
+
+This returned a total of `r explanatoryFeatures(regression_rf,metric = '%IncMSE',threshold = 5) %>% nrow()` explanatory features above this threshold.
+The top ranked feature `N283` can be plotted to investigate it's trend in relation to injection order.
+
+```{r regression-feature}
+regression_rf %>% 
+  plotFeature(feature = 'N283',
+              cls = 'injorder')
+```
+
+This shows an increase in the intensity of that feature for samples above 100 in the injection order which corresponds with the cluster that was seen in the MDS plot above.
+
+## Univariate analyses
+
+Univariate methods select features, explanatory for response variables, with features tested on an individual basis.
+These methods offer simplicity and easy interpretation in their use, however they provide no information as to how features may interact.
+
+The univariate methods currently available in `metabolyseR` include Welch's t-test, analysis of variance (ANOVA) and linear regression.
+The following sections will provide brief examples of the use of each of these methods.
+
+### Welch's t-test
+
+Welch's t-test can be used to select explanatory metabolome features for binary comparisons of discrete variables.
+By default, all the possible binary comparisons for the categories of a response variable will be tested.
+
+Below shows the possible binary comparisons for the `day` response variable for the example data set.
+
+```{r t-test-binary-comparisons}
+binaryComparisons(d,
+                  cls = 'day')
+```
+
+For the following example, only a subset of comparisons will be tested.
+These will be selected by supplying a list to the `comparisons` argument.
+
+```{r t-test}
+ttest_analysis <- ttest(d,
+                        cls = 'day',
+                        comparisons = list(day = c('H~1',
+                                                   'H~2',
+                                                   'H~5')))
+
+print(ttest_analysis)
+```
+
+The explanatory features that show a significant difference between the response categories can be extracted as shown below.
+
+```{r t-test-explanatory}
+explanatoryFeatures(ttest_analysis,
+                    threshold = 0.05)
+```
+
+This will threshold the features based on their adjusted p-value, found in the `adjusted.p.value` column of the table.
+The results of all of the features can be returned using the `importance()` method.
+
+A heat map of the explanatory features can be plotted to inspect the relative trends of the explanatory features in relation to the response `variable`.
+
+```{r t-test-heatmap,fig.height=7,fig.width=5}
+plotExplanatoryHeatmap(ttest_analysis)
+```
+
+### ANOVA
+
+ANOVA can be used to select explanatory features for discrete response variables with 3 or more categories.
+The following example will compare all the categories in the `day` response variable.
+However, the `comparisons` argument can be used to select particular comparisons of interest.
+
+```{r anova}
+anova_analysis <- anova(d,
+                        cls = 'day')
+
+print(anova_analysis)
+```
+
+The explanatory features that are significantly different between the categories can then be extracted.
+
+```{r anova-explanatory}
+explanatoryFeatures(anova_analysis,
+                    threshold = 0.05)
+```
+
+The top ranked explanatory feature `N341` can be plotted to inspect it's trend relative to the `day` response variable.
+
+```{r anova-feature}
+plotFeature(anova_analysis,
+            feature = 'N341',
+            cls = 'day')
+```
+
+### Linear regression
+
+Univariate linear regression can be used to associate a continuous response variable with metabolome features.
+In the example below, the example data will be regressed against injection order to identify any linearly associated metabolome features. 
+
+```{r linear-regression}
+lr_analysis <- linearRegression(d,
+                                cls = 'injorder')
+
+print(lr_analysis)
+```
+
+The explanatory features can then be extracted.
+
+```{r linear-regression-explanatory}
+explanatoryFeatures(lr_analysis)
+```
+
+The top ranked explanatory feature `N283` can be plotted to inspect inspects it's association with injection order.
+
+```{r linear-regression-feature}
+plotFeature(lr_analysis,
+            feature = 'N283',
+            cls = 'injorder')
+```
+
+## Routine analyses
+
+For routine analyses, the initial analysis parameters for pre-treatment of the data and then the modelling can be selected.
+
+```{r parameters}
+p <- analysisParameters(c('pre-treatment','modelling'))
+```
+
+More specific parameters for pre-treatment of the example data can be declared using the following.
+
+```{r pre-treatment_parameters}
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(
+    keep = 'classes',
+    occupancyFilter = 'maximum',
+    transform = 'TICnorm' 
+  )
+)
+```
+
+The `modellingMethods()` function can be used to list the modelling methods that are currently available in `metabolyseR`.
+
+```{r modelling-methods}
+modellingMethods()
+```
+
+The `modellingParameters()` function can be used to retrieve the default parameters for specific modelling methods.
+Below, the default modelling parameters for the `randomForest` and `ttest` methods are specified.
+
+```{r select-parameters}
+parameters(p,'modelling') <- modellingParameters(c('randomForest','ttest'))
+```
+
+The class parameters can the be universily specified for both the pre-treatment and modelling elements.
+For this example, the `day` response variable will be used with just the `H` and `2` classes.
+
+```{r change-parameters}
+changeParameter(p,'cls') <- 'day'
+changeParameter(p,'classes') <- c('H','2')
+```
+
+This gives the following parameters for the analysis.
+
+```{r print_parameters}
+p
+```
+
+The analysis can then be executed.
+
+```{r classificationAnalysis}
+analysis <- metabolyse(abr1$neg,abr1$fact,p)
+```
+
+The results for the modelling can be specifically extracted using the following. 
+
+```{r modelling-results}
+analysisResults(analysis,'modelling')
+```
+
+This returns the results as a list containing the modelling results objects for each specified method.
+
+Alternatively, the modelling results can be assess directly from the `Analysis` object.
+Below shows the extraction of the explanatory features, using default parameters for each method, with the results returned in a single table.
+
+```{r explanatory features}
+explanatory_features <- analysis %>% 
+  explanatoryFeatures()
+
+print(explanatory_features)
+```
+
+Heat maps of the explanatory features can also be plotted for both the modelling methods.
+
+```{r explanatory-heatmap}
+plotExplanatoryHeatmap(analysis) %>% 
+  patchwork::wrap_plots()
+```
+

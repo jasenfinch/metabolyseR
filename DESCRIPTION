@@ -1,14 +1,14 @@
 Package: metabolyseR
-Title: Methods for Pre-Treatment, Classification, Feature Selection and Correlation Analyses of Metabolomics Data
-Version: 0.13.4
+Title: Methods for Pre-Treatment, Data Mining and Correlation Analyses of Metabolomics Data
+Version: 0.14.0
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
-Description: Methods for pre-treatment, classification, feature selection and correlation analyses of metabolomics data.
+Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
+URL:  https://jasenfinch.github.io/metabolyseR
+BugReports: https://github.com/jasenfinch/metabolyseR/issues
 biocViews: Metabolomics
-Depends: R (>= 3.4.0),
-         parallel
+Depends: R (>= 3.4.0)
 Imports: Hmisc,
          dplyr,
-         magrittr,
          missForest,
          randomForest,
          stringr,
@@ -19,76 +19,72 @@ Imports: Hmisc,
          ggthemes,
          ggdendro,
          purrr,
-         doParallel,
+         doFuture,
          e1071,
-         MASS,
          forestControl,
          crayon,
          yaml,
          cli,
          lubridate,
          ggrepel,
-         ROCR,
          patchwork,
          yardstick,
          broom,
          rlang,
-         tidyselect
+         tidyselect,
+         magrittr,
+         furrr,
+         future
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown,
-    DiagrammeR,
     readr,
     testthat,
     metaboData,
     prettydoc,
-    covr
-Collate: allGenerics.R
-    allClasses.R
-    aggregateMethods.R
+    covr,
+    kableExtra
+Collate: allClasses.R
+    analysis-accessors.R
+    aggregate.R
     analysisData.R
-    analysisParameters.R
-    changeParameter.R
-    correctionMethods.R
-    correlations-method.R
-    correlationResults-method.R
-    imputeMethods.R
+    correction.R
+    correlations.R
+    impute.R
+    info.R
+    join.R
+    keep.R
     metabolyse.R
     metabolyseR.R
-    nlda.R
-    occupancyMethods.R
-    parseParameters.R
-    plotExplanatoryHeatmap-method.R
-    plotFeature-method.R
-    plotLDA-method.R
-    plotPCA-method.R
-    plotRSD-method.R
-    plotSupervisedRF-method.R
-    plotTIC-method.R
-    plotUnsupervisedRF-method.R
-    preTreat-method.R
-    preTreatedData-method.R
-    preTreatedInfo-method.R
-    preTreatMethods.R
-    QCMethods.R
-    rawData-method.R
-    rawInfo-method.R
-    reAnalyse.R
-    reexports.R
-    removeMethods.R
-    show-method.R
-    transformMethods.R
-    univariateMethods.R
     modelling.R
-    randomForest.R
     modellingPlots.R
-    keepMethods.R
-    info.R
+    nlda.R
+    occupancy.R
+    parameters.R
+    plotExplanatoryHeatmap.R
+    plotFeature.R
+    plotLDA.R
     plotOccupancy.R
-    join.R
+    plotPCA.R
+    plotRSD.R
+    plotSupervisedRF.R
+    plotTIC.R
+    plotting.R
+    plotUnsupervisedRF.R
+    pre-treatment.R
+    QC.R
+    reexports.R
+    remove.R
+    randomForest.R
+    rsd.R
+    show-method.R
     split.R
+    transform.R
+    univariate.R
+    modelling-accessors.R
 VignetteBuilder: knitr
 Remotes: aberHRML/metaboData

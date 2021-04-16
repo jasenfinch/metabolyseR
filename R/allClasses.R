@@ -1,8 +1,8 @@
-#' AnalysisData
+#' AnalysisData S4 class
 #' @rdname AnalysisData-class
-#' @description An S4 class for sample data and info.
-#' @slot data sample data
-#' @slot info sample info
+#' @description An S4 class for metabolomic data and sample meta information.
+#' @slot data sample metabolomic data
+#' @slot info sample meta information
 #' @export
 
 setClass('AnalysisData',
@@ -13,28 +13,45 @@ setClass('AnalysisData',
          prototype = list(data = tibble(),info = tibble())
 )
 
-#' AnalysisParameters
+setValidity('AnalysisData',function(object){
+  
+  data <- dat(object)
+  info <- sinfo(object)
+  
+  if (nrow(data) != nrow(info)) {
+    'Number of rows in data should match number of rows in sample information!'
+  } else {
+    TRUE
+  }
+})
+
+#' AnalysisParameters S4 class
 #' @rdname AnalysisParameters-class
-#' @description An S4 class to store analysis parameters
-#' @slot preTreat list containing parameters for data pre-treatment
+#' @description An S4 class to store analysis parameters.
+#' @slot pre-treatment list containing parameters for data pre-treatment
 #' @slot modelling list containing parameters for modelling
 #' @slot correlations list containing parameters for correlations
 #'@export
 
 setClass('AnalysisParameters',
          slots = list(
-           preTreat = 'list',
+           `pre-treatment` = 'list',
            modelling = 'list',
            correlations = 'list'
+         ),
+         prototype = list(
+           `pre-treatment` = list(),
+           modelling = list(),
+           correlations = list()
          ))
 
-#' Analysis
+#' Analysis S4 class
 #' @rdname Analysis-class
-#' @description An S4 class to store analysis results
+#' @description An S4 class to store analysis results.
 #' @slot log list containing analysis dates and time
 #' @slot parameters class AnalysisParameters containing the analysis parameters
-#' @slot rawData list containing info and raw data
-#' @slot preTreated list containing preTreated info and raw data 
+#' @slot raw list containing info and raw data
+#' @slot pre-treated list containing preTreated info and raw data 
 #' @slot modelling list containing modelling results
 #' @slot correlations tibble containing weighted edgelist of correlations
 #'@export
@@ -43,18 +60,18 @@ setClass('Analysis',
          slots = list(
            log = 'list',
            parameters = 'AnalysisParameters',
-           rawData = 'AnalysisData',
-           preTreated = 'AnalysisData',
+           raw = 'AnalysisData',
+           `pre-treated` = 'AnalysisData',
            modelling = 'list',
            correlations = 'tbl_df'
          )
 )
 
-#' RandomForest
+#' RandomForest S4 class
 #' @rdname RandomForest-class
-#' @description An S4 class for random forest results and models
+#' @description An S4 class for random forest results and models.
 #' @slot type random forest type
-#' @slot data AnalysisData object of data used for modelling
+#' @slot response response variable name
 #' @slot results list of measure and importance results tables
 #' @slot predictions tibble of model observation predictions
 #' @slot permutations list of permutations measure and importance results tables
@@ -64,9 +81,10 @@ setClass('Analysis',
 #' @export
 
 setClass('RandomForest',
+         contains = 'AnalysisData',
          slots = list(
            type = 'character',
-           data = 'AnalysisData',
+           response = 'character',
            results = 'list',
            predictions = 'tbl_df',
            permutations = 'list',
@@ -76,19 +94,18 @@ setClass('RandomForest',
          )
 )
 
-#' Univariate
+#' Univariate S4 class
 #' @rdname Univariate-class
 #' @description An S4 class for univariate test models and results.
 #' @slot type univariate test type
-#' @slot data AnalysisData object of tested data
 #' @slot models list of model objects
 #' @slot results tibble containing test results 
 #' @export
 
 setClass('Univariate',
+         contains = 'AnalysisData',
          slots = list(
            type = 'character',
-           data = 'AnalysisData',
            models = 'list',
            results = 'tbl_df'
          ))

@@ -2,31 +2,11 @@ library(metaboData)
 
 context('imputeMethods')
 
+plan(future::multisession,workers = 2)
+
 test_that('imputeMethods returns methods correctly',{
-  m <- sapply(imputeMethods(),is.function)
+  m <- map_lgl(imputeMethods(),is.function)
   expect_false(F %in% m)
-})
-
-test_that('imputeMethods returns descriptions correctly',{
-  m <- sapply(imputeMethods(description = T),is.list)
-  expect_false(F %in% m)
-})
-
-test_that('description names match method names',{
-  d <- names(imputeMethods(description = T))
-  m <- names(imputeMethods())
-  expect_equal(d,m)
-})
-
-test_that('descriptions have correct names', {
-  n <- lapply(imputeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
-})
-
-test_that('number of method arguments matches description arguments', {
-  d <- sapply(imputeMethods(description = T),function(x){length(x$arguments)})
-  m <- sapply(imputeMethods(),function(x){length(formals(x)[-1])})
-  expect_equal(d,m)
 })
 
 test_that('methods work',{
@@ -37,20 +17,33 @@ test_that('methods work',{
     } %>%
     keepClasses(classes = c(1,6)) %>%
     {
-      keepVariables(.,variables = features(.)[500:600])
+      keepFeatures(.,features = features(.)[500:600])
     }
-
-  m <- lapply(m,function(x,dat){
-    method <- imputeMethods(x)
-    res <- method(d,nCores = 1)
-    return(res)
-  },d = d)
   
-  expect_false(F %in% sapply(m,function(x){names(x) == c('Data','Info')}))
-  expect_false(F %in% sapply(m,function(x){class(dat(x)) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x){class(sinfo(x)) == c('tbl_df','tbl','data.frame')}))
-  expect_false(F %in% sapply(m,function(x,col){ncol(dat(x)) == col},col = ncol(dat(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(dat(x)) == row},row = nrow(dat(d))))
-  expect_false(F %in% sapply(m,function(x,col){ncol(sinfo(x)) == col},col = ncol(sinfo(d))))
-  expect_false(F %in% sapply(m,function(x,row){nrow(sinfo(x)) == row},row = nrow(sinfo(d))))
+  m <- m %>%
+    map(~{
+      method <- imputeMethods(.x)
+      res <- method(d)
+      return(res)
+    })
+  
+  expect_false(FALSE %in% ('AnalysisData' == map_chr(m,class)))
+  expect_false(FALSE %in% map_lgl(
+    m,
+    ~{identical(class(dat(.x)), c('tbl_df','tbl','data.frame'))}))
+  expect_false(FALSE %in% map_lgl(
+    m,
+    ~{identical(class(sinfo(.x)),c('tbl_df','tbl','data.frame'))}))
+  expect_false(FALSE %in% map_lgl(
+    m,
+    ~{ncol(dat(.x)) == ncol(dat(d))}))
+  expect_false(FALSE %in% map_lgl(
+    m,
+    ~{nrow(dat(.x)) == nrow(dat(d))}))
+  expect_false(FALSE %in% map_lgl(
+    m,
+    ~{ncol(sinfo(.x)) == ncol(sinfo(d))}))
+  expect_false(FALSE %in% map_lgl(
+    m,
+    ~{nrow(sinfo(.x)) == nrow(sinfo(d))}))
 })

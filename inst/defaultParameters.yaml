@@ -1,4 +1,4 @@
-preTreat:
+pre-treatment:
   QC:
     occupancyFilter:
       cls: class

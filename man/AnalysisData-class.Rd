@@ -3,15 +3,15 @@
 \docType{class}
 \name{AnalysisData-class}
 \alias{AnalysisData-class}
-\title{AnalysisData}
+\title{AnalysisData S4 class}
 \description{
-An S4 class for sample data and info.
+An S4 class for metabolomic data and sample meta information.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{sample data}
+\item{\code{data}}{sample metabolomic data}
 
-\item{\code{info}}{sample info}
+\item{\code{info}}{sample meta information}
 }}
 

@@ -1,14 +1,31 @@
 context('correlations')
 
 test_that('correlations-works', {
-  cls1 <- abr1$neg[abr1$fact$class %in% c('1'),190:200][1:10,]
-  cls2 <- abr1$neg[abr1$fact$class %in% c('6'),190:200][1:10,]
-  dat <- rbind(cls1,cls2)
-  inf1 <- abr1$fact[abr1$fact$class %in% c('1'),][1:10,]
-  inf2 <- abr1$fact[abr1$fact$class %in% c('6'),][1:10,]
-  info <- rbind(inf1,inf2)
-  correlations <- metabolyse(dat,info,analysisParameters('correlations'),verbose = F)
-  expect_true(class(correlations@correlations)[1] == 'tbl_df')
+  
+  p <- analysisParameters(elements = c('correlations'))
+  changeParameter(p,'method') <- 'spearman'
+  
+  d <- metabolyse(abr1$neg[,200:300],abr1$fact,p) %>%
+    analysisResults('correlations')
+  
+  expect_s3_class(d,'tbl_df')
 })
 
+test_that('correlations errors when incorrect method specified',{
+  d <- analysisData(abr1$neg[,200:250],abr1$fact)
+  
+  expect_error(correlations(d,method = 'wrong'))
+})
+
+test_that('correlations errors when incorrect p value adjustment method specified',{
+  d <- analysisData(abr1$neg[,200:250],abr1$fact)
+  
+  expect_error(correlations(d,pAdjustMethod = 'wrong'))
+})
+
+test_that('correlations errors when incorrect correlation p value threshold specified',{
+  d <- analysisData(abr1$neg[,200:250],abr1$fact)
+  
+  expect_error(correlations(d,corPvalue = 'wrong'))
+})
 

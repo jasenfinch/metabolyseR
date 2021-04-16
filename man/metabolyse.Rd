@@ -2,37 +2,68 @@
 % Please edit documentation in R/metabolyse.R
 \name{metabolyse}
 \alias{metabolyse}
-\title{metabolyse}
+\alias{reAnalyse}
+\alias{reAnalyse,Analysis-method}
+\title{Perform an analysis}
 \usage{
-metabolyse(data, info, parameters = analysisParameters(), verbose = T)
+metabolyse(data, info, parameters = analysisParameters(), verbose = TRUE)
+
+reAnalyse(analysis, parameters = analysisParameters(), verbose = TRUE)
+
+\S4method{reAnalyse}{Analysis}(analysis, parameters = analysisParameters(), verbose = TRUE)
 }
 \arguments{
 \item{data}{tibble or data.frame containing data to analyse}
 
 \item{info}{tibble or data.frame containing data info or meta data}
 
-\item{parameters}{an object of AnalysisParameters class containing parameters for analysis. Default calls \code{analysisParameters()}}
+\item{parameters}{an object of AnalysisParameters class containing
+parameters for analysis. Default calls \code{analysisParameters()}}
 
 \item{verbose}{should output be printed to the console}
+
+\item{analysis}{an object of class Analysis containing previous
+analysis results}
+}
+\value{
+An S4 object of class \code{Analysis}.
 }
 \description{
-Analyse data based on specified analysis elements.
+Perform analyses containing multiple analysis element steps.
+}
+\details{
+Routine analyses are those that are often made up of numerous steps where parameters have likely already been previously established.
+The emphasis here is on convenience with as little code as possible required.
+In these analyses, the necessary analysis elements, order and parameters are first prepared and then the analysis routine subsequently performed in a single step.
+The \code{metabolyse} function provides this utility, where the metabolome data, sample meta information and analysis parameters are provided.
+The \code{reAnalyse} method can be used to perform further analyses on the results.
 }
 \examples{
-\dontrun{
 library(metaboData)
-data(abr1)
-p <- analysisParameters()
-p@preTreat <- list(
-    occupancyFilter = list(maximum = list()),
-    transform = list(TICnorm = list())
+
+## Generate analysis parameters
+p <- analysisParameters(c('pre-treatment','modelling'))
+
+## Alter pre-treatment and modelling parameters to use different methods
+parameters(p,'pre-treatment') <- preTreatmentParameters(
+  list(occupancyFilter = 'maximum',
+       transform = 'TICnorm')
 )
-p@modelling <- modellingParameters('anova')
-p <- changeParameter('cls','day',p)
-p <- changeParameter('nCores',2,p)
-analysis <- metabolyse(abr1$neg,abr1$fact,p)  
-}
-}
-\seealso{
-\linkS4class{AnalysisParameters} \link{analysisParameters}
+parameters(p,'modelling') <- modellingParameters('anova')
+
+## Change "cls" and "nCores" parameters 
+changeParameter(p,'cls') <- 'day'
+changeParameter(p,'nCores') <- 2
+
+## Run analysis using a subset of the abr1 negative mode data set
+analysis <- metabolyse(abr1$neg[,1:200],
+                       abr1$fact,
+                       p)
+                       
+## Re-analyse to include correlation analysis
+analysis <- reAnalyse(analysis,
+                      parameters = analysisParameters('correlations'))
+
+print(analysis)
+
 }

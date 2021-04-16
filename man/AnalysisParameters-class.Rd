@@ -3,14 +3,14 @@
 \docType{class}
 \name{AnalysisParameters-class}
 \alias{AnalysisParameters-class}
-\title{AnalysisParameters}
+\title{AnalysisParameters S4 class}
 \description{
-An S4 class to store analysis parameters
+An S4 class to store analysis parameters.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{preTreat}}{list containing parameters for data pre-treatment}
+\item{\code{pre-treatment}}{list containing parameters for data pre-treatment}
 
 \item{\code{modelling}}{list containing parameters for modelling}
 

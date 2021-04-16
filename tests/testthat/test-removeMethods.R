@@ -3,41 +3,19 @@ library(metaboData)
 context('removeMethods')
 
 test_that('removeMethods returns methods correctly',{
-  m <- sapply(removeMethods(),is.function)
+  m <- map_lgl(removeMethods(),is.function)
   expect_false(F %in% m)
-})
-
-  test_that('removeMethods returns descriptions correctly',{
-  m <- sapply(removeMethods(description = T),is.list)
-  expect_false(F %in% m)
-})
-
-test_that('description names match method names',{
-  d <- names(removeMethods(description = T))
-  m <- names(removeMethods())
-  expect_equal(d,m)
-})
-
-test_that('descriptions have correct names', {
-  n <- lapply(removeMethods(description = T),names)
-  expect_false(F %in% unlist(lapply(n,function(x){x == c('description','arguments')})))
-})
-
-test_that('number of method arguments matches description arguments', {
-  d <- sapply(removeMethods(description = T),function(x){length(x$arguments)})
-  m <- sapply(removeMethods(),function(x){length(formals(x)[-1])})
-  expect_equal(d,m)
 })
 
 test_that('methods work',{
-  data("abr1")
+
   d <- analysisData(abr1$neg,abr1$fact)
   method <- removeMethods('samples')
   s <- method(d,idx = 'injorder', samples = c(1,2))
   method <- removeMethods('classes')
   cl <- method(d, cls = 'class', classes = c('1'))
-  method <- removeMethods('variables')
-  var <- method(d, variables = 'N133')
+  method <- removeMethods('features')
+  var <- method(d, features = 'N133')
   
   expect_equal(slotNames(s), c('data','info'))
   expect_equal(slotNames(cl), c('data','info'))
