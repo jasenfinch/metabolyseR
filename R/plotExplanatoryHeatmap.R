@@ -232,35 +232,22 @@ heatmapRegression <- function(pl,
     })
 }
 
-#' plotExplanatoryHeatmap
+#' Heatmap plot of explantory features
 #' @rdname plotExplanatoryHeatmap
-#' @description plot a heatmap of explanatory features
-#' @param x object of class Univariate, RandomForest or 
-#' Analysis containing modelling results
-#' @param metric importance metric on which to retrieve explanatory feautres
-#' @param threshold score threshold to use for specifying explantory features
+#' @description Plot a heatmap of explanatory features.
+#' @param x object of class `Univariate`, `RandomForest` or 
+#' `Analysis`
+#' @param metric importance metric on which to retrieve explanatory features
+#' @param threshold score threshold to use for specifying explanatory features
 #' @param title plot title
 #' @param distanceMeasure distance measure to use for clustering. See details.
 #' @param clusterMethod clustering method to use. See details
 #' @param featureNames should feature names be plotted?
 #' @param dendrogram TRUE/FALSE. Should the dendrogram be plotted?
 #' @param ... arguments to pass to the appropriate method
-#' @details 
-#' Options for distance measures are as for \code{dist()}.
-#' Clustering methods are as given for \code{hclust()}.
-#' @seealso \link{dist} \link{hclust}
-#' @importFrom stats dist hclust
-#' @importFrom ggdendro dendro_data 
-#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal 
-#' @importFrom ggplot2 labs element_blank
-#' @importFrom stringr str_split_fixed
-#' @importFrom tibble deframe
-#' @importFrom dplyr group_by_at mutate_at
-#' @importFrom magrittr set_rownames
-#' @importFrom rlang sym
-#' @examples \dontrun{
+#' @examples
 #' library(metaboData)
-#' x <- analysisData(data = abr1$neg,info = abr1$fact)
+#' x <- analysisData(data = abr1$neg[,200:300],info = abr1$fact)
 #' 
 #' ## random forest classification example
 #' random_forest <- randomForest(x,cls = 'day')
@@ -271,8 +258,22 @@ heatmapRegression <- function(pl,
 #' random_forest <- randomForest(x,cls = 'injorder')
 #' 
 #' plotExplanatoryHeatmap(random_forest,metric = '%IncMSE',threshold = 2)
-#' }
 #' @export
+
+setGeneric('plotExplanatoryHeatmap',function(x, ...){
+  standardGeneric('plotExplanatoryHeatmap')
+})
+
+#' @rdname plotExplanatoryHeatmap
+#' @importFrom stats dist hclust
+#' @importFrom ggdendro dendro_data 
+#' @importFrom ggplot2 geom_tile scale_fill_gradient theme_minimal 
+#' @importFrom ggplot2 labs element_blank
+#' @importFrom stringr str_split_fixed
+#' @importFrom tibble deframe
+#' @importFrom dplyr group_by_at mutate_at
+#' @importFrom magrittr set_rownames
+#' @importFrom rlang sym
 
 setMethod('plotExplanatoryHeatmap',
           signature = 'Univariate',
@@ -337,7 +338,6 @@ setMethod('plotExplanatoryHeatmap',
 )
 
 #' @rdname plotExplanatoryHeatmap
-#' @export
 
 setMethod('plotExplanatoryHeatmap',
           signature = 'RandomForest',
@@ -414,7 +414,6 @@ setMethod('plotExplanatoryHeatmap',
 )
 
 #' @rdname plotExplanatoryHeatmap
-#' @export
 
 setMethod('plotExplanatoryHeatmap',
           signature = 'list',
@@ -449,7 +448,6 @@ setMethod('plotExplanatoryHeatmap',
 )
 
 #' @rdname plotExplanatoryHeatmap
-#' @export
 
 setMethod('plotExplanatoryHeatmap',
           signature = 'Analysis',

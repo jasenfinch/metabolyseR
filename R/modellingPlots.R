@@ -1,14 +1,31 @@
-#' plotImportance
+#' Plot feature importance
 #' @rdname plotImportance
-#' @description Plot univariate or random forest feature importance.
-#' @param x S4 object of class Univariate or RandomForest
-#' @param response Response results to plot
-#' @param metric Importance metric to plot
-#' @param rank Rank feature order for plotting
+#' @description Plot Univariate or random forest feature importance.
+#' @param x S4 object of class `Univariate` or `RandomForest`
+#' @param response response results to plot
+#' @param metric importance metric to plot
+#' @param rank rank feature order for plotting
 #' @param threshold explanatory threshold line for the output plot
 #' @param ... arguments to pass to specific method
-#' @importFrom ggplot2 facet_wrap
+#' @examples 
+#' library(metaboData)
+#' 
+#' x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+#'        keepClasses(cls = 'day',classes = c('H','1','5')) %>% 
+#'        occupancyMaximum(cls = 'day') %>%
+#'        transformTICnorm()
+#'        
+#' rf <- randomForest(x,cls = 'day')
+#' 
+#' plotImportance(rf,rank = FALSE)
 #' @export
+
+setGeneric("plotImportance", function(x,...) {
+  standardGeneric("plotImportance")
+})
+
+#' @rdname plotImportance
+#' @importFrom ggplot2 facet_wrap
 
 setMethod('plotImportance',signature = 'Univariate',
           function(x, response = 'class',rank = TRUE,threshold = 0.05){
@@ -87,7 +104,6 @@ setMethod('plotImportance',signature = 'Univariate',
 )
 
 #' @rdname plotImportance
-#' @export
 
 setMethod('plotImportance',signature = 'RandomForest',
           function(x,metric = 'FalsePositiveRate',rank = TRUE){
@@ -212,13 +228,30 @@ setMethod('plotImportance',
               map(plotImportance,metric = metric)
           })
 
-#' plotMetrics
+#' Plot model performance metrics
 #' @rdname plotMetrics
-#' @description Plot random forest model metrics.
-#' @param x S4 object of class RandomForest
+#' @description Plot random forest model performance metrics
+#' @param x S4 object of class `RandomForest`
 #' @param response response results to plot
-#' @importFrom ggplot2 xlim
+#' @examples 
+#' library(metaboData)
+#' 
+#' x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+#'        keepClasses(cls = 'day',classes = c('H','1','5')) %>% 
+#'        occupancyMaximum(cls = 'day') %>%
+#'        transformTICnorm()
+#'        
+#' rf <- randomForest(x,cls = 'day',binary = TRUE)
+#' 
+#' plotMetrics(rf,response = 'day')
 #' @export
+
+setGeneric("plotMetrics", function(x, response = 'class') {
+  standardGeneric("plotMetrics")
+})
+
+#' @rdname plotMetrics
+#' @importFrom ggplot2 xlim
 
 setMethod('plotMetrics',signature = 'RandomForest',
           function(x){
@@ -274,7 +307,6 @@ setMethod('plotMetrics',signature = 'RandomForest',
 )
 
 #' @rdname plotMetrics
-#' @export
 
 setMethod('plotMetrics',signature = 'list',function(x){
   object_classes <- x %>%

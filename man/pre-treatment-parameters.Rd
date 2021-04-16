@@ -36,7 +36,7 @@ p <- preTreatmentParameters(
   )
 )
 
-## Assign the pre-treatment parameters to analysis paraemeters
+## Assign the pre-treatment parameters to analysis parameters
 ap <- analysisParameters('pre-treatment')
 parameters(ap,'pre-treatment') <- p
 
