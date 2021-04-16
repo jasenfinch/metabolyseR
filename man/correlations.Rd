@@ -4,7 +4,7 @@
 \alias{correlations}
 \alias{correlations,AnalysisData-method}
 \alias{correlations,Analysis-method}
-\title{correlations}
+\title{Feature correlation analysis}
 \usage{
 correlations(d, ...)
 

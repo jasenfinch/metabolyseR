@@ -1,4 +1,4 @@
-#' correlations
+#' Feature correlation analysis
 #' @rdname correlations
 #' @description Feature correlation analysis.
 #' @param d S4 object of class `AnalysisData`

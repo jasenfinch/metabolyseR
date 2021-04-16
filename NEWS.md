@@ -13,7 +13,6 @@
 * Unit test coverage increased to > 95%.
 
 * Parallel processing is now implemented using the [`future`](https://cran.r-project.org/package=future) package.
-Information on how this can now be used is available in the usage vignette.
 
 * `plan()` from the [`future`](https://cran.r-project.org/web/packages/future/index.html) package is re-exported.
 

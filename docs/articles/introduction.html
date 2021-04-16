@@ -67,6 +67,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -655,7 +658,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code>## 
-## metabolyseR  v0.14.0 Fri Apr 16 05:34:45 2021</code></pre>
+## metabolyseR  v0.14.0 Fri Apr 16 16:33:58 2021</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Parameters:
 ## pre-treatment
@@ -679,13 +682,13 @@
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Pre-treatment …
 
-Pre-treatment   ✓ [0.9S]
+Pre-treatment   ✓ [0.8S]
 ## Modelling …
 
-Modelling   ✓ [4.3S]
+Modelling   ✓ [3.4S]
 ## ________________________________________________________________________________
 ## 
-## Complete! [5.2S]</code></pre>
+## Complete! [4.2S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
@@ -693,19 +696,19 @@ Modelling   ✓ [4.3S]
 <pre><code>## 
 ## metabolyseR v0.14.0
 ## Analysis:
-##  Fri Apr 16 05:34:45 2021
+##  Fri Apr 16 16:33:58 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Fri Apr 16 05:34:45 2021
+##      Fri Apr 16 16:33:58 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Fri Apr 16 05:34:50 2021
+##      Fri Apr 16 16:34:02 2021
 ##      Methods: randomForest</code></pre>
 </div>
 <div id="performing-a-re-analysis" class="section level3">
@@ -720,7 +723,7 @@ Modelling   ✓ [4.3S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.0 Fri Apr 16 05:34:50 2021
+## metabolyseR v0.14.0 Fri Apr 16 16:34:02 2021
 ## ________________________________________________________________________________
 ## Parameters:
 ## correlations
@@ -740,23 +743,23 @@ Correlations    ✓ [0.1S]</code></pre>
 <pre><code>## 
 ## metabolyseR v0.14.0
 ## Analysis:
-##  Fri Apr 16 05:34:45 2021
+##  Fri Apr 16 16:33:58 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Fri Apr 16 05:34:45 2021
+##      Fri Apr 16 16:33:58 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Fri Apr 16 05:34:50 2021
+##      Fri Apr 16 16:34:02 2021
 ##      Methods: randomForest
 ## 
 ##  Correlations:
-##      Fri Apr 16 05:34:50 2021
+##      Fri Apr 16 16:34:02 2021
 ##      No. correlations = 140</code></pre>
 </div>
 <div id="extracting-analysis-results" class="section level3">

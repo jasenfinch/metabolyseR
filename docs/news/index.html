@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Split an AnalysisData object — split • metabolyseR</title>
+<title>Changelog • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,7 @@
 
 
 
-<meta property="og:title" content="Split an AnalysisData object — split" />
-<meta property="og:description" content="Split an object of class AnalysisData into a list based
-a class grouping variable." />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -60,7 +58,7 @@ a class grouping variable." />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -133,107 +131,50 @@ a class grouping variable." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Split an <code>AnalysisData</code> object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/split.R'><code>R/split.R</code></a></small>
-    <div class="hidden name"><code>split.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="ref-description">
-    <p>Split an object of class <code>AnalysisData</code> into a list based
-a class grouping variable.</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>split</span><span class='op'>(</span><span class='va'>x</span>, cls <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span>
-
-<span class='co'># S4 method for AnalysisData</span>
-<span class='fu'>split</span><span class='op'>(</span><span class='va'>x</span>, cls <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>S4 object of class <code>AnalysisData</code></p></td>
-    </tr>
-    <tr>
-      <th>cls</th>
-      <td><p>sample information column to use for splitting</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A list of <code>AnalysisData</code> objects.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
-
-<span class='co'>## Split the data set based on the 'day' class information column</span>
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>split</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $`1`
-#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 2000 
-#&gt; Info: 9 
-#&gt; 
-#&gt; 
-#&gt; $`2`
-#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 2000 
-#&gt; Info: 9 
-#&gt; 
-#&gt; 
-#&gt; $`3`
-#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 2000 
-#&gt; Info: 9 
-#&gt; 
-#&gt; 
-#&gt; $`4`
-#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 2000 
-#&gt; Info: 9 
-#&gt; 
-#&gt; 
-#&gt; $`5`
-#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 2000 
-#&gt; Info: 9 
-#&gt; 
-#&gt; 
-#&gt; $H
-#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 2000 
-#&gt; Info: 9 
-#&gt; 
-#&gt; </div></pre>
+    <div id="metabolyser-0140" class="section level1">
+<h1 class="page-header" data-toc-text="0.14.0">
+<a href="#metabolyser-0140" class="anchor"></a>metabolyseR 0.14.0</h1>
+<ul>
+<li><p>Added a <code>NEWS.md</code> file to track changes to the package.</p></li>
+<li><p><code>pkgdown</code> site now available at <a href="https://jasenfinch.github.io/metabolyseR/" class="uri">https://jasenfinch.github.io/metabolyseR/</a>.</p></li>
+<li><p>Bug reports and issues URL at <a href="https://github.com/jasenfinch/metabolyseR/issues" class="uri">https://github.com/jasenfinch/metabolyseR/issues</a> added to package DESCRIPTION.</p></li>
+<li><p>Dedicated vignettes now available for a quick start example analysis, data pre-treatment and data modelling.</p></li>
+<li><p>Function examples added to all documentation pages.</p></li>
+<li><p>Unit test coverage increased to &gt; 95%.</p></li>
+<li><p>Parallel processing is now implemented using the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package.</p></li>
+<li><p><code><a href="https://rdrr.io/pkg/future/man/plan.html">plan()</a></code> from the <a href="https://cran.r-project.org/web/packages/future/index.html"><code>future</code></a> package is re-exported.</p></li>
+<li><p><code>RandomForest</code> and <code>Univariate</code> classes now inherit from class the <code>AnalysisData</code> class.</p></li>
+<li><p>Improvements to plot theme aesthetics.</p></li>
+<li><p><code>type</code> argument added to <code><a href="../reference/plotPCA.html">plotPCA()</a></code>, <code><a href="../reference/plotLDA.html">plotLDA()</a></code>, <code><a href="../reference/plotUnsupervisedRF.html">plotUnsupervisedRF()</a></code> and <code><a href="../reference/plotSupervisedRF.html">plotSupervisedRF()</a></code> methods for the <code>Analysis</code> class.</p></li>
+<li><p><code>"pre-treated"</code> for specifying type argument in <code>Analysis</code> class methods now used over <code>"preTreated"</code></p></li>
+<li><p>Added <code><a href="../reference/clsAdd.html">clsRename()</a></code> method for renaming class information columns.</p></li>
+<li><p><code>plotMeasures()</code> method renamed to <code><a href="../reference/plotMetrics.html">plotMetrics()</a></code>.</p></li>
+<li><p>Added <code><a href="../reference/plotMDS.html">plotMDS()</a></code>, <code><a href="../reference/plotImportance.html">plotImportance()</a></code> and <code><a href="../reference/plotMetrics.html">plotMetrics()</a></code> methods for lists of <code>RandomForest</code> class objects.</p></li>
+<li><p>Added <code><a href="../reference/plotExplanatoryHeatmap.html">plotExplanatoryHeatmap()</a></code> method for lists of <code>RandomForest</code> or <code>Univariate</code> class objects.</p></li>
+<li><p>Renamed <code>keepVariables()</code> and <code>removeVariables()</code> methods to <code><a href="../reference/keepClasses.html">keepFeatures()</a></code> and <code><a href="../reference/removeClasses.html">removeFeatures()</a></code>.</p></li>
+<li><p>Added the helper functions <code><a href="../reference/preTreatmentElements.html">preTreatmentElements()</a></code>, <code><a href="../reference/preTreatmentElements.html">preTreatmentMethods()</a></code> and <code>preTreatParameters()</code> for declaring pre-treatment parameters for the <code>AnalysisParameters</code> class.</p></li>
+<li><p>Added the helper functions <code><a href="../reference/modellingMethods.html">modellingMethods()</a></code> and <code><a href="../reference/modellingMethods.html">modellingParameters()</a></code> for declaring modelling parameters for the <code>AnalysisParameters</code> class.</p></li>
+<li><p>Added helper function <code><a href="../reference/correlationsParameters.html">correlationsParameters()</a></code> for declaring correlations parameters for the <code>AnalysisParameters</code> class.</p></li>
+<li><p>Added <code><a href="../reference/binaryComparisons.html">binaryComparisons()</a></code> method for retrieving all possible binary class comparisons from an <code>AnalysisData</code> class object.</p></li>
+<li><p><code>changeParameter()</code> now assigns parameter values through direct assignment.</p></li>
+<li><p>Added <code><a href="../reference/dat.html">analysisResults()</a></code> method from extracting analysis elements results from the <code>Analysis</code> class.</p></li>
+<li><p>Added <code><a href="../reference/parseParameters.html">exportParameters()</a></code> method for exporting analysis parameters to YAML file format.</p></li>
+<li><p>Added <code><a href="../reference/dat.html">dat()</a></code> and <code><a href="../reference/dat.html">sinfo()</a></code> accessor methods for the <code>Analysis</code> class.</p></li>
+<li><p>Relative standard deviation (RSD) values are now specified and returned as percentages.</p></li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 
