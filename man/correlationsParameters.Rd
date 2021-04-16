@@ -2,14 +2,20 @@
 % Please edit documentation in R/parameters.R
 \name{correlationsParameters}
 \alias{correlationsParameters}
-\title{correlationsParameters}
+\title{Correlations parameters}
 \usage{
 correlationsParameters()
 }
 \description{
-Return default parameters for correlation analysis
+Retrieve the default parameters for correlation analysis.
 }
 \examples{
-p <- analysisParameters()
-parameters(p,'correlations') <- correlationsParameters()
+## Retrieve the default correlation parameters
+p <- correlationsParameters()
+
+## Assign the correlation parameters to analysis parameters
+cp <- analysisParameters('correlations')
+parameters(cp,'correlations') <- p
+
+print(cp)
 }
