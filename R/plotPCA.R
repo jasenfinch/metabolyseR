@@ -1,9 +1,9 @@
-#' plotPCA
+#' Principle Component Analysis plot
 #' @rdname plotPCA
-#' @description Plot principle component analysis results of pre-treated data.
-#' @param analysis object of class Analysis containing analysis results
-#' @param cls info column to use for sample labelling
-#' @param label info column to use for sample labels. Set to NULL for no labels.
+#' @description Plot Principle Component Analysis results.
+#' @param analysis object of class `AnalysisData` or `Analysis`
+#' @param cls name of class information column to use for sample labelling
+#' @param label name of class information column to use for sample labels. Set to NULL for no labels.
 #' @param scale scale the data
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
@@ -16,24 +16,41 @@
 #' @param legendPosition legend position to pass to legend.position argument 
 #' of \code{ggplot2::theme}. Set to "none" to remove legend.
 #' @param labelSize label size. Ignored if \code{label} is \code{NULL}
-#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param type `raw` or `pre-treated` data to plot
 #' @param ... arguments to pass to the appropriate method
+#' @examples 
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg,abr1$fact) %>% 
+#'  occupancyMaximum(cls = 'day')
+#' 
+#' ## PCA plot
+#' plotPCA(d,cls = 'day')
+#' @export
+
+setGeneric('plotPCA', 
+           function(
+             analysis, 
+             cls = 'class', 
+             label = NULL, 
+             scale = TRUE, 
+             center = TRUE, 
+             xAxis = 'PC1', 
+             yAxis = 'PC2', 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             title = 'PCA',
+             legendPosition = 'bottom', 
+             labelSize = 2,
+             ...)
+           {
+             standardGeneric('plotPCA')
+           })
+
+#' @rdname plotPCA
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
 #' @importFrom stringr str_c
 #' @importFrom stats prcomp
-#' @examples 
-#' \dontrun{
-#' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters(c('preTreat'))
-#' p@preTreat <- list(
-#'     occupancyFilter = list(maximum = list()),
-#'     transform = list(TICnorm = list())
-#' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotPCA(analysis,cls = 'day')
-#' }
-#' @export
 
 setMethod('plotPCA',
           signature = 'AnalysisData',
@@ -97,7 +114,6 @@ setMethod('plotPCA',
 )
 
 #' @rdname plotPCA
-#' @export
 
 setMethod('plotPCA',
           signature = 'Analysis',

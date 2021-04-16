@@ -68,9 +68,9 @@ Collate: allGenerics.R
     parameters.R
     plotExplanatoryHeatmap-method.R
     plotFeature.R
-    plotLDA-method.R
+    plotLDA.R
     plotOccupancy.R
-    plotPCA-method.R
+    plotPCA.R
     plotRSD.R
     plotSupervisedRF-method.R
     plotTIC.R

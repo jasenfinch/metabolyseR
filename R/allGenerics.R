@@ -1,44 +1,4 @@
 
-#' @rdname plotPCA
-setGeneric('plotPCA', 
-           function(
-             analysis, 
-             cls = 'class', 
-             label = NULL, 
-             scale = TRUE, 
-             center = TRUE, 
-             xAxis = 'PC1', 
-             yAxis = 'PC2', 
-             shape = FALSE, 
-             ellipses = TRUE, 
-             title = 'PCA',
-             legendPosition = 'bottom', 
-             labelSize = 2,
-             ...)
-           {
-             standardGeneric('plotPCA')
-           })
-
-#' @rdname plotLDA
-setGeneric('plotLDA', 
-           function(
-             analysis, 
-             cls = 'class', 
-             label = NULL, 
-             scale = TRUE, 
-             center = TRUE, 
-             xAxis = 'DF1', 
-             yAxis = 'DF2', 
-             shape = FALSE, 
-             ellipses = TRUE, 
-             title = 'PC-LDA', 
-             legendPosition = 'bottom', 
-             labelSize = 2,
-             ...)
-           {
-             standardGeneric('plotLDA')
-           })
-
 #' @rdname plotExplanatoryHeatmap
 setGeneric('plotExplanatoryHeatmap',function(x, ...){
   standardGeneric('plotExplanatoryHeatmap')

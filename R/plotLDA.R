@@ -1,10 +1,9 @@
-#' plotLDA
+#' Principle Component - Linear Discriminant Analysis plot
 #' @rdname plotLDA
-#' @description Plot linear discriminant analysis resultus of pre-treated data
-#' @param analysis object of class Analysis or AnalysisData containing 
-#' analysis results
-#' @param cls info column to use for sample labelling
-#' @param label info column to use for sample labels. Set to NULL for no labels.
+#' @description Plot linear discriminant analysis results of pre-treated data
+#' @param analysis S4 object of class `AnalysisData` or `Analysis`
+#' @param cls name of sample information column to use for class labels
+#' @param label name of sample information column to use for sample labels. Set to NULL for no labels.
 #' @param scale scale the data
 #' @param center center the data
 #' @param xAxis principle component to plot on the x-axis
@@ -15,24 +14,41 @@
 #' confidence ellipses for each class
 #' @param title plot title
 #' @param legendPosition legend position to pass to legend.position argument 
-#' of \code{ggplot2::theme}. Set to "none" to remove legend.
-#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
-#' @param type \code{raw} or \code{pre-treated} data to plot
+#' of `ggplot2::theme`. Set to "none" to remove legend.
+#' @param labelSize label size. Ignored if `label` is `NULL`
+#' @param type `raw` or `pre-treated` data to plot
 #' @param ... arguments to pass to the appropriate method
 #' @examples 
-#' \dontrun{
 #' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters(c('preTreat'))
-#' p@preTreat <- list(
-#'     occupancyFilter = list(maximum = list()),
-#'     transform = list(TICnorm = list())
-#' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotLDA(analysis,cls = 'day')
-#' }
-#' @importFrom ggplot2 stat_ellipse coord_fixed ylab scale_colour_manual
+#' 
+#' d <- analysisData(abr1$neg,abr1$fact) %>% 
+#'  occupancyMaximum(cls = 'day')
+#' 
+#' ## LDA plot
+#' plotLDA(d,cls = 'day')
 #' @export
+
+setGeneric('plotLDA', 
+           function(
+             analysis, 
+             cls = 'class', 
+             label = NULL, 
+             scale = TRUE, 
+             center = TRUE, 
+             xAxis = 'DF1', 
+             yAxis = 'DF2', 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             title = 'PC-LDA', 
+             legendPosition = 'bottom', 
+             labelSize = 2,
+             ...)
+           {
+             standardGeneric('plotLDA')
+           })
+
+#' @rdname plotLDA
+#' @importFrom ggplot2 stat_ellipse coord_fixed ylab scale_colour_manual
 
 setMethod('plotLDA',
           signature = 'AnalysisData',
@@ -111,7 +127,6 @@ setMethod('plotLDA',
 ) 
 
 #' @rdname plotLDA
-#' @export
 
 setMethod('plotLDA',
           signature = 'Analysis',
