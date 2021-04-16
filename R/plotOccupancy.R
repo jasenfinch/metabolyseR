@@ -1,12 +1,25 @@
-#' plotOccupancy
+#' Plot class occupancy distributions
 #' @rdname plotOccupancy
-#' @description Plot occupancy distributions.
-#' @param x S4 object of class AnalysisData or Analysis
-#' @param cls info column to use for class labels
-#' @param type \code{raw} or \code{preTreated} data to plot
+#' @description Plot class occupancy distributions.
+#' @param x S4 object of class `AnalysisData` or `Analysis`
+#' @param cls sample information column to use for class labels
+#' @param type `raw` or `preTreated` data to plot
 #' @param ... arguments to pass to the appropriate method
-#' @importFrom ggplot2 element_line
+#' @examples 
+#' #' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg,abr1$fact)
+#' 
+#' ## Plot class occupancy distributions
+#' plotOccupancy(d,cls = 'day')
 #' @export
+
+setGeneric('plotOccupancy',function(x,cls = 'class', ...){
+  standardGeneric('plotOccupancy')
+})
+
+#' @rdname plotOccupancy
+#' @importFrom ggplot2 element_line
 
 setMethod('plotOccupancy',signature = 'AnalysisData',
           function(x,cls = 'class'){
@@ -72,7 +85,6 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
           })
 
 #' @rdname plotOccupancy
-#' @export
 
 setMethod('plotOccupancy',signature = 'Analysis',
           function(x, cls = 'class', type = 'raw'){

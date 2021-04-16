@@ -98,11 +98,6 @@ setGeneric('plotUnsupervisedRF',
              standardGeneric('plotUnsupervisedRF')
            })
 
-#' @rdname plotOccupancy
-setGeneric('plotOccupancy',function(x,cls = 'class', ...){
-  standardGeneric('plotOccupancy')
-})
-
 #' @rdname plotImportance
 setGeneric("plotImportance", function(x,...) {
   standardGeneric("plotImportance")
