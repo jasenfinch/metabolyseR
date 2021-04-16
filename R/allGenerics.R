@@ -228,27 +228,6 @@ setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
   standardGeneric("plotROC")
 })
 
-#' @rdname parameters
-setGeneric('parameters',function(x,...){
-  standardGeneric('parameters')
-})
-
-#' @rdname parameters
-setGeneric('parameters<-',function(x,element,value){
-  standardGeneric('parameters<-')
-})
-
-#' @rdname changeParameter
-setGeneric("changeParameter<-", 
-           function(
-             x,
-             parameterName,
-             elements = analysisElements(), 
-             value) 
-           {
-             standardGeneric("changeParameter<-")
-           })
-
 #' @rdname binaryComparisons
 setGeneric('binaryComparisons',function(x,cls = 'class'){
   standardGeneric('binaryComparisons')

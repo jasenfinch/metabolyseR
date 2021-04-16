@@ -1,17 +1,11 @@
-
-#' analysisElements
-#' @description Return the analysis elements available in metabolyseR.
-#' @export
-
-analysisElements <- function(){
-  new('AnalysisParameters') %>%
-    slotNames()
-}
-
-#' analysisParameters
-#' @description Initiate default analysis parameters for analysis elements.
+#' Create an `AnalysisParameters` S4 class object
+#' @description Initiate an `AnalysisParameters` object with the default analysis parameters for each of the analysis elements.
 #' @param elements character vector containing elements for analysis. 
-#' Default includes all available elements from \code{analysisElements}.
+#' @return An S4 object of class `AnalysisParameters` containing the default analysis parameters.
+#' @examples 
+#' p <- analysisParameters()
+#' 
+#' print(p)
 #' @importFrom methods new
 #' @export
 
@@ -74,18 +68,29 @@ analysisParameters <- function(elements = analysisElements()){
   return(p)
 }
 
+#' Analysis elements
+#' @description Return the analysis elements available in `metabolyseR`.
+#' @return A character vector of analysis elements.
+#' @examples 
+#' analysisElements()
+#' @export
 
-#' parameters
+analysisElements <- function(){
+  new('AnalysisParameters') %>%
+    slotNames()
+}
+
+
+#' Get or set analysis parameters
 #' @rdname parameters
-#' @description Extract parameters from an Analysis object or 
-#' extract or set parameters in an AnalysisParameters object.
-#' @param x S4 object of class Analysis
+#' @description Get or set parameters for `AnalysisParameters` or `Analysis` class objects.
+#' @param d S4 object of class `AnalysisParameters` or `Analysis`
 #' @param element analysis element for parameters to extract or assign. 
 #' Should be one of those returned by \code{analysisElements()}
 #' @param value list containing parameter values
 #' @param ... arguments to pass to the appropriate method
 #' @examples 
-#' p <- analysisParameters()
+#' p <- analysisParameters('pre-treatment')
 #' 
 #' ## extract pre-treatment parameters
 #' parameters(p,'pre-treatment')
@@ -98,27 +103,18 @@ analysisParameters <- function(elements = analysisElements()){
 #'     transform = 'TICnorm'
 #'   )
 #' )
+#' 
+#' print(p)
 #' @export
 
-setMethod('parameters',signature = 'Analysis',
-          function(x){
-            x@parameters
-          }
-)
-
-#' @rdname parameters
-#' @export
-setMethod('parameters<-',signature = 'Analysis',
-          function(x,value){
-            x@parameters <- value
-            return(x)
-          }
-)
+setGeneric('parameters',function(d,...){
+  standardGeneric('parameters')
+})
 
 #' @rdname parameters
-#' @export
+
 setMethod('parameters',signature = 'AnalysisParameters',
-          function(x,element){
+          function(d,element){
             if (!(element %in% analysisElements())) {
               elements <- analysisElements() %>%
                 str_c('"',.,'"')
@@ -127,14 +123,29 @@ setMethod('parameters',signature = 'AnalysisParameters',
                       str_c(elements,collapse = ', '),'.'),
                 call. = FALSE)
             }
-            slot(x,element)
+            slot(d,element)
+          }
+)
+
+#' @rdname parameters
+
+setMethod('parameters',signature = 'Analysis',
+          function(d){
+            d@parameters
           }
 )
 
 #' @rdname parameters
 #' @export
+
+setGeneric('parameters<-',function(d,element,value){
+  standardGeneric('parameters<-')
+})
+
+#' @rdname parameters
+
 setMethod('parameters<-',signature = 'AnalysisParameters',
-          function(x,element,value){
+          function(d,element,value){
             
             if (!(element %in% analysisElements())) {
               elements <- analysisElements() %>%
@@ -148,8 +159,17 @@ setMethod('parameters<-',signature = 'AnalysisParameters',
             
             checkParameters(value,element)
             
-            slot(x,element) <- value
-            return(x)
+            slot(d,element) <- value
+            return(d)
+          }
+)
+
+#' @rdname parameters
+
+setMethod('parameters<-',signature = 'Analysis',
+          function(d,value){
+            d@parameters <- value
+            return(d)
           }
 )
 
@@ -273,24 +293,39 @@ checkParameters <- function(value,element){
   }
 }
 
-#' changeParameter
+#' Change analysis parameters
 #' @rdname changeParameter
-#' @description change analysis parameters
-#' @param x S4 object of class AnalysisParameters
-#' @param parameterName Name of the parameter to change
-#' @param elements Character vector of analysis elements to target parameter 
-#' change. Can be any returned by \code{analysisElements}.
+#' @description Change analysis parameters.
+#' @param x S4 object of class `AnalysisParameters`
+#' @param parameterName name of the parameter to change
+#' @param elements character vector of analysis elements to target parameter 
+#' change. Can be any returned by `analysisElements()`.
 #' @param value New value of the parameter
+#' @return An S4 object of class `AnalysisParameters`.
 #' @details
 #' For the parameter name selected, all parameters with that name will 
-#' be altered. To individually change identically named parameters use 
-#' the \code{@} operator to access the appropriate slot directly.
+#' be altered. 
 #' @examples 
-#' p <- analysisParameters()
-#' changeParameter(p,'clusterType') <- 'PSOCK'
+#' p <- analysisParameters('pre-treatment')
+#' 
+#' changeParameter(p,'cls') <- 'day'
+#' 
+#' print(p)
+#' @export
+
+setGeneric("changeParameter<-", 
+           function(
+             x,
+             parameterName,
+             elements = analysisElements(), 
+             value) 
+           {
+             standardGeneric("changeParameter<-")
+           })
+
+#' @rdname changeParameter
 #' @importFrom purrr map_lgl
 #' @importFrom stats p.adjust.methods
-#' @export
 
 setMethod('changeParameter<-',signature = 'AnalysisParameters',
           function(x,parameterName,elements = analysisElements(), value) {
@@ -343,11 +378,19 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
             return(x)
           })
 
-#' preTreatmentParameters
-#' @description Return default parameters for given pre-treatment element 
-#' methods. 
+#' Pre-treatment parameters
+#' @rdname pre-treatment-parameters
+#' @description Return pre-treatment elements, methods and parameters.
+#' @param element pre-treatment element name
 #' @param methods a named list of element methods
-#' @examples 
+#' @examples
+#' ## Return the availalble pre-treatment elements
+#' preTreatmentElements()
+#' 
+#' ## Return the available pre-treatment methods for the remove element
+#' preTreatmentMethods('remove')
+#' 
+#' ## Define some default pre-treatment parameters
 #' p <- preTreatmentParameters(
 #'   list(
 #'     remove = 'classes',
@@ -355,7 +398,30 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
 #'     transform = 'TICnorm'
 #'   )
 #' )
+#' 
+#' ## Assign the pre-treatment parameters to analysis paraemeters
+#' ap <- analysisParameters('pre-treatment')
+#' parameters(ap,'pre-treatment') <- p
+#' 
+#' print(ap)
 #' @importFrom purrr walk
+#' @export
+
+preTreatmentElements <- function(){
+  getPreTreatMethods() %>%
+    names()
+}
+
+#' @rdname pre-treatment-parameters
+#' @export
+
+preTreatmentMethods <- function(element){
+  getPreTreatMethods(element)() %>%
+    names() %>%
+    sort()
+}
+
+#' @rdname pre-treatment-parameters
 #' @export
 
 preTreatmentParameters <- function(methods){

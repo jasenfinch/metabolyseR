@@ -2,14 +2,21 @@
 % Please edit documentation in R/parameters.R
 \name{analysisParameters}
 \alias{analysisParameters}
-\title{analysisParameters}
+\title{Create an \code{AnalysisParameters} S4 class object}
 \usage{
 analysisParameters(elements = analysisElements())
 }
 \arguments{
-\item{elements}{character vector containing elements for analysis.
-Default includes all available elements from \code{analysisElements}.}
+\item{elements}{character vector containing elements for analysis.}
+}
+\value{
+An S4 object of class \code{AnalysisParameters} containing the default analysis parameters.
 }
 \description{
-Initiate default analysis parameters for analysis elements.
+Initiate an \code{AnalysisParameters} object with the default analysis parameters for each of the analysis elements.
+}
+\examples{
+p <- analysisParameters()
+
+print(p)
 }

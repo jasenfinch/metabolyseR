@@ -2,10 +2,16 @@
 % Please edit documentation in R/parameters.R
 \name{analysisElements}
 \alias{analysisElements}
-\title{analysisElements}
+\title{Analysis elements}
 \usage{
 analysisElements()
 }
+\value{
+A character vector of analysis elements.
+}
 \description{
-Return the analysis elements available in metabolyseR.
+Return the analysis elements available in \code{metabolyseR}.
+}
+\examples{
+analysisElements()
 }
