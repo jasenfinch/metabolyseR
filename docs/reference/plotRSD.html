@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>plotRSD — plotRSD • metabolyseR</title>
+<title>Plot RSD distributions — plotRSD • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="plotRSD — plotRSD" />
+<meta property="og:title" content="Plot RSD distributions — plotRSD" />
 <meta property="og:description" content="Plot RSD distributions of raw data in quality control samples." />
 
 
@@ -129,8 +129,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>plotRSD</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/plotRSD-method.R'><code>R/plotRSD-method.R</code></a></small>
+    <h1>Plot RSD distributions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/plotRSD.R'><code>R/plotRSD.R</code></a></small>
     <div class="hidden name"><code>plotRSD.Rd</code></div>
     </div>
 
@@ -158,11 +158,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>analysis</th>
-      <td><p>object of class Analysis containing analysis results</p></td>
+      <td><p>object of class <code>AnalysisData</code> or <code>Analysis</code></p></td>
     </tr>
     <tr>
       <th>cls</th>
-      <td><p>info column to use for class labels</p></td>
+      <td><p>information column to use for class labels</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -174,7 +174,7 @@
     </tr>
     <tr>
       <th>QCparameters</th>
-      <td><p>alternative parameters for QC sample pre-treatment. 
+      <td><p>alternative parameters for QC sample pre-treatment.
 See details</p></td>
     </tr>
     <tr>
@@ -187,35 +187,15 @@ See details</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>If QCparameters is set as <code>NULL</code>, the default QC 
-pre-treatment parameters are used as given by 
-<code><a href='analysisParameters.html'>analysisParameters('preTreat')</a></code>. Alternative pre-treatment 
-routines can be used by specifying an <code>AnalysisParameters</code> 
-object for <code>QCparameters</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+    <pre class="examples"><div class='input'><span class='co'>#' library(metaboData)</span>
 
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberHRML.github.io/binneR/'>binneR</a></span><span class='op'>)</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
 
-<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/metaboData/man/filePaths.html'>filePaths</a></span><span class='op'>(</span><span class='st'>"FIE-HRMS"</span>,<span class='st'>"BdistachyonEcotypes"</span><span class='op'>)</span>
-
-<span class='va'>info</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/metaboData/man/runinfo.html'>runinfo</a></span><span class='op'>(</span><span class='st'>"FIE-HRMS"</span>,<span class='st'>"BdistachyonEcotypes"</span><span class='op'>)</span>
-
-<span class='va'>binDat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://aberHRML.github.io/binneR/reference/binneRlyse.html'>binneRlyse</a></span><span class='op'>(</span><span class='va'>files</span>, 
-                       <span class='va'>info</span>, 
-                       parameters <span class='op'>=</span> <span class='fu'><a href='https://aberHRML.github.io/binneR/reference/detectParameters.html'>detectParameters</a></span><span class='op'>(</span><span class='va'>files</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'preTreat'</span><span class='op'>)</span>
-
-<span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metabolyse.html'>metabolyse</a></span><span class='op'>(</span><span class='fu'><a href='https://aberHRML.github.io/binneR/reference/results.html'>binnedData</a></span><span class='op'>(</span><span class='va'>binDat</span><span class='op'>)</span><span class='op'>$</span><span class='va'>n</span>,<span class='fu'>info</span><span class='op'>(</span><span class='va'>binDat</span><span class='op'>)</span>,<span class='va'>p</span><span class='op'>)</span>
-
-<span class='fu'>plotRSD</span><span class='op'>(</span><span class='va'>analysis</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+<span class='co'>## Plot class RSD distributions</span>
+<span class='fu'>plotRSD</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 716 rows containing non-finite values (stat_density).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 6 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plotRSD-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

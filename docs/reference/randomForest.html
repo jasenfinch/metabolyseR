@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>randomForest — randomForest • metabolyseR</title>
+<title>Random forest analysis — randomForest • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="randomForest — randomForest" />
+<meta property="og:title" content="Random forest analysis — randomForest" />
 <meta property="og:description" content="Perform random forest on an AnalysisData object" />
 
 
@@ -129,13 +129,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>randomForest</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/randomForest.R'><code>R/randomForest.R</code></a></small>
+    <h1>Random forest analysis</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/randomForest.R'><code>R/randomForest.R</code></a></small>
     <div class="hidden name"><code>randomForest.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Perform random forest on an AnalysisData object</p>
+    <p>Perform random forest on an <code>AnalysisData</code> object</p>
     </div>
 
     <pre class="usage"><span class='fu'>randomForest</span><span class='op'>(</span>
@@ -168,16 +168,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>S4 object of class AnalysisData</p></td>
+      <td><p>S4 object of class <code>AnalysisData</code></p></td>
     </tr>
     <tr>
       <th>cls</th>
-      <td><p>vector of info columns to use for Response information. 
-Set to NULL for unsupervised.</p></td>
+      <td><p>vector of sample information columns to use for response variable information. Set to NULL for unsupervised.</p></td>
     </tr>
     <tr>
       <th>rf</th>
-      <td><p>named list of arguments to pass to randomForest::randomForest</p></td>
+      <td><p>named list of arguments to pass to <code><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest::randomForest</a></code></p></td>
     </tr>
     <tr>
       <th>reps</th>
@@ -185,13 +184,11 @@ Set to NULL for unsupervised.</p></td>
     </tr>
     <tr>
       <th>binary</th>
-      <td><p>TRUE/FALSE should bnary comparisons be performed. 
-Ignored for unsupervised and regression. Ignored if <code>comparisons</code>
- specified.</p></td>
+      <td><p>TRUE/FALSE should binary comparisons be performed. Ignored for unsupervised and regression. Ignored if <code>comparisons</code> specified.</p></td>
     </tr>
     <tr>
       <th>comparisons</th>
-      <td><p>list of comparisons to perform. 
+      <td><p>list of comparisons to perform.
 Ignored for unsupervised and regression. See details.</p></td>
     </tr>
     <tr>
@@ -208,24 +205,26 @@ Ignored for unsupervised and regression. See details.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An S4 object of class <code>RandomForest</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Specified class comparisons should be given as a list named 
-according to <code>cls</code>. Comparisons should be given as class names 
+    <p>Specified class comparisons should be given as a list named
+according to <code>cls</code>. Comparisons should be given as class names
 separated by '~' (eg. '1~2~H').</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>)</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
        <span class='fu'><a href='occupancyMaximum.html'>occupancyMaximum</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-       <span class='fu'><a href='transformTICnorm.html'>transformTICnorm</a></span><span class='op'>(</span><span class='op'>)</span>
+       <span class='fu'><a href='transformArcSine.html'>transformTICnorm</a></span><span class='op'>(</span><span class='op'>)</span>
+       
 <span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'>randomForest</span><span class='op'>(</span><span class='va'>x</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+
+<span class='fu'><a href='plotMDS.html'>plotMDS</a></span><span class='op'>(</span><span class='va'>rf</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
+</div><div class='img'><img src='randomForest-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

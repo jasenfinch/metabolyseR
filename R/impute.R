@@ -144,7 +144,7 @@ setMethod('imputeClass',signature = 'AnalysisData',
               .options = furrr_options(seed = seed))
             
             d <- d %>%
-              bindAnalysesRows() %>%
+              bindRows() %>%
               clsArrange(cls = 'dummy_ind') %>%
               clsRemove(cls = 'dummy_ind')
             

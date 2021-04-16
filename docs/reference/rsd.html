@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>rsd — rsd • metabolyseR</title>
+<title>Calculate feature relative standard deviations — rsd • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="rsd — rsd" />
-<meta property="og:description" content="Calculate relative standard deviation values for each 
-feature per class for a given info column." />
+<meta property="og:title" content="Calculate feature relative standard deviations — rsd" />
+<meta property="og:description" content="Calculate relative standard deviation (RSD) percentage values for each
+feature per class for a given sample information column." />
 
 
 
@@ -130,14 +130,14 @@ feature per class for a given info column." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>rsd</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/QCMethods.R'><code>R/QCMethods.R</code></a></small>
+    <h1>Calculate feature relative standard deviations</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/rsd.R'><code>R/rsd.R</code></a></small>
     <div class="hidden name"><code>rsd.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate relative standard deviation values for each 
-feature per class for a given info column.</p>
+    <p>Calculate relative standard deviation (RSD) percentage values for each
+feature per class for a given sample information column.</p>
     </div>
 
     <pre class="usage"><span class='fu'>rsd</span><span class='op'>(</span><span class='va'>x</span>, cls <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span>
@@ -150,15 +150,38 @@ feature per class for a given info column.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>S4 object of class AnalysisData</p></td>
+      <td><p>S4 object of class <code>AnalysisData</code></p></td>
     </tr>
     <tr>
       <th>cls</th>
-      <td><p>info column to use for class structure</p></td>
+      <td><p>sample information column to use for class structure</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A tibble containing the computed RSD values.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
+
+<span class='fu'>rsd</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 606 x 5</span><span>
+#&gt;    day   Feature   Mean    SD   RSD
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1     N200    0.224  1.00  447. 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1     N201    0.228  0.946 415. 
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1     N202    0.053</span><span style='text-decoration: underline;'>8</span><span> 0.151 280. 
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1     N203    1.34   1.03   76.5
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1     N204    0.083</span><span style='text-decoration: underline;'>3</span><span> 0.202 242. 
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1     N205    1.55   2.29  148. 
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1     N206    0.112  0.360 320. 
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1     N207    0.220  0.396 180. 
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1     N208    0.124  0.225 182. 
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1     N209    1.37   2.03  148. 
+#&gt; </span><span style='color: #949494;'># … with 596 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

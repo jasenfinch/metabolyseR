@@ -6,5 +6,8 @@ articles:
   modelling: modelling.html
   pre_treatment: pre_treatment.html
   quick_start: quick_start.html
-last_built: 2021-04-14T23:45Z
+last_built: 2021-04-16T04:33Z
+urls:
+  reference: https://jasenfinch.github.io/metabolyseR//reference
+  article: https://jasenfinch.github.io/metabolyseR//articles
 

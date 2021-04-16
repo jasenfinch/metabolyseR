@@ -92,7 +92,7 @@
             <h3 class="subtitle">metabolyseR v0.14.0</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">15 April, 2021</h4>
+            <h4 class="date">16 April, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/pre_treatment.Rmd"><code>vignettes/pre_treatment.Rmd</code></a></small>
       <div class="hidden name"><code>pre_treatment.Rmd</code></div>
@@ -154,15 +154,15 @@
 <div id="pre-treatment-elements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pre-treatment-elements" class="anchor"></a>Pre-treatment elements</h2>
-<p>The following sections will outline the numerous pre-treatment elements available within <em>metabolyseR</em>. There will be examples of their application during exploratory analyses along with useful visualisations that can aid interpretation of when particular treatments should be applied as well as their effect once they have been used.</p>
+<p>The following sections will outline the numerous pre-treatment elements available within <em>metabolyseR</em>. There will be examples of their application during exploratory analyses along with useful visualisations. These can aid interpretation of when particular treatments should be applied as well as their effect once they have been used.</p>
 <div id="removal-of-samples-classes-or-features" class="section level3">
 <h3 class="hasAnchor">
 <a href="#removal-of-samples-classes-or-features" class="anchor"></a>Removal of samples, classes or features</h3>
-<p>In many situations it will be necessary to exclude either individual samples, sample classes or certain features from further analysis.</p>
-<p>Individual samples can be removed using <code>removeSamples</code> as below, where the <code>idx</code> argument stipulates the sample information column cotaining the sample indexes and the <code>samples</code> argument a vector of sample indexes to remove.</p>
+<p>In many situations, it will be necessary to exclude either individual samples, sample classes or certain features from further analysis.</p>
+<p>Individual samples can be removed using <code><a href="../reference/removeClasses.html">removeSamples()</a></code> as below, where the <code>idx</code> argument stipulates the sample information column cotaining the sample indexes and the <code>samples</code> argument a vector of sample indexes to remove.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/removeSamples.html">removeSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/removeClasses.html">removeSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
 <span class="co">#&gt; </span>
@@ -182,30 +182,30 @@
 <p>The following will enable the removal of specified features as a vector supplied to the <code>features</code> argument:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/removeFeatures.html">removeFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'N1'</span>,<span class="st">'N2'</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/removeClasses.html">removeFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'N1'</span>,<span class="st">'N2'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Samples: 120 </span>
 <span class="co">#&gt; Features: 1998 </span>
 <span class="co">#&gt; Info: 9</span></code></pre></div>
-<p>There maybe occasions where the numbers of samples, classes or features to remove are greater than the numbers of samples, classes or features that are to be retained. In these situations it will be more convenient to directly specify the samples, classes or features to retain. Keeping samples, classes or features is outlined in the following section.</p>
+<p>There could be occasions where the numbers of samples, classes or features to remove are greater than the numbers of samples, classes or features that are to be retained. In these situations it will be more convenient to directly specify the samples, classes or features to retain. Keeping samples, classes or features is outlined in the following section.</p>
 </div>
 <div id="keeping-samples-classes-or-features" class="section level3">
 <h3 class="hasAnchor">
 <a href="#keeping-samples-classes-or-features" class="anchor"></a>Keeping samples, classes or features</h3>
 <p>Often it will be necessary to retain only particular samples, sample classes or certain features for further analysis.</p>
-<p>Individual samples can be kept using <code>keepSamples</code> as below, where the <code>idx</code> argument stipulates the sample information column cotaining the sample indexes and the <code>samples</code> argument, a vector of sample indexes to keep.</p>
+<p>Individual samples can be kept using <code><a href="../reference/keepClasses.html">keepSamples()</a></code> as below, where the <code>idx</code> argument stipulates the sample information column cotaining the sample indexes and the <code>samples</code> argument, a vector of sample indexes to keep.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/keepSamples.html">keepSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/keepClasses.html">keepSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Samples: 1 </span>
 <span class="co">#&gt; Features: 2000 </span>
 <span class="co">#&gt; Info: 9</span></code></pre></div>
-<p>The <code>keepClasses</code> function can be used similarly to keep whole classes for further analysis:</p>
+<p>The <code><a href="../reference/keepClasses.html">keepClasses()</a></code> method can be used similarly to keep whole classes for further analysis:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="st">'H'</span><span class="op">)</span>
@@ -218,7 +218,7 @@
 <p>The following will specify features to keep, with a vector of feature names supplied to the <code>features</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/keepFeatures.html">keepFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'N1'</span>,<span class="st">'N2'</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/keepClasses.html">keepFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'N1'</span>,<span class="st">'N2'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
 <span class="co">#&gt; </span>
@@ -227,27 +227,27 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>There are likely to be occasions where the numbers of samples, classes or features to keep are greater than the numbers of samples, classes or features that are to be excluded. In these situations it will be more convenient to directly specify the samples, classes or features to remove. Removing samples, classes or features is outlined in the previous section.</p>
 </div>
-<div id="variable-filtering-based-on-occupancy" class="section level3">
+<div id="feature-filtering-based-on-occupancy" class="section level3">
 <h3 class="hasAnchor">
-<a href="#variable-filtering-based-on-occupancy" class="anchor"></a>Variable filtering based on occupancy</h3>
+<a href="#feature-filtering-based-on-occupancy" class="anchor"></a>Feature filtering based on occupancy</h3>
 <p>Occupancy provides a useful metric by which to filter poorly represented features (features containing a majority zero or missing values). An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses. However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.</p>
-<p>The proportional occupancy for each feature within a data set for a given class structure can be calculated using the <code>occupancy</code> function, specifying the sample information column using the <code>cls</code> argument.</p>
+<p>The proportional occupancy for each feature within a data set for a given class structure can be calculated using the <code><a href="../reference/occupancy.html">occupancy()</a></code> method, specifying the sample information column using the <code>cls</code> argument.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/occupancy.html">occupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 11,914 x 4</span>
-<span class="co">#&gt;    day   Feature     N Occupancy</span>
-<span class="co">#&gt;    &lt;fct&gt; &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 1     N1          0         0</span>
-<span class="co">#&gt;  2 1     N10         0         0</span>
-<span class="co">#&gt;  3 1     N100        0         0</span>
-<span class="co">#&gt;  4 1     N1000      20         1</span>
-<span class="co">#&gt;  5 1     N1001      20         1</span>
-<span class="co">#&gt;  6 1     N1002      20         1</span>
-<span class="co">#&gt;  7 1     N1003      20         1</span>
-<span class="co">#&gt;  8 1     N1004      20         1</span>
-<span class="co">#&gt;  9 1     N1005      20         1</span>
-<span class="co">#&gt; 10 1     N1006      20         1</span>
+<span class="co">#&gt; # A tibble: 11,914 x 5</span>
+<span class="co">#&gt;    day   Feature     N `Class total` Occupancy</span>
+<span class="co">#&gt;    &lt;fct&gt; &lt;chr&gt;   &lt;dbl&gt;         &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 1     N1          0            20         0</span>
+<span class="co">#&gt;  2 1     N10         0            20         0</span>
+<span class="co">#&gt;  3 1     N100        0            20         0</span>
+<span class="co">#&gt;  4 1     N1000      20            20         1</span>
+<span class="co">#&gt;  5 1     N1001      20            20         1</span>
+<span class="co">#&gt;  6 1     N1002      20            20         1</span>
+<span class="co">#&gt;  7 1     N1003      20            20         1</span>
+<span class="co">#&gt;  8 1     N1004      20            20         1</span>
+<span class="co">#&gt;  9 1     N1005      20            20         1</span>
+<span class="co">#&gt; 10 1     N1006      20            20         1</span>
 <span class="co">#&gt; # … with 11,904 more rows</span></code></pre></div>
 <p>Alternatively the occupancy distributions can be plotted providing a useful overview of the data set:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -271,14 +271,12 @@
 <p>Plotting the occupancy distributions shows that all the low occupancy features have now been removed.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">maximum_occupancy_filtered</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/plotOccupancy.html">plotOccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 6 rows containing non-finite values (stat_density).</span>
-<span class="co">#&gt; Warning: Removed 6 row(s) containing missing values (geom_path).</span></code></pre></div>
+  <span class="fu"><a href="../reference/plotOccupancy.html">plotOccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/plot_filtered_occupancy-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>The alternative strategy is by applying a minimum threshold; where the minimum occupancy across all classes is required to be above the freshold. Therefore, for a feature to be retained, all classes would need to have an occupancy above the threshold. A two-thirds minimum occupancy filter can be applied to the <code>day</code> sample information column of our data using:</p>
+<p>The alternative strategy is by applying a minimum threshold; where the minimum occupancy across all classes is required to be above the threshold. Therefore, for a feature to be retained, all classes would need to have an occupancy above the threshold. A two-thirds minimum occupancy filter can be applied to the <code>day</code> sample information column of our data using:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">minimum_occupancy_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMinimum.html">occupancyMinimum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMinimum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p>It can be seen below that this removes 344 features.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">minimum_occupancy_filtered</span><span class="op">)</span>
@@ -302,23 +300,23 @@
 <p>Alternatively a log10 transformation can be applied prior to analysis:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/transformLog10.html">transformLog10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/transformArcSine.html">transformLog10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/plotSupervisedRF.html">plotSupervisedRF</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/log10_RF-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Or a total ion count (TIC) normalisation where each individual sample is corrected by its TIC. This is one method that can be used to account for small variablility in sample concentration.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/transformTICnorm.html">transformTICnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/transformArcSine.html">transformTICnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/plotSupervisedRF.html">plotSupervisedRF</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/TICnorm_RF-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The margin value is a metric that can be used to assess model perfomance. Positive values indicate a models ability, on average, to correctly predict the class labels of the analysed data.</p>
-<p>As can bee seen in the plots above, the transformations have little effect on the overall structure of the data set. However, there are small increases in the margins of the transformed data (model improvement). Note that here, a non-parametric machine learning approach has been applied to assess the effects of the transformations on the data. Using a different approach such as the parametric Analysis Of Varience (ANOVA) which different underlying assumptions will likely give diffent results to the assessment above.</p>
+<p>As can be seen in the plots above, the transformations have little effect on the overall structure of the data set. However, there are small increases in the margins of the transformed data (model improvement). Note that here, a non-parametric machine learning approach has been applied to assess the effects of the transformations on the data. Using a different approach such as the parametric analysis Of variance (ANOVA) which different underlying assumptions will likely give different results to the assessment above.</p>
 </div>
 <div id="sample-aggregation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#sample-aggregation" class="anchor"></a>Sample aggregation</h3>
-<p>Sample aggregation allows the electronic pooling of samples based on a grouping variable. This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication. <code>metabolyseR</code> provides methods for mean, median and sum aggregating data and each starts with the <code>aggregate</code> prefix.</p>
-<p>Below shows a principle component analysis (PCA) plot of the example data coloured by the classes of <code>day</code> sample information column. It is first maximum occupancy filtered to remove empty columns.</p>
+<p>Sample aggregation allows the electronic pooling of samples based on a grouping variable. This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication. <code>metabolyseR</code> provides methods for mean, median and sum aggregation and each starts with the <code>aggregate</code> prefix.</p>
+<p>Below shows a principle component analysis (PCA) plot of the example data coloured by the classes of the <code>day</code> sample information column. It is first maximum occupancy filtered to remove empty features.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -337,8 +335,8 @@
 <div id="batchblock-correction" class="section level3">
 <h3 class="hasAnchor">
 <a href="#batchblock-correction" class="anchor"></a>Batch/block correction</h3>
-<p>There can sometimes be artificial batch related variability introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation. With appropriate sample randomisation (see section Feature filtering based on QC samples) batch related variability can be corrected for using an average centring correction method on the individual features.</p>
-<p>The plot below shows differences in the total ion count distributions for each of the classes in the <code>day</code> sample information column.</p>
+<p>There can sometimes be artificial batch related variability introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation. With appropriate sample randomisation (see section on feature filtering based on QC samples), batch related variability can be corrected for using an average centring correction method, applied to the individual features.</p>
+<p>The plot below shows differences in the TIC distributions for each of the classes in the <code>day</code> sample information column.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/plotTIC.html">plotTIC</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">'day'</span>,colour <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
@@ -357,7 +355,7 @@
 <div id="imputation-of-missing-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#imputation-of-missing-data" class="anchor"></a>Imputation of missing data</h3>
-<p>Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests. Where and how they are imputed are important considerations and is highly related to variable occupancy. The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the <a href="https://CRAN.R-project.org/package=missForest"><em>missForest</em></a> package.</p>
+<p>Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests. Where and how they are imputed are important considerations and this is highly related to variable occupancy. The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the <a href="https://CRAN.R-project.org/package=missForest"><em>missForest</em></a> package.</p>
 <p>Below shows a Linear Discriminant Analysis (LDA) plot of the example data. The eigenvalue (Tw) gives a comparable indication of the separation between the sample classes.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
@@ -378,7 +376,7 @@
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/imputeClass.html">imputeClass</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/imputeAll.html">imputeClass</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/imputed_class_lda-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This shows a slight increase in the eigenvalue with the classes showing greater separation. This is likely due to the increased accuracy of the imputed data relative to the class structure.</p>
@@ -386,9 +384,9 @@
 <div id="feature-filtering-based-on-quality-control-qc-samples" class="section level3">
 <h3 class="hasAnchor">
 <a href="#feature-filtering-based-on-quality-control-qc-samples" class="anchor"></a>Feature filtering based on quality control (QC) samples</h3>
-<p>A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set. Within an analytical run, the QC sample is analysed at equal intervals throughout the run. If there is class structure within the run, this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run. A QC samples can then be injected and analysed between these randomised blocks. This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.</p>
+<p>A QC sample is an average pooled sample, equally representative in composition of all the samples present within an experimental set. Within an analytical run, the QC sample is analysed at equal intervals throughout the run. If there is class structure within the run, this should be randomised within a block fashion so that the classes are equally represented in each block throughout the run. A QC sample can then be injected and analysed between these randomised blocks. This provides a set of technical injections that allows the variability in instrument performance over the run to be accounted for and the robustness of the acquired variables to be assessed.</p>
 <p>The technical reproducibility of an acquired variable can be assessed using it’s relative standard deviation (RSD) within the QC samples. The variable RSDs can then be filtered below a threshold value to remove metabolome features that are poorly reproducible across the analytical runs. This variable filtering strategy has an advantage over that of occupancy alone as it is not dependent on underlying class structure. Therefore, the variables and variable numbers will not alter if a new class structure is imposed upon the data.</p>
-<p>The example data set does not include QC samples so for this example the <code>H</code> class will be used.</p>
+<p>The example data set does not include QC samples. For this example, the <code>H</code> class will be used.</p>
 <p>Firstly, the RSD distribution will be assessed for the only <code>H</code> class. The following retains only the <code>H</code> class samples to aid visualisation.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">QC</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
@@ -397,20 +395,19 @@
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">QC</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/rsd.html">rsd</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2,000 x 3</span>
-<span class="co">#&gt; # Groups:   day [1]</span>
-<span class="co">#&gt;    day   Feature     RSD</span>
-<span class="co">#&gt;    &lt;fct&gt; &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 H     N1      NaN    </span>
-<span class="co">#&gt;  2 H     N10     NaN    </span>
-<span class="co">#&gt;  3 H     N100    NaN    </span>
-<span class="co">#&gt;  4 H     N1000     0.170</span>
-<span class="co">#&gt;  5 H     N1001     0.217</span>
-<span class="co">#&gt;  6 H     N1002     0.276</span>
-<span class="co">#&gt;  7 H     N1003     0.219</span>
-<span class="co">#&gt;  8 H     N1004     0.205</span>
-<span class="co">#&gt;  9 H     N1005     0.179</span>
-<span class="co">#&gt; 10 H     N1006     0.271</span>
+<span class="co">#&gt; # A tibble: 2,000 x 5</span>
+<span class="co">#&gt;    day   Feature  Mean    SD   RSD</span>
+<span class="co">#&gt;    &lt;fct&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 H     N1        0     0   NaN  </span>
+<span class="co">#&gt;  2 H     N10       0     0   NaN  </span>
+<span class="co">#&gt;  3 H     N100      0     0   NaN  </span>
+<span class="co">#&gt;  4 H     N1000   114.   19.4  17.0</span>
+<span class="co">#&gt;  5 H     N1001    99.2  21.6  21.7</span>
+<span class="co">#&gt;  6 H     N1002    86.7  23.9  27.6</span>
+<span class="co">#&gt;  7 H     N1003    82.3  18.0  21.9</span>
+<span class="co">#&gt;  8 H     N1004    91.6  18.8  20.5</span>
+<span class="co">#&gt;  9 H     N1005    78.2  14.0  17.9</span>
+<span class="co">#&gt; 10 H     N1006    78.6  21.3  27.1</span>
 <span class="co">#&gt; # … with 1,990 more rows</span></code></pre></div>
 <p>The distributions of the feature RSD values can be plotted for the <code>H</code> class.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
@@ -425,12 +422,12 @@
   <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/plotRSD.html">plotRSD</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/QC_occupancy_rsd-1.png" width="700" style="display: block; margin: auto;"></p>
-<p><code>metabolyseR</code> contains a number of methods for applying pre-treatment routines specifically on QC samples. These are all prefixed with <code>QC</code> and include feature filtering of a data set based the occupancy of the QC class, imputation of the QC class only, feature filtering based in the RSD values of the QC class and removal of only the QC class.</p>
-<p>Below shows an example of applying some of these QC methods. This will first filter the features in the data set based on the occupancy of the QC class. Then the features are filtered based on the RSD values of the QC class using an RSD threshold of 0.5. The class index of the QC samples is specified using the <code>QCidx</code> argument.</p>
+<p><code>metabolyseR</code> contains a number of methods for applying pre-treatment routines specifically on QC samples and are all prefixed with <code>QC</code>. These include methods for feature filtering of a data set based the occupancy of the QC class, imputation of the QC class only, feature filtering based in the RSD values of the QC class and removal of only the QC class.</p>
+<p>Below shows an example of applying some of these QC methods. This will first filter the features in the data set based on the occupancy of the QC class. Then the features are filtered based on the RSD values of the QC class using an RSD threshold of 50%. The class index of the QC samples is specified using the <code>QCidx</code> argument.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">QC_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/QCoccupancy.html">QCoccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/QCrsdFilter.html">QCrsdFilter</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,RSDthresh <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/QCimpute.html">QCoccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/QCimpute.html">QCrsdFilter</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,RSDthresh <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
 <p>This removes a total of 637 features.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">QC_filtered</span><span class="op">)</span>
@@ -452,14 +449,14 @@
 <span class="co">#&gt; [5] "occupancyFilter" "QC"              "remove"          "transform"</span></code></pre></div>
 <p>The available methods for a specified pre-treatment element can be viewed using:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/preTreatmentMethods.html">preTreatmentMethods</a></span><span class="op">(</span><span class="st">'remove'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/preTreatmentElements.html">preTreatmentMethods</a></span><span class="op">(</span><span class="st">'remove'</span><span class="op">)</span>
 <span class="co">#&gt; [1] "classes"  "features" "samples"</span></code></pre></div>
-<p>The default pre-treatment parameters can first assigned to the variable <code>p</code>.</p>
+<p>The default pre-treatment parameters can first be assigned to the variable <code>p</code>.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analysisParameters.html">analysisParameters</a></span><span class="op">(</span><span class="st">'pre-treatment'</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="../reference/preTreatmentParameters.html">preTreatmentParameters()</a></code> function allows the parameters for particular pre-treatment elements to be specified. The following specifies the pre-treatment elements that will be used for this data set. These will include the keeping of certain sample classes, the filtering of features based on class occupancy and the application of a TIC normalisation. These will be assigned to the <code>p</code> variable using the <code><a href="../reference/parameters.html">parameters()</a></code> method.</p>
+<p>The <code><a href="../reference/preTreatmentElements.html">preTreatmentParameters()</a></code> function allows the parameters for particular pre-treatment elements to be specified. The following specifies the pre-treatment elements that will be used for this data set. These will include the keeping of certain sample classes, the filtering of features based on class occupancy and the application of a TIC normalisation. These will be assigned to the <code>p</code> variable using the <code><a href="../reference/parameters.html">parameters()</a></code> method.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/parameters.html">parameters</a></span><span class="op">(</span><span class="va">p</span>,<span class="st">'pre-treatment'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preTreatmentParameters.html">preTreatmentParameters</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/parameters.html">parameters</a></span><span class="op">(</span><span class="va">p</span>,<span class="st">'pre-treatment'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preTreatmentElements.html">preTreatmentParameters</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     keep <span class="op">=</span> <span class="st">'classes'</span>,
     occupancyFilter <span class="op">=</span> <span class="st">'maximum'</span>,
@@ -503,7 +500,7 @@
 <p>The pre-treatment routine can then be executed.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.0 Thu Apr 15 00:52:32 2021</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.0 Fri Apr 16 05:43:26 2021</span></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Parameters:</span></span>
 <span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
@@ -520,39 +517,39 @@
 <span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pre-treatment …</span></span>
 <span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">10.7</span>S]</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">13.1</span>S]</span>
 <span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [10.7S]</span></span></code></pre></div>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [13.1S]</span></span></code></pre></div>
 <p>Printing the <code>analysis</code> object shows the resulting data from the pre-treatment routine.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; metabolyseR v0.14.0</span>
 <span class="co">#&gt; Analysis:</span>
-<span class="co">#&gt;  Thu Apr 15 00:52:32 2021</span>
+<span class="co">#&gt;  Fri Apr 16 05:43:26 2021</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Raw Data:</span>
 <span class="co">#&gt;      No. samples = 120</span>
 <span class="co">#&gt;      No. features = 2000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Pre-treated Data:</span>
-<span class="co">#&gt;      Thu Apr 15 00:52:43 2021</span>
+<span class="co">#&gt;      Fri Apr 16 05:43:40 2021</span>
 <span class="co">#&gt;      No. samples = 60</span>
 <span class="co">#&gt;      No. features = 1723</span></code></pre></div>
 <p>The pre-treated data can be extracted from the <code>Analysis</code> object using several methods.</p>
-<p>Firstly the <code><a href="../reference/analysisResults.html">analysisResults()</a></code> method.</p>
+<p>Firstly the <code><a href="../reference/dat.html">analysisResults()</a></code> method.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/analysisResults.html">analysisResults</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'pre-treatment'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">analysisResults</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'pre-treatment'</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Samples: 60 </span>
 <span class="co">#&gt; Features: 1723 </span>
 <span class="co">#&gt; Info: 9</span></code></pre></div>
-<p>And secondly the <code><a href="../reference/preTreated.html">preTreated()</a></code> method.</p>
+<p>And secondly the <code><a href="../reference/dat.html">preTreated()</a></code> method.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/preTreated.html">preTreated</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">preTreated</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
 <span class="co">#&gt; </span>

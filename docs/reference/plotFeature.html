@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>plotFeature — plotFeature • metabolyseR</title>
+<title>Plot a feature — plotFeature • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="plotFeature — plotFeature" />
-<meta property="og:description" content="Plot a feature trend." />
+<meta property="og:title" content="Plot a feature — plotFeature" />
+<meta property="og:description" content="Plot the trend of a feature." />
 
 
 
@@ -129,16 +129,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>plotFeature</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/plotFeature-method.R'><code>R/plotFeature-method.R</code></a></small>
+    <h1>Plot a feature</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/plotFeature.R'><code>R/plotFeature.R</code></a></small>
     <div class="hidden name"><code>plotFeature.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a feature trend.</p>
+    <p>Plot the trend of a feature.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plotFeature</span><span class='op'>(</span><span class='va'>analysis</span>, <span class='va'>feature</span>, cls <span class='op'>=</span> <span class='st'>"class"</span>, label <span class='op'>=</span> <span class='cn'>NULL</span>, labelSize <span class='op'>=</span> <span class='fl'>2</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S4 method for AnalysisData</span>
+<span class='fu'>plotFeature</span><span class='op'>(</span><span class='va'>analysis</span>, <span class='va'>feature</span>, cls <span class='op'>=</span> <span class='st'>"class"</span>, label <span class='op'>=</span> <span class='cn'>NULL</span>, labelSize <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Analysis</span>
 <span class='fu'>plotFeature</span><span class='op'>(</span>
@@ -148,30 +151,26 @@
   label <span class='op'>=</span> <span class='cn'>NULL</span>,
   labelSize <span class='op'>=</span> <span class='fl'>2</span>,
   type <span class='op'>=</span> <span class='st'>"pre-treated"</span>
-<span class='op'>)</span>
-
-<span class='co'># S4 method for AnalysisData</span>
-<span class='fu'>plotFeature</span><span class='op'>(</span><span class='va'>analysis</span>, <span class='va'>feature</span>, cls <span class='op'>=</span> <span class='st'>"class"</span>, label <span class='op'>=</span> <span class='cn'>NULL</span>, labelSize <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></pre>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>analysis</th>
-      <td><p>object of class Analysis, AnalysisData, Univariate 
-or RandomForest containing analysis results</p></td>
+      <td><p>an object of class <code>AnalysisData</code> or`` Analysis`</p></td>
     </tr>
     <tr>
       <th>feature</th>
-      <td><p>feature to plot</p></td>
+      <td><p>feature name to plot</p></td>
     </tr>
     <tr>
       <th>cls</th>
-      <td><p>info column to use for class labels</p></td>
+      <td><p>information column to use for class labels</p></td>
     </tr>
     <tr>
       <th>label</th>
-      <td><p>info column to use for sample labels</p></td>
+      <td><p>information column to use for sample labels</p></td>
     </tr>
     <tr>
       <th>labelSize</th>
@@ -189,18 +188,16 @@ or RandomForest containing analysis results</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>)</span>
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'preTreat'</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>p</span><span class='op'>@</span><span class='va'>preTreat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    occupancyFilter <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>maximum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
-    transform <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>TICnorm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metabolyse.html'>metabolyse</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span>,<span class='va'>p</span><span class='op'>)</span>
-<span class='fu'>plotFeature</span><span class='op'>(</span><span class='va'>analysis</span>,<span class='st'>'N133'</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
+
+<span class='co'>## Plot a categorical response variable</span>
+<span class='fu'>plotFeature</span><span class='op'>(</span><span class='va'>d</span>,<span class='st'>'N133'</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotFeature-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>## Plot a continuous response variable</span>
+<span class='fu'>plotFeature</span><span class='op'>(</span><span class='va'>d</span>,<span class='st'>'N133'</span>,cls <span class='op'>=</span> <span class='st'>'injorder'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotFeature-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

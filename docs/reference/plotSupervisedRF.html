@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>plotSupervisedRF — plotSupervisedRF • metabolyseR</title>
+<title>Supervised random forest MDS plot — plotSupervisedRF • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="plotSupervisedRF — plotSupervisedRF" />
-<meta property="og:description" content="plotSupervisedRF" />
+<meta property="og:title" content="Supervised random forest MDS plot — plotSupervisedRF" />
+<meta property="og:description" content="A multidimensional scaling (MDS) plot of supervised random forest analysis" />
 
 
 
@@ -129,13 +129,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>plotSupervisedRF</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/plotSupervisedRF-method.R'><code>R/plotSupervisedRF-method.R</code></a></small>
+    <h1>Supervised random forest MDS plot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/plotSupervisedRF.R'><code>R/plotSupervisedRF.R</code></a></small>
     <div class="hidden name"><code>plotSupervisedRF.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>plotSupervisedRF</p>
+    <p>A multidimensional scaling (MDS) plot of supervised random forest analysis</p>
     </div>
 
     <pre class="usage"><span class='fu'>plotSupervisedRF</span><span class='op'>(</span>
@@ -189,33 +189,33 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>object of class Analysis or AnalysisData containing analysis results</p></td>
+      <td><p>object of class <code>AnalysisData</code> or <code>Analysis</code> containing analysis results</p></td>
     </tr>
     <tr>
       <th>cls</th>
-      <td><p>info column to use for sample classes</p></td>
+      <td><p>information column to use for sample classes</p></td>
     </tr>
     <tr>
       <th>rf</th>
-      <td><p>list of additional parameters to pass to randomForest</p></td>
+      <td><p>list of additional parameters to pass to <code>randomForest</code></p></td>
     </tr>
     <tr>
       <th>label</th>
-      <td><p>info column to use for sample labels. Set to NULL for no labels.</p></td>
+      <td><p>information column to use for sample labels. Set to <code>NULL</code> for no labels.</p></td>
     </tr>
     <tr>
       <th>shape</th>
-      <td><p>TRUE/FALSE use shape aesthetic for plot points. 
+      <td><p>TRUE/FALSE use shape aesthetic for plot points.
 Defaults to TRUE when the number of classes is greater than 12</p></td>
     </tr>
     <tr>
       <th>ellipses</th>
-      <td><p>TRUE/FALSE, plot multivariate normal distribution 95% 
+      <td><p>TRUE/FALSE, plot multivariate normal distribution 95%
 confidence ellipses for each class</p></td>
     </tr>
     <tr>
       <th>ROC</th>
-      <td><p>should reciever-operator characteristics be plotted?</p></td>
+      <td><p>should receiver-operator characteristics be plotted?</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -227,7 +227,7 @@ confidence ellipses for each class</p></td>
     </tr>
     <tr>
       <th>legendPosition</th>
-      <td><p>legend position to pass to legend.position argument 
+      <td><p>legend position to pass to legend.position argument
 of <code><a href='https://ggplot2.tidyverse.org/reference/theme.html'>ggplot2::theme</a></code>. Set to "none" to remove legend.</p></td>
     </tr>
     <tr>
@@ -246,19 +246,13 @@ of <code><a href='https://ggplot2.tidyverse.org/reference/theme.html'>ggplot2::t
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>)</span>
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'preTreat'</span><span class='op'>)</span>
-<span class='va'>p</span><span class='op'>@</span><span class='va'>preTreat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-  occupancyFilter <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>maximum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
-  transform <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>TICnorm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metabolyse.html'>metabolyse</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span>,<span class='va'>p</span><span class='op'>)</span>  
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
 
-<span class='fu'>plotSupervisedRF</span><span class='op'>(</span><span class='va'>analysis</span>,cls <span class='op'>=</span> <span class='st'>'day'</span>,label <span class='op'>=</span> <span class='st'>'name'</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
+
+<span class='co'>## Supervised random forest MDS plot</span>
+<span class='fu'>plotSupervisedRF</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotSupervisedRF-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

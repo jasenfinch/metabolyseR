@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>analysisData — analysisData • metabolyseR</title>
+<title>AnalysisData class constructor — analysisData • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="analysisData — analysisData" />
-<meta property="og:description" content="Create an S4 AnalysisData object." />
+<meta property="og:title" content="AnalysisData class constructor — analysisData" />
+<meta property="og:description" content="Create an AnalysisData S4 object." />
 
 
 
@@ -129,13 +129,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>analysisData</h1>
+    <h1>AnalysisData class constructor</h1>
     <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/analysisData.R'><code>R/analysisData.R</code></a></small>
     <div class="hidden name"><code>analysisData.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create an S4 AnalysisData object.</p>
+    <p>Create an AnalysisData S4 object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>analysisData</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>info</span><span class='op'>)</span></pre>
@@ -145,19 +145,30 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>sample data</p></td>
+      <td><p>table containing sample metabolomic data</p></td>
     </tr>
     <tr>
       <th>info</th>
-      <td><p>saple info</p></td>
+      <td><p>table containing sample meta information</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An S4 object of class Analysis.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
-<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'>analysisData</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,info <span class='op'>=</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
-</div></pre>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'>analysisData</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span>,info <span class='op'>=</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; AnalysisData object containing:
+#&gt; 
+#&gt; Samples: 120 
+#&gt; Features: 2000 
+#&gt; Info: 9 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

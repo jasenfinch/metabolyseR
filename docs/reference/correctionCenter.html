@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>correctionCenter — correctionCenter • metabolyseR</title>
+<title>correctionCenter — correctionCenter,AnalysisData-method • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="correctionCenter — correctionCenter" />
+<meta property="og:title" content="correctionCenter — correctionCenter,AnalysisData-method" />
 <meta property="og:description" content="Batch correction using average centering." />
 
 
@@ -130,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>correctionCenter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/allGenerics.R'><code>R/allGenerics.R</code></a>, <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/correctionMethods.R'><code>R/correctionMethods.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/correction.R'><code>R/correction.R</code></a></small>
     <div class="hidden name"><code>correctionCenter.Rd</code></div>
     </div>
 
@@ -138,28 +138,9 @@
     <p>Batch correction using average centering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>correctionCenter</span><span class='op'>(</span><span class='va'>d</span>, block <span class='op'>=</span> <span class='st'>"block"</span>, type <span class='op'>=</span> <span class='st'>"median"</span><span class='op'>)</span>
+    <pre class="usage"><span class='co'># S4 method for AnalysisData</span>
+<span class='fu'><a href='correctionCenter.html'>correctionCenter</a></span><span class='op'>(</span><span class='va'>d</span>, block <span class='op'>=</span> <span class='st'>"block"</span>, type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='st'>"median"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
-<span class='co'># S4 method for AnalysisData</span>
-<span class='fu'>correctionCenter</span><span class='op'>(</span><span class='va'>d</span>, block <span class='op'>=</span> <span class='st'>"block"</span>, type <span class='op'>=</span> <span class='st'>"median"</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>d</th>
-      <td><p>S4 object of class AnalysisData</p></td>
-    </tr>
-    <tr>
-      <th>block</th>
-      <td><p>info column containing sample block 
-groupings to use for correction</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>averaging to use; eg. mean or median</p></td>
-    </tr>
-    </table>
 
 
   </div>

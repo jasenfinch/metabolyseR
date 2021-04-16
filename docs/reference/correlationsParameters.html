@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>correlationsParameters — correlationsParameters • metabolyseR</title>
+<title>Correlations parameters — correlationsParameters • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="correlationsParameters — correlationsParameters" />
-<meta property="og:description" content="Return default parameters for correlation analysis" />
+<meta property="og:title" content="Correlations parameters — correlationsParameters" />
+<meta property="og:description" content="Retrieve the default parameters for correlation analysis." />
 
 
 
@@ -129,13 +129,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>correlationsParameters</h1>
+    <h1>Correlations parameters</h1>
     <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/parameters.R'><code>R/parameters.R</code></a></small>
     <div class="hidden name"><code>correlationsParameters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Return default parameters for correlation analysis</p>
+    <p>Retrieve the default parameters for correlation analysis.</p>
     </div>
 
     <pre class="usage"><span class='fu'>correlationsParameters</span><span class='op'>(</span><span class='op'>)</span></pre>
@@ -143,9 +143,19 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='parameters.html'>parameters</a></span><span class='op'>(</span><span class='va'>p</span>,<span class='st'>'correlations'</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>correlationsParameters</span><span class='op'>(</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>## Retrieve the default correlation parameters</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>correlationsParameters</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## Assign the correlation parameters to analysis parameters</span>
+<span class='va'>cp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'correlations'</span><span class='op'>)</span>
+<span class='fu'><a href='parameters.html'>parameters</a></span><span class='op'>(</span><span class='va'>cp</span>,<span class='st'>'correlations'</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>p</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cp</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span><span>
+#&gt; correlations
+#&gt; 	method = pearson
+#&gt; 	pAdjustMethod = bonferroni
+#&gt; 	corPvalue = 0.05</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -92,7 +92,7 @@
             <h3 class="subtitle">metabolyseR v0.14.0</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">15 April, 2021</h4>
+            <h4 class="date">16 April, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/quick_start.Rmd"><code>vignettes/quick_start.Rmd</code></a></small>
       <div class="hidden name"><code>quick_start.Rmd</code></div>
@@ -117,15 +117,15 @@
 <span class="co">#&gt; Samples: 120 </span>
 <span class="co">#&gt; Features: 2000 </span>
 <span class="co">#&gt; Info: 9</span></code></pre></div>
-<p>The <code><a href="../reference/clsAvailable.html">clsAvailable()</a></code> function can be used to identify the columns available in our meta-information table.</p>
+<p>The <code><a href="../reference/clsAdd.html">clsAvailable()</a></code> function can be used to identify the columns available in our meta-information table.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/clsAvailable.html">clsAvailable</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/clsAdd.html">clsAvailable</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
 <span class="co">#&gt; [1] "injorder" "pathcdf"  "filecdf"  "name.org" "remark"   "name"     "rep"     </span>
 <span class="co">#&gt; [8] "day"      "class"</span></code></pre></div>
 <p>For this analysis, we will be using the infection time course class information contained in the <code>day</code> column. This can be extracted and the class frequencies tabulated using the following:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/clsExtract.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; .</span>
 <span class="co">#&gt;  1  2  3  4  5  H </span>
@@ -135,7 +135,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>, occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/transformTICnorm.html">transformTICnorm</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/transformArcSine.html">transformTICnorm</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span>
 <span class="co">#&gt; </span>
@@ -160,7 +160,7 @@
   <span class="fu"><a href="../reference/anova.html">anova</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p>A table of the significantly explanatory features can be extracted with a bonferroni correction adjusted p value &lt; 0.05 using:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">explan_feat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explanatoryFeatures.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">anova_results</span>,threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">explan_feat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">anova_results</span>,threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">explan_feat</span>
 <span class="co">#&gt; # A tibble: 379 x 10</span>

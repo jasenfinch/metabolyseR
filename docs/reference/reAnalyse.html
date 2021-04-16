@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="reAnalyse — reAnalyse" />
-<meta property="og:description" content="Re-analyse an object of class Analysis using 
+<meta property="og:description" content="Re-analyse an object of class Analysis using
 specified parameters." />
 
 
@@ -131,12 +131,12 @@ specified parameters." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>reAnalyse</h1>
-    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/reAnalyse.R'><code>R/reAnalyse.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/metabolyse.R'><code>R/metabolyse.R</code></a></small>
     <div class="hidden name"><code>reAnalyse.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Re-analyse an object of class Analysis using 
+    <p>Re-analyse an object of class Analysis using
 specified parameters.</p>
     </div>
 
@@ -147,12 +147,12 @@ specified parameters.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>analysis</th>
-      <td><p>an object of class Analysis containing previous 
+      <td><p>an object of class Analysis containing previous
 analysis results</p></td>
     </tr>
     <tr>
       <th>parameters</th>
-      <td><p>an object of class Parameters containing parameters for 
+      <td><p>an object of class Parameters containing parameters for
 re-analysis</p></td>
     </tr>
     <tr>
@@ -184,7 +184,7 @@ re-analysis</p></td>
                        <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span>,
                        <span class='va'>p</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'></span>
-#&gt; <span class='message'>metabolyseR </span><span> </span><span style='color: #BB0000;'>v0.14.0</span><span> Thu Apr 15 00:46:10 2021</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>Parameters:</span><span></span>
+#&gt; <span class='message'>metabolyseR </span><span> </span><span style='color: #BB0000;'>v0.14.0</span><span> Thu Apr 15 21:57:53 2021</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>Parameters:</span><span></span>
 #&gt; <span class='message'>pre-treatment</span>
 #&gt; <span class='message'>	occupancyFilter</span>
 #&gt; <span class='message'>		maximum</span>
@@ -198,13 +198,16 @@ re-analysis</p></td>
 #&gt; <span class='message'>		cls = day</span>
 #&gt; <span class='message'>		pAdjust = bonferroni</span>
 #&gt; <span class='message'>		comparisons = list()</span>
-#&gt; <span class='message'>		returnModels = FALSE</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Pre-treatment </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Pre-treatment </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.8S]</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Modelling </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Modelling </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.6S]</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>Complete! </span><span>[1.5S]</span></div><div class='input'>                       
+#&gt; <span class='message'>		returnModels = FALSE</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Pre-treatment </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Pre-treatment </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.9S]</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Modelling </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘purrr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    is_null</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Modelling </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.7S]</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'></span><span style='color: #00BB00;'>Complete! </span><span>[1.7S]</span></div><div class='input'>                       
 <span class='co'>## Re-analyse to include correlation analysis</span>
 <span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'>reAnalyse</span><span class='op'>(</span><span class='va'>analysis</span>,
                       parameters <span class='op'>=</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'correlations'</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'>metabolyseR</span><span> </span><span style='color: #BB0000;'>v0.14.0</span><span> Thu Apr 15 00:46:12 2021
+#&gt; </span><span style='color: #0000BB;'>metabolyseR</span><span> </span><span style='color: #BB0000;'>v0.14.0</span><span> Thu Apr 15 21:57:55 2021
 #&gt; ________________________________________________________________________________
 #&gt; </span><span style='color: #BBBB00;'>Parameters:</span><span>
 #&gt; correlations
@@ -212,10 +215,7 @@ re-analysis</p></td>
 #&gt; 	pAdjustMethod = bonferroni
 #&gt; 	corPvalue = 0.05
 #&gt; ________________________________________________________________________________
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Correlations </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Correlations </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.1S]</span></div><div class='output co'>#&gt; ________________________________________________________________________________
-#&gt; 
-#&gt; </span><span style='color: #00BB00;'>Complete! </span><span>[0.1S]
-#&gt; </div></span></pre>
+#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Correlations </span><span>…</span></div><div class='output co'>#&gt; <span class='error'>Error in (function (cl, name, valueClass) {    ClassDef &lt;- getClass(cl)    slotClass &lt;- ClassDef@slots[[name]]    if (is.null(slotClass))         stop(gettextf("%s is not a slot in class %s", sQuote(name),             dQuote(cl)), domain = NA)    if (.identC(slotClass, valueClass))         return(TRUE)    ok &lt;- possibleExtends(valueClass, slotClass, ClassDef2 = getClassDef(slotClass,         where = .classEnv(ClassDef)))    if (isFALSE(ok))         stop(gettextf("assignment of an object of class %s is not valid for @%s in an object of class %s; is(value, \"%s\") is not TRUE",             dQuote(valueClass), sQuote(name), dQuote(cl), slotClass),             domain = NA)    TRUE})(structure("AnalysisData", package = "metabolyseR"), "correlations",     c("tbl_df", "tbl", "data.frame")): ‘correlations’ is not a slot in class “AnalysisData”</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

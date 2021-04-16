@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>analysisParameters — analysisParameters • metabolyseR</title>
+<title>Create an AnalysisParameters S4 class object — analysisParameters • metabolyseR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="analysisParameters — analysisParameters" />
-<meta property="og:description" content="Initiate default analysis parameters for analysis elements." />
+<meta property="og:title" content="Create an AnalysisParameters S4 class object — analysisParameters" />
+<meta property="og:description" content="Initiate an AnalysisParameters object with the default analysis parameters for each of the analysis elements." />
 
 
 
@@ -129,13 +129,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>analysisParameters</h1>
+    <h1>Create an <code>AnalysisParameters</code> S4 class object</h1>
     <small class="dont-index">Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/R/parameters.R'><code>R/parameters.R</code></a></small>
     <div class="hidden name"><code>analysisParameters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Initiate default analysis parameters for analysis elements.</p>
+    <p>Initiate an <code>AnalysisParameters</code> object with the default analysis parameters for each of the analysis elements.</p>
     </div>
 
     <pre class="usage"><span class='fu'>analysisParameters</span><span class='op'>(</span>elements <span class='op'>=</span> <span class='fu'><a href='analysisElements.html'>analysisElements</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
@@ -145,12 +145,65 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>elements</th>
-      <td><p>character vector containing elements for analysis. 
-Default includes all available elements from <code>analysisElements</code>.</p></td>
+      <td><p>character vector containing elements for analysis.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>An S4 object of class <code>AnalysisParameters</code> containing the default analysis parameters.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>analysisParameters</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span><span>
+#&gt; pre-treatment
+#&gt; 	QC
+#&gt; 		occupancyFilter
+#&gt; 			cls = class
+#&gt; 			QCidx = QC
+#&gt; 			occupancy = 2/3
+#&gt; 		impute
+#&gt; 			cls = class
+#&gt; 			QCidx = QC
+#&gt; 			occupancy = 2/3
+#&gt; 			parallel = variables
+#&gt; 			seed = 1234
+#&gt; 		RSDfilter
+#&gt; 			cls = class
+#&gt; 			QCidx = QC
+#&gt; 			RSDthresh = 0.5
+#&gt; 		removeQC
+#&gt; 			cls = class
+#&gt; 			QCidx = QC
+#&gt; 	occupancyFilter
+#&gt; 		maximum
+#&gt; 			cls = class
+#&gt; 			occupancy = 2/3
+#&gt; 	impute
+#&gt; 		class
+#&gt; 			cls = class
+#&gt; 			occupancy = 2/3
+#&gt; 			seed = 1234
+#&gt; 	transform
+#&gt; 		TICnorm
+#&gt; 
+#&gt; modelling
+#&gt; 	randomForest
+#&gt; 		cls = class
+#&gt; 		rf = list()
+#&gt; 		reps = 1
+#&gt; 		binary = FALSE
+#&gt; 		comparisons = list()
+#&gt; 		perm = 0
+#&gt; 		returnModels = FALSE
+#&gt; 		seed = 1234
+#&gt; 
+#&gt; correlations
+#&gt; 	method = pearson
+#&gt; 	pAdjustMethod = bonferroni
+#&gt; 	corPvalue = 0.05</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
