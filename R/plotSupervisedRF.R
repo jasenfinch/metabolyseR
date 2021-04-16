@@ -1,36 +1,51 @@
-#' plotSupervisedRF
+#' Supervised random forest MDS plot
 #' @rdname plotSupervisedRF
-#' @param x object of class Analysis or AnalysisData containing analysis results
-#' @param cls info column to use for sample classes
-#' @param rf list of additional parameters to pass to randomForest
-#' @param label info column to use for sample labels. Set to NULL for no labels.
+#' @description A multidimensional scaling (MDS) plot of supervised random forest analysis
+#' @param x object of class `AnalysisData` or `Analysis` containing analysis results
+#' @param cls information column to use for sample classes
+#' @param rf list of additional parameters to pass to `randomForest`
+#' @param label information column to use for sample labels. Set to `NULL` for no labels.
 #' @param shape TRUE/FALSE use shape aesthetic for plot points. 
 #' Defaults to TRUE when the number of classes is greater than 12
-#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\% 
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95% 
 #' confidence ellipses for each class
-#' @param ROC should reciever-operator characteristics be plotted?
+#' @param ROC should receiver-operator characteristics be plotted?
 #' @param seed random number seed
 #' @param title plot title
 #' @param legendPosition legend position to pass to legend.position argument 
-#' of \code{ggplot2::theme}. Set to "none" to remove legend.
-#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
-#' @param type \code{raw} or \code{pre-treated} data to plot
+#' of `ggplot2::theme`. Set to "none" to remove legend.
+#' @param labelSize label size. Ignored if `label` is `NULL`
+#' @param type `raw` or `pre-treated` data to plot
 #' @param ... arguments to pass to the appropriate method
 #' @importFrom patchwork plot_annotation wrap_plots
-#' @examples 
-#' \dontrun{
+#' @examples
 #' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters('preTreat')
-#' p@preTreat <- list(
-#'   occupancyFilter = list(maximum = list()),
-#'   transform = list(TICnorm = list())
-#' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)  
 #' 
-#' plotSupervisedRF(analysis,cls = 'day',label = 'name')
-#' }
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact)
+#' 
+#' ## Supervised random forest MDS plot
+#' plotSupervisedRF(d,cls = 'day')
 #' @export
+
+setGeneric('plotSupervisedRF',
+           function(
+             x, 
+             cls = 'class', 
+             rf = list(), 
+             label = NULL,
+             shape = FALSE, 
+             ellipses = TRUE, 
+             ROC = TRUE, 
+             seed = 1234, 
+             title = '', 
+             legendPosition = 'bottom', 
+             labelSize = 2,
+             ...)
+           {
+             standardGeneric('plotSupervisedRF')
+           })
+
+#' @rdname plotSupervisedRF
 
 setMethod('plotSupervisedRF',
           signature = 'AnalysisData',
@@ -79,7 +94,6 @@ setMethod('plotSupervisedRF',
 )
 
 #' @rdname plotSupervisedRF
-#' @export
 
 setMethod('plotSupervisedRF', 
           signature = 'Analysis',

@@ -4,43 +4,6 @@ setGeneric('plotExplanatoryHeatmap',function(x, ...){
   standardGeneric('plotExplanatoryHeatmap')
 })
 
-#' @rdname plotSupervisedRF
-setGeneric('plotSupervisedRF',
-           function(
-             x, 
-             cls = 'class', 
-             rf = list(), 
-             label = NULL,
-             shape = FALSE, 
-             ellipses = TRUE, 
-             ROC = TRUE, 
-             seed = 1234, 
-             title = '', 
-             legendPosition = 'bottom', 
-             labelSize = 2,
-             ...)
-           {
-             standardGeneric('plotSupervisedRF')
-           })
-
-#' @rdname plotUnsupervisedRF
-setGeneric('plotUnsupervisedRF',
-           function(
-             x,
-             cls = 'class', 
-             rf = list(), 
-             label = NULL, 
-             shape = FALSE, 
-             ellipses = TRUE, 
-             seed = 1234, 
-             title = '', 
-             legendPosition = 'bottom', 
-             labelSize = 2,
-             ...)
-           {
-             standardGeneric('plotUnsupervisedRF')
-           })
-
 #' @rdname plotImportance
 setGeneric("plotImportance", function(x,...) {
   standardGeneric("plotImportance")

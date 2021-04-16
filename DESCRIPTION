@@ -72,10 +72,10 @@ Collate: allGenerics.R
     plotOccupancy.R
     plotPCA.R
     plotRSD.R
-    plotSupervisedRF-method.R
+    plotSupervisedRF.R
     plotTIC.R
     plotting.R
-    plotUnsupervisedRF-method.R
+    plotUnsupervisedRF.R
     pre-treatment.R
     QC.R
     reexports.R
