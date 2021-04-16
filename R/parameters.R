@@ -525,7 +525,7 @@ setMethod('exportParameters',signature = 'Analysis',
 #'   )
 #' )
 #' 
-#' ## Assign the pre-treatment parameters to analysis paraemeters
+#' ## Assign the pre-treatment parameters to analysis parameters
 #' ap <- analysisParameters('pre-treatment')
 #' parameters(ap,'pre-treatment') <- p
 #' 
@@ -608,13 +608,31 @@ preTreatmentParameters <- function(methods){
     set_names(names(methods))
 }
 
-#' modellingParameters
-#' @description Return default parameters for a given modelling method.
-#' @param methods character vector of available methods. 
-#' Use \code{modellingMethods()} to see available methods.
+#' Modelling parameters
+#' @rdname modelling-parameters
+#' @description Retrieve the available modelling methods and parameters.
+#' @param methods character vector of available modelling methods
 #' @examples 
-#' p <- analysisParameters()
-#' parameters(p,'modelling') <- modellingParameters('anova')
+#' ## Retrieve the available modelling methods
+#' modellingMethods()
+#' 
+#' ## Retrieve the modelling parameters for the anova method
+#' p <- modellingParameters('anova')
+#' 
+#' ## Assign the modelling parameters to analysis parameters
+#' mp <- analysisParameters('modelling')
+#' 
+#' parameters(mp,'modelling') <- p
+#' 
+#' print(mp)
+#' @export
+
+modellingMethods <- function(){
+  getModellingMethods() %>%
+    names()
+}
+
+#' @rdname modelling-parameters
 #' @export
 
 modellingParameters <- function(methods){

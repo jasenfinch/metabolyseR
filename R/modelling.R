@@ -19,15 +19,6 @@ setMethod('binaryComparisons',signature = 'AnalysisData',
           }
 )
 
-#' modellingMethods
-#' @description Return names of available modelling methods.
-#' @export
-
-modellingMethods <- function(){
-  getModellingMethods() %>%
-    names()
-}
-
 getModellingMethods <- function(method = NULL){
   
   methods <- list(
