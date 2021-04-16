@@ -1,29 +1,35 @@
-#' plotTIC
+#' Plot sample total ion counts
 #' @rdname plotTIC
-#' @description Plot total ion counts of sample raw data.
-#' @param analysis object of class Analysis or AnalysisData containing 
-#' analysis results
-#' @param by info column to plot against
-#' @param colour info column to provide colour labels
-#' @param type \code{raw} or \code{preTreated} sample information
+#' @description Plot total ion counts of sample data.
+#' @param analysis S4 object of class `AnalysisData` or `Analysis`
+#' @param by information column to plot against
+#' @param colour information column to provide colour labels
+#' @param type `raw` or `pre-treated` sample data
 #' @param ... arguments to pass to the appropriate method
 #' @importFrom tibble rowid_to_column
 #' @importFrom dplyr group_by summarise
 #' @importFrom ggplot2 scale_fill_manual geom_boxplot
 #' @importFrom stringr str_sub
 #' @examples 
-#' \dontrun{
 #' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters(c('preTreat'))
-#' p@preTreat <- list(
-#'     occupancyFilter = list(maximum = list()),
-#'     transform = list(TICnorm = list())
-#' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotTIC(analysis,by = 'injorder',colour = 'day')
-#' }
+#' 
+#' d <- analysisData(abr1$neg,abr1$fact)
+#' 
+#' ## Plot sample TIVs
+#' plotTIC(d,by = 'injorder',colour = 'day')
+#' 
+#' plotTIC(d,by = 'day',colour = 'day')
 #' @export
+
+setGeneric('plotTIC', 
+           function(analysis, 
+                    by = 'injOrder', 
+                    colour = 'block', 
+                    ...){
+             standardGeneric('plotTIC')
+           })
+
+#' @rdname plotTIC
 
 setMethod('plotTIC',signature = 'AnalysisData',
           function(analysis, by = 'injOrder', colour = 'block') {
@@ -103,14 +109,22 @@ setMethod('plotTIC',signature = 'AnalysisData',
 )
 
 #' @rdname plotTIC
-#' @export
 
 setMethod('plotTIC',signature = 'Analysis',
           function(analysis, 
                    by = 'injOrder', 
                    colour = 'block', 
-                   type = 'raw') {
-            ty <- get(type)
+                   type = c('raw','pre-treated')) {
+            
+            type <- match.arg(type,
+                              choices = c('raw','pre-treated'))
+            
+            if (type == 'raw'){
+              ty <- get('raw')  
+            } else {
+              ty <- get('preTreated')
+            }
+            
             
             ty(analysis) %>%
               plotTIC(by = by,colour = colour)

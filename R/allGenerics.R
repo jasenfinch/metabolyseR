@@ -1,21 +1,4 @@
 
-#' @rdname plotTIC
-setGeneric('plotTIC', 
-           function(analysis, 
-                    by = 'injOrder', 
-                    colour = 'block', 
-                    ...){
-             standardGeneric('plotTIC')
-           })
-
-#' @rdname plotRSD
-setGeneric('plotRSD', 
-           function(analysis, 
-                    cls = 'class', 
-                    ...){
-             standardGeneric('plotRSD')
-           })
-
 #' @rdname plotPCA
 setGeneric('plotPCA', 
            function(

@@ -71,9 +71,9 @@ Collate: allGenerics.R
     plotLDA-method.R
     plotOccupancy.R
     plotPCA-method.R
-    plotRSD-method.R
+    plotRSD.R
     plotSupervisedRF-method.R
-    plotTIC-method.R
+    plotTIC.R
     plotting.R
     plotUnsupervisedRF-method.R
     pre-treatment.R

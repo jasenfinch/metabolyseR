@@ -1,44 +1,36 @@
-#' plotRSD
+#' Plot RSD distributions
 #' @rdname plotRSD
 #' @description Plot RSD distributions of raw data in quality control samples.
-#' @param analysis object of class Analysis containing analysis results
-#' @param cls info column to use for class labels
+#' @param analysis object of class `AnalysisData` or `Analysis`
+#' @param cls information column to use for class labels
 #' @param QCidx QC sample label
 #' @param QCparameters alternative parameters for QC sample pre-treatment. 
 #' See details
 #' @param histBins number of bins to use for histogram plotting
 #' @param title plot title
 #' @param ... arguments to pass to the appropriate method
-#' @details If QCparameters is set as \code{NULL}, the default QC 
-#' pre-treatment parameters are used as given by 
-#' \code{analysisParameters('preTreat')}. Alternative pre-treatment 
-#' routines can be used by specifying an \code{AnalysisParameters} 
-#' object for \code{QCparameters}.
 #' @importFrom stringr str_extract
 #' @importFrom purrr map
 #' @importFrom stats median
 #' @importFrom ggplot2 geom_histogram geom_text geom_density
 #' @importFrom patchwork plot_layout
-#' @examples \dontrun{
+#' @examples 
+#' #' library(metaboData)
 #' 
-#' library(metaboData)
-#' library(binneR)
+#' d <- analysisData(abr1$neg,abr1$fact)
 #' 
-#' files <- filePaths("FIE-HRMS","BdistachyonEcotypes")
-#' 
-#' info <- runinfo("FIE-HRMS","BdistachyonEcotypes")
-#' 
-#' binDat <- binneRlyse(files, 
-#'                        info, 
-#'                        parameters = detectParameters(files))
-#' 
-#' p <- analysisParameters('preTreat')
-#' 
-#' analysis <- metabolyse(binnedData(binDat)$n,info(binDat),p)
-#' 
-#' plotRSD(analysis)
-#' }
+#' ## Plot class RSD distributions
+#' plotRSD(d,cls = 'day')
 #' @export
+
+setGeneric('plotRSD', 
+           function(analysis, 
+                    cls = 'class', 
+                    ...){
+             standardGeneric('plotRSD')
+           })
+
+#' @rdname plotRSD
 
 setMethod('plotRSD',signature = 'AnalysisData',
           function(analysis, cls = 'class'){
@@ -101,7 +93,6 @@ setMethod('plotRSD',signature = 'AnalysisData',
 )
 
 #' @rdname plotRSD
-#' @export
 
 setMethod('plotRSD',signature = 'Analysis',
           function(analysis,
