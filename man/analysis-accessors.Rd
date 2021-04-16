@@ -129,7 +129,7 @@ Accessor methods for the \code{AnalysisData} and \code{Analysis} S4 classes.
 }
 
 \examples{
-#' library(metaboData)
+library(metaboData)
 
 d <- analysisData(abr1$neg[,200:300],abr1$fact)
 

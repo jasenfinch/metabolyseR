@@ -13,8 +13,10 @@
 #' * `occupancyMaximium`: Maximum occupancy threshold feature filtering. Where the maximum occupancy across all classes is above the threshold. Therefore, for a feature to be retained, only a single class needs to have an occupancy above the threshold.
 #' * `occupancyMinimum`: Minimum occupancy threshold feature filtering. Where the minimum occupancy across all classes is required to be above the threshold. Therefore, for a feature to be retained, all classes would need to have an occupancy above the threshold.
 #' @examples 
-#' ## Each of the following examples shows the application of the feature occupancy filtering method method and then 
-#' ## a Principle Component Analysis is plotted to show it's effect on the data structure.
+#' ## Each of the following examples shows the application 
+#' ## of the feature occupancy filtering method method and 
+#' ## then a Principle Component Analysis is plotted to show 
+#' ## its effect on the data structure.
 #' 
 #' ## Initial example data preparation
 #' library(metaboData)

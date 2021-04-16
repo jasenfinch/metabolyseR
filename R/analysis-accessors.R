@@ -20,7 +20,7 @@
 #' * `nFeatures`: Return the number of features.
 #' * `analysisResults`: Return results from an `Analysis` object of an analysis element.
 #' @examples 
-#' #' library(metaboData)
+#' library(metaboData)
 #' 
 #' d <- analysisData(abr1$neg[,200:300],abr1$fact)
 #' 

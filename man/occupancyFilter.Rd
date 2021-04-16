@@ -42,8 +42,10 @@ However, this can be complicated by an underlying class structure present within
 }
 
 \examples{
-## Each of the following examples shows the application of the feature occupancy filtering method method and then 
-## a Principle Component Analysis is plotted to show it's effect on the data structure.
+## Each of the following examples shows the application 
+## of the feature occupancy filtering method method and 
+## then a Principle Component Analysis is plotted to show 
+## its effect on the data structure.
 
 ## Initial example data preparation
 library(metaboData)

@@ -36,6 +36,8 @@ setMethod('correlations',signature = 'AnalysisData',
                            corPvalue = corPvalue)
           })
 
+#' @rdname correlations
+
 setMethod("correlations", signature = "Analysis",
           function(d){
             verbose <- d@log$verbose

@@ -3,6 +3,7 @@
 \name{correlations}
 \alias{correlations}
 \alias{correlations,AnalysisData-method}
+\alias{correlations,Analysis-method}
 \title{correlations}
 \usage{
 correlations(d, ...)
@@ -13,6 +14,8 @@ correlations(d, ...)
   pAdjustMethod = "bonferroni",
   corPvalue = 0.05
 )
+
+\S4method{correlations}{Analysis}(d)
 }
 \arguments{
 \item{d}{S4 object of class \code{AnalysisData}}
