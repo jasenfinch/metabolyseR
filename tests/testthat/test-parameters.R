@@ -121,6 +121,7 @@ test_that('an error is thrown when a non list object is supplied to preTreatment
   expect_error(preTreatmentParameters('wrong'))
 })
 
+
 test_that('an error is thrown when incorrect elements are supplied to preTreatmentParameters',{
   p <- analysisParameters()
   expect_error(preTreatmentParameters(list(wrong = 'wrong')))
