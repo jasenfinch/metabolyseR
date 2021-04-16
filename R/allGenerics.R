@@ -232,8 +232,3 @@ setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
 setGeneric('binaryComparisons',function(x,cls = 'class'){
   standardGeneric('binaryComparisons')
 })
-
-#' @rdname exportParameters
-setGeneric('exportParameters',function(x,file = 'analysis_parameters.yaml'){
-  standardGeneric('exportParameters')
-})

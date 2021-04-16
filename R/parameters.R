@@ -378,6 +378,132 @@ setMethod('changeParameter<-',signature = 'AnalysisParameters',
             return(x)
           })
 
+#' Parse/export analysis parameters
+#' @rdname io-parameters
+#' @description Import analysis parameters from a `.yaml` format file or export an `AnalysisParameters` object to `.yaml` format.
+#' @param d S4 object of class AnalysisParameters or Analysis
+#' @param path file path of .yaml file to parse
+#' @param file File name and path to export to
+#' @examples 
+#' ## Import analysis parameters
+#' paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
+#' p <- parseParameters(paramFile)
+#' p
+#' 
+#' \dontrun{
+#' ## Export analysis parameters
+#' exportParameters(p,file = 'analysis_parameters.yaml')
+#' }
+#' @importFrom yaml read_yaml
+#' @importFrom stringr str_remove_all
+#' @export
+
+parseParameters <- function(path){
+  par <- read_yaml(path)
+  
+  par <- par %>%
+    map(~{
+      names(.) <- str_remove_all(names(.),'[\\b\\d+\\b]')
+      return(.)
+    })
+  
+  if ('pre-treatment' %in% names(par)) {
+    par$preTreat <- par$preTreat %>%
+      map(~{
+        .x %>%
+          map(~{
+            .x %>%
+              map(~{
+                if (is.list(.x)) {
+                  .x <- unlist(.x,use.names = FALSE)
+                }
+                return(.x)
+              })
+          })
+      })
+  }
+  
+  ap <- new('AnalysisParameters')
+  
+  elements <- slotNames(ap)
+  
+  for (i in elements) {
+    if (i %in% names(par)) {
+      slot(ap,i) <- par[[i]] 
+    }
+  }
+  
+  return(ap)
+}
+
+#' @rdname io-parameters
+#' @export
+
+setGeneric('exportParameters',function(d,file = 'analysis_parameters.yaml'){
+  standardGeneric('exportParameters')
+})
+
+#' @rdname io-parameters
+#' @importFrom yaml write_yaml
+
+setMethod('exportParameters',signature = 'AnalysisParameters',
+          function(d,file = 'analysis_parameters.yaml'){
+            elements <- analysisElements()
+            
+            p <- elements %>%
+              map(~{
+                parameters(d,.x)
+              }) %>%
+              set_names(elements)
+            
+            ele_len <- map_dbl(p,length)
+            
+            p <- p[ele_len > 0]
+            
+            p %>%
+              names() %>%
+              map(~{
+                params <- p[[.x]]
+                
+                if (.x == 'pre-treatment') {
+                  params <- params %>%
+                    map(~{
+                      .x <- .x %>%
+                        map(~{
+                          .x %>%
+                            map(eval)
+                        })
+                      return(.x)
+                    })
+                }
+                
+                if (.x == 'modelling') {
+                  params <- params %>%
+                    map(~{
+                      .x <- .x %>%
+                        map(eval)
+                      return(.x)
+                    })
+                }
+                
+                return(params)
+              }) %>%
+              set_names(names(p)) %>%
+              write_yaml(file)
+          }
+)
+
+#' @rdname io-parameters 
+#' @export
+
+setMethod('exportParameters',signature = 'Analysis',
+          function(d,file = 'analysis_parameters.yaml'){
+            d %>%
+              parameters() %>%
+              exportParameters(file = file)
+          }
+)
+
 #' Pre-treatment parameters
 #' @rdname pre-treatment-parameters
 #' @description Return pre-treatment elements, methods and parameters.
@@ -526,121 +652,3 @@ correlationsParameters <- function(){
     formals() %>%
     .[-1]
 }
-
-#' parseParameters
-#' @description parse .yaml file containing analysis parameters.
-#' @param path file path of .yaml file to parse
-#' @importFrom yaml read_yaml
-#' @importFrom stringr str_remove_all
-#' @examples 
-#' 
-#' paramFile <- system.file('defaultParameters.yaml',package = 'metabolyseR')
-#' p <- parseParameters(paramFile)
-#' p
-#' 
-#' @export
-
-parseParameters <- function(path){
-  par <- read_yaml(path)
-  
-  par <- par %>%
-    map(~{
-      names(.) <- str_remove_all(names(.),'[\\b\\d+\\b]')
-      return(.)
-    })
-  
-  if ('pre-treatment' %in% names(par)) {
-    par$preTreat <- par$preTreat %>%
-      map(~{
-        .x %>%
-          map(~{
-            .x %>%
-              map(~{
-                if (is.list(.x)) {
-                  .x <- unlist(.x,use.names = FALSE)
-                }
-                return(.x)
-              })
-          })
-      })
-  }
-  
-  ap <- new('AnalysisParameters')
-  
-  elements <- slotNames(ap)
-  
-  for (i in elements) {
-    if (i %in% names(par)) {
-      slot(ap,i) <- par[[i]] 
-    }
-  }
-  
-  return(ap)
-}
-
-#' exportParameters
-#' @rdname exportParameters
-#' @description Export analysis parameters from AnalysisParameters or 
-#' Analysis objects to YAML format.
-#' @param x S4 object of class AnalysisParameters or Analysis
-#' @param file File name and path to export to
-#' @importFrom yaml write_yaml
-#' @export
-
-setMethod('exportParameters',signature = 'AnalysisParameters',
-          function(x,file = 'analysis_parameters.yaml'){
-            elements <- analysisElements()
-            
-            p <- elements %>%
-              map(~{
-                parameters(x,.x)
-              }) %>%
-              set_names(elements)
-            
-            ele_len <- map_dbl(p,length)
-            
-            p <- p[ele_len > 0]
-            
-            p %>%
-              names() %>%
-              map(~{
-                params <- p[[.x]]
-                
-                if (.x == 'pre-treatment') {
-                  params <- params %>%
-                    map(~{
-                      .x <- .x %>%
-                        map(~{
-                          .x %>%
-                            map(eval)
-                        })
-                      return(.x)
-                    })
-                }
-                
-                if (.x == 'modelling') {
-                  params <- params %>%
-                    map(~{
-                      .x <- .x %>%
-                        map(eval)
-                      return(.x)
-                    })
-                }
-                
-                return(params)
-              }) %>%
-              set_names(names(p)) %>%
-              write_yaml(file)
-          }
-)
-
-#' @rdname exportParameters
-#' @export
-
-setMethod('exportParameters',signature = 'Analysis',
-          function(x,file = 'analysis_parameters.yaml'){
-            x %>%
-              parameters() %>%
-              exportParameters(file = file)
-          }
-)
