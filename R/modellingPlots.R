@@ -291,27 +291,53 @@ setMethod('plotMetrics',signature = 'list',function(x){
     map(plotMetrics)
 })
 
-#' plotMDS
+#' Multidimensional scaling (MDS) plot
 #' @rdname plotMDS
-#' @description Plot multidimensional scaling plot for a RandomForest object.
-#' @param x S4 object of class RandomForest
-#' @param cls info column to use for sample labelling, 
+#' @description Plot multidimensional scaling plot for a `RandomForest` class object.
+#' @param x S4 object of class `RandomForest`
+#' @param cls sample information column to use for sample labelling, 
 #' Set to NULL for no labelling. 
-#' @param label info column to use for sample labels. Set to NULL for no labels.
+#' @param label sample information column to use for sample labels. Set to NULL for no labels.
 #' @param shape TRUE/FALSE use shape aesthetic for plot points. 
 #' Defaults to TRUE when the number of classes is greater than 12
-#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95\%
+#' @param ellipses TRUE/FALSE, plot multivariate normal distribution 95%
 #' confidence ellipses for each class
 #' @param title plot title
 #' @param legendPosition legend position to pass to legend.position argument 
-#' of \code{ggplot2::theme}. Set to "none" to remove legend.
-#' @param labelSize label size. Ignored if \code{label} is \code{NULL}
+#' of `ggplot2::theme`. Set to "none" to remove legend.
+#' @param labelSize label size. Ignored if `label` is `NULL`
+#' @examples 
+#' library(metaboData)
+#' 
+#' x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+#'        occupancyMaximum(cls = 'day') %>%
+#'        transformTICnorm()
+#'        
+#' rf <- randomForest(x,cls = 'day')
+#' 
+#' plotMDS(rf,cls = 'day')
+#' @export
+
+setGeneric("plotMDS", 
+           function(
+             x,
+             cls = 'class', 
+             label = NULL, 
+             shape = FALSE, 
+             ellipses = TRUE, 
+             title = '', 
+             legendPosition = 'bottom', 
+             labelSize = 2) 
+           {
+             standardGeneric("plotMDS")
+           })
+
+#' @rdname plotMDS
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate_all
 #' @importFrom tidyr spread
 #' @importFrom ggthemes scale_colour_ptol scale_fill_ptol ptol_pal
 #' @importFrom ggrepel geom_text_repel
-#' @export
 
 setMethod('plotMDS',
           signature = 'RandomForest',
@@ -460,7 +486,6 @@ setMethod('plotMDS',
 )
 
 #' @rdname plotMDS
-#' @export
 
 setMethod('plotMDS',
           signature = 'list',
@@ -498,17 +523,33 @@ setMethod('plotMDS',
           }
 )
 
-#' plotROC
+#' Plot receiver operator characteristic (ROC) curves
 #' @rdname plotROC
-#' @description plot reciever operator characteristic curves for a 
-#' RandomForest object.
-#' @param x S4 object of class RandomForest
+#' @description Plot receiver operator characteristic curves for a 
+#' `RandomForest` class object.
+#' @param x S4 object of class `RandomForest`
 #' @param title plot title
 #' @param legendPosition legend position to pass to legend.position 
-#' argument of \code{ggplot2::theme}. Set to "none" to remove legend.
+#' argument of `ggplot2::theme`. Set to "none" to remove legend.
+#' @examples 
+#' library(metaboData)
+#' 
+#' x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+#'        occupancyMaximum(cls = 'day') %>%
+#'        transformTICnorm()
+#'        
+#' rf <- randomForest(x,cls = 'day')
+#' 
+#' plotROC(rf)
+#' @export
+
+setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
+  standardGeneric("plotROC")
+})
+
+#' @rdname plotROC
 #' @importFrom ggplot2 geom_abline geom_line guide_legend
 #' @importFrom yardstick roc_curve
-#' @export
 
 setMethod('plotROC',signature = 'RandomForest',
           function(x,title = '', legendPosition = 'bottom'){
@@ -608,7 +649,6 @@ setMethod('plotROC',signature = 'RandomForest',
 )
 
 #' @rdname plotROC
-#' @export
 
 setMethod('plotROC',
           signature = 'list',
