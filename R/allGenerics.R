@@ -116,18 +116,6 @@ setGeneric('plotOccupancy',function(x,cls = 'class', ...){
   standardGeneric('plotOccupancy')
 })
 
-#' @rdname anova
-setGeneric("anova", 
-           function(
-             x,
-             cls = 'class', 
-             pAdjust = 'bonferroni', 
-             comparisons = list(), 
-             returnModels = FALSE)
-           {
-             standardGeneric("anova")
-           })
-
 #' @rdname ttest
 setGeneric("ttest", 
            function(
@@ -167,37 +155,6 @@ setGeneric("randomForest",
              standardGeneric("randomForest")
            })
 
-
-#' @rdname type
-setGeneric("type", function(x) {
-  standardGeneric("type")
-})
-
-#' @rdname response
-setGeneric("response", function(x) {
-  standardGeneric("response")
-})
-
-#' @rdname metrics
-setGeneric("metrics", function(x) {
-  standardGeneric("metrics")
-})
-
-#' @rdname importanceMetrics
-setGeneric("importanceMetrics", function(x) {
-  standardGeneric("importanceMetrics")
-})
-
-#' @rdname importance
-setGeneric("importance", function(x) {
-  standardGeneric("importance")
-})
-
-#' @rdname explanatoryFeatures
-setGeneric('explanatoryFeatures', function(x,...) {
-  standardGeneric("explanatoryFeatures")
-})
-
 #' @rdname plotImportance
 setGeneric("plotImportance", function(x,...) {
   standardGeneric("plotImportance")
@@ -226,9 +183,4 @@ setGeneric("plotMDS",
 #' @rdname plotROC
 setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
   standardGeneric("plotROC")
-})
-
-#' @rdname binaryComparisons
-setGeneric('binaryComparisons',function(x,cls = 'class'){
-  standardGeneric('binaryComparisons')
 })

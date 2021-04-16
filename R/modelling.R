@@ -1,24 +1,3 @@
-#' binaryComparisons
-#' @rdname binaryComparisons
-#' @description Return a vector of possible binary comparisons for a 
-#' given sample information column.
-#' @param x S4 object of class AnalysisData.
-#' @param cls sample information column to use
-#' @importFrom utils combn
-#' @export
-
-setMethod('binaryComparisons',signature = 'AnalysisData',
-          function(x,cls = 'class'){
-            x %>%
-              clsExtract(cls) %>%
-              as.character() %>%
-              unique() %>%
-              sort() %>%
-              combn(2) %>%
-              apply(2,str_c,collapse = '~')
-          }
-)
-
 getModellingMethods <- function(method = NULL){
   
   methods <- list(
@@ -100,79 +79,6 @@ setMethod('modelling',signature = 'Analysis',
           }
 )
 
-#' type
-#' @rdname type
-#' @description Return the random forest analysis type.
-#' @param x S4 object of class RandomForest
-#' @export
-
-setMethod('type',signature = 'RandomForest',function(x){
-  x@type
-})
-
-#' response
-#' @rdname response
-#' @description Return the response variable name from a random forest analysis.
-#' @param x S4 object of class RandomForest
-#' @export
-
-setMethod('response',signature = 'RandomForest',function(x){
-  x@response
-})
-
-#' importanceMetrics
-#' @rdname importanceMetrics
-#' @description Return available importance measures from an object 
-#' of class RandomForest.
-#' @param x S4 object of class RandomForest
-#' @export
-
-setMethod('importanceMetrics',signature = 'RandomForest',function(x){
-  x %>%
-    importance() %>%
-    .$Metric %>%
-    unique() %>%
-    sort()
-})
-
-#' explanatoryFeatures
-#' @rdname explanatoryFeatures
-#' @description Extract explanatory features from modelling results.
-#' @param x S4 object of class RandomForest or Univariate
-#' @param metric importance metric on which to retrieve explanatory feautres
-#' @param threshold threshold below which explanatory features are extracted
-#' @param ... arguments to parse to method for specific class
-#' @importFrom dplyr arrange
-#' @export
-
-setMethod('explanatoryFeatures',signature = 'Univariate',
-          function(x,threshold = 0.05,...){
-            importance(x) %>%
-              filter(adjusted.p.value < threshold) %>% 
-              arrange(adjusted.p.value)
-          }
-) 
-
-#' @rdname explanatoryFeatures
-#' @export
-
-setMethod('explanatoryFeatures',signature = 'RandomForest',
-          function(x,metric = 'FalsePositiveRate', threshold = 0.05){
-            
-            typ <- type(x)
-            
-            if (typ %in% c('unsupervised','classification')) {
-              explan <- explanatoryFeaturesClassification(x,metric,threshold)
-            }
-            
-            if (typ == 'regression') {
-              explan <- explanatoryFeaturesRegression(x,metric,threshold)
-            }
-            
-            return(explan)
-          }
-) 
-
 explanatoryFeaturesClassification <- function(x,metric,threshold){
   
   imp <- x %>%
@@ -230,34 +136,3 @@ explanatoryFeaturesRegression <- function(x,metric,threshold){
   
   return(explan)
 }
-
-#' @rdname explanatoryFeatures
-#' @export
-
-setMethod('explanatoryFeatures',signature = 'list',
-          function(x,threshold = 0.05, ...){
-            object_classes <- x %>%
-              map_chr(class)
-            
-            if (FALSE %in% (object_classes == 'RandomForest' | 
-                            object_classes == 'Univariate')) {
-              stop(str_c('All objects contained within supplied ',
-                         'list should be of class RandomForest or Univariate'),
-                   call. = FALSE)
-            }
-            
-            x %>%
-              map(explanatoryFeatures,...) %>%
-              bind_rows(.id = 'Method')
-          })
-
-#' @rdname explanatoryFeatures
-#' @export
-
-setMethod('explanatoryFeatures',signature = 'Analysis',
-          function(x,threshold = 0.05, ...){
-            x %>% 
-              analysisResults(element = 'modelling') %>% 
-              explanatoryFeatures(...)
-          })
-
