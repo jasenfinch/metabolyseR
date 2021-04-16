@@ -139,22 +139,6 @@ setGeneric("linearRegression",
              standardGeneric("linearRegression")
            })
 
-#' @rdname randomForest
-setGeneric("randomForest", 
-           function(
-             x, 
-             cls = 'class',
-             rf = list(), 
-             reps = 1, 
-             binary = FALSE, 
-             comparisons = list(), 
-             perm = 0, 
-             returnModels = FALSE, 
-             seed = 1234)
-           {
-             standardGeneric("randomForest")
-           })
-
 #' @rdname plotImportance
 setGeneric("plotImportance", function(x,...) {
   standardGeneric("plotImportance")

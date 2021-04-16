@@ -746,37 +746,51 @@ regression <- function(x,
   return(res)
 }
 
-#' randomForest
+#' Random forest analysis
 #' @rdname randomForest
-#' @description Perform random forest on an AnalysisData object
-#' @param x S4 object of class AnalysisData
-#' @param cls vector of info columns to use for Response information. 
-#' Set to NULL for unsupervised.
-#' @param rf named list of arguments to pass to randomForest::randomForest
+#' @description Perform random forest on an `AnalysisData` object
+#' @param x S4 object of class `AnalysisData`
+#' @param cls vector of sample information columns to use for response variable information. Set to NULL for unsupervised.
+#' @param rf named list of arguments to pass to `randomForest::randomForest`
 #' @param reps number of repetitions to perform
-#' @param binary TRUE/FALSE should bnary comparisons be performed. 
-#' Ignored for unsupervised and regression. Ignored if \code{comparisons}
-#'  specified.
+#' @param binary TRUE/FALSE should binary comparisons be performed. Ignored for unsupervised and regression. Ignored if `comparisons` specified.
 #' @param comparisons list of comparisons to perform. 
 #' Ignored for unsupervised and regression. See details. 
 #' @param perm number of permutations to perform. Ignored for unsupervised.
 #' @param returnModels TRUE/FALSE should model objects be returned.
 #' @param seed random number seed
+#' @return An S4 object of class `RandomForest`.
 #' @details Specified class comparisons should be given as a list named 
 #' according to \code{cls}. Comparisons should be given as class names 
 #' separated by '~' (eg. '1~2~H').
 #' @examples 
-#' \dontrun{
 #' library(metaboData)
-#' library(magrittr)
 #' 
-#' data(abr1)
-#' x <- analysisData(abr1$neg,abr1$fact) %>%
+#' x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
 #'        occupancyMaximum(cls = 'day') %>%
 #'        transformTICnorm()
+#'        
 #' rf <- randomForest(x,cls = 'day')
-#' }
+#' 
+#' plotMDS(rf,cls = 'day')
 #' @export
+
+setGeneric("randomForest", 
+           function(
+             x, 
+             cls = 'class',
+             rf = list(), 
+             reps = 1, 
+             binary = FALSE, 
+             comparisons = list(), 
+             perm = 0, 
+             returnModels = FALSE, 
+             seed = 1234)
+           {
+             standardGeneric("randomForest")
+           })
+
+#' @rdname randomForest
 
 setMethod('randomForest',signature = 'AnalysisData',
           function(x, 

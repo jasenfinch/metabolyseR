@@ -78,7 +78,7 @@ explanatoryFeatures(x, ...)
 \item{metric}{importance metric for which to retrieve explanatory features}
 }
 \description{
-Methods for accessing modelling results
+Methods for accessing modelling results.
 }
 \section{Methods}{
 

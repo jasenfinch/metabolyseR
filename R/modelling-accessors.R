@@ -1,6 +1,6 @@
 #' Modelling accessor methods
 #' @rdname modelling-accessors
-#' @description Methods for accessing modelling results
+#' @description Methods for accessing modelling results.
 #' @param x S4 object of class `AnalysisData`,`RandomForest`, `Univariate`, `Analysis` or a list.
 #' @param cls sample information column to use
 #' @param metric importance metric for which to retrieve explanatory features
