@@ -85,6 +85,6 @@ Collate: allGenerics.R
     show-method.R
     split.R
     transform.R
-    univariateMethods.R
+    univariate.R
 VignetteBuilder: knitr
 Remotes: aberHRML/metaboData

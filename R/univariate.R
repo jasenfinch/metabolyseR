@@ -1,14 +1,37 @@
 #' ANOVA
 #' @rdname anova
 #' @description One-way analysis of variance (ANOVA).
-#' @param x S4 object of class AnalysisData
-#' @param cls vector of sample info column names to analyse
+#' @param x S4 object of class `AnalysisData`
+#' @param cls a vector of sample info column names to analyse
 #' @param pAdjust p value adjustment method
 #' @param comparisons list of comparisons to perform
 #' @param returnModels should models be returned
+#' @examples 
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact)
+#' 
+#' ## Perform ANOVA
+#' anova_analysis <- anova(d,cls = 'day')
+#' 
+#' ## Extract significant features
+#' explanatoryFeatures(anova_analysis)
+#' @export
+
+setGeneric("anova", 
+           function(
+             x,
+             cls = 'class', 
+             pAdjust = 'bonferroni', 
+             comparisons = list(), 
+             returnModels = FALSE)
+           {
+             standardGeneric("anova")
+           })
+
+#' @rdname anova
 #' @importFrom dplyr bind_rows
 #' @importFrom broom tidy
-#' @export
 
 setMethod('anova',signature = 'AnalysisData',
           function(x,
