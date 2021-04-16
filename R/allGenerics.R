@@ -116,29 +116,6 @@ setGeneric('plotOccupancy',function(x,cls = 'class', ...){
   standardGeneric('plotOccupancy')
 })
 
-#' @rdname ttest
-setGeneric("ttest", 
-           function(
-             x,
-             cls = 'class', 
-             pAdjust = 'bonferroni', 
-             comparisons = list(), 
-             returnModels = FALSE) 
-           {
-             standardGeneric("ttest")
-           })
-
-#' @rdname linearRegression
-setGeneric("linearRegression", 
-           function(
-             x, 
-             cls = 'class', 
-             pAdjust = 'bonferroni', 
-             returnModels = FALSE) 
-           {
-             standardGeneric("linearRegression")
-           })
-
 #' @rdname plotImportance
 setGeneric("plotImportance", function(x,...) {
   standardGeneric("plotImportance")

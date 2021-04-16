@@ -137,17 +137,42 @@ setMethod('anova',signature = 'AnalysisData',
           }
 )
 
-#' ttest
+#' Welch's t-test
 #' @rdname ttest
-#' @description Welch t-test
+#' @description Welch's t-test
 #' @param x S4 object of class AnalysisData
-#' @param cls vector of sample info column names to analyse
+#' @param cls vector of sample information column names to analyse
 #' @param pAdjust p value adjustment method
 #' @param comparisons named list of binary comparisons to analyse
 #' @param returnModels should models be returned
+#' @return An S4 object of class `Univariate`.
+#' @examples 
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact) %>% 
+#'  keepClasses(cls = 'day',classes = c('H','5'))
+#' 
+#' ## Perform t-test
+#' ttest_analysis <- ttest(d,cls = 'day')
+#' 
+#' ## Extract significant features
+#' explanatoryFeatures(ttest_analysis)
+#' @export
+
+setGeneric("ttest", 
+           function(
+             x,
+             cls = 'class', 
+             pAdjust = 'bonferroni', 
+             comparisons = list(), 
+             returnModels = FALSE) 
+           {
+             standardGeneric("ttest")
+           })
+
+#' @rdname ttest
 #' @importFrom dplyr bind_rows
 #' @importFrom broom glance
-#' @export
 
 setMethod('ttest',signature = 'AnalysisData',
           function(x,
@@ -224,14 +249,37 @@ setMethod('ttest',signature = 'AnalysisData',
           }
 )
 
-#' linearRegression
+#' Linear regression
 #' @rdname linearRegression
 #' @description Linear regression
-#' @param x S4 object of class AnalysisData
-#' @param cls vector of sample info column names to regress
+#' @param x S4 object of class `AnalysisData`
+#' @param cls vector of sample information column names to regress
 #' @param pAdjust p value adjustment method
 #' @param returnModels should models be returned
+#' @return An S4 object of class `Univariate`.
+#' @examples 
+#' library(metaboData)
+#' 
+#' d <- analysisData(abr1$neg[,200:300],abr1$fact)
+#' 
+#' ## Perform linear regression
+#' lr_analysis <- linearRegression(d,cls = 'injorder')
+#' 
+#' ## Extract significant features
+#' explanatoryFeatures(lr_analysis)
 #' @export
+
+setGeneric("linearRegression", 
+           function(
+             x, 
+             cls = 'class', 
+             pAdjust = 'bonferroni', 
+             returnModels = FALSE) 
+           {
+             standardGeneric("linearRegression")
+           })
+
+#' @rdname linearRegression
 
 setMethod('linearRegression',signature = 'AnalysisData',
           function(x, 
