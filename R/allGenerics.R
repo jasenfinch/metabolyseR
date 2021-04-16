@@ -56,19 +56,6 @@ setGeneric('plotLDA',
              standardGeneric('plotLDA')
            })
 
-#' @rdname plotFeature
-setGeneric('plotFeature',
-           function(
-             analysis, 
-             feature,
-             cls = 'class', 
-             label = NULL, 
-             labelSize = 2, 
-             ...)
-           {
-             standardGeneric('plotFeature')
-           })
-
 #' @rdname plotExplanatoryHeatmap
 setGeneric('plotExplanatoryHeatmap',function(x, ...){
   standardGeneric('plotExplanatoryHeatmap')

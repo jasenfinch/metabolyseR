@@ -1,62 +1,40 @@
-#' plotFeature
+#' Plot a feature
 #' @rdname plotFeature
-#' @description Plot a feature trend.
-#' @param analysis object of class Analysis, AnalysisData, Univariate 
-#' or RandomForest containing analysis results
-#' @param feature feature to plot
-#' @param cls info column to use for class labels
-#' @param label info column to use for sample labels
+#' @description Plot the trend of a feature.
+#' @param analysis an object of class `AnalysisData` or`` Analysis`
+#' @param feature feature name to plot
+#' @param cls information column to use for class labels
+#' @param label information column to use for sample labels
 #' @param labelSize sample label size
-#' @param type \code{raw} or \code{pre-treated} data to plot
+#' @param type `raw` or `pre-treated` data to plot
 #' @param ... arguments to pass to the appropriate method
-#' @importFrom ggplot2 ggtitle
 #' @examples 
-#' \dontrun{
 #' library(metaboData)
-#' data(abr1)
-#' p <- analysisParameters(c('preTreat'))
-#' p@preTreat <- list(
-#'     occupancyFilter = list(maximum = list()),
-#'     transform = list(TICnorm = list())
-#' )
-#' analysis <- metabolyse(abr1$neg,abr1$fact,p)
-#' plotFeature(analysis,'N133',cls = 'day')
-#' }
+#' 
+#' d <- analysisData(abr1$neg,abr1$fact)
+#' 
+#' ## Plot a categorical response variable
+#' plotFeature(d,'N133',cls = 'day')
+#' 
+#' ## Plot a continuous response variable
+#' plotFeature(d,'N133',cls = 'injorder')
 #' @export
 
-setMethod('plotFeature',
-          signature = 'Analysis',
-          function(analysis, 
-                   feature, 
-                   cls = 'class', 
-                   label = NULL, 
-                   labelSize = 2, 
-                   type = 'pre-treated'){
-            if (!(type %in% c('raw','pre-treated'))) {
-              stop(
-                'Argument "type" should be one of "raw" or "pre-treated".',
-                call. = FALSE)
-            }
-            
-            if (type == 'pre-treated') {
-             d <- analysis %>%
-               preTreated()
-            } else {
-             d <- analysis %>%
-               raw()
-            }
-            
-            d %>%
-              plotFeature(feature = feature,
-                          cls = cls,
-                          label = label,
-                          labelSize = labelSize)
-          })
+setGeneric('plotFeature',
+           function(
+             analysis, 
+             feature,
+             cls = 'class', 
+             label = NULL, 
+             labelSize = 2, 
+             ...)
+           {
+             standardGeneric('plotFeature')
+           })
 
 #' @rdname plotFeature
 #' @importFrom ggplot2 aes geom_point theme_bw element_text guides 
 #' @importFrom ggplot2 scale_fill_manual xlab
-#' @export
 
 setMethod('plotFeature',
           signature = 'AnalysisData',
@@ -152,3 +130,35 @@ setMethod('plotFeature',
             pl
           }
 )
+
+#' @rdname plotFeature
+#' @importFrom ggplot2 ggtitle
+
+setMethod('plotFeature',
+          signature = 'Analysis',
+          function(analysis, 
+                   feature, 
+                   cls = 'class', 
+                   label = NULL, 
+                   labelSize = 2, 
+                   type = 'pre-treated'){
+            if (!(type %in% c('raw','pre-treated'))) {
+              stop(
+                'Argument "type" should be one of "raw" or "pre-treated".',
+                call. = FALSE)
+            }
+            
+            if (type == 'pre-treated') {
+              d <- analysis %>%
+                preTreated()
+            } else {
+              d <- analysis %>%
+                raw()
+            }
+            
+            d %>%
+              plotFeature(feature = feature,
+                          cls = cls,
+                          label = label,
+                          labelSize = labelSize)
+          })
