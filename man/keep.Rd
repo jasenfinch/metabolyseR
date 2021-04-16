@@ -28,9 +28,14 @@ keepSamples(d, idx = "fileOrder", samples = c())
 
 \item{classes}{classes to keep}
 
+\item{features}{features to remove}
+
 \item{idx}{info column containing sample indexes}
 
 \item{samples}{sample indexes to keep}
+}
+\value{
+An S4 object of class \code{AnalysisData} with specified samples, classes or features retained.
 }
 \description{
 Retain samples, classes or features in an \code{AnalysisData} object.

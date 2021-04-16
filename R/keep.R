@@ -6,6 +6,8 @@
 #' @param samples sample indexes to keep
 #' @param cls info column to use for class information
 #' @param classes classes to keep
+#' @param features features to remove
+#' @return An S4 object of class `AnalysisData` with specified samples, classes or features retained.
 #' @section Methods:
 #' * `keepClasses`: Keep classes.
 #' * `keepFeatures`: Keep features.

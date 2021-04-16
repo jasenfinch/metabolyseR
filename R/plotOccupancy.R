@@ -6,7 +6,7 @@
 #' @param type `raw` or `preTreated` data to plot
 #' @param ... arguments to pass to the appropriate method
 #' @examples 
-#' #' library(metaboData)
+#' library(metaboData)
 #' 
 #' d <- analysisData(abr1$neg,abr1$fact)
 #' 

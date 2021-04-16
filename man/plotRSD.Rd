@@ -39,7 +39,7 @@ See details}
 Plot RSD distributions of raw data in quality control samples.
 }
 \examples{
-#' library(metaboData)
+library(metaboData)
 
 d <- analysisData(abr1$neg,abr1$fact)
 

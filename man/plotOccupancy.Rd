@@ -25,7 +25,7 @@ plotOccupancy(x, cls = "class", ...)
 Plot class occupancy distributions.
 }
 \examples{
-#' library(metaboData)
+library(metaboData)
 
 d <- analysisData(abr1$neg,abr1$fact)
 

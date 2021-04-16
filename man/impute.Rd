@@ -52,7 +52,7 @@ The methods provided here allow both these aspects to be taken into account and 
 ## Initial example data preparation
 library(metaboData)
 
-d <- analysisData(abr1$neg[,200:300],abr1$fact) \%>\% 
+d <- analysisData(abr1$neg[,200:250],abr1$fact) \%>\% 
  occupancyMaximum(occupancy = 2/3)
 
 d \%>\% 

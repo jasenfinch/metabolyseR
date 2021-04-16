@@ -15,7 +15,7 @@
 #' @importFrom ggplot2 geom_histogram geom_text geom_density
 #' @importFrom patchwork plot_layout
 #' @examples 
-#' #' library(metaboData)
+#' library(metaboData)
 #' 
 #' d <- analysisData(abr1$neg,abr1$fact)
 #' 
