@@ -37,7 +37,7 @@ QCremove(d, cls = "class", QCidx = "QC")
 
 \S4method{QCremove}{AnalysisData}(d, cls = "class", QCidx = "QC")
 
-QCrsdFilter(d, cls = "class", QCidx = "QC", RSDthresh = 0.5)
+QCrsdFilter(d, cls = "class", QCidx = "QC", RSDthresh = 50)
 
 \S4method{QCrsdFilter}{AnalysisData}(d, cls = "class", QCidx = "QC", RSDthresh = 50)
 }

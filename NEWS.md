@@ -1,3 +1,7 @@
+# metabolyseR 0.14.1
+
+* Changed the `RSDthresh` argument default to 50% instead of 0.5% in `QCrsdFilter` generic.
+
 # metabolyseR 0.14.0
 
 * Added a `NEWS.md` file to track changes to the package.
