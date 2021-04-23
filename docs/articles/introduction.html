@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.1</span>
       </span>
     </div>
 
@@ -92,10 +92,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
-            <h3 class="subtitle">metabolyseR v0.14.0</h3>
+            <h3 class="subtitle">metabolyseR v0.14.1</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">16 April, 2021</h4>
+            <h4 class="date">23 April, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -384,7 +384,7 @@
 ##      RSDfilter
 ##          cls = class
 ##          QCidx = QC
-##          RSDthresh = 0.5
+##          RSDthresh = 50
 ##      removeQC
 ##          cls = class
 ##          QCidx = QC
@@ -435,7 +435,7 @@
 ##      RSDfilter
 ##          cls = class
 ##          QCidx = QC
-##          RSDthresh = 0.5
+##          RSDthresh = 50
 ##      removeQC
 ##          cls = class
 ##          QCidx = QC
@@ -482,7 +482,7 @@
 ##      RSDfilter
 ##          cls = day
 ##          QCidx = QC
-##          RSDthresh = 0.5
+##          RSDthresh = 50
 ##      removeQC
 ##          cls = day
 ##          QCidx = QC
@@ -658,7 +658,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code>## 
-## metabolyseR  v0.14.0 Fri Apr 16 17:47:39 2021</code></pre>
+## metabolyseR  v0.14.1 Fri Apr 23 17:39:07 2021</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Parameters:
 ## pre-treatment
@@ -682,33 +682,33 @@
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Pre-treatment …
 
-Pre-treatment   ✓ [1.2S]
+Pre-treatment   ✓ [1S]
 ## Modelling …
 
-Modelling   ✓ [4.9S]
+Modelling   ✓ [3.9S]
 ## ________________________________________________________________________________
 ## 
-## Complete! [6.1S]</code></pre>
+## Complete! [4.8S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.0
+## metabolyseR v0.14.1
 ## Analysis:
-##  Fri Apr 16 17:47:39 2021
+##  Fri Apr 23 17:39:07 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Fri Apr 16 17:47:40 2021
+##      Fri Apr 23 17:39:08 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Fri Apr 16 17:47:45 2021
+##      Fri Apr 23 17:39:12 2021
 ##      Methods: randomForest</code></pre>
 </div>
 <div id="performing-a-re-analysis" class="section level3">
@@ -723,7 +723,7 @@ Modelling   ✓ [4.9S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.0 Fri Apr 16 17:47:46 2021
+## metabolyseR v0.14.1 Fri Apr 23 17:39:13 2021
 ## ________________________________________________________________________________
 ## Parameters:
 ## correlations
@@ -741,25 +741,25 @@ Correlations    ✓ [0.1S]</code></pre>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.0
+## metabolyseR v0.14.1
 ## Analysis:
-##  Fri Apr 16 17:47:39 2021
+##  Fri Apr 23 17:39:07 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Fri Apr 16 17:47:40 2021
+##      Fri Apr 23 17:39:08 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Fri Apr 16 17:47:45 2021
+##      Fri Apr 23 17:39:12 2021
 ##      Methods: randomForest
 ## 
 ##  Correlations:
-##      Fri Apr 16 17:47:46 2021
+##      Fri Apr 23 17:39:13 2021
 ##      No. correlations = 140</code></pre>
 </div>
 <div id="extracting-analysis-results" class="section level3">
