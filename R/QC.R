@@ -145,7 +145,7 @@ setGeneric("QCrsdFilter",
              d,
              cls = 'class',
              QCidx = 'QC', 
-             RSDthresh = 0.5) 
+             RSDthresh = 50) 
            {
              standardGeneric("QCrsdFilter")
            })
