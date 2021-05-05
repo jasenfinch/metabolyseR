@@ -260,9 +260,8 @@ heatmapRegression <- function(pl,
 #' plotExplanatoryHeatmap(random_forest,metric = '%IncMSE',threshold = 2)
 #' @export
 
-setGeneric('plotExplanatoryHeatmap',function(x, ...){
-  standardGeneric('plotExplanatoryHeatmap')
-})
+setGeneric('plotExplanatoryHeatmap',function(x, ...)
+  standardGeneric('plotExplanatoryHeatmap'))
 
 #' @rdname plotExplanatoryHeatmap
 #' @importFrom stats dist hclust

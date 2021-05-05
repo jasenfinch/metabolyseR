@@ -26,9 +26,8 @@
 setGeneric('plotRSD', 
            function(analysis, 
                     cls = 'class', 
-                    ...){
-             standardGeneric('plotRSD')
-           })
+                    ...)
+             standardGeneric('plotRSD'))
 
 #' @rdname plotRSD
 

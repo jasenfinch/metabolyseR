@@ -28,9 +28,7 @@ setGeneric('plotFeature',
              label = NULL, 
              labelSize = 2, 
              ...)
-           {
-             standardGeneric('plotFeature')
-           })
+             standardGeneric('plotFeature'))
 
 #' @rdname plotFeature
 #' @importFrom ggplot2 aes geom_point theme_bw element_text guides 

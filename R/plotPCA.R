@@ -43,9 +43,7 @@ setGeneric('plotPCA',
              legendPosition = 'bottom', 
              labelSize = 2,
              ...)
-           {
-             standardGeneric('plotPCA')
-           })
+             standardGeneric('plotPCA'))
 
 #' @rdname plotPCA
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline

@@ -19,9 +19,8 @@
 #' correlations(d)
 #' @export
 
-setGeneric("correlations", function(d,...) {
-  standardGeneric("correlations")
-})
+setGeneric("correlations", function(d,...)
+  standardGeneric("correlations"))
 
 #' @rdname correlations
 

@@ -20,9 +20,8 @@
 #' plotImportance(rf,rank = FALSE)
 #' @export
 
-setGeneric("plotImportance", function(x,...) {
-  standardGeneric("plotImportance")
-})
+setGeneric("plotImportance", function(x,...)
+  standardGeneric("plotImportance"))
 
 #' @rdname plotImportance
 #' @importFrom ggplot2 facet_wrap
@@ -246,9 +245,8 @@ setMethod('plotImportance',
 #' plotMetrics(rf,response = 'day')
 #' @export
 
-setGeneric("plotMetrics", function(x, response = 'class') {
-  standardGeneric("plotMetrics")
-})
+setGeneric("plotMetrics", function(x, response = 'class')
+  standardGeneric("plotMetrics"))
 
 #' @rdname plotMetrics
 #' @importFrom ggplot2 xlim
@@ -360,9 +358,7 @@ setGeneric("plotMDS",
              title = '', 
              legendPosition = 'bottom', 
              labelSize = 2) 
-           {
-             standardGeneric("plotMDS")
-           })
+             standardGeneric("plotMDS"))
 
 #' @rdname plotMDS
 #' @importFrom magrittr set_colnames
@@ -575,9 +571,8 @@ setMethod('plotMDS',
 #' plotROC(rf)
 #' @export
 
-setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom') {
-  standardGeneric("plotROC")
-})
+setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom')
+  standardGeneric("plotROC"))
 
 #' @rdname plotROC
 #' @importFrom ggplot2 geom_abline geom_line guide_legend

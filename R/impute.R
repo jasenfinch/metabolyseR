@@ -44,9 +44,7 @@ setGeneric("imputeAll",
              occupancy = 2/3, 
              parallel = 'variables', 
              seed = 1234) 
-           {
-             standardGeneric("imputeAll")
-           })
+             standardGeneric("imputeAll"))
 
 #' @rdname impute
 #' @importFrom missForest missForest
@@ -114,9 +112,7 @@ setGeneric("imputeClass",
              cls = 'class', 
              occupancy = 2/3, 
              seed = 1234) 
-           {
-             standardGeneric("imputeClass")
-           })
+             standardGeneric("imputeClass"))
 
 #' @rdname impute
 #' @importFrom furrr furrr_options

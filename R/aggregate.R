@@ -40,9 +40,9 @@
 #'  plotPCA(cls = 'day',ellipses = FALSE)
 #' @export
 
-setGeneric("aggregateMean", function(d,cls = 'class') {
+setGeneric("aggregateMean", function(d,cls = 'class') 
   standardGeneric("aggregateMean")
-})
+)
 
 #' @rdname aggregate
 
@@ -72,9 +72,9 @@ setMethod('aggregateMean',signature = 'AnalysisData',
 #' @rdname aggregate
 #' @export
 
-setGeneric("aggregateMedian", function(d,cls = 'class') {
+setGeneric("aggregateMedian", function(d,cls = 'class') 
   standardGeneric("aggregateMedian")
-})
+)
 
 #' @rdname aggregate
 
@@ -104,9 +104,9 @@ setMethod('aggregateMedian',signature = 'AnalysisData',
 #' @rdname aggregate
 #' @export
 
-setGeneric("aggregateSum", function(d,cls = 'class') {
+setGeneric("aggregateSum", function(d,cls = 'class') 
   standardGeneric("aggregateSum")
-})
+)
 
 #' @rdname aggregate
 #' @importFrom dplyr arrange_all group_by_all

@@ -41,9 +41,7 @@ setGeneric('plotSupervisedRF',
              legendPosition = 'bottom', 
              labelSize = 2,
              ...)
-           {
-             standardGeneric('plotSupervisedRF')
-           })
+             standardGeneric('plotSupervisedRF'))
 
 #' @rdname plotSupervisedRF
 

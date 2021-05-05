@@ -52,9 +52,8 @@
 #' clsExtract(d,'treatment')
 #' @export
 
-setGeneric("clsAdd", function(d,cls,value,...) {
-  standardGeneric("clsAdd")
-})
+setGeneric("clsAdd", function(d,cls,value,...)
+  standardGeneric("clsAdd"))
 
 #' @rdname cls
 #' @importFrom rlang :=
@@ -103,9 +102,8 @@ setMethod('clsAdd',
 #' @rdname cls
 #' @export
 
-setGeneric("clsArrange", function(d,cls = 'class', descending = FALSE, ...) {
-  standardGeneric("clsArrange")
-})
+setGeneric("clsArrange", function(d,cls = 'class', descending = FALSE, ...)
+  standardGeneric("clsArrange"))
 
 #' @rdname cls
 #' @importFrom dplyr desc
@@ -166,9 +164,8 @@ setMethod('clsArrange',
 #' @rdname cls
 #' @export
 
-setGeneric("clsAvailable", function(d,...) {
-  standardGeneric("clsAvailable")
-})
+setGeneric("clsAvailable", function(d,...)
+  standardGeneric("clsAvailable"))
 
 #' @rdname cls
 
@@ -199,9 +196,8 @@ setMethod('clsAvailable',signature = 'Analysis',function(d,type = c('raw','pre-t
 #' @rdname cls
 #' @export
 
-setGeneric("clsExtract", function(d,cls = 'class', ...) {
-  standardGeneric("clsExtract")
-})
+setGeneric("clsExtract", function(d,cls = 'class', ...)
+  standardGeneric("clsExtract"))
 
 #' @rdname cls
 
@@ -237,9 +233,8 @@ setMethod('clsExtract',
 #' @rdname cls
 #' @export
 
-setGeneric("clsRemove", function(d,cls,...) {
-  standardGeneric("clsRemove")
-})
+setGeneric("clsRemove", function(d,cls,...)
+  standardGeneric("clsRemove"))
 
 #' @rdname cls
 
@@ -283,9 +278,8 @@ setMethod('clsRemove',
 #' @rdname cls
 #' @export
 
-setGeneric("clsRename", function(d,cls,newName, ...) {
-  standardGeneric("clsRename")
-})
+setGeneric("clsRename", function(d,cls,newName, ...)
+  standardGeneric("clsRename"))
 
 #' @rdname cls
 
@@ -324,9 +318,8 @@ setMethod('clsRename',
 #' @rdname cls
 #' @export
 
-setGeneric("clsReplace", function(d,value,cls = 'class', ...) {
-  standardGeneric("clsReplace")
-})
+setGeneric("clsReplace", function(d,value,cls = 'class', ...)
+  standardGeneric("clsReplace"))
 
 #' @rdname cls
 #' @description Replace a given sample info column from an Analysis or 

@@ -118,9 +118,8 @@ metabolyse <- function(data,
 #' @export
 
 setGeneric('reAnalyse',
-           function(analysis,parameters = analysisParameters(),verbose = TRUE){
-             standardGeneric('reAnalyse')
-})
+           function(analysis,parameters = analysisParameters(),verbose = TRUE)
+             standardGeneric('reAnalyse'))
 
 #' @rdname metabolyse
 #' @importFrom methods slot slot<-

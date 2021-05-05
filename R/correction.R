@@ -34,9 +34,7 @@ setGeneric("correctionCenter",
              d, 
              block = 'block', 
              type = c('mean','median')) 
-           {
-             standardGeneric("correctionCenter")
-           })
+             standardGeneric("correctionCenter"))
 
 #' @rdname correction
 #' @importFrom furrr future_map 
