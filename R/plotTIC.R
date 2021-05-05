@@ -25,9 +25,8 @@ setGeneric('plotTIC',
            function(analysis, 
                     by = 'injOrder', 
                     colour = 'block', 
-                    ...){
-             standardGeneric('plotTIC')
-           })
+                    ...)
+             standardGeneric('plotTIC'))
 
 #' @rdname plotTIC
 

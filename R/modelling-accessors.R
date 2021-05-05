@@ -44,9 +44,8 @@
 #' explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
 #' @export
 
-setGeneric('binaryComparisons',function(x,cls = 'class'){
-  standardGeneric('binaryComparisons')
-})
+setGeneric('binaryComparisons',function(x,cls = 'class')
+  standardGeneric('binaryComparisons'))
 
 #' @rdname modelling-accessors
 #' @importFrom utils combn
@@ -66,9 +65,8 @@ setMethod('binaryComparisons',signature = 'AnalysisData',
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric("type", function(x) {
-  standardGeneric("type")
-})
+setGeneric("type", function(x)
+  standardGeneric("type"))
 
 #' @rdname modelling-accessors
 
@@ -79,9 +77,9 @@ setMethod('type',signature = 'RandomForest',function(x){
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric("response", function(x) {
+setGeneric("response", function(x) 
   standardGeneric("response")
-})
+)
 
 #' @rdname modelling-accessors
 
@@ -92,9 +90,9 @@ setMethod('response',signature = 'RandomForest',function(x){
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric("metrics", function(x) {
+setGeneric("metrics", function(x) 
   standardGeneric("metrics")
-})
+)
 
 #' @rdname modelling-accessors
 
@@ -112,23 +110,38 @@ setMethod('metrics',signature = 'list',
               map_chr(class)
             
             if (FALSE %in% (object_classes == 'RandomForest')) {
-              stop(
+              message(
                 str_c('All objects contained within supplied list ',
-                      'should be of class RandomForest'),
-                call. = FALSE)
+                      'that are not of class RandomForest will be ignored.'))
             }
             
-            x %>%
-              map(metrics) %>%
-              bind_rows()
+            x <- x[object_classes == 'RandomForest']
+            
+            if (length(x) > 0) {
+              x %>%
+                map(metrics) %>%
+                bind_rows()  
+            } else {
+              tibble()
+            }
+            
+          })
+
+#' @rdname modelling-accessors
+
+setMethod('metrics',signature = 'Analysis',
+          function(x){
+            x %>% 
+              analysisResults('modelling') %>% 
+              metrics()
           })
 
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric("importanceMetrics", function(x) {
+setGeneric("importanceMetrics", function(x) 
   standardGeneric("importanceMetrics")
-})
+)
 
 #' @rdname modelling-accessors
 
@@ -143,9 +156,9 @@ setMethod('importanceMetrics',signature = 'RandomForest',function(x){
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric("importance", function(x) {
+setGeneric("importance", function(x) 
   standardGeneric("importance")
-})
+)
 
 #' @rdname modelling-accessors
 
@@ -197,9 +210,9 @@ setMethod('importance',signature = 'Analysis',
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric('explanatoryFeatures', function(x,...) {
+setGeneric('explanatoryFeatures', function(x,...) 
   standardGeneric("explanatoryFeatures")
-})
+)
 
 #' @rdname modelling-accessors
 #' @importFrom dplyr arrange

@@ -107,9 +107,8 @@ analysisElements <- function(){
 #' print(p)
 #' @export
 
-setGeneric('parameters',function(d,...){
-  standardGeneric('parameters')
-})
+setGeneric('parameters',function(d,...)
+  standardGeneric('parameters'))
 
 #' @rdname parameters
 
@@ -138,9 +137,8 @@ setMethod('parameters',signature = 'Analysis',
 #' @rdname parameters
 #' @export
 
-setGeneric('parameters<-',function(d,element,value){
-  standardGeneric('parameters<-')
-})
+setGeneric('parameters<-',function(d,element,value)
+  standardGeneric('parameters<-'))
 
 #' @rdname parameters
 
@@ -319,9 +317,7 @@ setGeneric("changeParameter<-",
              parameterName,
              elements = analysisElements(), 
              value) 
-           {
-             standardGeneric("changeParameter<-")
-           })
+             standardGeneric("changeParameter<-"))
 
 #' @rdname changeParameter
 #' @importFrom purrr map_lgl
@@ -439,9 +435,8 @@ parseParameters <- function(path){
 #' @rdname io-parameters
 #' @export
 
-setGeneric('exportParameters',function(d,file = 'analysis_parameters.yaml'){
-  standardGeneric('exportParameters')
-})
+setGeneric('exportParameters',function(d,file = 'analysis_parameters.yaml')
+  standardGeneric('exportParameters'))
 
 #' @rdname io-parameters
 #' @importFrom yaml write_yaml

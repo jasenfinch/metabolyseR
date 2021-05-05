@@ -43,9 +43,7 @@ setGeneric('plotLDA',
              legendPosition = 'bottom', 
              labelSize = 2,
              ...)
-           {
-             standardGeneric('plotLDA')
-           })
+             standardGeneric('plotLDA'))
 
 #' @rdname plotLDA
 #' @importFrom ggplot2 stat_ellipse coord_fixed ylab scale_colour_manual

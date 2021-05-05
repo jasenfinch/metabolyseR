@@ -24,7 +24,6 @@ test_that('random forest classification works',{
   expect_identical(type(rf$day),'classification')
   expect_s3_class(rf_metrics,'tbl_df')
   expect_s3_class(rf_importance,'tbl_df')
-  expect_error(metrics(rf_wrong))
   expect_error(importance(rf_wrong))
 })
 

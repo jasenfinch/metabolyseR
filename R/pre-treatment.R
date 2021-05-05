@@ -1,7 +1,6 @@
 
-setGeneric("pre-treatment", function(x) {
-  standardGeneric("pre-treatment")
-})
+setGeneric("pre-treatment", function(x)
+  standardGeneric("pre-treatment"))
 
 #' @importFrom missForest missForest
 #' @importFrom stringr str_replace_all

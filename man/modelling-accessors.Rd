@@ -10,6 +10,7 @@
 \alias{metrics}
 \alias{metrics,RandomForest-method}
 \alias{metrics,list-method}
+\alias{metrics,Analysis-method}
 \alias{importanceMetrics}
 \alias{importanceMetrics,RandomForest-method}
 \alias{importance}
@@ -41,6 +42,8 @@ metrics(x)
 \S4method{metrics}{RandomForest}(x)
 
 \S4method{metrics}{list}(x)
+
+\S4method{metrics}{Analysis}(x)
 
 importanceMetrics(x)
 

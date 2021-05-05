@@ -38,9 +38,7 @@ setGeneric('plotUnsupervisedRF',
              legendPosition = 'bottom', 
              labelSize = 2,
              ...)
-           {
-             standardGeneric('plotUnsupervisedRF')
-           })
+             standardGeneric('plotUnsupervisedRF'))
 
 #' @rdname plotUnsupervisedRF
 #' @importFrom stats cmdscale

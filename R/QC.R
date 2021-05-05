@@ -58,9 +58,7 @@ setGeneric("QCimpute",
              occupancy = 2/3, 
              parallel = 'variables', 
              seed = 1234) 
-           {
-             standardGeneric("QCimpute")
-           })
+             standardGeneric("QCimpute"))
 
 #' @rdname QC
 #' @importFrom missForest missForest
@@ -99,9 +97,7 @@ setGeneric("QCoccupancy",
              cls = 'class', 
              QCidx = 'QC', 
              occupancy = 2/3) 
-           {
-             standardGeneric("QCoccupancy")
-           })
+             standardGeneric("QCoccupancy"))
 
 #' @rdname QC
 #' @export
@@ -122,9 +118,8 @@ setMethod('QCoccupancy',signature = 'AnalysisData',
 #' @rdname QC
 #' @export
 
-setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC') {
-  standardGeneric("QCremove")
-})
+setGeneric("QCremove", function(d,cls = 'class', QCidx = 'QC')
+  standardGeneric("QCremove"))
 
 #' @rdname QC
 #' @importFrom stats sd
@@ -146,9 +141,7 @@ setGeneric("QCrsdFilter",
              cls = 'class',
              QCidx = 'QC', 
              RSDthresh = 50) 
-           {
-             standardGeneric("QCrsdFilter")
-           })
+             standardGeneric("QCrsdFilter"))
 
 #' @rdname QC
 #' @importFrom stats sd

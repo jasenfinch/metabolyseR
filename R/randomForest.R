@@ -786,9 +786,7 @@ setGeneric("randomForest",
              perm = 0, 
              returnModels = FALSE, 
              seed = 1234)
-           {
-             standardGeneric("randomForest")
-           })
+             standardGeneric("randomForest"))
 
 #' @rdname randomForest
 

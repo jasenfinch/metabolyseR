@@ -46,9 +46,9 @@
 #' nFeatures(d)
 #' @export
 
-setGeneric("dat", function(x,...) {
+setGeneric("dat", function(x,...) 
   standardGeneric("dat")
-})
+)
 
 #' @rdname analysis-accessors
 
@@ -81,9 +81,9 @@ setMethod('dat',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("dat<-", function(x,...,value) {
+setGeneric("dat<-", function(x,...,value) 
   standardGeneric("dat<-")
-})
+)
 
 #' @rdname analysis-accessors
 
@@ -119,9 +119,9 @@ setMethod('dat<-',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("sinfo", function(x,...) {
+setGeneric("sinfo", function(x,...) 
   standardGeneric("sinfo")
-})
+)
 
 #' @rdname analysis-accessors
 
@@ -155,9 +155,9 @@ setMethod('sinfo',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("sinfo<-", function(x,...,value) {
+setGeneric("sinfo<-", function(x,...,value) 
   standardGeneric("sinfo<-")
-})
+)
 
 #' @rdname analysis-accessors
 
@@ -194,9 +194,9 @@ setMethod('sinfo<-',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("raw", function(x) {
+setGeneric("raw", function(x) 
   standardGeneric("raw")
-})
+)
 
 #' @rdname analysis-accessors
 
@@ -209,9 +209,8 @@ setMethod('raw',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("raw<-", function(x,value) {
-  standardGeneric("raw<-")
-})
+setGeneric("raw<-", function(x,value)
+  standardGeneric("raw<-"))
 
 #' @rdname analysis-accessors
 
@@ -225,9 +224,8 @@ setMethod('raw<-',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("preTreated", function(x) {
-  standardGeneric("preTreated")
-})
+setGeneric("preTreated", function(x)
+  standardGeneric("preTreated"))
 
 #' @rdname analysis-accessors
 
@@ -240,9 +238,8 @@ setMethod('preTreated',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("preTreated<-", function(x,value) {
-  standardGeneric("preTreated<-")
-})
+setGeneric("preTreated<-", function(x,value)
+  standardGeneric("preTreated<-"))
 
 #' @rdname analysis-accessors
 
@@ -256,9 +253,8 @@ setMethod('preTreated<-',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("features", function(x, ...) {
-  standardGeneric("features")
-})
+setGeneric("features", function(x, ...)
+  standardGeneric("features"))
 
 #' @rdname analysis-accessors
 
@@ -291,9 +287,8 @@ setMethod('features',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("nSamples", function(x, ...) {
-  standardGeneric("nSamples")
-})
+setGeneric("nSamples", function(x, ...)
+  standardGeneric("nSamples"))
 
 #' @rdname analysis-accessors
 
@@ -326,9 +321,8 @@ setMethod('nSamples',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric("nFeatures", function(x, ...) {
-  standardGeneric("nFeatures")
-})
+setGeneric("nFeatures", function(x, ...)
+  standardGeneric("nFeatures"))
 
 #' @rdname analysis-accessors
 
@@ -364,9 +358,8 @@ setMethod('nFeatures',signature = 'Analysis',
 #' @rdname analysis-accessors
 #' @export
 
-setGeneric('analysisResults',function(x,element){
-  standardGeneric('analysisResults')
-})
+setGeneric('analysisResults',function(x,element)
+  standardGeneric('analysisResults'))
 
 #' @rdname analysis-accessors
 

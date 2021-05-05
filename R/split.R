@@ -16,9 +16,9 @@
 #' print(d)
 #' @export
 
-setGeneric('split',function(x,cls = 'class'){
+setGeneric('split',function(x,cls = 'class')
   standardGeneric('split')
-})
+)
 
 #' @rdname split
 

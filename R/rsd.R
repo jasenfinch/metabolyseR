@@ -13,9 +13,8 @@
 #' rsd(d,cls = 'day')
 #' @export
 
-setGeneric("rsd", function(x,cls = 'class') {
-  standardGeneric("rsd")
-})
+setGeneric("rsd", function(x,cls = 'class')
+  standardGeneric("rsd"))
 
 #' @rdname rsd
 

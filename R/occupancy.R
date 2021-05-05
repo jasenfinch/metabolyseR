@@ -34,9 +34,8 @@
 #'  plotPCA(cls = 'day')
 #' @export
 
-setGeneric("occupancyMaximum", function(d, cls = 'class', occupancy = 2/3) {
-  standardGeneric("occupancyMaximum")
-})
+setGeneric("occupancyMaximum", function(d, cls = 'class', occupancy = 2/3)
+  standardGeneric("occupancyMaximum"))
 
 #' @rdname occupancyFilter
 
@@ -61,9 +60,8 @@ setMethod('occupancyMaximum',signature = 'AnalysisData',
 #' @rdname occupancyFilter
 #' @export
 
-setGeneric("occupancyMinimum", function(d, cls = 'class', occupancy = 2/3) {
-  standardGeneric("occupancyMinimum")
-})
+setGeneric("occupancyMinimum", function(d, cls = 'class', occupancy = 2/3)
+  standardGeneric("occupancyMinimum"))
 
 #' @rdname occupancyFilter
 
@@ -99,9 +97,9 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
 #' occupancy(d,cls = 'day')
 #' @export
 
-setGeneric("occupancy", function(d, cls = 'class') {
+setGeneric("occupancy", function(d, cls = 'class') 
   standardGeneric("occupancy")
-})
+)
 
 #' @rdname occupancy
 #' @importFrom dplyr ungroup full_join

@@ -13,9 +13,8 @@
 #' bindRows(d)
 #' @export
 
-setGeneric('bindRows',function(d){
-  standardGeneric('bindRows')
-})
+setGeneric('bindRows',function(d)
+  standardGeneric('bindRows'))
 
 #' @rdname bind
 

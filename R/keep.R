@@ -29,9 +29,8 @@
 #'   keepSamples(idx = 'injorder',samples = c(1,10))
 #' @export
 
-setGeneric("keepClasses", function(d,cls = 'class', classes = c()) {
-  standardGeneric("keepClasses")
-})
+setGeneric("keepClasses", function(d,cls = 'class', classes = c())
+  standardGeneric("keepClasses"))
 
 #' @rdname keep
 
@@ -46,9 +45,8 @@ setMethod('keepClasses',signature = 'AnalysisData',
 #' @rdname keep
 #' @export
 
-setGeneric("keepFeatures", function(d,features = character()) {
-  standardGeneric("keepFeatures")
-})
+setGeneric("keepFeatures", function(d,features = character())
+  standardGeneric("keepFeatures"))
 
 #' @rdname keep
 
@@ -62,9 +60,9 @@ setMethod('keepFeatures',signature = 'AnalysisData',
 #' @rdname keep
 #' @export
 
-setGeneric("keepSamples", function(d,idx = 'fileOrder', samples = c()) {
+setGeneric("keepSamples", function(d,idx = 'fileOrder', samples = c()) 
   standardGeneric("keepSamples")
-})
+)
 
 #' @rdname keep
 

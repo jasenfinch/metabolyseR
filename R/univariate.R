@@ -25,9 +25,7 @@ setGeneric("anova",
              pAdjust = 'bonferroni', 
              comparisons = list(), 
              returnModels = FALSE)
-           {
-             standardGeneric("anova")
-           })
+             standardGeneric("anova"))
 
 #' @rdname anova
 #' @importFrom dplyr bind_rows
@@ -166,9 +164,7 @@ setGeneric("ttest",
              pAdjust = 'bonferroni', 
              comparisons = list(), 
              returnModels = FALSE) 
-           {
-             standardGeneric("ttest")
-           })
+             standardGeneric("ttest"))
 
 #' @rdname ttest
 #' @importFrom dplyr bind_rows
@@ -275,9 +271,7 @@ setGeneric("linearRegression",
              cls = 'class', 
              pAdjust = 'bonferroni', 
              returnModels = FALSE) 
-           {
-             standardGeneric("linearRegression")
-           })
+             standardGeneric("linearRegression"))
 
 #' @rdname linearRegression
 

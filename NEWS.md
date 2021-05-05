@@ -1,3 +1,13 @@
+# metabolyseR 0.14.2
+
+* Package version, creation date and verbose argument added to prototype of `Analysis` class.
+
+* All generics are now defined as standard generics.
+
+* Added `metrics` method for `Analysis` class.
+
+* `metrics` method for lists now ignores list elements that are not of class `RandomForest`.
+
 # metabolyseR 0.14.1
 
 * Changed the `RSDthresh` argument default to 50% instead of 0.5% in `QCrsdFilter` generic.

@@ -29,9 +29,8 @@
 #'   removeSamples(idx = 'injorder',samples = c(1,10))
 #' @export
 
-setGeneric("removeClasses", function(d,cls = 'class', classes = c()) {
-  standardGeneric("removeClasses")
-})
+setGeneric("removeClasses", function(d,cls = 'class', classes = c())
+  standardGeneric("removeClasses"))
 
 #' @rdname remove
 
@@ -46,9 +45,8 @@ setMethod('removeClasses',signature = 'AnalysisData',
 #' @rdname remove
 #' @export
 
-setGeneric("removeFeatures", function(d,features = character()) {
-  standardGeneric("removeFeatures")
-})
+setGeneric("removeFeatures", function(d,features = character())
+  standardGeneric("removeFeatures"))
 
 #' @rdname remove
 
@@ -62,9 +60,8 @@ setMethod('removeFeatures',signature = 'AnalysisData',
 #' @rdname remove
 #' @export
 
-setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c()) {
-  standardGeneric("removeSamples")
-})
+setGeneric("removeSamples", function(d,idx = 'fileOrder', samples = c())
+  standardGeneric("removeSamples"))
 
 #' @rdname remove
 

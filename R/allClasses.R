@@ -64,6 +64,12 @@ setClass('Analysis',
            `pre-treated` = 'AnalysisData',
            modelling = 'list',
            correlations = 'tbl_df'
+         ),
+         prototype = list(
+           log = list(packageVersion =  packageVersion('metabolyseR') %>% 
+                        as.character(),
+                      analysis = date(),
+                      verbose = TRUE)
          )
 )
 

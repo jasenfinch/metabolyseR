@@ -14,9 +14,8 @@
 #' plotOccupancy(d,cls = 'day')
 #' @export
 
-setGeneric('plotOccupancy',function(x,cls = 'class', ...){
-  standardGeneric('plotOccupancy')
-})
+setGeneric('plotOccupancy',function(x,cls = 'class', ...)
+  standardGeneric('plotOccupancy'))
 
 #' @rdname plotOccupancy
 #' @importFrom ggplot2 element_line
