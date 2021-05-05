@@ -110,15 +110,28 @@ setMethod('metrics',signature = 'list',
               map_chr(class)
             
             if (FALSE %in% (object_classes == 'RandomForest')) {
-              stop(
+              message(
                 str_c('All objects contained within supplied list ',
-                      'should be of class RandomForest'),
-                call. = FALSE)
+                      'that are not of class RandomForest will be ignored.'))
             }
             
-            x %>%
-              map(metrics) %>%
-              bind_rows()
+            x <- x[object_classes == 'RandomForest']
+            
+            if (length(x) > 0) {
+              x %>%
+                map(metrics) %>%
+                bind_rows()  
+            } else {
+              tibble()
+            }
+            
+          })
+
+setMethod('metrics',signature = 'Analysis',
+          function(x){
+            x %>% 
+              analysisResults('modelling') %>% 
+              metrics()
           })
 
 #' @rdname modelling-accessors
