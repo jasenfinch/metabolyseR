@@ -127,6 +127,8 @@ setMethod('metrics',signature = 'list',
             
           })
 
+#' @rdname modelling-accessors
+
 setMethod('metrics',signature = 'Analysis',
           function(x){
             x %>% 
