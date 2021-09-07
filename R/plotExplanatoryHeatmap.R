@@ -8,7 +8,8 @@ heatmapClasses <- function(pl,
                            distanceMeasure, 
                            clusterMethod, 
                            featureNames,
-                           dendrogram){
+                           dendrogram,
+                           featureLimit){
   pl %>%
     map(~{
       r <- .
@@ -22,6 +23,10 @@ heatmapClasses <- function(pl,
       
       feat <- r$Feature %>%
         unique()
+      
+      if (length(feat) > featureLimit){
+        feat <- feat[1:featureLimit]
+      }
       
       d <- x %>%
         keepClasses(cls = pred,
@@ -133,7 +138,8 @@ heatmapRegression <- function(pl,
                               distanceMeasure, 
                               clusterMethod, 
                               featureNames, 
-                              dendrogram){
+                              dendrogram,
+                              featureLimit){
   pl %>%
     map(~{
       
@@ -141,6 +147,10 @@ heatmapRegression <- function(pl,
       
       feat <- .x$Feature %>%
         unique()
+      
+      if (length(feat) > featureLimit){
+        feat <- feat[1:featureLimit]
+      }
       
       p <- sym(response)
       
@@ -244,7 +254,12 @@ heatmapRegression <- function(pl,
 #' @param clusterMethod clustering method to use. See details
 #' @param featureNames should feature names be plotted?
 #' @param dendrogram TRUE/FALSE. Should the dendrogram be plotted?
+#' @param featureLimit The maximum number of features to plot
 #' @param ... arguments to pass to the appropriate method
+#' @details 
+#' Distance measures can be one of any that can be used for the `method` argument of [dist()].
+#'
+#' Cluster methods can be one of any that can be used for the `method` argument of [hclust()].
 #' @examples
 #' library(metaboData)
 #' x <- analysisData(data = abr1$neg[,200:300],info = abr1$fact)
@@ -282,10 +297,11 @@ setMethod('plotExplanatoryHeatmap',
                    distanceMeasure = "euclidean", 
                    clusterMethod = 'ward.D2', 
                    featureNames = TRUE, 
-                   dendrogram = TRUE){
+                   dendrogram = TRUE,
+                   featureLimit = Inf){
             
             res <- x %>%
-              explanatoryFeatures()
+              explanatoryFeatures(threshold = threshold)
             
             pl <- res %>%
               base::split(.$Response)
@@ -299,7 +315,8 @@ setMethod('plotExplanatoryHeatmap',
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
-                dendrogram = dendrogram)
+                dendrogram = dendrogram,
+                featureLimit = featureLimit)
             }
             
             if (x@type == 'linear regression') {
@@ -311,7 +328,8 @@ setMethod('plotExplanatoryHeatmap',
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
-                dendrogram = dendrogram)
+                dendrogram = dendrogram,
+                featureLimit = featureLimit)
             }
             
             feat <- res$Feature %>% 
@@ -321,10 +339,10 @@ setMethod('plotExplanatoryHeatmap',
               'Explanatory features had a P value below a threshold of ',
               threshold,'.')
             
-            if (length(feat) > 500) {
+            if (length(feat) > featureLimit) {
               caption <- str_c(
                 caption,'\n',
-                'Number of features capped at top 500.')
+                str_c('Number of features capped at top ',featureLimit,'.'))
             }
             
             pl <- wrap_plots(pl) + 
@@ -347,7 +365,8 @@ setMethod('plotExplanatoryHeatmap',
                    distanceMeasure = "euclidean",
                    clusterMethod = 'ward.D2',
                    featureNames = TRUE, 
-                   dendrogram = TRUE){
+                   dendrogram = TRUE,
+                   featureLimit = Inf){
             
             if (x@type == 'unsupervised') {
               stop('Cannot plot heatmap for unsupervised random forest.')
@@ -363,13 +382,14 @@ setMethod('plotExplanatoryHeatmap',
             if (x@type == 'classification') {
               pl <- heatmapClasses(
                 pl,
-                x, 
+                x,
                 threshold = threshold, 
                 title = title,
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
-                dendrogram = dendrogram)
+                dendrogram = dendrogram,
+                featureLimit = featureLimit)
             }
             
             if (x@type == 'regression') {
@@ -381,7 +401,8 @@ setMethod('plotExplanatoryHeatmap',
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
-                dendrogram = dendrogram)
+                dendrogram = dendrogram,
+                featureLimit = featureLimit)
             }
             
             feat <- explan$Feature %>% 
@@ -397,10 +418,10 @@ setMethod('plotExplanatoryHeatmap',
               'Explanatory features had an importance value ',direction, ' a threshold of ',
               threshold,'.')
             
-            if (length(feat) > 500) {
+            if (length(feat) > featureLimit) {
               caption <- str_c(
                 caption,'\n',
-                'Number of features capped at top 500.')
+                str_c('Number of features capped at top ',featureLimit,'.'))
             }
             
             pl <- wrap_plots(pl) + 
@@ -420,7 +441,8 @@ setMethod('plotExplanatoryHeatmap',
                    threshold = 0.05, 
                    distanceMeasure = "euclidean",
                    clusterMethod = 'ward.D2',
-                   featureNames = TRUE){
+                   featureNames = TRUE,
+                   featureLimit = Inf){
             object_classes <- x %>%
               map_chr(class)
             
@@ -440,7 +462,8 @@ setMethod('plotExplanatoryHeatmap',
                 title = .x,
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod,
-                featureNames = featureNames
+                featureNames = featureNames,
+                featureLimit = featureLimit
               )
               })
           }
@@ -454,12 +477,14 @@ setMethod('plotExplanatoryHeatmap',
                    threshold = 0.05, 
                    distanceMeasure = "euclidean", 
                    clusterMethod = 'ward.D2', 
-                   featureNames = TRUE){
+                   featureNames = TRUE,
+                   featureLimit = Inf){
             x %>%
               analysisResults(element = 'modelling') %>%
               plotExplanatoryHeatmap(threshold = threshold, 
                                      distanceMeasure = distanceMeasure, 
                                      clusterMethod = clusterMethod, 
-                                     featureNames = featureNames) 
+                                     featureNames = featureNames,
+                                     featureLimit = featureLimit) 
           }
 )
