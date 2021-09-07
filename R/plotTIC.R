@@ -78,7 +78,7 @@ setMethod('plotTIC',signature = 'AnalysisData',
                 geom_point(aes(fill = !!sym(colour)),
                            shape = 21,
                            position = 'jitter') +
-                guides(fill = FALSE)
+                guides(fill = 'none')
             } else {
               pl <- pl + geom_point(aes(fill = !!sym(colour)),
                                     shape = 21,
