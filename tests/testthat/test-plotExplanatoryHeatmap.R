@@ -2,8 +2,7 @@ library(metaboData)
 
 context('plotExplanatoryHeatmap')
 
-test_that(str_c('plotExplanatoryHeatmap returns a plot for random',
-                ' forest classification Analysis'),{
+test_that('plotExplanatoryHeatmap returns a plot for random forest classification Analysis',{
   
   p <- analysisParameters(elements = c('pre-treatment','modelling'))
   parameters(p,'pre-treatment') <- preTreatmentParameters(
@@ -23,9 +22,13 @@ test_that(str_c('plotExplanatoryHeatmap returns a plot for random',
   
   pl_feat <- plotExplanatoryHeatmap(d,threshold = 0.5)
   pl_no_feat <- plotExplanatoryHeatmap(d,threshold = 0.5,featureNames = FALSE)
+  pl_limit_features <- plotExplanatoryHeatmap(d,featureLimit = 10)
+  pl_no_explan_feat <- plotExplanatoryHeatmap(d,threshold = -Inf)
   
-  expect_true(is.list(pl_feat))
-  expect_true(is.list(pl_no_feat))
+  expect_type(pl_feat,'list')
+  expect_type(pl_no_feat,'list')
+  expect_type(pl_limit_features,'list')
+  expect_null(pl_no_explan_feat[[1]])
 })
 
 test_that('plotExplanatoryHeatmap returns a plot for random forest regression',{
@@ -37,31 +40,13 @@ test_that('plotExplanatoryHeatmap returns a plot for random forest regression',{
   pl_no_feat <- plotExplanatoryHeatmap(x,
                                        metric = 'IncNodePurity',
                                        featureNames = FALSE)
+  pl_limit_features <- plotExplanatoryHeatmap(x,
+                                              metric = 'IncNodePurity',
+                                              featureLimit = 10)
   
   expect_s3_class(pl_feat,"patchwork")
   expect_s3_class(pl_no_feat,"patchwork")
-})
-
-test_that('plotExplanatoryHeatmap returns a plot for > 500 features',{
-  pl_classi <- analysisData(abr1$neg,abr1$fact) %>%
-    keepClasses(cls = 'day',classes = c('H','5')) %>%
-    keepFeatures(features = features(.)[400:1000]) %>%
-    {
-      . <- clsReplace(.,cls = 'class',clsExtract(.,cls = 'day'))
-      .
-    } %>%
-    randomForest(cls = c('day','class')) %>%
-    plotExplanatoryHeatmap(threshold = 2)
-  
-  pl_reg <- analysisData(abr1$neg,abr1$fact) %>%
-    keepClasses(cls = 'day',classes = c('H','5')) %>%
-    keepFeatures(features = features(.)[400:1000]) %>%
-    occupancyMaximum(cls = 'day') %>%
-    randomForest(cls = 'injorder') %>%
-    plotExplanatoryHeatmap(threshold = -1,metric = 'IncNodePurity')
-  
-  expect_true(is.list(pl_classi))
-  expect_s3_class(pl_reg,"patchwork")
+  expect_s3_class(pl_limit_features,'patchwork')
 })
 
 test_that('plotExplanatoryHeatmap works for linear regression',{
@@ -69,6 +54,7 @@ test_that('plotExplanatoryHeatmap works for linear regression',{
     keepFeatures(features = features(.)[200:250]) %>%
     linearRegression(cls = c('class','injorder')) %>%
     plotExplanatoryHeatmap()
+  
   expect_s3_class(pl,'patchwork')
 })
 

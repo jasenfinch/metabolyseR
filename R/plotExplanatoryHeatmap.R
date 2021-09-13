@@ -303,6 +303,11 @@ setMethod('plotExplanatoryHeatmap',
             res <- x %>%
               explanatoryFeatures(threshold = threshold)
             
+            if (nrow(res) < 1){
+              message('No explanatory features found at this threshold.')
+              return()
+            }
+            
             pl <- res %>%
               base::split(.$Response)
             
@@ -375,6 +380,11 @@ setMethod('plotExplanatoryHeatmap',
             explan <- explanatoryFeatures(x,
                                           metric = metric,
                                           threshold = threshold)
+            
+            if (nrow(explan) < 1){
+              message('No explanatory features found at this threshold.')
+              return()
+            }
             
             pl <- explan %>%
               base::split(.$Response)
