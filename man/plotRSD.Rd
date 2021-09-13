@@ -10,14 +10,7 @@ plotRSD(analysis, cls = "class", ...)
 
 \S4method{plotRSD}{AnalysisData}(analysis, cls = "class")
 
-\S4method{plotRSD}{Analysis}(
-  analysis,
-  cls = "class",
-  QCidx = "QC",
-  QCparameters = NULL,
-  histBins = 30,
-  title = ""
-)
+\S4method{plotRSD}{Analysis}(analysis, cls = "class", type = "raw")
 }
 \arguments{
 \item{analysis}{object of class \code{AnalysisData} or \code{Analysis}}
@@ -26,14 +19,7 @@ plotRSD(analysis, cls = "class", ...)
 
 \item{...}{arguments to pass to the appropriate method}
 
-\item{QCidx}{QC sample label}
-
-\item{QCparameters}{alternative parameters for QC sample pre-treatment.
-See details}
-
-\item{histBins}{number of bins to use for histogram plotting}
-
-\item{title}{plot title}
+\item{type}{\code{raw} or \code{pre-treated} data to plot}
 }
 \description{
 Plot RSD distributions of raw data in quality control samples.

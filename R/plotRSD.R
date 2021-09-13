@@ -3,11 +3,7 @@
 #' @description Plot RSD distributions of raw data in quality control samples.
 #' @param analysis object of class `AnalysisData` or `Analysis`
 #' @param cls information column to use for class labels
-#' @param QCidx QC sample label
-#' @param QCparameters alternative parameters for QC sample pre-treatment. 
-#' See details
-#' @param histBins number of bins to use for histogram plotting
-#' @param title plot title
+#' @param type `raw` or `pre-treated` data to plot 
 #' @param ... arguments to pass to the appropriate method
 #' @importFrom stringr str_extract
 #' @importFrom purrr map
@@ -95,99 +91,12 @@ setMethod('plotRSD',signature = 'AnalysisData',
 
 setMethod('plotRSD',signature = 'Analysis',
           function(analysis,
-                   cls = 'class', 
-                   QCidx = 'QC', 
-                   QCparameters = NULL, 
-                   histBins = 30, 
-                   title = ''){
+                   cls = 'class',
+                   type = 'raw'){
             
-            analysis <- raw(analysis)
+            d <- analysisData(dat(analysis,type = type),
+                              sinfo(analysis,type = type))
             
-            d <- dat(analysis)
-            i <- sinfo(analysis)
-            
-            if (is.null(QCparameters)) {
-              QCparameters <- analysisParameters('preTreat')
-              QCparameters@preTreat <- list(
-                keep = list(classes = list(cls = cls,classes = QCidx)),
-                occupancyFilter = list(
-                  maximum = list(cls = cls,occupancy = 2/3)),
-                impute = list(
-                  all = list(occupancy = 2/3,
-                             parallel = 'variables',
-                             seed = 1234))
-              )
-            }
-            
-            rsd <- d %>% 
-              metabolyse(.,
-                         info = i, 
-                         parameters = QCparameters,
-                         verbose = FALSE) %>%
-              dat(type = 'pre-treated') %>%
-              gather('Feature','Intensity') %>%
-              group_by(Feature) %>%
-              summarise(RSD = sd(Intensity)/mean(Intensity) * 100)
-            
-            cs <- rsd %>%
-              group_by(RSD) %>%
-              summarise(sum = n()) %>%
-              mutate(cs = cumsum(sum))
-            
-            csDist <- ggplot(cs,aes(x = RSD,y = cs)) + 
-              geom_line(colour = ptol_pal()(1)) + 
-              theme_bw() +
-              labs(title = 'Cumulative distribution',
-                   x = 'RSD (%)',
-                   y = 'Cumulative frequency') +
-              theme(plot.title = element_text(face = 'bold',
-                                              hjust = 0.5),
-                    axis.title = element_text(face = 'bold'),
-                    panel.grid = element_blank(),
-                    panel.border = element_blank(),
-                    axis.line = element_line())
-            
-            medians <- rsd %>%
-              summarise(Median = median(RSD)) %>%
-              mutate(Label = str_c('Median: ',Median %>% round(3)),
-                     x = Inf,
-                     y = Inf,
-                     hjust = 1.5,
-                     vjust = 1.3)
-            
-            RSDdist <- ggplot() +
-              geom_histogram(
-                data = rsd,
-                aes_string(x = 'RSD'),
-                fill = ptol_pal()(5)[2],
-                colour = 'black',
-                bins = histBins) +
-              geom_vline(data = medians,aes_string(xintercept = 'Median'),
-                         linetype = 2,colour = 'red',size = 1) +
-              geom_text(data = medians,
-                        aes_string(x = 'x', 
-                                   y = 'y', 
-                                   label = 'Label',
-                                   hjust = 'hjust',
-                                   vjust = 'vjust'),
-                        size = 3) +
-              theme_bw() +
-              labs(title = 'Frequency distribution',
-                   x = 'RSD (%)',
-                   y = 'Frequency',
-                   caption = 'Red dash line shows median RSD value') +
-              theme(plot.title = element_text(face = 'bold',
-                                              hjust = 0.5),
-                    axis.title = element_text(face = 'bold'),
-                    panel.grid = element_blank(),
-                    panel.border = element_blank(),
-                    axis.line = element_line())
-            
-            RSDdist + 
-              csDist + 
-              plot_annotation(
-                title = title,
-                theme = theme(plot.title = element_text(face = 'bold')))
-            
+            plotRSD(d,cls = cls)
           }
 )

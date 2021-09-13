@@ -61,13 +61,13 @@ importance(x)
 
 explanatoryFeatures(x, ...)
 
-\S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05, ...)
+\S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
 
 \S4method{explanatoryFeatures}{RandomForest}(x, metric = "FalsePositiveRate", threshold = 0.05)
 
-\S4method{explanatoryFeatures}{list}(x, threshold = 0.05, ...)
+\S4method{explanatoryFeatures}{list}(x, ...)
 
-\S4method{explanatoryFeatures}{Analysis}(x, threshold = 0.05, ...)
+\S4method{explanatoryFeatures}{Analysis}(x, ...)
 }
 \arguments{
 \item{x}{S4 object of class \code{AnalysisData},\code{RandomForest}, \code{Univariate}, \code{Analysis} or a list.}
