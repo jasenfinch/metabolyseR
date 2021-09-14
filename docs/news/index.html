@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -94,16 +94,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
+      <a href="../articles/01_quick_start.html">Quick start example analysis</a>
     </li>
     <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
+      <a href="../articles/02_introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
+      <a href="../articles/03_pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/04_modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -135,6 +135,20 @@
       <small>Source: <a href='https://github.com/jasenfinch/metabolyseR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="metabolyser-0143" class="section level1">
+<h1 class="page-header" data-toc-text="0.14.3">
+<a href="#metabolyser-0143" class="anchor"></a>metabolyseR 0.14.3</h1>
+<ul>
+<li><p>Temporarily added <a href="https://github.com/jasenfinch/missForest">jasenfinch/missForest</a> as a remote until <a href="https://github.com/stekhoven/missForest">stekhoven/missForest</a> pull request <a href="https://github.com/stekhoven/missForest/pull/25"><a href='https://github.com/jasenfinch/metabolyseR/issues/25'>#25</a></a> is resolved.</p></li>
+<li><p>The limit of the number of plotted features in <a href="https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html"><code>plotExplanatoryHeatmap</code></a> can now be specified using the <code>featureLimit</code> argument.</p></li>
+<li><p><a href="https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html"><code>plotExplanatoryHeatmap()</code></a> now returns NULL and returns a message when no explanatory features are found.</p></li>
+<li><p>Fixed the alignment of the dendrogram branches with heat map rows in <a href="https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html"><code>plotExplanatoryHeatmap()</code></a>.</p></li>
+<li><p>Fixed <code><a href="https://ggplot2.tidyverse.org/reference/guides.html">ggplot2::guides()</a></code> warning in <a href="https://jasenfinch.github.io/metabolyseR/reference/plotFeature.html"><code>plotFeature()</code></a> and <a href="https://jasenfinch.github.io/metabolyseR/reference/plotTIC.html"><code>plotTIC()</code></a>.</p></li>
+<li><p>Fixed bug in <a href="https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html"><code>explanatoryFeatures()</code></a> methods for <a href="https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html"><code>Analysis</code></a> class and lists where the threshold was not applied.</p></li>
+<li><p>Fixed the error in <a href="https://jasenfinch.github.io/metabolyseR/reference/plotRSD.html"><code>plotRSD()</code></a> method for the <a href="https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html"><code>Analysis</code></a> class.</p></li>
+<li><p>Corrected the text in the <a href="https://jasenfinch.github.io/metabolyseR/articles/modelling.html">modelling vignette</a> concerning the results of using unsupervised random forest for outlier detection.</p></li>
+</ul>
+</div>
     <div id="metabolyser-0142" class="section level1">
 <h1 class="page-header" data-toc-text="0.14.2">
 <a href="#metabolyser-0142" class="anchor"></a>metabolyseR 0.14.2</h1>
@@ -163,7 +177,7 @@
 <li><p>Function examples added to all documentation pages.</p></li>
 <li><p>Unit test coverage increased to &gt; 95%.</p></li>
 <li><p>Parallel processing is now implemented using the <a href="https://cran.r-project.org/package=future"><code>future</code></a> package.</p></li>
-<li><p><code><a href="https://rdrr.io/pkg/future/man/plan.html">plan()</a></code> from the <a href="https://cran.r-project.org/web/packages/future/index.html"><code>future</code></a> package is re-exported.</p></li>
+<li><p><code><a href="https://future.futureverse.org/reference/plan.html">plan()</a></code> from the <a href="https://cran.r-project.org/web/packages/future/index.html"><code>future</code></a> package is re-exported.</p></li>
 <li><p><code>RandomForest</code> and <code>Univariate</code> classes now inherit from class the <code>AnalysisData</code> class.</p></li>
 <li><p>Improvements to plot theme aesthetics.</p></li>
 <li><p><code>type</code> argument added to <code><a href="../reference/plotPCA.html">plotPCA()</a></code>, <code><a href="../reference/plotLDA.html">plotLDA()</a></code>, <code><a href="../reference/plotUnsupervisedRF.html">plotUnsupervisedRF()</a></code> and <code><a href="../reference/plotSupervisedRF.html">plotSupervisedRF()</a></code> methods for the <code>Analysis</code> class.</p></li>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -54,16 +54,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/introduction.html">Introduction</a>
+      <a href="articles/01_quick_start.html">Quick start example analysis</a>
     </li>
     <li>
-      <a href="articles/modelling.html">Modelling and feature selection</a>
+      <a href="articles/02_introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="articles/pre_treatment.html">Metabolomics data pre-treatment</a>
+      <a href="articles/03_pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="articles/quick_start.html">Quick start example analysis</a>
+      <a href="articles/04_modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -128,7 +128,7 @@
 <p>This example analysis will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package. It is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment. The analysis will also include use of the pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package. First load the necessary packages.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jasenfinch.github.io/metabolyseR">metabolyseR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aberHRML/metaboData">metaboData</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberhrml.github.io/metaboData/">metaboData</a></span><span class="op">)</span></code></pre></div>
 <p>For this example we will use only the negative acquisition mode data (<code>abr1$neg</code>) and sample meta-information (<code>abr1$fact</code>). Create an <code>AnalysisData</code> class object using the following:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/analysisData.html">analysisData</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span><span class="op">)</span></code></pre></div>
@@ -187,19 +187,19 @@
 <code class="sourceCode R"><span class="va">explan_feat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">anova_results</span>,threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">explan_feat</span>
-<span class="co">#&gt; # A tibble: 379 x 10</span>
-<span class="co">#&gt;    Response Comparison  Feature term      df   sumsq   meansq statistic  p.value</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 day      1~2~3~4~5~H N341    respo…     5 3.88e-4  7.76e-5     137.  1.55e-46</span>
-<span class="co">#&gt;  2 day      1~2~3~4~5~H N133    respo…     5 7.00e-5  1.40e-5     126.  8.63e-45</span>
-<span class="co">#&gt;  3 day      1~2~3~4~5~H N163    respo…     5 6.01e-5  1.20e-5     117.  2.95e-43</span>
-<span class="co">#&gt;  4 day      1~2~3~4~5~H N1087   respo…     5 2.42e-6  4.84e-7      99.8 5.61e-40</span>
-<span class="co">#&gt;  5 day      1~2~3~4~5~H N171    respo…     5 2.25e-7  4.50e-8      95.7 3.84e-39</span>
-<span class="co">#&gt;  6 day      1~2~3~4~5~H N513    respo…     5 3.38e-6  6.76e-7      95.3 4.78e-39</span>
-<span class="co">#&gt;  7 day      1~2~3~4~5~H N1025   respo…     5 2.78e-6  5.56e-7      91.0 3.91e-38</span>
-<span class="co">#&gt;  8 day      1~2~3~4~5~H N342    respo…     5 3.71e-6  7.41e-7      90.3 5.32e-38</span>
-<span class="co">#&gt;  9 day      1~2~3~4~5~H N1083   respo…     5 5.11e-5  1.02e-5      89.0 1.06e-37</span>
-<span class="co">#&gt; 10 day      1~2~3~4~5~H N1085   respo…     5 1.10e-5  2.19e-6      83.4 1.92e-36</span>
+<span class="co">#&gt; # A tibble: 379 × 10</span>
+<span class="co">#&gt;    Response Comparison  Feature term        df   sumsq  meansq statistic  p.value</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 day      1~2~3~4~5~H N341    response     5 3.88e-4 7.76e-5     137.  1.55e-46</span>
+<span class="co">#&gt;  2 day      1~2~3~4~5~H N133    response     5 7.00e-5 1.40e-5     126.  8.63e-45</span>
+<span class="co">#&gt;  3 day      1~2~3~4~5~H N163    response     5 6.01e-5 1.20e-5     117.  2.95e-43</span>
+<span class="co">#&gt;  4 day      1~2~3~4~5~H N1087   response     5 2.42e-6 4.84e-7      99.8 5.61e-40</span>
+<span class="co">#&gt;  5 day      1~2~3~4~5~H N171    response     5 2.25e-7 4.50e-8      95.7 3.84e-39</span>
+<span class="co">#&gt;  6 day      1~2~3~4~5~H N513    response     5 3.38e-6 6.76e-7      95.3 4.78e-39</span>
+<span class="co">#&gt;  7 day      1~2~3~4~5~H N1025   response     5 2.78e-6 5.56e-7      91.0 3.91e-38</span>
+<span class="co">#&gt;  8 day      1~2~3~4~5~H N342    response     5 3.71e-6 7.41e-7      90.3 5.32e-38</span>
+<span class="co">#&gt;  9 day      1~2~3~4~5~H N1083   response     5 5.11e-5 1.02e-5      89.0 1.06e-37</span>
+<span class="co">#&gt; 10 day      1~2~3~4~5~H N1085   response     5 1.10e-5 2.19e-6      83.4 1.92e-36</span>
 <span class="co">#&gt; # … with 369 more rows, and 1 more variable: adjusted.p.value &lt;dbl&gt;</span></code></pre></div>
 <p>The ANOVA has identified 379 features significantly explanatory over the infection time course. A heat map of the mean relative intensity for each class of these explanatory features can be plotted to visualise their trends between the infection time point classes.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -243,7 +243,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/jasenfinch/metabolyseR/actions"><img src="https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/jasenfinch/metabolyseR/actions"><img src="https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/jasenfinch/metabolyseR/branch/master"><img src="https://codecov.io/gh/jasenfinch/metabolyseR/branch/master/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION"><img src="https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg" alt="license"></a></li>
 <li><a href="https://zenodo.org/badge/latestdoi/88983134"><img src="https://zenodo.org/badge/88983134.svg" alt="DOI"></a></li>

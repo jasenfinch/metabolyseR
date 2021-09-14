@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -95,16 +95,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
+      <a href="../articles/01_quick_start.html">Quick start example analysis</a>
     </li>
     <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
+      <a href="../articles/02_introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
+      <a href="../articles/03_pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/04_modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -174,7 +174,7 @@
 <span class='va'>paramFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'defaultParameters.yaml'</span>,package <span class='op'>=</span> <span class='st'>'metabolyseR'</span><span class='op'>)</span>
 <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>parseParameters</span><span class='op'>(</span><span class='va'>paramFile</span><span class='op'>)</span>
 <span class='va'>p</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span><span>
+</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span>
 #&gt; pre-treatment
 #&gt; 	QC
 #&gt; 		occupancyFilter
@@ -213,7 +213,7 @@
 <span class='co'>## Export analysis parameters</span>
 <span class='fu'>exportParameters</span><span class='op'>(</span><span class='va'>p</span>,file <span class='op'>=</span> <span class='st'>'analysis_parameters.yaml'</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -95,16 +95,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
+      <a href="../articles/01_quick_start.html">Quick start example analysis</a>
     </li>
     <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
+      <a href="../articles/02_introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
+      <a href="../articles/03_pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/04_modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -182,7 +182,7 @@
     <p>An S4 object of class <code>Univariate</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
 
 <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
 
@@ -191,16 +191,16 @@
 
 <span class='co'>## Extract significant features</span>
 <span class='fu'><a href='binaryComparisons.html'>explanatoryFeatures</a></span><span class='op'>(</span><span class='va'>lr_analysis</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 15</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 × 15</span>
 #&gt;   Response Feature r.squared adj.r.squared sigma statistic  p.value    df logLik
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> injorder N283        0.310        0.304   4.27      53.0 4.10</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-11</span><span>     1  -</span><span style='color: #BB0000;'>343.</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> injorder N221        0.140        0.133   5.87      19.3 2.50</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span><span>     1  -</span><span style='color: #BB0000;'>382.</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> injorder N255        0.119        0.111  11.1       15.9 1.17</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 4</span><span>     1  -</span><span style='color: #BB0000;'>458.</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> injorder N267        0.118        0.111  26.4       15.8 1.22</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 4</span><span>     1  -</span><span style='color: #BB0000;'>562.</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> injorder N297        0.107        0.099</span><span style='text-decoration: underline;'>5</span><span> 44.7       14.1 2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 4</span><span>     1  -</span><span style='color: #BB0000;'>625.</span><span>
-#&gt; </span><span style='color: #949494;'># … with 6 more variables: AIC &lt;dbl&gt;, BIC &lt;dbl&gt;, deviance &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   df.residual &lt;int&gt;, nobs &lt;int&gt;, adjusted.p.value &lt;dbl&gt;</span><span></div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> injorder N283        0.310        0.304   4.27      53.0 4.10<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-11</span>     1  -<span style='color: #BB0000;'>343.</span>
+#&gt; <span style='color: #BCBCBC;'>2</span> injorder N221        0.140        0.133   5.87      19.3 2.50<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span>     1  -<span style='color: #BB0000;'>382.</span>
+#&gt; <span style='color: #BCBCBC;'>3</span> injorder N255        0.119        0.111  11.1       15.9 1.17<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 4</span>     1  -<span style='color: #BB0000;'>458.</span>
+#&gt; <span style='color: #BCBCBC;'>4</span> injorder N267        0.118        0.111  26.4       15.8 1.22<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 4</span>     1  -<span style='color: #BB0000;'>562.</span>
+#&gt; <span style='color: #BCBCBC;'>5</span> injorder N297        0.107        0.099<span style='text-decoration: underline;'>5</span> 44.7       14.1 2.65<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 4</span>     1  -<span style='color: #BB0000;'>625.</span>
+#&gt; <span style='color: #949494;'># … with 6 more variables: AIC &lt;dbl&gt;, BIC &lt;dbl&gt;, deviance &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   df.residual &lt;int&gt;, nobs &lt;int&gt;, adjusted.p.value &lt;dbl&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

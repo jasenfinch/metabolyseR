@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -46,26 +46,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
-    </li>
-    <li>
-      <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
-    </li>
-    <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
-    </li>
-  </ul>
+  <a href="../articles/index.html">Articles</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -88,14 +70,14 @@
 
       
 
-      </header><script src="introduction_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="introduction_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
-            <h3 class="subtitle">metabolyseR v0.14.2</h3>
+            <h3 class="subtitle">metabolyseR v0.14.3</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">05 May, 2021</h4>
+            <h4 class="date">14 September, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -121,19 +103,19 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">'quick_start'</span>,<span class="st">'metabolyseR'</span><span class="op">)</span></code></pre></div>
 <p>Any issues, bugs or errors encountered while using the package should be reported <a href="https://github.com/jasenfinch/metabolyseR/issues">here</a>.</p>
-<p>The examples shown here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package (<code><a href="https://rdrr.io/pkg/metaboData/man/abr1.html">?metaboData::abr1</a></code>). This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. The examples will also include use of the pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package.</p>
+<p>The examples shown here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package (<code><a href="https://aberHRML.github.io/metaboData//reference/abr1.html">?metaboData::abr1</a></code>). This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. The examples will also include use of the pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package.</p>
 <p>Firstly load the necessary packages:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jasenfinch.github.io/metabolyseR">metabolyseR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aberHRML/metaboData">metaboData</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberhrml.github.io/metaboData/">metaboData</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="parallel-processing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#parallel-processing" class="anchor"></a>Parallel processing</h2>
 <p>The package supports parallel processing using the <a href="https://CRAN.R-project.org/package=future">future</a> package.</p>
-<p>By default, processing by <code>metabolyseR</code> will be done sequentially. However, parallel processing can be activated, prior to analysis, by specifying a parallel back-end using <code><a href="https://rdrr.io/pkg/future/man/plan.html">plan()</a></code>. The following example specifies using the <code>multisession</code> implementation (multiple background R sessions) with two worker processes.</p>
+<p>By default, processing by <code>metabolyseR</code> will be done sequentially. However, parallel processing can be activated, prior to analysis, by specifying a parallel back-end using <code><a href="https://future.futureverse.org/reference/plan.html">plan()</a></code>. The following example specifies using the <code>multisession</code> implementation (multiple background R sessions) with two worker processes.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/future/man/multisession.html">multisession</a></span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://future.futureverse.org/reference/plan.html">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html">multisession</a></span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p>See the future package <a href="https://CRAN.R-project.org/package=future">documentation</a> for more information on the types of parallel implementations that are available.</p>
 </div>
 <div id="exploratory-analyses" class="section level2">
@@ -167,7 +149,7 @@
 <p>The data table can be extracted using the <code>dat</code> method:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">dat</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 120 x 2,000
+<pre><code>## # A tibble: 120 × 2,000
 ##       N1    N2    N3    N4    N5    N6    N7    N8    N9   N10   N11   N12   N13
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ##  1     0     0     0     0     0     0     0     0     0     0     0     0     0
@@ -186,18 +168,7 @@
 ## #   N28 &lt;dbl&gt;, N29 &lt;dbl&gt;, N30 &lt;dbl&gt;, N31 &lt;dbl&gt;, N32 &lt;dbl&gt;, N33 &lt;dbl&gt;,
 ## #   N34 &lt;dbl&gt;, N35 &lt;dbl&gt;, N36 &lt;dbl&gt;, N37 &lt;dbl&gt;, N38 &lt;dbl&gt;, N39 &lt;dbl&gt;,
 ## #   N40 &lt;dbl&gt;, N41 &lt;dbl&gt;, N42 &lt;dbl&gt;, N43 &lt;dbl&gt;, N44 &lt;dbl&gt;, N45 &lt;dbl&gt;,
-## #   N46 &lt;dbl&gt;, N47 &lt;dbl&gt;, N48 &lt;dbl&gt;, N49 &lt;dbl&gt;, N50 &lt;dbl&gt;, N51 &lt;dbl&gt;,
-## #   N52 &lt;dbl&gt;, N53 &lt;dbl&gt;, N54 &lt;dbl&gt;, N55 &lt;dbl&gt;, N56 &lt;dbl&gt;, N57 &lt;dbl&gt;,
-## #   N58 &lt;dbl&gt;, N59 &lt;dbl&gt;, N60 &lt;dbl&gt;, N61 &lt;dbl&gt;, N62 &lt;dbl&gt;, N63 &lt;dbl&gt;,
-## #   N64 &lt;dbl&gt;, N65 &lt;dbl&gt;, N66 &lt;dbl&gt;, N67 &lt;dbl&gt;, N68 &lt;dbl&gt;, N69 &lt;dbl&gt;,
-## #   N70 &lt;dbl&gt;, N71 &lt;dbl&gt;, N72 &lt;dbl&gt;, N73 &lt;dbl&gt;, N74 &lt;dbl&gt;, N75 &lt;dbl&gt;,
-## #   N76 &lt;dbl&gt;, N77 &lt;dbl&gt;, N78 &lt;dbl&gt;, N79 &lt;dbl&gt;, N80 &lt;dbl&gt;, N81 &lt;dbl&gt;,
-## #   N82 &lt;dbl&gt;, N83 &lt;dbl&gt;, N84 &lt;dbl&gt;, N85 &lt;dbl&gt;, N86 &lt;dbl&gt;, N87 &lt;dbl&gt;,
-## #   N88 &lt;dbl&gt;, N89 &lt;dbl&gt;, N90 &lt;dbl&gt;, N91 &lt;dbl&gt;, N92 &lt;dbl&gt;, N93 &lt;dbl&gt;,
-## #   N94 &lt;dbl&gt;, N95 &lt;dbl&gt;, N96 &lt;dbl&gt;, N97 &lt;dbl&gt;, N98 &lt;dbl&gt;, N99 &lt;dbl&gt;,
-## #   N100 &lt;dbl&gt;, N101 &lt;dbl&gt;, N102 &lt;dbl&gt;, N103 &lt;dbl&gt;, N104 &lt;dbl&gt;, N105 &lt;dbl&gt;,
-## #   N106 &lt;dbl&gt;, N107 &lt;dbl&gt;, N108 &lt;dbl&gt;, N109 &lt;dbl&gt;, N110 &lt;dbl&gt;, N111 &lt;dbl&gt;,
-## #   N112 &lt;dbl&gt;, N113 &lt;dbl&gt;, …</code></pre>
+## #   N46 &lt;dbl&gt;, N47 &lt;dbl&gt;, N48 &lt;dbl&gt;, N49 &lt;dbl&gt;, N50 &lt;dbl&gt;, N51 &lt;dbl&gt;, …</code></pre>
 <p>Or alternatively, can be used to assign a new data table:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">dat</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">abr1</span><span class="op">$</span><span class="va">pos</span>
@@ -211,7 +182,7 @@
 <p>The sample information table can be extracted using the <code>sinfo</code> method:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">sinfo</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 120 x 9
+<pre><code>## # A tibble: 120 × 9
 ##    injorder pathcdf              filecdf name.org remark name    rep day   class
 ##       &lt;int&gt; &lt;fct&gt;                &lt;fct&gt;   &lt;fct&gt;    &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;fct&gt; &lt;int&gt;
 ##  1        1 C:/Xcalibur/ANDI-LT… 01.cdf  12_2     ok     12_2      2 2         2
@@ -658,7 +629,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code>## 
-## metabolyseR  v0.14.2 Wed May  5 18:43:24 2021</code></pre>
+## metabolyseR  v0.14.3 Tue Sep 14 09:59:51 2021</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Parameters:
 ## pre-treatment
@@ -682,33 +653,33 @@
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Pre-treatment …
 
-Pre-treatment   ✓ [0.9S]
+Pre-treatment   ✓ [0.7S]
 ## Modelling …
 
-Modelling   ✓ [3.8S]
+Modelling   ✓ [3.1S]
 ## ________________________________________________________________________________
 ## 
-## Complete! [4.7S]</code></pre>
+## Complete! [3.8S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.2
+## metabolyseR v0.14.3
 ## Analysis:
-##  Wed May  5 18:43:24 2021
+##  Tue Sep 14 09:59:51 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Wed May  5 18:43:25 2021
+##      Tue Sep 14 09:59:52 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Wed May  5 18:43:28 2021
+##      Tue Sep 14 09:59:55 2021
 ##      Methods: randomForest</code></pre>
 </div>
 <div id="performing-a-re-analysis" class="section level3">
@@ -723,7 +694,7 @@ Modelling   ✓ [3.8S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.2 Wed May  5 18:43:29 2021
+## metabolyseR v0.14.3 Tue Sep 14 09:59:55 2021
 ## ________________________________________________________________________________
 ## Parameters:
 ## correlations
@@ -741,25 +712,25 @@ Correlations    ✓ [0.1S]</code></pre>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.2
+## metabolyseR v0.14.3
 ## Analysis:
-##  Wed May  5 18:43:24 2021
+##  Tue Sep 14 09:59:51 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Wed May  5 18:43:25 2021
+##      Tue Sep 14 09:59:52 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Wed May  5 18:43:28 2021
+##      Tue Sep 14 09:59:55 2021
 ##      Methods: randomForest
 ## 
 ##  Correlations:
-##      Wed May  5 18:43:29 2021
+##      Tue Sep 14 09:59:55 2021
 ##      No. correlations = 140</code></pre>
 </div>
 <div id="extracting-analysis-results" class="section level3">
@@ -770,7 +741,7 @@ Correlations    ✓ [0.1S]</code></pre>
 <p>For example, to extract the pre-treated metabolomics data from our object <code>analysis</code>:</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">dat</a></span><span class="op">(</span><span class="va">analysis</span>,type <span class="op">=</span> <span class="st">'pre-treated'</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 120 x 48
+<pre><code>## # A tibble: 120 × 48
 ##       N113    N115    N117    N118    N119    N127    N128    N129  N130    N131
 ##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 0.00646 0       1.68e-4 0       1.60e-3 0.0323  2.65e-4 2.80e-4     0 0      
@@ -793,7 +764,7 @@ Correlations    ✓ [0.1S]</code></pre>
 <p>Or to extract the raw sample information:</p>
 <div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">sinfo</a></span><span class="op">(</span><span class="va">analysis</span>,type <span class="op">=</span> <span class="st">'raw'</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 120 x 9
+<pre><code>## # A tibble: 120 × 9
 ##    injorder pathcdf              filecdf name.org remark name    rep day   class
 ##       &lt;int&gt; &lt;fct&gt;                &lt;fct&gt;   &lt;fct&gt;    &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;fct&gt; &lt;int&gt;
 ##  1        1 C:/Xcalibur/ANDI-LT… 01.cdf  12_2     ok     12_2      2 2         2

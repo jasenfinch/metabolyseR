@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -95,16 +95,16 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
+      <a href="../articles/01_quick_start.html">Quick start example analysis</a>
     </li>
     <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
+      <a href="../articles/02_introduction.html">Introduction</a>
     </li>
     <li>
-      <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
+      <a href="../articles/03_pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/04_modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -268,60 +268,51 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
 
 <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
 
 <span class='co'>## Return the metabolomic data</span>
 <span class='fu'>dat</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 120 x 101</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 120 × 101</span>
 #&gt;     N200  N201  N202  N203  N204  N205   N206  N207  N208  N209  N210   N211
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     0  0    0     2.98  0     0     0      0.468 0     1.43  0     0.170 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     0  0    0     1.30  0     1.15  0      0     0     0.492 0     0     
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     0  0    0     6.08  0.214 2.53  0      1.85  0     1.06  0.184 0.082</span><span style='text-decoration: underline;'>7</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     0  4.24 0     1.48  0     0     0.147  0     0     0.929 0     0.286 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     0  0    0     0.530 0     0.233 0.376  1.41  0     0.274 0     0.139 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     0  0    0     0     0     0.438 0      0     0.219 0.325 0     0     
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     0  0    0     0.547 0     0     0      0     0     0     0     0     
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     0  0    0.195 1.37  0.594 1.11  0.090</span><span style='text-decoration: underline;'>2</span><span> 0     0     0     0.162 0     
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     0  0    0     1.24  0     0.196 0.675  0.528 0.128 2.61  0.294 2.66  
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     0  0    0     0.113 0     1.06  0      0     0     1.76  2.96  0     
-#&gt; </span><span style='color: #949494;'># … with 110 more rows, and 89 more variables: N212 &lt;dbl&gt;, N213 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N214 &lt;dbl&gt;, N215 &lt;dbl&gt;, N216 &lt;dbl&gt;, N217 &lt;dbl&gt;, N218 &lt;dbl&gt;, N219 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N220 &lt;dbl&gt;, N221 &lt;dbl&gt;, N222 &lt;dbl&gt;, N223 &lt;dbl&gt;, N224 &lt;dbl&gt;, N225 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N226 &lt;dbl&gt;, N227 &lt;dbl&gt;, N228 &lt;dbl&gt;, N229 &lt;dbl&gt;, N230 &lt;dbl&gt;, N231 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N232 &lt;dbl&gt;, N233 &lt;dbl&gt;, N234 &lt;dbl&gt;, N235 &lt;dbl&gt;, N236 &lt;dbl&gt;, N237 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N238 &lt;dbl&gt;, N239 &lt;dbl&gt;, N240 &lt;dbl&gt;, N241 &lt;dbl&gt;, N242 &lt;dbl&gt;, N243 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N244 &lt;dbl&gt;, N245 &lt;dbl&gt;, N246 &lt;dbl&gt;, N247 &lt;dbl&gt;, N248 &lt;dbl&gt;, N249 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N250 &lt;dbl&gt;, N251 &lt;dbl&gt;, N252 &lt;dbl&gt;, N253 &lt;dbl&gt;, N254 &lt;dbl&gt;, N255 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N256 &lt;dbl&gt;, N257 &lt;dbl&gt;, N258 &lt;dbl&gt;, N259 &lt;dbl&gt;, N260 &lt;dbl&gt;, N261 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N262 &lt;dbl&gt;, N263 &lt;dbl&gt;, N264 &lt;dbl&gt;, N265 &lt;dbl&gt;, N266 &lt;dbl&gt;, N267 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N268 &lt;dbl&gt;, N269 &lt;dbl&gt;, N270 &lt;dbl&gt;, N271 &lt;dbl&gt;, N272 &lt;dbl&gt;, N273 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N274 &lt;dbl&gt;, N275 &lt;dbl&gt;, N276 &lt;dbl&gt;, N277 &lt;dbl&gt;, N278 &lt;dbl&gt;, N279 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N280 &lt;dbl&gt;, N281 &lt;dbl&gt;, N282 &lt;dbl&gt;, N283 &lt;dbl&gt;, N284 &lt;dbl&gt;, N285 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N286 &lt;dbl&gt;, N287 &lt;dbl&gt;, N288 &lt;dbl&gt;, N289 &lt;dbl&gt;, N290 &lt;dbl&gt;, N291 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N292 &lt;dbl&gt;, N293 &lt;dbl&gt;, N294 &lt;dbl&gt;, N295 &lt;dbl&gt;, N296 &lt;dbl&gt;, N297 &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   N298 &lt;dbl&gt;, N299 &lt;dbl&gt;, N300 &lt;dbl&gt;</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     0  0    0     2.98  0     0     0      0.468 0     1.43  0     0.170 
+#&gt; <span style='color: #BCBCBC;'> 2</span>     0  0    0     1.30  0     1.15  0      0     0     0.492 0     0     
+#&gt; <span style='color: #BCBCBC;'> 3</span>     0  0    0     6.08  0.214 2.53  0      1.85  0     1.06  0.184 0.082<span style='text-decoration: underline;'>7</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span>     0  4.24 0     1.48  0     0     0.147  0     0     0.929 0     0.286 
+#&gt; <span style='color: #BCBCBC;'> 5</span>     0  0    0     0.530 0     0.233 0.376  1.41  0     0.274 0     0.139 
+#&gt; <span style='color: #BCBCBC;'> 6</span>     0  0    0     0     0     0.438 0      0     0.219 0.325 0     0     
+#&gt; <span style='color: #BCBCBC;'> 7</span>     0  0    0     0.547 0     0     0      0     0     0     0     0     
+#&gt; <span style='color: #BCBCBC;'> 8</span>     0  0    0.195 1.37  0.594 1.11  0.090<span style='text-decoration: underline;'>2</span> 0     0     0     0.162 0     
+#&gt; <span style='color: #BCBCBC;'> 9</span>     0  0    0     1.24  0     0.196 0.675  0.528 0.128 2.61  0.294 2.66  
+#&gt; <span style='color: #BCBCBC;'>10</span>     0  0    0     0.113 0     1.06  0      0     0     1.76  2.96  0     
+#&gt; <span style='color: #949494;'># … with 110 more rows, and 89 more variables: N212 &lt;dbl&gt;, N213 &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   N214 &lt;dbl&gt;, N215 &lt;dbl&gt;, N216 &lt;dbl&gt;, N217 &lt;dbl&gt;, N218 &lt;dbl&gt;, N219 &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   N220 &lt;dbl&gt;, N221 &lt;dbl&gt;, N222 &lt;dbl&gt;, N223 &lt;dbl&gt;, N224 &lt;dbl&gt;, N225 &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   N226 &lt;dbl&gt;, N227 &lt;dbl&gt;, N228 &lt;dbl&gt;, N229 &lt;dbl&gt;, N230 &lt;dbl&gt;, N231 &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   N232 &lt;dbl&gt;, N233 &lt;dbl&gt;, N234 &lt;dbl&gt;, N235 &lt;dbl&gt;, N236 &lt;dbl&gt;, N237 &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   N238 &lt;dbl&gt;, N239 &lt;dbl&gt;, N240 &lt;dbl&gt;, N241 &lt;dbl&gt;, N242 &lt;dbl&gt;, N243 &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   N244 &lt;dbl&gt;, N245 &lt;dbl&gt;, N246 &lt;dbl&gt;, N247 &lt;dbl&gt;, N248 &lt;dbl&gt;, N249 &lt;dbl&gt;, …</span></div><div class='input'>
 <span class='co'>## Set the metabolomic data</span>
 <span class='fu'>dat</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>300</span><span class='op'>:</span><span class='fl'>400</span><span class='op'>]</span>
 
 <span class='co'>## Return the sample information</span>
 <span class='fu'>sinfo</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 120 x 9</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 120 × 9</span>
 #&gt;    injorder pathcdf              filecdf name.org remark name    rep day   class
-#&gt;       </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>        1 C:/Xcalibur/ANDI-LT… 01.cdf  12_2     ok     12_2      2 2         2
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>        2 C:/Xcalibur/ANDI-LT… 02.cdf  13_3     ok     13_4      3 3         3
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>        3 C:/Xcalibur/ANDI-LT… 03.cdf  15_4     ok     15_5      5 4         4
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>        4 C:/Xcalibur/ANDI-LT… 04.cdf  12_1     ok     12_2      2 1         1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>        5 C:/Xcalibur/ANDI-LT… 05.cdf  12_2     ok     12_2      2 2         2
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>        6 C:/Xcalibur/ANDI-LT… 06.cdf  11_1     ok     11_2      1 1         1
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>        7 C:/Xcalibur/ANDI-LT… 07.cdf  14_2     ok     14_3      4 2         2
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>        8 C:/Xcalibur/ANDI-LT… 08.cdf  11_4     ok     11_5      1 4         4
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>        9 C:/Xcalibur/ANDI-LT… 09.cdf  13_H     ok     13_H      3 H         6
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>       10 C:/Xcalibur/ANDI-LT… 10.cdf  15_H     ok     15_H      5 H         6
-#&gt; </span><span style='color: #949494;'># … with 110 more rows</span><span></div><div class='input'>
+#&gt;       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>        1 C:/Xcalibur/ANDI-LT… 01.cdf  12_2     ok     12_2      2 2         2
+#&gt; <span style='color: #BCBCBC;'> 2</span>        2 C:/Xcalibur/ANDI-LT… 02.cdf  13_3     ok     13_4      3 3         3
+#&gt; <span style='color: #BCBCBC;'> 3</span>        3 C:/Xcalibur/ANDI-LT… 03.cdf  15_4     ok     15_5      5 4         4
+#&gt; <span style='color: #BCBCBC;'> 4</span>        4 C:/Xcalibur/ANDI-LT… 04.cdf  12_1     ok     12_2      2 1         1
+#&gt; <span style='color: #BCBCBC;'> 5</span>        5 C:/Xcalibur/ANDI-LT… 05.cdf  12_2     ok     12_2      2 2         2
+#&gt; <span style='color: #BCBCBC;'> 6</span>        6 C:/Xcalibur/ANDI-LT… 06.cdf  11_1     ok     11_2      1 1         1
+#&gt; <span style='color: #BCBCBC;'> 7</span>        7 C:/Xcalibur/ANDI-LT… 07.cdf  14_2     ok     14_3      4 2         2
+#&gt; <span style='color: #BCBCBC;'> 8</span>        8 C:/Xcalibur/ANDI-LT… 08.cdf  11_4     ok     11_5      1 4         4
+#&gt; <span style='color: #BCBCBC;'> 9</span>        9 C:/Xcalibur/ANDI-LT… 09.cdf  13_H     ok     13_H      3 H         6
+#&gt; <span style='color: #BCBCBC;'>10</span>       10 C:/Xcalibur/ANDI-LT… 10.cdf  15_H     ok     15_H      5 H         6
+#&gt; <span style='color: #949494;'># … with 110 more rows</span></div><div class='input'>
 <span class='co'>## Set the sample information</span>
 <span class='fu'>sinfo</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span>
 
@@ -343,7 +334,7 @@
 </div><div class='output co'>#&gt; [1] 120</div><div class='input'>
 <span class='co'>## Return the number of features</span>
 <span class='fu'>nFeatures</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 101</div></span></pre>
+</div><div class='output co'>#&gt; [1] 101</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
