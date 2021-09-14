@@ -14,6 +14,8 @@
 
 * Fixed the error in [`plotRSD()`](https://jasenfinch.github.io/metabolyseR/reference/plotRSD.html) method for the [`Analysis`](https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html) class.
 
+* Corrected the text in the [modelling vignette](https://jasenfinch.github.io/metabolyseR/articles/modelling.html) concerning the results of using unsupervised random forest for outlier detection.
+
 # metabolyseR 0.14.2
 
 * Package version, creation date and verbose argument added to prototype of `Analysis` class.
