@@ -1,9 +1,9 @@
 Package: metabolyseR
 Title: Methods for Pre-Treatment, Data Mining and Correlation Analyses of Metabolomics Data
-Version: 0.14.2
+Version: 0.14.3
 Authors@R: person("Jasen", "Finch", email = "jsf9@aber.ac.uk", role = c("aut", "cre"))
 Description: A tool kit for pre-treatment, modelling, feature selection and correlation analyses of metabolomics data.
-URL:  https://jasenfinch.github.io/metabolyseR
+URL: https://jasenfinch.github.io/metabolyseR
 BugReports: https://github.com/jasenfinch/metabolyseR/issues
 biocViews: Metabolomics
 Depends: R (>= 3.4.0)
@@ -37,9 +37,8 @@ Imports: Hmisc,
          future
 License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: knitr,
     rmarkdown,
     readr,
@@ -87,4 +86,4 @@ Collate: allClasses.R
     univariate.R
     modelling-accessors.R
 VignetteBuilder: knitr
-Remotes: aberHRML/metaboData
+Remotes: jasenfinch/missForest

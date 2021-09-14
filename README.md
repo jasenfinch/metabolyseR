@@ -7,8 +7,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R build
-status](https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.svg)](https://github.com/jasenfinch/metabolyseR/actions)
+[![R-CMD-check](https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.svg)](https://github.com/jasenfinch/metabolyseR/actions)
 [![codecov](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master/graph/badge.svg)](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master)
 [![license](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg)](https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION)
 [![DOI](https://zenodo.org/badge/88983134.svg)](https://zenodo.org/badge/latestdoi/88983134)
@@ -22,9 +21,9 @@ status](https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.sv
 This package provides a tool kit of methods for metabolomics analyses
 that includes:
 
--   data pre-treatment
--   multivariate and univariate modelling/data mining techniques
--   correlation analysis
+  - data pre-treatment
+  - multivariate and univariate modelling/data mining techniques
+  - correlation analysis
 
 ## Installation
 
@@ -41,7 +40,7 @@ The package documentation can be browsed online at
 <https://jasenfinch.github.io/metabolyseR/>.
 
 If this is your first time using `metabolyseR` see the
-[Introduction](https://jasenfinch.github.io/metabolyseR/articles/introduction.html)
+[Introduction](https://jasenfinch.github.io/metabolyseR/articles/metabolyseR.html)
 vignette or the quick start analysis below for information on how to get
 started.
 
@@ -169,7 +168,7 @@ anova_results <- d %>%
 ```
 
 A table of the significantly explanatory features can be extracted with
-a bonferroni correction adjusted p value &lt; 0.05 using:
+a bonferroni correction adjusted p value \< 0.05 using:
 
 ``` r
 explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
@@ -177,19 +176,19 @@ explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
 
 ``` r
 explan_feat
-#> # A tibble: 379 x 10
-#>    Response Comparison  Feature term      df   sumsq   meansq statistic  p.value
-#>    <chr>    <chr>       <chr>   <chr>  <dbl>   <dbl>    <dbl>     <dbl>    <dbl>
-#>  1 day      1~2~3~4~5~H N341    respo…     5 3.88e-4  7.76e-5     137.  1.55e-46
-#>  2 day      1~2~3~4~5~H N133    respo…     5 7.00e-5  1.40e-5     126.  8.63e-45
-#>  3 day      1~2~3~4~5~H N163    respo…     5 6.01e-5  1.20e-5     117.  2.95e-43
-#>  4 day      1~2~3~4~5~H N1087   respo…     5 2.42e-6  4.84e-7      99.8 5.61e-40
-#>  5 day      1~2~3~4~5~H N171    respo…     5 2.25e-7  4.50e-8      95.7 3.84e-39
-#>  6 day      1~2~3~4~5~H N513    respo…     5 3.38e-6  6.76e-7      95.3 4.78e-39
-#>  7 day      1~2~3~4~5~H N1025   respo…     5 2.78e-6  5.56e-7      91.0 3.91e-38
-#>  8 day      1~2~3~4~5~H N342    respo…     5 3.71e-6  7.41e-7      90.3 5.32e-38
-#>  9 day      1~2~3~4~5~H N1083   respo…     5 5.11e-5  1.02e-5      89.0 1.06e-37
-#> 10 day      1~2~3~4~5~H N1085   respo…     5 1.10e-5  2.19e-6      83.4 1.92e-36
+#> # A tibble: 379 × 10
+#>    Response Comparison  Feature term        df   sumsq  meansq statistic  p.value
+#>    <chr>    <chr>       <chr>   <chr>    <dbl>   <dbl>   <dbl>     <dbl>    <dbl>
+#>  1 day      1~2~3~4~5~H N341    response     5 3.88e-4 7.76e-5     137.  1.55e-46
+#>  2 day      1~2~3~4~5~H N133    response     5 7.00e-5 1.40e-5     126.  8.63e-45
+#>  3 day      1~2~3~4~5~H N163    response     5 6.01e-5 1.20e-5     117.  2.95e-43
+#>  4 day      1~2~3~4~5~H N1087   response     5 2.42e-6 4.84e-7      99.8 5.61e-40
+#>  5 day      1~2~3~4~5~H N171    response     5 2.25e-7 4.50e-8      95.7 3.84e-39
+#>  6 day      1~2~3~4~5~H N513    response     5 3.38e-6 6.76e-7      95.3 4.78e-39
+#>  7 day      1~2~3~4~5~H N1025   response     5 2.78e-6 5.56e-7      91.0 3.91e-38
+#>  8 day      1~2~3~4~5~H N342    response     5 3.71e-6 7.41e-7      90.3 5.32e-38
+#>  9 day      1~2~3~4~5~H N1083   response     5 5.11e-5 1.02e-5      89.0 1.06e-37
+#> 10 day      1~2~3~4~5~H N1085   response     5 1.10e-5 2.19e-6      83.4 1.92e-36
 #> # … with 369 more rows, and 1 more variable: adjusted.p.value <dbl>
 ```
 

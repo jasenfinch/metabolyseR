@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/metabolyseR.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -95,16 +98,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
-    </li>
-    <li>
       <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -164,25 +161,25 @@
     <p>A tibble containing feature class proportional occupancies.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
 
 <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
 
 <span class='fu'>occupancy</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 596 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 596 × 5</span>
 #&gt;    day   Feature     N `Class total` Occupancy
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1     N200        1            20      0.05
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1     N201        3            20      0.15
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1     N202        3            20      0.15
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1     N203       19            20      0.95
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1     N204        4            20      0.2 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1     N205       17            20      0.85
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1     N206        4            20      0.2 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1     N207        8            20      0.4 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1     N208        7            20      0.35
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1     N209       16            20      0.8 
-#&gt; </span><span style='color: #949494;'># … with 586 more rows</span><span></div></span></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 1     N200        1            20      0.05
+#&gt; <span style='color: #BCBCBC;'> 2</span> 1     N201        3            20      0.15
+#&gt; <span style='color: #BCBCBC;'> 3</span> 1     N202        3            20      0.15
+#&gt; <span style='color: #BCBCBC;'> 4</span> 1     N203       19            20      0.95
+#&gt; <span style='color: #BCBCBC;'> 5</span> 1     N204        4            20      0.2 
+#&gt; <span style='color: #BCBCBC;'> 6</span> 1     N205       17            20      0.85
+#&gt; <span style='color: #BCBCBC;'> 7</span> 1     N206        4            20      0.2 
+#&gt; <span style='color: #BCBCBC;'> 8</span> 1     N207        8            20      0.4 
+#&gt; <span style='color: #BCBCBC;'> 9</span> 1     N208        7            20      0.35
+#&gt; <span style='color: #BCBCBC;'>10</span> 1     N209       16            20      0.8 
+#&gt; <span style='color: #949494;'># … with 586 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

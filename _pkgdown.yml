@@ -2,6 +2,16 @@ destination: docs
 
 url: https://jasenfinch.github.io/metabolyseR/
 
+navbar:
+  components:
+    articles:
+     text: Articles
+     menu:
+     - text: Metabolomics data pre-treatment
+       href: articles/pre_treatment.html
+     - text: Modelling and feature selection
+       href: articles/modelling.html
+       
 reference:
   - title: Analysis S4 classes
     contents:
@@ -72,3 +82,4 @@ reference:
     - split
     - rsd
     - occupancy
+       

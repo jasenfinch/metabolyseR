@@ -17,7 +17,8 @@ plotExplanatoryHeatmap(x, ...)
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE,
-  dendrogram = TRUE
+  dendrogram = TRUE,
+  featureLimit = Inf
 )
 
 \S4method{plotExplanatoryHeatmap}{RandomForest}(
@@ -28,7 +29,8 @@ plotExplanatoryHeatmap(x, ...)
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE,
-  dendrogram = TRUE
+  dendrogram = TRUE,
+  featureLimit = Inf
 )
 
 \S4method{plotExplanatoryHeatmap}{list}(
@@ -36,7 +38,8 @@ plotExplanatoryHeatmap(x, ...)
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
-  featureNames = TRUE
+  featureNames = TRUE,
+  featureLimit = Inf
 )
 
 \S4method{plotExplanatoryHeatmap}{Analysis}(
@@ -44,7 +47,8 @@ plotExplanatoryHeatmap(x, ...)
   threshold = 0.05,
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
-  featureNames = TRUE
+  featureNames = TRUE,
+  featureLimit = Inf
 )
 }
 \arguments{
@@ -65,10 +69,17 @@ plotExplanatoryHeatmap(x, ...)
 
 \item{dendrogram}{TRUE/FALSE. Should the dendrogram be plotted?}
 
+\item{featureLimit}{The maximum number of features to plot}
+
 \item{metric}{importance metric on which to retrieve explanatory features}
 }
 \description{
 Plot a heatmap of explanatory features.
+}
+\details{
+Distance measures can be one of any that can be used for the \code{method} argument of \code{\link[=dist]{dist()}}.
+
+Cluster methods can be one of any that can be used for the \code{method} argument of \code{\link[=hclust]{hclust()}}.
 }
 \examples{
 library(metaboData)

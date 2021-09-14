@@ -1,3 +1,21 @@
+# metabolyseR 0.14.3
+
+* Temporarily added [jasenfinch/missForest](https://github.com/jasenfinch/missForest) as a remote until [stekhoven/missForest](https://github.com/stekhoven/missForest) pull request [#25](https://github.com/stekhoven/missForest/pull/25) is resolved.
+
+* The limit of the number of plotted features in [`plotExplanatoryHeatmap`](https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html) can now be specified using the `featureLimit` argument. 
+
+* [`plotExplanatoryHeatmap()`](https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html) now returns NULL and returns a message when no explanatory features are found.
+
+* Fixed the alignment of the dendrogram branches with heat map rows in [`plotExplanatoryHeatmap()`](https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html).
+
+* Fixed `ggplot2::guides()` warning in [`plotFeature()`](https://jasenfinch.github.io/metabolyseR/reference/plotFeature.html) and [`plotTIC()`](https://jasenfinch.github.io/metabolyseR/reference/plotTIC.html).
+
+* Fixed bug in [`explanatoryFeatures()`](https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html) methods for [`Analysis`](https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html) class and lists where the threshold was not applied.
+
+* Fixed the error in [`plotRSD()`](https://jasenfinch.github.io/metabolyseR/reference/plotRSD.html) method for the [`Analysis`](https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html) class.
+
+* Corrected the text in the [modelling vignette](https://jasenfinch.github.io/metabolyseR/articles/modelling.html) concerning the results of using unsupervised random forest for outlier detection.
+
 # metabolyseR 0.14.2
 
 * Package version, creation date and verbose argument added to prototype of `Analysis` class.

@@ -73,7 +73,7 @@ feature per class for a given sample information column." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -86,6 +86,9 @@ feature per class for a given sample information column." />
   </a>
 </li>
 <li>
+  <a href="../articles/metabolyseR.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -96,16 +99,10 @@ feature per class for a given sample information column." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
-    </li>
-    <li>
       <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -166,25 +163,25 @@ feature per class for a given sample information column.</p>
     <p>A tibble containing the computed RSD values.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
 
 <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
 
 <span class='fu'>rsd</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 606 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 606 × 5</span>
 #&gt;    day   Feature   Mean    SD   RSD
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> 1     N200    0.224  1.00  447. 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> 1     N201    0.228  0.946 415. 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> 1     N202    0.053</span><span style='text-decoration: underline;'>8</span><span> 0.151 280. 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> 1     N203    1.34   1.03   76.5
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> 1     N204    0.083</span><span style='text-decoration: underline;'>3</span><span> 0.202 242. 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> 1     N205    1.55   2.29  148. 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> 1     N206    0.112  0.360 320. 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> 1     N207    0.220  0.396 180. 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> 1     N208    0.124  0.225 182. 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> 1     N209    1.37   2.03  148. 
-#&gt; </span><span style='color: #949494;'># … with 596 more rows</span><span></div></span></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 1     N200    0.224  1.00  447. 
+#&gt; <span style='color: #BCBCBC;'> 2</span> 1     N201    0.228  0.946 415. 
+#&gt; <span style='color: #BCBCBC;'> 3</span> 1     N202    0.053<span style='text-decoration: underline;'>8</span> 0.151 280. 
+#&gt; <span style='color: #BCBCBC;'> 4</span> 1     N203    1.34   1.03   76.5
+#&gt; <span style='color: #BCBCBC;'> 5</span> 1     N204    0.083<span style='text-decoration: underline;'>3</span> 0.202 242. 
+#&gt; <span style='color: #BCBCBC;'> 6</span> 1     N205    1.55   2.29  148. 
+#&gt; <span style='color: #BCBCBC;'> 7</span> 1     N206    0.112  0.360 320. 
+#&gt; <span style='color: #BCBCBC;'> 8</span> 1     N207    0.220  0.396 180. 
+#&gt; <span style='color: #BCBCBC;'> 9</span> 1     N208    0.124  0.225 182. 
+#&gt; <span style='color: #BCBCBC;'>10</span> 1     N209    1.37   2.03  148. 
+#&gt; <span style='color: #949494;'># … with 596 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -44,6 +44,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/metabolyseR.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -54,16 +57,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
-    </li>
-    <li>
       <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -88,14 +85,14 @@
 
       
 
-      </header><script src="modelling_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Modelling and feature selection</h1>
-            <h3 class="subtitle">metabolyseR v0.14.2</h3>
+            <h3 class="subtitle">metabolyseR v0.14.3</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">05 May, 2021</h4>
+            <h4 class="date">14 September, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/modelling.Rmd"><code>vignettes/modelling.Rmd</code></a></small>
       <div class="hidden name"><code>modelling.Rmd</code></div>
@@ -130,7 +127,7 @@
 <a href="#example-data" class="anchor"></a>Example data</h3>
 <p>The examples used here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package. This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment. The pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package will also be used. The example data can be loaded using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/aberHRML/metaboData">metaboData</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberhrml.github.io/metaboData/">metaboData</a></span><span class="op">)</span></code></pre></div>
 <p>Only the negative acquisition mode data (<code>abr1$neg</code>) will be used along with the sample meta-information (<code>abr1$fact</code>). Create an <code>AnalysisData</code> class object, assigned to the variable <code>d</code>, using the following:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analysisData.html">analysisData</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span><span class="op">)</span></code></pre></div>
@@ -148,9 +145,9 @@
 <h3 class="hasAnchor">
 <a href="#parallel-processing" class="anchor"></a>Parallel processing</h3>
 <p>The package supports parallel processing using the <a href="https://CRAN.R-project.org/package=future">future</a> package.</p>
-<p>By default, processing by <code>metabolyseR</code> will be done seqentially. However, parallel processing can be activated, prior to analysis, by specifying a parallel implementation using <code><a href="https://rdrr.io/pkg/future/man/plan.html">plan()</a></code>. The following example specifies using the <code>multisession</code> implementation (muliple background R sessions) with two worker processes.</p>
+<p>By default, processing by <code>metabolyseR</code> will be done seqentially. However, parallel processing can be activated, prior to analysis, by specifying a parallel implementation using <code><a href="https://future.futureverse.org/reference/plan.html">plan()</a></code>. The following example specifies using the <code>multisession</code> implementation (muliple background R sessions) with two worker processes.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/future/man/multisession.html">multisession</a></span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://future.futureverse.org/reference/plan.html">plan</a></span><span class="op">(</span><span class="fu">future</span><span class="fu">::</span><span class="va"><a href="https://future.futureverse.org/reference/multisession.html">multisession</a></span>,workers <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p>See the future package <a href="https://CRAN.R-project.org/package=future">documentation</a> for more information on the types of parallel implementations that are available.</p>
 </div>
 </div>
@@ -190,7 +187,7 @@
 <span class="co">#&gt; Warning: ggrepel: 13 unlabeled data points (too many overlaps). Consider</span>
 <span class="co">#&gt; increasing max.overlaps</span></code></pre></div>
 <p><img src="modelling_files/figure-html/outlier-detect-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>From the plot above, it can be seen that it is unlikely that any of the samples can be considered as outliers as all the samples are found within the 95% confidence ellipse.</p>
+<p>From the plot above, it can be seen a single sample lies outside the 95% confidence ellipse. It is unlikely that this sample can be considered an outlier as it’s position is as a result of the underlying class structure as opposed to differences specific to that individual sample.</p>
 <p>The structure of these observations can be investigated further by colouring the points by a different experimental factor. This will be by the <code>day</code> class column which is the main experimental factor of interest in this experiment.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plotMDS.html">plotMDS</a></span><span class="op">(</span><span class="va">unsupervised_rf</span>,
@@ -205,7 +202,7 @@
 <p>And the importance values of these metrics for each feature can returned using:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/binaryComparisons.html">importance</a></span><span class="op">(</span><span class="va">unsupervised_rf</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3,000 x 3</span>
+<span class="co">#&gt; # A tibble: 3,000 × 3</span>
 <span class="co">#&gt;    Feature Metric                Value</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 N1      1                    0     </span>
@@ -224,7 +221,7 @@
 <code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">"FalsePositiveRate"</span>, 
                       threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 359 x 3</span>
+<span class="co">#&gt; # A tibble: 359 × 3</span>
 <span class="co">#&gt;    Feature Metric               Value</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 N342    FalsePositiveRate 1.31e-19</span>
@@ -279,7 +276,7 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 x 5</span>
+<span class="co">#&gt; # A tibble: 4 × 5</span>
 <span class="co">#&gt;   Response Comparison  .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 day      1~2~3~4~5~H accuracy multiclass     0.8  </span>
@@ -319,7 +316,7 @@
 <code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'FalsePositiveRate'</span>,
                       threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 121 x 5</span>
+<span class="co">#&gt; # A tibble: 121 × 5</span>
 <span class="co">#&gt;    Response Comparison  Feature Metric               Value</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 day      1~2~3~4~5~H N341    FalsePositiveRate 1.02e-93</span>
@@ -342,7 +339,7 @@
                comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>day <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H~1~2'</span>,
                                           <span class="st">'H~1~5'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 x 5</span>
+<span class="co">#&gt; # A tibble: 8 × 5</span>
 <span class="co">#&gt;   Response Comparison .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 day      H~1~2      accuracy multiclass     0.833</span>
@@ -373,7 +370,7 @@
 <span class="co">#&gt; "13_H", "14_2", "14_3", "14_5", "14_6", "14_H", "15_1", "15_2", "15_4", "15_5",</span>
 <span class="co">#&gt; "15_6", "15_H"</span>
 <span class="co">#&gt; Unbalanced classes detected. Stratifying sample size to the smallest class size.</span>
-<span class="co">#&gt; # A tibble: 8 x 5</span>
+<span class="co">#&gt; # A tibble: 8 × 5</span>
 <span class="co">#&gt;   Response Comparison                    .metric  .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                         &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 name     11_2~12_2~12_4~13_4~14_4~15_3 accuracy multiclass    0.35  </span>
@@ -439,7 +436,7 @@
 <code class="sourceCode R"><span class="va">binary_rf</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'FalsePositiveRate'</span>,
                       threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 251 x 5</span>
+<span class="co">#&gt; # A tibble: 251 × 5</span>
 <span class="co">#&gt;    Response Comparison Feature Metric               Value</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 day      2~H        N341    FalsePositiveRate 7.34e-52</span>
@@ -489,7 +486,7 @@
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5 x 4</span>
+<span class="co">#&gt; # A tibble: 5 × 4</span>
 <span class="co">#&gt;   Response .metric .estimator .estimate</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 injorder rsq     standard       0.476</span>
@@ -525,7 +522,7 @@
 <code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'%IncMSE'</span>,
                       threshold <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 7 x 4</span>
+<span class="co">#&gt; # A tibble: 7 × 4</span>
 <span class="co">#&gt;   Response Feature Metric  Value</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 injorder N283    %IncMSE 19.9 </span>
@@ -579,7 +576,7 @@
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">ttest_analysis</span>,
                     threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 73 x 14</span>
+<span class="co">#&gt; # A tibble: 73 × 14</span>
 <span class="co">#&gt;    Response Comparison Feature estimate estimate1 estimate2 statistic  p.value</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 day      H~5        N163      -735.       19.5   755.       -13.8  1.43e-11</span>
@@ -620,19 +617,19 @@
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">anova_analysis</span>,
                     threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 110 x 10</span>
-<span class="co">#&gt;    Response Comparison  Feature term       df   sumsq  meansq statistic  p.value</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 day      1~2~3~4~5~H N341    respon…     5  1.09e8  2.17e7     124.  1.90e-44</span>
-<span class="co">#&gt;  2 day      1~2~3~4~5~H N163    respon…     5  1.25e7  2.51e6     113.  1.71e-42</span>
-<span class="co">#&gt;  3 day      1~2~3~4~5~H N133    respon…     5  1.96e7  3.92e6     108.  1.71e-41</span>
-<span class="co">#&gt;  4 day      1~2~3~4~5~H N171    respon…     5  6.29e4  1.26e4      88.8 1.16e-37</span>
-<span class="co">#&gt;  5 day      1~2~3~4~5~H N342    respon…     5  1.04e6  2.07e5      85.1 7.61e-37</span>
-<span class="co">#&gt;  6 day      1~2~3~4~5~H N343    respon…     5  1.19e4  2.38e3      66.1 4.43e-32</span>
-<span class="co">#&gt;  7 day      1~2~3~4~5~H N119    respon…     5  4.92e3  9.83e2      53.8 2.07e-28</span>
-<span class="co">#&gt;  8 day      1~2~3~4~5~H N497    respon…     5  1.10e5  2.20e4      49.6 4.83e-27</span>
-<span class="co">#&gt;  9 day      1~2~3~4~5~H N137    respon…     5  6.32e3  1.26e3      39.9 1.59e-23</span>
-<span class="co">#&gt; 10 day      1~2~3~4~5~H N277    respon…     5  6.31e4  1.26e4      39.1 3.14e-23</span>
+<span class="co">#&gt; # A tibble: 110 × 10</span>
+<span class="co">#&gt;    Response Comparison  Feature term        df   sumsq meansq statistic  p.value</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 day      1~2~3~4~5~H N341    response     5  1.09e8 2.17e7     124.  1.90e-44</span>
+<span class="co">#&gt;  2 day      1~2~3~4~5~H N163    response     5  1.25e7 2.51e6     113.  1.71e-42</span>
+<span class="co">#&gt;  3 day      1~2~3~4~5~H N133    response     5  1.96e7 3.92e6     108.  1.71e-41</span>
+<span class="co">#&gt;  4 day      1~2~3~4~5~H N171    response     5  6.29e4 1.26e4      88.8 1.16e-37</span>
+<span class="co">#&gt;  5 day      1~2~3~4~5~H N342    response     5  1.04e6 2.07e5      85.1 7.61e-37</span>
+<span class="co">#&gt;  6 day      1~2~3~4~5~H N343    response     5  1.19e4 2.38e3      66.1 4.43e-32</span>
+<span class="co">#&gt;  7 day      1~2~3~4~5~H N119    response     5  4.92e3 9.83e2      53.8 2.07e-28</span>
+<span class="co">#&gt;  8 day      1~2~3~4~5~H N497    response     5  1.10e5 2.20e4      49.6 4.83e-27</span>
+<span class="co">#&gt;  9 day      1~2~3~4~5~H N137    response     5  6.32e3 1.26e3      39.9 1.59e-23</span>
+<span class="co">#&gt; 10 day      1~2~3~4~5~H N277    response     5  6.31e4 1.26e4      39.1 3.14e-23</span>
 <span class="co">#&gt; # … with 100 more rows, and 1 more variable: adjusted.p.value &lt;dbl&gt;</span></code></pre></div>
 <p>The top ranked explanatory feature <code>N341</code> can be plotted to inspect it’s trend relative to the <code>day</code> response variable.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
@@ -659,7 +656,7 @@
 <p>The explanatory features can then be extracted.</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">lr_analysis</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 8 x 15</span>
+<span class="co">#&gt; # A tibble: 8 × 15</span>
 <span class="co">#&gt;   Response Feature r.squared adj.r.squared sigma statistic  p.value    df logLik</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 injorder N283        0.310         0.304  4.27      53.0 4.10e-11     1  -343.</span>
@@ -738,48 +735,48 @@
 <span class="co">#&gt;      comparisons = list()</span>
 <span class="co">#&gt;      returnModels = FALSE</span></code></pre></div>
 <p>The analysis can then be executed.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.2 Wed May  5 18:44:47 2021</span></span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Parameters:</span></span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  keep</span></span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      classes</span></span>
-<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          cls = day</span></span>
-<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          classes = c("H", "2")</span></span>
-<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  occupancyFilter</span></span>
-<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      maximum</span></span>
-<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          cls = day</span></span>
-<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          occupancy = 2/3</span></span>
-<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  transform</span></span>
-<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      TICnorm</span></span>
-<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; modelling</span></span>
-<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  randomForest</span></span>
-<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      cls = day</span></span>
-<span id="cb59-21"><a href="#cb59-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      rf = list()</span></span>
-<span id="cb59-22"><a href="#cb59-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      reps = 1</span></span>
-<span id="cb59-23"><a href="#cb59-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      binary = FALSE</span></span>
-<span id="cb59-24"><a href="#cb59-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      comparisons = list()</span></span>
-<span id="cb59-25"><a href="#cb59-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      perm = 0</span></span>
-<span id="cb59-26"><a href="#cb59-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      returnModels = FALSE</span></span>
-<span id="cb59-27"><a href="#cb59-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      seed = 1234</span></span>
-<span id="cb59-28"><a href="#cb59-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ttest</span></span>
-<span id="cb59-29"><a href="#cb59-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      cls = day</span></span>
-<span id="cb59-30"><a href="#cb59-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      pAdjust = bonferroni</span></span>
-<span id="cb59-31"><a href="#cb59-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      comparisons = list()</span></span>
-<span id="cb59-32"><a href="#cb59-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      returnModels = FALSE</span></span>
-<span id="cb59-33"><a href="#cb59-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
-<span id="cb59-34"><a href="#cb59-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pre-treatment …</span></span>
-<span id="cb59-35"><a href="#cb59-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-36"><a href="#cb59-36" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">7.2</span>S]</span>
-<span id="cb59-37"><a href="#cb59-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Modelling …</span></span>
-<span id="cb59-38"><a href="#cb59-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-39"><a href="#cb59-39" aria-hidden="true" tabindex="-1"></a>Modelling   ✓ [<span class="fl">4.9</span>S]</span>
-<span id="cb59-40"><a href="#cb59-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
-<span id="cb59-41"><a href="#cb59-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [12.2S]</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">analysis &lt;-<span class="st"> </span><span class="kw">metabolyse</span>(abr1<span class="op">$</span>neg,abr1<span class="op">$</span>fact,p)</a>
+<a class="sourceLine" id="cb59-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb59-3" title="3"><span class="co">#&gt; metabolyseR  v0.14.3 Tue Sep 14 11:44:43 2021</span></a>
+<a class="sourceLine" id="cb59-4" title="4"><span class="co">#&gt; ________________________________________________________________________________</span></a>
+<a class="sourceLine" id="cb59-5" title="5"><span class="co">#&gt; Parameters:</span></a>
+<a class="sourceLine" id="cb59-6" title="6"><span class="co">#&gt; pre-treatment</span></a>
+<a class="sourceLine" id="cb59-7" title="7"><span class="co">#&gt;  keep</span></a>
+<a class="sourceLine" id="cb59-8" title="8"><span class="co">#&gt;      classes</span></a>
+<a class="sourceLine" id="cb59-9" title="9"><span class="co">#&gt;          cls = day</span></a>
+<a class="sourceLine" id="cb59-10" title="10"><span class="co">#&gt;          classes = c("H", "2")</span></a>
+<a class="sourceLine" id="cb59-11" title="11"><span class="co">#&gt;  occupancyFilter</span></a>
+<a class="sourceLine" id="cb59-12" title="12"><span class="co">#&gt;      maximum</span></a>
+<a class="sourceLine" id="cb59-13" title="13"><span class="co">#&gt;          cls = day</span></a>
+<a class="sourceLine" id="cb59-14" title="14"><span class="co">#&gt;          occupancy = 2/3</span></a>
+<a class="sourceLine" id="cb59-15" title="15"><span class="co">#&gt;  transform</span></a>
+<a class="sourceLine" id="cb59-16" title="16"><span class="co">#&gt;      TICnorm</span></a>
+<a class="sourceLine" id="cb59-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb59-18" title="18"><span class="co">#&gt; modelling</span></a>
+<a class="sourceLine" id="cb59-19" title="19"><span class="co">#&gt;  randomForest</span></a>
+<a class="sourceLine" id="cb59-20" title="20"><span class="co">#&gt;      cls = day</span></a>
+<a class="sourceLine" id="cb59-21" title="21"><span class="co">#&gt;      rf = list()</span></a>
+<a class="sourceLine" id="cb59-22" title="22"><span class="co">#&gt;      reps = 1</span></a>
+<a class="sourceLine" id="cb59-23" title="23"><span class="co">#&gt;      binary = FALSE</span></a>
+<a class="sourceLine" id="cb59-24" title="24"><span class="co">#&gt;      comparisons = list()</span></a>
+<a class="sourceLine" id="cb59-25" title="25"><span class="co">#&gt;      perm = 0</span></a>
+<a class="sourceLine" id="cb59-26" title="26"><span class="co">#&gt;      returnModels = FALSE</span></a>
+<a class="sourceLine" id="cb59-27" title="27"><span class="co">#&gt;      seed = 1234</span></a>
+<a class="sourceLine" id="cb59-28" title="28"><span class="co">#&gt;  ttest</span></a>
+<a class="sourceLine" id="cb59-29" title="29"><span class="co">#&gt;      cls = day</span></a>
+<a class="sourceLine" id="cb59-30" title="30"><span class="co">#&gt;      pAdjust = bonferroni</span></a>
+<a class="sourceLine" id="cb59-31" title="31"><span class="co">#&gt;      comparisons = list()</span></a>
+<a class="sourceLine" id="cb59-32" title="32"><span class="co">#&gt;      returnModels = FALSE</span></a>
+<a class="sourceLine" id="cb59-33" title="33"><span class="co">#&gt; ________________________________________________________________________________</span></a>
+<a class="sourceLine" id="cb59-34" title="34"><span class="co">#&gt; Pre-treatment …</span></a>
+<a class="sourceLine" id="cb59-35" title="35"></a>
+<a class="sourceLine" id="cb59-36" title="36">Pre<span class="op">-</span>treatment   ✓ [<span class="fl">6.5</span>S]</a>
+<a class="sourceLine" id="cb59-37" title="37"><span class="co">#&gt; Modelling …</span></a>
+<a class="sourceLine" id="cb59-38" title="38"></a>
+<a class="sourceLine" id="cb59-39" title="39">Modelling   ✓ [<span class="fl">3.8</span>S]</a>
+<a class="sourceLine" id="cb59-40" title="40"><span class="co">#&gt; ________________________________________________________________________________</span></a>
+<a class="sourceLine" id="cb59-41" title="41"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb59-42" title="42"><span class="co">#&gt; Complete! [10.4S]</span></a></code></pre></div>
 <p>The results for the modelling can be specifically extracted using the following.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">analysisResults</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'modelling'</span><span class="op">)</span>
@@ -808,19 +805,19 @@
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">explanatory_features</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 100 x 17</span>
-<span class="co">#&gt;    Method    Response Comparison Feature Metric         Value estimate estimate1</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 randomFo… day      2~H        N341    FalsePosit… 8.06e-28       NA        NA</span>
-<span class="co">#&gt;  2 randomFo… day      2~H        N377    FalsePosit… 5.70e-18       NA        NA</span>
-<span class="co">#&gt;  3 randomFo… day      2~H        N447    FalsePosit… 5.70e-18       NA        NA</span>
-<span class="co">#&gt;  4 randomFo… day      2~H        N579    FalsePosit… 5.70e-18       NA        NA</span>
-<span class="co">#&gt;  5 randomFo… day      2~H        N1084   FalsePosit… 1.19e-16       NA        NA</span>
-<span class="co">#&gt;  6 randomFo… day      2~H        N327    FalsePosit… 2.33e-15       NA        NA</span>
-<span class="co">#&gt;  7 randomFo… day      2~H        N580    FalsePosit… 4.32e-14       NA        NA</span>
-<span class="co">#&gt;  8 randomFo… day      2~H        N1083   FalsePosit… 7.49e-13       NA        NA</span>
-<span class="co">#&gt;  9 randomFo… day      2~H        N1085   FalsePosit… 7.49e-13       NA        NA</span>
-<span class="co">#&gt; 10 randomFo… day      2~H        N503    FalsePosit… 7.49e-13       NA        NA</span>
+<span class="co">#&gt; # A tibble: 100 × 17</span>
+<span class="co">#&gt;    Method       Response Comparison Feature Metric      Value estimate estimate1</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 randomForest day      2~H        N341    FalsePo… 8.06e-28       NA        NA</span>
+<span class="co">#&gt;  2 randomForest day      2~H        N377    FalsePo… 5.70e-18       NA        NA</span>
+<span class="co">#&gt;  3 randomForest day      2~H        N447    FalsePo… 5.70e-18       NA        NA</span>
+<span class="co">#&gt;  4 randomForest day      2~H        N579    FalsePo… 5.70e-18       NA        NA</span>
+<span class="co">#&gt;  5 randomForest day      2~H        N1084   FalsePo… 1.19e-16       NA        NA</span>
+<span class="co">#&gt;  6 randomForest day      2~H        N327    FalsePo… 2.33e-15       NA        NA</span>
+<span class="co">#&gt;  7 randomForest day      2~H        N580    FalsePo… 4.32e-14       NA        NA</span>
+<span class="co">#&gt;  8 randomForest day      2~H        N1083   FalsePo… 7.49e-13       NA        NA</span>
+<span class="co">#&gt;  9 randomForest day      2~H        N1085   FalsePo… 7.49e-13       NA        NA</span>
+<span class="co">#&gt; 10 randomForest day      2~H        N503    FalsePo… 7.49e-13       NA        NA</span>
 <span class="co">#&gt; # … with 90 more rows, and 9 more variables: estimate2 &lt;dbl&gt;, statistic &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   p.value &lt;dbl&gt;, parameter &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   method &lt;chr&gt;, alternative &lt;chr&gt;, adjusted.p.value &lt;dbl&gt;</span></code></pre></div>

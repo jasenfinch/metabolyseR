@@ -218,7 +218,7 @@ setGeneric('explanatoryFeatures', function(x,...)
 #' @importFrom dplyr arrange
 
 setMethod('explanatoryFeatures',signature = 'Univariate',
-          function(x,threshold = 0.05,...){
+          function(x,threshold = 0.05){
             importance(x) %>%
               filter(adjusted.p.value < threshold) %>% 
               arrange(adjusted.p.value)
@@ -247,7 +247,7 @@ setMethod('explanatoryFeatures',signature = 'RandomForest',
 #' @rdname modelling-accessors
 
 setMethod('explanatoryFeatures',signature = 'list',
-          function(x,threshold = 0.05, ...){
+          function(x,...){
             object_classes <- x %>%
               map_chr(class)
             
@@ -266,7 +266,7 @@ setMethod('explanatoryFeatures',signature = 'list',
 #' @rdname modelling-accessors
 
 setMethod('explanatoryFeatures',signature = 'Analysis',
-          function(x,threshold = 0.05, ...){
+          function(x,...){
             x %>% 
               analysisResults(element = 'modelling') %>% 
               explanatoryFeatures(...)

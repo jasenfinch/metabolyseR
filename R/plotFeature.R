@@ -91,7 +91,7 @@ setMethod('plotFeature',
                       panel.grid = element_blank(),
                       panel.border = element_blank(),
                       axis.line = element_line()) +
-                guides(fill = FALSE)
+                guides(fill = 'none')
               
               if (classes <= 12) {
                 pl <- pl + scale_fill_ptol()

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
       </span>
     </div>
 
@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/metabolyseR.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -95,16 +98,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction.html">Introduction</a>
-    </li>
-    <li>
-      <a href="../articles/modelling.html">Modelling and feature selection</a>
-    </li>
-    <li>
       <a href="../articles/pre_treatment.html">Metabolomics data pre-treatment</a>
     </li>
     <li>
-      <a href="../articles/quick_start.html">Quick start example analysis</a>
+      <a href="../articles/modelling.html">Modelling and feature selection</a>
     </li>
   </ul>
 </li>
@@ -187,7 +184,7 @@ The <code>metabolyse</code> function provides this utility, where the metabolome
 The <code>reAnalyse</code> method can be used to perform further analyses on the results.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/aberHRML/metaboData'>metaboData</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
 
 <span class='co'>## Generate analysis parameters</span>
 <span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'pre-treatment'</span>,<span class='st'>'modelling'</span><span class='op'>)</span><span class='op'>)</span>
@@ -208,7 +205,7 @@ The <code>reAnalyse</code> method can be used to perform further analyses on the
                        <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span>,
                        <span class='va'>p</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'></span>
-#&gt; <span class='message'>metabolyseR </span><span> </span><span style='color: #BB0000;'>v0.14.2</span><span> Wed May  5 18:42:22 2021</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BBBB00;'>Parameters:</span><span></span>
+#&gt; <span class='message'>metabolyseR </span> <span style='color: #BB0000;'>v0.14.3</span> Tue Sep 14 11:42:57 2021</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #BBBB00;'>Parameters:</span></span>
 #&gt; <span class='message'>pre-treatment</span>
 #&gt; <span class='message'>	occupancyFilter</span>
 #&gt; <span class='message'>		maximum</span>
@@ -222,47 +219,47 @@ The <code>reAnalyse</code> method can be used to perform further analyses on the
 #&gt; <span class='message'>		cls = day</span>
 #&gt; <span class='message'>		pAdjust = bonferroni</span>
 #&gt; <span class='message'>		comparisons = list()</span>
-#&gt; <span class='message'>		returnModels = FALSE</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Pre-treatment </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Pre-treatment </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.9S]</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Modelling </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Modelling </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.7S]</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'></span><span style='color: #00BB00;'>Complete! </span><span>[1.6S]</span></div><div class='input'>                       
+#&gt; <span class='message'>		returnModels = FALSE</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>Pre-treatment </span>…</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>Pre-treatment </span>	<span style='color: #00BB00;'>✓</span> [0.7S]</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>Modelling </span>…</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>Modelling </span>	<span style='color: #00BB00;'>✓</span> [0.4S]</span></div><div class='output co'>#&gt; <span class='message'>________________________________________________________________________________</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'><span style='color: #00BB00;'>Complete! </span>[1.2S]</span></div><div class='input'>                       
 <span class='co'>## Re-analyse to include correlation analysis</span>
 <span class='va'>analysis</span> <span class='op'>&lt;-</span> <span class='fu'>reAnalyse</span><span class='op'>(</span><span class='va'>analysis</span>,
                       parameters <span class='op'>=</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'correlations'</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'>metabolyseR</span><span> </span><span style='color: #BB0000;'>v0.14.2</span><span> Wed May  5 18:42:23 2021
+#&gt; <span style='color: #0000BB;'>metabolyseR</span> <span style='color: #BB0000;'>v0.14.3</span> Tue Sep 14 11:42:58 2021
 #&gt; ________________________________________________________________________________
-#&gt; </span><span style='color: #BBBB00;'>Parameters:</span><span>
+#&gt; <span style='color: #BBBB00;'>Parameters:</span>
 #&gt; correlations
 #&gt; 	method = pearson
 #&gt; 	pAdjustMethod = bonferroni
 #&gt; 	corPvalue = 0.05
 #&gt; ________________________________________________________________________________
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Correlations </span><span>…</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #0000BB;'>Correlations </span><span>	</span><span style='color: #00BB00;'>✓</span><span> [0.1S]</span></div><div class='output co'>#&gt; ________________________________________________________________________________
+#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>Correlations </span>…</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #0000BB;'>Correlations </span>	<span style='color: #00BB00;'>✓</span> [0S]</span></div><div class='output co'>#&gt; ________________________________________________________________________________
 #&gt; 
-#&gt; </span><span style='color: #00BB00;'>Complete! </span><span>[0.1S]
+#&gt; <span style='color: #00BB00;'>Complete! </span>[0.1S]
 #&gt; </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>analysis</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #0000BB;'>metabolyseR </span><span style='color: #BB0000;font-weight: bold;'>v0.14.2</span><span style='color: #BBBB00;'>
+#&gt; <span style='color: #0000BB;'>metabolyseR </span><span style='color: #BB0000; font-weight: bold;'>v0.14.3</span><span style='color: #BBBB00;'>
 #&gt; Analysis:
-#&gt; </span><span>	Wed May  5 18:42:22 2021
+#&gt; </span>	Tue Sep 14 11:42:57 2021
 #&gt; 
 #&gt; 	Raw Data:
 #&gt; 		No. samples = 120
 #&gt; 		No. features = 200
 #&gt; 
 #&gt; 	Pre-treated Data:
-#&gt; 		Wed May  5 18:42:22 2021
+#&gt; 		Tue Sep 14 11:42:57 2021
 #&gt; 		No. samples = 120
 #&gt; 		No. features = 48
 #&gt; 
 #&gt; 	Modelling:
-#&gt; 		Wed May  5 18:42:23 2021
+#&gt; 		Tue Sep 14 11:42:58 2021
 #&gt; 		Methods: anova
 #&gt; 
 #&gt; 	Correlations:
-#&gt; 		Wed May  5 18:42:23 2021
+#&gt; 		Tue Sep 14 11:42:58 2021
 #&gt; 		No. correlations = 140</div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
