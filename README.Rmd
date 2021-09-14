@@ -44,7 +44,7 @@ devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
 
 The package documentation can be browsed online at <https://jasenfinch.github.io/metabolyseR/>. 
 
-If this is your first time using `metabolyseR` see the [Introduction](https://jasenfinch.github.io/metabolyseR/articles/introduction.html) vignette or the quick start analysis below for information on how to get started.
+If this is your first time using `metabolyseR` see the [Introduction](https://jasenfinch.github.io/metabolyseR/articles/metabolyseR.html) vignette or the quick start analysis below for information on how to get started.
 
 If you believe you've found a bug in `metabolyseR`, please file a bug (and, if
 possible, a [reproducible example](https://reprex.tidyverse.org)) at

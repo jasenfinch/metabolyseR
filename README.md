@@ -21,9 +21,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 This package provides a tool kit of methods for metabolomics analyses
 that includes:
 
--   data pre-treatment
--   multivariate and univariate modelling/data mining techniques
--   correlation analysis
+  - data pre-treatment
+  - multivariate and univariate modelling/data mining techniques
+  - correlation analysis
 
 ## Installation
 
@@ -40,7 +40,7 @@ The package documentation can be browsed online at
 <https://jasenfinch.github.io/metabolyseR/>.
 
 If this is your first time using `metabolyseR` see the
-[Introduction](https://jasenfinch.github.io/metabolyseR/articles/introduction.html)
+[Introduction](https://jasenfinch.github.io/metabolyseR/articles/metabolyseR.html)
 vignette or the quick start analysis below for information on how to get
 started.
 
@@ -168,7 +168,7 @@ anova_results <- d %>%
 ```
 
 A table of the significantly explanatory features can be extracted with
-a bonferroni correction adjusted p value &lt; 0.05 using:
+a bonferroni correction adjusted p value \< 0.05 using:
 
 ``` r
 explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
