@@ -106,6 +106,8 @@ heatmapClasses <- function(pl,
       }
       
       if (isTRUE(dendrogram)) {
+        offset <- 1 / length(feat) * 0.5
+        
         dend_plot <- ggplot() +
           geom_segment(
             data = dend$segments,
@@ -113,7 +115,7 @@ heatmapClasses <- function(pl,
           scale_x_reverse() +
           scale_y_continuous(breaks = seq_along(dend$labels$label), 
                              labels = dend$labels$label,position = 'right',
-                             expand = c(0.005,0)) +
+                             expand = c(offset,offset)) +
           theme_minimal(base_size = 14) +
           theme(axis.text.x = element_blank(),
                 panel.grid = element_blank(),
@@ -219,6 +221,8 @@ heatmapRegression <- function(pl,
       }
       
       if (isTRUE(dendrogram)) {
+        offset <- 1 / length(feat) * 0.5
+        
         dend_plot <- ggplot() +
           geom_segment(
             data = dend$segments,
@@ -226,7 +230,7 @@ heatmapRegression <- function(pl,
           scale_x_reverse() +
           scale_y_continuous(breaks = seq_along(dend$labels$label), 
                              labels = dend$labels$label,position = 'right',
-                             expand = c(0.005,0)) +
+                             expand = c(offset,offset)) +
           theme_minimal(base_size = 14) +
           theme(axis.text.x = element_blank(),
                 panel.grid = element_blank(),
