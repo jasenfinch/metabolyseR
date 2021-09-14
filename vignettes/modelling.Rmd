@@ -138,7 +138,8 @@ plotMDS(unsupervised_rf,
         title = 'Outlier detection')
 ```
 
-From the plot above, it can be seen that it is unlikely that any of the samples can be considered as outliers as all the samples are found within the 95% confidence ellipse.
+From the plot above, it can be seen a single sample lies outside the 95% confidence ellipse. 
+It is unlikely that this sample can be considered an outlier as it's position is as a result of the underlying class structure as opposed to differences specific to that individual sample.
 
 The structure of these observations can be investigated further by colouring the points by a different experimental factor.
 This will be by the `day` class column which is the main experimental factor of interest in this experiment. 
