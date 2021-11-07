@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -178,114 +178,116 @@ Should be one of those returned by <code><a href='analysisElements.html'>analysi
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'pre-treatment'</span><span class='op'>)</span>
-
-<span class='co'>## extract pre-treatment parameters</span>
-<span class='fu'>parameters</span><span class='op'>(</span><span class='va'>p</span>,<span class='st'>'pre-treatment'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $QC
-#&gt; $QC$occupancyFilter
-#&gt; $QC$occupancyFilter$cls
-#&gt; [1] "class"
-#&gt; 
-#&gt; $QC$occupancyFilter$QCidx
-#&gt; [1] "QC"
-#&gt; 
-#&gt; $QC$occupancyFilter$occupancy
-#&gt; 2/3
-#&gt; 
-#&gt; 
-#&gt; $QC$impute
-#&gt; $QC$impute$cls
-#&gt; [1] "class"
-#&gt; 
-#&gt; $QC$impute$QCidx
-#&gt; [1] "QC"
-#&gt; 
-#&gt; $QC$impute$occupancy
-#&gt; 2/3
-#&gt; 
-#&gt; $QC$impute$parallel
-#&gt; [1] "variables"
-#&gt; 
-#&gt; $QC$impute$seed
-#&gt; [1] 1234
-#&gt; 
-#&gt; 
-#&gt; $QC$RSDfilter
-#&gt; $QC$RSDfilter$cls
-#&gt; [1] "class"
-#&gt; 
-#&gt; $QC$RSDfilter$QCidx
-#&gt; [1] "QC"
-#&gt; 
-#&gt; $QC$RSDfilter$RSDthresh
-#&gt; [1] 50
-#&gt; 
-#&gt; 
-#&gt; $QC$removeQC
-#&gt; $QC$removeQC$cls
-#&gt; [1] "class"
-#&gt; 
-#&gt; $QC$removeQC$QCidx
-#&gt; [1] "QC"
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; $occupancyFilter
-#&gt; $occupancyFilter$maximum
-#&gt; $occupancyFilter$maximum$cls
-#&gt; [1] "class"
-#&gt; 
-#&gt; $occupancyFilter$maximum$occupancy
-#&gt; 2/3
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; $impute
-#&gt; $impute$class
-#&gt; $impute$class$cls
-#&gt; [1] "class"
-#&gt; 
-#&gt; $impute$class$occupancy
-#&gt; 2/3
-#&gt; 
-#&gt; $impute$class$seed
-#&gt; [1] 1234
-#&gt; 
-#&gt; 
-#&gt; 
-#&gt; $transform
-#&gt; $transform$TICnorm
-#&gt; named list()
-#&gt; 
-#&gt; </div><div class='input'>
-<span class='co'>## set pre-treatment parameters</span>
-<span class='fu'>parameters</span><span class='op'>(</span><span class='va'>p</span>,<span class='st'>'pre-treatment'</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='preTreatmentElements.html'>preTreatmentParameters</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    remove <span class='op'>=</span> <span class='st'>'classes'</span>,
-    QC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'RSDfilter'</span>,<span class='st'>'removeQC'</span><span class='op'>)</span>,
-    transform <span class='op'>=</span> <span class='st'>'TICnorm'</span>
-  <span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span>
-#&gt; pre-treatment
-#&gt; 	remove
-#&gt; 		classes
-#&gt; 			cls = class
-#&gt; 			classes = c()
-#&gt; 	QC
-#&gt; 		RSDfilter
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			RSDthresh = 50
-#&gt; 		removeQC
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 	transform
-#&gt; 		TICnorm
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisParameters.html'>analysisParameters</a></span><span class='op'>(</span><span class='st'>'pre-treatment'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## extract pre-treatment parameters</span></span>
+<span class='r-in'><span class='fu'>parameters</span><span class='op'>(</span><span class='va'>p</span>,<span class='st'>'pre-treatment'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$occupancyFilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$occupancyFilter$cls</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "class"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$occupancyFilter$QCidx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "QC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$occupancyFilter$occupancy</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$impute</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$impute$cls</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "class"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$impute$QCidx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "QC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$impute$occupancy</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$impute$parallel</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "variables"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$impute$seed</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$RSDfilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$RSDfilter$cls</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "class"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$RSDfilter$QCidx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "QC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$RSDfilter$RSDthresh</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$removeQC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$removeQC$cls</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "class"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $QC$removeQC$QCidx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "QC"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $occupancyFilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $occupancyFilter$maximum</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $occupancyFilter$maximum$cls</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "class"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $occupancyFilter$maximum$occupancy</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $impute</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $impute$class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $impute$class$cls</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "class"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $impute$class$occupancy</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $impute$class$seed</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $transform</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $transform$TICnorm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> named list()</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## set pre-treatment parameters</span></span>
+<span class='r-in'><span class='fu'>parameters</span><span class='op'>(</span><span class='va'>p</span>,<span class='st'>'pre-treatment'</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='preTreatmentElements.html'>preTreatmentParameters</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>    remove <span class='op'>=</span> <span class='st'>'classes'</span>,</span>
+<span class='r-in'>    QC <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'RSDfilter'</span>,<span class='st'>'removeQC'</span><span class='op'>)</span>,</span>
+<span class='r-in'>    transform <span class='op'>=</span> <span class='st'>'TICnorm'</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>Parameters:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> pre-treatment</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	remove</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		classes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			classes = c()</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		RSDfilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			RSDthresh = 50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		removeQC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	transform</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		TICnorm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

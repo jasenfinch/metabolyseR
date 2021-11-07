@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -192,28 +192,31 @@ The methods provided here allow both these aspects to be taken into account and 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Each of the following examples shows the application of each imputation method and then </span>
-<span class='co'>## a Linear Discriminant Analysis is plotted to show it's effect on the data structure.</span>
-
-<span class='co'>## Initial example data preparation</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
-
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>250</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='occupancyMaximum.html'>occupancyMaximum</a></span><span class='op'>(</span>occupancy <span class='op'>=</span> <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span>
-
-<span class='va'>d</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='plotLDA.html'>plotLDA</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='img'><img src='impute-1.png' alt='' width='700' height='433' /></div><div class='input'> 
-<span class='co'>## Missing value imputation across all samples</span>
-<span class='va'>d</span> <span class='op'>%&gt;%</span> 
- <span class='fu'>imputeAll</span><span class='op'>(</span>parallel <span class='op'>=</span> <span class='st'>'no'</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='plotLDA.html'>plotLDA</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='img'><img src='impute-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>## Missing value imputation class-wise</span>
-<span class='va'>d</span> <span class='op'>%&gt;%</span> 
- <span class='fu'>imputeClass</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='plotLDA.html'>plotLDA</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='img'><img src='impute-3.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>## Each of the following examples shows the application of each imputation method and then </span></span>
+<span class='r-in'><span class='co'>## a Linear Discriminant Analysis is plotted to show it's effect on the data structure.</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Initial example data preparation</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>250</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='occupancyMaximum.html'>occupancyMaximum</a></span><span class='op'>(</span>occupancy <span class='op'>=</span> <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='plotLDA.html'>plotLDA</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='impute-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'> </span>
+<span class='r-in'><span class='co'>## Missing value imputation across all samples</span></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'>imputeAll</span><span class='op'>(</span>parallel <span class='op'>=</span> <span class='st'>'no'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='plotLDA.html'>plotLDA</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='impute-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Missing value imputation class-wise</span></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'>imputeClass</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='plotLDA.html'>plotLDA</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='impute-3.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

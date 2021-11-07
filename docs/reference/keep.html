@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -197,39 +197,42 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
- <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
- 
- <span class='co'>## Keep classes</span>
- <span class='va'>d</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>keepClasses</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,classes <span class='op'>=</span> <span class='st'>'H'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 20 
-#&gt; Features: 101 
-#&gt; Info: 9 
-#&gt; </div><div class='input'> 
- <span class='co'>## Keep features</span>
- <span class='va'>d</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>keepFeatures</span><span class='op'>(</span>features <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'N200'</span>,<span class='st'>'N201'</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 120 
-#&gt; Features: 2 
-#&gt; Info: 9 
-#&gt; </div><div class='input'> 
- <span class='co'>## Keep samples</span>
- <span class='va'>d</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>keepSamples</span><span class='op'>(</span>idx <span class='op'>=</span> <span class='st'>'injorder'</span>,samples <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 2 
-#&gt; Features: 101 
-#&gt; Info: 9 
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span></span>
+<span class='r-in'> <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span></span>
+<span class='r-in'> </span>
+<span class='r-in'> <span class='co'>## Keep classes</span></span>
+<span class='r-in'> <span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>  <span class='fu'>keepClasses</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,classes <span class='op'>=</span> <span class='st'>'H'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AnalysisData object containing:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Samples: 20 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Features: 101 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Info: 9 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'> </span>
+<span class='r-in'> <span class='co'>## Keep features</span></span>
+<span class='r-in'> <span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>  <span class='fu'>keepFeatures</span><span class='op'>(</span>features <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'N200'</span>,<span class='st'>'N201'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AnalysisData object containing:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Samples: 120 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Features: 2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Info: 9 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'> </span>
+<span class='r-in'> <span class='co'>## Keep samples</span></span>
+<span class='r-in'> <span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>  <span class='fu'>keepSamples</span><span class='op'>(</span>idx <span class='op'>=</span> <span class='st'>'injorder'</span>,samples <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AnalysisData object containing:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Samples: 2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Features: 101 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Info: 9 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

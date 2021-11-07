@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -238,70 +238,77 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
-
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
-
-<span class='co'>## Return possible binary comparisons for the 'day' column</span>
-<span class='fu'>binaryComparisons</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "1~2" "1~3" "1~4" "1~5" "1~H" "2~3" "2~4" "2~5" "2~H" "3~4" "3~5" "3~H"
-#&gt; [13] "4~5" "4~H" "5~H"</div><div class='input'>
-<span class='co'>## Perform random forest analysis</span>
-<span class='va'>rf_analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='randomForest.html'>randomForest</a></span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-
-<span class='co'>## Return the type of random forest</span>
-<span class='fu'>type</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "classification"</div><div class='input'>
-<span class='co'>## Return the response variable name used</span>
-<span class='fu'>response</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "day"</div><div class='input'>
-<span class='co'>## Retrieve the model performance metrics</span>
-<span class='fu'>metrics</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 5</span>
-#&gt;   Response Comparison  .metric  .estimator .estimate
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> day      1~2~3~4~5~H accuracy multiclass    0.567 
-#&gt; <span style='color: #BCBCBC;'>2</span> day      1~2~3~4~5~H kap      multiclass    0.48  
-#&gt; <span style='color: #BCBCBC;'>3</span> day      1~2~3~4~5~H roc_auc  hand_till     0.886 
-#&gt; <span style='color: #BCBCBC;'>4</span> day      1~2~3~4~5~H margin   <span style='color: #BB0000;'>NA</span>            0.042<span style='text-decoration: underline;'>4</span></div><div class='input'>
-<span class='co'>## Show the available feature importance metrics</span>
-<span class='fu'>importanceMetrics</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "1"                    "2"                    "3"                   
-#&gt;  [4] "4"                    "5"                    "FalsePositiveRate"   
-#&gt;  [7] "H"                    "MeanDecreaseAccuracy" "MeanDecreaseGini"    
-#&gt; [10] "SelectionFrequency"  </div><div class='input'>
-<span class='co'>## Retrieve the feature importance results</span>
-<span class='fu'>importance</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1,010 × 5</span>
-#&gt;    Response Comparison  Feature Metric                  Value
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> day      1~2~3~4~5~H N200    1                    0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 2</span> day      1~2~3~4~5~H N200    2                    0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 3</span> day      1~2~3~4~5~H N200    3                    0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 4</span> day      1~2~3~4~5~H N200    4                    0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 5</span> day      1~2~3~4~5~H N200    5                    0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 6</span> day      1~2~3~4~5~H N200    FalsePositiveRate    2.35<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-40</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span> day      1~2~3~4~5~H N200    H                    0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 8</span> day      1~2~3~4~5~H N200    MeanDecreaseAccuracy 0   <span style='color: #949494;'> </span>   
-#&gt; <span style='color: #BCBCBC;'> 9</span> day      1~2~3~4~5~H N200    MeanDecreaseGini     6.00<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span> day      1~2~3~4~5~H N200    SelectionFrequency   1.6 <span style='color: #949494;'>e</span>+ 1
-#&gt; <span style='color: #949494;'># … with 1,000 more rows</span></div><div class='input'>
-<span class='co'>## Retrieve the explanatory features</span>
-<span class='fu'>explanatoryFeatures</span><span class='op'>(</span><span class='va'>rf_analysis</span>,metric <span class='op'>=</span> <span class='st'>'FalsePositiveRate'</span>,threshold <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 35 × 5</span>
-#&gt;    Response Comparison  Feature Metric                Value
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> day      1~2~3~4~5~H N229    FalsePositiveRate 5.75<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-129</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span> day      1~2~3~4~5~H N259    FalsePositiveRate 4.88<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 72</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span> day      1~2~3~4~5~H N277    FalsePositiveRate 3.98<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 67</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span> day      1~2~3~4~5~H N255    FalsePositiveRate 3.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 53</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span> day      1~2~3~4~5~H N213    FalsePositiveRate 4.92<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 45</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span> day      1~2~3~4~5~H N200    FalsePositiveRate 2.35<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 40</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span> day      1~2~3~4~5~H N221    FalsePositiveRate 1.80<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 38</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span> day      1~2~3~4~5~H N299    FalsePositiveRate 4.91<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 36</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span> day      1~2~3~4~5~H N245    FalsePositiveRate 9.75<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 27</span>
-#&gt; <span style='color: #BCBCBC;'>10</span> day      1~2~3~4~5~H N279    FalsePositiveRate 2.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 20</span>
-#&gt; <span style='color: #949494;'># … with 25 more rows</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return possible binary comparisons for the 'day' column</span></span>
+<span class='r-in'><span class='fu'>binaryComparisons</span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "1~2" "1~3" "1~4" "1~5" "1~H" "2~3" "2~4" "2~5" "2~H" "3~4" "3~5" "3~H"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "4~5" "4~H" "5~H"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Perform random forest analysis</span></span>
+<span class='r-in'><span class='va'>rf_analysis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='randomForest.html'>randomForest</a></span><span class='op'>(</span><span class='va'>d</span>,cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the type of random forest</span></span>
+<span class='r-in'><span class='fu'>type</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "classification"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the response variable name used</span></span>
+<span class='r-in'><span class='fu'>response</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "day"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Retrieve the model performance metrics</span></span>
+<span class='r-in'><span class='fu'>metrics</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Response Comparison  .metric  .estimator .estimate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> day      1~2~3~4~5~H accuracy multiclass    0.567 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> day      1~2~3~4~5~H kap      multiclass    0.48  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> day      1~2~3~4~5~H roc_auc  hand_till     0.886 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> day      1~2~3~4~5~H margin   <span style='color: #BB0000;'>NA</span>            0.042<span style='text-decoration: underline;'>4</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Show the available feature importance metrics</span></span>
+<span class='r-in'><span class='fu'>importanceMetrics</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "1"                    "2"                    "3"                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "4"                    "5"                    "FalsePositiveRate"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "H"                    "MeanDecreaseAccuracy" "MeanDecreaseGini"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "SelectionFrequency"  </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Retrieve the feature importance results</span></span>
+<span class='r-in'><span class='fu'>importance</span><span class='op'>(</span><span class='va'>rf_analysis</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1,010 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Response Comparison  Feature Metric                  Value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> day      1~2~3~4~5~H N200    1                    0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> day      1~2~3~4~5~H N200    2                    0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> day      1~2~3~4~5~H N200    3                    0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> day      1~2~3~4~5~H N200    4                    0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> day      1~2~3~4~5~H N200    5                    0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> day      1~2~3~4~5~H N200    FalsePositiveRate    2.35<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-40</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> day      1~2~3~4~5~H N200    H                    0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> day      1~2~3~4~5~H N200    MeanDecreaseAccuracy 0   <span style='color: #949494;'> </span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> day      1~2~3~4~5~H N200    MeanDecreaseGini     6.00<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> day      1~2~3~4~5~H N200    SelectionFrequency   1.6 <span style='color: #949494;'>e</span>+ 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 1,000 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Retrieve the explanatory features</span></span>
+<span class='r-in'><span class='fu'>explanatoryFeatures</span><span class='op'>(</span><span class='va'>rf_analysis</span>,metric <span class='op'>=</span> <span class='st'>'FalsePositiveRate'</span>,threshold <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 35 × 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Response Comparison  Feature Metric                Value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> day      1~2~3~4~5~H N229    FalsePositiveRate 5.75<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-129</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> day      1~2~3~4~5~H N259    FalsePositiveRate 4.88<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 72</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> day      1~2~3~4~5~H N277    FalsePositiveRate 3.98<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 67</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> day      1~2~3~4~5~H N255    FalsePositiveRate 3.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 53</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> day      1~2~3~4~5~H N213    FalsePositiveRate 4.92<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 45</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> day      1~2~3~4~5~H N200    FalsePositiveRate 2.35<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 40</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> day      1~2~3~4~5~H N221    FalsePositiveRate 1.80<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 38</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> day      1~2~3~4~5~H N299    FalsePositiveRate 4.91<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 36</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> day      1~2~3~4~5~H N245    FalsePositiveRate 9.75<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 27</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> day      1~2~3~4~5~H N279    FalsePositiveRate 2.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 20</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 25 more rows</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

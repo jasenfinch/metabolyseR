@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -154,56 +154,57 @@
     <p>An S4 object of class <code>AnalysisParameters</code> containing the default analysis parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>analysisParameters</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span>
-#&gt; pre-treatment
-#&gt; 	QC
-#&gt; 		occupancyFilter
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			occupancy = 2/3
-#&gt; 		impute
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			occupancy = 2/3
-#&gt; 			parallel = variables
-#&gt; 			seed = 1234
-#&gt; 		RSDfilter
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			RSDthresh = 50
-#&gt; 		removeQC
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 	occupancyFilter
-#&gt; 		maximum
-#&gt; 			cls = class
-#&gt; 			occupancy = 2/3
-#&gt; 	impute
-#&gt; 		class
-#&gt; 			cls = class
-#&gt; 			occupancy = 2/3
-#&gt; 			seed = 1234
-#&gt; 	transform
-#&gt; 		TICnorm
-#&gt; 
-#&gt; modelling
-#&gt; 	randomForest
-#&gt; 		cls = class
-#&gt; 		rf = list()
-#&gt; 		reps = 1
-#&gt; 		binary = FALSE
-#&gt; 		comparisons = list()
-#&gt; 		perm = 0
-#&gt; 		returnModels = FALSE
-#&gt; 		seed = 1234
-#&gt; 
-#&gt; correlations
-#&gt; 	method = pearson
-#&gt; 	pAdjustMethod = bonferroni
-#&gt; 	corPvalue = 0.05</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>analysisParameters</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>Parameters:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> pre-treatment</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		occupancyFilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		impute</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			parallel = variables</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			seed = 1234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		RSDfilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			RSDthresh = 50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		removeQC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	occupancyFilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		maximum</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	impute</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 2/3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			seed = 1234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	transform</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		TICnorm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> modelling</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	randomForest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		rf = list()</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		reps = 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		binary = FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		comparisons = list()</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		perm = 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		returnModels = FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		seed = 1234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> correlations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	method = pearson</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	pAdjustMethod = bonferroni</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	corPvalue = 0.05</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

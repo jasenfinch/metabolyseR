@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -232,34 +232,39 @@ Therefore, the variables and variable numbers will not alter if a new class stru
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Initial example data preparation</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
-
-<span class='co'>## Plot the feature RSD distributions of the H class only</span>
-<span class='va'>d</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='keepClasses.html'>keepClasses</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,classes <span class='op'>=</span> <span class='st'>'H'</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='plotRSD.html'>plotRSD</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 119 rows containing non-finite values (stat_density).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='QC-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>## Apply QC feature occupancy filtering and QC feature RSD filtering</span>
-<span class='va'>QC_treated</span> <span class='op'>&lt;-</span> <span class='va'>d</span> <span class='op'>%&gt;%</span> 
- <span class='fu'>QCoccupancy</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,QCidx <span class='op'>=</span> <span class='st'>'H'</span>,occupancy <span class='op'>=</span> <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
- <span class='fu'>QCrsdFilter</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,QCidx <span class='op'>=</span> <span class='st'>'H'</span>,RSDthresh <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>QC_treated</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; AnalysisData object containing:
-#&gt; 
-#&gt; Samples: 120 
-#&gt; Features: 404 
-#&gt; Info: 9 
-#&gt; </div><div class='input'>
-<span class='co'>## Plot the feature RSD distributions of the H class after QC treatments</span>
-<span class='va'>QC_treated</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='keepClasses.html'>keepClasses</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,classes <span class='op'>=</span> <span class='st'>'H'</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'><a href='plotRSD.html'>plotRSD</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span>
-</div><div class='img'><img src='QC-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Initial example data preparation</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Plot the feature RSD distributions of the H class only</span></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='keepClasses.html'>keepClasses</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,classes <span class='op'>=</span> <span class='st'>'H'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='plotRSD.html'>plotRSD</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Removed 119 rows containing non-finite values (stat_density).</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Removed 1 row(s) containing missing values (geom_path).</span>
+<span class='r-plt img'><img src='QC-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Apply QC feature occupancy filtering and QC feature RSD filtering</span></span>
+<span class='r-in'><span class='va'>QC_treated</span> <span class='op'>&lt;-</span> <span class='va'>d</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'>QCoccupancy</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,QCidx <span class='op'>=</span> <span class='st'>'H'</span>,occupancy <span class='op'>=</span> <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'>QCrsdFilter</span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,QCidx <span class='op'>=</span> <span class='st'>'H'</span>,RSDthresh <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>QC_treated</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AnalysisData object containing:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Samples: 120 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Features: 404 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Info: 9 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Plot the feature RSD distributions of the H class after QC treatments</span></span>
+<span class='r-in'><span class='va'>QC_treated</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='keepClasses.html'>keepClasses</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span>,classes <span class='op'>=</span> <span class='st'>'H'</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'> <span class='fu'><a href='plotRSD.html'>plotRSD</a></span><span class='op'>(</span>cls <span class='op'>=</span> <span class='st'>'day'</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='QC-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

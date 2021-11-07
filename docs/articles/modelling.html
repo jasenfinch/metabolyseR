@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -85,14 +85,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="modelling_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Modelling and feature selection</h1>
-            <h3 class="subtitle">metabolyseR v0.14.3</h3>
+            <h3 class="subtitle">metabolyseR v0.14.4</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">14 September, 2021</h4>
+            <h4 class="date">07 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/modelling.Rmd"><code>vignettes/modelling.Rmd</code></a></small>
       <div class="hidden name"><code>modelling.Rmd</code></div>
@@ -125,7 +125,7 @@
 <div id="example-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h3>
-<p>The examples used here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package. This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment. The pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package will also be used. The example data can be loaded using:</p>
+<p>The examples used here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package. This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment. The pipe <code>%&gt;%</code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package will also be used. The example data can be loaded using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberhrml.github.io/metaboData/">metaboData</a></span><span class="op">)</span></code></pre></div>
 <p>Only the negative acquisition mode data (<code>abr1$neg</code>) will be used along with the sample meta-information (<code>abr1$fact</code>). Create an <code>AnalysisData</code> class object, assigned to the variable <code>d</code>, using the following:</p>
@@ -163,7 +163,7 @@
 <p>The examples below will show the use of unsupervised random forest for assessing the general structure of the example data set and the presence of outlier samples.</p>
 <p>Unsupervised random forest can be performed by setting the <code>cls</code> argument of <code><a href="../reference/randomForest.html">randomForest()</a></code> to <code>NULL</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <p>The type of random forest that has been performed can be checked using the <code>type</code> method.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -218,7 +218,7 @@
 <span class="co">#&gt; # … with 2,990 more rows</span></code></pre></div>
 <p>The explanatory features for a given threshold can be extracted for any of the importance metrics. The following will extract the explanatory features below a threshold of 0.05 based on the false positive rate metric.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">"FalsePositiveRate"</span>, 
                       threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 359 × 3</span>
@@ -238,7 +238,7 @@
 <p>In this example there are 359 explanatory features.</p>
 <p>The trend of the most highly ranked explanatory feature against the <code>day</code> factor can be plotted using the <code><a href="../reference/plotFeature.html">plotFeature()</a></code> method.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">unsupervised_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotFeature.html">plotFeature</a></span><span class="op">(</span>feature <span class="op">=</span> <span class="st">'N425'</span>,
               cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/unsupervised-feature-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -254,14 +254,14 @@
 <p>In experiments with more than two classes, multinomial random forest classification can be used to assess the discrimination between the classes and give an overview of the relative structure between classes.</p>
 <p>The example data set consists of a total of 6 classes for the <code>day</code> response variable.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] 2 3 4 1 H 5</span>
 <span class="co">#&gt; Levels: 1 2 3 4 5 H</span></code></pre></div>
 <p>Multinomial classification can be performed by:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">multinomial_rf</span><span class="op">)</span>
@@ -274,7 +274,7 @@
 <span class="co">#&gt; # comparisons:    1</span></code></pre></div>
 <p>The performance of this model can be assessed using metrics based on the success of the out of bag (OOB) predictions. The performance metrics can be extracted using:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 × 5</span>
 <span class="co">#&gt;   Response Comparison  .metric  .estimator .estimate</span>
@@ -285,8 +285,8 @@
 <span class="co">#&gt; 4 day      1~2~3~4~5~H margin   &lt;NA&gt;           0.146</span></code></pre></div>
 <p>These metrics include <strong>accuracy</strong>, <strong>Cohen’s kappa</strong> (kap), <strong>area under the receiver operator characteristic curve</strong> (roc_auc, ROC-AUC) and <strong>margin</strong>. Each metric has both strengths and weaknesses that depend on the context of the classification such as the balance of observations between the classes. As shown below, the class frequencies for this example are balanced with 20 observations per class.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; .</span>
 <span class="co">#&gt;  1  2  3  4  5  H </span>
@@ -294,13 +294,13 @@
 <p>In this context, each of these metrics could be used to assess the predictive performance of the model. The margin metric is the difference between the proportion of votes for the correct class and the maximum proportion of votes for the other classes for a given observation which is then averaged across all the observations. A positive margin value indicates correct classification and values greater than 0.2 can be considered as the models having strong predictive power. The margin also allows the extent of discrimination to be discerned even in very distinct cases above where both the accuracy and ROC-AUC would be registering values of 1.</p>
 <p>In this example, the values of all the metrics suggest that the model is showing good predictive performance. This can be investigated further by plotting the MDS of observation proximity values.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotMDS.html">plotMDS</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/multinomial-mds-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This shows that the model is able to discriminate highly between classes such as <code>5</code> and <code>H</code>. It is less able to discriminate more similar classes such as <code>H</code> and <code>1</code> or <code>4</code> and <code>5</code> whose confidence ellipses show a high degree of overlap. This makes sense in the context of this experiment as these are adjacent time points that are more likely to be similar than time points at each end of the experiment.</p>
 <p>The ROC curves can also be plotted as shown below.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/multinomial-roc-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Classes with their line further from the central dashed line are those that were predicted with the greatest reliability by the model. This plot shows that both the <code>H</code> and <code>1</code> classes were least reliably predicted which is a result of their close proximity shown in the MDS plot previously.</p>
@@ -313,7 +313,7 @@
 <span class="co">#&gt; [10] "SelectionFrequency"</span></code></pre></div>
 <p>Here, we will use the false positive rate metric with a threshold of below 0.05 to identify explanatory features for the <code>day</code> response variable.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">multinomial_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'FalsePositiveRate'</span>,
                       threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 121 × 5</span>
@@ -331,13 +331,13 @@
 <span class="co">#&gt; 10 day      1~2~3~4~5~H N195    FalsePositiveRate 7.16e-25</span>
 <span class="co">#&gt; # … with 111 more rows</span></code></pre></div>
 <p>As shown above there were a total of 121 explanatory features identified.</p>
-<p>Within a multinomial experiment, it is also possible to specify the exact class comparisons to include, where it might not be suitable to compare all the classes at once using the <code>comparisons</code> argument. This should be specified as a named list, the corresponding to the <code>cls</code> argument. Each named element should then consist of a vector of comparisons, the classes to compare separated using the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>.</p>
+<p>Within a multinomial experiment, it is also possible to specify the exact class comparisons to include, where it might not be suitable to compare all the classes at once using the <code>comparisons</code> argument. This should be specified as a named list, the corresponding to the <code>cls</code> argument. Each named element should then consist of a vector of comparisons, the classes to compare separated using the <code>~</code>.</p>
 <p>The following specifies two comparisons (<code>H~1~2</code>,<code>H~1~5</code>) for the <code>day</code> response variable and displays the performance metrics.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,
                comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>day <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H~1~2'</span>,
-                                          <span class="st">'H~1~5'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                                          <span class="st">'H~1~5'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 8 × 5</span>
 <span class="co">#&gt;   Response Comparison .metric  .estimator .estimate</span>
@@ -352,18 +352,18 @@
 <span class="co">#&gt; 8 day      H~1~5      margin   &lt;NA&gt;           0.320</span></code></pre></div>
 <p>The MDS and ROC curve plots can also be plotted simultaneously for the two comparisons.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,
                comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>day <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H~1~2'</span>,
-                                          <span class="st">'H~1~5'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                                          <span class="st">'H~1~5'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="op">{</span><span class="fu"><a href="../reference/plotMDS.html">plotMDS</a></span><span class="op">(</span><span class="va">.</span>,cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">+</span>
       <span class="fu"><a href="../reference/plotROC.html">plotROC</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">+</span>
       <span class="fu">patchwork</span><span class="fu">::</span><span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">}</span></code></pre></div>
 <p><img src="modelling_files/figure-html/classification-comparison-mds-roc-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Similarly, it is also possible to model multiple response factors with a single random forest call by specifying a vector of response class information column names to the <code>cls</code> argument. In the following, both the <code>name</code> and <code>day</code> response factors will be analysed and the performance metrics returned in a single table.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'name'</span>,<span class="st">'day'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'name'</span>,<span class="st">'day'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Classes with &lt; 5 replicates removed: "11_3", "11_4", "11_5", "11_6",</span>
 <span class="co">#&gt; "11_H", "12_1", "12_3", "12_6", "12_H", "13_1", "13_2", "13_3", "13_5", "13_6",</span>
@@ -383,8 +383,8 @@
 <span class="co">#&gt; 8 day      1~2~3~4~5~H                   margin   &lt;NA&gt;          0.146</span></code></pre></div>
 <p>The MDS plots can also be returned for both models simultaneously.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'name'</span>,<span class="st">'day'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'name'</span>,<span class="st">'day'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotMDS.html">plotMDS</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Classes with &lt; 5 replicates removed: "11_3", "11_4", "11_5", "11_6",</span>
 <span class="co">#&gt; "11_H", "12_1", "12_3", "12_6", "12_H", "13_1", "13_2", "13_3", "13_5", "13_6",</span>
@@ -404,11 +404,11 @@
 <span class="co">#&gt; [13] "4~5" "4~H" "5~H"</span></code></pre></div>
 <p>For this example we will only use the binary comparisons containing the <code>H</code> class.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">binary_comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/binaryComparisons.html">binaryComparisons</a></span><span class="op">(</span><span class="va">d</span>,cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">binary_comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/binaryComparisons.html">binaryComparisons</a></span><span class="op">(</span><span class="va">d</span>,cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="va">.</span><span class="op">[</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">.</span>,<span class="st">'H'</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>The binary comparisons can then be performed using the following.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,
                comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>day <span class="op">=</span> <span class="va">binary_comparisons</span><span class="op">)</span><span class="op">)</span>
 
@@ -423,17 +423,17 @@
 <p>To run all possible binary comparisons, the <code>binary = TRUE</code> argument could instead be used.</p>
 <p>The MDS plots for each comparison can be visualised to inspect the comparisons.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotMDS.html">plotMDS</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/binary-mds-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>These plots show good separation in all the comparisons except <code>H~1</code> which is also shown by the plot of the performance metrics below. Each of the comparisons are showing perfect performance for the accuracy, Cohen’s kappa and ROC-AUC metrics as well as very high margin values except for the <code>H~1</code> comparison.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotMetrics.html">plotMetrics</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/binary-metrics-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The explanatory features for these comparisons can be extracted as below using the false positive rate metric and a cut-off threshold of 0.05. This gives a total of 251 explanatory features.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">binary_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'FalsePositiveRate'</span>,
                       threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 251 × 5</span>
@@ -453,13 +453,13 @@
 <p>A heatmap of these explanatory features can be plotted to show their mean relative intensities across the experiment time points. Here, the classes are also refactored to customise the order of the classes on the x-axis.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">refactor_cls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span><span class="va">binary_rf</span>,
-                           cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+                           cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">.</span>,levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'1'</span>,<span class="st">'2'</span>,<span class="st">'3'</span>,<span class="st">'4'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">binary_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clsAdd.html">clsReplace</a></span><span class="op">(</span><span class="va">binary_rf</span>,
                         value <span class="op">=</span> <span class="va">refactor_cls</span>,
                         cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
-<span class="va">binary_rf</span> <span class="op">%&gt;%</span> 
+<span class="va">binary_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotExplanatoryHeatmap.html">plotExplanatoryHeatmap</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'FalsePositiveRate'</span>,
                       threshold <span class="op">=</span> <span class="fl">0.05</span>,
                       featureNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -472,7 +472,7 @@
 <p>Random forest regression can be used to assess the extent of association of the metabolomic data with continuous response variables.</p>
 <p>In this example, the extent of association of injection order with the example data will be assessed.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/randomForest.html">randomForest</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'injorder'</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">regression_rf</span><span class="op">)</span>
@@ -484,7 +484,7 @@
 <span class="co">#&gt; Response:     injorder</span></code></pre></div>
 <p>The regression model performance metrics, based on the OOB prediction error, can be extracted using the following:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">metrics</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 × 4</span>
 <span class="co">#&gt;   Response .metric .estimator .estimate</span>
@@ -498,7 +498,7 @@
 <p>The R<sup>2</sup> and concordance correlation coefficient metrics suggest that there is some association of features with the injection order, although this is weak. This is in agreement with mean absolute error metric that shows that on average, the injection order could only be predicted to an accuracy of 23 injection order positions.</p>
 <p>The MDS plot belows the relative proximities of the samples based on this injection order regression model. This shows that for the most part, there is little correspondence of the sample positions with their injection order. However, there is a small grouping of samples towards the end of the run around sample ~99 to 120. It suggests that there could have been some analytical issues, for certain features, towards the end of the mass spectral analytical run.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotMDS.html">plotMDS</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="cn">NULL</span>,
           ellipses <span class="op">=</span> <span class="cn">FALSE</span>,
           label <span class="op">=</span> <span class="st">'injorder'</span>,
@@ -508,18 +508,18 @@
 <p><img src="modelling_files/figure-html/regression-mds-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The available feature importance metrics for this regression model can be listed.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">importanceMetrics</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "%IncMSE"       "IncNodePurity"</span></code></pre></div>
 <p>The feature importance metrics can be plotted to give an overview of their distribution. The following will plot the <strong>percentage increase in the mean squared error</strong> (<code>%IncMSE</code>) importance metric.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotImportance.html">plotImportance</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">"%IncMSE"</span>, 
                  rank <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/regression-importance-plot-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This shows that there are only a few features that are contributing to the association with injection order. These explanatory features can be extracted with the following, using a threshold of above 5.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span>metric <span class="op">=</span> <span class="st">'%IncMSE'</span>,
                       threshold <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 7 × 4</span>
@@ -534,7 +534,7 @@
 <span class="co">#&gt; 7 injorder N297    %IncMSE  5.07</span></code></pre></div>
 <p>This returned a total of 7 explanatory features above this threshold. The top ranked feature <code>N283</code> can be plotted to investigate it’s trend in relation to injection order.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">regression_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plotFeature.html">plotFeature</a></span><span class="op">(</span>feature <span class="op">=</span> <span class="st">'N283'</span>,
               cls <span class="op">=</span> <span class="st">'injorder'</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/regression-feature-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -735,48 +735,48 @@
 <span class="co">#&gt;      comparisons = list()</span>
 <span class="co">#&gt;      returnModels = FALSE</span></code></pre></div>
 <p>The analysis can then be executed.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">analysis &lt;-<span class="st"> </span><span class="kw">metabolyse</span>(abr1<span class="op">$</span>neg,abr1<span class="op">$</span>fact,p)</a>
-<a class="sourceLine" id="cb59-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb59-3" title="3"><span class="co">#&gt; metabolyseR  v0.14.3 Tue Sep 14 11:44:43 2021</span></a>
-<a class="sourceLine" id="cb59-4" title="4"><span class="co">#&gt; ________________________________________________________________________________</span></a>
-<a class="sourceLine" id="cb59-5" title="5"><span class="co">#&gt; Parameters:</span></a>
-<a class="sourceLine" id="cb59-6" title="6"><span class="co">#&gt; pre-treatment</span></a>
-<a class="sourceLine" id="cb59-7" title="7"><span class="co">#&gt;  keep</span></a>
-<a class="sourceLine" id="cb59-8" title="8"><span class="co">#&gt;      classes</span></a>
-<a class="sourceLine" id="cb59-9" title="9"><span class="co">#&gt;          cls = day</span></a>
-<a class="sourceLine" id="cb59-10" title="10"><span class="co">#&gt;          classes = c("H", "2")</span></a>
-<a class="sourceLine" id="cb59-11" title="11"><span class="co">#&gt;  occupancyFilter</span></a>
-<a class="sourceLine" id="cb59-12" title="12"><span class="co">#&gt;      maximum</span></a>
-<a class="sourceLine" id="cb59-13" title="13"><span class="co">#&gt;          cls = day</span></a>
-<a class="sourceLine" id="cb59-14" title="14"><span class="co">#&gt;          occupancy = 2/3</span></a>
-<a class="sourceLine" id="cb59-15" title="15"><span class="co">#&gt;  transform</span></a>
-<a class="sourceLine" id="cb59-16" title="16"><span class="co">#&gt;      TICnorm</span></a>
-<a class="sourceLine" id="cb59-17" title="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb59-18" title="18"><span class="co">#&gt; modelling</span></a>
-<a class="sourceLine" id="cb59-19" title="19"><span class="co">#&gt;  randomForest</span></a>
-<a class="sourceLine" id="cb59-20" title="20"><span class="co">#&gt;      cls = day</span></a>
-<a class="sourceLine" id="cb59-21" title="21"><span class="co">#&gt;      rf = list()</span></a>
-<a class="sourceLine" id="cb59-22" title="22"><span class="co">#&gt;      reps = 1</span></a>
-<a class="sourceLine" id="cb59-23" title="23"><span class="co">#&gt;      binary = FALSE</span></a>
-<a class="sourceLine" id="cb59-24" title="24"><span class="co">#&gt;      comparisons = list()</span></a>
-<a class="sourceLine" id="cb59-25" title="25"><span class="co">#&gt;      perm = 0</span></a>
-<a class="sourceLine" id="cb59-26" title="26"><span class="co">#&gt;      returnModels = FALSE</span></a>
-<a class="sourceLine" id="cb59-27" title="27"><span class="co">#&gt;      seed = 1234</span></a>
-<a class="sourceLine" id="cb59-28" title="28"><span class="co">#&gt;  ttest</span></a>
-<a class="sourceLine" id="cb59-29" title="29"><span class="co">#&gt;      cls = day</span></a>
-<a class="sourceLine" id="cb59-30" title="30"><span class="co">#&gt;      pAdjust = bonferroni</span></a>
-<a class="sourceLine" id="cb59-31" title="31"><span class="co">#&gt;      comparisons = list()</span></a>
-<a class="sourceLine" id="cb59-32" title="32"><span class="co">#&gt;      returnModels = FALSE</span></a>
-<a class="sourceLine" id="cb59-33" title="33"><span class="co">#&gt; ________________________________________________________________________________</span></a>
-<a class="sourceLine" id="cb59-34" title="34"><span class="co">#&gt; Pre-treatment …</span></a>
-<a class="sourceLine" id="cb59-35" title="35"></a>
-<a class="sourceLine" id="cb59-36" title="36">Pre<span class="op">-</span>treatment   ✓ [<span class="fl">6.5</span>S]</a>
-<a class="sourceLine" id="cb59-37" title="37"><span class="co">#&gt; Modelling …</span></a>
-<a class="sourceLine" id="cb59-38" title="38"></a>
-<a class="sourceLine" id="cb59-39" title="39">Modelling   ✓ [<span class="fl">3.8</span>S]</a>
-<a class="sourceLine" id="cb59-40" title="40"><span class="co">#&gt; ________________________________________________________________________________</span></a>
-<a class="sourceLine" id="cb59-41" title="41"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb59-42" title="42"><span class="co">#&gt; Complete! [10.4S]</span></a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.4 Sun Nov  7 22:27:51 2021</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Parameters:</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  keep</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      classes</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          cls = day</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          classes = c("H", "2")</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  occupancyFilter</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      maximum</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          cls = day</span></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          occupancy = 2/3</span></span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  transform</span></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      TICnorm</span></span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; modelling</span></span>
+<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  randomForest</span></span>
+<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      cls = day</span></span>
+<span id="cb59-21"><a href="#cb59-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      rf = list()</span></span>
+<span id="cb59-22"><a href="#cb59-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      reps = 1</span></span>
+<span id="cb59-23"><a href="#cb59-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      binary = FALSE</span></span>
+<span id="cb59-24"><a href="#cb59-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      comparisons = list()</span></span>
+<span id="cb59-25"><a href="#cb59-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      perm = 0</span></span>
+<span id="cb59-26"><a href="#cb59-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      returnModels = FALSE</span></span>
+<span id="cb59-27"><a href="#cb59-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      seed = 1234</span></span>
+<span id="cb59-28"><a href="#cb59-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ttest</span></span>
+<span id="cb59-29"><a href="#cb59-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      cls = day</span></span>
+<span id="cb59-30"><a href="#cb59-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      pAdjust = bonferroni</span></span>
+<span id="cb59-31"><a href="#cb59-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      comparisons = list()</span></span>
+<span id="cb59-32"><a href="#cb59-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      returnModels = FALSE</span></span>
+<span id="cb59-33"><a href="#cb59-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
+<span id="cb59-34"><a href="#cb59-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pre-treatment …</span></span>
+<span id="cb59-35"><a href="#cb59-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-36"><a href="#cb59-36" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">6.2</span>S]</span>
+<span id="cb59-37"><a href="#cb59-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Modelling …</span></span>
+<span id="cb59-38"><a href="#cb59-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-39"><a href="#cb59-39" aria-hidden="true" tabindex="-1"></a>Modelling   ✓ [<span class="fl">4.3</span>S]</span>
+<span id="cb59-40"><a href="#cb59-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
+<span id="cb59-41"><a href="#cb59-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [10.5S]</span></span></code></pre></div>
 <p>The results for the modelling can be specifically extracted using the following.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dat.html">analysisResults</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'modelling'</span><span class="op">)</span>
@@ -801,7 +801,7 @@
 <p>This returns the results as a list containing the modelling results objects for each specified method.</p>
 <p>Alternatively, the modelling results can be assess directly from the <code>Analysis</code> object. Below shows the extraction of the explanatory features, using default parameters for each method, with the results returned in a single table.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">explanatory_features</span> <span class="op">&lt;-</span> <span class="va">analysis</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">explanatory_features</span> <span class="op">&lt;-</span> <span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/binaryComparisons.html">explanatoryFeatures</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">explanatory_features</span><span class="op">)</span>
@@ -823,7 +823,7 @@
 <span class="co">#&gt; #   method &lt;chr&gt;, alternative &lt;chr&gt;, adjusted.p.value &lt;dbl&gt;</span></code></pre></div>
 <p>Heat maps of the explanatory features can also be plotted for both the modelling methods.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotExplanatoryHeatmap.html">plotExplanatoryHeatmap</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotExplanatoryHeatmap.html">plotExplanatoryHeatmap</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">patchwork</span><span class="fu">::</span><span class="fu"><a href="https://patchwork.data-imaginist.com/reference/wrap_plots.html">wrap_plots</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="modelling_files/figure-html/explanatory-heatmap-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>

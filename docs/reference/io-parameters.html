@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -167,50 +167,51 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Import analysis parameters</span>
-<span class='va'>paramFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'defaultParameters.yaml'</span>,package <span class='op'>=</span> <span class='st'>'metabolyseR'</span><span class='op'>)</span>
-<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>parseParameters</span><span class='op'>(</span><span class='va'>paramFile</span><span class='op'>)</span>
-<span class='va'>p</span>
-</div><div class='output co'>#&gt; <span style='color: #BBBB00;'>Parameters:</span>
-#&gt; pre-treatment
-#&gt; 	QC
-#&gt; 		occupancyFilter
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			occupancy = 0.667
-#&gt; 		impute
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			occupancy = 0.667
-#&gt; 		RSDfilter
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 			RSDthresh = 0.5
-#&gt; 		removeQC
-#&gt; 			cls = class
-#&gt; 			QCidx = QC
-#&gt; 	occupancyFilter
-#&gt; 		maximum
-#&gt; 			cls = class
-#&gt; 			occupancy = 0.667
-#&gt; 	impute
-#&gt; 		class
-#&gt; 			cls = class
-#&gt; 			occupancy = 0.667
-#&gt; 			nCores = 4
-#&gt; 			clusterType = FORK
-#&gt; 	transform
-#&gt; 		TICnorm
-#&gt; 
-#&gt; correlations
-#&gt; 	method = pearson
-#&gt; 	pAdjustMethod = bonferroni
-#&gt; 	corPvalue = 0.05</div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## Export analysis parameters</span>
-<span class='fu'>exportParameters</span><span class='op'>(</span><span class='va'>p</span>,file <span class='op'>=</span> <span class='st'>'analysis_parameters.yaml'</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>## Import analysis parameters</span></span>
+<span class='r-in'><span class='va'>paramFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'defaultParameters.yaml'</span>,package <span class='op'>=</span> <span class='st'>'metabolyseR'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>parseParameters</span><span class='op'>(</span><span class='va'>paramFile</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>p</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>Parameters:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> pre-treatment</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		occupancyFilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 0.667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		impute</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 0.667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		RSDfilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			RSDthresh = 0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		removeQC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			QCidx = QC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	occupancyFilter</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		maximum</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 0.667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	impute</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			cls = class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			occupancy = 0.667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			nCores = 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 			clusterType = FORK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	transform</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 		TICnorm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> correlations</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	method = pearson</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	pAdjustMethod = bonferroni</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	corPvalue = 0.05</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>## Export analysis parameters</span></span>
+<span class='r-in'><span class='fu'>exportParameters</span><span class='op'>(</span><span class='va'>p</span>,file <span class='op'>=</span> <span class='st'>'analysis_parameters.yaml'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
