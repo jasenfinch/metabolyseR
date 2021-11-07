@@ -84,11 +84,11 @@ setMethod('imputeAll',signature = 'AnalysisData',
             
             da[da == 0] <- NA
             
-            suppressWarnings({
-              capture.output({
-                da <- missForest(da,parallelize = parallel)
-              })  
-            })
+            capture.output(
+              suppressMessages(
+                da <- missForest(da,parallelize = parallel) 
+              )
+            )
             
             dat(d_to_impute) <- as_tibble(da$ximp)
             
@@ -137,7 +137,8 @@ setMethod('imputeClass',signature = 'AnalysisData',
                   keepClasses(cls = cls,classes = .x) %>%
                   imputeAll(occupancy = occupancy,seed = seed,parallel = 'no')
               },
-              .options = furrr_options(seed = seed))
+              .options = furrr_options(seed = seed,
+                                       stdout = FALSE))
             
             d <- d %>%
               bindRows() %>%
