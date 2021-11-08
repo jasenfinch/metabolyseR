@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -265,73 +265,78 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span>
-
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span>
-
-<span class='co'>## Return the metabolomic data</span>
-<span class='fu'>dat</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 120 × 101</span>
-#&gt;     N200  N201  N202  N203  N204  N205   N206  N207  N208  N209  N210   N211
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     0  0    0     2.98  0     0     0      0.468 0     1.43  0     0.170 
-#&gt; <span style='color: #BCBCBC;'> 2</span>     0  0    0     1.30  0     1.15  0      0     0     0.492 0     0     
-#&gt; <span style='color: #BCBCBC;'> 3</span>     0  0    0     6.08  0.214 2.53  0      1.85  0     1.06  0.184 0.082<span style='text-decoration: underline;'>7</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span>     0  4.24 0     1.48  0     0     0.147  0     0     0.929 0     0.286 
-#&gt; <span style='color: #BCBCBC;'> 5</span>     0  0    0     0.530 0     0.233 0.376  1.41  0     0.274 0     0.139 
-#&gt; <span style='color: #BCBCBC;'> 6</span>     0  0    0     0     0     0.438 0      0     0.219 0.325 0     0     
-#&gt; <span style='color: #BCBCBC;'> 7</span>     0  0    0     0.547 0     0     0      0     0     0     0     0     
-#&gt; <span style='color: #BCBCBC;'> 8</span>     0  0    0.195 1.37  0.594 1.11  0.090<span style='text-decoration: underline;'>2</span> 0     0     0     0.162 0     
-#&gt; <span style='color: #BCBCBC;'> 9</span>     0  0    0     1.24  0     0.196 0.675  0.528 0.128 2.61  0.294 2.66  
-#&gt; <span style='color: #BCBCBC;'>10</span>     0  0    0     0.113 0     1.06  0      0     0     1.76  2.96  0     
-#&gt; <span style='color: #949494;'># … with 110 more rows, and 89 more variables: N212 &lt;dbl&gt;, N213 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   N214 &lt;dbl&gt;, N215 &lt;dbl&gt;, N216 &lt;dbl&gt;, N217 &lt;dbl&gt;, N218 &lt;dbl&gt;, N219 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   N220 &lt;dbl&gt;, N221 &lt;dbl&gt;, N222 &lt;dbl&gt;, N223 &lt;dbl&gt;, N224 &lt;dbl&gt;, N225 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   N226 &lt;dbl&gt;, N227 &lt;dbl&gt;, N228 &lt;dbl&gt;, N229 &lt;dbl&gt;, N230 &lt;dbl&gt;, N231 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   N232 &lt;dbl&gt;, N233 &lt;dbl&gt;, N234 &lt;dbl&gt;, N235 &lt;dbl&gt;, N236 &lt;dbl&gt;, N237 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   N238 &lt;dbl&gt;, N239 &lt;dbl&gt;, N240 &lt;dbl&gt;, N241 &lt;dbl&gt;, N242 &lt;dbl&gt;, N243 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   N244 &lt;dbl&gt;, N245 &lt;dbl&gt;, N246 &lt;dbl&gt;, N247 &lt;dbl&gt;, N248 &lt;dbl&gt;, N249 &lt;dbl&gt;, …</span></div><div class='input'>
-<span class='co'>## Set the metabolomic data</span>
-<span class='fu'>dat</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>300</span><span class='op'>:</span><span class='fl'>400</span><span class='op'>]</span>
-
-<span class='co'>## Return the sample information</span>
-<span class='fu'>sinfo</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 120 × 9</span>
-#&gt;    injorder pathcdf              filecdf name.org remark name    rep day   class
-#&gt;       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>        1 C:/Xcalibur/ANDI-LT… 01.cdf  12_2     ok     12_2      2 2         2
-#&gt; <span style='color: #BCBCBC;'> 2</span>        2 C:/Xcalibur/ANDI-LT… 02.cdf  13_3     ok     13_4      3 3         3
-#&gt; <span style='color: #BCBCBC;'> 3</span>        3 C:/Xcalibur/ANDI-LT… 03.cdf  15_4     ok     15_5      5 4         4
-#&gt; <span style='color: #BCBCBC;'> 4</span>        4 C:/Xcalibur/ANDI-LT… 04.cdf  12_1     ok     12_2      2 1         1
-#&gt; <span style='color: #BCBCBC;'> 5</span>        5 C:/Xcalibur/ANDI-LT… 05.cdf  12_2     ok     12_2      2 2         2
-#&gt; <span style='color: #BCBCBC;'> 6</span>        6 C:/Xcalibur/ANDI-LT… 06.cdf  11_1     ok     11_2      1 1         1
-#&gt; <span style='color: #BCBCBC;'> 7</span>        7 C:/Xcalibur/ANDI-LT… 07.cdf  14_2     ok     14_3      4 2         2
-#&gt; <span style='color: #BCBCBC;'> 8</span>        8 C:/Xcalibur/ANDI-LT… 08.cdf  11_4     ok     11_5      1 4         4
-#&gt; <span style='color: #BCBCBC;'> 9</span>        9 C:/Xcalibur/ANDI-LT… 09.cdf  13_H     ok     13_H      3 H         6
-#&gt; <span style='color: #BCBCBC;'>10</span>       10 C:/Xcalibur/ANDI-LT… 10.cdf  15_H     ok     15_H      5 H         6
-#&gt; <span style='color: #949494;'># … with 110 more rows</span></div><div class='input'>
-<span class='co'>## Set the sample information</span>
-<span class='fu'>sinfo</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span>
-
-<span class='co'>## Return the feature names</span>
-<span class='fu'>features</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1] "N300" "N301" "N302" "N303" "N304" "N305" "N306" "N307" "N308" "N309"
-#&gt;  [11] "N310" "N311" "N312" "N313" "N314" "N315" "N316" "N317" "N318" "N319"
-#&gt;  [21] "N320" "N321" "N322" "N323" "N324" "N325" "N326" "N327" "N328" "N329"
-#&gt;  [31] "N330" "N331" "N332" "N333" "N334" "N335" "N336" "N337" "N338" "N339"
-#&gt;  [41] "N340" "N341" "N342" "N343" "N344" "N345" "N346" "N347" "N348" "N349"
-#&gt;  [51] "N350" "N351" "N352" "N353" "N354" "N355" "N356" "N357" "N358" "N359"
-#&gt;  [61] "N360" "N361" "N362" "N363" "N364" "N365" "N366" "N367" "N368" "N369"
-#&gt;  [71] "N370" "N371" "N372" "N373" "N374" "N375" "N376" "N377" "N378" "N379"
-#&gt;  [81] "N380" "N381" "N382" "N383" "N384" "N385" "N386" "N387" "N388" "N389"
-#&gt;  [91] "N390" "N391" "N392" "N393" "N394" "N395" "N396" "N397" "N398" "N399"
-#&gt; [101] "N400"</div><div class='input'>
-<span class='co'>## Return the number of samples</span>
-<span class='fu'>nSamples</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 120</div><div class='input'>
-<span class='co'>## Return the number of features</span>
-<span class='fu'>nFeatures</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 101</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://aberhrml.github.io/metaboData/'>metaboData</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the metabolomic data</span></span>
+<span class='r-in'><span class='fu'>dat</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 120 × 101</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     N200  N201  N202  N203  N204  N205   N206  N207  N208  N209  N210   N211</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     0  0    0     2.98  0     0     0      0.468 0     1.43  0     0.170 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     0  0    0     1.30  0     1.15  0      0     0     0.492 0     0     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     0  0    0     6.08  0.214 2.53  0      1.85  0     1.06  0.184 0.082<span style='text-decoration: underline;'>7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     0  4.24 0     1.48  0     0     0.147  0     0     0.929 0     0.286 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     0  0    0     0.530 0     0.233 0.376  1.41  0     0.274 0     0.139 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     0  0    0     0     0     0.438 0      0     0.219 0.325 0     0     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     0  0    0     0.547 0     0     0      0     0     0     0     0     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     0  0    0.195 1.37  0.594 1.11  0.090<span style='text-decoration: underline;'>2</span> 0     0     0     0.162 0     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     0  0    0     1.24  0     0.196 0.675  0.528 0.128 2.61  0.294 2.66  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     0  0    0     0.113 0     1.06  0      0     0     1.76  2.96  0     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 110 more rows, and 89 more variables: N212 &lt;dbl&gt;, N213 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   N214 &lt;dbl&gt;, N215 &lt;dbl&gt;, N216 &lt;dbl&gt;, N217 &lt;dbl&gt;, N218 &lt;dbl&gt;, N219 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   N220 &lt;dbl&gt;, N221 &lt;dbl&gt;, N222 &lt;dbl&gt;, N223 &lt;dbl&gt;, N224 &lt;dbl&gt;, N225 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   N226 &lt;dbl&gt;, N227 &lt;dbl&gt;, N228 &lt;dbl&gt;, N229 &lt;dbl&gt;, N230 &lt;dbl&gt;, N231 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   N232 &lt;dbl&gt;, N233 &lt;dbl&gt;, N234 &lt;dbl&gt;, N235 &lt;dbl&gt;, N236 &lt;dbl&gt;, N237 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   N238 &lt;dbl&gt;, N239 &lt;dbl&gt;, N240 &lt;dbl&gt;, N241 &lt;dbl&gt;, N242 &lt;dbl&gt;, N243 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   N244 &lt;dbl&gt;, N245 &lt;dbl&gt;, N246 &lt;dbl&gt;, N247 &lt;dbl&gt;, N248 &lt;dbl&gt;, N249 &lt;dbl&gt;, …</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Set the metabolomic data</span></span>
+<span class='r-in'><span class='fu'>dat</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>300</span><span class='op'>:</span><span class='fl'>400</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the sample information</span></span>
+<span class='r-in'><span class='fu'>sinfo</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 120 × 9</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    injorder pathcdf              filecdf name.org remark name    rep day   class</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>        1 C:/Xcalibur/ANDI-LT… 01.cdf  12_2     ok     12_2      2 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>        2 C:/Xcalibur/ANDI-LT… 02.cdf  13_3     ok     13_4      3 3         3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>        3 C:/Xcalibur/ANDI-LT… 03.cdf  15_4     ok     15_5      5 4         4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>        4 C:/Xcalibur/ANDI-LT… 04.cdf  12_1     ok     12_2      2 1         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>        5 C:/Xcalibur/ANDI-LT… 05.cdf  12_2     ok     12_2      2 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>        6 C:/Xcalibur/ANDI-LT… 06.cdf  11_1     ok     11_2      1 1         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>        7 C:/Xcalibur/ANDI-LT… 07.cdf  14_2     ok     14_3      4 2         2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>        8 C:/Xcalibur/ANDI-LT… 08.cdf  11_4     ok     11_5      1 4         4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>        9 C:/Xcalibur/ANDI-LT… 09.cdf  13_H     ok     13_H      3 H         6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>       10 C:/Xcalibur/ANDI-LT… 10.cdf  15_H     ok     15_H      5 H         6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 110 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Set the sample information</span></span>
+<span class='r-in'><span class='fu'>sinfo</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the feature names</span></span>
+<span class='r-in'><span class='fu'>features</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] "N300" "N301" "N302" "N303" "N304" "N305" "N306" "N307" "N308" "N309"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [11] "N310" "N311" "N312" "N313" "N314" "N315" "N316" "N317" "N318" "N319"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [21] "N320" "N321" "N322" "N323" "N324" "N325" "N326" "N327" "N328" "N329"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] "N330" "N331" "N332" "N333" "N334" "N335" "N336" "N337" "N338" "N339"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [41] "N340" "N341" "N342" "N343" "N344" "N345" "N346" "N347" "N348" "N349"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51] "N350" "N351" "N352" "N353" "N354" "N355" "N356" "N357" "N358" "N359"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] "N360" "N361" "N362" "N363" "N364" "N365" "N366" "N367" "N368" "N369"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [71] "N370" "N371" "N372" "N373" "N374" "N375" "N376" "N377" "N378" "N379"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [81] "N380" "N381" "N382" "N383" "N384" "N385" "N386" "N387" "N388" "N389"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] "N390" "N391" "N392" "N393" "N394" "N395" "N396" "N397" "N398" "N399"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [101] "N400"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the number of samples</span></span>
+<span class='r-in'><span class='fu'>nSamples</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 120</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return the number of features</span></span>
+<span class='r-in'><span class='fu'>nFeatures</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 101</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -85,14 +85,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="metabolyseR_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
-            <h3 class="subtitle">metabolyseR v0.14.3</h3>
+            <h3 class="subtitle">metabolyseR v0.14.4</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">14 September, 2021</h4>
+            <h4 class="date">07 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/metabolyseR.Rmd"><code>vignettes/metabolyseR.Rmd</code></a></small>
       <div class="hidden name"><code>metabolyseR.Rmd</code></div>
@@ -118,7 +118,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">'quick_start'</span>,<span class="st">'metabolyseR'</span><span class="op">)</span></code></pre></div>
 <p>Any issues, bugs or errors encountered while using the package should be reported <a href="https://github.com/jasenfinch/metabolyseR/issues">here</a>.</p>
-<p>The examples shown here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package (<code><a href="https://aberHRML.github.io/metaboData//reference/abr1.html">?metaboData::abr1</a></code>). This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. The examples will also include use of the pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package.</p>
+<p>The examples shown here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package (<code><a href="https://aberHRML.github.io/metaboData//reference/abr1.html">?metaboData::abr1</a></code>). This is a nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data set from a plant-pathogen infection time course experiment. The examples will also include use of the pipe <code>%&gt;%</code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package.</p>
 <p>Firstly load the necessary packages:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jasenfinch.github.io/metabolyseR">metabolyseR</a></span><span class="op">)</span>
@@ -250,7 +250,7 @@
 ## Levels: 1 2 3 4 5 H</code></pre>
 <p>Sample class frequencies could then be computed.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span><span class="va">d</span>,cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span><span class="va">d</span>,cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## .
 ##  1  2  3  4  5  H 
@@ -269,15 +269,15 @@
 <p>Samples or features can easily be kept or removed from an <code>AnalysisData</code> object as is most convenient.</p>
 <p>Below can be seen the first 6 sample indexes in the <code>injorder</code> column of the sample information.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">samples</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'injorder'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">samples</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/clsAdd.html">clsExtract</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'injorder'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1 2 3 4 5 6</code></pre>
 <p>Only these samples could be kept using:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/keepClasses.html">keepSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="va">samples</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## AnalysisData object containing:
@@ -287,7 +287,7 @@
 ## Info: 10</code></pre>
 <p>Or removed using:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/removeClasses.html">removeSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="va">samples</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## AnalysisData object containing:
@@ -297,15 +297,15 @@
 ## Info: 10</code></pre>
 <p>The process is very similar for keeping or removing specific metabolome features from the data table. Below can be seen the first 6 feature names in the data table.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">feat</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/dat.html">features</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">feat</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/dat.html">features</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">feat</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "N1" "N2" "N3" "N4" "N5" "N6"</code></pre>
 <p>Only these features can be kept using:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/keepClasses.html">keepFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="va">feat</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## AnalysisData object containing:
@@ -315,7 +315,7 @@
 ## Info: 10</code></pre>
 <p>Or to remove these features:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/removeClasses.html">removeFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="va">feat</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## AnalysisData object containing:
@@ -528,7 +528,7 @@
 ## 
 ## $anova$returnModels
 ## [1] FALSE</code></pre>
-<p>Refer to the documentation (<code><a href="https://rdrr.io/r/utils/Question.html">?</a></code>) of each function for sepecific usage details.</p>
+<p>Refer to the documentation (<code>?</code>) of each function for sepecific usage details.</p>
 <p>The parameters returned by these functions can be assigned to an <code>AnalysisParameters</code> object, again using <code><a href="../reference/parameters.html">parameters()</a></code>’</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/parameters.html">parameters</a></span><span class="op">(</span><span class="va">p</span>,<span class="st">'pre-treatment'</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preTreatmentElements.html">preTreatmentParameters</a></span><span class="op">(</span>
@@ -542,79 +542,79 @@
 <h4 class="hasAnchor">
 <a href="#yaml-specification" class="anchor"></a>YAML specification</h4>
 <p>Due to the relatively complex structure of the parameters needed for analyses containing many components, it is also possible to specify analysis parameters using the YAML file format. YAML parameter files (.yaml) can be parsed using the <code><a href="../reference/parseParameters.html">parseParameters()</a></code> function. The example below shows the YAML specification for the defaults returned by <code><a href="../reference/analysisParameters.html">analysisParameters()</a></code>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb55-1" title="1"><span class="fu">pre-treatment:</span></a>
-<a class="sourceLine" id="cb55-2" title="2">  <span class="fu">QC:</span></a>
-<a class="sourceLine" id="cb55-3" title="3">    <span class="fu">occupancyFilter:</span></a>
-<a class="sourceLine" id="cb55-4" title="4">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-5" title="5">      <span class="fu">QCidx:</span><span class="at"> QC</span></a>
-<a class="sourceLine" id="cb55-6" title="6">      <span class="fu">occupancy:</span><span class="at"> </span><span class="fl">0.667</span></a>
-<a class="sourceLine" id="cb55-7" title="7">    <span class="fu">impute:</span></a>
-<a class="sourceLine" id="cb55-8" title="8">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-9" title="9">      <span class="fu">QCidx:</span><span class="at"> QC</span></a>
-<a class="sourceLine" id="cb55-10" title="10">      <span class="fu">occupancy:</span><span class="at"> </span><span class="fl">0.667</span></a>
-<a class="sourceLine" id="cb55-11" title="11">    <span class="fu">RSDfilter:</span></a>
-<a class="sourceLine" id="cb55-12" title="12">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-13" title="13">      <span class="fu">QCidx:</span><span class="at"> QC</span></a>
-<a class="sourceLine" id="cb55-14" title="14">      <span class="fu">RSDthresh:</span><span class="at"> </span><span class="fl">0.5</span></a>
-<a class="sourceLine" id="cb55-15" title="15">    <span class="fu">removeQC:</span></a>
-<a class="sourceLine" id="cb55-16" title="16">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-17" title="17">      <span class="fu">QCidx:</span><span class="at"> QC</span></a>
-<a class="sourceLine" id="cb55-18" title="18">  <span class="fu">occupancyFilter:</span></a>
-<a class="sourceLine" id="cb55-19" title="19">    <span class="fu">maximum:</span></a>
-<a class="sourceLine" id="cb55-20" title="20">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-21" title="21">      <span class="fu">occupancy:</span><span class="at"> </span><span class="fl">0.667</span></a>
-<a class="sourceLine" id="cb55-22" title="22">  <span class="fu">impute:</span></a>
-<a class="sourceLine" id="cb55-23" title="23">    <span class="fu">class:</span></a>
-<a class="sourceLine" id="cb55-24" title="24">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-25" title="25">      <span class="fu">occupancy:</span><span class="at"> </span><span class="fl">0.667</span></a>
-<a class="sourceLine" id="cb55-26" title="26">      <span class="fu">nCores:</span><span class="at"> </span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb55-27" title="27">      <span class="fu">clusterType:</span><span class="at"> FORK</span></a>
-<a class="sourceLine" id="cb55-28" title="28">  <span class="fu">transform:</span></a>
-<a class="sourceLine" id="cb55-29" title="29">    <span class="fu">TICnorm:</span><span class="at"> </span><span class="ch">~</span></a>
-<a class="sourceLine" id="cb55-30" title="30"><span class="fu">classification:</span></a>
-<a class="sourceLine" id="cb55-31" title="31">  <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-32" title="32">  <span class="fu">method:</span><span class="at"> randomForest</span></a>
-<a class="sourceLine" id="cb55-33" title="33">  <span class="fu">pars:</span></a>
-<a class="sourceLine" id="cb55-34" title="34">    <span class="fu">sampling:</span><span class="at"> boot</span></a>
-<a class="sourceLine" id="cb55-35" title="35">    <span class="fu">niter:</span><span class="at"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb55-36" title="36">    <span class="fu">nreps:</span><span class="at"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb55-37" title="37">    <span class="fu">strat:</span><span class="at"> </span><span class="ch">yes</span></a>
-<a class="sourceLine" id="cb55-38" title="38">  <span class="fu">nCores:</span><span class="at"> </span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb55-39" title="39">  <span class="fu">clusterType:</span><span class="at"> Fork</span></a>
-<a class="sourceLine" id="cb55-40" title="40"><span class="fu">featureSelection:</span></a>
-<a class="sourceLine" id="cb55-41" title="41">  <span class="fu">method:</span><span class="at"> fs.rf</span></a>
-<a class="sourceLine" id="cb55-42" title="42">  <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb55-43" title="43">  <span class="fu">pars:</span></a>
-<a class="sourceLine" id="cb55-44" title="44">    <span class="fu">fs.rf:</span></a>
-<a class="sourceLine" id="cb55-45" title="45">      <span class="fu">nreps:</span><span class="at"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb55-46" title="46">  <span class="fu">nCores:</span><span class="at"> </span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb55-47" title="47">  <span class="fu">clusterType:</span><span class="at"> FORK</span></a>
-<a class="sourceLine" id="cb55-48" title="48"><span class="fu">correlations:</span></a>
-<a class="sourceLine" id="cb55-49" title="49">  <span class="fu">method:</span><span class="at"> pearson</span></a>
-<a class="sourceLine" id="cb55-50" title="50">  <span class="fu">pAdjustMethod:</span><span class="at"> bonferroni</span></a>
-<a class="sourceLine" id="cb55-51" title="51">  <span class="fu">corPvalue:</span><span class="at"> </span><span class="fl">0.05</span></a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pre-treatment</span><span class="kw">:</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">QC</span><span class="kw">:</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">occupancyFilter</span><span class="kw">:</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">QCidx</span><span class="kw">:</span><span class="at"> QC</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">occupancy</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.667</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">impute</span><span class="kw">:</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">QCidx</span><span class="kw">:</span><span class="at"> QC</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">occupancy</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.667</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">RSDfilter</span><span class="kw">:</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">QCidx</span><span class="kw">:</span><span class="at"> QC</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">RSDthresh</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.5</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">removeQC</span><span class="kw">:</span></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">QCidx</span><span class="kw">:</span><span class="at"> QC</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">occupancyFilter</span><span class="kw">:</span></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum</span><span class="kw">:</span></span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">occupancy</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.667</span></span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">impute</span><span class="kw">:</span></span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">class</span><span class="kw">:</span></span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">occupancy</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.667</span></span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nCores</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">clusterType</span><span class="kw">:</span><span class="at"> FORK</span></span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transform</span><span class="kw">:</span></span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">TICnorm</span><span class="kw">:</span><span class="at"> </span><span class="ch">~</span></span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a><span class="fu">classification</span><span class="kw">:</span></span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> randomForest</span></span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pars</span><span class="kw">:</span></span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">sampling</span><span class="kw">:</span><span class="at"> boot</span></span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">niter</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">nreps</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">strat</span><span class="kw">:</span><span class="at"> </span><span class="ch">yes</span></span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">nCores</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">clusterType</span><span class="kw">:</span><span class="at"> Fork</span></span>
+<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a><span class="fu">featureSelection</span><span class="kw">:</span></span>
+<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> fs.rf</span></span>
+<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pars</span><span class="kw">:</span></span>
+<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fs.rf</span><span class="kw">:</span></span>
+<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nreps</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span></span>
+<span id="cb55-46"><a href="#cb55-46" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">nCores</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb55-47"><a href="#cb55-47" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">clusterType</span><span class="kw">:</span><span class="at"> FORK</span></span>
+<span id="cb55-48"><a href="#cb55-48" aria-hidden="true" tabindex="-1"></a><span class="fu">correlations</span><span class="kw">:</span></span>
+<span id="cb55-49"><a href="#cb55-49" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> pearson</span></span>
+<span id="cb55-50"><a href="#cb55-50" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pAdjustMethod</span><span class="kw">:</span><span class="at"> bonferroni</span></span>
+<span id="cb55-51"><a href="#cb55-51" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">corPvalue</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span></span></code></pre></div>
 <p>This can be passed directly into an <code>AnalysisParameters</code> object using the following:</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">paramFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">'defaultParameters.yaml'</span>,package <span class="op">=</span> <span class="st">'metabolyseR'</span><span class="op">)</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/parseParameters.html">parseParameters</a></span><span class="op">(</span><span class="va">paramFile</span><span class="op">)</span></code></pre></div>
 <p>For more complex pre-treatment situations such as the following:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb57-1" title="1"><span class="fu">pre-treatment:</span></a>
-<a class="sourceLine" id="cb57-2" title="2">  <span class="fu">remove:</span></a>
-<a class="sourceLine" id="cb57-3" title="3">    <span class="fu">sample:</span></a>
-<a class="sourceLine" id="cb57-4" title="4">      <span class="fu">idx:</span><span class="at"> fileOrder</span></a>
-<a class="sourceLine" id="cb57-5" title="5">      <span class="fu">samples:</span><span class="at"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb57-6" title="6">  <span class="fu">remove1:</span></a>
-<a class="sourceLine" id="cb57-7" title="7">    <span class="fu">class:</span></a>
-<a class="sourceLine" id="cb57-8" title="8">      <span class="fu">cls:</span><span class="at"> day</span></a>
-<a class="sourceLine" id="cb57-9" title="9">      <span class="fu">classes:</span></a>
-<a class="sourceLine" id="cb57-10" title="10">      <span class="kw">-</span> H</a>
-<a class="sourceLine" id="cb57-11" title="11">      <span class="kw">-</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb57-12" title="12">  <span class="fu">occupancyFilter:</span></a>
-<a class="sourceLine" id="cb57-13" title="13">    <span class="fu">maximum:</span></a>
-<a class="sourceLine" id="cb57-14" title="14">      <span class="fu">cls:</span><span class="at"> class</span></a>
-<a class="sourceLine" id="cb57-15" title="15">      <span class="fu">occupancy:</span><span class="at"> </span><span class="fl">0.667</span></a>
-<a class="sourceLine" id="cb57-16" title="16">  <span class="fu">transform:</span></a>
-<a class="sourceLine" id="cb57-17" title="17">    <span class="fu">TICnorm:</span><span class="at"> </span><span class="ch">~</span></a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pre-treatment</span><span class="kw">:</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">remove</span><span class="kw">:</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">sample</span><span class="kw">:</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">idx</span><span class="kw">:</span><span class="at"> fileOrder</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">samples</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">remove1</span><span class="kw">:</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">class</span><span class="kw">:</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> day</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">classes</span><span class="kw">:</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> H</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">occupancyFilter</span><span class="kw">:</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum</span><span class="kw">:</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">occupancy</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.667</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transform</span><span class="kw">:</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">TICnorm</span><span class="kw">:</span><span class="at"> </span><span class="ch">~</span></span></code></pre></div>
 <p>Where multiple steps of the same method needed (here is <code>remove</code>), these are numbered sequentially. Where multiple values also need to be provided to a particular argument (e.g. <code>classes = c('H','1')</code>), these should be supplied as a hyphenated list.</p>
 <p>Existing <code>AnalysisParameters</code> objects can also be exported to YAML format as shown below:</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
@@ -644,7 +644,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code>## 
-## metabolyseR  v0.14.3 Tue Sep 14 11:43:43 2021</code></pre>
+## metabolyseR  v0.14.4 Sun Nov  7 22:47:35 2021</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Parameters:
 ## pre-treatment
@@ -668,33 +668,33 @@
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Pre-treatment …
 
-Pre-treatment   ✓ [0.7S]
+Pre-treatment   ✓ [0.9S]
 ## Modelling …
 
-Modelling   ✓ [2.9S]
+Modelling   ✓ [3.7S]
 ## ________________________________________________________________________________
 ## 
-## Complete! [3.6S]</code></pre>
+## Complete! [4.6S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.3
+## metabolyseR v0.14.4
 ## Analysis:
-##  Tue Sep 14 11:43:43 2021
+##  Sun Nov  7 22:47:35 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Tue Sep 14 11:43:44 2021
+##      Sun Nov  7 22:47:35 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Tue Sep 14 11:43:47 2021
+##      Sun Nov  7 22:47:39 2021
 ##      Methods: randomForest</code></pre>
 </div>
 <div id="performing-a-re-analysis" class="section level3">
@@ -709,7 +709,7 @@ Modelling   ✓ [2.9S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.3 Tue Sep 14 11:43:47 2021
+## metabolyseR v0.14.4 Sun Nov  7 22:47:39 2021
 ## ________________________________________________________________________________
 ## Parameters:
 ## correlations
@@ -719,7 +719,7 @@ Modelling   ✓ [2.9S]
 ## ________________________________________________________________________________</code></pre>
 <pre><code>## Correlations …
 
-Correlations    ✓ [0S]</code></pre>
+Correlations    ✓ [0.1S]</code></pre>
 <pre><code>## ________________________________________________________________________________
 ## 
 ## Complete! [0.1S]</code></pre>
@@ -727,25 +727,25 @@ Correlations    ✓ [0S]</code></pre>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.3
+## metabolyseR v0.14.4
 ## Analysis:
-##  Tue Sep 14 11:43:43 2021
+##  Sun Nov  7 22:47:35 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Tue Sep 14 11:43:44 2021
+##      Sun Nov  7 22:47:35 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Tue Sep 14 11:43:47 2021
+##      Sun Nov  7 22:47:39 2021
 ##      Methods: randomForest
 ## 
 ##  Correlations:
-##      Tue Sep 14 11:43:47 2021
+##      Sun Nov  7 22:47:40 2021
 ##      No. correlations = 140</code></pre>
 </div>
 <div id="extracting-analysis-results" class="section level3">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
       </span>
     </div>
 
@@ -85,14 +85,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="pre_treatment_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Metabolomics data pre-treatment</h1>
-            <h3 class="subtitle">metabolyseR v0.14.3</h3>
+            <h3 class="subtitle">metabolyseR v0.14.4</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">14 September, 2021</h4>
+            <h4 class="date">07 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/pre_treatment.Rmd"><code>vignettes/pre_treatment.Rmd</code></a></small>
       <div class="hidden name"><code>pre_treatment.Rmd</code></div>
@@ -125,7 +125,7 @@
 <div id="example-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h3>
-<p>The examples used here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package. This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment. The pipe <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package will also be used. The example data can be loaded using:</p>
+<p>The examples used here will use the <code>abr1</code> data set from the <a href="https://aberhrml.github.io/metaboData/">metaboData</a> package. This is nominal mass flow-injection mass spectrometry (FI-MS) fingerprinting data from a plant-pathogen infection time course experiment. The pipe <code>%&gt;%</code> from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package will also be used. The example data can be loaded using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://aberhrml.github.io/metaboData/">metaboData</a></span><span class="op">)</span></code></pre></div>
 <p>Only the negative acquisition mode data (<code>abr1$neg</code>) will be used along with the sample meta-information (<code>abr1$fact</code>). Create an <code>AnalysisData</code> class object, assigned to the variable <code>d</code>, using the following:</p>
@@ -161,7 +161,7 @@
 <p>In many situations, it will be necessary to exclude either individual samples, sample classes or certain features from further analysis.</p>
 <p>Individual samples can be removed using <code><a href="../reference/removeClasses.html">removeSamples()</a></code> as below, where the <code>idx</code> argument stipulates the sample information column cotaining the sample indexes and the <code>samples</code> argument a vector of sample indexes to remove.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/removeClasses.html">removeSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
@@ -171,7 +171,7 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>The <code>removeClasses</code> function can be used similarly to remove whole classes from further analysis:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/removeClasses.html">removeClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="st">'H'</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
@@ -181,7 +181,7 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>The following will enable the removal of specified features as a vector supplied to the <code>features</code> argument:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/removeClasses.html">removeFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'N1'</span>,<span class="st">'N2'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
@@ -197,7 +197,7 @@
 <p>Often it will be necessary to retain only particular samples, sample classes or certain features for further analysis.</p>
 <p>Individual samples can be kept using <code><a href="../reference/keepClasses.html">keepSamples()</a></code> as below, where the <code>idx</code> argument stipulates the sample information column cotaining the sample indexes and the <code>samples</code> argument, a vector of sample indexes to keep.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/keepClasses.html">keepSamples</a></span><span class="op">(</span>idx <span class="op">=</span> <span class="st">'injorder'</span>,samples <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
@@ -207,7 +207,7 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>The <code><a href="../reference/keepClasses.html">keepClasses()</a></code> method can be used similarly to keep whole classes for further analysis:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="st">'H'</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
@@ -217,7 +217,7 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>The following will specify features to keep, with a vector of feature names supplied to the <code>features</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/keepClasses.html">keepFeatures</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'N1'</span>,<span class="st">'N2'</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; AnalysisData object containing:</span>
@@ -233,7 +233,7 @@
 <p>Occupancy provides a useful metric by which to filter poorly represented features (features containing a majority zero or missing values). An occupancy threshold provides a means of specifying this majority with variables below the threshold excluded from further analyses. However, this can be complicated by an underlying class structure present within the data where a variable may be well represented within one class but not in another.</p>
 <p>The proportional occupancy for each feature within a data set for a given class structure can be calculated using the <code><a href="../reference/occupancy.html">occupancy()</a></code> method, specifying the sample information column using the <code>cls</code> argument.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/occupancy.html">occupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 11,914 × 5</span>
 <span class="co">#&gt;    day   Feature     N `Class total` Occupancy</span>
@@ -251,13 +251,13 @@
 <span class="co">#&gt; # … with 11,904 more rows</span></code></pre></div>
 <p>Alternatively the occupancy distributions can be plotted providing a useful overview of the data set:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotOccupancy.html">plotOccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/plot_occupancy-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>It can be seen that there are a number of unoccupied features across all the sample classes with a small rise in the density distribution near 0.</p>
 <p>There are two strategies for thresholding occupancy. The first is a maximum theshold; where the maximum occupancy across all classes is above the threshold. Therefore, for a feature to be retained, only a single class needs to have an occupancy above the threshold. It is this strategy that will be appropriate for most applications. A two-thirds maximum occupancy filter can be applied to the <code>day</code> sample information column of our data using:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">maximum_occupancy_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">maximum_occupancy_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p>It can be seen below that this removes 240 features.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -270,12 +270,12 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>Plotting the occupancy distributions shows that all the low occupancy features have now been removed.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">maximum_occupancy_filtered</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">maximum_occupancy_filtered</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotOccupancy.html">plotOccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/plot_filtered_occupancy-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The alternative strategy is by applying a minimum threshold; where the minimum occupancy across all classes is required to be above the threshold. Therefore, for a feature to be retained, all classes would need to have an occupancy above the threshold. A two-thirds minimum occupancy filter can be applied to the <code>day</code> sample information column of our data using:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">minimum_occupancy_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">minimum_occupancy_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMinimum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p>It can be seen below that this removes 344 features.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -294,19 +294,19 @@
 <p>There are a wide range of transformation methods available that are commonly used for the analysis of metabolomics data. These methods are all named with the prefix <code>transform</code>.</p>
 <p>The effects of a transformation on a data set can be assessed using a supervised classifcation approach. The following performs a supervised random forest analysis of the example data and plots the results using both multidimensional scaling (MDS) and reciever operator characteristic (ROC) curves.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotSupervisedRF.html">plotSupervisedRF</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/transform_RF-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Alternatively a log10 transformation can be applied prior to analysis:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/transformArcSine.html">transformLog10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/transformArcSine.html">transformLog10</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotSupervisedRF.html">plotSupervisedRF</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/log10_RF-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Or a total ion count (TIC) normalisation where each individual sample is corrected by its TIC. This is one method that can be used to account for small variablility in sample concentration.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/transformArcSine.html">transformTICnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/transformArcSine.html">transformTICnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotSupervisedRF.html">plotSupervisedRF</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/TICnorm_RF-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The margin value is a metric that can be used to assess model perfomance. Positive values indicate a models ability, on average, to correctly predict the class labels of the analysed data.</p>
@@ -318,14 +318,14 @@
 <p>Sample aggregation allows the electronic pooling of samples based on a grouping variable. This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication. <code>metabolyseR</code> provides methods for mean, median and sum aggregation and each starts with the <code>aggregate</code> prefix.</p>
 <p>Below shows a principle component analysis (PCA) plot of the example data coloured by the classes of the <code>day</code> sample information column. It is first maximum occupancy filtered to remove empty features.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotPCA.html">plotPCA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/pca-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The example below shows the mean aggregation of the data using the experimental classes within the <code>day</code> sample information column.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">day_mean</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">day_mean</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/aggregateMean.html">aggregateMean</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p>The PCA plot below shows these class averages of the data.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -338,12 +338,12 @@
 <p>There can sometimes be artificial batch related variability introduced into metabolomics analyses as a result of analytical instrumentation or sample preparation. With appropriate sample randomisation (see section on feature filtering based on QC samples), batch related variability can be corrected for using an average centring correction method, applied to the individual features.</p>
 <p>The plot below shows differences in the TIC distributions for each of the classes in the <code>day</code> sample information column.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotTIC.html">plotTIC</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">'day'</span>,colour <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/day_TICs-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The data can then be corrected by class average centring as shown below.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">corrected_data</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">corrected_data</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/correctionCenter.html">correctionCenter</a></span><span class="op">(</span>block <span class="op">=</span> <span class="st">'day'</span>,type <span class="op">=</span> <span class="st">'median'</span><span class="op">)</span></code></pre></div>
 <p>The plot of the TICs below shows that the inter-class variability has been removed but the intra-class variability has been retained.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
@@ -358,25 +358,25 @@
 <p>Missing values can have an important influence on downstream analyses with zero values heavily influencing the outcomes of parametric tests. Where and how they are imputed are important considerations and this is highly related to variable occupancy. The methods provided here allow both these aspects to be taken into account and utilise Random Forest imputation using the <a href="https://CRAN.R-project.org/package=missForest"><em>missForest</em></a> package.</p>
 <p>Below shows a Linear Discriminant Analysis (LDA) plot of the example data. The eigenvalue (Tw) gives a comparable indication of the separation between the sample classes.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/lda-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The following shows the same, except there is an application of imputation prior to the LDA. The imputed data is based on the data of all the samples present on the data set. It shows a very slight drop in the eigenvalue and therefore reduced separation between the sample classes.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/imputeAll.html">imputeAll</a></span><span class="op">(</span>parallel <span class="op">=</span> <span class="st">'variables'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/imputeAll.html">imputeAll</a></span><span class="op">(</span>parallel <span class="op">=</span> <span class="st">'variables'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/impute_all_lda-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Imputation accuracy is likely to be reduced if data is sparse or there is underlying class structure where there is significant discrimination. Below shows the application imputation prior the LDA, except this time the imputation is class-wise. The imputed data is based only on the values of other samples within the class.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/imputeAll.html">imputeClass</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'H'</span>,<span class="st">'5'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/imputeAll.html">imputeClass</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/imputed_class_lda-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This shows a slight increase in the eigenvalue with the classes showing greater separation. This is likely due to the increased accuracy of the imputed data relative to the class structure.</p>
@@ -389,11 +389,11 @@
 <p>The example data set does not include QC samples. For this example, the <code>H</code> class will be used.</p>
 <p>Firstly, the RSD distribution will be assessed for the only <code>H</code> class. The following retains only the <code>H</code> class samples to aid visualisation.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">QC</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">QC</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/keepClasses.html">keepClasses</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,classes <span class="op">=</span> <span class="st">'H'</span><span class="op">)</span></code></pre></div>
 <p>The table of RSD values for each of the features can be computed as below.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">QC</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">QC</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/rsd.html">rsd</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2,000 × 5</span>
 <span class="co">#&gt;    day   Feature  Mean    SD   RSD</span>
@@ -411,22 +411,22 @@
 <span class="co">#&gt; # … with 1,990 more rows</span></code></pre></div>
 <p>The distributions of the feature RSD values can be plotted for the <code>H</code> class.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">QC</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">QC</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotRSD.html">plotRSD</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Removed 123 rows containing non-finite values (stat_density).</span>
 <span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/QC_rsd_plot-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This shows that there are a number of features with very high RSD values and therefore poor analytical robustness. Many of these are likely to be as a result of poor occupancy and zero values. Applying an occupancy filter prior to plotting does indeed show a reduction in the upper range of RSD values retained.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">QC</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">QC</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/occupancyMaximum.html">occupancyMaximum</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotRSD.html">plotRSD</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/QC_occupancy_rsd-1.png" width="700" style="display: block; margin: auto;"></p>
 <p><code>metabolyseR</code> contains a number of methods for applying pre-treatment routines specifically on QC samples and are all prefixed with <code>QC</code>. These include methods for feature filtering of a data set based the occupancy of the QC class, imputation of the QC class only, feature filtering based in the RSD values of the QC class and removal of only the QC class.</p>
 <p>Below shows an example of applying some of these QC methods. This will first filter the features in the data set based on the occupancy of the QC class. Then the features are filtered based on the RSD values of the QC class using an RSD threshold of 50%. The class index of the QC samples is specified using the <code>QCidx</code> argument.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">QC_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/QCimpute.html">QCoccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">QC_filtered</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/QCimpute.html">QCoccupancy</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,occupancy <span class="op">=</span> <span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/QCimpute.html">QCrsdFilter</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,QCidx <span class="op">=</span> <span class="st">'H'</span>,RSDthresh <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
 <p>This removes a total of 637 features.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
@@ -498,43 +498,43 @@
 <span class="co">#&gt;  transform</span>
 <span class="co">#&gt;      TICnorm</span></code></pre></div>
 <p>The pre-treatment routine can then be executed.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">analysis &lt;-<span class="st"> </span><span class="kw">metabolyse</span>(abr1<span class="op">$</span>neg,abr1<span class="op">$</span>fact,p)</a>
-<a class="sourceLine" id="cb46-2" title="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb46-3" title="3"><span class="co">#&gt; metabolyseR  v0.14.3 Tue Sep 14 11:48:09 2021</span></a>
-<a class="sourceLine" id="cb46-4" title="4"><span class="co">#&gt; ________________________________________________________________________________</span></a>
-<a class="sourceLine" id="cb46-5" title="5"><span class="co">#&gt; Parameters:</span></a>
-<a class="sourceLine" id="cb46-6" title="6"><span class="co">#&gt; pre-treatment</span></a>
-<a class="sourceLine" id="cb46-7" title="7"><span class="co">#&gt;  keep</span></a>
-<a class="sourceLine" id="cb46-8" title="8"><span class="co">#&gt;      classes</span></a>
-<a class="sourceLine" id="cb46-9" title="9"><span class="co">#&gt;          cls = day</span></a>
-<a class="sourceLine" id="cb46-10" title="10"><span class="co">#&gt;          classes = c("H", "1", "2")</span></a>
-<a class="sourceLine" id="cb46-11" title="11"><span class="co">#&gt;  occupancyFilter</span></a>
-<a class="sourceLine" id="cb46-12" title="12"><span class="co">#&gt;      maximum</span></a>
-<a class="sourceLine" id="cb46-13" title="13"><span class="co">#&gt;          cls = day</span></a>
-<a class="sourceLine" id="cb46-14" title="14"><span class="co">#&gt;          occupancy = 2/3</span></a>
-<a class="sourceLine" id="cb46-15" title="15"><span class="co">#&gt;  transform</span></a>
-<a class="sourceLine" id="cb46-16" title="16"><span class="co">#&gt;      TICnorm</span></a>
-<a class="sourceLine" id="cb46-17" title="17"><span class="co">#&gt; ________________________________________________________________________________</span></a>
-<a class="sourceLine" id="cb46-18" title="18"><span class="co">#&gt; Pre-treatment …</span></a>
-<a class="sourceLine" id="cb46-19" title="19"></a>
-<a class="sourceLine" id="cb46-20" title="20">Pre<span class="op">-</span>treatment   ✓ [<span class="fl">9.5</span>S]</a>
-<a class="sourceLine" id="cb46-21" title="21"><span class="co">#&gt; ________________________________________________________________________________</span></a>
-<a class="sourceLine" id="cb46-22" title="22"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb46-23" title="23"><span class="co">#&gt; Complete! [9.5S]</span></a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.4 Sun Nov  7 22:53:23 2021</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Parameters:</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  keep</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      classes</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          cls = day</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          classes = c("H", "1", "2")</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  occupancyFilter</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      maximum</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          cls = day</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          occupancy = 2/3</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  transform</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      TICnorm</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pre-treatment …</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">8.6</span>S]</span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [8.6S]</span></span></code></pre></div>
 <p>Printing the <code>analysis</code> object shows the resulting data from the pre-treatment routine.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; metabolyseR v0.14.3</span>
+<span class="co">#&gt; metabolyseR v0.14.4</span>
 <span class="co">#&gt; Analysis:</span>
-<span class="co">#&gt;  Tue Sep 14 11:48:09 2021</span>
+<span class="co">#&gt;  Sun Nov  7 22:53:23 2021</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Raw Data:</span>
 <span class="co">#&gt;      No. samples = 120</span>
 <span class="co">#&gt;      No. features = 2000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Pre-treated Data:</span>
-<span class="co">#&gt;      Tue Sep 14 11:48:19 2021</span>
+<span class="co">#&gt;      Sun Nov  7 22:53:31 2021</span>
 <span class="co">#&gt;      No. samples = 60</span>
 <span class="co">#&gt;      No. features = 1723</span></code></pre></div>
 <p>The pre-treated data can be extracted from the <code>Analysis</code> object using several methods.</p>
@@ -558,7 +558,7 @@
 <span class="co">#&gt; Info: 9</span></code></pre></div>
 <p>A supervised random forest analysis can be used to visualise the structure of the resulting pre-treated data.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">analysis</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">analysis</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="../reference/plotSupervisedRF.html">plotSupervisedRF</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span>,type <span class="op">=</span> <span class="st">'pre-treated'</span><span class="op">)</span></code></pre></div>
 <p><img src="pre_treatment_files/figure-html/supervised-rf-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>

@@ -1,3 +1,7 @@
+# metabolyseR 0.14.4
+
+* Console output from [`imputeAll()`](https://jasenfinch.github.io/metabolyseR/reference/impute.html) now suppressed.
+
 # metabolyseR 0.14.3
 
 * Temporarily added [jasenfinch/missForest](https://github.com/jasenfinch/missForest) as a remote until [stekhoven/missForest](https://github.com/stekhoven/missForest) pull request [#25](https://github.com/stekhoven/missForest/pull/25) is resolved.
