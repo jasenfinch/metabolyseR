@@ -1,3 +1,7 @@
+# metabolyseR 0.14.5
+
+* Correlation analysis results now include an absolute correlation coefficient column by which the results are also arranged in descending order.
+
 # metabolyseR 0.14.4
 
 * Console output from [`imputeAll()`](https://jasenfinch.github.io/metabolyseR/reference/impute.html) now suppressed.
