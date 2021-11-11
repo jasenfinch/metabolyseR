@@ -156,9 +156,11 @@ doCorrelations <- function(d,
     rename(Intensity1 = Intensity) %>%
     left_join(intensity, by = c('Feature2' = 'Feature')) %>%
     rename(Intensity2 = Intensity) %>%
-    mutate(log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
-    select(Feature1,Feature2,log2IntensityRatio,r,p,n)  %>% 
-    na.omit()
+    mutate(`|r|` = abs(r),
+           log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
+    select(Feature1,Feature2,log2IntensityRatio,r,`|r|`,p,n)  %>% 
+    na.omit() %>% 
+    arrange(desc(`|r|`))
   
   return(rs)
 }
