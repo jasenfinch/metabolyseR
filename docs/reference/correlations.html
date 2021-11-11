@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.5</span>
       </span>
     </div>
 
@@ -191,19 +191,19 @@ All features are compared and the returned table of correlations are p-value thr
 <span class='r-in'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='analysisData.html'>analysisData</a></span><span class='op'>(</span><span class='va'>abr1</span><span class='op'>$</span><span class='va'>neg</span><span class='op'>[</span>,<span class='fl'>200</span><span class='op'>:</span><span class='fl'>300</span><span class='op'>]</span>,<span class='va'>abr1</span><span class='op'>$</span><span class='va'>fact</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'>correlations</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 130 × 6</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    Feature1 Feature2 log2IntensityRatio     r        p     n</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> N213     N214                 1.69   0.591 3.40<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span>    63</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> N213     N218                 4.02   0.741 1.21<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>    21</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> N209     N224                 1.06   0.810 6.71<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span>    34</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> N213     N224                 2.57   0.807 2.75<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span>    36</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> N213     N225                 1.78   0.610 1.15<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span>    82</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> N214     N225                 0.094<span style='text-decoration: underline;'>1</span> 0.477 2.30<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>    55</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> N224     N225                -<span style='color: #BB0000;'>0.792</span>  0.863 1.76<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span>    29</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> N212     N227                -<span style='color: #BB0000;'>0.884</span>  0.980 1.07<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>     7</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> N213     N229                -<span style='color: #BB0000;'>2.30</span>   0.682 6.66<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-14</span>   107</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> N214     N229                -<span style='color: #BB0000;'>3.99</span>   0.456 1.07<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>    67</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 130 × 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Feature1 Feature2 log2IntensityRatio     r `|r|`           p     n</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> N212     N227                 -<span style='color: #BB0000;'>0.884</span> 0.980 0.980 0.010<span style='text-decoration: underline;'>7</span>          7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> N224     N286                  1.85  0.971 0.971 0.006<span style='text-decoration: underline;'>12</span>         8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> N215     N276                  0.227 0.965 0.965 0.041<span style='text-decoration: underline;'>9</span>          7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> N224     N265                  0.576 0.943 0.943 0.001<span style='text-decoration: underline;'>38</span>        11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> N201     N275                 -<span style='color: #BB0000;'>1.59</span>  0.909 0.909 0.026<span style='text-decoration: underline;'>4</span>         10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> N213     N231                 -<span style='color: #BB0000;'>1.63</span>  0.883 0.883 0             108</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> N224     N225                 -<span style='color: #BB0000;'>0.792</span> 0.863 0.863 0.000<span style='text-decoration: underline;'>000</span>176    29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> N258     N263                 -<span style='color: #BB0000;'>2.89</span>  0.857 0.857 0.018<span style='text-decoration: underline;'>1</span>         13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> N267     N297                 -<span style='color: #BB0000;'>0.671</span> 0.853 0.853 0             120</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> N211     N291                 -<span style='color: #BB0000;'>1.55</span>  0.831 0.831 0.001<span style='text-decoration: underline;'>06</span>        19</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 120 more rows</span></span>
 </pre>
   </div>

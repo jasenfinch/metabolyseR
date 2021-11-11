@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.5</span>
       </span>
     </div>
 
@@ -89,10 +89,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
-            <h3 class="subtitle">metabolyseR v0.14.4</h3>
+            <h3 class="subtitle">metabolyseR v0.14.5</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">07 November, 2021</h4>
+            <h4 class="date">11 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/metabolyseR.Rmd"><code>vignettes/metabolyseR.Rmd</code></a></small>
       <div class="hidden name"><code>metabolyseR.Rmd</code></div>
@@ -644,7 +644,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code>## 
-## metabolyseR  v0.14.4 Sun Nov  7 22:47:35 2021</code></pre>
+## metabolyseR  v0.14.5 Thu Nov 11 21:33:26 2021</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Parameters:
 ## pre-treatment
@@ -668,33 +668,33 @@
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Pre-treatment …
 
-Pre-treatment   ✓ [0.9S]
+Pre-treatment   ✓ [0.8S]
 ## Modelling …
 
-Modelling   ✓ [3.7S]
+Modelling   ✓ [3.3S]
 ## ________________________________________________________________________________
 ## 
-## Complete! [4.6S]</code></pre>
+## Complete! [4.1S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.4
+## metabolyseR v0.14.5
 ## Analysis:
-##  Sun Nov  7 22:47:35 2021
+##  Thu Nov 11 21:33:26 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Sun Nov  7 22:47:35 2021
+##      Thu Nov 11 21:33:27 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Sun Nov  7 22:47:39 2021
+##      Thu Nov 11 21:33:30 2021
 ##      Methods: randomForest</code></pre>
 </div>
 <div id="performing-a-re-analysis" class="section level3">
@@ -709,7 +709,7 @@ Modelling   ✓ [3.7S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.4 Sun Nov  7 22:47:39 2021
+## metabolyseR v0.14.5 Thu Nov 11 21:33:30 2021
 ## ________________________________________________________________________________
 ## Parameters:
 ## correlations
@@ -727,25 +727,25 @@ Correlations    ✓ [0.1S]</code></pre>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.4
+## metabolyseR v0.14.5
 ## Analysis:
-##  Sun Nov  7 22:47:35 2021
+##  Thu Nov 11 21:33:26 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Sun Nov  7 22:47:35 2021
+##      Thu Nov 11 21:33:27 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Sun Nov  7 22:47:39 2021
+##      Thu Nov 11 21:33:30 2021
 ##      Methods: randomForest
 ## 
 ##  Correlations:
-##      Sun Nov  7 22:47:40 2021
+##      Thu Nov 11 21:33:30 2021
 ##      No. correlations = 140</code></pre>
 </div>
 <div id="extracting-analysis-results" class="section level3">
