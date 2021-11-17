@@ -493,12 +493,18 @@ setMethod('plotExplanatoryHeatmap',
                    clusterMethod = 'ward.D2', 
                    featureNames = TRUE,
                    featureLimit = Inf){
-            x %>%
+            pl <- x %>%
               analysisResults(element = 'modelling') %>%
               plotExplanatoryHeatmap(threshold = threshold, 
                                      distanceMeasure = distanceMeasure, 
                                      clusterMethod = clusterMethod, 
                                      featureNames = featureNames,
-                                     featureLimit = featureLimit) 
+                                     featureLimit = featureLimit)
+            
+            if (length(pl) == 1){
+              pl <- pl[[1]]
+            }
+            
+            return(pl)
           }
 )

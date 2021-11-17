@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.6</span>
       </span>
     </div>
 
@@ -89,10 +89,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
-            <h3 class="subtitle">metabolyseR v0.14.5</h3>
+            <h3 class="subtitle">metabolyseR v0.14.6</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">11 November, 2021</h4>
+            <h4 class="date">17 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/metabolyseR.Rmd"><code>vignettes/metabolyseR.Rmd</code></a></small>
       <div class="hidden name"><code>metabolyseR.Rmd</code></div>
@@ -567,32 +567,26 @@
 <span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">class</span><span class="kw">:</span></span>
 <span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
 <span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">occupancy</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.667</span></span>
-<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nCores</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
-<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">clusterType</span><span class="kw">:</span><span class="at"> FORK</span></span>
-<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transform</span><span class="kw">:</span></span>
-<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">TICnorm</span><span class="kw">:</span><span class="at"> </span><span class="ch">~</span></span>
-<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a><span class="fu">classification</span><span class="kw">:</span></span>
-<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
-<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> randomForest</span></span>
-<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pars</span><span class="kw">:</span></span>
-<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">sampling</span><span class="kw">:</span><span class="at"> boot</span></span>
-<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">niter</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
-<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">nreps</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
-<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">strat</span><span class="kw">:</span><span class="at"> </span><span class="ch">yes</span></span>
-<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">nCores</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
-<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">clusterType</span><span class="kw">:</span><span class="at"> Fork</span></span>
-<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a><span class="fu">featureSelection</span><span class="kw">:</span></span>
-<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> fs.rf</span></span>
-<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
-<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pars</span><span class="kw">:</span></span>
-<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fs.rf</span><span class="kw">:</span></span>
-<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nreps</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span></span>
-<span id="cb55-46"><a href="#cb55-46" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">nCores</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
-<span id="cb55-47"><a href="#cb55-47" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">clusterType</span><span class="kw">:</span><span class="at"> FORK</span></span>
-<span id="cb55-48"><a href="#cb55-48" aria-hidden="true" tabindex="-1"></a><span class="fu">correlations</span><span class="kw">:</span></span>
-<span id="cb55-49"><a href="#cb55-49" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> pearson</span></span>
-<span id="cb55-50"><a href="#cb55-50" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pAdjustMethod</span><span class="kw">:</span><span class="at"> bonferroni</span></span>
-<span id="cb55-51"><a href="#cb55-51" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">corPvalue</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span></span></code></pre></div>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transform</span><span class="kw">:</span></span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">TICnorm</span><span class="kw">:</span><span class="at"> </span><span class="ch">~</span></span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a><span class="fu">classification</span><span class="kw">:</span></span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> randomForest</span></span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pars</span><span class="kw">:</span></span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">sampling</span><span class="kw">:</span><span class="at"> boot</span></span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">niter</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">nreps</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">strat</span><span class="kw">:</span><span class="at"> </span><span class="ch">yes</span></span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a><span class="fu">featureSelection</span><span class="kw">:</span></span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> fs.rf</span></span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cls</span><span class="kw">:</span><span class="at"> class</span></span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pars</span><span class="kw">:</span></span>
+<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fs.rf</span><span class="kw">:</span></span>
+<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nreps</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span></span>
+<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a><span class="fu">correlations</span><span class="kw">:</span></span>
+<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> pearson</span></span>
+<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pAdjustMethod</span><span class="kw">:</span><span class="at"> bonferroni</span></span>
+<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">corPvalue</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span></span></code></pre></div>
 <p>This can be passed directly into an <code>AnalysisParameters</code> object using the following:</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">paramFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">'defaultParameters.yaml'</span>,package <span class="op">=</span> <span class="st">'metabolyseR'</span><span class="op">)</span>
@@ -644,7 +638,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code>## 
-## metabolyseR  v0.14.5 Thu Nov 11 21:33:26 2021</code></pre>
+## metabolyseR  v0.14.6 Wed Nov 17 10:25:14 2021</code></pre>
 <pre><code>## ________________________________________________________________________________</code></pre>
 <pre><code>## Parameters:
 ## pre-treatment
@@ -671,30 +665,30 @@
 Pre-treatment   ✓ [0.8S]
 ## Modelling …
 
-Modelling   ✓ [3.3S]
+Modelling   ✓ [3.5S]
 ## ________________________________________________________________________________
 ## 
-## Complete! [4.1S]</code></pre>
+## Complete! [4.4S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.5
+## metabolyseR v0.14.6
 ## Analysis:
-##  Thu Nov 11 21:33:26 2021
+##  Wed Nov 17 10:25:14 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Thu Nov 11 21:33:27 2021
+##      Wed Nov 17 10:25:15 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Thu Nov 11 21:33:30 2021
+##      Wed Nov 17 10:25:18 2021
 ##      Methods: randomForest</code></pre>
 </div>
 <div id="performing-a-re-analysis" class="section level3">
@@ -709,7 +703,7 @@ Modelling   ✓ [3.3S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.5 Thu Nov 11 21:33:30 2021
+## metabolyseR v0.14.6 Wed Nov 17 10:25:19 2021
 ## ________________________________________________________________________________
 ## Parameters:
 ## correlations
@@ -727,25 +721,25 @@ Correlations    ✓ [0.1S]</code></pre>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
-## metabolyseR v0.14.5
+## metabolyseR v0.14.6
 ## Analysis:
-##  Thu Nov 11 21:33:26 2021
+##  Wed Nov 17 10:25:14 2021
 ## 
 ##  Raw Data:
 ##      No. samples = 120
 ##      No. features = 200
 ## 
 ##  Pre-treated Data:
-##      Thu Nov 11 21:33:27 2021
+##      Wed Nov 17 10:25:15 2021
 ##      No. samples = 120
 ##      No. features = 48
 ## 
 ##  Modelling:
-##      Thu Nov 11 21:33:30 2021
+##      Wed Nov 17 10:25:18 2021
 ##      Methods: randomForest
 ## 
 ##  Correlations:
-##      Thu Nov 11 21:33:30 2021
+##      Wed Nov 17 10:25:19 2021
 ##      No. correlations = 140</code></pre>
 </div>
 <div id="extracting-analysis-results" class="section level3">

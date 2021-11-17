@@ -25,8 +25,6 @@ pre-treatment:
     class:
       cls: class
       occupancy: 0.667
-      nCores: 4
-      clusterType: FORK
   
   transform:
     TICnorm:
@@ -39,8 +37,6 @@ classification:
     niter: 10
     nreps: 10
     strat: TRUE
-  nCores: 4
-  clusterType: Fork
 
 featureSelection:
   method: fs.rf
@@ -48,8 +44,6 @@ featureSelection:
   pars:
     fs.rf:
       nreps: 100
-  nCores: 4
-  clusterType: FORK
 
 correlations:
   method: pearson
