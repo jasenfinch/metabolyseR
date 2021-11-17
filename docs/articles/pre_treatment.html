@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.14.6</span>
       </span>
     </div>
 
@@ -89,10 +89,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Metabolomics data pre-treatment</h1>
-            <h3 class="subtitle">metabolyseR v0.14.5</h3>
+            <h3 class="subtitle">metabolyseR v0.14.6</h3>
                         <h4 class="author">Jasen Finch</h4>
             
-            <h4 class="date">11 November, 2021</h4>
+            <h4 class="date">17 November, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/master/vignettes/pre_treatment.Rmd"><code>vignettes/pre_treatment.Rmd</code></a></small>
       <div class="hidden name"><code>pre_treatment.Rmd</code></div>
@@ -500,7 +500,7 @@
 <p>The pre-treatment routine can then be executed.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.5 Thu Nov 11 21:38:26 2021</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  v0.14.6 Wed Nov 17 10:30:55 2021</span></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Parameters:</span></span>
 <span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
@@ -517,24 +517,24 @@
 <span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pre-treatment …</span></span>
 <span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">8.8</span>S]</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>Pre<span class="sc">-</span>treatment   ✓ [<span class="fl">9.9</span>S]</span>
 <span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [8.8S]</span></span></code></pre></div>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Complete! [10S]</span></span></code></pre></div>
 <p>Printing the <code>analysis</code> object shows the resulting data from the pre-treatment routine.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; metabolyseR v0.14.5</span>
+<span class="co">#&gt; metabolyseR v0.14.6</span>
 <span class="co">#&gt; Analysis:</span>
-<span class="co">#&gt;  Thu Nov 11 21:38:26 2021</span>
+<span class="co">#&gt;  Wed Nov 17 10:30:55 2021</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Raw Data:</span>
 <span class="co">#&gt;      No. samples = 120</span>
 <span class="co">#&gt;      No. features = 2000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Pre-treated Data:</span>
-<span class="co">#&gt;      Thu Nov 11 21:38:34 2021</span>
+<span class="co">#&gt;      Wed Nov 17 10:31:05 2021</span>
 <span class="co">#&gt;      No. samples = 60</span>
 <span class="co">#&gt;      No. features = 1723</span></code></pre></div>
 <p>The pre-treated data can be extracted from the <code>Analysis</code> object using several methods.</p>
