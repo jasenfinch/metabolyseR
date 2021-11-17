@@ -28,9 +28,8 @@
 #' )
 #' parameters(p,'modelling') <- modellingParameters('anova')
 #' 
-#' ## Change "cls" and "nCores" parameters 
+#' ## Change "cls" parameters 
 #' changeParameter(p,'cls') <- 'day'
-#' changeParameter(p,'nCores') <- 2
 #' 
 #' ## Run analysis using a subset of the abr1 negative mode data set
 #' analysis <- metabolyse(abr1$neg[,1:200],
