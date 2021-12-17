@@ -3,8 +3,9 @@
 setGeneric('nlda',function(x,cls = 'class',prior = NULL,scale = FALSE,comprank = FALSE,...)
   standardGeneric('nlda'))
 
-#'@importFrom e1071 naiveBayes
-#'@importFrom stats cov predict 
+#' @importFrom e1071 naiveBayes
+#' @importFrom stats cov predict 
+#' @importFrom methods as
 
 setMethod('nlda',signature = 'AnalysisData',
           function(x,cls = 'class',prior=NULL,scale=FALSE,comprank = FALSE,...) {
