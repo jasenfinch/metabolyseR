@@ -26,9 +26,29 @@ test_that('plotLDA throws error when wrong type specified for Analysis',{
   expect_error(plotLDA(d,type = 'wrong'))
 })
 
+test_that('A warning is thrown when a single replicate class is included',{
+  d <- analysisData(abr1$neg[,200:300],abr1$fact) %>% 
+    occupancyMaximum(cls = 'day')
+  
+  d <- d %>%
+    removeSamples(idx = 'injorder',
+                  samples = c(6,13,30,31,32,38,
+                              41,58,62,63,70,
+                              87,88,93,99,102,
+                              103,107, 120))
+  
+  expect_warning(plotLDA(d,cls = 'day'))
+})
+
 test_that('plotLDA throws error when number of classes is less than 2',{
   d <- analysisData(abr1$neg,abr1$fact) %>%
-    keepClasses(classes = 1)
+    keepClasses(cls = 'day',
+                classes = '1')
+  expect_error(plotLDA(d,cls = 'day'))
+})
+
+test_that('plotLDA throws error when numeric classes specified',{
+  d <- analysisData(abr1$neg,abr1$fact)
   expect_error(plotLDA(d))
 })
 

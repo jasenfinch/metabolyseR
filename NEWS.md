@@ -1,6 +1,10 @@
+# metabolyseR 0.14.7
+
+* Single replicate classes now automatically removed by [`plotLDA()`](https://jasenfinch.github.io/metabolyseR/reference/plotLDA.html).
+
 # metabolyseR 0.14.6
 
-* [`plotExplanatoryHeatmap`](https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html) method for the [`Analysis`](https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html) class now returns the plot only if the number of plots is equal to 1. 
+* [`plotExplanatoryHeatmap()`](https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html) method for the [`Analysis`](https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html) class now returns the plot only if the number of plots is equal to 1. 
 
 * Removed reference to the `nCores` parameter from the documentation example of [`metabolyse()`](https://jasenfinch.github.io/metabolyseR/reference/metabolyse.html).
 

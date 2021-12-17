@@ -63,24 +63,16 @@ setMethod('plotLDA',
                    legendPosition = 'bottom', 
                    labelSize = 2){
             
-            classLength <- clsLen(analysis,cls)
+            lda <- nlda(analysis,cls = cls,scale = scale,center = center)
             
-            if (classLength < 2) {
-              stop('More than 1 class needed for PC-LDA.',call. = FALSE)
-            }
-            
-            info <- analysis %>%
-              clsExtract(cls) %>%
-              factor()
-            
-            lda <- nlda(dat(analysis),cl = info,scale = scale,center = center)
-            
-            tw <- lda$Tw %>%
+            tw <- lda@Tw %>%
               round(2)
             
-            lda <- lda$x %>%
+            classLength <- clsLen(lda,cls = cls)
+            
+            lda <- lda@x %>%
               as_tibble() %>%
-              mutate(!!cls := info)
+              mutate(!!cls := lda@cl)
             
             if (classLength > 2) {
               lda <- lda %>%
@@ -91,8 +83,6 @@ setMethod('plotLDA',
                   bind_cols(sinfo(analysis) %>%
                               select(all_of(label)))
               }
-              
-              classLength <- clsLen(analysis,cls)
               
               pl <- scatterPlot(lda,
                                 cls,
