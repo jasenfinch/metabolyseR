@@ -115,3 +115,22 @@ setClass('Univariate',
            models = 'list',
            results = 'tbl_df'
          ))
+
+setClass('LDA',
+         contains = 'AnalysisData',
+         slots = list(
+           stats = 'tbl_df',
+           Tw = 'numeric',
+           rankmat = 'numeric',
+           means = 'numeric',
+           loadings = 'tbl_df',
+           x = 'tbl_df',
+           xmeans = 'tbl_df',
+           pred = 'factor',
+           cl = 'factor',
+           prior = 'numeric',
+           conf = 'table',
+           acc = 'numeric',
+           lev = 'character',
+           call = 'call'
+         ))
