@@ -90,7 +90,7 @@ setMethod('plotSupervisedRF',
               
               return(pl) 
             } else {
-              warning('Issues detected, skipping plotting of supervised random forest.',call. = FALSE)
+              warning('Errors encounted in random forest training, skipping plotting of supervised random forest.',call. = FALSE)
             }
           }
 )
