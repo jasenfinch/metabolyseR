@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.8</span>
       </span>
     </div>
 
@@ -85,10 +85,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Modelling and feature selection</h1>
-            <h3 data-toc-skip class="subtitle">metabolyseR v0.14.7</h3>
+            <h3 data-toc-skip class="subtitle">metabolyseR v0.14.8</h3>
                         <h4 data-toc-skip class="author">Jasen Finch</h4>
             
-            <h4 data-toc-skip class="date">17 December, 2021</h4>
+            <h4 data-toc-skip class="date">06 January, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/vignettes/modelling.Rmd" class="external-link"><code>vignettes/modelling.Rmd</code></a></small>
       <div class="hidden name"><code>modelling.Rmd</code></div>
@@ -733,7 +733,7 @@
 <p>The analysis can then be executed.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34m</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  [39m  [31mv0.14.7 [39m Fri Dec 17 17:57:41 2021</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  [39m  [31mv0.14.8 [39m Thu Jan  6 13:54:01 2022</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [33m [33mParameters: [33m [39m</span></span>
 <span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
@@ -766,13 +766,13 @@
 <span id="cb59-33"><a href="#cb59-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb59-34"><a href="#cb59-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34mPre-treatment  [39m…</span></span>
 <span id="cb59-35"><a href="#cb59-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-36"><a href="#cb59-36" aria-hidden="true" tabindex="-1"></a> [34mPre<span class="sc">-</span>treatment  [39m     [32m✓ [39m [<span class="fl">6.4</span>S]</span>
+<span id="cb59-36"><a href="#cb59-36" aria-hidden="true" tabindex="-1"></a> [34mPre<span class="sc">-</span>treatment  [39m     [32m✓ [39m [<span class="fl">6.3</span>S]</span>
 <span id="cb59-37"><a href="#cb59-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34mModelling  [39m…</span></span>
 <span id="cb59-38"><a href="#cb59-38" aria-hidden="true" tabindex="-1"></a> [34m</span>
-<span id="cb59-39"><a href="#cb59-39" aria-hidden="true" tabindex="-1"></a>Modelling  [39m  [32m✓ [39m [<span class="fl">4.5</span>S]</span>
+<span id="cb59-39"><a href="#cb59-39" aria-hidden="true" tabindex="-1"></a>Modelling  [39m  [32m✓ [39m [<span class="fl">4.4</span>S]</span>
 <span id="cb59-40"><a href="#cb59-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb59-41"><a href="#cb59-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32mComplete!  [39m[10.9S]</span></span></code></pre></div>
+<span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32mComplete!  [39m[10.7S]</span></span></code></pre></div>
 <p>The results for the modelling can be specifically extracted using the following.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/analysis-accessors.html">analysisResults</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="st">'modelling'</span><span class="op">)</span>
