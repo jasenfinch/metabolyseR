@@ -475,7 +475,7 @@ classification <- function(x,
       select(cls)
   }
   
-  if (length(unique(cls)) < 2) {
+  if (length(unique(deframe(i))) < 2) {
    stop('Need at least two classes to do classification.',call. = FALSE) 
   }
   
