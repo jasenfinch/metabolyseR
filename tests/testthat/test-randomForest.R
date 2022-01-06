@@ -36,6 +36,12 @@ test_that('binary classification works',{
   expect_s4_class(rf,'RandomForest')
 })
 
+test_that('classification throws an error when less than 2 classes available',{
+  expect_error(d %>% 
+    keepClasses(cls = 'day',classes = 'H') %>% 
+    randomForest(cls = 'day'))
+})
+
 test_that('random forest regression works',{
   rf <- randomForest(d,cls = 'injorder',perm = 3,returnModels = TRUE)
   
