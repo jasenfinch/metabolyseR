@@ -1,3 +1,9 @@
+# metabolyseR 0.14.8
+
+* An error is now thrown during random forest classification when less than two classes are specified.
+
+* [`plotSupervisedRF()`](https://jasenfinch.github.io/metabolyseR/reference/plotSupervisedRF.html) now skips plotting if errors are encountered during random forest training.
+
 # metabolyseR 0.14.7
 
 * Single replicate classes now automatically removed by [`plotLDA()`](https://jasenfinch.github.io/metabolyseR/reference/plotLDA.html).

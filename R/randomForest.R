@@ -460,16 +460,23 @@ classification <- function(x,
                       select(all_of(cls)) %>%
                       deframe())
     
+    cls_list <- clsRem %>%
+      select(all_of(cls)) %>%
+      deframe() %>%
+      str_c('"',.,'"') %>% 
+      str_c(.,collapse = ', ')
+    
     warning(str_c('Classes with < 5 replicates removed: ',
-                  str_c(str_c('"',clsRem %>%
-                                select(all_of(cls)) %>%
-                                deframe(),
-                              '"'),collapse = ', ')),
+                  cls_list),
             call. = FALSE)
     
     i <- x %>%
       sinfo() %>%
       select(cls)
+  }
+  
+  if (length(unique(deframe(i))) < 2) {
+   stop('Need at least two classes to do classification.',call. = FALSE) 
   }
   
   if (length(comparisons) > 0) {

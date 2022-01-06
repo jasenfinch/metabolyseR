@@ -31,3 +31,9 @@ test_that('plotSupervisedRF plots without ROC',{
     plotSupervisedRF(cls = 'day',ROC = FALSE)
   expect_s3_class(pl,'ggplot')
 })
+
+test_that('plotting skipped when errors encountered during random forest training',{
+  expect_warning(pl <- analysisData(abr1$neg,abr1$fact) %>%
+    keepClasses(cls = 'day',classes = 'H') %>% 
+    plotSupervisedRF(cls = 'day'))
+})

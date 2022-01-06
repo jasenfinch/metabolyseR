@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.8</span>
       </span>
     </div>
 
@@ -85,10 +85,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction</h1>
-            <h3 data-toc-skip class="subtitle">metabolyseR v0.14.7</h3>
+            <h3 data-toc-skip class="subtitle">metabolyseR v0.14.8</h3>
                         <h4 data-toc-skip class="author">Jasen Finch</h4>
             
-            <h4 data-toc-skip class="date">17 December, 2021</h4>
+            <h4 data-toc-skip class="date">06 January, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/vignettes/metabolyseR.Rmd" class="external-link"><code>vignettes/metabolyseR.Rmd</code></a></small>
       <div class="hidden name"><code>metabolyseR.Rmd</code></div>
@@ -634,7 +634,7 @@
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </code></pre></div>
 <pre><code><span class="co">## </span>
-<span class="co"><span style="color: #0000BB;">## metabolyseR </span> <span style="color: #BB0000;">v0.14.7</span> Fri Dec 17 17:56:28 2021</span></code></pre>
+<span class="co"><span style="color: #0000BB;">## metabolyseR </span> <span style="color: #BB0000;">v0.14.8</span> Thu Jan  6 13:52:47 2022</span></code></pre>
 <pre><code><span class="co">## ________________________________________________________________________________</span></code></pre>
 <pre><code><span class="co">## <span style="color: #BBBB00;">Parameters:</span></span>
 <span class="co">## pre-treatment</span>
@@ -661,30 +661,30 @@
  [34mPre-treatment  [39m     [32m✓ [39m [0.8S]
 ##  [34mModelling  [39m…
  [34m
-Modelling  [39m  [32m✓ [39m [3.3S]
+Modelling  [39m  [32m✓ [39m [3.6S]
 ## ________________________________________________________________________________
 ## 
-##  [32mComplete!  [39m[4.1S]</code></pre>
+##  [32mComplete!  [39m[4.4S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to modelling or correlation analysis, the raw data will automatically be used.</strong></p>
 <p>The <code>analysis</code> object containing the analysis results can be printed to provide some basic information about the results of the analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## </span>
-<span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.14.7</span></span>
+<span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.14.8</span></span>
 <span class="co"><span style="color: #BBBB00;">## Analysis:</span></span>
-<span class="co"><span style="color: #BBBB00;">## </span>    Fri Dec 17 17:56:28 2021</span>
+<span class="co"><span style="color: #BBBB00;">## </span>    Thu Jan  6 13:52:47 2022</span>
 <span class="co">## </span>
 <span class="co">##  Raw Data:</span>
 <span class="co">##      No. samples = 120</span>
 <span class="co">##      No. features = 200</span>
 <span class="co">## </span>
 <span class="co">##  Pre-treated Data:</span>
-<span class="co">##      Fri Dec 17 17:56:29 2021</span>
+<span class="co">##      Thu Jan  6 13:52:47 2022</span>
 <span class="co">##      No. samples = 120</span>
 <span class="co">##      No. features = 48</span>
 <span class="co">## </span>
 <span class="co">##  Modelling:</span>
-<span class="co">##      Fri Dec 17 17:56:32 2021</span>
+<span class="co">##      Thu Jan  6 13:52:51 2022</span>
 <span class="co">##      Methods: randomForest</span></code></pre>
 </div>
 <div class="section level3">
@@ -699,7 +699,7 @@ Modelling  [39m  [32m✓ [39m [3.3S]
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## </span>
-<span class="co">## <span style="color: #0000BB;">metabolyseR</span> <span style="color: #BB0000;">v0.14.7</span> Fri Dec 17 17:56:33 2021</span>
+<span class="co">## <span style="color: #0000BB;">metabolyseR</span> <span style="color: #BB0000;">v0.14.8</span> Thu Jan  6 13:52:51 2022</span>
 <span class="co">## ________________________________________________________________________________</span>
 <span class="co">## <span style="color: #BBBB00;">Parameters:</span></span>
 <span class="co">## correlations</span>
@@ -717,25 +717,25 @@ Correlations  [39m   [32m✓ [39m [0.1S]</code></pre>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## </span>
-<span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.14.7</span></span>
+<span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.14.8</span></span>
 <span class="co"><span style="color: #BBBB00;">## Analysis:</span></span>
-<span class="co"><span style="color: #BBBB00;">## </span>    Fri Dec 17 17:56:28 2021</span>
+<span class="co"><span style="color: #BBBB00;">## </span>    Thu Jan  6 13:52:47 2022</span>
 <span class="co">## </span>
 <span class="co">##  Raw Data:</span>
 <span class="co">##      No. samples = 120</span>
 <span class="co">##      No. features = 200</span>
 <span class="co">## </span>
 <span class="co">##  Pre-treated Data:</span>
-<span class="co">##      Fri Dec 17 17:56:29 2021</span>
+<span class="co">##      Thu Jan  6 13:52:47 2022</span>
 <span class="co">##      No. samples = 120</span>
 <span class="co">##      No. features = 48</span>
 <span class="co">## </span>
 <span class="co">##  Modelling:</span>
-<span class="co">##      Fri Dec 17 17:56:32 2021</span>
+<span class="co">##      Thu Jan  6 13:52:51 2022</span>
 <span class="co">##      Methods: randomForest</span>
 <span class="co">## </span>
 <span class="co">##  Correlations:</span>
-<span class="co">##      Fri Dec 17 17:56:33 2021</span>
+<span class="co">##      Thu Jan  6 13:52:51 2022</span>
 <span class="co">##      No. correlations = 140</span></code></pre>
 </div>
 <div class="section level3">

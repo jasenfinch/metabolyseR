@@ -59,35 +59,39 @@ setMethod('plotSupervisedRF',
                    legendPosition = 'bottom', 
                    labelSize = 2){
             
-            rf <- randomForest(x,
+            rf <- try(randomForest(x,
                                cls = cls,
                                rf = rf,
                                reps = 1,
-                               seed = seed)
+                               seed = seed))
             
-            pl <- plotMDS(rf,
-                          cls = cls,
-                          label = label,
-                          ellipses = ellipses,
-                          title = '',
-                          legendPosition = legendPosition,
-                          labelSize = labelSize) +
-              labs(
-                caption = str_c('Margin: ',
-                                rf@results$measures$.estimate[4] %>% 
-                                  round(3)))
-            
-            if (isTRUE(ROC) & rf@type == 'classification') {
-              pl <- pl + 
-                plotROC(rf,legendPosition = legendPosition) + 
-                plot_annotation(
-                  title = title,
-                  theme = theme(plot.title = element_text(face = 'bold')))
+            if (class(rf) != 'try-error') {
+              pl <- plotMDS(rf,
+                            cls = cls,
+                            label = label,
+                            ellipses = ellipses,
+                            title = '',
+                            legendPosition = legendPosition,
+                            labelSize = labelSize) +
+                labs(
+                  caption = str_c('Margin: ',
+                                  rf@results$measures$.estimate[4] %>% 
+                                    round(3)))
+              
+              if (isTRUE(ROC) & rf@type == 'classification') {
+                pl <- pl + 
+                  plotROC(rf,legendPosition = legendPosition) + 
+                  plot_annotation(
+                    title = title,
+                    theme = theme(plot.title = element_text(face = 'bold')))
+              } else {
+                pl <- pl + labs(title = title)
+              }
+              
+              return(pl) 
             } else {
-              pl <- pl + labs(title = title)
+              warning('Errors encounted in random forest training, skipping plotting of supervised random forest.',call. = FALSE)
             }
-            
-            return(pl)
           }
 )
 
