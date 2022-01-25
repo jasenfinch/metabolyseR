@@ -25,8 +25,8 @@ permute <- function(x,cls,rf,n = 1000){
     params$strata <- ind
     do.call(randomForest::randomForest,params)
   },.options = furrr_options(seed = runif(1) %>% 
-    {. * 100000} %>% 
-    round())) %>%
+                               {. * 100000} %>% 
+                               round())) %>%
     set_names(1:n)
   
   return(models)
@@ -35,7 +35,7 @@ permute <- function(x,cls,rf,n = 1000){
 importance <- function(x){
   x %>%
     randomForest::importance() %>%
-    {bind_cols(tibble(Feature = rownames(.)),as_tibble(.))}
+    {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))}
 }
 
 #' @importFrom randomForest margin
@@ -149,9 +149,11 @@ classificationPermutationMeasures <- function(models){
                    pred = m$predicted,
                    margin = margin(m)) %>%
               bind_cols(m$votes %>%
-                          as_tibble())
+                          as_tibble(.name_repair = 'minimal'))
           }) %>%
-            bind_rows(.id = 'Permutation') %>%
+            {
+              suppressMessages(bind_rows(.,.id = 'Permutation'))
+            } %>%
             mutate(Permutation = as.numeric(Permutation))
         }) %>%
           bind_rows(.id = 'Comparison')
@@ -352,7 +354,7 @@ unsupervised <- function(x,rf,reps,returnModels,seed,...){
   
   proximities <- models %>%
     map(.,~{.$proximity %>%
-        as_tibble() %>%
+        as_tibble(.name_repair = 'minimal') %>%
         mutate(Sample = seq_len(nrow(.))) %>%
         gather('Sample2','Proximity',-Sample) %>%
         rename(Sample1 = Sample)
@@ -476,7 +478,7 @@ classification <- function(x,
   }
   
   if (length(unique(deframe(i))) < 2) {
-   stop('Need at least two classes to do classification.',call. = FALSE) 
+    stop('Need at least two classes to do classification.',call. = FALSE) 
   }
   
   if (length(comparisons) > 0) {
