@@ -18,6 +18,9 @@
 \alias{importance,Univariate-method}
 \alias{importance,list-method}
 \alias{importance,Analysis-method}
+\alias{proximity}
+\alias{proximity,RandomForest-method}
+\alias{proximity,list-method}
 \alias{explanatoryFeatures}
 \alias{explanatoryFeatures,Univariate-method}
 \alias{explanatoryFeatures,RandomForest-method}
@@ -59,6 +62,12 @@ importance(x)
 
 \S4method{importance}{Analysis}(x)
 
+proximity(x)
+
+\S4method{proximity}{RandomForest}(x)
+
+\S4method{proximity}{list}(x)
+
 explanatoryFeatures(x, ...)
 
 \S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
@@ -92,6 +101,7 @@ Methods for accessing modelling results.
 \item \code{metrics}: Retrieve the model performance metrics for a random forest analysis
 \item \code{importanceMetrics}: Retrieve the available feature importance metrics for a random forest analysis.
 \item \code{importance}: Retrieve feature importance results.
+\item \code{proximity}: Retrieve the random forest sample proximities.
 \item \code{explanatoryFeatures}: Retrieve explanatory features.
 }
 }
@@ -121,6 +131,9 @@ importanceMetrics(rf_analysis)
 
 ## Retrieve the feature importance results
 importance(rf_analysis)
+
+## Retrieve the sample proximities
+proximity(rf_analysis)
 
 ## Retrieve the explanatory features
 explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)

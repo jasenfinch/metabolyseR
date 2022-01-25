@@ -17,6 +17,7 @@ test_that('random forest classification works',{
   
   rf_metrics <- metrics(rf)
   rf_importance <- importance(rf)
+  rf_proximity <- proximity(rf)
   
   rf_wrong <- c(rf,list('wrong'))
   
@@ -24,7 +25,15 @@ test_that('random forest classification works',{
   expect_identical(type(rf$day),'classification')
   expect_s3_class(rf_metrics,'tbl_df')
   expect_s3_class(rf_importance,'tbl_df')
+  expect_s3_class(rf_proximity,'tbl_df')
+  
+  expect_s3_class(metrics(rf_wrong),'tbl_df')
   expect_error(importance(rf_wrong))
+  expect_s3_class(proximity(rf_wrong),'tbl_df')
+  expect_error(explanatoryFeatures(rf_wrong))
+  
+  expect_equal(nrow(metrics(list(0,0))),0)
+  expect_equal(nrow(proximity(list(0,0))),0)
 })
 
 test_that('binary classification works',{

@@ -13,6 +13,7 @@
 #' * `metrics`: Retrieve the model performance metrics for a random forest analysis
 #' * `importanceMetrics`: Retrieve the available feature importance metrics for a random forest analysis.
 #' * `importance`: Retrieve feature importance results.
+#' * `proximity`: Retrieve the random forest sample proximities.
 #' * `explanatoryFeatures`: Retrieve explanatory features.
 #' @examples 
 #' library(metaboData)
@@ -39,6 +40,9 @@
 #' 
 #' ## Retrieve the feature importance results
 #' importance(rf_analysis)
+#' 
+#' ## Retrieve the sample proximities
+#' proximity(rf_analysis)
 #' 
 #' ## Retrieve the explanatory features
 #' explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
@@ -205,6 +209,46 @@ setMethod('importance',signature = 'Analysis',
             x %>% 
               analysisResults(element = 'modelling') %>% 
               importance()
+          })
+
+#' @rdname modelling-accessors
+#' @export
+
+setGeneric("proximity", function(x) 
+  standardGeneric("proximity")
+)
+
+#' @rdname modelling-accessors
+
+setMethod('proximity',signature = 'RandomForest',
+          function(x){
+            x@proximities
+          }
+)
+
+#' @rdname modelling-accessors
+
+setMethod('proximity',signature = 'list',
+          function(x){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (FALSE %in% (object_classes == 'RandomForest')) {
+              message(
+                str_c('All objects contained within supplied list ',
+                      'that are not of class RandomForest will be ignored.'))
+            }
+            
+            x <- x[object_classes == 'RandomForest']
+            
+            if (length(x) > 0) {
+              x %>%
+                map(proximity) %>%
+                bind_rows()  
+            } else {
+              tibble()
+            }
+            
           })
 
 #' @rdname modelling-accessors
