@@ -1,7 +1,8 @@
 library(metaboData)
 
 d <- analysisData(abr1$neg,abr1$fact) %>%
-  keepFeatures(features = features(.)[200:250])
+  keepFeatures(features = features(.)[200:250]) %>% 
+  clsAdd('sample_names',paste0(seq_len(nSamples(.)),'_a'))
 
 context('randomForest')
 
@@ -17,7 +18,7 @@ test_that('random forest classification works',{
   
   rf_metrics <- metrics(rf)
   rf_importance <- importance(rf)
-  rf_proximity <- proximity(rf)
+  rf_proximity <- proximity(rf,idx = 'sample_names')
   
   rf_wrong <- c(rf,list('wrong'))
   
@@ -34,6 +35,8 @@ test_that('random forest classification works',{
   
   expect_equal(nrow(metrics(list(0,0))),0)
   expect_equal(nrow(proximity(list(0,0))),0)
+  
+  expect_error(proximity(rf,idx = 'name'))
 })
 
 test_that('binary classification works',{

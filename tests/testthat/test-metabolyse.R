@@ -27,4 +27,5 @@ test_that('metabolyse-works', {
   expect_equal(nSamples(analysis),20)
   
   expect_s3_class(metrics(analysis),'tbl_df')
+  expect_s3_class(proximity(analysis),'tbl_df')
 })
