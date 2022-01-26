@@ -225,8 +225,14 @@ setGeneric("proximity", function(x,idx = NULL)
 setMethod('proximity',signature = 'RandomForest',
           function(x,idx = NULL){
             
+            group_vars <- switch(type(x),
+                                 classification = c('Response','Comparison'),
+                                 regression = 'Response',
+                                 unsupervised = NULL) %>% 
+              c(.,'Sample1','Sample2')
+            
             proximities <- x@proximities %>% 
-              group_by(Response,Comparison,Sample1,Sample2) %>% 
+              group_by_at(group_vars) %>% 
               summarise(Proximity = mean(Proximity),
                         .groups = 'drop')
             
