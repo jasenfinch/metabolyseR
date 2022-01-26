@@ -57,6 +57,7 @@ Collate: allClasses.R
     info.R
     join.R
     keep.R
+    mds.R
     metabolyse.R
     metabolyseR.R
     modelling.R
