@@ -70,7 +70,7 @@ setMethod('mds',signature = 'RandomForest',
 #' @rdname mds
 
 setMethod('mds',signature = 'list',
-          function(x,dimensions = 2){
+          function(x,dimensions = 2,idx = NULL){
             object_classes <- x %>%
               map_chr(class)
             
@@ -84,7 +84,7 @@ setMethod('mds',signature = 'list',
             
             if (length(x) > 0) {
               x %>%
-                map(mds,dimensions = dimensions) %>%
+                map(mds,dimensions = dimensions,idx = idx) %>%
                 bind_rows()  
             } else {
               tibble()
@@ -95,8 +95,9 @@ setMethod('mds',signature = 'list',
 #' @rdname mds
 
 setMethod('mds',signature = 'Analysis',
-          function(x,dimensions = 2){
+          function(x,dimensions = 2,idx = NULL){
             x %>% 
               analysisResults('modelling') %>% 
-              mds()
+              mds(dimensions = dimensions,
+                  idx = idx)
           })
