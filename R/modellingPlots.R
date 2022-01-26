@@ -384,33 +384,11 @@ setMethod('plotMDS',
               } 
             }
             
-            if (x@type == 'classification') {
-              proximities <- x@proximities %>%
-                base::split(.$Comparison) %>%
-                map(~{
-                  d <- .
-                  d %>%
-                    group_by(Sample1,Sample2) %>%
-                    summarise(Proximity = mean(Proximity),.groups = 'drop') %>%
-                    spread(Sample2,Proximity) %>%
-                    ungroup() %>%
-                    select(-Sample1)
-                }) 
-              suppressWarnings({
-                mds <- proximities %>%
-                  map(~{
-                    d <- .
-                    d %>%
-                      {1 - .} %>%
-                      cmdscale() %>%
-                      as_tibble() %>%
-                      set_colnames(c('Dimension 1','Dimension 2')) 
-                  }) %>%
-                  bind_rows(.id = 'Comparison')
-              })
-              
+            mds_dimensions <- mds(x)
+            
+            if (type(x) == 'classification') {
               if (!is.null(cls)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   base::split(.$Comparison) %>%
                   map(~{
                     comparison <- str_split(.x$Comparison[1],'~')[[1]]
@@ -429,7 +407,7 @@ setMethod('plotMDS',
               }
               
               if (!is.null(label)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   base::split(.$Comparison) %>%
                   map(~{
                     d <- .
@@ -452,22 +430,8 @@ setMethod('plotMDS',
               }
               
             } else {
-              proximities <- x@proximities %>%
-                group_by(Sample1,Sample2) %>%
-                summarise(Proximity = mean(Proximity)) %>%
-                spread(Sample2,Proximity) %>%
-                ungroup() %>%
-                select(-Sample1)
-              
-              suppressWarnings({
-                mds <- proximities %>%
-                  {1 - .} %>%
-                  cmdscale() %>%
-                  as_tibble() %>%
-                  set_colnames(c('Dimension 1','Dimension 2'))
-              })  
               if (!is.null(cls)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
                               select(cls) %>%
@@ -476,7 +440,7 @@ setMethod('plotMDS',
               }
               
               if (!is.null(label)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
                               select(label))
@@ -490,7 +454,7 @@ setMethod('plotMDS',
             }
             
             pl <- scatterPlot(
-              mds,
+              mds_dimensions,
               cls,
               'Dimension 1',
               'Dimension 2',
