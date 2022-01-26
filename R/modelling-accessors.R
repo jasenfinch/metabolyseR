@@ -222,7 +222,10 @@ setGeneric("proximity", function(x)
 
 setMethod('proximity',signature = 'RandomForest',
           function(x){
-            x@proximities
+            x@proximities %>% 
+              group_by(Response,Comparison,Sample1,Sample2) %>% 
+              summarise(Proximity = mean(Proximity),
+                        .groups = 'drop')
           }
 )
 
