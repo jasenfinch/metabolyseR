@@ -545,32 +545,7 @@ setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom')
 setMethod('plotROC',signature = 'RandomForest',
           function(x,title = '', legendPosition = 'bottom'){
             
-            if (x@type != 'classification') {
-              stop('ROC curves can only be plotted for classification!')
-            }
-            
-            preds <- x@predictions %>%
-              base::split(.$Comparison) %>%
-              map(~{
-                d <- .
-                d <- d %>%
-                  mutate(obs = factor(obs))
-                
-                suppressMessages({
-                  suppressWarnings({
-                    if (length(levels(d$obs)) > 2) {
-                      d %>%
-                        group_by(Comparison) %>%
-                        roc_curve(obs,levels(d$obs))  
-                    } else {
-                      d %>%
-                        group_by(Comparison) %>%
-                        roc_curve(obs,levels(d$obs)[1])  
-                    }  
-                  })   
-                })
-              }) %>%
-              bind_rows()
+            preds <- roc(x)
             
             meas <- x@results$measures %>%
               filter(.metric == 'roc_auc') %>%
@@ -578,9 +553,9 @@ setMethod('plotROC',signature = 'RandomForest',
                      y = 0, 
                      label = str_c('AUC: ',round(.estimate,3)))
             
-            if ('.level' %in% colnames(preds)) {
+            if ('Class' %in% colnames(preds)) {
               preds <- preds %>%
-                arrange(.level,sensitivity)
+                arrange(Class,sensitivity)
               
               pl <- preds %>%
                 ggplot() +
@@ -588,8 +563,8 @@ setMethod('plotROC',signature = 'RandomForest',
                 geom_line(
                   aes(x = 1 - specificity, 
                       y = sensitivity,
-                      group = .level,
-                      colour = .level)) +
+                      group = Class,
+                      colour = Class)) +
                 geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
                 facet_wrap(~Comparison) +
@@ -599,7 +574,7 @@ setMethod('plotROC',signature = 'RandomForest',
                     title = x@results$measures$Response[1])) +
                 labs(title = title)
               
-              if ((preds$.level %>% unique() %>% length()) <= 12) {
+              if ((preds$Class %>% unique() %>% length()) <= 12) {
                 pl <- pl +
                   scale_colour_ptol()
               }  

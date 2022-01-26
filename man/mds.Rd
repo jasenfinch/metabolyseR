@@ -11,9 +11,9 @@ mds(x, dimensions = 2, idx = NULL)
 
 \S4method{mds}{RandomForest}(x, dimensions = 2, idx = NULL)
 
-\S4method{mds}{list}(x, dimensions = 2)
+\S4method{mds}{list}(x, dimensions = 2, idx = NULL)
 
-\S4method{mds}{Analysis}(x, dimensions = 2)
+\S4method{mds}{Analysis}(x, dimensions = 2, idx = NULL)
 }
 \arguments{
 \item{x}{S4 object of class \code{RandomForest}, \code{Analysis} or a list}

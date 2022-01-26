@@ -29,4 +29,5 @@ test_that('metabolyse-works', {
   expect_s3_class(metrics(analysis),'tbl_df')
   expect_s3_class(proximity(analysis),'tbl_df')
   expect_s3_class(mds(analysis),'tbl_df')
+  expect_s3_class(roc(analysis),'tbl_df')
 })

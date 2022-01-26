@@ -81,6 +81,7 @@ Collate: allClasses.R
     remove.R
     randomForest.R
     rsd.R
+    roc.R
     show-method.R
     split.R
     transform.R
