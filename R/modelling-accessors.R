@@ -289,6 +289,16 @@ setMethod('proximity',signature = 'list',
           })
 
 #' @rdname modelling-accessors
+
+setMethod('proximity',signature = 'Analysis',
+          function(x,idx = NULL){
+            x %>% 
+              analysisResults(element = 'modelling') %>% 
+              proximity(idx = idx)
+          })
+
+
+#' @rdname modelling-accessors
 #' @export
 
 setGeneric('explanatoryFeatures', function(x,...) 

@@ -21,6 +21,7 @@
 \alias{proximity}
 \alias{proximity,RandomForest-method}
 \alias{proximity,list-method}
+\alias{proximity,Analysis-method}
 \alias{explanatoryFeatures}
 \alias{explanatoryFeatures,Univariate-method}
 \alias{explanatoryFeatures,RandomForest-method}
@@ -66,7 +67,9 @@ proximity(x, idx = NULL)
 
 \S4method{proximity}{RandomForest}(x, idx = NULL)
 
-\S4method{proximity}{list}(x)
+\S4method{proximity}{list}(x, idx = NULL)
+
+\S4method{proximity}{Analysis}(x, idx = NULL)
 
 explanatoryFeatures(x, ...)
 
