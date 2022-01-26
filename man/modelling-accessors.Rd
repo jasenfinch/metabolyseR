@@ -62,9 +62,9 @@ importance(x)
 
 \S4method{importance}{Analysis}(x)
 
-proximity(x)
+proximity(x, idx = NULL)
 
-\S4method{proximity}{RandomForest}(x)
+\S4method{proximity}{RandomForest}(x, idx = NULL)
 
 \S4method{proximity}{list}(x)
 
@@ -82,6 +82,8 @@ explanatoryFeatures(x, ...)
 \item{x}{S4 object of class \code{AnalysisData},\code{RandomForest}, \code{Univariate}, \code{Analysis} or a list.}
 
 \item{cls}{sample information column to use}
+
+\item{idx}{sample information column to use for sample names. If \code{NULL}, the sample row number will be used. Sample names should be unique for each row of data.}
 
 \item{...}{arguments to parse to method for specific class}
 
@@ -133,7 +135,7 @@ importanceMetrics(rf_analysis)
 importance(rf_analysis)
 
 ## Retrieve the sample proximities
-proximity(rf_analysis)
+proximity(rf_analysis,idx = 'name')
 
 ## Retrieve the explanatory features
 explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)

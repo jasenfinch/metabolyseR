@@ -5,6 +5,7 @@
 #' @param cls sample information column to use
 #' @param metric importance metric for which to retrieve explanatory features
 #' @param threshold threshold below which explanatory features are extracted
+#' @param idx sample information column to use for sample names. If `NULL`, the sample row number will be used. Sample names should be unique for each row of data.
 #' @param ... arguments to parse to method for specific class
 #' @section Methods:
 #' * `binaryComparisons`: Return a vector of all possible binary comparisons for a given sample information column.
@@ -42,7 +43,7 @@
 #' importance(rf_analysis)
 #' 
 #' ## Retrieve the sample proximities
-#' proximity(rf_analysis)
+#' proximity(rf_analysis,idx = 'name')
 #' 
 #' ## Retrieve the explanatory features
 #' explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
@@ -214,25 +215,58 @@ setMethod('importance',signature = 'Analysis',
 #' @rdname modelling-accessors
 #' @export
 
-setGeneric("proximity", function(x) 
+setGeneric("proximity", function(x,idx = NULL) 
   standardGeneric("proximity")
 )
 
 #' @rdname modelling-accessors
+#' @importFrom dplyr relocate
 
 setMethod('proximity',signature = 'RandomForest',
-          function(x){
-            x@proximities %>% 
+          function(x,idx = NULL){
+            
+            proximities <- x@proximities %>% 
               group_by(Response,Comparison,Sample1,Sample2) %>% 
               summarise(Proximity = mean(Proximity),
                         .groups = 'drop')
+            
+            if (!is.null(idx)){
+              sample_idx <- x %>% 
+                clsExtract(cls = idx)
+              
+              if (any(duplicated(sample_idx))){
+                stop(str_c('Duplicated sample names found in sample information column `',
+                           idx,
+                           '`. The specified sample names should be unique to each sample.'),
+                     call. = FALSE)
+              }
+              
+              sample_idx <- sample_idx %>% 
+                tibble(idx = .) %>% 
+                rowid_to_column(var = 'row')
+              
+              proximities <- proximities %>% 
+                left_join(sample_idx,
+                          by = c('Sample1' = 'row')) %>% 
+                rename(idx_1 = idx) %>% 
+                left_join(sample_idx,
+                          by = c('Sample2' = 'row')) %>% 
+                rename(idx_2 = idx) %>% 
+                select(-Sample1,
+                       -Sample2,
+                       Sample1 = idx_1,
+                       Sample2 = idx_2) %>% 
+                relocate(Proximity,.after = Sample2)
+            }
+            
+            return(proximities)
           }
 )
 
 #' @rdname modelling-accessors
 
 setMethod('proximity',signature = 'list',
-          function(x){
+          function(x,idx = NULL){
             object_classes <- x %>%
               map_chr(class)
             
@@ -246,7 +280,7 @@ setMethod('proximity',signature = 'list',
             
             if (length(x) > 0) {
               x %>%
-                map(proximity) %>%
+                map(proximity,idx = idx) %>%
                 bind_rows()  
             } else {
               tibble()
