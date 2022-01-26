@@ -138,7 +138,7 @@ importanceMetrics(rf_analysis)
 importance(rf_analysis)
 
 ## Retrieve the sample proximities
-proximity(rf_analysis,idx = 'name')
+proximity(rf_analysis)
 
 ## Retrieve the explanatory features
 explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
