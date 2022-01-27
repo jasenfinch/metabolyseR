@@ -1,3 +1,13 @@
+# metabolyseR 0.14.9
+
+* Suppressed name repair console message encountered during random forest permutation testing.
+
+* Added the [`proximity()`](https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html) method for extracting sample proximities from the [`RandomForest`](https://jasenfinch.github.io/metabolyseR/reference/RandomForest-class.html) S4 class.
+
+* Added the [`mds()`](https://jasenfinch.github.io/metabolyseR/reference/mds.html) method to perform multidimensional scaling on sample proximities from the [`RandomForest`](https://jasenfinch.github.io/metabolyseR/reference/RandomForest-class.html) S4 class.
+
+* Added the [`roc()`](https://jasenfinch.github.io/metabolyseR/reference/roc.html) method to calculate receiver-operator characteristic curves from the [`RandomForest`](https://jasenfinch.github.io/metabolyseR/reference/RandomForest-class.html) S4 class.
+
 # metabolyseR 0.14.8
 
 * An error is now thrown during random forest classification when less than two classes are specified.
