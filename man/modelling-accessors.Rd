@@ -18,6 +18,10 @@
 \alias{importance,Univariate-method}
 \alias{importance,list-method}
 \alias{importance,Analysis-method}
+\alias{proximity}
+\alias{proximity,RandomForest-method}
+\alias{proximity,list-method}
+\alias{proximity,Analysis-method}
 \alias{explanatoryFeatures}
 \alias{explanatoryFeatures,Univariate-method}
 \alias{explanatoryFeatures,RandomForest-method}
@@ -59,6 +63,14 @@ importance(x)
 
 \S4method{importance}{Analysis}(x)
 
+proximity(x, idx = NULL)
+
+\S4method{proximity}{RandomForest}(x, idx = NULL)
+
+\S4method{proximity}{list}(x, idx = NULL)
+
+\S4method{proximity}{Analysis}(x, idx = NULL)
+
 explanatoryFeatures(x, ...)
 
 \S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
@@ -73,6 +85,8 @@ explanatoryFeatures(x, ...)
 \item{x}{S4 object of class \code{AnalysisData},\code{RandomForest}, \code{Univariate}, \code{Analysis} or a list.}
 
 \item{cls}{sample information column to use}
+
+\item{idx}{sample information column to use for sample names. If \code{NULL}, the sample row number will be used. Sample names should be unique for each row of data.}
 
 \item{...}{arguments to parse to method for specific class}
 
@@ -92,6 +106,7 @@ Methods for accessing modelling results.
 \item \code{metrics}: Retrieve the model performance metrics for a random forest analysis
 \item \code{importanceMetrics}: Retrieve the available feature importance metrics for a random forest analysis.
 \item \code{importance}: Retrieve feature importance results.
+\item \code{proximity}: Retrieve the random forest sample proximities.
 \item \code{explanatoryFeatures}: Retrieve explanatory features.
 }
 }
@@ -121,6 +136,9 @@ importanceMetrics(rf_analysis)
 
 ## Retrieve the feature importance results
 importance(rf_analysis)
+
+## Retrieve the sample proximities
+proximity(rf_analysis)
 
 ## Retrieve the explanatory features
 explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)

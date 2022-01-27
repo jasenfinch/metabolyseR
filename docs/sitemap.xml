@@ -199,6 +199,9 @@
     <loc>https://jasenfinch.github.io/metabolyseR/reference/linearRegression.html</loc>
   </url>
   <url>
+    <loc>https://jasenfinch.github.io/metabolyseR/reference/mds.html</loc>
+  </url>
+  <url>
     <loc>https://jasenfinch.github.io/metabolyseR/reference/metabolyse.html</loc>
   </url>
   <url>
@@ -320,6 +323,9 @@
   </url>
   <url>
     <loc>https://jasenfinch.github.io/metabolyseR/reference/response.html</loc>
+  </url>
+  <url>
+    <loc>https://jasenfinch.github.io/metabolyseR/reference/roc.html</loc>
   </url>
   <url>
     <loc>https://jasenfinch.github.io/metabolyseR/reference/rsd.html</loc>

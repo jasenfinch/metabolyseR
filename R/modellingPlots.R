@@ -384,33 +384,11 @@ setMethod('plotMDS',
               } 
             }
             
-            if (x@type == 'classification') {
-              proximities <- x@proximities %>%
-                base::split(.$Comparison) %>%
-                map(~{
-                  d <- .
-                  d %>%
-                    group_by(Sample1,Sample2) %>%
-                    summarise(Proximity = mean(Proximity),.groups = 'drop') %>%
-                    spread(Sample2,Proximity) %>%
-                    ungroup() %>%
-                    select(-Sample1)
-                }) 
-              suppressWarnings({
-                mds <- proximities %>%
-                  map(~{
-                    d <- .
-                    d %>%
-                      {1 - .} %>%
-                      cmdscale() %>%
-                      as_tibble() %>%
-                      set_colnames(c('Dimension 1','Dimension 2')) 
-                  }) %>%
-                  bind_rows(.id = 'Comparison')
-              })
-              
+            mds_dimensions <- mds(x)
+            
+            if (type(x) == 'classification') {
               if (!is.null(cls)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   base::split(.$Comparison) %>%
                   map(~{
                     comparison <- str_split(.x$Comparison[1],'~')[[1]]
@@ -429,7 +407,7 @@ setMethod('plotMDS',
               }
               
               if (!is.null(label)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   base::split(.$Comparison) %>%
                   map(~{
                     d <- .
@@ -452,22 +430,8 @@ setMethod('plotMDS',
               }
               
             } else {
-              proximities <- x@proximities %>%
-                group_by(Sample1,Sample2) %>%
-                summarise(Proximity = mean(Proximity)) %>%
-                spread(Sample2,Proximity) %>%
-                ungroup() %>%
-                select(-Sample1)
-              
-              suppressWarnings({
-                mds <- proximities %>%
-                  {1 - .} %>%
-                  cmdscale() %>%
-                  as_tibble() %>%
-                  set_colnames(c('Dimension 1','Dimension 2'))
-              })  
               if (!is.null(cls)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
                               select(cls) %>%
@@ -476,7 +440,7 @@ setMethod('plotMDS',
               }
               
               if (!is.null(label)) {
-                mds <- mds %>%
+                mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
                               select(label))
@@ -490,7 +454,7 @@ setMethod('plotMDS',
             }
             
             pl <- scatterPlot(
-              mds,
+              mds_dimensions,
               cls,
               'Dimension 1',
               'Dimension 2',
@@ -581,32 +545,7 @@ setGeneric("plotROC", function(x, title = '', legendPosition = 'bottom')
 setMethod('plotROC',signature = 'RandomForest',
           function(x,title = '', legendPosition = 'bottom'){
             
-            if (x@type != 'classification') {
-              stop('ROC curves can only be plotted for classification!')
-            }
-            
-            preds <- x@predictions %>%
-              base::split(.$Comparison) %>%
-              map(~{
-                d <- .
-                d <- d %>%
-                  mutate(obs = factor(obs))
-                
-                suppressMessages({
-                  suppressWarnings({
-                    if (length(levels(d$obs)) > 2) {
-                      d %>%
-                        group_by(Comparison) %>%
-                        roc_curve(obs,levels(d$obs))  
-                    } else {
-                      d %>%
-                        group_by(Comparison) %>%
-                        roc_curve(obs,levels(d$obs)[1])  
-                    }  
-                  })   
-                })
-              }) %>%
-              bind_rows()
+            preds <- roc(x)
             
             meas <- x@results$measures %>%
               filter(.metric == 'roc_auc') %>%
@@ -614,9 +553,9 @@ setMethod('plotROC',signature = 'RandomForest',
                      y = 0, 
                      label = str_c('AUC: ',round(.estimate,3)))
             
-            if ('.level' %in% colnames(preds)) {
+            if ('Class' %in% colnames(preds)) {
               preds <- preds %>%
-                arrange(.level,sensitivity)
+                arrange(Class,sensitivity)
               
               pl <- preds %>%
                 ggplot() +
@@ -624,8 +563,8 @@ setMethod('plotROC',signature = 'RandomForest',
                 geom_line(
                   aes(x = 1 - specificity, 
                       y = sensitivity,
-                      group = .level,
-                      colour = .level)) +
+                      group = Class,
+                      colour = Class)) +
                 geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
                 facet_wrap(~Comparison) +
@@ -635,7 +574,7 @@ setMethod('plotROC',signature = 'RandomForest',
                     title = x@results$measures$Response[1])) +
                 labs(title = title)
               
-              if ((preds$.level %>% unique() %>% length()) <= 12) {
+              if ((preds$Class %>% unique() %>% length()) <= 12) {
                 pl <- pl +
                   scale_colour_ptol()
               }  

@@ -5,6 +5,7 @@
 #' @param cls sample information column to use
 #' @param metric importance metric for which to retrieve explanatory features
 #' @param threshold threshold below which explanatory features are extracted
+#' @param idx sample information column to use for sample names. If `NULL`, the sample row number will be used. Sample names should be unique for each row of data.
 #' @param ... arguments to parse to method for specific class
 #' @section Methods:
 #' * `binaryComparisons`: Return a vector of all possible binary comparisons for a given sample information column.
@@ -13,6 +14,7 @@
 #' * `metrics`: Retrieve the model performance metrics for a random forest analysis
 #' * `importanceMetrics`: Retrieve the available feature importance metrics for a random forest analysis.
 #' * `importance`: Retrieve feature importance results.
+#' * `proximity`: Retrieve the random forest sample proximities.
 #' * `explanatoryFeatures`: Retrieve explanatory features.
 #' @examples 
 #' library(metaboData)
@@ -39,6 +41,9 @@
 #' 
 #' ## Retrieve the feature importance results
 #' importance(rf_analysis)
+#' 
+#' ## Retrieve the sample proximities
+#' proximity(rf_analysis)
 #' 
 #' ## Retrieve the explanatory features
 #' explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
@@ -206,6 +211,98 @@ setMethod('importance',signature = 'Analysis',
               analysisResults(element = 'modelling') %>% 
               importance()
           })
+
+#' @rdname modelling-accessors
+#' @export
+
+setGeneric("proximity", function(x,idx = NULL) 
+  standardGeneric("proximity")
+)
+
+#' @rdname modelling-accessors
+#' @importFrom dplyr relocate
+
+setMethod('proximity',signature = 'RandomForest',
+          function(x,idx = NULL){
+            
+            group_vars <- switch(type(x),
+                                 classification = c('Response','Comparison'),
+                                 regression = 'Response',
+                                 unsupervised = NULL) %>% 
+              c(.,'Sample1','Sample2')
+            
+            proximities <- x@proximities %>% 
+              group_by_at(group_vars) %>% 
+              summarise(Proximity = mean(Proximity),
+                        .groups = 'drop')
+            
+            if (!is.null(idx)){
+              sample_idx <- x %>% 
+                clsExtract(cls = idx)
+              
+              if (any(duplicated(sample_idx))){
+                stop(str_c('Duplicated sample names found in sample information column `',
+                           idx,
+                           '`. The specified sample names should be unique to each sample.'),
+                     call. = FALSE)
+              }
+              
+              sample_idx <- sample_idx %>% 
+                tibble(idx = .) %>% 
+                rowid_to_column(var = 'row')
+              
+              proximities <- proximities %>% 
+                left_join(sample_idx,
+                          by = c('Sample1' = 'row')) %>% 
+                rename(idx_1 = idx) %>% 
+                left_join(sample_idx,
+                          by = c('Sample2' = 'row')) %>% 
+                rename(idx_2 = idx) %>% 
+                select(-Sample1,
+                       -Sample2,
+                       Sample1 = idx_1,
+                       Sample2 = idx_2) %>% 
+                relocate(Proximity,.after = Sample2)
+            }
+            
+            return(proximities)
+          }
+)
+
+#' @rdname modelling-accessors
+
+setMethod('proximity',signature = 'list',
+          function(x,idx = NULL){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (FALSE %in% (object_classes == 'RandomForest')) {
+              message(
+                str_c('All objects contained within supplied list ',
+                      'that are not of class RandomForest will be ignored.'))
+            }
+            
+            x <- x[object_classes == 'RandomForest']
+            
+            if (length(x) > 0) {
+              x %>%
+                map(proximity,idx = idx) %>%
+                bind_rows()  
+            } else {
+              tibble()
+            }
+            
+          })
+
+#' @rdname modelling-accessors
+
+setMethod('proximity',signature = 'Analysis',
+          function(x,idx = NULL){
+            x %>% 
+              analysisResults(element = 'modelling') %>% 
+              proximity(idx = idx)
+          })
+
 
 #' @rdname modelling-accessors
 #' @export

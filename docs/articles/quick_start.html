@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.9</span>
       </span>
     </div>
 
@@ -85,10 +85,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Quick start example analysis</h1>
-            <h3 data-toc-skip class="subtitle">metabolyseR v0.14.8</h3>
+            <h3 data-toc-skip class="subtitle">metabolyseR v0.14.9</h3>
                         <h4 data-toc-skip class="author">Jasen Finch</h4>
             
-            <h4 data-toc-skip class="date">06 January, 2022</h4>
+            <h4 data-toc-skip class="date">27 January, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/vignettes/quick_start.Rmd" class="external-link"><code>vignettes/quick_start.Rmd</code></a></small>
       <div class="hidden name"><code>quick_start.Rmd</code></div>
@@ -160,18 +160,18 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">explan_feat</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 379 × 10</span></span>
-<span class="co">#&gt;    Response Comparison  Feature term      df    sumsq  meansq statistic  p.value</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> day      1~2~3~4~5~H N341    respo…     5  3.88<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 7.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     137.  1.55<span style="color: #949494;">e</span><span style="color: #BB0000;">-46</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> day      1~2~3~4~5~H N133    respo…     5  7.00<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 1.40<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     126.  8.63<span style="color: #949494;">e</span><span style="color: #BB0000;">-45</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> day      1~2~3~4~5~H N163    respo…     5  6.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 1.20<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     117.  2.95<span style="color: #949494;">e</span><span style="color: #BB0000;">-43</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> day      1~2~3~4~5~H N1087   respo…     5  2.42<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 4.84<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      99.8 5.61<span style="color: #949494;">e</span><span style="color: #BB0000;">-40</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> day      1~2~3~4~5~H N171    respo…     5  2.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span> 4.50<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span>      95.7 3.84<span style="color: #949494;">e</span><span style="color: #BB0000;">-39</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> day      1~2~3~4~5~H N513    respo…     5  3.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 6.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      95.3 4.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-39</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> day      1~2~3~4~5~H N1025   respo…     5  2.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 5.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      91.0 3.91<span style="color: #949494;">e</span><span style="color: #BB0000;">-38</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H N342    respo…     5  3.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 7.41<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      90.3 5.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-38</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H N1083   respo…     5  5.11<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 1.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      89.0 1.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-37</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N1085   respo…     5  1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 2.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span>      83.4 1.92<span style="color: #949494;">e</span><span style="color: #BB0000;">-36</span></span>
+<span class="co">#&gt;    Response Comparison  Feature term       df   sumsq  meansq statistic  p.value</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> day      1~2~3~4~5~H N341    respon…     5 3.88<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 7.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     137.  1.55<span style="color: #949494;">e</span><span style="color: #BB0000;">-46</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> day      1~2~3~4~5~H N133    respon…     5 7.00<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 1.40<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     126.  8.63<span style="color: #949494;">e</span><span style="color: #BB0000;">-45</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> day      1~2~3~4~5~H N163    respon…     5 6.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 1.20<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     117.  2.95<span style="color: #949494;">e</span><span style="color: #BB0000;">-43</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> day      1~2~3~4~5~H N1087   respon…     5 2.42<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 4.84<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      99.8 5.61<span style="color: #949494;">e</span><span style="color: #BB0000;">-40</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> day      1~2~3~4~5~H N171    respon…     5 2.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span> 4.50<span style="color: #949494;">e</span><span style="color: #BB0000;">-8</span>      95.7 3.84<span style="color: #949494;">e</span><span style="color: #BB0000;">-39</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> day      1~2~3~4~5~H N513    respon…     5 3.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 6.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      95.3 4.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-39</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> day      1~2~3~4~5~H N1025   respon…     5 2.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 5.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      91.0 3.91<span style="color: #949494;">e</span><span style="color: #BB0000;">-38</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H N342    respon…     5 3.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span> 7.41<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>      90.3 5.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-38</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H N1083   respon…     5 5.11<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 1.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      89.0 1.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-37</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N1085   respon…     5 1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 2.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-6</span>      83.4 1.92<span style="color: #949494;">e</span><span style="color: #BB0000;">-36</span></span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 369 more rows, and 1 more variable: adjusted.p.value &lt;dbl&gt;</span></span></code></pre></div>
 <p>The ANOVA has identified 379 features significantly explanatory over the infection time course. A heat map of the mean relative intensity for each class of these explanatory features can be plotted to visualise their trends between the infection time point classes.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -201,7 +201,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

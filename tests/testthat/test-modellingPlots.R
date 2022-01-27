@@ -108,3 +108,14 @@ test_that('plotMDS throws an error when non RandomForest object included in list
 test_that('plotROC throws an error when non classification random forest specified',{
   expect_error(plotROC(unsupervised_rf_res))
 })
+
+test_that('plotROC works on a list of random forest objects',{
+  pl <- plotROC(classification_rf_res)
+  
+  expect_s3_class(pl,'patchwork')
+})
+
+test_that('plotROC throws an error when non RandomForest object included in list',{
+  d <- c(classification_rf_res,list('wrong'))
+  expect_error(plotROC(d))
+})

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metabolyseR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.9</span>
       </span>
     </div>
 
@@ -114,6 +114,17 @@
 <span class="co"># S4 method for Analysis</span>
 <span class="fu">importance</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 
+<span class="fu">proximity</span><span class="op">(</span><span class="va">x</span>, idx <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+
+<span class="co"># S4 method for RandomForest</span>
+<span class="fu">proximity</span><span class="op">(</span><span class="va">x</span>, idx <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+
+<span class="co"># S4 method for list</span>
+<span class="fu">proximity</span><span class="op">(</span><span class="va">x</span>, idx <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+
+<span class="co"># S4 method for Analysis</span>
+<span class="fu">proximity</span><span class="op">(</span><span class="va">x</span>, idx <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+
 <span class="fu">explanatoryFeatures</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S4 method for Univariate</span>
@@ -135,6 +146,8 @@
 <dd><p>S4 object of class <code>AnalysisData</code>,<code>RandomForest</code>, <code>Univariate</code>, <code>Analysis</code> or a list.</p></dd>
 <dt>cls</dt>
 <dd><p>sample information column to use</p></dd>
+<dt>idx</dt>
+<dd><p>sample information column to use for sample names. If <code>NULL</code>, the sample row number will be used. Sample names should be unique for each row of data.</p></dd>
 <dt>...</dt>
 <dd><p>arguments to parse to method for specific class</p></dd>
 <dt>threshold</dt>
@@ -152,6 +165,7 @@
 <li><p><code>metrics</code>: Retrieve the model performance metrics for a random forest analysis</p></li>
 <li><p><code>importanceMetrics</code>: Retrieve the available feature importance metrics for a random forest analysis.</p></li>
 <li><p><code>importance</code>: Retrieve feature importance results.</p></li>
+<li><p><code>proximity</code>: Retrieve the random forest sample proximities.</p></li>
 <li><p><code>explanatoryFeatures</code>: Retrieve explanatory features.</p></li>
 </ul></div>
 
@@ -211,6 +225,23 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N200    SelectionFrequency   1.6 <span style="color: #949494;">e</span>+ 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1,000 more rows</span></span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co">## Retrieve the sample proximities</span></span>
+<span class="r-in"><span class="fu">proximity</span><span class="op">(</span><span class="va">rf_analysis</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14,400 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Response Comparison  Sample1 Sample2 Proximity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> day      1~2~3~4~5~H       1       1    1     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> day      1~2~3~4~5~H       1       2    0.070<span style="text-decoration: underline;">4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> day      1~2~3~4~5~H       1       3    0.058<span style="text-decoration: underline;">0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> day      1~2~3~4~5~H       1       4    0.093<span style="text-decoration: underline;">0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> day      1~2~3~4~5~H       1       5    0.055<span style="text-decoration: underline;">6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> day      1~2~3~4~5~H       1       6    0.043<span style="text-decoration: underline;">5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> day      1~2~3~4~5~H       1       7    0.055<span style="text-decoration: underline;">6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H       1       8    0.044<span style="text-decoration: underline;">1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H       1       9    0.106 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H       1      10    0     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 14,390 more rows</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co">## Retrieve the explanatory features</span></span>
 <span class="r-in"><span class="fu">explanatoryFeatures</span><span class="op">(</span><span class="va">rf_analysis</span>,metric <span class="op">=</span> <span class="st">'FalsePositiveRate'</span>,threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 35 × 5</span></span>
@@ -241,7 +272,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>
