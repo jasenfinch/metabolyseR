@@ -17,8 +17,6 @@ roc(x)
 }
 \arguments{
 \item{x}{S4 object of class \code{RandomForest}, \code{Analysis} or a list}
-
-\item{idx}{sample information column to use for sample names. If \code{NULL}, the sample row number will be used. Sample names should be unique for each row of data.}
 }
 \value{
 A tibble containing the ROC curves.

@@ -2,7 +2,6 @@
 #' @rdname roc
 #' @description  ROC curves for out-of-bag random forest predictions.
 #' @param x S4 object of class `RandomForest`, `Analysis` or a list
-#' @param idx sample information column to use for sample names. If `NULL`, the sample row number will be used. Sample names should be unique for each row of data.
 #' @return 
 #' A tibble containing the ROC curves.
 #' @examples
