@@ -55,6 +55,8 @@ reference:
     - ttest
     - linearRegression
     - binaryComparisons
+    - mds
+    - roc
 
   - title: Correlations
     contents:
