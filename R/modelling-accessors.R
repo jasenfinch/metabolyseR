@@ -9,7 +9,7 @@
 #' @param ... arguments to parse to method for specific class
 #' @section Methods:
 #' * `binaryComparisons`: Return a vector of all possible binary comparisons for a given sample information column.
-#' * `mtry`: Calculate the default `mtry` random forest parameter value for a given sample information column.
+#' * `mtry`: Return the default `mtry` random forest parameter value for a given sample information column.
 #' * `type`: Return the type of random forest analysis.
 #' * `response`: Return the response variable name used for a random forest analysis.
 #' * `metrics`: Retrieve the model performance metrics for a random forest analysis
