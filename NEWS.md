@@ -1,3 +1,11 @@
+# metabolyseR 0.14.10
+
+* Added the method [`predict()`](https://jasenfinch.github.io/metabolyseR/reference/predict.html) for the [`RandomForest`](https://jasenfinch.github.io/metabolyseR/reference/RandomForest-class.html) S4 class to predict model response values.
+
+* Added the method [`mtry()`](https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html) for the [`AnalysisData`](https://jasenfinch.github.io/metabolyseR/reference/AnalysisData-class.html) S4 class to return the default `mtry` random forest parameter for a given response variable.
+
+* Added the method [`tune()`]() for the [`AnalysisData`](https://jasenfinch.github.io/metabolyseR/reference/tune.html) S4 class to tune the random forest parameters `mtry` and `ntree` for a given response variable.
+
 # metabolyseR 0.14.9
 
 * Suppressed name repair console message encountered during random forest permutation testing.
