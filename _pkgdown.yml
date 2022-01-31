@@ -55,8 +55,10 @@ reference:
     - ttest
     - linearRegression
     - binaryComparisons
+    - tune
     - mds
     - roc
+    - predict
 
   - title: Correlations
     contents:
@@ -84,4 +86,3 @@ reference:
     - split
     - rsd
     - occupancy
-       
