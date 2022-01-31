@@ -76,6 +76,7 @@ Collate: allClasses.R
     plotting.R
     plotUnsupervisedRF.R
     pre-treatment.R
+    predict.R
     QC.R
     reexports.R
     remove.R
