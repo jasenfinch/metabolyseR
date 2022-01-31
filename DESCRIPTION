@@ -86,6 +86,7 @@ Collate: allClasses.R
     show-method.R
     split.R
     transform.R
+    tune.R
     univariate.R
     modelling-accessors.R
 VignetteBuilder: knitr
