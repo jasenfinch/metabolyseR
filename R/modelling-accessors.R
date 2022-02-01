@@ -9,6 +9,7 @@
 #' @param ... arguments to parse to method for specific class
 #' @section Methods:
 #' * `binaryComparisons`: Return a vector of all possible binary comparisons for a given sample information column.
+#' * `mtry`: Return the default `mtry` random forest parameter value for a given sample information column.
 #' * `type`: Return the type of random forest analysis.
 #' * `response`: Return the response variable name used for a random forest analysis.
 #' * `metrics`: Retrieve the model performance metrics for a random forest analysis
@@ -21,8 +22,11 @@
 #' 
 #' d <- analysisData(abr1$neg[,200:300],abr1$fact)
 #' 
-#' ## Return possible binary comparisons for the 'day' column
+#' ## Return possible binary comparisons for the `day` response column
 #' binaryComparisons(d,cls = 'day')
+#' 
+#' ## Return the default random forest `mtry` parameter for the `day` response column
+#' mtry(d,cls = 'day')
 #' 
 #' ## Perform random forest analysis
 #' rf_analysis <- randomForest(d,cls = 'day')
@@ -66,6 +70,40 @@ setMethod('binaryComparisons',signature = 'AnalysisData',
               apply(2,str_c,collapse = '~')
           }
 )
+
+#' @rdname modelling-accessors
+#' @export
+
+setGeneric("mtry", function(x,cls = 'class')
+  standardGeneric("mtry"))
+
+#' @rdname modelling-accessors
+
+setMethod('mtry',signature = 'AnalysisData',
+          function(x,cls = 'class'){
+            
+            if (is.null(cls)){
+              rf_type <- 'classification'
+            } else {
+              response <- x %>% 
+                clsExtract(cls = cls)
+              
+              rf_type <- ifelse(is.numeric(response),
+                                'regression',
+                                'classification')
+            }
+            
+            n_features <- nFeatures(x)
+            
+            mtry <- switch(rf_type,
+                           regression = n_features/3,
+                           classification = sqrt(n_features)) %>% 
+              floor() %>% 
+              c(.,1) %>% 
+              max()
+            
+            return(mtry)
+          })
 
 #' @rdname modelling-accessors
 #' @export

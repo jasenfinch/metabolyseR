@@ -3,7 +3,7 @@
 setGeneric('nlda',function(x,cls = 'class',prior = NULL,scale = FALSE,comprank = FALSE,...)
   standardGeneric('nlda'))
 
-#' @importFrom e1071 naiveBayes
+#' @importFrom e1071 naiveBayes 
 #' @importFrom stats cov predict 
 #' @importFrom methods as
 
@@ -135,7 +135,7 @@ setMethod('nlda',signature = 'AnalysisData',
             dimnames(xmeans)[[2]] <- colnames(x)
             
             nbmod <- naiveBayes(data.frame(x),cl)
-            prob <- predict(nbmod,data.frame(x),type="raw")
+            prob <- stats::predict(nbmod,data.frame(x),type="raw")
             pred <- apply(prob,1,which.max)
             pred <- factor(levels(cl)[pred], levels = levels(cl))
             

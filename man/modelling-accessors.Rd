@@ -3,6 +3,8 @@
 \name{binaryComparisons}
 \alias{binaryComparisons}
 \alias{binaryComparisons,AnalysisData-method}
+\alias{mtry}
+\alias{mtry,AnalysisData-method}
 \alias{type}
 \alias{type,RandomForest-method}
 \alias{response}
@@ -32,6 +34,10 @@
 binaryComparisons(x, cls = "class")
 
 \S4method{binaryComparisons}{AnalysisData}(x, cls = "class")
+
+mtry(x, cls = "class")
+
+\S4method{mtry}{AnalysisData}(x, cls = "class")
 
 type(x)
 
@@ -101,6 +107,7 @@ Methods for accessing modelling results.
 
 \itemize{
 \item \code{binaryComparisons}: Return a vector of all possible binary comparisons for a given sample information column.
+\item \code{mtry}: Calculate the default \code{mtry} random forest parameter value for a given sample information column.
 \item \code{type}: Return the type of random forest analysis.
 \item \code{response}: Return the response variable name used for a random forest analysis.
 \item \code{metrics}: Retrieve the model performance metrics for a random forest analysis
@@ -116,8 +123,11 @@ library(metaboData)
 
 d <- analysisData(abr1$neg[,200:300],abr1$fact)
 
-## Return possible binary comparisons for the 'day' column
+## Return possible binary comparisons for the `day` response column
 binaryComparisons(d,cls = 'day')
+
+## Return the default random forest `mtry` parameter for the `day` response column
+mtry(d,cls = 'day')
 
 ## Perform random forest analysis
 rf_analysis <- randomForest(d,cls = 'day')
