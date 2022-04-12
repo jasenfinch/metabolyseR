@@ -107,7 +107,7 @@ Methods for accessing modelling results.
 
 \itemize{
 \item \code{binaryComparisons}: Return a vector of all possible binary comparisons for a given sample information column.
-\item \code{mtry}: Calculate the default \code{mtry} random forest parameter value for a given sample information column.
+\item \code{mtry}: Return the default \code{mtry} random forest parameter value for a given sample information column.
 \item \code{type}: Return the type of random forest analysis.
 \item \code{response}: Return the response variable name used for a random forest analysis.
 \item \code{metrics}: Retrieve the model performance metrics for a random forest analysis
