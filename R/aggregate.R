@@ -2,7 +2,7 @@
 #' @rdname aggregate
 #' @description Aggregation of sample features based on a grouping variable.
 #' @param d S4 object of class `AnalysisData`
-#' @param cls info column to use for class data
+#' @param cls info columns across which to aggregate the data
 #' @return  An S4 object of class `AnalysisData` containing the aggregated data.
 #' @details 
 #' Sample aggregation allows the electronic pooling of sample features based on a grouping variable. 
@@ -26,17 +26,17 @@
 #'  
 #' ## Mean aggregation
 #' d %>% 
-#'  aggregateMean(cls = 'day') %>% 
+#'  aggregateMean(cls = c('day','class')) %>% 
 #'  plotPCA(cls = 'day',ellipses = FALSE)
 #'  
 #' ## Median aggregation
 #' d %>% 
-#'  aggregateMedian(cls = 'day') %>% 
+#'  aggregateMedian(cls = c('day','class')) %>% 
 #'  plotPCA(cls = 'day',ellipses = FALSE)
 #'  
 #' ## Sum aggregation
 #' d %>% 
-#'  aggregateSum(cls = 'day') %>% 
+#'  aggregateSum(cls = c('day','class')) %>% 
 #'  plotPCA(cls = 'day',ellipses = FALSE)
 #' @export
 
@@ -48,23 +48,7 @@ setGeneric("aggregateMean", function(d,cls = 'class')
 
 setMethod('aggregateMean',signature = 'AnalysisData',
           function(d,cls = 'class'){
-            dat(d) <- d %>%
-              dat() %>%
-              bind_cols(select(d %>% sinfo(),Class = cls)) %>%
-              gather('Feature','Intensity',-Class) %>%
-              group_by(Class,Feature) %>%
-              summarise(Intensity = mean(Intensity)) %>%
-              ungroup() %>%
-              spread(Feature,Intensity) %>%
-              select(-Class)
-            
-            sinfo(d) <- d %>%
-              sinfo() %>%
-              select(cls) %>%
-              group_by_all() %>%
-              summarise() %>%
-              arrange_all()
-            
+            d <- aggregate(d,'mean',cls)
             return(d)
           }
 )
@@ -80,23 +64,7 @@ setGeneric("aggregateMedian", function(d,cls = 'class')
 
 setMethod('aggregateMedian',signature = 'AnalysisData',
           function(d, cls = 'class'){
-            dat(d) <- d %>%
-              dat() %>%
-              bind_cols(select(d %>% sinfo(),Class = cls)) %>%
-              gather('Feature','Intensity',-Class) %>%
-              group_by(Class,Feature) %>%
-              summarise(Intensity = median(Intensity)) %>%
-              ungroup() %>%
-              spread(Feature,Intensity) %>%
-              select(-Class)
-            
-            sinfo(d) <- d %>%
-              sinfo() %>% 
-              select(cls) %>%
-              group_by_all() %>%
-              summarise() %>%
-              arrange_all()
-            
+            d <- aggregate(d,'median',cls)
             return(d)
           }
 )
@@ -113,23 +81,36 @@ setGeneric("aggregateSum", function(d,cls = 'class')
 
 setMethod('aggregateSum',signature = 'AnalysisData',
           function(d,cls = 'class'){
-            dat(d) <- d %>%
-              dat() %>%
-              bind_cols(select(d %>% sinfo(),Class = cls)) %>%
-              gather('Feature','Intensity',-Class) %>%
-              group_by(Class,Feature) %>%
-              summarise(Intensity = sum(Intensity)) %>%
-              ungroup() %>%
-              spread(Feature,Intensity) %>%
-              select(-Class)
-            
-            sinfo(d) <- d %>%
-              sinfo() %>% 
-              select(cls) %>%
-              group_by_all() %>%
-              summarise() %>%
-              arrange_all()
-            
+            d <- aggregate(d,'sum',cls)
             return(d)
           }
 )
+
+aggregate <- function(d,method,cls){
+  aggregateMethod <- switch(method,
+                            mean = mean,
+                            median = median,
+                            sum = sum)
+  
+  sample_info <- d %>% 
+    sinfo() %>% 
+    select(all_of(cls))
+  
+  dat(d) <- d %>%
+    dat() %>%
+    bind_cols(sample_info) %>%
+    gather('Feature','Intensity',-all_of(cls)) %>%
+    group_by(across(cls),Feature) %>%
+    summarise(Intensity = aggregateMethod(Intensity)) %>%
+    ungroup() %>%
+    spread(Feature,Intensity) %>%
+    select(-all_of(cls))
+  
+  sinfo(d) <- sample_info %>%
+    group_by_all() %>%
+    summarise() %>%
+    arrange_all()
+  
+  return(d)
+  
+}

@@ -24,7 +24,7 @@ aggregateSum(d, cls = "class")
 \arguments{
 \item{d}{S4 object of class \code{AnalysisData}}
 
-\item{cls}{info column to use for class data}
+\item{cls}{info columns across which to aggregate the data}
 }
 \value{
 An S4 object of class \code{AnalysisData} containing the aggregated data.
@@ -60,16 +60,16 @@ d \%>\%
  
 ## Mean aggregation
 d \%>\% 
- aggregateMean(cls = 'day') \%>\% 
+ aggregateMean(cls = c('day','class')) \%>\% 
  plotPCA(cls = 'day',ellipses = FALSE)
  
 ## Median aggregation
 d \%>\% 
- aggregateMedian(cls = 'day') \%>\% 
+ aggregateMedian(cls = c('day','class')) \%>\% 
  plotPCA(cls = 'day',ellipses = FALSE)
  
 ## Sum aggregation
 d \%>\% 
- aggregateSum(cls = 'day') \%>\% 
+ aggregateSum(cls = c('day','class')) \%>\% 
  plotPCA(cls = 'day',ellipses = FALSE)
 }

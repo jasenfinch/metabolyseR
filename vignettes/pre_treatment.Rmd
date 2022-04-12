@@ -262,7 +262,7 @@ Using a different approach such as the parametric analysis Of variance (ANOVA) w
 
 ### Sample aggregation
 
-Sample aggregation allows the electronic pooling of samples based on a grouping variable.
+Sample aggregation allows the electronic pooling of samples based on a grouping variables.
 This is useful in situations such as the presence of technical replicates that can be aggregated to reduce the effects of pseudo replication.
 `metabolyseR` provides methods for mean, median and sum aggregation and each starts with the `aggregate` prefix.
 
@@ -275,12 +275,12 @@ d %>%
   plotPCA(cls = 'day')
 ```
 
-The example below shows the mean aggregation of the data using the experimental classes within the `day` sample information column.
+The example below shows the mean aggregation of the data using the experimental factors within the `day` and `class` sample information columns.
 
 ```{r day_mean}
 day_mean <- d %>%
   occupancyMaximum(cls = 'day') %>%
-  aggregateMean(cls = 'day')
+  aggregateMean(cls = c('day','class'))
 ```
 
 The PCA plot below shows these class averages of the data.
