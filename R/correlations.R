@@ -5,12 +5,14 @@
 #' @param method correlation method. One of `pearson` or `spearman`.
 #' @param pAdjustMethod p-value adjustment method. See `?p.adjust` for available methods.
 #' @param corPvalue p-value cut-off threshold for significance
+#' @param minCoef minimum absolute correlation coefficient threshold
+#' @param maxCor maximum number of returned correlations
 #' @param ... arguments to pass to specific method
 #' @return A tibble containing results of significantly correlated features.
 #' @details 
 #' Correlation analyses can be used to identify associated features within data sets.
 #' This can be useful to identifying clusters of related features that can be used to annotate metabolites within data sets.
-#' All features are compared and the returned table of correlations are p-value thresholded using the specified cut-off.
+#' All features are compared and the returned table of correlations are thresholded to the specified p-value cut-off.
 #' @examples 
 #' library(metaboData)
 #' 
@@ -28,11 +30,15 @@ setMethod('correlations',signature = 'AnalysisData',
           function(d, 
                    method = 'pearson', 
                    pAdjustMethod = 'bonferroni', 
-                   corPvalue = 0.05){
+                   corPvalue = 0.05,
+                   minCoef = 0,
+                   maxCor = Inf){
             doCorrelations(d, 
                            method = method,
                            pAdjustMethod = pAdjustMethod, 
-                           corPvalue = corPvalue)
+                           corPvalue = corPvalue,
+                           minCoef = minCoef,
+                           maxCor = maxCor)
           })
 
 #' @rdname correlations
@@ -87,7 +93,7 @@ setMethod("correlations", signature = "Analysis",
 
 #' @importFrom Hmisc rcorr
 #' @importFrom stats p.adjust na.omit
-#' @importFrom dplyr filter bind_cols left_join rename select mutate distinct
+#' @importFrom dplyr filter bind_cols left_join rename select mutate distinct slice
 #' @importFrom tidyr gather
 #' @importFrom tibble tibble as_tibble
 #' @importFrom purrr map_df
@@ -95,7 +101,9 @@ setMethod("correlations", signature = "Analysis",
 doCorrelations <- function(d, 
                            method = 'pearson', 
                            pAdjustMethod = 'bonferroni', 
-                           corPvalue = 0.05)
+                           corPvalue = 0.05,
+                           minCoef = 0,
+                           maxCor = Inf)
 {
   
   methods <- eval(formals(rcorr)$type)
@@ -147,7 +155,7 @@ doCorrelations <- function(d,
   rs <- cors$r %>%
     as_tibble() %>%
     mutate(Feature1 = colnames(.)) %>%
-    gather('Feature2','r',-Feature1) %>%
+    gather('Feature2','coefficient',-Feature1) %>%
     distinct() %>%
     bind_cols(ps %>% select(p),
               ns %>% select(n)) %>%
@@ -156,11 +164,19 @@ doCorrelations <- function(d,
     rename(Intensity1 = Intensity) %>%
     left_join(intensity, by = c('Feature2' = 'Feature')) %>%
     rename(Intensity2 = Intensity) %>%
-    mutate(`|r|` = abs(r),
+    mutate(`|coefficient|` = abs(coefficient),
            log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
-    select(Feature1,Feature2,log2IntensityRatio,r,`|r|`,p,n)  %>% 
+    select(Feature1,Feature2,log2IntensityRatio,coefficient,`|coefficient|`,p,n)  %>% 
     na.omit() %>% 
-    arrange(desc(`|r|`))
+    arrange(desc(`|coefficient|`)) %>% 
+    filter(`|coefficient|` >= minCoef)
+  
+  n_correlations <- nrow(rs)
+  
+  if (n_correlations > maxCor){
+    rs <- rs %>% 
+      slice(seq_len(maxCor))
+  }
   
   return(rs)
 }

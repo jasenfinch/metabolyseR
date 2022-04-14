@@ -48,7 +48,7 @@ test_that('correlations parameters assigned for AnalysisParameters',{
   parameters(p,'correlations') <- correlationsParameters()
   expect_identical(parameters(p,'correlations') %>% 
                      names(),
-                   c("method","pAdjustMethod","corPvalue"))
+                   c("method","pAdjustMethod","corPvalue",'minCoef','maxCor'))
 })
 
 test_that('parameters correctly exported and parsed',{

@@ -12,7 +12,9 @@ correlations(d, ...)
   d,
   method = "pearson",
   pAdjustMethod = "bonferroni",
-  corPvalue = 0.05
+  corPvalue = 0.05,
+  minCoef = 0,
+  maxCor = Inf
 )
 
 \S4method{correlations}{Analysis}(d)
@@ -27,6 +29,10 @@ correlations(d, ...)
 \item{pAdjustMethod}{p-value adjustment method. See \code{?p.adjust} for available methods.}
 
 \item{corPvalue}{p-value cut-off threshold for significance}
+
+\item{minCoef}{minimum absolute correlation coefficient threshold}
+
+\item{maxCor}{maximum number of returned correlations}
 }
 \value{
 A tibble containing results of significantly correlated features.

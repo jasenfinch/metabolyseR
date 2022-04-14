@@ -55,7 +55,9 @@ analysisParameters <- function(elements = analysisElements()){
     correlations <- list(
       method = 'pearson',
       pAdjustMethod = 'bonferroni',
-      corPvalue = 0.05
+      corPvalue = 0.05,
+      minCoef = 0,
+      maxCor = Inf
     )
   }
   

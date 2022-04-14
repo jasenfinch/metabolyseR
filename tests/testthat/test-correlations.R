@@ -29,3 +29,11 @@ test_that('correlations errors when incorrect correlation p value threshold spec
   expect_error(correlations(d,corPvalue = 'wrong'))
 })
 
+test_that('the number of returned correlations can be thresholded',{
+  d <- analysisData(abr1$neg[,200:250],abr1$fact)
+  
+  n_correlations <- correlations(d,maxCor = 2) %>% 
+    nrow()
+  
+  expect_equal(n_correlations,2)
+})
