@@ -98,7 +98,7 @@ setMethod('mtry',signature = 'AnalysisData',
             mtry <- switch(rf_type,
                            regression = n_features/3,
                            classification = sqrt(n_features)) %>% 
-              floor() %>% 
+              {floor(.)} %>% 
               c(.,1) %>% 
               max()
             
