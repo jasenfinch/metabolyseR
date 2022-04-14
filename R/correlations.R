@@ -69,7 +69,9 @@ setMethod("correlations", signature = "Analysis",
             rs <- correlations(da,
                                params$method,
                                params$pAdjustMethod,
-                               params$corPvalue)
+                               params$corPvalue,
+                               params$minCoef,
+                               params$maxCor)
             
             d@correlations <- rs
             d@log$correlations <- date()
