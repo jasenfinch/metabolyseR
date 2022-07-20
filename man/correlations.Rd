@@ -43,7 +43,7 @@ Feature correlation analysis.
 \details{
 Correlation analyses can be used to identify associated features within data sets.
 This can be useful to identifying clusters of related features that can be used to annotate metabolites within data sets.
-All features are compared and the returned table of correlations are p-value thresholded using the specified cut-off.
+All features are compared and the returned table of correlations are thresholded to the specified p-value cut-off.
 }
 \examples{
 library(metaboData)
