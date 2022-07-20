@@ -561,7 +561,7 @@ classification <- function(x,
     predictions <- models %>%
       map(~{
         map(.x,~{
-          map(.x$models,~{
+          furrr::future_map_dfr(.x$models,~{
             m <- .x
             tibble(sample = seq_along(m$y),
                    obs = m$y,
@@ -570,8 +570,8 @@ classification <- function(x,
               bind_cols(m$votes %>%
                           as_tibble(.name_repair = 'minimal') %>%
                           mutate_all(as.numeric))
-          }) %>%
-            bind_rows(.id = 'Rep') %>%
+          },
+          .id = 'Rep') %>%
             mutate(Rep = as.numeric(Rep))
         }) %>%
           bind_rows(.id = 'Comparison')
@@ -582,13 +582,13 @@ classification <- function(x,
   importances <- models %>%
     map(~{
       map(.,~{
-        map(.$models,~{
+        furrr::future_map_dfr(.$models,~{
           m <- .
           importance(m) %>%
             left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
             rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
-        }) %>%
-          bind_rows(.id = 'Rep') %>%
+        },
+        .id = 'Rep') %>%
           mutate(Rep = as.numeric(Rep))
       }) %>%
         bind_rows(.id = 'Comparison')
@@ -599,13 +599,13 @@ classification <- function(x,
   proximities <- models %>%
     map(~{
       map(.,~{
-        map(.$models,~{.$proximity %>%
+        furrr::future_map_dfr(.$models,~{.$proximity %>%
             as_tibble() %>%
             mutate(Sample = seq_len(nrow(.))) %>%
             gather('Sample2','Proximity',-Sample) %>%
             rename(Sample1 = Sample)
-        }) %>%
-          bind_rows(.id = 'Rep') %>%
+        },
+        .id = 'Rep') %>%
           mutate(Rep = as.numeric(Rep))
       }) %>%
         bind_rows(.id = 'Comparison')

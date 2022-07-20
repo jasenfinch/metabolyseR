@@ -13,6 +13,7 @@
 #' * `type`: Return the type of random forest analysis.
 #' * `response`: Return the response variable name used for a random forest analysis.
 #' * `metrics`: Retrieve the model performance metrics for a random forest analysis
+#' * `predictions`: Retrieve the out of bag model response predictions for a random forest analysis.
 #' * `importanceMetrics`: Retrieve the available feature importance metrics for a random forest analysis.
 #' * `importance`: Retrieve feature importance results.
 #' * `proximity`: Retrieve the random forest sample proximities.
@@ -39,6 +40,9 @@
 #' 
 #' ## Retrieve the model performance metrics
 #' metrics(rf_analysis)
+#' 
+#' ## Retrieve the out of bag model response predictions
+#' predictions(rf_analysis)
 #' 
 #' ## Show the available feature importance metrics
 #' importanceMetrics(rf_analysis)
@@ -177,6 +181,53 @@ setMethod('metrics',signature = 'Analysis',
             x %>% 
               analysisResults('modelling') %>% 
               metrics()
+          })
+
+#' @rdname modelling-accessors
+#' @export
+
+setGeneric("predictions", function(x) 
+  standardGeneric("predictions")
+)
+
+#' @rdname modelling-accessors
+
+setMethod('predictions',signature = 'RandomForest',
+          function(x){
+            x@predictions
+          }
+)
+
+setMethod('predictions',signature = 'list',
+          function(x){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (FALSE %in% (object_classes == 'RandomForest')) {
+              message(
+                str_c('All objects contained within supplied list ',
+                      'that are not of class RandomForest will be ignored.'))
+            }
+            
+            x <- x[object_classes == 'RandomForest']
+            
+            if (length(x) > 0) {
+              x %>%
+                map(predictions) %>%
+                bind_rows()  
+            } else {
+              tibble()
+            }
+            
+          })
+
+#' @rdname modelling-accessors
+
+setMethod('predictions',signature = 'Analysis',
+          function(x){
+            x %>% 
+              analysisResults('modelling') %>% 
+              predictions()
           })
 
 #' @rdname modelling-accessors

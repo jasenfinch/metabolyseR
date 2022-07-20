@@ -13,6 +13,9 @@
 \alias{metrics,RandomForest-method}
 \alias{metrics,list-method}
 \alias{metrics,Analysis-method}
+\alias{predictions}
+\alias{predictions,RandomForest-method}
+\alias{predictions,Analysis-method}
 \alias{importanceMetrics}
 \alias{importanceMetrics,RandomForest-method}
 \alias{importance}
@@ -54,6 +57,12 @@ metrics(x)
 \S4method{metrics}{list}(x)
 
 \S4method{metrics}{Analysis}(x)
+
+predictions(x)
+
+\S4method{predictions}{RandomForest}(x)
+
+\S4method{predictions}{Analysis}(x)
 
 importanceMetrics(x)
 
@@ -111,6 +120,7 @@ Methods for accessing modelling results.
 \item \code{type}: Return the type of random forest analysis.
 \item \code{response}: Return the response variable name used for a random forest analysis.
 \item \code{metrics}: Retrieve the model performance metrics for a random forest analysis
+\item \code{predictions}: Retrieve the out of bag model response predictions for a random forest analysis.
 \item \code{importanceMetrics}: Retrieve the available feature importance metrics for a random forest analysis.
 \item \code{importance}: Retrieve feature importance results.
 \item \code{proximity}: Retrieve the random forest sample proximities.
@@ -140,6 +150,9 @@ response(rf_analysis)
 
 ## Retrieve the model performance metrics
 metrics(rf_analysis)
+
+## Retrieve the out of bag model response predictions
+predictions(rf_analysis)
 
 ## Show the available feature importance metrics
 importanceMetrics(rf_analysis)
