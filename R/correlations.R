@@ -146,30 +146,36 @@ doCorrelations <- function(d,
     map_df(p.adjust,method = pAdjustMethod,n = nrow(.) - 1) %>%
     mutate(Feature1 = colnames(.)) %>%
     gather('Feature2','p',-Feature1) %>%
+    drop_na() %>% 
     distinct()
   
   ns <- cors$n %>%
     as_tibble() %>%
     mutate(Feature1 = colnames(.)) %>%
     gather('Feature2','n',-Feature1) %>%
+    drop_na() %>% 
     distinct() 
   
   rs <- cors$r %>%
     as_tibble() %>%
     mutate(Feature1 = colnames(.)) %>%
     gather('Feature2','coefficient',-Feature1) %>%
+    drop_na() %>% 
     distinct() %>%
-    bind_cols(ps %>% select(p),
-              ns %>% select(n)) %>%
+    left_join(ps, 
+              by = c("Feature1", "Feature2")) %>% 
+    left_join(ns, 
+              by = c("Feature1", "Feature2")) %>% 
     filter(Feature1 != Feature2,p < corPvalue,n > 2) %>% 
-    left_join(intensity, by = c('Feature1' = 'Feature')) %>%
+    left_join(intensity, 
+              by = c('Feature1' = 'Feature')) %>%
     rename(Intensity1 = Intensity) %>%
-    left_join(intensity, by = c('Feature2' = 'Feature')) %>%
+    left_join(intensity, 
+              by = c('Feature2' = 'Feature')) %>%
     rename(Intensity2 = Intensity) %>%
     mutate(`|coefficient|` = abs(coefficient),
            log2IntensityRatio = log2(Intensity1/Intensity2)) %>%
     select(Feature1,Feature2,log2IntensityRatio,coefficient,`|coefficient|`,p,n)  %>% 
-    na.omit() %>% 
     arrange(desc(`|coefficient|`)) %>% 
     filter(`|coefficient|` >= minCoef)
   
