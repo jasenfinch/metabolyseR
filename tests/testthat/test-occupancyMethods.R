@@ -32,3 +32,10 @@ test_that('methods work',{
     m,
     ~{nrow(.x %>% sinfo()) == nrow(dat %>% sinfo())}))
 })
+
+test_that('occupancy methods error argument `occupancy` is non-numeric',{
+  dat <- analysisData(data = metaboData::abr1$neg, info = metaboData::abr1$fact)
+  
+  expect_error(occupancyMaximum(dat,occupancy = 'wrong'))
+  expect_error(occupancyMinimum(dat,occupancy = 'wrong'))
+})
