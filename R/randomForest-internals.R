@@ -1,6 +1,16 @@
 
-importance <- function(x){
-  x %>%
+performRF <- function(x,cls,rf){
+  
+}
+
+performanceMetrics <- function(model,type){
+  switch(type,
+         classification = classificationMetrics(model),
+         regression = regressionMetrics(model))
+}
+
+importance <- function(model){
+  model %>%
     randomForest::importance() %>%
     {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))}
 }

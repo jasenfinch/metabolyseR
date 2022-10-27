@@ -1,4 +1,42 @@
 
+classificationPredictions <- function(model){
+  tibble(sample = seq_along(model$y),
+         obs = model$y,
+         pred = model$predicted,
+         margin = margin(model)) %>%
+    bind_cols(model$votes %>%
+                as_tibble(.name_repair = 'minimal') %>%
+                mutate_all(as.numeric))
+}
+
+classificationMetrics <- function(model){
+  predictions <- model %>% 
+    classificationPredictions()
+  
+  class_metrics <- metric_set(accuracy,kap)
+  
+  acc_kap <- predictions %>% 
+    class_metrics(obs,estimate = pred)
+  
+  if (length(levels(predictions$obs)) > 2) {
+    estimate <- levels(predictions$obs)
+  } else {
+    estimate <- levels(predictions$obs)[1]
+  }
+  
+  roc <- predictions %>% 
+    roc_auc(obs,estimate)
+  
+  bind_rows(
+    acc_kap,
+    roc,
+    tibble(.metric = 'margin',
+           .estimate = margin(model) %>% 
+             mean())
+  )
+  
+}
+
 #' @importFrom randomForest margin
 #' @importFrom stats pnorm
 
@@ -230,16 +268,8 @@ classification <- function(x,
     predictions <- models %>%
       map(~{
         map(.x,~{
-          future_map_dfr(.x$models,~{
-            m <- .x
-            tibble(sample = seq_along(m$y),
-                   obs = m$y,
-                   pred = m$predicted,
-                   margin = margin(m)) %>%
-              bind_cols(m$votes %>%
-                          as_tibble(.name_repair = 'minimal') %>%
-                          mutate_all(as.numeric))
-          },
+          future_map_dfr(.x$models,
+                         classificationPredictions,
           .id = 'Rep',
           .options = furrr_options(seed = seed)) %>%
             mutate(Rep = as.numeric(Rep))

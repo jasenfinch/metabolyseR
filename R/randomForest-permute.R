@@ -2,7 +2,25 @@ nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
 #' @importFrom stats runif
 
-permute <- function(x,cls,rf,n = 1000){
+permute <- function(x,cls,rf,type){
+  params <- formals(randomForest::randomForest)
+  params <- c(params,rf)
+  params$x <- x %>% dat()
+  ind <- x %>%
+    sinfo() %>%
+    select(all_of(cls)) %>%
+    unlist(use.names = FALSE) %>% 
+    sample()
+  params$y <- ind
+  params$strata <- ind
+  
+  model <- do.call(randomForest::randomForest,params)
+  
+  performanceMetrics(model,
+                     type = type)
+}
+
+permutations <- function(x,cls,rf,n,type){
   i <- x %>%
     sinfo() %>%
     select(cls) %>%
@@ -16,20 +34,20 @@ permute <- function(x,cls,rf,n = 1000){
     n <- nPerm(length(i),length(unique(i)))
   }
   
-  models <- future_map(1:n,~{
-    params <- formals(randomForest::randomForest)
-    params <- c(params,rf)
-    params$x <- x %>% dat()
-    ind <- sample(i)
-    params$y <- ind
-    params$strata <- ind
-    do.call(randomForest::randomForest,params)
-  },.options = furrr_options(seed = runif(1) %>% 
-                               {. * 100000} %>% 
-                               round())) %>%
-    set_names(1:n)
-  
-  return(models)
+  future_map_dfr(1:n,
+             ~permute(x = x,
+                      cls = cls,
+                      rf = rf,
+                      type = type),
+             .id = 'permutation',
+             .options = furrr_options(
+               seed = runif(1) %>% 
+                 {. * 100000} %>% 
+                 round()
+             )) %>% 
+    group_by(.metric) %>% 
+    summarise(mean = mean(.estimate),
+              sd = sd(.estimate))
 }
 
 classificationPermutationMeasures <- function(models){
