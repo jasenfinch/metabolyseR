@@ -14,57 +14,6 @@ regressionMetrics <- function(model){
     reg_metrics(obs,estimate = pred)
 }
 
-# regressionMeasures <- function(predictions,permutations){
-  # reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
-#   meas <- predictions %>%
-#     base::split(.$Response) %>%
-#     map(~{
-#       d <- .
-#       d %>%
-#         group_by(Response) %>%
-#         reg_metrics(obs,estimate = pred)
-#     }) %>%
-#     bind_rows()
-#   
-#   if (length(permutations) > 0) {
-#     lowertail <- list(rsq = FALSE,
-#                       mae = TRUE,
-#                       mape = TRUE,
-#                       mape = TRUE,
-#                       rmse = TRUE,
-#                       ccc = FALSE)
-#     
-#     meas <- meas %>%
-#       left_join(permutations$measures, by = c("Response", ".metric")) %>%
-#       rowwise() %>%
-#       mutate(Pvalue = pnorm(.estimate,
-#                             Mean,
-#                             SD,
-#                             lower.tail = lowertail[[.metric]])) %>%
-#       select(-Mean,-SD)
-#   }
-#   
-#   return(meas)
-# }
-
-# regressionImportance <- function(importances,permutations){
-#   imps <- importances %>%
-#     group_by(Response,Feature,Metric) %>%
-#     summarise(Value = mean(Value)) 
-#   
-#   if (length(permutations) > 0) {
-#     imps <- imps %>%
-#       left_join(permutations$importance,
-#                 by = c("Response", "Feature", "Metric")) %>%
-#       mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = FALSE)) %>%
-#       group_by(Metric) %>%
-#       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
-#       select(-Mean,-SD)
-#   }
-#   
-#   return(imps)
-# }
-
 collateRegression <- function(models,results){
   models %>% 
     map_dfr(
