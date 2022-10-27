@@ -398,7 +398,7 @@ setMethod('plotMDS',
                     .x %>%
                       bind_cols(cda %>%
                                   sinfo() %>%
-                                  select(cls) %>%
+                                  select(all_of(cls)) %>%
                                   mutate_all(as.character)
                       )  
                   }) %>%
@@ -414,7 +414,7 @@ setMethod('plotMDS',
                     comparison <- str_split(d$Comparison[1],'~')[[1]]
                     
                     cda <- removeClasses(x,cls,classes = sinfo(x) %>%
-                                           select(cls) %>%
+                                           select(all_of(cls)) %>%
                                            unlist() %>%
                                            unique() %>%
                                            .[!(. %in% comparison)])
@@ -434,7 +434,7 @@ setMethod('plotMDS',
                 mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
-                              select(cls) %>%
+                              select(all_of(cls)) %>%
                               mutate_all(factor)
                   )
               }

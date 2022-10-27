@@ -112,7 +112,7 @@ classification <- function(x,
     
     i <- x %>%
       sinfo() %>%
-      select(cls)
+      select(all_of(cls))
   }
   
   if (length(unique(deframe(i))) < 2) {

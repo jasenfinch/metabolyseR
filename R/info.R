@@ -206,7 +206,7 @@ setMethod('clsExtract',
           function(d, cls = 'class'){
             d %>%
               sinfo() %>%
-              select(cls) %>%
+              select(all_of(cls)) %>%
               deframe()
           })
 

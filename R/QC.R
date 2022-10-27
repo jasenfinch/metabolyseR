@@ -80,7 +80,7 @@ setMethod('QCimpute',signature = 'AnalysisData',
             
             dat(d)[d %>% 
                      sinfo() %>% 
-                     select(cls) %>%
+                     select(all_of(cls)) %>%
                      deframe() %>%
                      {. == QCidx},] <- QC %>%
               dat()

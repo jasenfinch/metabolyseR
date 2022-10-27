@@ -68,7 +68,7 @@ setMethod('plotPCA',
             pca <- prcomp(dat(analysis),scale. = scale,center = center)
             
             info <- sinfo(analysis) %>%
-              select(cls) %>%
+              select(all_of(cls)) %>%
               mutate(!!cls := factor(!!sym(cls)))
             
             var <- pca$sdev

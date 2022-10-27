@@ -46,7 +46,7 @@ regression <- function(x,
                        seed = 1234){
   i <- x %>%
     sinfo() %>%
-    select(cls)
+    select(all_of(cls))
   
   models <- i %>%
     colnames() %>%
@@ -54,7 +54,7 @@ regression <- function(x,
       inf <- .
       
       pred <- i %>%
-        select(inf) %>%
+        select(all_of(inf)) %>%
         unlist(use.names = FALSE)
       
       models <- future_map(1:reps,~{

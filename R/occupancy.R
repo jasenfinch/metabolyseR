@@ -58,7 +58,7 @@ setMethod('occupancyMaximum',signature = 'AnalysisData',
                                       unique(fd$Feature)]
             dat(d) <- d %>%
               dat() %>%
-              select(feat)
+              select(all_of(feat))
             return(d)
           }
 )
@@ -90,7 +90,7 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
                                         unique(fd$Feature)]
             dat(d) <- d %>% 
               dat() %>%
-              select(feat)
+              select(all_of(feat))
             return(d)
           }
 )

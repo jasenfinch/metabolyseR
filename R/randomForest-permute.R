@@ -25,7 +25,7 @@ permute <- function(x,cls,rf,type){
 permutations <- function(x,cls,rf,n,type){
   i <- x %>%
     sinfo() %>%
-    select(cls) %>%
+    select(all_of(cls)) %>%
     unlist(use.names = FALSE)
   
   if (is.character(i) | is.factor(i)) {
