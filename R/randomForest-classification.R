@@ -37,6 +37,8 @@ classificationMetrics <- function(model){
   )
 }
 
+#' @importFrom forestControl fpr_fs
+
 classificationImportance <- function(model){
   model %>% 
     randomForest::importance() %>%
