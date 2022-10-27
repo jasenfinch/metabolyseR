@@ -14,6 +14,13 @@ regressionMetrics <- function(model){
     reg_metrics(obs,estimate = pred)
 }
 
+regressionImportance <- function(model){
+  model %>%
+    randomForest::importance() %>%
+    {bind_cols(tibble(feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))} %>% 
+    gather(metric,value,-feature)
+}
+
 collateRegression <- function(models,results){
   models %>% 
     map_dfr(
