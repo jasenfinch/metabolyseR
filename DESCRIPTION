@@ -80,12 +80,12 @@ Collate: allClasses.R
     QC.R
     reexports.R
     remove.R
-    randomForest.R
-    randomForest-classification.R
-    randomForest-internals.R
     randomForest-permute.R
+    randomForest-classification.R
     randomForest-regression.R
+    randomForest-internals.R
     randomForest-unsupervised.R
+    randomForest.R
     rsd.R
     roc.R
     show-method.R
