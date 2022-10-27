@@ -85,6 +85,7 @@ Collate: allClasses.R
     randomForest-internals.R
     randomForest-permute.R
     randomForest-regression.R
+    randomForest-unsupervised.R
     rsd.R
     roc.R
     show-method.R
