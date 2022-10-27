@@ -119,6 +119,9 @@ metricPvals <- function(x){
          regression = regressionMetricPvals(x))
 }
 
+#' @importFrom stats pnorm
+#' @importFrom dplyr rowwise
+
 classificationMetricPvals <- function(x){
   left_join(x@metrics,
             x@permutations$metrics,
