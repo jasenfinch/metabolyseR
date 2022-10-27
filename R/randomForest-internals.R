@@ -35,7 +35,8 @@ modelImportance <- function(model,type){
          classification = classificationImportance(model),
          regression = model %>%
            randomForest::importance() %>%
-           {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))})
+           {bind_cols(tibble(feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))} %>% 
+           gather(metric,value,-feature))
 }
 
 modelProximities <- function(model){
@@ -46,17 +47,11 @@ modelProximities <- function(model){
     rename(Sample1 = Sample)
 }
 
-collate <- function(models,type){
-  models %>% 
-    map_dfr(
-      ~.x %>% 
-        map_dfr(~.x %>% 
-              map_dfr(~.x[[type]],
-                      .id = 'rep'),
-            .id = 'comparison'
-            ),
-      .id = 'response'
-      )
+collate <- function(models,results,type){
+  switch(type,
+         classification = collateClassification(models,results),
+         regression = collateRegression(models,results)
+  )
 }
 
 #' @importFrom forestControl fpr_fs
