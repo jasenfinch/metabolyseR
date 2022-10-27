@@ -1,3 +1,4 @@
+#' @importFrom randomForest margin
 
 classificationPredictions <- function(model){
   tibble(sample = seq_along(model$y),
@@ -34,115 +35,31 @@ classificationMetrics <- function(model){
            .estimate = margin(model) %>% 
              mean())
   )
-  
 }
 
 classificationImportance <- function(model){
   model %>% 
     randomForest::importance() %>%
-    {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))} %>% 
-    left_join(fpr_fs(model),by = c('Feature' = 'variable')) %>%
-    rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
+    {bind_cols(tibble(feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))} %>% 
+    left_join(fpr_fs(model),by = c('feature' = 'variable')) %>%
+    rename(selection_frequency = freq,false_positive_rate = fpr) %>% 
+    gather(metric,value,-feature)
 }
 
-#' @importFrom randomForest margin
-#' @importFrom stats pnorm
-
-classificationMeasures <- function(predictions,permutations){
-  
-  class_metrics <- metric_set(accuracy,kap)
-  
-  meas <- predictions %>%
-    base::split(.$Response) %>%
-    map(~{
-      d <- .
-      d %>%
-        base::split(.$Comparison) %>%
-        map(~{
-          p <- .
-          p %>%
-            mutate(obs = factor(obs),pred = factor(pred)) %>%
-            group_by(Response,Comparison) %>%
-            class_metrics(obs,estimate = pred)
-        }) %>%
-        bind_rows()
-    }) %>%
-    bind_rows() %>%
-    bind_rows(
-      suppressMessages(
-        predictions %>%
-          base::split(.$Response) %>%
-          map(~{
-            d <- .
-            d %>%
-              base::split(.$Comparison) %>%
-              map(~{
-                p <- .
-                
-                p <- p %>%
-                  mutate(obs = factor(obs),pred = factor(pred)) 
-                if (length(levels(p$obs)) > 2) {
-                  estimate <- levels(p$obs)
-                } else {
-                  estimate <- levels(p$obs)[1]
-                }
-                p %>%
-                  group_by(Response,Comparison) %>%
-                  roc_auc(obs,estimate)
-              }) %>%
-              bind_rows()
-          }) %>%
-          bind_rows())) %>%
-    bind_rows(predictions %>%
-                group_by(Response,Comparison) %>%
-                summarise(.estimate = mean(margin)) %>%
-                mutate(.metric = 'margin'))
-  
-  if (length(permutations) > 0) {
-    meas <- meas %>%
-      left_join(
-        permutations$measures, 
-        by = c("Response","Comparison", ".metric")) %>%
-      mutate(Pvalue = pnorm(.estimate,Mean,SD,lower.tail = FALSE)) %>%
-      select(-Mean,-SD)
-  }
-  
-  return(meas)
+collateClassification <- function(models,results){
+  suppressMessages(
+    models %>% 
+      map_dfr(
+        ~.x %>% 
+          map_dfr(~.x$reps %>% 
+                    map_dfr(~.x[[results]],
+                            .id = 'rep'),
+                  .id = 'comparison'
+          ),
+        .id = 'response'
+      ) 
+  )
 }
-
-#' @importFrom dplyr rowwise
-
-# classificationImportance <- function(importances,permutations){
-#   imps <- importances %>%
-#     group_by(Response,Comparison,Feature,Metric) %>%
-#     summarise(Value = mean(Value))
-#   
-#   if (length(permutations) > 0) {
-#     lowertail <- list(MeanDecreaseGini = FALSE,
-#                       SelectionFrequency = FALSE,
-#                       FalsePositiveRate = TRUE)
-#     
-#     imps <- imps %>%
-#       left_join(
-#         permutations$importance,
-#         by = c("Response","Comparison", "Feature", "Metric")) %>%
-#       base::split(.$Metric) %>%
-#       map(~{
-#         i <- .
-#         tail <- lowertail[[i$Metric[1]]]
-#         i %>%
-#           rowwise() %>%
-#           mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
-#           ungroup()
-#       }) %>%
-#       bind_rows() %>%
-#       group_by(Metric) %>%
-#       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
-#       select(-Mean,-SD)
-#   }
-#   
-#   return(imps)
-# }
 
 #' @importFrom yardstick metric_set accuracy kap roc_auc
 #' @importFrom dplyr summarise_all group_by_all n
@@ -252,8 +169,6 @@ classification <- function(x,
             rf <- c(rf,list(strata = pred,sampsize = ss))
           }
           
-          set.seed(seed)
-          
           models <- future_map(
             1:reps,~{
               performRF(
@@ -266,36 +181,45 @@ classification <- function(x,
             .options = furrr_options(seed = seed)) %>%
             set_names(1:reps)
           
-          return(models) 
+          if (perm > 0) {
+            permutation_results <- permutations(cda,
+                                                inf,
+                                                rf,
+                                                perm,
+                                                type = 'classification')
+          } else {
+            permutations_results <- list()
+          }
+          
+          return(
+            list(reps = models,
+                 permutations = permutation_results)
+            )
         }) %>%
         set_names(comps)
     }) %>%
     set_names(colnames(i))
   
-  if (perm > 0) {
-    permutation_results <- permutations(x,
-                                        cls,
-                                        rf,
-                                        perm,
-                                        type = 'classification')
-  } else {
-    permutations_results <- list()
-  }
-  
   res <- new('RandomForest',
              x,
              type = 'classification',
              response = cls,
-             metrics = collate(models,'metrics'),
-             predictions = collate(models,'predictions'),
-             importances = collate(models,'importance'),
-             proximities = collate(models,'proximities'),
-             permutations = permutation_results)
-
-
+             metrics = collate(models,'metrics',type = 'classification') %>% 
+               group_by(response,comparison,.metric,.estimator) %>% 
+               summarise(.estimate = mean(.estimate),
+                         .groups = 'drop'),
+             predictions = collate(models,'predictions',type = 'classification'),
+             importances = collate(models,'importance',type = 'classification') %>% 
+               group_by(response,comparison,feature,metric) %>% 
+               summarise(value = mean(value),
+               .groups = 'drop'),
+             proximities = collate(models,'proximities',type = 'classification'),
+             permutations = collatePermutations(models,type = 'classification'))
+  
+  
   if (isTRUE(returnModels)) {
     res@models <- collateModels(models)
   }
-
+  
   return(res)
 }
