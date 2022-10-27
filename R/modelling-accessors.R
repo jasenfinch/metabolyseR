@@ -145,7 +145,14 @@ setGeneric("metrics", function(x)
 
 setMethod('metrics',signature = 'RandomForest',
           function(x){
-            x@metrics
+            
+            if (length(x@permutations) > 0){
+              metrics <- metricPvals(x)
+            } else {
+              metrics <- x@metrics
+            }
+              
+            return(metrics)
           }
 )
 
@@ -258,8 +265,14 @@ setGeneric("importance", function(x)
 
 setMethod('importance',signature = 'RandomForest',
           function(x){
-            x@importances %>%
-              ungroup()
+            
+            if (length(x@permutations) > 0){
+              importance <- importancePvals(x)
+            } else {
+              importance <- x@importances
+            }
+            
+            return(importance)
           }
 )
 
