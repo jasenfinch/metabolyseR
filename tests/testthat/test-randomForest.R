@@ -1,10 +1,8 @@
-library(metaboData)
 
-d <- analysisData(abr1$neg,abr1$fact) %>%
+d <- analysisData(metaboData::abr1$neg,
+                  metaboData::abr1$fact) %>%
   keepFeatures(features = features(.)[200:250]) %>% 
   clsAdd('sample_names',paste0(seq_len(nSamples(.)),'_a'))
-
-context('randomForest')
 
 test_that('unsupervised random forest works',{
   rf <- randomForest(d,cls = NULL,returnModels = TRUE)
