@@ -74,7 +74,7 @@ regression <- function(x,
                                             perm,
                                             type = 'regression')
       } else {
-        permutations_results <- list()
+        permutation_results <- list()
       }
       
       return(

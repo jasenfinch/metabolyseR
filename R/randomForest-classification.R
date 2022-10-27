@@ -190,7 +190,7 @@ classification <- function(x,
                                                 perm,
                                                 type = 'classification')
           } else {
-            permutations_results <- list()
+            permutation_results <- list()
           }
           
           return(
