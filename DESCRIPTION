@@ -81,6 +81,10 @@ Collate: allClasses.R
     reexports.R
     remove.R
     randomForest.R
+    randomForest-classification.R
+    randomForest-internals.R
+    randomForest-permute.R
+    randomForest-regression.R
     rsd.R
     roc.R
     show-method.R
