@@ -99,8 +99,8 @@ setClass('RandomForest',
            models = 'list'
          ),
          prototype = list(
-           type = 'classification',
-           response = 'class',
+           type = 'unsupervised',
+           response = '',
            metrics = tibble(),
            predictions = tibble(),
            permutations = list(),
