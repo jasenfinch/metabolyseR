@@ -146,7 +146,7 @@ setGeneric("metrics", function(x)
 setMethod('metrics',signature = 'RandomForest',
           function(x){
             
-            if (length(x@permutations) > 0){
+            if (nrow(x@permutations$metrics) > 0){
               metrics <- metricPvals(x)
             } else {
               metrics <- x@metrics
@@ -266,7 +266,7 @@ setGeneric("importance", function(x)
 setMethod('importance',signature = 'RandomForest',
           function(x){
             
-            if (length(x@permutations) > 0){
+            if (nrow(x@permutations$importance) > 0){
               importance <- importancePvals(x)
             } else {
               importance <- x@importances
