@@ -1,3 +1,9 @@
+regressionPredictions <- function(model){
+  tibble(sample = seq_along(model$y),
+         obs = model$y,
+         pred = model$predicted)
+}
+
 regressionMeasures <- function(predictions,permutations){
   reg_metrics <- metric_set(rsq,mae,mape,rmse,ccc)
   meas <- predictions %>%

@@ -91,12 +91,22 @@ setClass('RandomForest',
          slots = list(
            type = 'character',
            response = 'character',
-           results = 'list',
+           metrics = 'tbl_df',
            predictions = 'tbl_df',
            permutations = 'list',
            importances = 'tbl_df',
            proximities = 'tbl_df',
            models = 'list'
+         ),
+         prototype = list(
+           type = 'classification',
+           response = 'class',
+           metrics = tibble(),
+           predictions = tibble(),
+           permutations = list(),
+           importances = tibble(),
+           proximities = tibble(),
+           models = list()
          )
 )
 

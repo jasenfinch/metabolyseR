@@ -1,6 +1,21 @@
 
-performRF <- function(x,cls,rf){
+performRF <- function(x,cls,rf,type,returnModel){
+  params <- formals(randomForest::randomForest)
+  params$x <- x
+  params$y <- cls
+  params <- c(params,rf)
+  model <- do.call(randomForest::randomForest,params)
   
+  model_results <- list(metrics = performanceMetrics(model,
+                                                     type = type),
+                        importance = modelImportance(model,type),
+                        predictions = modelPredictions(model,type),
+                        proximities = modelProximities(model))
+  
+  if (isTRUE(returnModel)) model_results <- c(model_results,
+                                              list(model = model))
+  
+  return(model_results)
 }
 
 performanceMetrics <- function(model,type){
@@ -9,10 +24,39 @@ performanceMetrics <- function(model,type){
          regression = regressionMetrics(model))
 }
 
-importance <- function(model){
-  model %>%
-    randomForest::importance() %>%
-    {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))}
+modelPredictions <- function(model,type){
+  switch(type,
+         classification = classificationPredictions(model),
+         regression = regressionPredictions(model))
+}
+
+modelImportance <- function(model,type){
+  switch(type,
+         classification = classificationImportance(model),
+         regression = model %>%
+           randomForest::importance() %>%
+           {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))})
+}
+
+modelProximities <- function(model){
+  model$proximity %>%
+    as_tibble(.name_repair = 'minimal') %>%
+    mutate(Sample = seq_len(nrow(.))) %>%
+    gather('Sample2','Proximity',-Sample) %>%
+    rename(Sample1 = Sample)
+}
+
+collate <- function(models,type){
+  models %>% 
+    map_dfr(
+      ~.x %>% 
+        map_dfr(~.x %>% 
+              map_dfr(~.x[[type]],
+                      .id = 'rep'),
+            .id = 'comparison'
+            ),
+      .id = 'response'
+      )
 }
 
 #' @importFrom forestControl fpr_fs

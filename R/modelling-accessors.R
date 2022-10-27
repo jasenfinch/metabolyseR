@@ -145,7 +145,7 @@ setGeneric("metrics", function(x)
 
 setMethod('metrics',signature = 'RandomForest',
           function(x){
-            x@results$measures
+            x@metrics
           }
 )
 
@@ -258,7 +258,7 @@ setGeneric("importance", function(x)
 
 setMethod('importance',signature = 'RandomForest',
           function(x){
-            x@results$importances %>%
+            x@importances %>%
               ungroup()
           }
 )

@@ -3,21 +3,23 @@ nPerm <- function(n,k){choose(n,k) * factorial(k)}
 #' @importFrom stats runif
 
 permute <- function(x,cls,rf,type){
-  params <- formals(randomForest::randomForest)
-  params <- c(params,rf)
-  params$x <- x %>% dat()
-  ind <- x %>%
+
+  randomised_cls <- x %>%
     sinfo() %>%
     select(all_of(cls)) %>%
     unlist(use.names = FALSE) %>% 
     sample()
-  params$y <- ind
-  params$strata <- ind
   
-  model <- do.call(randomForest::randomForest,params)
+  rf$strata <- randomised_cls
   
-  performanceMetrics(model,
-                     type = type)
+  model <- performRF(dat(x),
+                     randomised_cls,
+                     rf,
+                     type,
+                     returnModel = FALSE)
+  
+  list(metrics = model$metrics,
+       importance = model$importance)
 }
 
 permutations <- function(x,cls,rf,n,type){
@@ -34,7 +36,7 @@ permutations <- function(x,cls,rf,n,type){
     n <- nPerm(length(i),length(unique(i)))
   }
   
-  future_map_dfr(1:n,
+  permutation_results <- future_map(1:n,
              ~permute(x = x,
                       cls = cls,
                       rf = rf,
@@ -44,10 +46,24 @@ permutations <- function(x,cls,rf,n,type){
                seed = runif(1) %>% 
                  {. * 100000} %>% 
                  round()
-             )) %>% 
-    group_by(.metric) %>% 
-    summarise(mean = mean(.estimate),
-              sd = sd(.estimate))
+             )) 
+  
+  permutation_metrics <- permutation_results %>%
+    map_dfr(~.x$metrics,id = 'permutation') %>% 
+          group_by(.metric) %>% 
+          summarise(mean = mean(.estimate),
+                    sd = sd(.estimate))
+  
+  permutation_importance <- permutation_results %>%
+    map_dfr(~.x$importance,id = 'permutation') %>% 
+    gather(metric,value,-Feature) %>% 
+    group_by(Feature,metric) %>% 
+    summarise(mean = mean(value),
+              sd = sd(value),
+              .groups = 'drop')
+  
+  list(metrics = permutation_metrics,
+       importance = permutation_importance)
 }
 
 classificationPermutationMeasures <- function(models){

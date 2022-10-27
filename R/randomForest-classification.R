@@ -37,6 +37,14 @@ classificationMetrics <- function(model){
   
 }
 
+classificationImportance <- function(model){
+  model %>% 
+    randomForest::importance() %>%
+    {bind_cols(tibble(Feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))} %>% 
+    left_join(fpr_fs(model),by = c('Feature' = 'variable')) %>%
+    rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
+}
+
 #' @importFrom randomForest margin
 #' @importFrom stats pnorm
 
@@ -104,37 +112,37 @@ classificationMeasures <- function(predictions,permutations){
 
 #' @importFrom dplyr rowwise
 
-classificationImportance <- function(importances,permutations){
-  imps <- importances %>%
-    group_by(Response,Comparison,Feature,Metric) %>%
-    summarise(Value = mean(Value))
-  
-  if (length(permutations) > 0) {
-    lowertail <- list(MeanDecreaseGini = FALSE,
-                      SelectionFrequency = FALSE,
-                      FalsePositiveRate = TRUE)
-    
-    imps <- imps %>%
-      left_join(
-        permutations$importance,
-        by = c("Response","Comparison", "Feature", "Metric")) %>%
-      base::split(.$Metric) %>%
-      map(~{
-        i <- .
-        tail <- lowertail[[i$Metric[1]]]
-        i %>%
-          rowwise() %>%
-          mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
-          ungroup()
-      }) %>%
-      bind_rows() %>%
-      group_by(Metric) %>%
-      mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
-      select(-Mean,-SD)
-  }
-  
-  return(imps)
-}
+# classificationImportance <- function(importances,permutations){
+#   imps <- importances %>%
+#     group_by(Response,Comparison,Feature,Metric) %>%
+#     summarise(Value = mean(Value))
+#   
+#   if (length(permutations) > 0) {
+#     lowertail <- list(MeanDecreaseGini = FALSE,
+#                       SelectionFrequency = FALSE,
+#                       FalsePositiveRate = TRUE)
+#     
+#     imps <- imps %>%
+#       left_join(
+#         permutations$importance,
+#         by = c("Response","Comparison", "Feature", "Metric")) %>%
+#       base::split(.$Metric) %>%
+#       map(~{
+#         i <- .
+#         tail <- lowertail[[i$Metric[1]]]
+#         i %>%
+#           rowwise() %>%
+#           mutate(Pvalue = pnorm(Value,Mean,SD,lower.tail = tail)) %>%
+#           ungroup()
+#       }) %>%
+#       bind_rows() %>%
+#       group_by(Metric) %>%
+#       mutate(adjustedPvalue = p.adjust(Pvalue,method = 'bonferroni')) %>%
+#       select(-Mean,-SD)
+#   }
+#   
+#   return(imps)
+# }
 
 #' @importFrom yardstick metric_set accuracy kap roc_auc
 #' @importFrom dplyr summarise_all group_by_all n
@@ -144,13 +152,17 @@ classificationImportance <- function(importances,permutations){
 
 classification <- function(x,
                            cls,
-                           rf,
-                           reps,
-                           binary,
-                           comparisons,
-                           perm,
-                           returnModels,
-                           seed){
+                           rf = list(
+                             keep.forest = TRUE,
+                             proximity = TRUE,
+                             importance = TRUE
+                           ),
+                           reps = 1,
+                           binary = FALSE,
+                           comparisons = list(),
+                           perm = 0,
+                           returnModels = FALSE,
+                           seed = 1234){
   
   i <- x %>%
     sinfo() %>%
@@ -206,13 +218,13 @@ classification <- function(x,
   models <- i %>%
     colnames() %>%
     map(~{
-      inf <- .
+      inf <- .x
       
       comps <- comp[[inf]] 
       
       comps %>%
         map(~{
-          comparison <- str_split(.,'~')[[1]]
+          comparison <- str_split(.x,'~')[[1]]
           
           cda <- keepClasses(x,inf,classes = comparison)
           
@@ -242,104 +254,48 @@ classification <- function(x,
           
           set.seed(seed)
           
-          mod <- future_map(1:reps,~{
-            params <- formals(randomForest::randomForest)
-            params$x <- cda %>% dat()
-            params$y <- pred
-            params <- c(params,rf)
-            do.call(randomForest::randomForest,params)
-          },.options = furrr_options(seed = seed)) %>%
+          models <- future_map(
+            1:reps,~{
+              performRF(
+                dat(cda),
+                pred,
+                rf,
+                type = 'classification',
+                returnModel = returnModels)
+            },
+            .options = furrr_options(seed = seed)) %>%
             set_names(1:reps)
           
-          mod <- list(models = mod)
-          
-          if (perm > 0) {
-            perms <- permute(x,cls,rf,n = perm)
-            mod <- c(mod,list(permutations = perms))
-          }
-          
-          return(mod) 
+          return(models) 
         }) %>%
         set_names(comps)
     }) %>%
     set_names(colnames(i))
   
-  suppressMessages({
-    predictions <- models %>%
-      map(~{
-        map(.x,~{
-          future_map_dfr(.x$models,
-                         classificationPredictions,
-          .id = 'Rep',
-          .options = furrr_options(seed = seed)) %>%
-            mutate(Rep = as.numeric(Rep))
-        }) %>%
-          bind_rows(.id = 'Comparison')
-      }) %>%
-      bind_rows(.id = 'Response')
-  })
-  
-  importances <- models %>%
-    map(~{
-      map(.,~{
-        future_map_dfr(.$models,~{
-          m <- .
-          importance(m) %>%
-            left_join(fpr_fs(m),by = c('Feature' = 'variable')) %>%
-            rename(SelectionFrequency = freq,FalsePositiveRate = fpr)
-        },
-        .id = 'Rep',
-        .options = furrr_options(seed = seed)) %>%
-          mutate(Rep = as.numeric(Rep))
-      }) %>%
-        bind_rows(.id = 'Comparison')
-    }) %>%
-    bind_rows(.id = 'Response') %>%
-    gather('Metric','Value',-(Response:Feature))
-  
-  proximities <- models %>%
-    map(~{
-      map(.,~{
-        future_map_dfr(.$models,~{.$proximity %>%
-            as_tibble() %>%
-            mutate(Sample = seq_len(nrow(.))) %>%
-            gather('Sample2','Proximity',-Sample) %>%
-            rename(Sample1 = Sample)
-        },
-        .id = 'Rep',
-        .options = furrr_options(seed = seed)) %>%
-          mutate(Rep = as.numeric(Rep))
-      }) %>%
-        bind_rows(.id = 'Comparison')
-    }) %>%
-    bind_rows(.id = 'Response')  %>%
-    mutate(Sample2 = as.numeric(Sample2))
-  
   if (perm > 0) {
-    permutations <- classificationPermutationMeasures(models)
+    permutation_results <- permutations(x,
+                                        cls,
+                                        rf,
+                                        perm,
+                                        type = 'classification')
   } else {
-    permutations <- list()
+    permutations_results <- list()
   }
   
-  results <- list(
-    measures = classificationMeasures(predictions,permutations),
-    importances = classificationImportance(importances,permutations)
-  )
-  
-  res <- new('RandomForest')
-  res@type <- 'classification'
-  res@response <- cls
-  dat(res) <- dat(x)
-  sinfo(res) <- sinfo(x)
-  res@results <- results
-  res@predictions <- predictions
-  res@permutations <- permutations
-  res@importances <- importances
-  res@proximities <- proximities
-  
+  res <- new('RandomForest',
+             x,
+             type = 'classification',
+             response = cls,
+             metrics = collate(models,'metrics'),
+             predictions = collate(models,'predictions'),
+             importances = collate(models,'importance'),
+             proximities = collate(models,'proximities'),
+             permutations = permutation_results)
+
+
   if (isTRUE(returnModels)) {
-    res@models <- models
+    res@models <- collateModels(models)
   }
-  
+
   return(res)
 }
