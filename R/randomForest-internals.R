@@ -22,23 +22,23 @@ performRF <- function(x,cls,rf,type,returnModel){
 
 performanceMetrics <- function(model,type){
   switch(type,
+         unsupervised = tibble(),
          classification = classificationMetrics(model),
          regression = regressionMetrics(model))
 }
 
 modelPredictions <- function(model,type){
   switch(type,
+         unsupervised = tibble(),
          classification = classificationPredictions(model),
          regression = regressionPredictions(model))
 }
 
 modelImportance <- function(model,type){
   switch(type,
+         unsupervised = regressionImportance(model),
          classification = classificationImportance(model),
-         regression = model %>%
-           randomForest::importance() %>%
-           {bind_cols(tibble(feature = rownames(.)),as_tibble(.,.name_repair = 'minimal'))} %>% 
-           gather(metric,value,-feature))
+         regression = regressionImportance(model))
 }
 
 modelProximities <- function(model){
@@ -51,6 +51,7 @@ modelProximities <- function(model){
 
 collate <- function(models,results,type){
   switch(type,
+         unsupervised = collateUnsupervised(models,results),
          classification = collateClassification(models,results),
          regression = collateRegression(models,results)
   )
