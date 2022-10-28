@@ -80,6 +80,8 @@ setMethod('modelling',signature = 'Analysis',
 
 explanatoryFeaturesClassification <- function(x,metric,threshold){
   
+  current_metric <- metric
+  
   imp <- x %>%
     importance()
   
