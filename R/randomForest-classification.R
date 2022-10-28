@@ -50,6 +50,8 @@ classificationImportance <- function(model){
     gather(metric,value,-feature)
 }
 
+#' @importFrom purrr map_dfr
+
 collateClassification <- function(models,results){
   suppressMessages(
     models %>% 
