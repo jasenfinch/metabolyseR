@@ -1,8 +1,3 @@
-library(metaboData)
-
-context('QCMethods')
-
-plan(future::multisession,workers = 2)
 
 test_that('QCMethods returns methods correctly',{
   m <- map_lgl(QCMethods(),is.function)
@@ -11,13 +6,19 @@ test_that('QCMethods returns methods correctly',{
 
 test_that('methods work',{
   m <- names(QCMethods())
-  d <- analysisData(abr1$neg,abr1$fact) %>%
+  d <- analysisData(
+    metaboData::abr1$neg,
+    metaboData::abr1$fact) %>%
     keepFeatures(features = features(.)[290:300]) %>%
     keepClasses(classes = c(1,6))
   
   m <- map(m,~{
     method <- QCMethods(.)
-    method(d, cls = 'class', QCidx = '1')  
+    if (.x == 'impute'){
+      method(d, cls = 'class', QCidx = '1',parallel = 'no')
+    } else {
+      method(d, cls = 'class', QCidx = '1') 
+    }
   })
   
   expect_false(FALSE %in% map_lgl(
