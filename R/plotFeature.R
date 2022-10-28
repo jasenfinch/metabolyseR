@@ -33,6 +33,7 @@ setGeneric('plotFeature',
 #' @rdname plotFeature
 #' @importFrom ggplot2 aes geom_point theme_bw element_text guides 
 #' @importFrom ggplot2 scale_fill_manual xlab
+#' @importFrom methods is
 
 setMethod('plotFeature',
           signature = 'AnalysisData',
@@ -72,7 +73,7 @@ setMethod('plotFeature',
                 mutate(Intensity = as.numeric(Intensity))
             }
             
-            if (class(i$Class) == 'character' | class(i$Class) == 'factor') {
+            if (is(i$Class,'character') | is(i$Class,'factor')) {
               classes <- d %>%
                 select(Class) %>% 
                 unique() %>%

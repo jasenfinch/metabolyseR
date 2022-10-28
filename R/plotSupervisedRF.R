@@ -65,7 +65,7 @@ setMethod('plotSupervisedRF',
                                reps = 1,
                                seed = seed))
             
-            if (class(rf) != 'try-error') {
+            if (!is(rf,'try-error')) {
               pl <- plotMDS(rf,
                             cls = cls,
                             label = label,

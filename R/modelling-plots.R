@@ -278,7 +278,7 @@ setMethod('plotMetrics',signature = 'RandomForest',
             response <- response(x)
             
             if (x@type == 'classification') {
-              pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
+              pl <- ggplot(res,aes(x = .estimate,y = comparison)) +
                 geom_point(shape = 21,fill = ptol_pal()(1)) +
                 theme_bw() +
                 facet_wrap(~.metric) +

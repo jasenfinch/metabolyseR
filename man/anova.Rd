@@ -41,7 +41,7 @@ library(metaboData)
 d <- analysisData(abr1$neg[,200:300],abr1$fact)
 
 ## Perform ANOVA
-anova_analysis <- anova(d,cls = 'ay')
+anova_analysis <- anova(d,cls = 'day')
 
 ## Extract significant features
 explanatoryFeatures(anova_analysis)
