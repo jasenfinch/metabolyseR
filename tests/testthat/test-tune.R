@@ -1,5 +1,6 @@
 
-x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+x <- analysisData(metaboData::abr1$neg[,200:300],
+                  metaboData::abr1$fact) %>%
   occupancyMaximum(cls = 'day') %>%
   transformTICnorm()
 
