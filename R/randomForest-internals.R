@@ -44,9 +44,9 @@ modelImportance <- function(model,type){
 modelProximities <- function(model){
   model$proximity %>%
     as_tibble(.name_repair = 'minimal') %>%
-    mutate(Sample = seq_len(nrow(.))) %>%
-    gather('Sample2','Proximity',-Sample) %>%
-    rename(Sample1 = Sample)
+    mutate(sample = seq_len(nrow(.))) %>%
+    gather('sample2','proximity',-sample) %>%
+    rename(sample1 = sample)
 }
 
 collate <- function(models,results,type){

@@ -328,14 +328,14 @@ setMethod('proximity',signature = 'RandomForest',
           function(x,idx = NULL){
             
             group_vars <- switch(type(x),
-                                 classification = c('Response','Comparison'),
-                                 regression = 'Response',
+                                 classification = c('response','comparison'),
+                                 regression = 'response',
                                  unsupervised = NULL) %>% 
-              c(.,'Sample1','Sample2')
+              c(.,'sample1','sample2')
             
             proximities <- x@proximities %>% 
               group_by_at(group_vars) %>% 
-              summarise(Proximity = mean(Proximity),
+              summarise(proximity = mean(proximity),
                         .groups = 'drop')
             
             if (!is.null(idx)){
@@ -355,16 +355,16 @@ setMethod('proximity',signature = 'RandomForest',
               
               proximities <- proximities %>% 
                 left_join(sample_idx,
-                          by = c('Sample1' = 'row')) %>% 
+                          by = c('sample1' = 'row')) %>% 
                 rename(idx_1 = idx) %>% 
                 left_join(sample_idx,
-                          by = c('Sample2' = 'row')) %>% 
+                          by = c('sample2' = 'row')) %>% 
                 rename(idx_2 = idx) %>% 
-                select(-Sample1,
-                       -Sample2,
-                       Sample1 = idx_1,
-                       Sample2 = idx_2) %>% 
-                relocate(Proximity,.after = Sample2)
+                select(-sample1,
+                       -sample2,
+                       sample1 = idx_1,
+                       sample2 = idx_2) %>% 
+                relocate(proximity,.after = sample2)
             }
             
             return(proximities)
