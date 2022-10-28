@@ -61,7 +61,7 @@ Collate: allClasses.R
     metabolyse.R
     metabolyseR.R
     modelling.R
-    modellingPlots.R
+    modelling-plots.R
     nlda.R
     occupancy.R
     parameters.R
