@@ -7,6 +7,10 @@ test_that('occupancyMethods returns methods correctly',{
   expect_false(F %in% m)
 })
 
+test_that('occupancyMethods errors if incorrect method specified',{
+  expect_error(occupancyMethods('incorrect'))
+})
+
 test_that('methods work',{
   m <- names(occupancyMethods())
   dat <- analysisData(data = abr1$neg, info = abr1$fact)

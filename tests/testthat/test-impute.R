@@ -4,6 +4,10 @@ test_that('imputeMethods returns methods correctly',{
   expect_true(all(m))
 })
 
+test_that('imputeMethods errors if incorrect method specified',{
+  expect_error(imputeMethods('incorrect'))
+})
+
 test_that('methods work',{
   d <- analysisData(metaboData::abr1$neg[,500:550],
                     metaboData::abr1$fact) %>%

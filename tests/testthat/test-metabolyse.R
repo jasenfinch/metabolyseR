@@ -31,3 +31,7 @@ test_that('metabolyse-works', {
   expect_s3_class(mds(analysis),'tbl_df')
   expect_s3_class(roc(analysis),'tbl_df')
 })
+
+test_that('getPreTreatMethods errors if incorrect method specified',{
+  expect_error(getPreTreatMethods('incorrect'))
+})

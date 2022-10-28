@@ -4,6 +4,10 @@ test_that('QCMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
+test_that('QCMethods errors if incorrect method specified',{
+  expect_error(QCMethods('incorrect'))
+})
+
 test_that('methods work',{
   m <- names(QCMethods())
   d <- analysisData(

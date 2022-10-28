@@ -7,6 +7,10 @@ test_that('transformMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
+test_that('transformMethods errors if incorrect method specified',{
+  expect_error(transformMethods('incorrect'))
+})
+
 test_that('methods work',{
   m <- names(transformMethods())
   

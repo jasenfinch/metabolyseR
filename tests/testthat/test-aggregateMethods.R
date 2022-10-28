@@ -7,6 +7,10 @@ test_that('aggregateMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
+test_that('aggregateMethods errors if incorrect method specified',{
+  expect_error(aggregateMethods('incorrect'))
+})
+
 test_that('methods work',{
   m <- names(aggregateMethods())
   d <- analysisData(abr1$neg,abr1$fact) %>%

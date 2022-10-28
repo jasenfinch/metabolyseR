@@ -7,6 +7,10 @@ test_that('correctionMethods returns methods correctly',{
   expect_false(FALSE %in% m)
 })
 
+test_that('correctionMethods errors if incorrect method specified',{
+  expect_error(correctionMethods('incorrect'))
+})
+
 test_that('methods work',{
   m <- names(correctionMethods())
   d <- analysisData(abr1$neg[,200:250],abr1$fact) %>%
