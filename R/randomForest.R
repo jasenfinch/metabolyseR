@@ -75,10 +75,6 @@ setMethod('randomForest',signature = 'AnalysisData',
                                 seed)
             }
             
-            if (is.null(cls) | length(cls) == 1) {
-              res <- res[[1]]
-            }
-            
             return(res)
             
           }
