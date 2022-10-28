@@ -10,9 +10,10 @@ permute <- function(x,cls,rf,type){
     unlist(use.names = FALSE) %>% 
     sample() 
   
-  if (is.factor(randomised_cls)) randomised_cls <- factor(randomised_cls)
-  
-  rf$strata <- randomised_cls
+  if (type == 'classification'){
+    randomised_cls <- factor(randomised_cls)
+    rf$strata <- randomised_cls
+  } 
   
   model <- performRF(dat(x),
                      randomised_cls,
