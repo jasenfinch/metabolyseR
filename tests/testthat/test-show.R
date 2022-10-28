@@ -1,6 +1,3 @@
-library(metaboData)
-
-context('show')
 
 test_that('AnalysisParameters show method works',{
   expect_output(new('AnalysisParameters') %>%
@@ -18,12 +15,11 @@ test_that('Analysis show method works',{
 })
 
 test_that('RandomForest class show method works',{
-  expect_output(new('RandomForest') %>%
-                  {
-                    .@type <- 'classification'
-                    .
-                  } %>%
-                  print(),'Random forest classification')
+  object <- new('RandomForest',
+                type = 'classification',
+                response = 'class')
+  expect_output(print(object),
+                'Random forest classification')
 })
 
 test_that('Univariate class show method works',{

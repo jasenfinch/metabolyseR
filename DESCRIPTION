@@ -47,7 +47,7 @@ Suggests: knitr,
     prettydoc,
     covr,
     kableExtra
-Collate: allClasses.R
+Collate: all-classes.R
     analysis-accessors.R
     aggregate.R
     analysisData.R
