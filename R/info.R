@@ -246,7 +246,7 @@ setMethod('clsRemove',signature = 'AnalysisData',function(d,cls){
   
   sinfo(d) <- d %>%
     sinfo() %>%
-    select(-{{cls}})
+    select(-all_of(cls))
   
   return(d)
 })

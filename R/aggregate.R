@@ -100,7 +100,7 @@ aggregate <- function(d,method,cls){
     dat() %>%
     bind_cols(sample_info) %>%
     gather('Feature','Intensity',-all_of(cls)) %>%
-    group_by(across(cls),Feature) %>%
+    group_by(across(all_of(cls)),Feature) %>%
     summarise(Intensity = aggregateMethod(Intensity)) %>%
     ungroup() %>%
     spread(Feature,Intensity) %>%
