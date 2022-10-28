@@ -7,8 +7,10 @@
 \alias{mtry,AnalysisData-method}
 \alias{type}
 \alias{type,RandomForest-method}
+\alias{type,Univariate-method}
 \alias{response}
 \alias{response,RandomForest-method}
+\alias{response,Univariate-method}
 \alias{metrics}
 \alias{metrics,RandomForest-method}
 \alias{metrics,list-method}
@@ -46,9 +48,13 @@ type(x)
 
 \S4method{type}{RandomForest}(x)
 
+\S4method{type}{Univariate}(x)
+
 response(x)
 
 \S4method{response}{RandomForest}(x)
+
+\S4method{response}{Univariate}(x)
 
 metrics(x)
 
@@ -90,7 +96,7 @@ explanatoryFeatures(x, ...)
 
 \S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
 
-\S4method{explanatoryFeatures}{RandomForest}(x, metric = "FalsePositiveRate", threshold = 0.05)
+\S4method{explanatoryFeatures}{RandomForest}(x, metric = "false_positive_rate", threshold = 0.05)
 
 \S4method{explanatoryFeatures}{list}(x, ...)
 

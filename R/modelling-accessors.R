@@ -122,6 +122,12 @@ setMethod('type',signature = 'RandomForest',function(x){
 })
 
 #' @rdname modelling-accessors
+
+setMethod('type',signature = 'Univariate',function(x){
+  x@type
+})
+
+#' @rdname modelling-accessors
 #' @export
 
 setGeneric("response", function(x) 
@@ -132,6 +138,12 @@ setGeneric("response", function(x)
 
 setMethod('response',signature = 'RandomForest',function(x){
   x@response
+})
+
+#' @rdname modelling-accessors
+
+setMethod('response',signature = 'Univariate',function(x){
+  unique(x@results$response)
 })
 
 #' @rdname modelling-accessors
@@ -427,7 +439,7 @@ setMethod('explanatoryFeatures',signature = 'Univariate',
 #' @rdname modelling-accessors
 
 setMethod('explanatoryFeatures',signature = 'RandomForest',
-          function(x,metric = 'FalsePositiveRate', threshold = 0.05){
+          function(x,metric = 'false_positive_rate', threshold = 0.05){
             
             typ <- type(x)
             
