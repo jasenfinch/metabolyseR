@@ -62,6 +62,8 @@ test_that('random forest regression works',{
   
   expect_s4_class(rf,'RandomForest')
   expect_identical(type(rf),'regression')
+  expect_s3_class(metrics(rf),'tbl_df')
+  expect_s3_class(importance(rf),'tbl_df')
 })
 
 test_that('low sample permutation testing works',{
