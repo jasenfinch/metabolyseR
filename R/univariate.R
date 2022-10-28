@@ -12,7 +12,7 @@
 #' d <- analysisData(abr1$neg[,200:300],abr1$fact)
 #' 
 #' ## Perform ANOVA
-#' anova_analysis <- anova(d,cls = 'day')
+#' anova_analysis <- anova(d,cls = 'ay')
 #' 
 #' ## Extract significant features
 #' explanatoryFeatures(anova_analysis)
@@ -112,7 +112,7 @@ setMethod('anova',signature = 'AnalysisData',
               map(~{
                 map(.,~{
                   map(.,tidy) %>%
-                    bind_rows(.id = 'Feature') %>%
+                    bind_rows(.id = 'feature') %>%
                     mutate(adjusted.p.value = p.adjust(p.value,
                                                        method = pAdjust))
                 }) %>%
@@ -223,7 +223,7 @@ setMethod('ttest',signature = 'AnalysisData',
               map(~{
                 map(.,~{
                   map(.,glance) %>%
-                    bind_rows(.id = 'Feature') %>%
+                    bind_rows(.id = 'feature') %>%
                     mutate(adjusted.p.value = p.adjust(p.value,
                                                        method = pAdjust))
                 }) %>%
@@ -314,7 +314,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
                 map(.,~{
                   glance(.)
                 }) %>%
-                  bind_rows(.id = 'Feature') %>%
+                  bind_rows(.id = 'feature') %>%
                   mutate(adjusted.p.value = p.adjust(p.value,
                                                      method = pAdjust))
               }) %>%

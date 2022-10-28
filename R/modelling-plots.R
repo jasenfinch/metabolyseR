@@ -29,12 +29,14 @@ setGeneric("plotImportance", function(x,...)
 setMethod('plotImportance',signature = 'Univariate',
           function(x, response = 'class',rank = TRUE,threshold = 0.05){
             
+            current_response <- response
+            
             res <- importance(x)
             
-            available_responses <- res$Response %>%
+            available_responses <- res$response %>%
               unique()
             
-            if (!(response %in% unique(res$Response))) {
+            if (!(response %in% unique(res$response))) {
               ar <- available_responses %>%
                 str_c('"',.,'"') %>%
                 str_c(collapse = ', ')
@@ -53,25 +55,25 @@ setMethod('plotImportance',signature = 'Univariate',
             }
             
             res <- res %>%
-              filter(Response == response) %>%
+              filter(response == current_response) %>%
               mutate(`-log10(p)` = -log10(adjusted.p.value))
             
             pl <- res %>%
-              base::split(.$Comparison) %>%
+              base::split(.$comparison) %>%
               map(~{
                 if (isTRUE(rank)) {
                   .x <- .x %>%
                     arrange(`-log10(p)`)
                   
-                  rank <- .x$Feature
+                  rank <- .x$feature
                   
                   .x <- .x %>%
-                    mutate(Feature = factor(Feature,levels = rank))
+                    mutate(feature = factor(feature,levels = rank))
                 }
                 
-                comparison <- .x$Comparison[1]
+                comparison <- .x$comparison[1]
                 
-                ggplot(.x,aes(x = Feature,y = `-log10(p)`)) +
+                ggplot(.x,aes(x = feature,y = `-log10(p)`)) +
                   geom_hline(
                     yintercept = -log10(threshold),
                     linetype = 2,
@@ -86,7 +88,8 @@ setMethod('plotImportance',signature = 'Univariate',
                         axis.title = element_text(face = 'bold'),
                         plot.title = element_text(face = 'bold',
                                                   hjust = 0.5)) +
-                  labs(title = comparison)
+                  labs(title = comparison,
+                       x = 'Feature')
                 
               }) %>%
               wrap_plots() +

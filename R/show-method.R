@@ -182,12 +182,12 @@ setMethod('show',signature = 'Univariate',
               cat('Samples:\t',nSamples(object),'\n')
               cat('Features:\t',nFeatures(object),'\n')
               cat('Responses:\t',importance(object) %>%
-                    .$Response %>%
+                    .$response %>%
                     unique() %>%
                     str_c(collapse = ', '),'\n')  
               if (object@type != 'linear regression') {
                 cat('# comparisons:\t',importance(object) %>%
-                      .$Comparison %>%
+                      .$comparison %>%
                       unique() %>%
                       length(),'\n')
                 
