@@ -8,7 +8,9 @@ permute <- function(x,cls,rf,type){
     sinfo() %>%
     select(all_of(cls)) %>%
     unlist(use.names = FALSE) %>% 
-    sample()
+    sample() 
+  
+  if (is.factor(randomised_cls)) randomised_cls <- factor(randomised_cls)
   
   rf$strata <- randomised_cls
   
