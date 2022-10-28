@@ -54,7 +54,7 @@
 #' proximity(rf_analysis)
 #' 
 #' ## Retrieve the explanatory features
-#' explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
+#' explanatoryFeatures(rf_analysis,metric = 'false_positive_rate',threshold = 0.05)
 #' @export
 
 setGeneric('binaryComparisons',function(x,cls = 'class')
@@ -216,6 +216,8 @@ setMethod('predictions',signature = 'RandomForest',
             x@predictions
           }
 )
+
+#' @rdname modelling-accessors
 
 setMethod('predictions',signature = 'list',
           function(x){

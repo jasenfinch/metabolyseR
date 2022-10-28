@@ -14,7 +14,7 @@ An S4 class for random forest results and models.
 
 \item{\code{response}}{response variable name}
 
-\item{\code{results}}{list of measure and importance results tables}
+\item{\code{metric}}{tibble of model performance metrics}
 
 \item{\code{predictions}}{tibble of model observation predictions}
 

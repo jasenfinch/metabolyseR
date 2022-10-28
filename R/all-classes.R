@@ -78,7 +78,7 @@ setClass('Analysis',
 #' @description An S4 class for random forest results and models.
 #' @slot type random forest type
 #' @slot response response variable name
-#' @slot results list of measure and importance results tables
+#' @slot metric tibble of model performance metrics
 #' @slot predictions tibble of model observation predictions
 #' @slot permutations list of permutations measure and importance results tables
 #' @slot importances tibble of model feature importances

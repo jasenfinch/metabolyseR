@@ -17,6 +17,7 @@
 \alias{metrics,Analysis-method}
 \alias{predictions}
 \alias{predictions,RandomForest-method}
+\alias{predictions,list-method}
 \alias{predictions,Analysis-method}
 \alias{importanceMetrics}
 \alias{importanceMetrics,RandomForest-method}
@@ -67,6 +68,8 @@ metrics(x)
 predictions(x)
 
 \S4method{predictions}{RandomForest}(x)
+
+\S4method{predictions}{list}(x)
 
 \S4method{predictions}{Analysis}(x)
 
@@ -170,5 +173,5 @@ importance(rf_analysis)
 proximity(rf_analysis)
 
 ## Retrieve the explanatory features
-explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
+explanatoryFeatures(rf_analysis,metric = 'false_positive_rate',threshold = 0.05)
 }
