@@ -75,7 +75,7 @@ setMethod('plotSupervisedRF',
                             labelSize = labelSize) +
                 labs(
                   caption = str_c('Margin: ',
-                                  rf@results$measures$.estimate[4] %>% 
+                                  rf@metrics$.estimate[4] %>% 
                                     round(3)))
               
               if (isTRUE(ROC) & rf@type == 'classification') {
