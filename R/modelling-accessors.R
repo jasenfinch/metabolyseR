@@ -249,7 +249,7 @@ setGeneric("importanceMetrics", function(x)
 setMethod('importanceMetrics',signature = 'RandomForest',function(x){
   x %>%
     importance() %>%
-    .$Metric %>%
+    .$metric %>%
     unique() %>%
     sort()
 })
