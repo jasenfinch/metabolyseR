@@ -1,13 +1,15 @@
 #' @importFrom randomForest margin
 
 classificationPredictions <- function(model){
-  tibble(sample = seq_along(model$y),
-         obs = model$y,
-         pred = model$predicted,
-         margin = margin(model)) %>%
-    bind_cols(model$votes %>%
-                as_tibble(.name_repair = 'minimal') %>%
-                mutate_all(as.numeric))
+  suppressMessages(
+    tibble(sample = seq_along(model$y),
+           obs = model$y,
+           pred = model$predicted,
+           margin = margin(model)) %>%
+      bind_cols(model$votes %>%
+                  as_tibble(.name_repair = 'minimal') %>%
+                  mutate_all(as.numeric)) 
+  )
 }
 
 classificationMetrics <- function(model){
