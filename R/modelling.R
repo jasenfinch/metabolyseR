@@ -96,22 +96,24 @@ explanatoryFeaturesClassification <- function(x,metric,threshold){
   }
   
   explan <- imp %>%
-    filter(Metric == metric)
+    filter(metric == current_metric)
   
-  if (metric == 'FalsePositiveRate') {
+  if (metric == 'false_positive_rate') {
     explan <- explan %>%
-      filter(Value < threshold) %>% 
-      arrange(Value)
+      filter(value < threshold) %>% 
+      arrange(value)
   } else {
     explan <- explan %>%
-      filter(Value > threshold) %>% 
-      arrange(desc(Value))
+      filter(value > threshold) %>% 
+      arrange(desc(value))
   }
   
   return(explan)
 }
 
 explanatoryFeaturesRegression <- function(x,metric,threshold){
+  
+  current_metric <- metric
   
   imp <- x %>%
     importance()
@@ -129,9 +131,9 @@ explanatoryFeaturesRegression <- function(x,metric,threshold){
   }
   
   explan <- imp %>%
-    filter(Metric == metric) %>%
-    filter(Value > threshold) %>% 
-    arrange(desc(Value))
+    filter(metric == current_metric) %>%
+    filter(value > threshold) %>% 
+    arrange(desc(value))
   
   return(explan)
 }
