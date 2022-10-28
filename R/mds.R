@@ -60,7 +60,7 @@ setMethod('mds',signature = 'RandomForest',
             if (is.null(idx)){
               mds_dimensions <- mds_dimensions %>% 
                 mutate(sample = as.numeric(sample)) %>% 
-                arrange(across(c(group_vars,'sample')))
+                arrange(across(all_of(c(group_vars,'sample'))))
             }
             
             return(mds_dimensions)
