@@ -38,7 +38,7 @@ This package provides a tool kit of methods for metabolomics analyses that inclu
 The `metabolyseR` package can be installed from GitHub using the following:
 
 ```r
-devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
+remotes::install_github('jasenfinch/metabolyseR')
 ```
 
 ## Learn more
