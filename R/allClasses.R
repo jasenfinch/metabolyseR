@@ -103,7 +103,10 @@ setClass('RandomForest',
            response = '',
            metrics = tibble(),
            predictions = tibble(),
-           permutations = list(),
+           permutations = list(
+             metrics = tibble(),
+             importance = tibble()
+           ),
            importances = tibble(),
            proximities = tibble(),
            models = list()
