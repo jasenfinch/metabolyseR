@@ -36,7 +36,7 @@ modelPredictions <- function(model,type){
 
 modelImportance <- function(model,type){
   switch(type,
-         unsupervised = regressionImportance(model),
+         unsupervised = classificationImportance(model),
          classification = classificationImportance(model),
          regression = regressionImportance(model))
 }

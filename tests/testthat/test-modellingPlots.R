@@ -1,7 +1,6 @@
 
-context('modellingPlots')
-
-d <- analysisData(abr1$neg,abr1$fact) %>%
+d <- analysisData(metaboData::abr1$neg,
+                  metaboData::abr1$fact) %>%
   keepFeatures(features = features(.)[seq_len(200)]) %>%
   keepClasses(cls = 'day',classes = c('H','1','2')) %>%
   occupancyMaximum(cls = 'day') %>%
@@ -10,8 +9,8 @@ d <- analysisData(abr1$neg,abr1$fact) %>%
 ttest_res <- d %>%
   ttest(cls = 'day')
 
-unsupervised_rf_res <- d %>%
-  randomForest(cls = NULL)
+unsupervised_rf_res <- randomForest(d,
+                                    cls = NULL)
 
 suppressWarnings(
   classification_rf_res <- d %>%
@@ -46,7 +45,7 @@ test_that('plotImportance works for random forest classification',{
 test_that('plotImportance works for random forest regression',{
   pl <- plotImportance(regression_rf_res,metric = '%IncMSE')
   
-  expect_identical(class(pl),c('gg','ggplot'))
+  expect_identical(class(pl),'list')
 })
 
 test_that('plotImportance for Univariate class throws an error when the incorrect response is specified',{
@@ -78,7 +77,7 @@ test_that('plotMetrics works for random forest regression',{
   pl <- regression_rf_res %>%
     plotMetrics()
   
-  expect_identical(class(pl),c('gg','ggplot'))
+  expect_type(pl,'list')
 })
 
 test_that('an error is thrown from plotMetrics for unsupervised random forest',{
