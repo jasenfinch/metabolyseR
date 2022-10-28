@@ -9,11 +9,10 @@ test_that('methods work',{
                     metaboData::abr1$fact) %>%
     keepClasses(classes = c(1,6))
   
-  m <- names(imputeMethods()) %>%
-    map(~{
-      method <- imputeMethods(.x)
-      method(d)
-    })
+  m <- list(
+    imputeAll(d,parallel = 'no'),
+    imputeClass(d)
+  )
   
   expect_true(all(map_chr(m,class) == 'AnalysisData'))
               
