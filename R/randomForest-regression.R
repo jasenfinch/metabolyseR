@@ -68,7 +68,7 @@ regression <- function(x,
         set_names(1:reps)
       
       if (perm > 0) {
-        permutation_results <- permutations(cda,
+        permutation_results <- permutations(x,
                                             inf,
                                             rf,
                                             perm,
