@@ -45,7 +45,7 @@ test_that('plotImportance works for random forest classification',{
 test_that('plotImportance works for random forest regression',{
   pl <- plotImportance(regression_rf_res,metric = '%IncMSE')
   
-  expect_identical(class(pl),'list')
+  expect_s3_class(pl,'ggplot')
 })
 
 test_that('plotImportance for Univariate class throws an error when the incorrect response is specified',{
@@ -118,3 +118,4 @@ test_that('plotROC throws an error when non RandomForest object included in list
   d <- c(classification_rf_res,list('wrong'))
   expect_error(plotROC(d))
 })
+
