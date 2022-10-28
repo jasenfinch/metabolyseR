@@ -57,6 +57,13 @@ collate <- function(models,results,type){
   )
 }
 
+collateModels <- function(models,type){
+  switch(type,
+         unsupervised = collateUnsupervisedModels(models),
+         classification = collateClassificationModels(models),
+         regression = collateRegressionModels(models))
+}
+
 supervised <- function(x,
                        cls,
                        rf,

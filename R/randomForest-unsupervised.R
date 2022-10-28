@@ -5,8 +5,17 @@ collateUnsupervised <- function(models,result){
             .id = 'rep')
 }
 
+collateUnsupervisedModels <- function(models){
+  models %>% 
+    map(~.x$model)
+}
+
 unsupervised <- function(x,
-                         rf = list(),
+                         rf = list(
+                           keep.forest = TRUE,
+                           proximity = TRUE,
+                           importance = TRUE
+                         ),
                          reps = 1,
                          returnModels = FALSE,
                          seed = 1234,
@@ -28,12 +37,12 @@ unsupervised <- function(x,
              type = 'unsupervised',
              importances = collate(models,'importance',type = 'unsupervised') %>% 
                group_by(feature,metric) %>% 
-               summarise(value = mean(value)),
+               summarise(value = mean(value),.groups = 'drop'),
              proximities = collate(models,'proximities',type = 'unsupervised'))
   
   
   if (isTRUE(returnModels)) {
-    res@models <- collateModels(models)
+    res@models <- collateModels(models,type = 'unsupervised')
   }
   
   return(res)  

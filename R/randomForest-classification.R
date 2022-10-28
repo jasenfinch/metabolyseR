@@ -63,6 +63,18 @@ collateClassification <- function(models,results){
   )
 }
 
+collateClassificationModels <- function(models){
+  suppressMessages(
+    models %>% 
+      map(
+        ~.x %>% 
+          map(~.x$reps %>% 
+                    map(~.x$model)
+          )
+      ) 
+  )
+}
+
 #' @importFrom yardstick metric_set accuracy kap roc_auc
 #' @importFrom dplyr summarise_all group_by_all n
 #' @importFrom stringr str_split
@@ -220,7 +232,7 @@ classification <- function(x,
   
   
   if (isTRUE(returnModels)) {
-    res@models <- collateModels(models)
+    res@models <- collateModels(models,type = 'classification')
   }
   
   return(res)

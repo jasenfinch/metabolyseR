@@ -30,7 +30,15 @@ collateRegression <- function(models,results){
       .id = 'response'
     )
 }
-c
+
+collateRegressionModels <- function(models){
+  models %>% 
+    map(
+      ~.x$reps %>% 
+        map(~.x$model)
+    )
+}
+
 #' @importFrom yardstick rsq mae mape rmse ccc
 
 regression <- function(x,
@@ -100,7 +108,7 @@ regression <- function(x,
   
   
   if (isTRUE(returnModels)) {
-    res@models <- collateModels(models)
+    res@models <- collateModels(models,type = 'regression')
   }
   
   return(res)
