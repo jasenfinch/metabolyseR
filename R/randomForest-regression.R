@@ -98,11 +98,13 @@ regression <- function(x,
              response = cls,
              metrics = collate(models,'metrics',type = 'regression') %>% 
                group_by(response,.metric,.estimator) %>% 
-               summarise(.estimate = mean(.estimate)),
+               summarise(.estimate = mean(.estimate),
+                         .groups = 'drop'),
              predictions = collate(models,'predictions',type = 'regression'),
              importances = collate(models,'importance',type = 'regression') %>% 
                group_by(response,feature,metric) %>% 
-               summarise(value = mean(value)),
+               summarise(value = mean(value),
+                         .groups = 'drop'),
              proximities = collate(models,'proximities',type = 'regression'),
              permutations = collatePermutations(models,type = 'regression'))
   
