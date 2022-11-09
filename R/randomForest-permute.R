@@ -161,10 +161,16 @@ importancePvals <- function(x){
          regression = regressionImportancePvals(x))
 }
 
+classificationPtail <- function(metric){
+  if (metric == 'false_positive_rate'){
+    lowertail <- TRUE
+  } else {
+    lowertail <- FALSE
+  }
+  return(lowertail)
+}
+
 classificationImportancePvals <- function(x){
-  lowertail <- list(MeanDecreaseGini = FALSE,
-                    SelectionFrequency = FALSE,
-                    FalsePositiveRate = TRUE)
   
   left_join(x@importances,
             x@permutations$importance, 
@@ -173,7 +179,7 @@ classificationImportancePvals <- function(x){
     mutate(`p-value` = pnorm(value,
                              mean,
                              sd,
-                             lower.tail = lowertail[[metric]]),
+                             lower.tail = classificationPtail(metric)),
            `adjusted_p-value` = p.adjust(`p-value`,
                                          method = 'bonferroni',
                                          n = nFeatures(x))) %>%
