@@ -41,6 +41,12 @@ The `metabolyseR` package can be installed from GitHub using the following:
 remotes::install_github('jasenfinch/metabolyseR')
 ```
 
+The package documentation can be browsed online at <https://jasenfinch.github.io/metabolyseR/>; however, if users want to compile the vignettes locally, the following can be used.
+
+```r
+remotes::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE,dependencies = TRUE)
+```
+
 ## Learn more
 
 The package documentation can be browsed online at <https://jasenfinch.github.io/metabolyseR/>. 
