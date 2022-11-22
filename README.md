@@ -23,9 +23,9 @@ release](https://img.shields.io/github/release/jasenfinch/metabolyseR.svg)](http
 This package provides a tool kit of methods for metabolomics analyses
 that includes:
 
--   data pre-treatment
--   multivariate and univariate modelling/data mining techniques
--   correlation analysis
+- data pre-treatment
+- multivariate and univariate modelling/data mining techniques
+- correlation analysis
 
 ## Installation
 
@@ -34,6 +34,14 @@ following:
 
 ``` r
 remotes::install_github('jasenfinch/metabolyseR')
+```
+
+The package documentation can be browsed online at
+<https://jasenfinch.github.io/metabolyseR/>; however, if users want to
+compile the vignettes locally, the following can be used.
+
+``` r
+remotes::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE,dependencies = TRUE)
 ```
 
 ## Learn more
