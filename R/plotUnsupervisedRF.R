@@ -87,18 +87,22 @@ setMethod('plotUnsupervisedRF',
                    title = '', 
                    legendPosition = 'bottom', 
                    labelSize = 2,
-                   type = 'raw'){
+                   type = c('pre-treated','raw')){
             
-            if (!(type %in% c('raw','pre-treated'))) {
-              stop(
-                'Argument "type" should be one of "raw" or "pre-treated".',
-                call. = FALSE)
-            }
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'
+              )
+            )
             
             if (type == 'pre-treated') {
               d <- x %>%
                 preTreated()
-            } else {
+            }
+            
+            if (type == 'raw'){
               d <- x %>%
                 raw()
             }

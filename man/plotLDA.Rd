@@ -50,7 +50,7 @@ plotLDA(
   title = "PC-LDA",
   legendPosition = "bottom",
   labelSize = 2,
-  type = "raw"
+  type = c("pre-treated", "raw")
 )
 }
 \arguments{

@@ -153,5 +153,5 @@ test_that('number of features and samples correctly returned from Analysis',{
   d <- metabolyse(abr1$neg[,columns],abr1$fact,p,verbose = FALSE)
   
   expect_equal(nFeatures(d),length(columns))
-  expect_equal(nSamples(d),nrow(abr1$neg))
+  expect_equal(nSamples(d,type = 'raw'),nrow(abr1$neg))
 })

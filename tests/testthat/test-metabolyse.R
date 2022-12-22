@@ -22,8 +22,8 @@ test_that('metabolyse-works', {
 
   expect_true(isS4(analysis))
   expect_true(class(analysis) == 'Analysis')
-  expect_equal(nFeatures(analysis),11)
-  expect_equal(nSamples(analysis),20)
+  expect_equal(nFeatures(analysis,type = 'raw'),11)
+  expect_equal(nSamples(analysis,type = 'raw'),20)
   
   expect_s3_class(metrics(analysis),'tbl_df')
   expect_s3_class(predictions(analysis),'tbl_df')

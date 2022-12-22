@@ -16,7 +16,7 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
   cls = "class",
   label = NULL,
   labelSize = 2,
-  type = "pre-treated"
+  type = c("pre-treated", "raw")
 )
 }
 \arguments{

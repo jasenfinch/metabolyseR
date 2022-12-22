@@ -140,17 +140,22 @@ setMethod('plotFeature',
                    cls = 'class', 
                    label = NULL, 
                    labelSize = 2, 
-                   type = 'pre-treated'){
-            if (!(type %in% c('raw','pre-treated'))) {
-              stop(
-                'Argument "type" should be one of "raw" or "pre-treated".',
-                call. = FALSE)
-            }
+                   type = c('pre-treated',
+                            'raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'
+              )
+            )
             
             if (type == 'pre-treated') {
               d <- analysis %>%
                 preTreated()
-            } else {
+            } 
+            
+            if (type == 'raw'){
               d <- analysis %>%
                 raw()
             }

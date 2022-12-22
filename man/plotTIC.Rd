@@ -14,7 +14,7 @@ plotTIC(analysis, by = "injOrder", colour = "block", ...)
   analysis,
   by = "injOrder",
   colour = "block",
-  type = c("raw", "pre-treated")
+  type = c("pre-treated", "raw")
 )
 }
 \arguments{

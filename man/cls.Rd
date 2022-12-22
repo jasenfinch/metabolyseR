@@ -28,7 +28,7 @@ clsAdd(d, cls, value, ...)
 
 \S4method{clsAdd}{AnalysisData}(d, cls, value)
 
-\S4method{clsAdd}{Analysis}(d, cls, value, type = c("raw", "pre-treated"))
+\S4method{clsAdd}{Analysis}(d, cls, value, type = c("pre-treated", "raw"))
 
 clsArrange(d, cls = "class", descending = FALSE, ...)
 
@@ -38,38 +38,38 @@ clsArrange(d, cls = "class", descending = FALSE, ...)
   d,
   cls = "class",
   descending = FALSE,
-  type = c("raw", "pre-treated")
+  type = c("pre-treated", "raw")
 )
 
 clsAvailable(d, ...)
 
 \S4method{clsAvailable}{AnalysisData}(d)
 
-\S4method{clsAvailable}{Analysis}(d, type = c("raw", "pre-treated"))
+\S4method{clsAvailable}{Analysis}(d, type = c("pre-treated", "raw"))
 
 clsExtract(d, cls = "class", ...)
 
 \S4method{clsExtract}{AnalysisData}(d, cls = "class")
 
-\S4method{clsExtract}{Analysis}(d, cls = "class", type = c("raw", "pre-treated"))
+\S4method{clsExtract}{Analysis}(d, cls = "class", type = c("pre-treated", "raw"))
 
 clsRemove(d, cls, ...)
 
 \S4method{clsRemove}{AnalysisData}(d, cls)
 
-\S4method{clsRemove}{Analysis}(d, cls, type = c("raw", "pre-treated"))
+\S4method{clsRemove}{Analysis}(d, cls, type = c("pre-treated", "raw"))
 
 clsRename(d, cls, newName, ...)
 
 \S4method{clsRename}{AnalysisData}(d, cls, newName)
 
-\S4method{clsRename}{Analysis}(d, cls, newName, type = c("raw", "pre-treated"))
+\S4method{clsRename}{Analysis}(d, cls, newName, type = c("pre-treated", "raw"))
 
 clsReplace(d, value, cls = "class", ...)
 
 \S4method{clsReplace}{AnalysisData}(d, value, cls = "class")
 
-\S4method{clsReplace}{Analysis}(d, value, cls = "class", type = c("raw", "pre-treated"))
+\S4method{clsReplace}{Analysis}(d, value, cls = "class", type = c("pre-treated", "raw"))
 }
 \arguments{
 \item{d}{S4 object of class Analysis or AnalysisData}
