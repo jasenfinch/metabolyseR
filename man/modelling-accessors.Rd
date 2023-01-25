@@ -97,9 +97,18 @@ proximity(x, idx = NULL)
 
 explanatoryFeatures(x, ...)
 
-\S4method{explanatoryFeatures}{Univariate}(x, threshold = 0.05)
+\S4method{explanatoryFeatures}{Univariate}(
+  x,
+  threshold = 0.05,
+  value = c("adjusted.p.value", "p.value")
+)
 
-\S4method{explanatoryFeatures}{RandomForest}(x, metric = "false_positive_rate", threshold = 0.05)
+\S4method{explanatoryFeatures}{RandomForest}(
+  x,
+  metric = "false_positive_rate",
+  value = c("value", "p-value", "adjusted_p-value"),
+  threshold = 0.05
+)
 
 \S4method{explanatoryFeatures}{list}(x, ...)
 
@@ -115,6 +124,8 @@ explanatoryFeatures(x, ...)
 \item{...}{arguments to parse to method for specific class}
 
 \item{threshold}{threshold below which explanatory features are extracted}
+
+\item{value}{the importance value to threshold. See the usage section for possible values for each class.}
 
 \item{metric}{importance metric for which to retrieve explanatory features}
 }

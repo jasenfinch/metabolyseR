@@ -5,6 +5,7 @@
 #' @param cls sample information column to use
 #' @param metric importance metric for which to retrieve explanatory features
 #' @param threshold threshold below which explanatory features are extracted
+#' @param value the importance value to threshold. See the usage section for possible values for each class.
 #' @param idx sample information column to use for sample names. If `NULL`, the sample row number will be used. Sample names should be unique for each row of data.
 #' @param ... arguments to parse to method for specific class
 #' @section Methods:
@@ -431,26 +432,39 @@ setGeneric('explanatoryFeatures', function(x,...)
 #' @importFrom dplyr arrange
 
 setMethod('explanatoryFeatures',signature = 'Univariate',
-          function(x,threshold = 0.05){
+          function(x,threshold = 0.05,value = c('adjusted.p.value','p.value')){
+            
+            value <- match.arg(
+              value,
+              choices = c('adjusted.p.value',
+                          'p.value'))
+            
             importance(x) %>%
-              filter(adjusted.p.value < threshold) %>% 
-              arrange(adjusted.p.value)
+              filter(.data[[value]] < threshold) %>% 
+              arrange(.data[[value]])
           }
 ) 
 
 #' @rdname modelling-accessors
 
 setMethod('explanatoryFeatures',signature = 'RandomForest',
-          function(x,metric = 'false_positive_rate', threshold = 0.05){
+          function(x,metric = 'false_positive_rate',value = c('value','p-value','adjusted_p-value'),threshold = 0.05){
+            
+            value <- match.arg(
+              value,
+              choices = c('value',
+                          'p-value',
+                          'adjusted_p-value')
+            )
             
             typ <- type(x)
             
             if (typ %in% c('unsupervised','classification')) {
-              explan <- explanatoryFeaturesClassification(x,metric,threshold)
+              explan <- explanatoryFeaturesClassification(x,metric,value,threshold)
             }
             
             if (typ == 'regression') {
-              explan <- explanatoryFeaturesRegression(x,metric,threshold)
+              explan <- explanatoryFeaturesRegression(x,metric,value,threshold)
             }
             
             return(explan)
