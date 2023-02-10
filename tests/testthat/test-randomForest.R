@@ -14,6 +14,7 @@ test_that('unsupervised random forest works',{
 
 test_that('random forest classification works',{
   expect_warning(rf <- randomForest(d,cls = c('day','name'),perm = 2,returnModels = TRUE))
+  rf_no_perm <- randomForest(d,cls = 'day')
   
   rf_metrics <- metrics(rf)
   rf_predictions <- predictions(rf)
@@ -28,6 +29,7 @@ test_that('random forest classification works',{
   expect_s3_class(rf_predictions,'tbl_df')
   expect_s3_class(rf_importance,'tbl_df')
   expect_s3_class(rf_proximity,'tbl_df')
+  expect_s3_class(explanatoryFeatures(rf,metric = 'MeanDecreaseAccuracy'),'tbl_df')
   
   expect_s3_class(metrics(rf_wrong),'tbl_df')
   expect_s3_class(predictions(rf_wrong),'tbl_df')
@@ -40,6 +42,8 @@ test_that('random forest classification works',{
   expect_equal(nrow(proximity(list(0,0))),0)
   
   expect_error(proximity(rf,idx = 'name'))
+  expect_error(explanatoryFeatures(rf,metric = 'wrong'))
+  expect_error(explanatoryFeatures(rf_no_perm,value = 'p-value'))
 })
 
 test_that('binary classification works',{
@@ -59,11 +63,15 @@ test_that('classification throws an error when less than 2 classes available',{
 
 test_that('random forest regression works',{
   rf <- randomForest(d,cls = 'injorder',perm = 3,returnModels = TRUE)
+  rf_no_perm <- randomForest(d,cls = 'injorder')
   
   expect_s4_class(rf,'RandomForest')
   expect_identical(type(rf),'regression')
   expect_s3_class(metrics(rf),'tbl_df')
   expect_s3_class(importance(rf),'tbl_df')
+  expect_s3_class(explanatoryFeatures(rf,metric = "IncNodePurity",value = 'p-value'),'tbl_df')
+  expect_error(explanatoryFeatures(rf,metric = 'wrong'))
+  expect_error(explanatoryFeatures(rf_no_perm,value = 'p-value'))
 })
 
 test_that('low sample permutation testing works',{
