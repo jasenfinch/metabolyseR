@@ -95,3 +95,4 @@ Collate: all-classes.R
     univariate.R
     modelling-accessors.R
 VignetteBuilder: knitr
+Remotes: jasenfinch/missForest
