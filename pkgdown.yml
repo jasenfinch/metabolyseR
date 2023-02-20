@@ -1,12 +1,12 @@
-pandoc: 2.7.3
-pkgdown: 2.0.2
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   metabolyseR: metabolyseR.html
   modelling: modelling.html
   pre_treatment: pre_treatment.html
   quick_start: quick_start.html
-last_built: 2022-02-01T10:20Z
+last_built: 2023-02-20T17:04Z
 urls:
   reference: https://jasenfinch.github.io/metabolyseR/reference
   article: https://jasenfinch.github.io/metabolyseR/articles
