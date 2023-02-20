@@ -1,3 +1,25 @@
+# metabolyseR 0.15.0
+
+* It is now possible to specify multiple `cls` arguments to the [aggregation methods](https://jasenfinch.github.io/metabolyseR/reference/aggregate.html).
+
+* Correlation thresholds are now available for both coefficient and total number using the `minCoef` and `maxCor` arguments in the [`correlations()`](https://jasenfinch.github.io/metabolyseR/reference/correlations.html) method.
+
+* Added the [`predictions()`]() accessor method for the [`RandomForest`](https://jasenfinch.github.io/metabolyseR/reference/RandomForest-class.html) S4 class to enable the retrieval of the out of bag model response predictions.
+
+* The [occupancy filtering methods](https://jasenfinch.github.io/metabolyseR/reference/occupancyFilter.html) now error if the value supplied to argument `occupancy` is non-numeric.
+
+* Memory usage and performance improvements for the [`randomForest()`](https://jasenfinch.github.io/metabolyseR/reference/randomForest.html) method.
+
+* Added [`type()`](https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html) and [`response()`](https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html) methods for the [`Univariate`](https://jasenfinch.github.io/metabolyseR/reference/Univariate-class.html) S4 class.
+
+* [`plotLDA()`](https://jasenfinch.github.io/metabolyseR/reference/plotLDA.html) now returns a warning and skips plotting if an error is encountered during PC-LDA.
+
+* The value `pre-treated` is now the default for argument `type` in the [`Analysis`](https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html) S4 class [accessor methods](https://jasenfinch.github.io/metabolyseR/reference/analysis-accessors.html).
+
+* Added the `value` argument to the [`explanatoryFeatures()`](https://jasenfinch.github.io/metabolyseR/reference/modelling-accessors.html) method to allow the specification of on which importance value to apply the specified `threshold`.
+
+* The specified `cls` argument is now correctly displayed on the x-axis title of the resulting plots from the [`plotFeature()`](https://jasenfinch.github.io/metabolyseR/reference/plotFeature.html) method.
+
 # metabolyseR 0.14.10
 
 * Added the method [`predict()`](https://jasenfinch.github.io/metabolyseR/reference/predict.html) for the [`RandomForest`](https://jasenfinch.github.io/metabolyseR/reference/RandomForest-class.html) S4 class to predict model response values.
