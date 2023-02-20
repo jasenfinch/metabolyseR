@@ -38,9 +38,8 @@ plotFeature(analysis, feature, cls = "class", label = NULL, labelSize = 2, ...)
 Plot the trend of a feature.
 }
 \examples{
-library(metaboData)
-
-d <- analysisData(abr1$neg,abr1$fact)
+d <- analysisData(metaboData::abr1$neg,
+                  metaboData::abr1$fact)
 
 ## Plot a categorical response variable
 plotFeature(d,'N133',cls = 'day')
