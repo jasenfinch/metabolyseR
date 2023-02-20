@@ -9,5 +9,5 @@ globalVariables(
     'x','.level','sensitivity','specificity','Mode','RSD','Median','Colour',
     'Index','TIC','y','label','batch','correction','N','term','Metric','Frequency',
     '|coefficient|','idx_1','idx_2','.estimator','metric','fpr','p-value','obs','pred',
-    'sample2','Feature','freq'
+    'sample2','Feature','freq','.data'
   ))
