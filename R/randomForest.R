@@ -1,4 +1,4 @@
-#' Random forest analysis
+#' Random forest
 #' @rdname randomForest
 #' @description Perform random forest on an `AnalysisData` object
 #' @param x S4 object of class `AnalysisData`
