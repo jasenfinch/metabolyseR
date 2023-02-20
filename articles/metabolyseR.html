@@ -754,7 +754,7 @@ reduce the analysis time needed for this example.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co"><span style="color: #0000BB;">## metabolyseR </span> <span style="color: #BB0000;">v0.15.0</span> Mon Feb 20 17:06:17 2023</span></span></code></pre>
+<span><span class="co"><span style="color: #0000BB;">## metabolyseR </span> <span style="color: #BB0000;">v0.15.0</span> Mon Feb 20 17:15:09 2023</span></span></code></pre>
 <pre><code><span><span class="co">## ________________________________________________________________________________</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">Parameters:</span></span></span>
 <span><span class="co">## pre-treatment</span></span>
@@ -781,10 +781,10 @@ reduce the analysis time needed for this example.</p>
  [34mPre-treatment  [39m     [32m✔ [39m [0.7S]
 ##  [34mModelling  [39m…
  [34m
-Modelling  [39m  [32m✔ [39m [3S]
+Modelling  [39m  [32m✔ [39m [2.8S]
 ## ________________________________________________________________________________
 ## 
-##  [32mComplete!  [39m[3.7S]</code></pre>
+##  [32mComplete!  [39m[3.5S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to
 modelling or correlation analysis, the raw data will automatically be
 used.</strong></p>
@@ -796,19 +796,19 @@ analysis.</p>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.0</span></span></span>
 <span><span class="co"><span style="color: #BBBB00;">## Analysis:</span></span></span>
-<span><span class="co"><span style="color: #BBBB00;">## </span>    Mon Feb 20 17:06:17 2023</span></span>
+<span><span class="co"><span style="color: #BBBB00;">## </span>    Mon Feb 20 17:15:09 2023</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Raw Data:</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 200</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Pre-treated Data:</span></span>
-<span><span class="co">##      Mon Feb 20 17:06:18 2023</span></span>
+<span><span class="co">##      Mon Feb 20 17:15:10 2023</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 48</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Modelling:</span></span>
-<span><span class="co">##      Mon Feb 20 17:06:21 2023</span></span>
+<span><span class="co">##      Mon Feb 20 17:15:12 2023</span></span>
 <span><span class="co">##      Methods: randomForest</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -827,7 +827,7 @@ to the pre-treatment and modelling elements already performed.</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #0000BB;">metabolyseR</span> <span style="color: #BB0000;">v0.15.0</span> Mon Feb 20 17:06:21 2023</span></span>
+<span><span class="co">## <span style="color: #0000BB;">metabolyseR</span> <span style="color: #BB0000;">v0.15.0</span> Mon Feb 20 17:15:13 2023</span></span>
 <span><span class="co">## ________________________________________________________________________________</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">Parameters:</span></span></span>
 <span><span class="co">## correlations</span></span>
@@ -850,23 +850,23 @@ correlations) can then be printed.</p>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.0</span></span></span>
 <span><span class="co"><span style="color: #BBBB00;">## Analysis:</span></span></span>
-<span><span class="co"><span style="color: #BBBB00;">## </span>    Mon Feb 20 17:06:17 2023</span></span>
+<span><span class="co"><span style="color: #BBBB00;">## </span>    Mon Feb 20 17:15:09 2023</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Raw Data:</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 200</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Pre-treated Data:</span></span>
-<span><span class="co">##      Mon Feb 20 17:06:18 2023</span></span>
+<span><span class="co">##      Mon Feb 20 17:15:10 2023</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 48</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Modelling:</span></span>
-<span><span class="co">##      Mon Feb 20 17:06:21 2023</span></span>
+<span><span class="co">##      Mon Feb 20 17:15:12 2023</span></span>
 <span><span class="co">##      Methods: randomForest</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Correlations:</span></span>
-<span><span class="co">##      Mon Feb 20 17:06:21 2023</span></span>
+<span><span class="co">##      Mon Feb 20 17:15:13 2023</span></span>
 <span><span class="co">##      No. correlations = 140</span></span></code></pre>
 </div>
 <div class="section level3">
