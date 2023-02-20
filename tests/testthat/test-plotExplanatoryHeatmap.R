@@ -1,7 +1,3 @@
-library(metaboData)
-
-context('plotExplanatoryHeatmap')
-
 test_that('plotExplanatoryHeatmap returns a plot for random forest classification Analysis',{
   
   p <- analysisParameters(elements = c('pre-treatment','modelling'))
@@ -18,7 +14,10 @@ test_that('plotExplanatoryHeatmap returns a plot for random forest classificatio
 
   changeParameter(p,'cls') <- 'day'
   
-  d <- metabolyse(abr1$neg[,200:300],abr1$fact,p,verbose = TRUE)
+  d <- metabolyse(metaboData::abr1$neg[,200:300],
+                  metaboData::abr1$fact,
+                  p,
+                  verbose = TRUE)
   
   pl_feat <- plotExplanatoryHeatmap(d,threshold = 0.5)
   pl_no_feat <- plotExplanatoryHeatmap(d,threshold = 0.5,featureNames = FALSE)
@@ -59,7 +58,7 @@ test_that('plotExplanatoryHeatmap works for linear regression',{
 })
 
 test_that('plotExplanatoryHeatmap method for lists throws an error when non modelling classes supplied',{
-  expect_error(list(wrong = list()) %>%
+  expect_error(list(wrong = list(wrong = 1)) %>%
                  plotExplanatoryHeatmap())
 })
 

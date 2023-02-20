@@ -79,10 +79,10 @@ setMethod('tune',signature = 'AnalysisData',
                                                rf = list(ntree = .x,
                                                          mtry = .y)),
                                   silent = TRUE)
-                    if (class(rf_res) == 'RandomForest'){
+                    if (is(rf_res,'RandomForest')){
                       rf_res %>% 
                         metrics() %>% 
-                        select(-Response,-.estimator,-contains('Comparison')) %>% 
+                        select(-response,-.estimator,-contains('comparison')) %>% 
                         spread(.metric,.estimate) %>% 
                         mutate(ntree = .x,
                                mtry = .y)

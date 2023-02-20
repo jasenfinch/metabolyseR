@@ -29,14 +29,14 @@ setMethod('mds',signature = 'RandomForest',
           function(x,dimensions = 2,idx = NULL){
             
             group_vars <- switch(type(x),
-                                 classification = c('Response','Comparison'),
-                                 regression = 'Response',
+                                 classification = c('response','comparison'),
+                                 regression = 'response',
                                  unsupervised = NULL)
             
             dissimilarities <- x %>% 
               proximity(idx = idx) %>% 
-              mutate(across(Sample1:Sample2,as.character)) %>% 
-              spread(Sample2,Proximity) %>% 
+              mutate(across(sample1:sample2,as.character)) %>% 
+              spread(sample2,proximity) %>% 
               mutate_if(is.numeric,~ 1 - .x)
             
             mds_dimensions <- dissimilarities %>% 
@@ -44,23 +44,23 @@ setMethod('mds',signature = 'RandomForest',
               group_map(~ .x %>% 
                           select_if(is.numeric) %>% 
                           cmdscale(k = dimensions) %>% 
-                          set_colnames(str_c('Dimension ',
+                          set_colnames(str_c('dimension ',
                                              seq_len(dimensions))) %>% 
                           as_tibble() %>% 
                           bind_cols(select_if(.x %>% 
                                                 ungroup(),
                                               is.character)) %>%
-                          relocate(contains('Dimension'),
+                          relocate(contains('dimension'),
                                    .after = last_col()),
                         .keep = TRUE
               ) %>% 
               bind_rows() %>% 
-              rename(Sample = Sample1)
+              rename(sample = sample1)
             
             if (is.null(idx)){
               mds_dimensions <- mds_dimensions %>% 
-                mutate(Sample = as.numeric(Sample)) %>% 
-                arrange(across(c(group_vars,'Sample')))
+                mutate(sample = as.numeric(sample)) %>% 
+                arrange(across(all_of(c(group_vars,'sample'))))
             }
             
             return(mds_dimensions)

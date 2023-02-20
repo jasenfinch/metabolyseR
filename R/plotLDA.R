@@ -63,8 +63,10 @@ setMethod('plotLDA',
                    legendPosition = 'bottom', 
                    labelSize = 2){
             
-            lda <- nlda(analysis,cls = cls,scale = scale,center = center)
             
+            lda <- try(nlda(analysis,cls = cls,scale = scale,center = center))
+            
+            if (!is(lda,'try-error')) {
             tw <- lda@Tw %>%
               round(2)
             
@@ -111,6 +113,9 @@ setMethod('plotLDA',
             }
             
             return(pl)
+            } else {
+              warning('Errors encounted in PC-LDA, skipping plotting of PC-LDA.',call. = FALSE)
+            }
           }
 ) 
 
@@ -130,18 +135,23 @@ setMethod('plotLDA',
                    title = 'PC-LDA', 
                    legendPosition = 'bottom', 
                    labelSize = 2,
-                   type = 'raw'){
+                   type = c('pre-treated',
+                            'raw')){
 
-            if (!(type %in% c('raw','pre-treated'))) {
-              stop(
-                'Argument "type" should be one of "raw" or "pre-treated".',
-                call. = FALSE)
-            }
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'
+              )
+            )
             
             if (type == 'pre-treated') {
               d <- analysis %>%
                 preTreated()
-            } else {
+            } 
+            
+            if (type == 'raw'){
               d <- analysis %>%
                 raw()
             }

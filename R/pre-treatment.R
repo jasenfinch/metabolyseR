@@ -189,11 +189,11 @@ QCMethods <- function(method = NULL){
   return(method)
 }
 
-removeMethods <- function(method = NULL, description = FALSE){
+removeMethods <- function(method = NULL){
   methods <- list(
     samples = removeSamples,
     classes = removeClasses,
-    features = removeFeatures 
+    features = removeFeatures
   )
   
   if (is.null(method)) {
@@ -203,7 +203,7 @@ removeMethods <- function(method = NULL, description = FALSE){
       stop(str_c("Remove method '",
                  method,
                  "' not recognised. Available methods include: ",
-                 str_c(str_c("'",names(methods),"'"),collapse = ', '),'.'))
+                 str_c(str_c("'",names(methods),"'"),collapse = ' '),'.'))
     }
     method <- methods[[method]]
   }

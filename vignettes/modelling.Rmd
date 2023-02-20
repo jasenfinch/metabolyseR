@@ -23,7 +23,8 @@ library(stringr)
 opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.align = 'center'
+  fig.align = 'center',
+  warning = FALSE
 )
 ```
 
@@ -169,7 +170,7 @@ The following will extract the explanatory features below a threshold of 0.05 ba
 
 ```{r unsupervised-explanatory}
 unsupervised_rf %>%
-  explanatoryFeatures(metric = "FalsePositiveRate", 
+  explanatoryFeatures(metric = "false_positive_rate", 
                       threshold = 0.05)
 ```
 
@@ -270,11 +271,11 @@ Here, we will use the false positive rate metric with a threshold of below 0.05 
 
 ```{r multinomial-explanatory}
 multinomial_rf %>%
-  explanatoryFeatures(metric = 'FalsePositiveRate',
+  explanatoryFeatures(metric = 'false_positive_rate',
                       threshold = 0.05)
 ```
 
-As shown above there were a total of `r multinomial_rf %>% explanatoryFeatures(metric = 'FalsePositiveRate',threshold = 0.05) %>% nrow()` explanatory features identified.
+As shown above there were a total of `r multinomial_rf %>% explanatoryFeatures(metric = 'false_positive_rate',threshold = 0.05) %>% nrow()` explanatory features identified.
 
 Within a multinomial experiment, it is also possible to specify the exact class comparisons to include, where it might not be suitable to compare all the classes at once using the `comparisons` argument.
 This should be specified as a named list, the corresponding to the `cls` argument.
@@ -369,7 +370,7 @@ This gives a total of `r nrow(explanatoryFeatures(binary_rf))` explanatory featu
 
 ```{r binary-explanatory}
 binary_rf %>% 
-  explanatoryFeatures(metric = 'FalsePositiveRate',
+  explanatoryFeatures(metric = 'false_positive_rate',
                       threshold = 0.05)
 ```
 
@@ -385,7 +386,7 @@ binary_rf <- clsReplace(binary_rf,
                         value = refactor_cls,
                         cls = 'day')
 binary_rf %>% 
-  plotExplanatoryHeatmap(metric = 'FalsePositiveRate',
+  plotExplanatoryHeatmap(metric = 'false_positive_rate',
                       threshold = 0.05,
                       featureNames = TRUE)
 ```

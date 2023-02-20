@@ -38,25 +38,25 @@ dat(x, ...)
 
 \S4method{dat}{AnalysisData}(x)
 
-\S4method{dat}{Analysis}(x, type = c("raw", "pre-treated"))
+\S4method{dat}{Analysis}(x, type = c("pre-treated", "raw"))
 
 dat(x, ...) <- value
 
 \S4method{dat}{AnalysisData}(x) <- value
 
-\S4method{dat}{Analysis}(x, type = c("raw", "pre-treated")) <- value
+\S4method{dat}{Analysis}(x, type = c("pre-treated", "raw")) <- value
 
 sinfo(x, ...)
 
 \S4method{sinfo}{AnalysisData}(x)
 
-\S4method{sinfo}{Analysis}(x, type = c("raw", "pre-treated"), value)
+\S4method{sinfo}{Analysis}(x, type = c("pre-treated", "raw"), value)
 
 sinfo(x, ...) <- value
 
 \S4method{sinfo}{AnalysisData}(x) <- value
 
-\S4method{sinfo}{Analysis}(x, type = c("raw", "pre-treated")) <- value
+\S4method{sinfo}{Analysis}(x, type = c("pre-treated", "raw")) <- value
 
 raw(x)
 
@@ -78,19 +78,19 @@ features(x, ...)
 
 \S4method{features}{AnalysisData}(x)
 
-\S4method{features}{Analysis}(x, type = c("raw", "pre-treated"))
+\S4method{features}{Analysis}(x, type = c("pre-treated", "raw"))
 
 nSamples(x, ...)
 
 \S4method{nSamples}{AnalysisData}(x)
 
-\S4method{nSamples}{Analysis}(x, type = c("raw", "pre-treated"))
+\S4method{nSamples}{Analysis}(x, type = c("pre-treated", "raw"))
 
 nFeatures(x, ...)
 
 \S4method{nFeatures}{AnalysisData}(x)
 
-\S4method{nFeatures}{Analysis}(x, type = c("raw", "pre-treated"))
+\S4method{nFeatures}{Analysis}(x, type = c("pre-treated", "raw"))
 
 analysisResults(x, element)
 

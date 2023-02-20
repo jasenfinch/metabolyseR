@@ -7,6 +7,10 @@ test_that('removeMethods returns methods correctly',{
   expect_false(F %in% m)
 })
 
+test_that('removeMethods errors if incorrect method specified',{
+  expect_error(removeMethods('incorrect'))
+})
+
 test_that('methods work',{
 
   d <- analysisData(abr1$neg,abr1$fact)

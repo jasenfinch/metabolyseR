@@ -1,15 +1,15 @@
-library(metaboData)
 
 a <- new('Analysis')
-raw(a) <- analysisData(abr1$neg,abr1$fact)
+raw(a) <- analysisData(metaboData::abr1$neg,
+                       metaboData::abr1$fact)
 
 
 context('sample information methods')
 
 test_that('clsAvailable works',{
- cl <- clsAvailable(a)
- expect_true(is.character(cl))
- expect_length(cl,9)
+  cl <- clsAvailable(a,type = 'raw')
+  expect_true(is.character(cl))
+  expect_length(cl,9)
 })
 
 test_that('clsAvailable throws error when incorrect type specified',{
@@ -17,7 +17,10 @@ test_that('clsAvailable throws error when incorrect type specified',{
 })
 
 test_that('clsExtract works',{
-  cl <- clsExtract(a,cls = 'class')
+  cl <- clsExtract(
+    a,
+    cls = 'class',
+    type = 'raw')
   expect_true(is.numeric(cl))
   expect_length(cl,120)
 })
@@ -29,7 +32,10 @@ test_that('clsExtract errors when incorrect type specified',{
 })
 
 test_that('clsReplace works',{
-  b <- clsReplace(a,rep(1,120),cls = 'class')
+  b <- clsReplace(
+    a,rep(1,120),
+    cls = 'class',
+    type = 'raw')
   i <- b %>%
     sinfo(type = 'raw')
   
@@ -50,10 +56,16 @@ test_that('clsReplace errors when incorrect type specified',{
 })
 
 test_that('clsAdd works',{
-  b <- clsAdd(a,'test',rep(1,120))
+  b <- clsAdd(
+    a,
+    'test',
+    rep(1,120),
+    type = 'raw')
+  
   i <- b %>%
     sinfo(type = 'raw')
-  expect_true('test' %in% clsAvailable(b))
+  
+  expect_true('test' %in% clsAvailable(b,type = 'raw'))
   expect_equal(1,unique(i$test))
 })
 
@@ -69,7 +81,7 @@ test_that('clsAdd errors when incorrect type specified',{
 })
 
 test_that('clsRemove works',{
-  b <- clsRemove(a,'class')
+  b <- clsRemove(a,'class',type = 'raw')
   expect_false('class' %in% clsAvailable(b))
 })
 
@@ -82,18 +94,19 @@ test_that('clsRemove errors when incorrect type specified',{
 })
 
 test_that('clsArrange works',{
-  b <- clsArrange(a,'class')
-  expect_identical(clsExtract(a) %>%
+  b <- clsArrange(a,'class',type = 'raw')
+  expect_identical(clsExtract(a,type = 'raw') %>%
                      sort(),
-                   clsExtract(b))
+                   clsExtract(b,type = 'raw'))
 })
 
 test_that('clsArrange works for decending arrangment',{
   b <- clsArrange(a,'class',
-                  descending = TRUE)
-  expect_identical(clsExtract(a) %>%
+                  descending = TRUE,
+                  type = 'raw')
+  expect_identical(clsExtract(a,type = 'raw') %>%
                      sort(decreasing = TRUE),
-                   clsExtract(b))
+                   clsExtract(b,type = 'raw'))
 })
 
 test_that('clsArrange errors when incorrect type specified',{
@@ -101,8 +114,8 @@ test_that('clsArrange errors when incorrect type specified',{
 })
 
 test_that('clsRename works',{
-  b <- clsRename(a,'rep','replicate')
-  expect_true('replicate' %in% clsAvailable(b))
+  b <- clsRename(a,'rep','replicate',type = 'raw')
+  expect_true('replicate' %in% clsAvailable(b,type = 'raw'))
 })
 
 test_that('clsRename errors when incorrect type specified',{

@@ -158,17 +158,23 @@ setMethod('show',signature = 'RandomForest',
             cat('Features:\t',nFeatures(object),'\n')
             
             if (object@type != 'unsupervised') {
-              cat('Response:\t',metrics(object) %>%
-                    .$Response %>%
-                    unique() %>%
+              cat('Response:\t',response(object) %>%
                     str_c(collapse = ', '),'\n')  
             }
             
             if (object@type == 'classification') {
-              cat('# comparisons:\t',metrics(object) %>%
-                    .$Comparison %>%
-                    unique() %>%
-                    length(),'\n')
+              
+              comparisons <- metrics(object)
+              
+              if (nrow(comparisons) > 0){
+                comparisons <- comparisons$comparison %>% 
+                  unique() %>% 
+                  length()
+              } else {
+                comparisons <- 0
+              }
+              
+              cat('# comparisons:\t',comparisons,'\n')
             }
             
             cat('\n')
@@ -182,12 +188,12 @@ setMethod('show',signature = 'Univariate',
               cat('Samples:\t',nSamples(object),'\n')
               cat('Features:\t',nFeatures(object),'\n')
               cat('Responses:\t',importance(object) %>%
-                    .$Response %>%
+                    .$response %>%
                     unique() %>%
                     str_c(collapse = ', '),'\n')  
               if (object@type != 'linear regression') {
                 cat('# comparisons:\t',importance(object) %>%
-                      .$Comparison %>%
+                      .$comparison %>%
                       unique() %>%
                       length(),'\n')
                 

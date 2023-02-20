@@ -29,12 +29,14 @@ setGeneric("plotImportance", function(x,...)
 setMethod('plotImportance',signature = 'Univariate',
           function(x, response = 'class',rank = TRUE,threshold = 0.05){
             
+            current_response <- response
+            
             res <- importance(x)
             
-            available_responses <- res$Response %>%
+            available_responses <- res$response %>%
               unique()
             
-            if (!(response %in% unique(res$Response))) {
+            if (!(response %in% unique(res$response))) {
               ar <- available_responses %>%
                 str_c('"',.,'"') %>%
                 str_c(collapse = ', ')
@@ -53,25 +55,25 @@ setMethod('plotImportance',signature = 'Univariate',
             }
             
             res <- res %>%
-              filter(Response == response) %>%
+              filter(response == current_response) %>%
               mutate(`-log10(p)` = -log10(adjusted.p.value))
             
             pl <- res %>%
-              base::split(.$Comparison) %>%
+              base::split(.$comparison) %>%
               map(~{
                 if (isTRUE(rank)) {
                   .x <- .x %>%
                     arrange(`-log10(p)`)
                   
-                  rank <- .x$Feature
+                  rank <- .x$feature
                   
                   .x <- .x %>%
-                    mutate(Feature = factor(Feature,levels = rank))
+                    mutate(feature = factor(feature,levels = rank))
                 }
                 
-                comparison <- .x$Comparison[1]
+                comparison <- .x$comparison[1]
                 
-                ggplot(.x,aes(x = Feature,y = `-log10(p)`)) +
+                ggplot(.x,aes(x = feature,y = `-log10(p)`)) +
                   geom_hline(
                     yintercept = -log10(threshold),
                     linetype = 2,
@@ -86,7 +88,8 @@ setMethod('plotImportance',signature = 'Univariate',
                         axis.title = element_text(face = 'bold'),
                         plot.title = element_text(face = 'bold',
                                                   hjust = 0.5)) +
-                  labs(title = comparison)
+                  labs(title = comparison,
+                       x = 'Feature')
                 
               }) %>%
               wrap_plots() +
@@ -103,12 +106,14 @@ setMethod('plotImportance',signature = 'Univariate',
 )
 
 #' @rdname plotImportance
+#' @importFrom stringr str_to_title
 
 setMethod('plotImportance',signature = 'RandomForest',
-          function(x,metric = 'FalsePositiveRate',rank = TRUE){
+          function(x,metric = 'false_positive_rate',rank = TRUE){
             
             typ <- type(x)
             metrics <- importanceMetrics(x)
+            current_metric <- metric
             
             if (!(metric %in% metrics)) {
               
@@ -121,28 +126,28 @@ setMethod('plotImportance',signature = 'RandomForest',
             }
             
             res <- importance(x) %>%
-              filter(Metric == metric)
+              filter(metric == current_metric)
             
             if (typ == 'classification') {
               pl <- res %>%
-                base::split(.$Comparison) %>%
+                base::split(.$comparison) %>%
                 map(~{
                   if (isTRUE(rank)) {
                     .x <- .x %>%
-                      arrange(Value)
+                      arrange(value)
                     
-                    rank <- .x$Feature
+                    rank <- .x$feature
                     
                     .x <- .x %>%
-                      mutate(Feature = factor(Feature,levels = rank))
+                      mutate(feature = factor(feature,levels = rank))
                   }
                   
                   .x <- .x %>%
-                    spread(Metric,Value)
+                    spread(metric,value)
                   
-                  comparison <- .x$Comparison[1]
+                  comparison <- .x$comparison[1]
                   
-                  pl <- ggplot(.x,aes(x = Feature,y = !!sym(metric))) +
+                  pl <- ggplot(.x,aes(x = feature,y = !!sym(metric))) +
                     geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
                     theme_bw() +
                     theme(axis.ticks.x = element_blank(),
@@ -154,11 +159,17 @@ setMethod('plotImportance',signature = 'RandomForest',
                           plot.title = element_text(face = 'bold',
                                                     hjust = 0.5),
                           plot.caption = element_text(hjust = -1)) +
-                    labs(title = comparison)
+                    labs(title = comparison,
+                         x = 'Feature',
+                         y = str_replace_all(metric,'_',' ') %>% 
+                           str_to_title())
                   
                   if (typ != 'unsupervised') {
                     pl <- pl +
-                      labs(title = res$Response[1])
+                      labs(title = res$response[1],
+                           x = 'Feature',
+                           y = str_replace_all(metric,'_',' ') %>% 
+                             str_to_title())
                   }
                   
                 }) %>%
@@ -169,18 +180,18 @@ setMethod('plotImportance',signature = 'RandomForest',
                   d <- .
                   if (isTRUE(rank)) {
                     d <- d %>%
-                      arrange(Value)
+                      arrange(value)
                     
-                    rank <- d$Feature
+                    rank <- d$feature
                     
                     d <- d %>%
-                      mutate(Feature = factor(Feature,levels = rank))
+                      mutate(feature = factor(feature,levels = rank))
                   }
                   d
                 } %>%
-                spread(Metric,Value) %>%
+                spread(metric,value) %>%
                 {
-                  p <- ggplot(.,aes(x = Feature,y = !!sym(metric))) +
+                  p <- ggplot(.,aes(x = feature,y = !!sym(metric))) +
                     geom_point(shape = 21,alpha = 0.5,fill = ptol_pal()(1)) +
                     theme_bw() +
                     theme(axis.ticks.x = element_blank(),
@@ -195,7 +206,10 @@ setMethod('plotImportance',signature = 'RandomForest',
                   
                   if (typ != 'unsupervised') {
                     p <- p +
-                      labs(title = res$Response[1])
+                      labs(title = res$response[1],
+                           x = 'Feature',
+                           y = str_replace_all(metric,'_',' ') %>% 
+                             str_to_title())
                   }
                   p
                 }
@@ -211,7 +225,7 @@ setMethod('plotImportance',signature = 'RandomForest',
 
 setMethod('plotImportance',
           signature = 'list',
-          function(x,metric = 'FalsePositiveRate'){
+          function(x,metric = 'false_positive_rate'){
             object_classes <- x %>%
               map_chr(class)
             
@@ -264,7 +278,7 @@ setMethod('plotMetrics',signature = 'RandomForest',
             response <- response(x)
             
             if (x@type == 'classification') {
-              pl <- ggplot(res,aes(x = .estimate,y = Comparison)) +
+              pl <- ggplot(res,aes(x = .estimate,y = comparison)) +
                 geom_point(shape = 21,fill = ptol_pal()(1)) +
                 theme_bw() +
                 facet_wrap(~.metric) +
@@ -389,16 +403,16 @@ setMethod('plotMDS',
             if (type(x) == 'classification') {
               if (!is.null(cls)) {
                 mds_dimensions <- mds_dimensions %>%
-                  base::split(.$Comparison) %>%
+                  base::split(.$comparison) %>%
                   map(~{
-                    comparison <- str_split(.x$Comparison[1],'~')[[1]]
+                    comparison <- str_split(.x$comparison[1],'~')[[1]]
                     
                     cda <- keepClasses(x,response(x),comparison)
                     
                     .x %>%
                       bind_cols(cda %>%
                                   sinfo() %>%
-                                  select(cls) %>%
+                                  select(all_of(cls)) %>%
                                   mutate_all(as.character)
                       )  
                   }) %>%
@@ -408,13 +422,13 @@ setMethod('plotMDS',
               
               if (!is.null(label)) {
                 mds_dimensions <- mds_dimensions %>%
-                  base::split(.$Comparison) %>%
+                  base::split(.$comparison) %>%
                   map(~{
                     d <- .
-                    comparison <- str_split(d$Comparison[1],'~')[[1]]
+                    comparison <- str_split(d$comparison[1],'~')[[1]]
                     
                     cda <- removeClasses(x,cls,classes = sinfo(x) %>%
-                                           select(cls) %>%
+                                           select(all_of(cls)) %>%
                                            unlist() %>%
                                            unique() %>%
                                            .[!(. %in% comparison)])
@@ -434,7 +448,7 @@ setMethod('plotMDS',
                 mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
-                              select(cls) %>%
+                              select(all_of(cls)) %>%
                               mutate_all(factor)
                   )
               }
@@ -456,8 +470,8 @@ setMethod('plotMDS',
             pl <- scatterPlot(
               mds_dimensions,
               cls,
-              'Dimension 1',
-              'Dimension 2',
+              'dimension 1',
+              'dimension 2',
               ellipses,
               shape,
               label,
@@ -470,7 +484,7 @@ setMethod('plotMDS',
             
             if (x@type == 'classification') {
               pl <- pl +
-                facet_wrap(~Comparison)
+                facet_wrap(~comparison)
             }
             
             return(pl)
@@ -547,7 +561,7 @@ setMethod('plotROC',signature = 'RandomForest',
             
             preds <- roc(x)
             
-            meas <- x@results$measures %>%
+            meas <- x@metrics %>%
               filter(.metric == 'roc_auc') %>%
               mutate(x = 0.8,
                      y = 0, 
@@ -567,11 +581,11 @@ setMethod('plotROC',signature = 'RandomForest',
                       colour = Class)) +
                 geom_text(data = meas,aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
-                facet_wrap(~Comparison) +
+                facet_wrap(~comparison) +
                 coord_fixed() +
                 guides(
                   colour = guide_legend(
-                    title = x@results$measures$Response[1])) +
+                    title = x@metrics$response[1])) +
                 labs(title = title)
               
               if ((preds$Class %>% unique() %>% length()) <= 12) {
@@ -594,7 +608,7 @@ setMethod('plotROC',signature = 'RandomForest',
                   data = meas,
                   aes(x = x,y = y,label = label),size = 3) +
                 theme_bw() +
-                facet_wrap(~Comparison) +
+                facet_wrap(~comparison) +
                 coord_fixed() +
                 guides(colour = guide_legend(title = 'Class')) +
                 labs(title = title)

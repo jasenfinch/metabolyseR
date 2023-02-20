@@ -3,7 +3,7 @@
 \name{randomForest}
 \alias{randomForest}
 \alias{randomForest,AnalysisData-method}
-\title{Random forest analysis}
+\title{Random forest}
 \usage{
 randomForest(
   x,

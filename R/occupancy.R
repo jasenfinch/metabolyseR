@@ -41,6 +41,12 @@ setGeneric("occupancyMaximum", function(d, cls = 'class', occupancy = 2/3)
 
 setMethod('occupancyMaximum',signature = 'AnalysisData',
           function(d,cls = 'class', occupancy = 2/3){
+            
+            if (!is.numeric(occupancy)){
+              stop('Argument `occupancy` is non-numeric.',
+                   call. = FALSE)
+            }
+            
             occ <- occupancy(d,cls)
             fd <- occ %>%
               group_by(Feature) %>%
@@ -52,7 +58,7 @@ setMethod('occupancyMaximum',signature = 'AnalysisData',
                                       unique(fd$Feature)]
             dat(d) <- d %>%
               dat() %>%
-              select(feat)
+              select(all_of(feat))
             return(d)
           }
 )
@@ -67,6 +73,12 @@ setGeneric("occupancyMinimum", function(d, cls = 'class', occupancy = 2/3)
 
 setMethod('occupancyMinimum',signature = 'AnalysisData',
           function(d,cls = 'class', occupancy = 2/3){
+            
+            if (!is.numeric(occupancy)){
+              stop('Argument `occupancy` is non-numeric.',
+                   call. = FALSE)
+            }
+            
             occ <- occupancy(d,cls)
             fd <- occ %>%
               group_by(Feature) %>%
@@ -78,7 +90,7 @@ setMethod('occupancyMinimum',signature = 'AnalysisData',
                                         unique(fd$Feature)]
             dat(d) <- d %>% 
               dat() %>%
-              select(feat)
+              select(all_of(feat))
             return(d)
           }
 )

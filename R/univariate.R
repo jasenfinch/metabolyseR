@@ -112,13 +112,13 @@ setMethod('anova',signature = 'AnalysisData',
               map(~{
                 map(.,~{
                   map(.,tidy) %>%
-                    bind_rows(.id = 'Feature') %>%
+                    bind_rows(.id = 'feature') %>%
                     mutate(adjusted.p.value = p.adjust(p.value,
                                                        method = pAdjust))
                 }) %>%
-                  bind_rows(.id = 'Comparison')
+                  bind_rows(.id = 'comparison')
               }) %>%
-              bind_rows(.id = 'Response') %>%
+              bind_rows(.id = 'response') %>%
               filter(term == 'response')
             
             res <- new('Univariate')
@@ -223,13 +223,13 @@ setMethod('ttest',signature = 'AnalysisData',
               map(~{
                 map(.,~{
                   map(.,glance) %>%
-                    bind_rows(.id = 'Feature') %>%
+                    bind_rows(.id = 'feature') %>%
                     mutate(adjusted.p.value = p.adjust(p.value,
                                                        method = pAdjust))
                 }) %>%
-                  bind_rows(.id = 'Comparison')
+                  bind_rows(.id = 'comparison')
               }) %>%
-              bind_rows(.id = 'Response')
+              bind_rows(.id = 'response')
             
             res <- new('Univariate')
             res@type <- 't-test'
@@ -314,11 +314,11 @@ setMethod('linearRegression',signature = 'AnalysisData',
                 map(.,~{
                   glance(.)
                 }) %>%
-                  bind_rows(.id = 'Feature') %>%
+                  bind_rows(.id = 'feature') %>%
                   mutate(adjusted.p.value = p.adjust(p.value,
                                                      method = pAdjust))
               }) %>%
-              bind_rows(.id = 'Response')
+              bind_rows(.id = 'response')
             
             res <- new('Univariate')
             res@type <- 'linear regression'

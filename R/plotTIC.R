@@ -50,7 +50,7 @@ setMethod('plotTIC',signature = 'AnalysisData',
             } else {
               d <- d %>%
                 group_by(ID,!!sym(by))
-                
+              
             }
             
             d <- d %>%
@@ -113,14 +113,19 @@ setMethod('plotTIC',signature = 'Analysis',
           function(analysis, 
                    by = 'injOrder', 
                    colour = 'block', 
-                   type = c('raw','pre-treated')) {
+                   type = c('pre-treated','raw')) {
             
-            type <- match.arg(type,
-                              choices = c('raw','pre-treated'))
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               ty <- get('raw')  
-            } else {
+            } 
+            
+            if (type == 'pre-treated'){
               ty <- get('preTreated')
             }
             

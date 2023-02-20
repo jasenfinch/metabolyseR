@@ -79,15 +79,19 @@ setMethod('clsAdd',
 
 setMethod('clsAdd',
           signature = 'Analysis',
-          function(d,cls,value,type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                               'pre-treated'))
+          function(d,cls,value,type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               sl <- get('raw')  
               `sl<-` <- get(str_c('raw','<-'))
-            } else {
+            }
+            
+            if (type == 'pre-treated'){
               sl <- get('preTreated')
               `sl<-` <- get(str_c('preTreated','<-'))
             }
@@ -143,15 +147,19 @@ setMethod('clsArrange',
 
 setMethod('clsArrange',
           signature = 'Analysis',
-          function(d,cls = 'class', descending = FALSE, type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(d,cls = 'class', descending = FALSE, type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               sl <- get('raw')  
               `sl<-` <- get(str_c('raw','<-'))
-            } else {
+            } 
+            
+            if (type == 'pre-treated'){
               sl <- get('preTreated')
               `sl<-` <- get(str_c('preTreated','<-'))
             }
@@ -159,6 +167,8 @@ setMethod('clsArrange',
             sl(d) <- d %>%
               sl() %>%
               clsArrange(cls = cls,descending = descending)
+            
+            return(d)
           })
 
 #' @rdname cls
@@ -177,14 +187,18 @@ setMethod('clsAvailable',signature = 'AnalysisData',function(d){
 
 #' @rdname cls
 
-setMethod('clsAvailable',signature = 'Analysis',function(d,type = c('raw','pre-treated')){
-  type <- match.arg(type,
-                    choices = c('raw',
-                                'pre-treated'))
+setMethod('clsAvailable',signature = 'Analysis',function(d,type = c('pre-treated','raw')){
+  type <- match.arg(
+    type,
+    choices = c(
+      'pre-treated',
+      'raw'))
   
   if (type == 'raw'){
     sl <- get('raw')  
-  } else {
+  }
+  
+  if (type == 'pre-treated'){
     sl <- get('preTreated')
   }
   
@@ -206,7 +220,7 @@ setMethod('clsExtract',
           function(d, cls = 'class'){
             d %>%
               sinfo() %>%
-              select(cls) %>%
+              select(all_of(cls)) %>%
               deframe()
           })
 
@@ -214,14 +228,18 @@ setMethod('clsExtract',
 
 setMethod('clsExtract',
           signature = 'Analysis',
-          function(d,cls = 'class',type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(d,cls = 'class',type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               sl <- get('raw')  
-            } else {
+            }
+            
+            if (type =='pre-treated'){
               sl <- get('preTreated')
             }
             
@@ -246,7 +264,7 @@ setMethod('clsRemove',signature = 'AnalysisData',function(d,cls){
   
   sinfo(d) <- d %>%
     sinfo() %>%
-    select(-{{cls}})
+    select(-all_of(cls))
   
   return(d)
 })
@@ -255,15 +273,19 @@ setMethod('clsRemove',signature = 'AnalysisData',function(d,cls){
 
 setMethod('clsRemove',
           signature = 'Analysis',
-          function(d,cls,type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(d,cls,type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               sl <- get('raw')  
               `sl<-` <- get(str_c('raw','<-'))
-            } else {
+            }
+            
+            if (type == 'pre-treated'){
               sl <- get('preTreated')
               `sl<-` <- get(str_c('preTreated','<-'))
             }
@@ -297,15 +319,19 @@ setMethod('clsRename',
 
 setMethod('clsRename',
           signature = 'Analysis',
-          function(d,cls,newName, type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(d,cls,newName, type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               sl <- get('raw')  
               `sl<-` <- get(str_c('raw','<-'))
-            } else {
+            } 
+            
+            if(type == 'pre-treated'){
               sl <- get('preTreated')
               `sl<-` <- get(str_c('preTreated','<-'))
             }
@@ -313,6 +339,8 @@ setMethod('clsRename',
             sl(d) <- d %>%
               sl() %>%
               clsRename(cls = cls,newName = newName)
+            
+            return(d)
           })
 
 #' @rdname cls
@@ -342,15 +370,19 @@ setMethod('clsReplace',
 
 setMethod('clsReplace',
           signature = 'Analysis',
-          function(d, value, cls = 'class', type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(d, value, cls = 'class', type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'raw'){
               sl <- get('raw')  
               `sl<-` <- get(str_c('raw','<-'))
-            } else {
+            } 
+            
+            if (type == 'pre-treated'){
               sl <- get('preTreated')
               `sl<-` <- get(str_c('preTreated','<-'))
             }

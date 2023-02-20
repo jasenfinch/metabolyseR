@@ -78,7 +78,7 @@ setClass('Analysis',
 #' @description An S4 class for random forest results and models.
 #' @slot type random forest type
 #' @slot response response variable name
-#' @slot results list of measure and importance results tables
+#' @slot metrics tibble of model performance metrics
 #' @slot predictions tibble of model observation predictions
 #' @slot permutations list of permutations measure and importance results tables
 #' @slot importances tibble of model feature importances
@@ -91,12 +91,25 @@ setClass('RandomForest',
          slots = list(
            type = 'character',
            response = 'character',
-           results = 'list',
+           metrics = 'tbl_df',
            predictions = 'tbl_df',
            permutations = 'list',
            importances = 'tbl_df',
            proximities = 'tbl_df',
            models = 'list'
+         ),
+         prototype = list(
+           type = 'unsupervised',
+           response = '',
+           metrics = tibble(),
+           predictions = tibble(),
+           permutations = list(
+             metrics = tibble(),
+             importance = tibble()
+           ),
+           importances = tibble(),
+           proximities = tibble(),
+           models = list()
          )
 )
 

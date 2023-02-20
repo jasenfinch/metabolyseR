@@ -9,14 +9,15 @@ knitr::opts_chunk$set(collapse = TRUE,
                       comment = "#>",
                       fig.align = 'center',
                       fig.path = "man/figures/README-",
-                      message = FALSE)
+                      message = FALSE,
+                      warning = FALSE)
 ```
 
 # metabolyseR
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check](https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.svg)](https://github.com/jasenfinch/metabolyseR/actions)
+[![R-CMD-check](https://github.com/jasenfinch/metabolyseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasenfinch/metabolyseR/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master/graph/badge.svg)](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master) 
 [![license](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg)](https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION)
 [![DOI](https://zenodo.org/badge/88983134.svg)](https://zenodo.org/badge/latestdoi/88983134)
@@ -38,7 +39,13 @@ This package provides a tool kit of methods for metabolomics analyses that inclu
 The `metabolyseR` package can be installed from GitHub using the following:
 
 ```r
-devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
+remotes::install_github('jasenfinch/metabolyseR')
+```
+
+The package documentation can be browsed online at <https://jasenfinch.github.io/metabolyseR/>; however, if users want to compile the vignettes locally, the following can be used.
+
+```r
+remotes::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE,dependencies = TRUE)
 ```
 
 ## Learn more

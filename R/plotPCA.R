@@ -30,20 +30,20 @@
 
 setGeneric('plotPCA', 
            function(
-             analysis, 
-             cls = 'class', 
-             label = NULL, 
-             scale = TRUE, 
-             center = TRUE, 
-             xAxis = 'PC1', 
-             yAxis = 'PC2', 
-             shape = FALSE, 
-             ellipses = TRUE, 
-             title = 'PCA',
-             legendPosition = 'bottom', 
-             labelSize = 2,
-             ...)
-             standardGeneric('plotPCA'))
+    analysis, 
+    cls = 'class', 
+    label = NULL, 
+    scale = TRUE, 
+    center = TRUE, 
+    xAxis = 'PC1', 
+    yAxis = 'PC2', 
+    shape = FALSE, 
+    ellipses = TRUE, 
+    title = 'PCA',
+    legendPosition = 'bottom', 
+    labelSize = 2,
+    ...)
+    standardGeneric('plotPCA'))
 
 #' @rdname plotPCA
 #' @importFrom ggplot2 scale_shape_manual geom_hline geom_vline
@@ -68,7 +68,7 @@ setMethod('plotPCA',
             pca <- prcomp(dat(analysis),scale. = scale,center = center)
             
             info <- sinfo(analysis) %>%
-              select(cls) %>%
+              select(all_of(cls)) %>%
               mutate(!!cls := factor(!!sym(cls)))
             
             var <- pca$sdev
@@ -127,18 +127,23 @@ setMethod('plotPCA',
                    title = 'PCA', 
                    legendPosition = 'bottom', 
                    labelSize = 2,
-                   type = 'raw'){
+                   type = c('pre-treated',
+                            'raw')){
             
-            if (!(type %in% c('raw','pre-treated'))) {
-              stop(
-                'Argument "type" should be one of "raw" or "pre-treated".',
-                call. = FALSE)
-            }
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'
+              )
+            )
             
             if (type == 'pre-treated') {
               d <- analysis %>%
                 preTreated()
-            } else {
+            }
+            
+            if (type == 'raw'){
               d <- analysis %>%
                 raw()
             }

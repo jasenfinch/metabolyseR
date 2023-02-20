@@ -7,6 +7,10 @@ test_that('occupancyMethods returns methods correctly',{
   expect_false(F %in% m)
 })
 
+test_that('occupancyMethods errors if incorrect method specified',{
+  expect_error(occupancyMethods('incorrect'))
+})
+
 test_that('methods work',{
   m <- names(occupancyMethods())
   dat <- analysisData(data = abr1$neg, info = abr1$fact)
@@ -31,4 +35,11 @@ test_that('methods work',{
   expect_false(FALSE %in% map_lgl(
     m,
     ~{nrow(.x %>% sinfo()) == nrow(dat %>% sinfo())}))
+})
+
+test_that('occupancy methods error argument `occupancy` is non-numeric',{
+  dat <- analysisData(data = metaboData::abr1$neg, info = metaboData::abr1$fact)
+  
+  expect_error(occupancyMaximum(dat,occupancy = 'wrong'))
+  expect_error(occupancyMinimum(dat,occupancy = 'wrong'))
 })

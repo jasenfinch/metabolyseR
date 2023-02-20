@@ -78,10 +78,17 @@ setMethod('modelling',signature = 'Analysis',
           }
 )
 
-explanatoryFeaturesClassification <- function(x,metric,threshold){
+explanatoryFeaturesClassification <- function(x,metric,value,threshold){
+  
+  current_metric <- metric
   
   imp <- x %>%
     importance()
+  
+  if (value != 'value' & !'p-value' %in% colnames(imp)){
+    stop('p-values unavailable for this RandomForest class object. Use argument `perm` in randomForest() to for permutation testing to generate p-values.',
+         call. = FALSE)
+  }
   
   metrics <- importanceMetrics(x)
   
@@ -90,31 +97,38 @@ explanatoryFeaturesClassification <- function(x,metric,threshold){
     metrics <- str_c('"',metrics,'"')
     
     stop(
-      'Argument "metric" should be one of ',
+      'Argument `metric` should be one of ',
       str_c(metrics,collapse = ', '),
       call. = FALSE)
   }
   
   explan <- imp %>%
-    filter(Metric == metric)
+    filter(metric == current_metric)
   
-  if (metric == 'FalsePositiveRate') {
+  if (metric == 'false_positive_rate' | value != 'value') {
     explan <- explan %>%
-      filter(Value < threshold) %>% 
-      arrange(Value)
+      filter(.data[[value]] < threshold) %>% 
+      arrange(!!sym(value))
   } else {
     explan <- explan %>%
-      filter(Value > threshold) %>% 
-      arrange(desc(Value))
+      filter(.data[[value]] > threshold) %>% 
+      arrange(desc(!!sym(value)))
   }
   
   return(explan)
 }
 
-explanatoryFeaturesRegression <- function(x,metric,threshold){
+explanatoryFeaturesRegression <- function(x,metric,value,threshold){
+  
+  current_metric <- metric
   
   imp <- x %>%
     importance()
+  
+  if (value != 'value' & !'p-value' %in% colnames(imp)){
+    stop('p-values unavailable for this RandomForest class object. Use argument `perm` in randomForest() to for permutation testing to generate p-values.',
+         call. = FALSE)
+  }
   
   metrics <- importanceMetrics(x)
   
@@ -123,15 +137,22 @@ explanatoryFeaturesRegression <- function(x,metric,threshold){
     metrics <- str_c('"',metrics,'"')
     
     stop(
-      'Argument "metric" should be one of ',
+      'Argument `metric` should be one of ',
       str_c(metrics,collapse = ', '),
       call. = FALSE)
   }
   
-  explan <- imp %>%
-    filter(Metric == metric) %>%
-    filter(Value > threshold) %>% 
-    arrange(desc(Value))
+  if (value == 'value'){
+    explan <- imp %>%
+      filter(metric == current_metric) %>%
+      filter(.data[[value]] > threshold) %>% 
+      arrange(desc(!!sym(value)))
+  } else {
+    explan <- imp %>%
+      filter(metric == current_metric) %>%
+      filter(.data[[value]] < threshold) %>% 
+      arrange(!!sym(value))
+  }
   
   return(explan)
 }

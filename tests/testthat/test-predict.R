@@ -1,5 +1,6 @@
 test_that("predict works", {
-  x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+  x <- analysisData(metaboData::abr1$neg[,200:300],
+                    metaboData::abr1$fact) %>%
     occupancyMaximum(cls = 'day') %>%
     transformTICnorm()
   
@@ -25,7 +26,8 @@ test_that("predict works", {
 })
 
 test_that("predit throws an error if unsupervised random forest used",{
-  x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+  x <- analysisData(metaboData::abr1$neg[,200:300],
+                    metaboData::abr1$fact) %>%
     occupancyMaximum(cls = 'day') %>%
     transformTICnorm()
   
@@ -46,7 +48,8 @@ test_that("predit throws an error if unsupervised random forest used",{
 })
 
 test_that("predict throws an error if RandomForest object does not contain models",{
-  x <- analysisData(abr1$neg[,200:300],abr1$fact) %>%
+  x <- analysisData(metaboData::abr1$neg[,200:300],
+                    metaboData::abr1$fact) %>%
     occupancyMaximum(cls = 'day') %>%
     transformTICnorm()
   

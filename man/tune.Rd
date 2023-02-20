@@ -8,8 +8,8 @@
 tune(
   x,
   cls = "class",
-  mtry_range = floor(seq(mtry(x, cls = cls) - mtry(x, cls = cls)/2, mtry(x, cls = cls)
-    + mtry(x, cls = cls)/2, length.out = 4)),
+  mtry_range = floor(seq(mtry(x, cls = cls) - mtry(x, cls = cls)/2, mtry(x, cls = cls) +
+    mtry(x, cls = cls)/2, length.out = 4)),
   ntree_range = 1000,
   seed = 1234
 )
@@ -17,8 +17,8 @@ tune(
 \S4method{tune}{AnalysisData}(
   x,
   cls = "class",
-  mtry_range = floor(seq(mtry(x, cls = cls) - mtry(x, cls = cls)/2, mtry(x, cls = cls)
-    + mtry(x, cls = cls)/2, length.out = 4)),
+  mtry_range = floor(seq(mtry(x, cls = cls) - mtry(x, cls = cls)/2, mtry(x, cls = cls) +
+    mtry(x, cls = cls)/2, length.out = 4)),
   ntree_range = 1000,
   seed = 1234
 )

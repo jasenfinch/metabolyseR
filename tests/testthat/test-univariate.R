@@ -14,6 +14,7 @@ test_that('anova works',{
   expect_identical(class(i),c("tbl_df","tbl","data.frame"))
   expect_equal(ncol(i),10)
   expect_equal(nrow(i),51)
+  expect_identical(type(res),'ANOVA')
 })
 
 test_that('ttest works',{

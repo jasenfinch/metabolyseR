@@ -30,18 +30,18 @@ setMethod('roc',signature = 'RandomForest',
             }
             
             roc_curves <- x@predictions %>%
-              group_by(Response,Comparison) %>% 
+              group_by(response,comparison) %>% 
               group_map(~{
                 .x <- .x %>% 
                   mutate(obs = factor(obs)) 
                 
                 if (length(levels(.x$obs)) > 2) {
                   .x %>%
-                    group_by(Response,Comparison) %>% 
+                    group_by(response,comparison) %>% 
                     roc_curve(obs,levels(.x$obs))  
                 } else {
                   .x %>%
-                    group_by(Response,Comparison) %>% 
+                    group_by(response,comparison) %>% 
                     roc_curve(obs,levels(.x$obs)[1])  
                 } 
               }, .keep = TRUE) %>%

@@ -65,7 +65,7 @@ setMethod('plotSupervisedRF',
                                reps = 1,
                                seed = seed))
             
-            if (class(rf) != 'try-error') {
+            if (!is(rf,'try-error')) {
               pl <- plotMDS(rf,
                             cls = cls,
                             label = label,
@@ -75,7 +75,7 @@ setMethod('plotSupervisedRF',
                             labelSize = labelSize) +
                 labs(
                   caption = str_c('Margin: ',
-                                  rf@results$measures$.estimate[4] %>% 
+                                  rf@metrics$.estimate[4] %>% 
                                     round(3)))
               
               if (isTRUE(ROC) & rf@type == 'classification') {
@@ -110,18 +110,22 @@ setMethod('plotSupervisedRF',
                    title = '', 
                    legendPosition = 'bottom', 
                    labelSize = 2,
-                   type = 'raw'){
+                   type = c('pre-treated','raw')){
             
-            if (!(type %in% c('raw','pre-treated'))) {
-              stop(
-                'Argument "type" should be one of "raw" or "pre-treated".',
-                call. = FALSE)
-            }
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'
+              )
+            )
             
             if (type == 'pre-treated') {
               d <- x %>%
                 preTreated()
-            } else {
+            }
+            
+            if (type == 'raw'){
               d <- x %>%
                 raw()
             } 

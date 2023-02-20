@@ -5,6 +5,7 @@
 #' @param cls sample information column to use
 #' @param metric importance metric for which to retrieve explanatory features
 #' @param threshold threshold below which explanatory features are extracted
+#' @param value the importance value to threshold. See the usage section for possible values for each class.
 #' @param idx sample information column to use for sample names. If `NULL`, the sample row number will be used. Sample names should be unique for each row of data.
 #' @param ... arguments to parse to method for specific class
 #' @section Methods:
@@ -13,6 +14,7 @@
 #' * `type`: Return the type of random forest analysis.
 #' * `response`: Return the response variable name used for a random forest analysis.
 #' * `metrics`: Retrieve the model performance metrics for a random forest analysis
+#' * `predictions`: Retrieve the out of bag model response predictions for a random forest analysis.
 #' * `importanceMetrics`: Retrieve the available feature importance metrics for a random forest analysis.
 #' * `importance`: Retrieve feature importance results.
 #' * `proximity`: Retrieve the random forest sample proximities.
@@ -40,6 +42,9 @@
 #' ## Retrieve the model performance metrics
 #' metrics(rf_analysis)
 #' 
+#' ## Retrieve the out of bag model response predictions
+#' predictions(rf_analysis)
+#' 
 #' ## Show the available feature importance metrics
 #' importanceMetrics(rf_analysis)
 #' 
@@ -50,7 +55,7 @@
 #' proximity(rf_analysis)
 #' 
 #' ## Retrieve the explanatory features
-#' explanatoryFeatures(rf_analysis,metric = 'FalsePositiveRate',threshold = 0.05)
+#' explanatoryFeatures(rf_analysis,metric = 'false_positive_rate',threshold = 0.05)
 #' @export
 
 setGeneric('binaryComparisons',function(x,cls = 'class')
@@ -98,7 +103,7 @@ setMethod('mtry',signature = 'AnalysisData',
             mtry <- switch(rf_type,
                            regression = n_features/3,
                            classification = sqrt(n_features)) %>% 
-              floor() %>% 
+              {floor(.)} %>% 
               c(.,1) %>% 
               max()
             
@@ -118,6 +123,12 @@ setMethod('type',signature = 'RandomForest',function(x){
 })
 
 #' @rdname modelling-accessors
+
+setMethod('type',signature = 'Univariate',function(x){
+  x@type
+})
+
+#' @rdname modelling-accessors
 #' @export
 
 setGeneric("response", function(x) 
@@ -131,6 +142,12 @@ setMethod('response',signature = 'RandomForest',function(x){
 })
 
 #' @rdname modelling-accessors
+
+setMethod('response',signature = 'Univariate',function(x){
+  unique(x@results$response)
+})
+
+#' @rdname modelling-accessors
 #' @export
 
 setGeneric("metrics", function(x) 
@@ -141,7 +158,14 @@ setGeneric("metrics", function(x)
 
 setMethod('metrics',signature = 'RandomForest',
           function(x){
-            x@results$measures
+            
+            if (nrow(x@permutations$metrics) > 0){
+              metrics <- metricPvals(x)
+            } else {
+              metrics <- x@metrics
+            }
+              
+            return(metrics)
           }
 )
 
@@ -182,6 +206,55 @@ setMethod('metrics',signature = 'Analysis',
 #' @rdname modelling-accessors
 #' @export
 
+setGeneric("predictions", function(x) 
+  standardGeneric("predictions")
+)
+
+#' @rdname modelling-accessors
+
+setMethod('predictions',signature = 'RandomForest',
+          function(x){
+            x@predictions
+          }
+)
+
+#' @rdname modelling-accessors
+
+setMethod('predictions',signature = 'list',
+          function(x){
+            object_classes <- x %>%
+              map_chr(class)
+            
+            if (FALSE %in% (object_classes == 'RandomForest')) {
+              message(
+                str_c('All objects contained within supplied list ',
+                      'that are not of class RandomForest will be ignored.'))
+            }
+            
+            x <- x[object_classes == 'RandomForest']
+            
+            if (length(x) > 0) {
+              x %>%
+                map(predictions) %>%
+                bind_rows()  
+            } else {
+              tibble()
+            }
+            
+          })
+
+#' @rdname modelling-accessors
+
+setMethod('predictions',signature = 'Analysis',
+          function(x){
+            x %>% 
+              analysisResults('modelling') %>% 
+              predictions()
+          })
+
+#' @rdname modelling-accessors
+#' @export
+
 setGeneric("importanceMetrics", function(x) 
   standardGeneric("importanceMetrics")
 )
@@ -191,7 +264,7 @@ setGeneric("importanceMetrics", function(x)
 setMethod('importanceMetrics',signature = 'RandomForest',function(x){
   x %>%
     importance() %>%
-    .$Metric %>%
+    .$metric %>%
     unique() %>%
     sort()
 })
@@ -207,8 +280,14 @@ setGeneric("importance", function(x)
 
 setMethod('importance',signature = 'RandomForest',
           function(x){
-            x@results$importances %>%
-              ungroup()
+            
+            if (nrow(x@permutations$importance) > 0){
+              importance <- importancePvals(x)
+            } else {
+              importance <- x@importances
+            }
+            
+            return(importance)
           }
 )
 
@@ -264,14 +343,14 @@ setMethod('proximity',signature = 'RandomForest',
           function(x,idx = NULL){
             
             group_vars <- switch(type(x),
-                                 classification = c('Response','Comparison'),
-                                 regression = 'Response',
+                                 classification = c('response','comparison'),
+                                 regression = 'response',
                                  unsupervised = NULL) %>% 
-              c(.,'Sample1','Sample2')
+              c(.,'sample1','sample2')
             
             proximities <- x@proximities %>% 
               group_by_at(group_vars) %>% 
-              summarise(Proximity = mean(Proximity),
+              summarise(proximity = mean(proximity),
                         .groups = 'drop')
             
             if (!is.null(idx)){
@@ -291,16 +370,16 @@ setMethod('proximity',signature = 'RandomForest',
               
               proximities <- proximities %>% 
                 left_join(sample_idx,
-                          by = c('Sample1' = 'row')) %>% 
+                          by = c('sample1' = 'row')) %>% 
                 rename(idx_1 = idx) %>% 
                 left_join(sample_idx,
-                          by = c('Sample2' = 'row')) %>% 
+                          by = c('sample2' = 'row')) %>% 
                 rename(idx_2 = idx) %>% 
-                select(-Sample1,
-                       -Sample2,
-                       Sample1 = idx_1,
-                       Sample2 = idx_2) %>% 
-                relocate(Proximity,.after = Sample2)
+                select(-sample1,
+                       -sample2,
+                       sample1 = idx_1,
+                       sample2 = idx_2) %>% 
+                relocate(proximity,.after = sample2)
             }
             
             return(proximities)
@@ -353,26 +432,39 @@ setGeneric('explanatoryFeatures', function(x,...)
 #' @importFrom dplyr arrange
 
 setMethod('explanatoryFeatures',signature = 'Univariate',
-          function(x,threshold = 0.05){
+          function(x,threshold = 0.05,value = c('adjusted.p.value','p.value')){
+            
+            value <- match.arg(
+              value,
+              choices = c('adjusted.p.value',
+                          'p.value'))
+            
             importance(x) %>%
-              filter(adjusted.p.value < threshold) %>% 
-              arrange(adjusted.p.value)
+              filter(.data[[value]] < threshold) %>% 
+              arrange(.data[[value]])
           }
 ) 
 
 #' @rdname modelling-accessors
 
 setMethod('explanatoryFeatures',signature = 'RandomForest',
-          function(x,metric = 'FalsePositiveRate', threshold = 0.05){
+          function(x,metric = 'false_positive_rate',value = c('value','p-value','adjusted_p-value'),threshold = 0.05){
+            
+            value <- match.arg(
+              value,
+              choices = c('value',
+                          'p-value',
+                          'adjusted_p-value')
+            )
             
             typ <- type(x)
             
             if (typ %in% c('unsupervised','classification')) {
-              explan <- explanatoryFeaturesClassification(x,metric,threshold)
+              explan <- explanatoryFeaturesClassification(x,metric,value,threshold)
             }
             
             if (typ == 'regression') {
-              explan <- explanatoryFeaturesRegression(x,metric,threshold)
+              explan <- explanatoryFeaturesRegression(x,metric,value,threshold)
             }
             
             return(explan)

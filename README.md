@@ -7,7 +7,7 @@
 
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check](https://github.com/jasenfinch/metabolyseR/workflows/R-CMD-check/badge.svg)](https://github.com/jasenfinch/metabolyseR/actions)
+[![R-CMD-check](https://github.com/jasenfinch/metabolyseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasenfinch/metabolyseR/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master/graph/badge.svg)](https://codecov.io/gh/jasenfinch/metabolyseR/branch/master)
 [![license](https://img.shields.io/badge/license-GNU%20GPL%20v3.0-blue.svg)](https://github.com/jasenfinch/metabolyseR/blob/master/DESCRIPTION)
 [![DOI](https://zenodo.org/badge/88983134.svg)](https://zenodo.org/badge/latestdoi/88983134)
@@ -23,9 +23,9 @@ release](https://img.shields.io/github/release/jasenfinch/metabolyseR.svg)](http
 This package provides a tool kit of methods for metabolomics analyses
 that includes:
 
--   data pre-treatment
--   multivariate and univariate modelling/data mining techniques
--   correlation analysis
+- data pre-treatment
+- multivariate and univariate modelling/data mining techniques
+- correlation analysis
 
 ## Installation
 
@@ -33,7 +33,15 @@ The `metabolyseR` package can be installed from GitHub using the
 following:
 
 ``` r
-devtools::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE)
+remotes::install_github('jasenfinch/metabolyseR')
+```
+
+The package documentation can be browsed online at
+<https://jasenfinch.github.io/metabolyseR/>; however, if users want to
+compile the vignettes locally, the following can be used.
+
+``` r
+remotes::install_github('jasenfinch/metabolyseR',build_vignettes = TRUE,dependencies = TRUE)
 ```
 
 ## Learn more
@@ -170,7 +178,7 @@ anova_results <- d %>%
 ```
 
 A table of the significantly explanatory features can be extracted with
-a bonferroni correction adjusted p value &lt; 0.05 using:
+a bonferroni correction adjusted p value \< 0.05 using:
 
 ``` r
 explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
@@ -179,19 +187,20 @@ explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
 ``` r
 explan_feat
 #> # A tibble: 379 × 10
-#>    Response Comparison  Feature term      df    sumsq  meansq statistic  p.value
-#>    <chr>    <chr>       <chr>   <chr>  <dbl>    <dbl>   <dbl>     <dbl>    <dbl>
-#>  1 day      1~2~3~4~5~H N341    respo…     5  3.88e-4 7.76e-5     137.  1.55e-46
-#>  2 day      1~2~3~4~5~H N133    respo…     5  7.00e-5 1.40e-5     126.  8.63e-45
-#>  3 day      1~2~3~4~5~H N163    respo…     5  6.01e-5 1.20e-5     117.  2.95e-43
-#>  4 day      1~2~3~4~5~H N1087   respo…     5  2.42e-6 4.84e-7      99.8 5.61e-40
-#>  5 day      1~2~3~4~5~H N171    respo…     5  2.25e-7 4.50e-8      95.7 3.84e-39
-#>  6 day      1~2~3~4~5~H N513    respo…     5  3.38e-6 6.76e-7      95.3 4.78e-39
-#>  7 day      1~2~3~4~5~H N1025   respo…     5  2.78e-6 5.56e-7      91.0 3.91e-38
-#>  8 day      1~2~3~4~5~H N342    respo…     5  3.71e-6 7.41e-7      90.3 5.32e-38
-#>  9 day      1~2~3~4~5~H N1083   respo…     5  5.11e-5 1.02e-5      89.0 1.06e-37
-#> 10 day      1~2~3~4~5~H N1085   respo…     5  1.10e-5 2.19e-6      83.4 1.92e-36
-#> # … with 369 more rows, and 1 more variable: adjusted.p.value <dbl>
+#>    respo…¹ compa…² feature term     df   sumsq  meansq stati…³  p.value adjust…⁴
+#>    <chr>   <chr>   <chr>   <chr> <dbl>   <dbl>   <dbl>   <dbl>    <dbl>    <dbl>
+#>  1 day     1~2~3~… N341    resp…     5 3.88e-4 7.76e-5   137.  1.55e-46 2.73e-43
+#>  2 day     1~2~3~… N133    resp…     5 7.00e-5 1.40e-5   126.  8.63e-45 1.52e-41
+#>  3 day     1~2~3~… N163    resp…     5 6.01e-5 1.20e-5   117.  2.95e-43 5.19e-40
+#>  4 day     1~2~3~… N1087   resp…     5 2.42e-6 4.84e-7    99.8 5.61e-40 9.88e-37
+#>  5 day     1~2~3~… N171    resp…     5 2.25e-7 4.50e-8    95.7 3.84e-39 6.75e-36
+#>  6 day     1~2~3~… N513    resp…     5 3.38e-6 6.76e-7    95.3 4.78e-39 8.41e-36
+#>  7 day     1~2~3~… N1025   resp…     5 2.78e-6 5.56e-7    91.0 3.91e-38 6.87e-35
+#>  8 day     1~2~3~… N342    resp…     5 3.71e-6 7.41e-7    90.3 5.32e-38 9.36e-35
+#>  9 day     1~2~3~… N1083   resp…     5 5.11e-5 1.02e-5    89.0 1.06e-37 1.87e-34
+#> 10 day     1~2~3~… N1085   resp…     5 1.10e-5 2.19e-6    83.4 1.92e-36 3.37e-33
+#> # … with 369 more rows, and abbreviated variable names ¹​response, ²​comparison,
+#> #   ³​statistic, ⁴​adjusted.p.value
 ```
 
 The ANOVA has identified 379 features significantly explanatory over the

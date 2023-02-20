@@ -12,16 +12,16 @@ heatmapClasses <- function(pl,
                            featureLimit){
   pl %>%
     map(~{
-      r <- .
-      pred <- r$Response[1]
+      r <- .x
+      pred <- r$response[1]
       
-      classes <- r$Comparison %>%
+      classes <- r$comparison %>%
         unique() %>%
         str_split('~') %>%
         unlist() %>%
         unique()
       
-      feat <- r$Feature %>%
+      feat <- r$feature %>%
         unique()
       
       if (length(feat) > featureLimit){
@@ -145,9 +145,9 @@ heatmapRegression <- function(pl,
   pl %>%
     map(~{
       
-      response <- .x$Response[1]
+      response <- .x$response[1]
       
-      feat <- .x$Feature %>%
+      feat <- .x$feature %>%
         unique()
       
       if (length(feat) > featureLimit){
@@ -313,7 +313,7 @@ setMethod('plotExplanatoryHeatmap',
             }
             
             pl <- res %>%
-              base::split(.$Response)
+              base::split(.$response)
             
             if (x@type == 't-test' | x@type == 'ANOVA') {
               pl <- heatmapClasses(
@@ -341,7 +341,7 @@ setMethod('plotExplanatoryHeatmap',
                 featureLimit = featureLimit)
             }
             
-            feat <- res$Feature %>% 
+            feat <- res$feature %>% 
               unique()
             
             caption <- str_c(
@@ -368,7 +368,7 @@ setMethod('plotExplanatoryHeatmap',
 setMethod('plotExplanatoryHeatmap',
           signature = 'RandomForest',
           function(x, 
-                   metric = 'FalsePositiveRate',
+                   metric = 'false_positive_rate',
                    threshold = 0.05,
                    title = '',
                    distanceMeasure = "euclidean",
@@ -391,7 +391,7 @@ setMethod('plotExplanatoryHeatmap',
             }
             
             pl <- explan %>%
-              base::split(.$Response)
+              base::split(.$response)
             
             if (x@type == 'classification') {
               pl <- heatmapClasses(
@@ -419,7 +419,7 @@ setMethod('plotExplanatoryHeatmap',
                 featureLimit = featureLimit)
             }
             
-            feat <- explan$Feature %>% 
+            feat <- explan$feature %>% 
               unique()
             
             if (metric == 'FalsePositiveRate') {
@@ -448,6 +448,7 @@ setMethod('plotExplanatoryHeatmap',
 )
 
 #' @rdname plotExplanatoryHeatmap
+#' @importFrom rlang squash
 
 setMethod('plotExplanatoryHeatmap',
           signature = 'list',
@@ -457,6 +458,9 @@ setMethod('plotExplanatoryHeatmap',
                    clusterMethod = 'ward.D2',
                    featureNames = TRUE,
                    featureLimit = Inf){
+            
+            suppressWarnings(x <- squash(x))
+            
             object_classes <- x %>%
               map_chr(class)
             
@@ -467,13 +471,12 @@ setMethod('plotExplanatoryHeatmap',
                       'should be of class RandomForest or Univariate'),
                 call. = FALSE)
             }
-            
-            x %>%
-              names() %>% 
+          
+            x %>% 
               map(~{plotExplanatoryHeatmap(
-                x[[.x]],
+                .x,
                 threshold = threshold, 
-                title = .x,
+                title = response(.x),
                 distanceMeasure = distanceMeasure, 
                 clusterMethod = clusterMethod,
                 featureNames = featureNames,

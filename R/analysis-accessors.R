@@ -60,21 +60,27 @@ setMethod('dat',signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('dat',signature = 'Analysis',
-          function(x, type = c('raw','pre-treated')){
+          function(x, type = c('pre-treated','raw')){
             
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated') {
-              x %>%
+              d <- x %>%
                 preTreated() %>%
                 dat()
-            } else {
-              x %>%
+            } 
+            
+            if (type == 'raw'){
+              d <- x %>%
                 raw() %>%
                 dat()
             }
+            
+            return(d)
           }
 )
 
@@ -96,17 +102,21 @@ setMethod("dat<-",signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('dat<-',signature = 'Analysis',
-          function(x, type = c('raw','pre-treated'), value){
+          function(x, type = c('pre-treated','raw'), value){
             
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated'){
               d <- preTreated(x)
               dat(d) <- value
               preTreated(x) <- d
-            } else {
+            }
+            
+            if (type == 'raw'){
               d <- raw(x)
               dat(d) <- value
               raw(x) <- d
@@ -134,21 +144,27 @@ setMethod('sinfo',signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('sinfo',signature = 'Analysis',
-          function(x, type = c('raw','pre-treated'), value){
+          function(x, type = c('pre-treated','raw'), value){
             
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated') {
-              x %>%
+              i <- x %>%
                 preTreated() %>%
                 sinfo()
-            } else {
-              x %>%
+            }
+            
+            if (type == 'raw'){
+              i <- x %>%
                 raw() %>%
                 sinfo()
             }
+            
+            return(i)
           }
 )
 
@@ -171,17 +187,21 @@ setMethod('sinfo<-',signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('sinfo<-',signature = 'Analysis',
-          function(x,type = c('raw','pre-treated'), value){
+          function(x,type = c('pre-treated','raw'), value){
             
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated'){
               d <- preTreated(x)
               sinfo(d) <- value
               preTreated(x) <- d
-            } else {
+            }
+            
+            if (type == 'raw'){
               d <- raw(x)
               sinfo(d) <- value
               raw(x) <- d
@@ -268,20 +288,26 @@ setMethod('features',signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('features',signature = 'Analysis',
-          function(x,type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(x,type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated') {
-              x %>%
+              f <- x %>%
                 preTreated() %>%
                 features()
-            } else {
-              x %>%
+            }
+            
+            if (type == 'raw'){
+              f <- x %>%
                 raw() %>%
                 features()
             }
+            
+            return(f)
           })
 
 #' @rdname analysis-accessors
@@ -302,20 +328,26 @@ setMethod('nSamples',signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('nSamples',signature = 'Analysis',
-          function(x,type = c('raw','pre-treated')){
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+          function(x,type = c('pre-treated','raw')){
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated') {
-              x %>%
+              n_samples <- x %>%
                 preTreated() %>%
                 nSamples()
-            } else {
-              x %>%
+            } 
+            
+            if (type == 'raw'){
+              n_samples <- x %>%
                 raw() %>%
                 nSamples()
             }
+            
+            return(n_samples)
           })
 
 #' @rdname analysis-accessors
@@ -337,22 +369,27 @@ setMethod('nFeatures',signature = 'AnalysisData',
 #' @rdname analysis-accessors
 
 setMethod('nFeatures',signature = 'Analysis',
-          function(x,type = c('raw','pre-treated')){
+          function(x,type = c('pre-treated','raw')){
             
-            type <- match.arg(type,
-                              choices = c('raw',
-                                          'pre-treated'))
+            type <- match.arg(
+              type,
+              choices = c(
+                'pre-treated',
+                'raw'))
             
             if (type == 'pre-treated') {
-              x %>%
+              n_features <- x %>%
                 preTreated() %>%
                 nFeatures()
-            } else {
-              x %>%
+            }
+            
+            if (type == 'raw'){
+              n_features <- x %>%
                 raw() %>%
                 nFeatures()
             }
             
+            return(n_features)
           })
 
 #' @rdname analysis-accessors

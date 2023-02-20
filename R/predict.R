@@ -83,27 +83,25 @@ setMethod('predict',signature = c('RandomForest','AnalysisData'),
             test_data <- dat(new_data)
             
             model_object_depth <- switch(type(model),
-                                         classification = 4,
-                                         regression = 3) 
+                                         classification = 3,
+                                         regression = 2) 
             
             model_predictions <- model@models %>% 
               map_depth(.depth = model_object_depth,
                         .f = ~ .x %>% 
                           {
                             tibble(
-                              Sample = sample_idx,
-                              Prediction = stats::predict(
+                              sample = sample_idx,
+                              prediction = stats::predict(
                                 object = .x,
                                 newdata = test_data,
                                 type = type,
                                 ...))
-                          }) %>% 
-              map_depth(.depth = model_object_depth - 2,
-                        .f = ~ .x$models)
+                          })
             
-            column_headers <- c('Response',
-                                'Comparison',
-                                'Rep')
+            column_headers <- c('response',
+                                'comparison',
+                                'rep')
             type_column_headers <- switch(
               type(model),
               classification = column_headers,
@@ -117,7 +115,7 @@ setMethod('predict',signature = c('RandomForest','AnalysisData'),
             }
             
             model_predictions <- model_predictions %>% 
-              mutate(Rep = as.numeric(Rep))
+              mutate(rep = as.numeric(rep))
             
             return(model_predictions)
           })
