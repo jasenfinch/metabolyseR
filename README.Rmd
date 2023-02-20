@@ -9,7 +9,8 @@ knitr::opts_chunk$set(collapse = TRUE,
                       comment = "#>",
                       fig.align = 'center',
                       fig.path = "man/figures/README-",
-                      message = FALSE)
+                      message = FALSE,
+                      warning = FALSE)
 ```
 
 # metabolyseR
