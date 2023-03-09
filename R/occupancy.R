@@ -120,6 +120,11 @@ setGeneric("occupancy", function(d, cls = 'class')
 setMethod('occupancy',signature = 'AnalysisData',
           function(d,cls = 'class'){
             
+            if (nFeatures(d) == 0){
+              stop('No features available on which to calculate class occupancy.',
+                   call. = FALSE)
+            }
+            
             feat <- tibble(Feature = features(d))
             
             d <- d %>%
