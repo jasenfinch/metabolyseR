@@ -259,7 +259,7 @@ heatmapRegression <- function(pl,
 #' @param featureNames should feature names be plotted?
 #' @param dendrogram TRUE/FALSE. Should the dendrogram be plotted?
 #' @param featureLimit The maximum number of features to plot
-#' @param ... arguments to pass to the appropriate method
+#' @param ... arguments to pass to method `explanatoryFeatures()`
 #' @details 
 #' Distance measures can be one of any that can be used for the `method` argument of [dist()].
 #'
@@ -302,10 +302,12 @@ setMethod('plotExplanatoryHeatmap',
                    clusterMethod = 'ward.D2', 
                    featureNames = TRUE, 
                    dendrogram = TRUE,
-                   featureLimit = Inf){
+                   featureLimit = Inf,
+                   ...){
             
             res <- x %>%
-              explanatoryFeatures(threshold = threshold)
+              explanatoryFeatures(threshold = threshold,
+                                  ...)
             
             if (nrow(res) < 1){
               message('No explanatory features found at this threshold.')
@@ -375,7 +377,8 @@ setMethod('plotExplanatoryHeatmap',
                    clusterMethod = 'ward.D2',
                    featureNames = TRUE, 
                    dendrogram = TRUE,
-                   featureLimit = Inf){
+                   featureLimit = Inf,
+                   ...){
             
             if (x@type == 'unsupervised') {
               stop('Cannot plot heatmap for unsupervised random forest.')
@@ -383,7 +386,8 @@ setMethod('plotExplanatoryHeatmap',
             
             explan <- explanatoryFeatures(x,
                                           metric = metric,
-                                          threshold = threshold)
+                                          threshold = threshold,
+                                          ...)
             
             if (nrow(explan) < 1){
               message('No explanatory features found at this threshold.')
@@ -473,7 +477,7 @@ setMethod('plotExplanatoryHeatmap',
             }
           
             x %>% 
-              map(~{plotExplanatoryHeatmap(
+              map(~plotExplanatoryHeatmap(
                 .x,
                 threshold = threshold, 
                 title = response(.x),
@@ -481,8 +485,7 @@ setMethod('plotExplanatoryHeatmap',
                 clusterMethod = clusterMethod,
                 featureNames = featureNames,
                 featureLimit = featureLimit
-              )
-              })
+              ))
           }
 )
 

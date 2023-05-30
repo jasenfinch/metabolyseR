@@ -74,7 +74,7 @@ setMethod('plotLDA',
             
             lda <- lda@x %>%
               as_tibble() %>%
-              mutate(!!cls := lda@cl)
+              mutate(!!cls := clsExtract(analysis,cls = cls))
             
             if (classLength > 2) {
               lda <- lda %>%

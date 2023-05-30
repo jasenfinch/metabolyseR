@@ -43,3 +43,12 @@ test_that('occupancy methods error argument `occupancy` is non-numeric',{
   expect_error(occupancyMaximum(dat,occupancy = 'wrong'))
   expect_error(occupancyMinimum(dat,occupancy = 'wrong'))
 })
+
+test_that('occupancy methods error if no features available',{
+  d <- analysisData(
+    tibble::tibble(),
+    tibble::tibble()
+  )
+  
+  expect_error(occupancy(d))
+})

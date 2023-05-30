@@ -18,7 +18,8 @@ plotExplanatoryHeatmap(x, ...)
   clusterMethod = "ward.D2",
   featureNames = TRUE,
   dendrogram = TRUE,
-  featureLimit = Inf
+  featureLimit = Inf,
+  ...
 )
 
 \S4method{plotExplanatoryHeatmap}{RandomForest}(
@@ -30,7 +31,8 @@ plotExplanatoryHeatmap(x, ...)
   clusterMethod = "ward.D2",
   featureNames = TRUE,
   dendrogram = TRUE,
-  featureLimit = Inf
+  featureLimit = Inf,
+  ...
 )
 
 \S4method{plotExplanatoryHeatmap}{list}(
@@ -55,7 +57,7 @@ plotExplanatoryHeatmap(x, ...)
 \item{x}{object of class \code{Univariate}, \code{RandomForest} or
 \code{Analysis}}
 
-\item{...}{arguments to pass to the appropriate method}
+\item{...}{arguments to pass to method \code{explanatoryFeatures()}}
 
 \item{threshold}{score threshold to use for specifying explanatory features}
 
