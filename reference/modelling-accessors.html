@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -260,7 +260,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5… 1          8 4     4      0.02… 0.075  0.16  0.27  0.295 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5… 1          9 H     3     -0.10… 0.168  0.196 0.261 0.136 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5… 1         10 H     1     -0.01… 0.306  0.167 0.144 0.072<span style="text-decoration: underline;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 110 more rows, and 2 more variables: `5` &lt;dbl&gt;, H &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 110 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 2 more variables: `5` &lt;dbl&gt;, H &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Show the available feature importance metrics</span></span></span>
 <span class="r-in"><span><span class="fu">importanceMetrics</span><span class="op">(</span><span class="va">rf_analysis</span><span class="op">)</span></span></span>
@@ -284,7 +285,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H N200    MeanDecreaseGini     6.00<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H N200    false_positive_rate  2.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-40</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N200    selection_frequency  1.6 <span style="color: #949494;">e</span>+ 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1,000 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,000 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Retrieve the sample proximities</span></span></span>
 <span class="r-in"><span><span class="fu">proximity</span><span class="op">(</span><span class="va">rf_analysis</span><span class="op">)</span></span></span>
@@ -301,7 +302,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H       1       8    0.044<span style="text-decoration: underline;">1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H       1       9    0.106 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H       1      10    0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 14,390 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14,390 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Retrieve the explanatory features</span></span></span>
 <span class="r-in"><span><span class="fu">explanatoryFeatures</span><span class="op">(</span><span class="va">rf_analysis</span>,metric <span class="op">=</span> <span class="st">'false_positive_rate'</span>,threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
@@ -318,7 +319,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H N299    false_positive_rate 4.91<span style="color: #949494;">e</span><span style="color: #BB0000;">- 36</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H N245    false_positive_rate 9.75<span style="color: #949494;">e</span><span style="color: #BB0000;">- 27</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N279    false_positive_rate 2.38<span style="color: #949494;">e</span><span style="color: #BB0000;">- 20</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 25 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 25 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,11 +76,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Modelling and feature selection</h1>
-            <h3 data-toc-skip class="subtitle">metabolyseR v0.15.0</h3>
+            <h3 data-toc-skip class="subtitle">metabolyseR v0.15.1</h3>
                         <h4 data-toc-skip class="author">Jasen
 Finch</h4>
             
-            <h4 data-toc-skip class="date">20 February, 2023</h4>
+            <h4 data-toc-skip class="date">30 May, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/vignettes/modelling.Rmd" class="external-link"><code>vignettes/modelling.Rmd</code></a></small>
       <div class="d-none name"><code>modelling.Rmd</code></div>
@@ -263,7 +263,7 @@ returned using:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> N10     2                    0     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> N10     MeanDecreaseAccuracy 0     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> N10     MeanDecreaseGini     0     </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2,990 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2,990 more rows</span></span></span></code></pre></div>
 <p>The explanatory features for a given threshold can be extracted for
 any of the importance metrics. The following will extract the
 explanatory features below a threshold of 0.05 based on the false
@@ -285,7 +285,7 @@ positive rate metric.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> N133    false_positive_rate 1.52<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> N439    false_positive_rate 1.52<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> N379    false_positive_rate 3.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 349 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 349 more rows</span></span></span></code></pre></div>
 <p>In this example there are 359 explanatory features.</p>
 <p>The trend of the most highly ranked explanatory feature against the
 <code>day</code> factor can be plotted using the
@@ -433,7 +433,7 @@ response variable.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H N497    false_positive_rate 6.11<span style="color: #949494;">e</span><span style="color: #BB0000;">-30</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H N146    false_positive_rate 2.74<span style="color: #949494;">e</span><span style="color: #BB0000;">-29</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N195    false_positive_rate 7.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-25</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 111 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 111 more rows</span></span></span></code></pre></div>
 <p>As shown above there were a total of 121 explanatory features
 identified.</p>
 <p>Within a multinomial experiment, it is also possible to specify the
@@ -573,7 +573,7 @@ below using the false positive rate metric and a cut-off threshold of
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      4~H        N477    false_positive_rate 7.40<span style="color: #949494;">e</span><span style="color: #BB0000;">-34</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      2~H        N447    false_positive_rate 6.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-30</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      3~H        N163    false_positive_rate 6.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-30</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 241 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 241 more rows</span></span></span></code></pre></div>
 <p>A heatmap of these explanatory features can be plotted to show their
 mean relative intensities across the experiment time points. Here, the
 classes are also refactored to customise the order of the classes on the
@@ -744,21 +744,21 @@ the response categories can be extracted as shown below.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/modelling-accessors.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">ttest_analysis</span>,</span>
 <span>                    threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 73 × 14</span></span></span>
-<span><span class="co">#&gt;    response comparison feature estimate estim…¹ estim…² stati…³  p.value param…⁴</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> day      H~5        N163      -<span style="color: #BB0000;">735.</span>     19.5 755.     -<span style="color: #BB0000;">13.8</span>  1.43<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>    19.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> day      H~5        N341      <span style="text-decoration: underline;">2</span>445.   <span style="text-decoration: underline;">2</span>537.   92.6     13.6  2.88<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>    19.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> day      H~5        N133      <span style="text-decoration: underline;">1</span>055.   <span style="text-decoration: underline;">1</span>077.   21.9     13.0  5.44<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>    19.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> day      H~2        N341       200.    293.   92.6     10.6  1.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>    24.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> day      H~5        N171        62.6    64.7   2.15    11.9  2.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>    19.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> day      H~5        N119        17.2    17.9   0.763   11.0  8.54<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span>    19.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> day      H~5        N342       243.    247.    4.13    10.8  1.42<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span>    19.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      H~5        N343        27.4    28.3   0.961    9.83 5.99<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span>    19.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      H~5        N377       152.    157.    5.05     9.81 6.75<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span>    19.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      H~5        N477       103.    129.   26.1      9.30 1.05<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span>    20.0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 63 more rows, 5 more variables: conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   method &lt;chr&gt;, alternative &lt;chr&gt;, adjusted.p.value &lt;dbl&gt;, and abbreviated</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​estimate1, ²​estimate2, ³​statistic, ⁴​parameter</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    response comparison feature estimate estimate1 estimate2 statistic  p.value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> day      H~5        N163      -<span style="color: #BB0000;">735.</span>       19.5   755.       -<span style="color: #BB0000;">13.8</span>  1.43<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> day      H~5        N341      <span style="text-decoration: underline;">2</span>445.     <span style="text-decoration: underline;">2</span>537.     92.6       13.6  2.88<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> day      H~5        N133      <span style="text-decoration: underline;">1</span>055.     <span style="text-decoration: underline;">1</span>077.     21.9       13.0  5.44<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> day      H~2        N341       200.      293.     92.6       10.6  1.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> day      H~5        N171        62.6      64.7     2.15      11.9  2.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> day      H~5        N119        17.2      17.9     0.763     11.0  8.54<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> day      H~5        N342       243.      247.      4.13      10.8  1.42<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      H~5        N343        27.4      28.3     0.961      9.83 5.99<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      H~5        N377       152.      157.      5.05       9.81 6.75<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      H~5        N477       103.      129.     26.1        9.30 1.05<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 63 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: parameter &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   method &lt;chr&gt;, alternative &lt;chr&gt;, adjusted.p.value &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>This will threshold the features based on their adjusted p-value,
 found in the <code>adjusted.p.value</code> column of the table. The
 results of all of the features can be returned using the
@@ -796,20 +796,20 @@ categories can then be extracted.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/modelling-accessors.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">anova_analysis</span>,</span>
 <span>                    threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 110 × 10</span></span></span>
-<span><span class="co">#&gt;    response compar…¹ feature term     df  sumsq meansq stati…²  p.value adjust…³</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> day      1~2~3~4… N341    resp…     5 1.09<span style="color: #949494;">e</span>8 2.17<span style="color: #949494;">e</span>7   124.  1.90<span style="color: #949494;">e</span><span style="color: #BB0000;">-44</span> 7.50<span style="color: #949494;">e</span><span style="color: #BB0000;">-42</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> day      1~2~3~4… N163    resp…     5 1.25<span style="color: #949494;">e</span>7 2.51<span style="color: #949494;">e</span>6   113.  1.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-42</span> 6.75<span style="color: #949494;">e</span><span style="color: #BB0000;">-40</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> day      1~2~3~4… N133    resp…     5 1.96<span style="color: #949494;">e</span>7 3.92<span style="color: #949494;">e</span>6   108.  1.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-41</span> 6.77<span style="color: #949494;">e</span><span style="color: #BB0000;">-39</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> day      1~2~3~4… N171    resp…     5 6.29<span style="color: #949494;">e</span>4 1.26<span style="color: #949494;">e</span>4    88.8 1.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-37</span> 4.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-35</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> day      1~2~3~4… N342    resp…     5 1.04<span style="color: #949494;">e</span>6 2.07<span style="color: #949494;">e</span>5    85.1 7.61<span style="color: #949494;">e</span><span style="color: #BB0000;">-37</span> 3.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-34</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> day      1~2~3~4… N343    resp…     5 1.19<span style="color: #949494;">e</span>4 2.38<span style="color: #949494;">e</span>3    66.1 4.43<span style="color: #949494;">e</span><span style="color: #BB0000;">-32</span> 1.75<span style="color: #949494;">e</span><span style="color: #BB0000;">-29</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> day      1~2~3~4… N119    resp…     5 4.92<span style="color: #949494;">e</span>3 9.83<span style="color: #949494;">e</span>2    53.8 2.07<span style="color: #949494;">e</span><span style="color: #BB0000;">-28</span> 8.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-26</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4… N497    resp…     5 1.10<span style="color: #949494;">e</span>5 2.20<span style="color: #949494;">e</span>4    49.6 4.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-27</span> 1.91<span style="color: #949494;">e</span><span style="color: #BB0000;">-24</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4… N137    resp…     5 6.32<span style="color: #949494;">e</span>3 1.26<span style="color: #949494;">e</span>3    39.9 1.59<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span> 6.28<span style="color: #949494;">e</span><span style="color: #BB0000;">-21</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      1~2~3~4… N277    resp…     5 6.31<span style="color: #949494;">e</span>4 1.26<span style="color: #949494;">e</span>4    39.1 3.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span> 1.24<span style="color: #949494;">e</span><span style="color: #BB0000;">-20</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 100 more rows, and abbreviated variable names ¹​comparison, ²​statistic,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​adjusted.p.value</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    response comparison  feature term        df   sumsq meansq statistic  p.value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> day      1~2~3~4~5~H N341    response     5  1.09<span style="color: #949494;">e</span>8 2.17<span style="color: #949494;">e</span>7     124.  1.90<span style="color: #949494;">e</span><span style="color: #BB0000;">-44</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> day      1~2~3~4~5~H N163    response     5  1.25<span style="color: #949494;">e</span>7 2.51<span style="color: #949494;">e</span>6     113.  1.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-42</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> day      1~2~3~4~5~H N133    response     5  1.96<span style="color: #949494;">e</span>7 3.92<span style="color: #949494;">e</span>6     108.  1.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-41</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> day      1~2~3~4~5~H N171    response     5  6.29<span style="color: #949494;">e</span>4 1.26<span style="color: #949494;">e</span>4      88.8 1.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-37</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> day      1~2~3~4~5~H N342    response     5  1.04<span style="color: #949494;">e</span>6 2.07<span style="color: #949494;">e</span>5      85.1 7.61<span style="color: #949494;">e</span><span style="color: #BB0000;">-37</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> day      1~2~3~4~5~H N343    response     5  1.19<span style="color: #949494;">e</span>4 2.38<span style="color: #949494;">e</span>3      66.1 4.43<span style="color: #949494;">e</span><span style="color: #BB0000;">-32</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> day      1~2~3~4~5~H N119    response     5  4.92<span style="color: #949494;">e</span>3 9.83<span style="color: #949494;">e</span>2      53.8 2.07<span style="color: #949494;">e</span><span style="color: #BB0000;">-28</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> day      1~2~3~4~5~H N497    response     5  1.10<span style="color: #949494;">e</span>5 2.20<span style="color: #949494;">e</span>4      49.6 4.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-27</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> day      1~2~3~4~5~H N137    response     5  6.32<span style="color: #949494;">e</span>3 1.26<span style="color: #949494;">e</span>3      39.9 1.59<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> day      1~2~3~4~5~H N277    response     5  6.31<span style="color: #949494;">e</span>4 1.26<span style="color: #949494;">e</span>4      39.1 3.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 100 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: adjusted.p.value &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>The top ranked explanatory feature <code>N341</code> can be plotted
 to inspect it’s trend relative to the <code>day</code> response
 variable.</p>
@@ -841,19 +841,18 @@ linearly associated metabolome features.</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/modelling-accessors.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">lr_analysis</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 15</span></span></span>
-<span><span class="co">#&gt;   response feature r.squared adj.r.s…¹ sigma stati…²  p.value    df logLik   AIC</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> injorder N283        0.310     0.304  4.27    53.0 4.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>     1  -<span style="color: #BB0000;">343.</span>  693.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> injorder N135        0.165     0.157 78.7     23.2 4.31<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span>     1  -<span style="color: #BB0000;">693.</span> <span style="text-decoration: underline;">1</span>392.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> injorder N221        0.140     0.133  5.87    19.3 2.50<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">382.</span>  769.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> injorder N473        0.135     0.127  7.24    18.3 3.78<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">407.</span>  820.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> injorder N335        0.132     0.124 20.1     17.9 4.59<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">529.</span> <span style="text-decoration: underline;">1</span>064.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> injorder N452        0.120     0.112  4.00    16.0 1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">335.</span>  677.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> injorder N255        0.119     0.111 11.1     15.9 1.17<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">458.</span>  922.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> injorder N267        0.118     0.111 26.4     15.8 1.22<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">562.</span> <span style="text-decoration: underline;">1</span>130.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more variables: BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   nobs &lt;int&gt;, adjusted.p.value &lt;dbl&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​adj.r.squared, ²​statistic</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   response feature r.squared adj.r.squared sigma statistic  p.value    df logLik</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> injorder N283        0.310         0.304  4.27      53.0 4.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>     1  -<span style="color: #BB0000;">343.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> injorder N135        0.165         0.157 78.7       23.2 4.31<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span>     1  -<span style="color: #BB0000;">693.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> injorder N221        0.140         0.133  5.87      19.3 2.50<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">382.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> injorder N473        0.135         0.127  7.24      18.3 3.78<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">407.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> injorder N335        0.132         0.124 20.1       17.9 4.59<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">529.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> injorder N452        0.120         0.112  4.00      16.0 1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">335.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> injorder N255        0.119         0.111 11.1       15.9 1.17<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">458.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> injorder N267        0.118         0.111 26.4       15.8 1.22<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">562.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: AIC &lt;dbl&gt;, BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   nobs &lt;int&gt;, adjusted.p.value &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>The top ranked explanatory feature <code>N283</code> can be plotted
 to inspect inspects it’s association with injection order.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
@@ -933,7 +932,7 @@ pre-treatment and modelling elements. For this example, the
 <p>The analysis can then be executed.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34m</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  [39m  [31mv0.15.0 [39m Mon Feb 20 17:16:24 2023</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  [39m  [31mv0.15.1 [39m Tue May 30 14:28:02 2023</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [33m [33mParameters: [33m [39m</span></span>
 <span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
@@ -966,13 +965,13 @@ pre-treatment and modelling elements. For this example, the
 <span id="cb59-33"><a href="#cb59-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb59-34"><a href="#cb59-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34mPre-treatment  [39m…</span></span>
 <span id="cb59-35"><a href="#cb59-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-36"><a href="#cb59-36" aria-hidden="true" tabindex="-1"></a> [34mPre<span class="sc">-</span>treatment  [39m     [32m✔ [39m [<span class="fl">4.6</span>S]</span>
+<span id="cb59-36"><a href="#cb59-36" aria-hidden="true" tabindex="-1"></a> [34mPre<span class="sc">-</span>treatment  [39m     [32m✔ [39m [<span class="fl">4.7</span>S]</span>
 <span id="cb59-37"><a href="#cb59-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34mModelling  [39m…</span></span>
 <span id="cb59-38"><a href="#cb59-38" aria-hidden="true" tabindex="-1"></a> [34m</span>
-<span id="cb59-39"><a href="#cb59-39" aria-hidden="true" tabindex="-1"></a>Modelling  [39m  [32m✔ [39m [<span class="fl">12.3</span>S]</span>
+<span id="cb59-39"><a href="#cb59-39" aria-hidden="true" tabindex="-1"></a>Modelling  [39m  [32m✔ [39m [<span class="fl">10.3</span>S]</span>
 <span id="cb59-40"><a href="#cb59-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb59-41"><a href="#cb59-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32mComplete!  [39m[17S]</span></span></code></pre></div>
+<span id="cb59-42"><a href="#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32mComplete!  [39m[15S]</span></span></code></pre></div>
 <p>The results for the modelling can be specifically extracted using the
 following.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
@@ -1007,22 +1006,22 @@ results returned in a single table.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">explanatory_features</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 17</span></span></span>
-<span><span class="co">#&gt;    Method       response compa…¹ feature metric    value estim…² estim…³ estim…⁴</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> randomForest day      2~H     N341    false… 8.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-28</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> randomForest day      2~H     N377    false… 5.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> randomForest day      2~H     N447    false… 5.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> randomForest day      2~H     N579    false… 5.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> randomForest day      2~H     N1084   false… 1.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> randomForest day      2~H     N327    false… 2.33<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> randomForest day      2~H     N580    false… 4.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-14</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> randomForest day      2~H     N1083   false… 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> randomForest day      2~H     N1085   false… 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> randomForest day      2~H     N503    false… 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 90 more rows, 8 more variables: statistic &lt;dbl&gt;, p.value &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt;    Method       response comparison feature metric      value estimate estimate1</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> randomForest day      2~H        N341    false_p… 8.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-28</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> randomForest day      2~H        N377    false_p… 5.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> randomForest day      2~H        N447    false_p… 5.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> randomForest day      2~H        N579    false_p… 5.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> randomForest day      2~H        N1084   false_p… 1.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> randomForest day      2~H        N327    false_p… 2.33<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> randomForest day      2~H        N580    false_p… 4.32<span style="color: #949494;">e</span><span style="color: #BB0000;">-14</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> randomForest day      2~H        N1083   false_p… 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> randomForest day      2~H        N1085   false_p… 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> randomForest day      2~H        N503    false_p… 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>       <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 90 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: estimate2 &lt;dbl&gt;, statistic &lt;dbl&gt;, p.value &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   parameter &lt;dbl&gt;, conf.low &lt;dbl&gt;, conf.high &lt;dbl&gt;, method &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   alternative &lt;chr&gt;, adjusted.p.value &lt;dbl&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​comparison, ²​estimate, ³​estimate1, ⁴​estimate2</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   alternative &lt;chr&gt;, adjusted.p.value &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Heat maps of the explanatory features can also be plotted for both
 the modelling methods.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">

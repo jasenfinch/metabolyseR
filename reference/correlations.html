@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,19 +128,20 @@ All features are compared and the returned table of correlations are thresholded
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">correlations</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 130 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Feature1 Feature2 log2IntensityRatio coefficient |coefficient…¹       p     n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> N212     N227                 -<span style="color: #BB0000;">0.884</span>       0.980          0.980 1.07<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>     7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> N224     N286                  1.85        0.971          0.971 6.12<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>     8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> N215     N276                  0.227       0.965          0.965 4.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>     7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> N224     N265                  0.576       0.943          0.943 1.38<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>    11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> N201     N275                 -<span style="color: #BB0000;">1.59</span>        0.909          0.909 2.64<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>    10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> N213     N231                 -<span style="color: #BB0000;">1.63</span>        0.883          0.883 0   <span style="color: #949494;"> </span>     108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> N224     N225                 -<span style="color: #BB0000;">0.792</span>       0.863          0.863 1.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-7</span>    29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> N258     N263                 -<span style="color: #BB0000;">2.89</span>        0.857          0.857 1.81<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>    13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> N267     N297                 -<span style="color: #BB0000;">0.671</span>       0.853          0.853 0   <span style="color: #949494;"> </span>     120</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> N211     N291                 -<span style="color: #BB0000;">1.55</span>        0.831          0.831 1.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>    19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 120 more rows, and abbreviated variable name ¹​`|coefficient|`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Feature1 Feature2 log2IntensityRatio coefficient `|coefficient|`           p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> N212     N227                 -<span style="color: #BB0000;">0.884</span>       0.980           0.980 0.010<span style="text-decoration: underline;">7</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> N224     N286                  1.85        0.971           0.971 0.006<span style="text-decoration: underline;">12</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> N215     N276                  0.227       0.965           0.965 0.041<span style="text-decoration: underline;">9</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> N224     N265                  0.576       0.943           0.943 0.001<span style="text-decoration: underline;">38</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> N201     N275                 -<span style="color: #BB0000;">1.59</span>        0.909           0.909 0.026<span style="text-decoration: underline;">4</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> N213     N231                 -<span style="color: #BB0000;">1.63</span>        0.883           0.883 0          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> N224     N225                 -<span style="color: #BB0000;">0.792</span>       0.863           0.863 0.000<span style="text-decoration: underline;">000</span>176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> N258     N263                 -<span style="color: #BB0000;">2.89</span>        0.857           0.857 0.018<span style="text-decoration: underline;">1</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> N267     N297                 -<span style="color: #BB0000;">0.671</span>       0.853           0.853 0          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> N211     N291                 -<span style="color: #BB0000;">1.55</span>        0.831           0.831 0.001<span style="text-decoration: underline;">06</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 120 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: n &lt;int&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

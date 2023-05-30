@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,16 +114,15 @@
 <span class="r-in"><span><span class="co">## Extract significant features</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="modelling-accessors.html">explanatoryFeatures</a></span><span class="op">(</span><span class="va">lr_analysis</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   response feature r.squared adj.r.s…¹ sigma stati…²  p.value    df logLik   AIC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> injorder N283        0.310    0.304   4.27    53.0 4.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>     1  -<span style="color: #BB0000;">343.</span>  693.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> injorder N221        0.140    0.133   5.87    19.3 2.50<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">382.</span>  769.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> injorder N255        0.119    0.111  11.1     15.9 1.17<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">458.</span>  922.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> injorder N267        0.118    0.111  26.4     15.8 1.22<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">562.</span> <span style="text-decoration: underline;">1</span>130.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> injorder N297        0.107    0.099<span style="text-decoration: underline;">5</span> 44.7     14.1 2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">625.</span> <span style="text-decoration: underline;">1</span>257.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   nobs &lt;int&gt;, adjusted.p.value &lt;dbl&gt;, and abbreviated variable names</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​adj.r.squared, ²​statistic</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   response feature r.squared adj.r.squared sigma statistic  p.value    df logLik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> injorder N283        0.310        0.304   4.27      53.0 4.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span>     1  -<span style="color: #BB0000;">343.</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> injorder N221        0.140        0.133   5.87      19.3 2.50<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span>     1  -<span style="color: #BB0000;">382.</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> injorder N255        0.119        0.111  11.1       15.9 1.17<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">458.</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> injorder N267        0.118        0.111  26.4       15.8 1.22<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">562.</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> injorder N297        0.107        0.099<span style="text-decoration: underline;">5</span> 44.7       14.1 2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>     1  -<span style="color: #BB0000;">625.</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: AIC &lt;dbl&gt;, BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   nobs &lt;int&gt;, adjusted.p.value &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
