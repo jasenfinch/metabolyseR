@@ -2,6 +2,8 @@
 
 * The class occupancy methods now throw a helpful error message if no features are available on which to compute class occupancy.
 
+* Fixed a bug where it was not possible to customize the order of class labels in the legend of [`plotLDA()`](https://jasenfinch.github.io/metabolyseR/reference/plotLDA.html).
+
 # metabolyseR 0.15.0
 
 * It is now possible to specify multiple `cls` arguments to the [aggregation methods](https://jasenfinch.github.io/metabolyseR/reference/aggregate.html).
