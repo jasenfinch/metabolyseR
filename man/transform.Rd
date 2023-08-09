@@ -74,7 +74,7 @@ transformVast(d)
 
 \item{add}{value to add prior to transformation}
 
-\item{refactor}{TRUE/FALSE. Re-factor the normalised intensity values to a range consistent with the raw values by multiplying by the maximum sample TIC.}
+\item{refactor}{TRUE/FALSE. Re-factor the normalised intensity values to a range consistent with the raw values by multiplying by the median sample TIC.}
 }
 \value{
 An S4 object of class \code{AnalysisData} containing the transformed data.

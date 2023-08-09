@@ -3,7 +3,7 @@
 #' @description Methods for data scaling, transformation and normalisation.
 #' @param d S4 object of class `AnalysisData` 
 #' @param add value to add prior to transformation
-#' @param refactor TRUE/FALSE. Re-factor the normalised intensity values to a range consistent with the raw values by multiplying by the maximum sample TIC.
+#' @param refactor TRUE/FALSE. Re-factor the normalised intensity values to a range consistent with the raw values by multiplying by the median sample TIC.
 #' @return An S4 object of class `AnalysisData` containing the transformed data.
 #' @details 
 #' Prior to downstream analyses, metabolomics data often require transformation to fulfil the assumptions of a particular statistical/data mining technique.
@@ -254,7 +254,7 @@ setMethod('transformTICnorm',signature = 'AnalysisData',
               {. / tics}
             
             if (refactor){
-              normalised_data <- normalised_data * max(tics)
+              normalised_data <- normalised_data * median(tics)
             }
             
             dat(d) <- normalised_data %>% 
