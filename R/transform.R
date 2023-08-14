@@ -3,6 +3,7 @@
 #' @description Methods for data scaling, transformation and normalisation.
 #' @param d S4 object of class `AnalysisData` 
 #' @param add value to add prior to transformation
+#' @param refactor TRUE/FALSE. Re-factor the normalised intensity values to a range consistent with the raw values by multiplying by the median sample TIC.
 #' @return An S4 object of class `AnalysisData` containing the transformed data.
 #' @details 
 #' Prior to downstream analyses, metabolomics data often require transformation to fulfil the assumptions of a particular statistical/data mining technique.
@@ -237,19 +238,28 @@ setMethod('transformSQRT',signature = 'AnalysisData',
 #' @rdname transform
 #' @export
 
-setGeneric("transformTICnorm", function(d)
+setGeneric("transformTICnorm", function(d,refactor = TRUE)
   standardGeneric("transformTICnorm"))
 
 #' @rdname transform
 
 setMethod('transformTICnorm',signature = 'AnalysisData',
-          function(d){
-            dat(d) <- d %>% 
-              dat() %>%
-              base::split(seq_len(nrow(.))) %>%
-              map(~{. / sum(.)}) %>%
-              bind_rows() %>%
+          function(d, refactor = TRUE){
+            
+            raw_data <- dat(d)
+            
+            tics <- rowSums(raw_data)
+            
+            normalised_data <- raw_data %>% 
+              {. / tics}
+            
+            if (refactor){
+              normalised_data <- normalised_data * median(tics)
+            }
+            
+            dat(d) <- normalised_data %>% 
               as_tibble()
+            
             return(d)
           }
 )

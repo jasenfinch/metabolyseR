@@ -70,7 +70,8 @@ A total ion count normalisation will also be applied.
 ```{r pre_treat}
 d <- d %>%
   occupancyMaximum(cls = 'day', occupancy = 2/3) %>%
-  transformTICnorm()
+  transformTICnorm() %>% 
+  transformLog10()
 ```
 
 ```{r pre_treat_result}

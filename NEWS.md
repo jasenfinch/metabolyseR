@@ -1,3 +1,9 @@
+# metabolyseR 0.15.2
+
+* Added the argument `refactor` to the method [`transformTICnorm()`](https://jasenfinch.github.io/metabolyseR/reference/transform.html) to enable the feature intensities of total ion count (TIC) normalised data to be refactored back to a range consistent with the original data by multiplying the normalised values by the median TIC.
+
+* Removed the permutation cap when the `perm` argument of [`randomForest()`](https://jasenfinch.github.io/metabolyseR/reference/randomForest.html) is less than the total number of permutations possible.
+
 # metabolyseR 0.15.1
 
 * The class occupancy methods now throw a helpful error message if no features are available on which to compute class occupancy.

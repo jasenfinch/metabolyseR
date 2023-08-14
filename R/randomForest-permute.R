@@ -1,4 +1,3 @@
-nPerm <- function(n,k){choose(n,k) * factorial(k)}
 
 #' @importFrom stats runif
 
@@ -33,10 +32,6 @@ permutations <- function(x,cls,rf,n,type){
   
   if (is.character(i) | is.factor(i)) {
     i <- factor(i)
-  }
-  
-  if (nPerm(length(i),length(unique(i))) < n) {
-    n <- nPerm(length(i),length(unique(i)))
   }
   
   permutation_results <- future_map(1:n,
