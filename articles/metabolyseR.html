@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,11 +76,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Introduction</h1>
-            <h3 data-toc-skip class="subtitle">metabolyseR v0.15.1</h3>
+            <h3 data-toc-skip class="subtitle">metabolyseR v0.15.2</h3>
                         <h4 data-toc-skip class="author">Jasen
 Finch</h4>
             
-            <h4 data-toc-skip class="date">30 May, 2023</h4>
+            <h4 data-toc-skip class="date">14 August, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/vignettes/metabolyseR.Rmd" class="external-link"><code>vignettes/metabolyseR.Rmd</code></a></small>
       <div class="d-none name"><code>metabolyseR.Rmd</code></div>
@@ -447,6 +447,7 @@ for all the <em>metabolyseR</em> analysis elements.</p>
 <span><span class="co">##          seed = 1234</span></span>
 <span><span class="co">##  transform</span></span>
 <span><span class="co">##      TICnorm</span></span>
+<span><span class="co">##          refactor = TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## modelling</span></span>
 <span><span class="co">##  randomForest</span></span>
@@ -502,6 +503,7 @@ and modelling elements.</p>
 <span><span class="co">##          seed = 1234</span></span>
 <span><span class="co">##  transform</span></span>
 <span><span class="co">##      TICnorm</span></span>
+<span><span class="co">##          refactor = TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## modelling</span></span>
 <span><span class="co">##  randomForest</span></span>
@@ -552,6 +554,7 @@ from the default <code>class</code> to <code>day</code>.</p>
 <span><span class="co">##          seed = 1234</span></span>
 <span><span class="co">##  transform</span></span>
 <span><span class="co">##      TICnorm</span></span>
+<span><span class="co">##          refactor = TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## modelling</span></span>
 <span><span class="co">##  randomForest</span></span>
@@ -754,7 +757,7 @@ reduce the analysis time needed for this example.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">metabolyse</a></span><span class="op">(</span><span class="va">abr1</span><span class="op">$</span><span class="va">neg</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span>,<span class="va">abr1</span><span class="op">$</span><span class="va">fact</span>,<span class="va">p</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co"><span style="color: #0000BB;">## metabolyseR </span> <span style="color: #BB0000;">v0.15.1</span> Tue May 30 14:35:07 2023</span></span></code></pre>
+<span><span class="co"><span style="color: #0000BB;">## metabolyseR </span> <span style="color: #BB0000;">v0.15.2</span> Mon Aug 14 15:17:48 2023</span></span></code></pre>
 <pre><code><span><span class="co">## ________________________________________________________________________________</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">Parameters:</span></span></span>
 <span><span class="co">## pre-treatment</span></span>
@@ -764,6 +767,7 @@ reduce the analysis time needed for this example.</p>
 <span><span class="co">##          occupancy = 2/3</span></span>
 <span><span class="co">##  transform</span></span>
 <span><span class="co">##      TICnorm</span></span>
+<span><span class="co">##          refactor = TRUE</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## modelling</span></span>
 <span><span class="co">##  randomForest</span></span>
@@ -778,13 +782,13 @@ reduce the analysis time needed for this example.</p>
 <pre><code><span><span class="co">## ________________________________________________________________________________</span></span></code></pre>
 <pre><code>##  [34mPre-treatment  [39m…
 
- [34mPre-treatment  [39m     [32m✔ [39m [0.6S]
+ [34mPre-treatment  [39m     [32m✔ [39m [0.2S]
 ##  [34mModelling  [39m…
  [34m
-Modelling  [39m  [32m✔ [39m [2.1S]
+Modelling  [39m  [32m✔ [39m [2.2S]
 ## ________________________________________________________________________________
 ## 
-##  [32mComplete!  [39m[2.7S]</code></pre>
+##  [32mComplete!  [39m[2.5S]</code></pre>
 <p><strong>Note: If a data pre-treatment step is not performed prior to
 modelling or correlation analysis, the raw data will automatically be
 used.</strong></p>
@@ -794,21 +798,21 @@ analysis.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.1</span></span></span>
+<span><span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.2</span></span></span>
 <span><span class="co"><span style="color: #BBBB00;">## Analysis:</span></span></span>
-<span><span class="co"><span style="color: #BBBB00;">## </span>    Tue May 30 14:35:07 2023</span></span>
+<span><span class="co"><span style="color: #BBBB00;">## </span>    Mon Aug 14 15:17:48 2023</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Raw Data:</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 200</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Pre-treated Data:</span></span>
-<span><span class="co">##      Tue May 30 14:35:07 2023</span></span>
+<span><span class="co">##      Mon Aug 14 15:17:49 2023</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 48</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Modelling:</span></span>
-<span><span class="co">##      Tue May 30 14:35:09 2023</span></span>
+<span><span class="co">##      Mon Aug 14 15:17:51 2023</span></span>
 <span><span class="co">##      Methods: randomForest</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -827,7 +831,7 @@ to the pre-treatment and modelling elements already performed.</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metabolyse.html">reAnalyse</a></span><span class="op">(</span><span class="va">analysis</span>,<span class="va">parameters</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #0000BB;">metabolyseR</span> <span style="color: #BB0000;">v0.15.1</span> Tue May 30 14:35:10 2023</span></span>
+<span><span class="co">## <span style="color: #0000BB;">metabolyseR</span> <span style="color: #BB0000;">v0.15.2</span> Mon Aug 14 15:17:51 2023</span></span>
 <span><span class="co">## ________________________________________________________________________________</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">Parameters:</span></span></span>
 <span><span class="co">## correlations</span></span>
@@ -848,25 +852,25 @@ correlations) can then be printed.</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.1</span></span></span>
+<span><span class="co">## <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.2</span></span></span>
 <span><span class="co"><span style="color: #BBBB00;">## Analysis:</span></span></span>
-<span><span class="co"><span style="color: #BBBB00;">## </span>    Tue May 30 14:35:07 2023</span></span>
+<span><span class="co"><span style="color: #BBBB00;">## </span>    Mon Aug 14 15:17:48 2023</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Raw Data:</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 200</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Pre-treated Data:</span></span>
-<span><span class="co">##      Tue May 30 14:35:07 2023</span></span>
+<span><span class="co">##      Mon Aug 14 15:17:49 2023</span></span>
 <span><span class="co">##      No. samples = 120</span></span>
 <span><span class="co">##      No. features = 48</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Modelling:</span></span>
-<span><span class="co">##      Tue May 30 14:35:09 2023</span></span>
+<span><span class="co">##      Mon Aug 14 15:17:51 2023</span></span>
 <span><span class="co">##      Methods: randomForest</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##  Correlations:</span></span>
-<span><span class="co">##      Tue May 30 14:35:10 2023</span></span>
+<span><span class="co">##      Mon Aug 14 15:17:51 2023</span></span>
 <span><span class="co">##      No. correlations = 140</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -884,25 +888,25 @@ object <code>analysis</code>:</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/analysis-accessors.html">dat</a></span><span class="op">(</span><span class="va">analysis</span>,type <span class="op">=</span> <span class="st">'pre-treated'</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 120 × 48</span></span></span>
-<span><span class="co">##       N113    N115    N117    N118    N119    N127    N128    N129  N130    N131</span></span>
-<span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 0.006<span style="text-decoration: underline;">46</span> 0   <span style="color: #949494;"> </span>   1.68<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0   <span style="color: #949494;"> </span>   1.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0.032<span style="text-decoration: underline;">3</span>  2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 2.80<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 0.011<span style="text-decoration: underline;">3</span>  7.74<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 1.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0   <span style="color: #949494;"> </span>   1.43<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0.008<span style="text-decoration: underline;">56</span> 0   <span style="color: #949494;"> </span>   3.95<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 0.009<span style="text-decoration: underline;">31</span> 6.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 2.70<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 6.22<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 5.58<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0       0   <span style="color: #949494;"> </span>   1.05<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 6.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 0.007<span style="text-decoration: underline;">98</span> 0   <span style="color: #949494;"> </span>   0   <span style="color: #949494;"> </span>   0   <span style="color: #949494;"> </span>   1.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0.008<span style="text-decoration: underline;">48</span> 0   <span style="color: #949494;"> </span>   4.05<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 1.28<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 0.010<span style="text-decoration: underline;">5</span>  0   <span style="color: #949494;"> </span>   0   <span style="color: #949494;"> </span>   0   <span style="color: #949494;"> </span>   0   <span style="color: #949494;"> </span>   0.006<span style="text-decoration: underline;">58</span> 0   <span style="color: #949494;"> </span>   1.97<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 0.004<span style="text-decoration: underline;">54</span> 0   <span style="color: #949494;"> </span>   2.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 3.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 5.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0.002<span style="text-decoration: underline;">07</span> 0   <span style="color: #949494;"> </span>   1.98<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 0.011<span style="text-decoration: underline;">7</span>  0   <span style="color: #949494;"> </span>   1.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0   <span style="color: #949494;"> </span>   4.39<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0.006<span style="text-decoration: underline;">03</span> 0   <span style="color: #949494;"> </span>   4.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 0.007<span style="text-decoration: underline;">87</span> 2.36<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 1.43<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 1.52<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 4.22<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0.002<span style="text-decoration: underline;">90</span> 2.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 5.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 0.001<span style="text-decoration: underline;">36</span> 1.87<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 8.17<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 1.87<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0   <span style="color: #949494;"> </span>   0.061<span style="text-decoration: underline;">0</span>  1.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 5.23<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span>     0 0   <span style="color: #949494;"> </span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 0.008<span style="text-decoration: underline;">99</span> 4.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 2.06<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 0   <span style="color: #949494;"> </span>   8.36<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0.001<span style="text-decoration: underline;">06</span> 7.72<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 0   <span style="color: #949494;"> </span>       0 0   <span style="color: #949494;"> </span>  </span></span>
+<span><span class="co">##     N113  N115  N117   N118  N119  N127  N128   N129  N130  N131   N132    N133</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 10.3  0     0.269 0      2.57  51.7  0.424 0.448      0 0      0.561  51.5  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 18.1  1.24  1.64  0      2.29  13.7  0     0.632      0 0      1.59  435.   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 14.9  0.962 4.32  0.099<span style="text-decoration: underline;">6</span> 8.93   0    0     0.168      0 1.04   1.74  238.   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 12.8  0     0     0      0.259 13.6  0     0.648      0 0.204  0.827  12.9  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 16.9  0     0     0      0     10.5  0     3.16       0 0      0      45.8  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  7.28 0     0.397 0.521  0.850  3.31 0     0.316      0 0      1.23    1.88 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 18.8  0     1.83  0      0.703  9.66 0     0.646      0 0     21.2    60.2  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 12.6  3.77  2.29  0.244  6.76   4.64 0.445 0.092<span style="text-decoration: underline;">2</span>     0 0      3.43  531.   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  2.18 0.300 1.31  0.300  0     97.7  0.210 0.837      0 0      2.57  108.   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 14.4  0.682 3.29  0      1.34   1.70 1.24  0          0 0      3.81    0.633</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 110 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 38 more variables: N132 &lt;dbl&gt;, N133 &lt;dbl&gt;, N134 &lt;dbl&gt;, N135 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   N136 &lt;dbl&gt;, N137 &lt;dbl&gt;, N139 &lt;dbl&gt;, N143 &lt;dbl&gt;, N145 &lt;dbl&gt;, N146 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   N147 &lt;dbl&gt;, N149 &lt;dbl&gt;, N153 &lt;dbl&gt;, N155 &lt;dbl&gt;, N157 &lt;dbl&gt;, N161 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   N163 &lt;dbl&gt;, N164 &lt;dbl&gt;, N165 &lt;dbl&gt;, N168 &lt;dbl&gt;, N169 &lt;dbl&gt;, N170 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   N171 &lt;dbl&gt;, N173 &lt;dbl&gt;, N174 &lt;dbl&gt;, N175 &lt;dbl&gt;, N179 &lt;dbl&gt;, N180 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   N181 &lt;dbl&gt;, N183 &lt;dbl&gt;, N187 &lt;dbl&gt;, N191 &lt;dbl&gt;, N192 &lt;dbl&gt;, N193 &lt;dbl&gt;, …</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 36 more variables: N134 &lt;dbl&gt;, N135 &lt;dbl&gt;, N136 &lt;dbl&gt;, N137 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   N139 &lt;dbl&gt;, N143 &lt;dbl&gt;, N145 &lt;dbl&gt;, N146 &lt;dbl&gt;, N147 &lt;dbl&gt;, N149 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   N153 &lt;dbl&gt;, N155 &lt;dbl&gt;, N157 &lt;dbl&gt;, N161 &lt;dbl&gt;, N163 &lt;dbl&gt;, N164 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   N165 &lt;dbl&gt;, N168 &lt;dbl&gt;, N169 &lt;dbl&gt;, N170 &lt;dbl&gt;, N171 &lt;dbl&gt;, N173 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   N174 &lt;dbl&gt;, N175 &lt;dbl&gt;, N179 &lt;dbl&gt;, N180 &lt;dbl&gt;, N181 &lt;dbl&gt;, N183 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   N187 &lt;dbl&gt;, N191 &lt;dbl&gt;, N192 &lt;dbl&gt;, N193 &lt;dbl&gt;, N195 &lt;dbl&gt;, N196 &lt;dbl&gt;, …</span></span></span></code></pre>
 <p>Or to extract the raw sample information:</p>
 <div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/analysis-accessors.html">sinfo</a></span><span class="op">(</span><span class="va">analysis</span>,type <span class="op">=</span> <span class="st">'raw'</span><span class="op">)</span></span></code></pre></div>

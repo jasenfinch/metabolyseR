@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,11 @@
       <small>Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.15.2" id="metabolyser-0152">metabolyseR 0.15.2<a class="anchor" aria-label="anchor" href="#metabolyser-0152"></a></h2>
+<ul><li><p>Added the argument <code>refactor</code> to the method <a href="https://jasenfinch.github.io/metabolyseR/reference/transform.html"><code>transformTICnorm()</code></a> to enable the feature intensities of total ion count (TIC) normalised data to be refactored back to a range consistent with the original data by multiplying the normalised values by the median TIC.</p></li>
+<li><p>Removed the permutation cap when the <code>perm</code> argument of <a href="https://jasenfinch.github.io/metabolyseR/reference/randomForest.html"><code>randomForest()</code></a> is less than the total number of permutations possible.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.15.1" id="metabolyser-0151">metabolyseR 0.15.1<a class="anchor" aria-label="anchor" href="#metabolyser-0151"></a></h2>
 <ul><li><p>The class occupancy methods now throw a helpful error message if no features are available on which to compute class occupancy.</p></li>
