@@ -475,17 +475,28 @@ setMethod('plotExplanatoryHeatmap',
                       'should be of class RandomForest or Univariate'),
                 call. = FALSE)
             }
-          
+            
             x %>% 
-              map(~plotExplanatoryHeatmap(
-                .x,
-                threshold = threshold, 
-                title = response(.x),
-                distanceMeasure = distanceMeasure, 
-                clusterMethod = clusterMethod,
-                featureNames = featureNames,
-                featureLimit = featureLimit
-              ))
+              map(
+                ~{
+                  heat_map <- try(plotExplanatoryHeatmap(
+                    .x,
+                    threshold = threshold, 
+                    title = response(.x),
+                    distanceMeasure = distanceMeasure, 
+                    clusterMethod = clusterMethod,
+                    featureNames = featureNames,
+                    featureLimit = featureLimit
+                  ))
+                  
+                  if (!is(heat_map,'try-error')) {
+                    return(heat_map)
+                  } else {
+                    warning('Errors encounted in plotting heatmap, skipping.',call. = FALSE)
+                  }
+                  
+                }
+              )
           }
 )
 
