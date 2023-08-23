@@ -1,3 +1,7 @@
+# metabolyseR 0.15.3
+
+* Fixed the margin value displayed in plots from [`plotSupervisedRF()`](https://jasenfinch.github.io/metabolyseR/reference/plotSupervisedRF.html)
+
 # metabolyseR 0.15.2
 
 * Added the argument `refactor` to the method [`transformTICnorm()`](https://jasenfinch.github.io/metabolyseR/reference/transform.html) to enable the feature intensities of total ion count (TIC) normalised data to be refactored back to a range consistent with the original data by multiplying the normalised values by the median TIC.
