@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,11 @@
       <small>Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.15.3" id="metabolyser-0153">metabolyseR 0.15.3<a class="anchor" aria-label="anchor" href="#metabolyser-0153"></a></h2>
+<ul><li><p>Fixed the margin value displayed in plots from <a href="https://jasenfinch.github.io/metabolyseR/reference/plotSupervisedRF.html"><code>plotSupervisedRF()</code></a></p></li>
+<li><p>The <a href="https://jasenfinch.github.io/metabolyseR/reference/plotExplanatoryHeatmap.html"><code>plotExplanatoryHeatmap()</code></a> method for the <a href="https://jasenfinch.github.io/metabolyseR/reference/Analysis-class.html"><code>Analysis</code></a> S4 class now returns a warning and skips plotting if an error is encountered whilst trying to plot a heat map.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.15.2" id="metabolyser-0152">metabolyseR 0.15.2<a class="anchor" aria-label="anchor" href="#metabolyser-0152"></a></h2>
 <ul><li><p>Added the argument <code>refactor</code> to the method <a href="https://jasenfinch.github.io/metabolyseR/reference/transform.html"><code>transformTICnorm()</code></a> to enable the feature intensities of total ion count (TIC) normalised data to be refactored back to a range consistent with the original data by multiplying the normalised values by the median TIC.</p></li>
