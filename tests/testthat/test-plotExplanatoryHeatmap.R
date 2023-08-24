@@ -68,3 +68,32 @@ test_that('plotExplanatoryHeatmap throws error when unsupervised random forest s
     randomForest(cls = NULL)
   expect_error(plotExplanatoryHeatmap(d))
 })
+
+test_that('plotExplanatoryHeatmap throws error when unsupervised random forest supplied',{
+  p <- analysisParameters(c('pre-treatment','modelling'))
+  
+  parameters(p,'pre-treatment') <- preTreatmentParameters(
+    list(
+      keep = 'classes',
+      occupancyFilter = 'maximum',
+      transform = 'TICnorm' 
+    )
+  )
+  
+  changeParameter(p,'cls') <- 'day'
+  changeParameter(p,'classes') <- c('H')
+  
+  p@modelling[[1]]$cls <- NULL
+  p@modelling[[1]] <- c(
+    list(
+      cls = NULL),
+    p@modelling[[1]]
+  )
+  
+  analysis <- metabolyse(
+    metaboData::abr1$neg,
+    metaboData::abr1$fact,
+    p)
+  
+  expect_warning(plotExplanatoryHeatmap(analysis))
+})

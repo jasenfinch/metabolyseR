@@ -75,7 +75,10 @@ setMethod('plotSupervisedRF',
                             labelSize = labelSize) +
                 labs(
                   caption = str_c('Margin: ',
-                                  rf@metrics$.estimate[4] %>% 
+                                  rf %>% 
+                                    metrics() %>% 
+                                    filter(.metric == 'margin') %>% 
+                                    pull(.estimate) %>% 
                                     round(3)))
               
               if (isTRUE(ROC) & rf@type == 'classification') {
