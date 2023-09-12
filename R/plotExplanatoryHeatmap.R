@@ -31,30 +31,26 @@ heatmapClasses <- function(pl,
       d <- x %>%
         keepClasses(cls = pred,
                     classes = classes) %>%
-        keepFeatures(features = feat)
-      
-      d <- d %>%
-        sinfo() %>%
-        select(all_of(pred)) %>%
-        bind_cols(d %>%
-                    dat()) %>%
-        gather('Feature','Intensity',-1) %>%
-        group_by_at(c(pred,'Feature')) %>%
-        summarise(Intensity = mean(Intensity),
-                  .groups = 'drop')
-      
-      sums <- d %>%
-        group_by(Feature) %>%
-        summarise(Total = max(Intensity),.groups = 'drop')
-      
-      d <- d %>%
-        left_join(sums,by = c('Feature')) %>%
-        mutate(`Relative Intensity` = Intensity / Total)
+        keepFeatures(features = feat) %>% 
+        aggregateMean(cls = pred) %>% 
+        transformPercent() %>% 
+        {
+          d <- .
+          dat(d) %>% 
+            bind_cols(
+              sinfo(d) %>% 
+                select(all_of(pred))
+            )
+        } %>% 
+        gather(
+          Feature,
+          `Percent Intensity`,
+          -all_of(pred)
+        )
       
       suppressWarnings({
         dend <- d %>%
-          select(-Intensity,-Total) %>%
-          spread(1,`Relative Intensity`) %>%
+          spread(all_of(pred),`Percent Intensity`) %>%
           data.frame(check.names = FALSE) %>%
           set_rownames(.$Feature) %>%
           select(-Feature) %>%
@@ -76,13 +72,13 @@ heatmapClasses <- function(pl,
         ggplot(
           aes(x = .data[[pred]],
               y = Feature,
-              fill = `Relative Intensity`)) +
+              fill = `Percent Intensity`)) +
         geom_tile(colour = 'black') +
-        scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
+        scale_fill_gradient(low = low, high = high,limits=c(0,100)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
         theme_minimal(base_size = 8) +
         labs(title = title,
-             fill = 'Relative\nIntensity')
+             fill = 'Percent\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
           theme(plot.title = element_text(face = 'bold',
