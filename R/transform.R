@@ -214,7 +214,7 @@ setGeneric("transformPercent", function(d)
   standardGeneric("transformPercent"))
 
 #' @rdname transform
-
+#' @importFrom purrr map_dfc
 setMethod('transformPercent',signature = 'AnalysisData',
           function(d){
             dat(d) <- dat(d) %>% 
