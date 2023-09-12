@@ -310,7 +310,7 @@ corrected_data <- d %>%
 
 The plot of the TICs below shows that the inter-class variability has been removed but the intra-class variability has been retained.
 
-```{r corrected-TIC plot}
+```{r corrected-TIC-plot}
 plotTIC(corrected_data,
         by = 'day',
         colour = 'day')
