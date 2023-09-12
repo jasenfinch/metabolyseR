@@ -86,14 +86,14 @@ setMethod('anova',signature = 'AnalysisData',
                     pc <- str_split(.x,'~')[[1]]
                     
                     pad <- removeClasses(x,pred,classes = sinfo(x) %>%
-                                           select(pred) %>%
+                                           select(all_of(pred)) %>%
                                            unlist() %>%
                                            unique() %>%
                                            .[!(. %in% pc)])
                     
                     response <- pad %>%
                       sinfo() %>%
-                      select(pred) %>%
+                      select(all_of(pred)) %>%
                       unlist() %>%
                       factor()
                     
@@ -197,14 +197,14 @@ setMethod('ttest',signature = 'AnalysisData',
                     pc <- str_split(.x,'~')[[1]]
                     
                     pad <- removeClasses(x,pred,classes = sinfo(x) %>%
-                                           select(pred) %>%
+                                           select(all_of(pred)) %>%
                                            unlist() %>%
                                            unique() %>%
                                            .[!(. %in% pc)])
                     
                     response <- pad %>%
                       sinfo() %>%
-                      select(pred) %>%
+                      select(all_of(pred)) %>%
                       unlist() %>%
                       factor()
                     
@@ -282,7 +282,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
                    returnModels = FALSE){
             indep <- x %>%
               sinfo() %>%
-              select(cls)
+              select(all_of(cls))
             
             if (FALSE %in% 
                 (map_chr(indep,class) %in% c('integer','numeric'))) {
@@ -299,7 +299,7 @@ setMethod('linearRegression',signature = 'AnalysisData',
                 i <- .
                 
                 pred <- indep %>%
-                  select(i) %>%
+                  select(all_of(i)) %>%
                   unlist()
                 
                 d %>%

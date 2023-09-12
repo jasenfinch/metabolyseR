@@ -457,7 +457,7 @@ setMethod('plotMDS',
                 mds_dimensions <- mds_dimensions %>%
                   bind_cols(x %>%
                               sinfo() %>%
-                              select(label))
+                              select(all_of(label)))
               }
             }
             

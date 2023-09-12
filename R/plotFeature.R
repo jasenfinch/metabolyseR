@@ -58,7 +58,7 @@ setMethod('plotFeature',
             i <- sinfo(analysis)
             
             i <- i %>%
-              select(!!cls,Label = label)
+              select(!!cls,Label = !!label)
             
             if (!is.null(label)) {
               d <- d %>%
