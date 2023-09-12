@@ -19,6 +19,7 @@
 #' * `transformLn`: Natural logarithmic transformation.
 #' * `transformLog10`: Logarithmic transformation.
 #' * `transformPareto`: Pareto scaling.
+#' * `transformPercent`: Scale as a percentage of the feature maximum intensity.
 #' * `transformRange`: Range scaling. Also known as min-max scaling.
 #' * `transformSQRT`: Square root transformation.
 #' * `transformTICnorm`: Total ion count normalisation.
@@ -71,6 +72,11 @@
 #' ## Pareto scaling
 #' d %>% 
 #'  transformPareto() %>% 
+#'  plotLDA(cls = 'day')
+#'
+#' ## Percentage scaling
+#' d %>% 
+#'  transformPercent() %>% 
 #'  plotLDA(cls = 'day')
 #' 
 #' ## Range scaling
@@ -200,6 +206,22 @@ setMethod('transformPareto',signature = 'AnalysisData',
             return(d)
           }
 )
+
+#' @rdname transform
+#' @export
+
+setGeneric("transformPercent", function(d)
+  standardGeneric("transformPercent"))
+
+#' @rdname transform
+
+setMethod('transformPercent',signature = 'AnalysisData',
+          function(d){
+            dat(d) <- dat(d) %>% 
+              map_dfc(~.x / max(.x) * 100)
+            
+            return(d)
+          })
 
 #' @rdname transform
 #' @export
