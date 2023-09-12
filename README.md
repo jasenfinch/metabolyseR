@@ -187,20 +187,20 @@ explan_feat <- explanatoryFeatures(anova_results,threshold = 0.05)
 ``` r
 explan_feat
 #> # A tibble: 379 × 10
-#>    respo…¹ compa…² feature term     df   sumsq  meansq stati…³  p.value adjust…⁴
-#>    <chr>   <chr>   <chr>   <chr> <dbl>   <dbl>   <dbl>   <dbl>    <dbl>    <dbl>
-#>  1 day     1~2~3~… N341    resp…     5 3.88e-4 7.76e-5   137.  1.55e-46 2.73e-43
-#>  2 day     1~2~3~… N133    resp…     5 7.00e-5 1.40e-5   126.  8.63e-45 1.52e-41
-#>  3 day     1~2~3~… N163    resp…     5 6.01e-5 1.20e-5   117.  2.95e-43 5.19e-40
-#>  4 day     1~2~3~… N1087   resp…     5 2.42e-6 4.84e-7    99.8 5.61e-40 9.88e-37
-#>  5 day     1~2~3~… N171    resp…     5 2.25e-7 4.50e-8    95.7 3.84e-39 6.75e-36
-#>  6 day     1~2~3~… N513    resp…     5 3.38e-6 6.76e-7    95.3 4.78e-39 8.41e-36
-#>  7 day     1~2~3~… N1025   resp…     5 2.78e-6 5.56e-7    91.0 3.91e-38 6.87e-35
-#>  8 day     1~2~3~… N342    resp…     5 3.71e-6 7.41e-7    90.3 5.32e-38 9.36e-35
-#>  9 day     1~2~3~… N1083   resp…     5 5.11e-5 1.02e-5    89.0 1.06e-37 1.87e-34
-#> 10 day     1~2~3~… N1085   resp…     5 1.10e-5 2.19e-6    83.4 1.92e-36 3.37e-33
-#> # … with 369 more rows, and abbreviated variable names ¹​response, ²​comparison,
-#> #   ³​statistic, ⁴​adjusted.p.value
+#>    response comparison  feature term        df   sumsq meansq statistic  p.value
+#>    <chr>    <chr>       <chr>   <chr>    <dbl>   <dbl>  <dbl>     <dbl>    <dbl>
+#>  1 day      1~2~3~4~5~H N341    response     5  9.17e7 1.83e7     137.  1.55e-46
+#>  2 day      1~2~3~4~5~H N133    response     5  1.65e7 3.31e6     126.  8.63e-45
+#>  3 day      1~2~3~4~5~H N163    response     5  1.42e7 2.84e6     117.  2.95e-43
+#>  4 day      1~2~3~4~5~H N1087   response     5  5.72e5 1.14e5      99.8 5.61e-40
+#>  5 day      1~2~3~4~5~H N171    response     5  5.31e4 1.06e4      95.7 3.84e-39
+#>  6 day      1~2~3~4~5~H N513    response     5  7.99e5 1.60e5      95.3 4.78e-39
+#>  7 day      1~2~3~4~5~H N1025   response     5  6.57e5 1.31e5      91.0 3.91e-38
+#>  8 day      1~2~3~4~5~H N342    response     5  8.76e5 1.75e5      90.3 5.32e-38
+#>  9 day      1~2~3~4~5~H N1083   response     5  1.21e7 2.42e6      89.0 1.06e-37
+#> 10 day      1~2~3~4~5~H N1085   response     5  2.59e6 5.18e5      83.4 1.92e-36
+#> # ℹ 369 more rows
+#> # ℹ 1 more variable: adjusted.p.value <dbl>
 ```
 
 The ANOVA has identified 379 features significantly explanatory over the
