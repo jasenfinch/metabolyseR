@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 ggplot theme scale_y_discrete 
+#' @importFrom ggplot2 ggplot theme scale_y_discrete scale_x_discrete
 #' @importFrom ggplot2 geom_segment scale_x_reverse scale_y_continuous unit
 
 heatmapClasses <- function(pl, 
@@ -76,6 +76,7 @@ heatmapClasses <- function(pl,
         geom_tile(colour = 'black') +
         scale_fill_gradient(low = low, high = high,limits=c(0,100)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
+        scale_x_discrete(expand = c(0,0)) +
         theme_minimal(base_size = 8) +
         labs(title = title,
              fill = 'Percent\nIntensity')
@@ -109,7 +110,7 @@ heatmapClasses <- function(pl,
           geom_segment(
             data = dend$segments,
             aes(x = y, y = x, xend = yend, yend = xend)) +
-          scale_x_reverse() +
+          scale_x_reverse(expand = c(0,0)) +
           scale_y_continuous(breaks = seq_along(dend$labels$label), 
                              labels = dend$labels$label,position = 'right',
                              expand = c(offset,offset)) +
