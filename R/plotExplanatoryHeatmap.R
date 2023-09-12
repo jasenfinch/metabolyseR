@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 ggplot aes_string theme scale_y_discrete 
+#' @importFrom ggplot2 ggplot theme scale_y_discrete scale_x_discrete
 #' @importFrom ggplot2 geom_segment scale_x_reverse scale_y_continuous unit
 
 heatmapClasses <- function(pl, 
@@ -31,30 +31,26 @@ heatmapClasses <- function(pl,
       d <- x %>%
         keepClasses(cls = pred,
                     classes = classes) %>%
-        keepFeatures(features = feat)
-      
-      d <- d %>%
-        sinfo() %>%
-        select(all_of(pred)) %>%
-        bind_cols(d %>%
-                    dat()) %>%
-        gather('Feature','Intensity',-1) %>%
-        group_by_at(c(pred,'Feature')) %>%
-        summarise(Intensity = mean(Intensity),
-                  .groups = 'drop')
-      
-      sums <- d %>%
-        group_by(Feature) %>%
-        summarise(Total = max(Intensity),.groups = 'drop')
-      
-      d <- d %>%
-        left_join(sums,by = c('Feature')) %>%
-        mutate(`Relative Intensity` = Intensity / Total)
+        keepFeatures(features = feat) %>% 
+        aggregateMean(cls = pred) %>% 
+        transformPercent() %>% 
+        {
+          d <- .
+          dat(d) %>% 
+            bind_cols(
+              sinfo(d) %>% 
+                select(all_of(pred))
+            )
+        } %>% 
+        gather(
+          Feature,
+          `Percent Intensity`,
+          -all_of(pred)
+        )
       
       suppressWarnings({
         dend <- d %>%
-          select(-Intensity,-Total) %>%
-          spread(1,`Relative Intensity`) %>%
+          spread(all_of(pred),`Percent Intensity`) %>%
           data.frame(check.names = FALSE) %>%
           set_rownames(.$Feature) %>%
           select(-Feature) %>%
@@ -73,15 +69,17 @@ heatmapClasses <- function(pl,
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes_string(x = pred,
-                          y = 'Feature',
-                          fill = '`Relative Intensity`')) +
+        ggplot(
+          aes(x = .data[[pred]],
+              y = Feature,
+              fill = `Percent Intensity`)) +
         geom_tile(colour = 'black') +
-        scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
+        scale_fill_gradient(low = low, high = high,limits=c(0,100)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
+        scale_x_discrete(expand = c(0,0)) +
         theme_minimal(base_size = 8) +
         labs(title = title,
-             fill = 'Relative\nIntensity')
+             fill = 'Percent\nIntensity')
       if (isTRUE(featureNames)) {
         plo <- plo +
           theme(plot.title = element_text(face = 'bold',
@@ -112,7 +110,7 @@ heatmapClasses <- function(pl,
           geom_segment(
             data = dend$segments,
             aes(x = y, y = x, xend = yend, yend = xend)) +
-          scale_x_reverse() +
+          scale_x_reverse(expand = c(0,0)) +
           scale_y_continuous(breaks = seq_along(dend$labels$label), 
                              labels = dend$labels$label,position = 'right',
                              expand = c(offset,offset)) +
@@ -190,7 +188,11 @@ heatmapRegression <- function(pl,
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes_string(x = 'Response',y = 'Feature',fill = 'r')) +
+        ggplot(
+          aes(
+            x = Response,
+            y = Feature,
+            fill = r)) +
         geom_tile(colour = 'black') +
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +

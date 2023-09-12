@@ -42,7 +42,9 @@ setMethod('mds',signature = 'RandomForest',
             mds_dimensions <- dissimilarities %>% 
               group_by_at(group_vars) %>% 
               group_map(~ .x %>% 
-                          select_if(is.numeric) %>% 
+                          select_if(
+                            ~is.numeric(.x) & !any(is.na(.x)) 
+                          ) %>% 
                           cmdscale(k = dimensions) %>% 
                           set_colnames(str_c('dimension ',
                                              seq_len(dimensions))) %>% 

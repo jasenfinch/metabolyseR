@@ -28,7 +28,7 @@ classificationMetrics <- function(model){
   }
   
   roc <- predictions %>% 
-    roc_auc(obs,estimate)
+    roc_auc(obs,all_of(estimate))
   
   bind_rows(
     acc_kap,

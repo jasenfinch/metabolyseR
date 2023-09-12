@@ -164,7 +164,10 @@ setMethod('occupancy',signature = 'AnalysisData',
               full_join(clsSize %>%
                           select(Class,Frequency) %>%
                           rename(!!cls := Class) %>%
-                          mutate(dummy = 1),by = 'dummy') %>%
+                          mutate(dummy = 1),
+                        by = 'dummy',
+                        relationship = "many-to-many"
+                        ) %>%
               select(!!cls,Feature,N,`Class total` = Frequency,Occupancy) %>% 
               drop_na(Feature)
             occ <- occ %>%

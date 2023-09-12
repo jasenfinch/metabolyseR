@@ -15,6 +15,8 @@
 \alias{transformLog10,AnalysisData-method}
 \alias{transformPareto}
 \alias{transformPareto,AnalysisData-method}
+\alias{transformPercent}
+\alias{transformPercent,AnalysisData-method}
 \alias{transformRange}
 \alias{transformRange,AnalysisData-method}
 \alias{transformSQRT}
@@ -52,6 +54,10 @@ transformLog10(d, add = 1)
 transformPareto(d)
 
 \S4method{transformPareto}{AnalysisData}(d)
+
+transformPercent(d)
+
+\S4method{transformPercent}{AnalysisData}(d)
 
 transformRange(d)
 
@@ -99,6 +105,7 @@ There are a wide range of transformation methods available that are commonly use
 \item \code{transformLn}: Natural logarithmic transformation.
 \item \code{transformLog10}: Logarithmic transformation.
 \item \code{transformPareto}: Pareto scaling.
+\item \code{transformPercent}: Scale as a percentage of the feature maximum intensity.
 \item \code{transformRange}: Range scaling. Also known as min-max scaling.
 \item \code{transformSQRT}: Square root transformation.
 \item \code{transformTICnorm}: Total ion count normalisation.
@@ -154,6 +161,11 @@ d \%>\%
 ## Pareto scaling
 d \%>\% 
  transformPareto() \%>\% 
+ plotLDA(cls = 'day')
+
+## Percentage scaling
+d \%>\% 
+ transformPercent() \%>\% 
  plotLDA(cls = 'day')
 
 ## Range scaling
