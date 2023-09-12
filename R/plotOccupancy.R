@@ -32,9 +32,10 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
             occ <- occupancy(x,cls = cls)
             
             d <- ggplot(occ,
-                        aes_string(x = 'Occupancy',
-                                   group = cls,
-                                   colour = cls)) +
+                        aes(
+                          x = Occupancy,
+                          group = .data[[cls]],
+                          colour = .data[[cls]])) +
               geom_density() +
               theme_bw() +
               labs(title = 'Density distrubution',
@@ -52,11 +53,12 @@ setMethod('plotOccupancy',signature = 'AnalysisData',
               group_by_at(c(cls,'Occupancy')) %>%
               summarise(sum = n()) %>%
               mutate(cs = cumsum(sum))
-          
+            
             csDist <- ggplot(cs,
-                             aes_string(x = 'Occupancy',
-                                        y = 'cs',
-                                        colour = cls)) + 
+                             aes(
+                               x = Occupancy,
+                               y = cs,
+                               colour = .data[[cls]])) + 
               geom_line() + 
               theme_bw() +
               labs(title = 'Cumulative distribution',

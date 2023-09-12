@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 ggplot aes_string theme scale_y_discrete 
+#' @importFrom ggplot2 ggplot theme scale_y_discrete 
 #' @importFrom ggplot2 geom_segment scale_x_reverse scale_y_continuous unit
 
 heatmapClasses <- function(pl, 
@@ -73,9 +73,10 @@ heatmapClasses <- function(pl,
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes_string(x = pred,
-                          y = 'Feature',
-                          fill = '`Relative Intensity`')) +
+        ggplot(
+          aes(x = .data[[pred]],
+              y = Feature,
+              fill = `Relative Intensity`)) +
         geom_tile(colour = 'black') +
         scale_fill_gradient(low = low, high = high,limits=c(0,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
@@ -190,7 +191,11 @@ heatmapRegression <- function(pl,
       high <- "#F21A00"
       
       plo <- d %>%
-        ggplot(aes_string(x = 'Response',y = 'Feature',fill = 'r')) +
+        ggplot(
+          aes(
+            x = Response,
+            y = Feature,
+            fill = r)) +
         geom_tile(colour = 'black') +
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +

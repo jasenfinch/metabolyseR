@@ -38,7 +38,12 @@ setMethod('plotRSD',signature = 'AnalysisData',
             
             x <- rsd(analysis,cls = cls)
             
-            d <- ggplot(x,aes_string(x = 'RSD',colour = cls,group = cls)) +
+            d <- ggplot(
+              x,
+              aes(
+                x = RSD,
+                colour = .data[[cls]],
+                group = .data[[cls]])) +
               geom_density() +
               theme_bw() +
               labs(title = 'Density distrubution',
@@ -58,7 +63,12 @@ setMethod('plotRSD',signature = 'AnalysisData',
               summarise(sum = n()) %>%
               mutate(cs = cumsum(sum))
             
-            csDist <- ggplot(cs,aes_string(x = 'RSD',y = 'cs',colour = cls)) + 
+            csDist <- ggplot(
+              cs,
+              aes(
+                x = RSD,
+                y = cs,
+                colour = .data[[cls]])) + 
               geom_line() + 
               theme_bw() +
               labs(title = 'Cumulative distribution',
