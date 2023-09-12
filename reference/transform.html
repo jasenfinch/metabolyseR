@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,6 +96,11 @@
 <span><span class="co"># S4 method for AnalysisData</span></span>
 <span><span class="fu">transformPareto</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">transformPercent</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for AnalysisData</span></span>
+<span><span class="fu">transformPercent</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">transformRange</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for AnalysisData</span></span>
@@ -156,6 +161,7 @@ There are a wide range of transformation methods available that are commonly use
 <li><p><code>transformLn</code>: Natural logarithmic transformation.</p></li>
 <li><p><code>transformLog10</code>: Logarithmic transformation.</p></li>
 <li><p><code>transformPareto</code>: Pareto scaling.</p></li>
+<li><p><code>transformPercent</code>: Scale as a percentage of the feature maximum intensity.</p></li>
 <li><p><code>transformRange</code>: Range scaling. Also known as min-max scaling.</p></li>
 <li><p><code>transformSQRT</code>: Square root transformation.</p></li>
 <li><p><code>transformTICnorm</code>: Total ion count normalisation.</p></li>
@@ -221,29 +227,35 @@ There are a wide range of transformation methods available that are commonly use
 <span class="r-in"><span> <span class="fu"><a href="plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="transform-8.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Percentage scaling</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
+<span class="r-in"><span> <span class="fu">transformPercent</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
+<span class="r-in"><span> <span class="fu"><a href="plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="transform-9.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Range scaling</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu">transformRange</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu"><a href="plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="transform-9.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="transform-10.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Square root scaling</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu">transformSQRT</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu"><a href="plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="transform-10.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="transform-11.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Total ion count nromalisation</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu">transformTICnorm</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu"><a href="plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="transform-11.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="transform-12.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Vast scaling</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu">transformVast</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span></span>
 <span class="r-in"><span> <span class="fu"><a href="plotLDA.html">plotLDA</a></span><span class="op">(</span>cls <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="transform-12.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="transform-13.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

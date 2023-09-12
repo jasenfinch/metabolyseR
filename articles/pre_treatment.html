@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">metabolyseR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,11 +76,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Metabolomics data pre-treatment</h1>
-            <h3 data-toc-skip class="subtitle">metabolyseR v0.15.3</h3>
+            <h3 data-toc-skip class="subtitle">metabolyseR v0.15.4</h3>
                         <h4 data-toc-skip class="author">Jasen
 Finch</h4>
             
-            <h4 data-toc-skip class="date">24 August, 2023</h4>
+            <h4 data-toc-skip class="date">12 September, 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jasenfinch/metabolyseR/blob/HEAD/vignettes/pre_treatment.Rmd" class="external-link"><code>vignettes/pre_treatment.Rmd</code></a></small>
       <div class="d-none name"><code>pre_treatment.Rmd</code></div>
@@ -458,7 +458,7 @@ been removed but the intra-class variability has been retained.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotTIC.html">plotTIC</a></span><span class="op">(</span><span class="va">corrected_data</span>,</span>
 <span>        by <span class="op">=</span> <span class="st">'day'</span>,</span>
 <span>        colour <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="pre_treatment_files/figure-html/corrected-TIC%20plot-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="pre_treatment_files/figure-html/corrected-TIC-plot-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="imputation-of-missing-data">Imputation of missing data<a class="anchor" aria-label="anchor" href="#imputation-of-missing-data"></a>
@@ -675,7 +675,7 @@ will be used for this analysis.</p>
 <p>The pre-treatment routine can then be executed.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> <span class="fu">metabolyse</span>(abr1<span class="sc">$</span>neg,abr1<span class="sc">$</span>fact,p)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34m</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  [39m  [31mv0.15.3 [39m Thu Aug 24 09:56:38 2023</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metabolyseR  [39m  [31mv0.15.4 [39m Tue Sep 12 15:11:00 2023</span></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [33m [33mParameters: [33m [39m</span></span>
 <span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pre-treatment</span></span>
@@ -693,25 +693,25 @@ will be used for this analysis.</p>
 <span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [34mPre-treatment  [39m…</span></span>
 <span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a> [34mPre<span class="sc">-</span>treatment  [39m     [32m✔ [39m [<span class="fl">0.5</span>S]</span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a> [34mPre<span class="sc">-</span>treatment  [39m     [32m✔ [39m [<span class="fl">0.8</span>S]</span>
 <span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ________________________________________________________________________________</span></span>
 <span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32mComplete!  [39m[0.6S]</span></span></code></pre></div>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32mComplete!  [39m[0.8S]</span></span></code></pre></div>
 <p>Printing the <code>analysis</code> object shows the resulting data
 from the pre-treatment routine.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">metabolyseR </span><span style="color: #BB0000; font-weight: bold;">v0.15.4</span></span></span>
 <span><span class="co"><span style="color: #BBBB00;">#&gt; Analysis:</span></span></span>
-<span><span class="co"><span style="color: #BBBB00;">#&gt; </span>    Thu Aug 24 09:56:38 2023</span></span>
+<span><span class="co"><span style="color: #BBBB00;">#&gt; </span>    Tue Sep 12 15:11:00 2023</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  Raw Data:</span></span>
 <span><span class="co">#&gt;      No. samples = 120</span></span>
 <span><span class="co">#&gt;      No. features = 2000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  Pre-treated Data:</span></span>
-<span><span class="co">#&gt;      Thu Aug 24 09:56:39 2023</span></span>
+<span><span class="co">#&gt;      Tue Sep 12 15:11:01 2023</span></span>
 <span><span class="co">#&gt;      No. samples = 60</span></span>
 <span><span class="co">#&gt;      No. features = 1723</span></span></code></pre></div>
 <p>The pre-treated data can be extracted from the <code>Analysis</code>
