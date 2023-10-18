@@ -9,7 +9,8 @@ heatmapClasses <- function(pl,
                            clusterMethod, 
                            featureNames,
                            dendrogram,
-                           featureLimit){
+                           featureLimit,
+                           tileBorders){
   pl %>%
     map(~{
       r <- .x
@@ -79,27 +80,21 @@ heatmapClasses <- function(pl,
         scale_x_discrete(expand = c(0,0)) +
         theme_minimal(base_size = 8) +
         labs(title = title,
-             fill = 'Percent\nIntensity')
-      if (isTRUE(featureNames)) {
+             fill = 'Percent\nIntensity') +
+        theme(
+          plot.title = element_text(face = 'bold',
+                                    hjust = 0.5),
+          axis.title = element_text(face = 'bold'),
+          legend.title = element_text(face = 'bold'),
+          axis.text.x = element_text(angle = 30,hjust = 1),
+          panel.grid = element_blank(),
+          plot.margin = unit(c(0,0,0,0), "pt")
+        )
+      
+      if (isFALSE(featureNames)) {
         plo <- plo +
-          theme(plot.title = element_text(face = 'bold',
-                                          hjust = 0.5),
-                axis.title = element_text(face = 'bold'),
-                legend.title = element_text(face = 'bold'),
-                axis.text.x = element_text(angle = 30,hjust = 1),
-                panel.grid = element_blank(),
-                plot.margin = unit(c(0,0,0,0), "pt")
-          ) 
-      } else {
-        plo <- plo +
-          theme(plot.title = element_text(face = 'bold',
-                                          hjust = 0.5),
-                axis.title = element_text(face = 'bold'),
-                legend.title = element_text(face = 'bold'),
-                axis.text.x = element_text(angle = 30,hjust = 1),
-                axis.text.y = element_blank(),
-                panel.grid = element_blank(),
-                plot.margin = unit(c(0,0,0,0), "pt")
+          theme(
+            axis.text.y = element_blank()
           ) 
       }
       
@@ -139,7 +134,8 @@ heatmapRegression <- function(pl,
                               clusterMethod, 
                               featureNames, 
                               dendrogram,
-                              featureLimit){
+                              featureLimit,
+                              tileBorders){
   pl %>%
     map(~{
       
@@ -196,30 +192,25 @@ heatmapRegression <- function(pl,
         geom_tile(colour = 'black') +
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
+        scale_x_discrete(expand = c(0,0)) +
         theme_minimal(base_size = 8) +
         labs(title = title,
-             fill = 'Relative\nIntensity')
-      if (isTRUE(featureNames)) {
+             fill = 'Correlation\ncoefficient') +
+        theme(
+          plot.title = element_text(face = 'bold',
+                                    hjust = 0.5),
+          axis.title = element_text(face = 'bold'),
+          legend.title = element_text(face = 'bold'),
+          axis.text.x = element_text(angle = 30,hjust = 1),
+          panel.grid = element_blank(),
+          plot.margin = unit(c(0,0,0,0), "pt")
+        )
+      
+      if (isFALSE(featureNames)) {
         plo <- plo +
-          theme(plot.title = element_text(face = 'bold',
-                                          hjust = 0.5),
-                axis.title = element_text(face = 'bold'),
-                legend.title = element_text(face = 'bold'),
-                axis.text.x = element_text(angle = 30,hjust = 1),
-                panel.grid = element_blank(),
-                plot.margin = unit(c(0,0,0,0), "pt")
-          ) 
-      } else {
-        plo <- plo +
-          theme(plot.title = element_text(face = 'bold',
-                                          hjust = 0.5),
-                axis.title = element_text(face = 'bold'),
-                legend.title = element_text(face = 'bold'),
-                axis.text.x = element_text(angle = 30,hjust = 1),
-                axis.text.y = element_blank(),
-                panel.grid = element_blank(),
-                plot.margin = unit(c(0,0,0,0), "pt")
-          ) 
+          theme(
+            axis.text.y = element_blank()
+          )
       }
       
       if (isTRUE(dendrogram)) {
@@ -229,10 +220,13 @@ heatmapRegression <- function(pl,
           geom_segment(
             data = dend$segments,
             aes(x = y, y = x, xend = yend, yend = xend)) +
-          scale_x_reverse() +
-          scale_y_continuous(breaks = seq_along(dend$labels$label), 
-                             labels = dend$labels$label,position = 'right',
-                             expand = c(offset,offset)) +
+          scale_x_reverse(
+            expand = c(0,0)
+          ) +
+          scale_y_continuous(
+            breaks = seq_along(dend$labels$label), 
+            labels = dend$labels$label,position = 'right',
+            expand = c(offset,offset)) +
           theme_minimal(base_size = 14) +
           theme(axis.text.x = element_blank(),
                 panel.grid = element_blank(),
@@ -305,6 +299,7 @@ setMethod('plotExplanatoryHeatmap',
                    featureNames = TRUE, 
                    dendrogram = TRUE,
                    featureLimit = Inf,
+                   tileBorders = TRUE,
                    ...){
             
             res <- x %>%
@@ -329,7 +324,8 @@ setMethod('plotExplanatoryHeatmap',
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
                 dendrogram = dendrogram,
-                featureLimit = featureLimit)
+                featureLimit = featureLimit,
+                tileBorders = tileBorders)
             }
             
             if (x@type == 'linear regression') {
@@ -342,7 +338,8 @@ setMethod('plotExplanatoryHeatmap',
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
                 dendrogram = dendrogram,
-                featureLimit = featureLimit)
+                featureLimit = featureLimit,
+                tileBorders = tileBorders)
             }
             
             feat <- res$feature %>% 
@@ -380,6 +377,7 @@ setMethod('plotExplanatoryHeatmap',
                    featureNames = TRUE, 
                    dendrogram = TRUE,
                    featureLimit = Inf,
+                   tileBorders = TRUE,
                    ...){
             
             if (x@type == 'unsupervised') {
@@ -409,7 +407,8 @@ setMethod('plotExplanatoryHeatmap',
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
                 dendrogram = dendrogram,
-                featureLimit = featureLimit)
+                featureLimit = featureLimit,
+                tileBorders = tileBorders)
             }
             
             if (x@type == 'regression') {
@@ -422,7 +421,8 @@ setMethod('plotExplanatoryHeatmap',
                 clusterMethod = clusterMethod, 
                 featureNames = featureNames,
                 dendrogram = dendrogram,
-                featureLimit = featureLimit)
+                featureLimit = featureLimit,
+                tileBorders = tileBorders)
             }
             
             feat <- explan$feature %>% 
@@ -463,7 +463,8 @@ setMethod('plotExplanatoryHeatmap',
                    distanceMeasure = "euclidean",
                    clusterMethod = 'ward.D2',
                    featureNames = TRUE,
-                   featureLimit = Inf){
+                   featureLimit = Inf,
+                   tileBorders = TRUE){
             
             suppressWarnings(x <- squash(x))
             
@@ -488,7 +489,8 @@ setMethod('plotExplanatoryHeatmap',
                     distanceMeasure = distanceMeasure, 
                     clusterMethod = clusterMethod,
                     featureNames = featureNames,
-                    featureLimit = featureLimit
+                    featureLimit = featureLimit,
+                    tileBorders = tileBorders
                   ))
                   
                   if (!is(heat_map,'try-error')) {
@@ -511,14 +513,16 @@ setMethod('plotExplanatoryHeatmap',
                    distanceMeasure = "euclidean", 
                    clusterMethod = 'ward.D2', 
                    featureNames = TRUE,
-                   featureLimit = Inf){
+                   featureLimit = Inf,
+                   tileBorders = TRUE){
             pl <- x %>%
               analysisResults(element = 'modelling') %>%
               plotExplanatoryHeatmap(threshold = threshold, 
                                      distanceMeasure = distanceMeasure, 
                                      clusterMethod = clusterMethod, 
                                      featureNames = featureNames,
-                                     featureLimit = featureLimit)
+                                     featureLimit = featureLimit,
+                                     tileBorders = tileBorders)
             
             if (length(pl) == 1){
               pl <- pl[[1]]
