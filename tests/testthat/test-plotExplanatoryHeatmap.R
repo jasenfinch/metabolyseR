@@ -11,27 +11,36 @@ test_that('plotExplanatoryHeatmap returns a plot for random forest classificatio
   
   parameters(p,'modelling') <- c(modellingParameters('randomForest'),
                                  modellingParameters('ttest')) 
-
+  
   changeParameter(p,'cls') <- 'day'
   
-  d <- metabolyse(metaboData::abr1$neg[,200:300],
-                  metaboData::abr1$fact,
-                  p,
-                  verbose = TRUE)
+  d <- metabolyse(
+    metaboData::abr1$neg[,200:300],
+    metaboData::abr1$fact,
+    p,
+    verbose = TRUE)
   
   pl_feat <- plotExplanatoryHeatmap(d,threshold = 0.5)
   pl_no_feat <- plotExplanatoryHeatmap(d,threshold = 0.5,featureNames = FALSE)
   pl_limit_features <- plotExplanatoryHeatmap(d,featureLimit = 10)
   pl_no_explan_feat <- plotExplanatoryHeatmap(d,threshold = -Inf)
+  pl_no_border <- plotExplanatoryHeatmap(
+    d,
+    tileBorders = FALSE
+  )
   
   expect_type(pl_feat,'list')
   expect_type(pl_no_feat,'list')
   expect_type(pl_limit_features,'list')
   expect_null(pl_no_explan_feat[[1]])
+  expect_type(pl_no_border,'list')
 })
 
 test_that('plotExplanatoryHeatmap returns a plot for random forest regression',{
-  d <- analysisData(abr1$neg,abr1$fact) %>%
+  d <- analysisData(
+    metaboData::abr1$neg,
+    metaboData::abr1$fact
+  ) %>%
     keepFeatures(features = features(.)[200:250])
   x <- randomForest(d,cls = 'injorder',perm = 3)
   
@@ -42,10 +51,16 @@ test_that('plotExplanatoryHeatmap returns a plot for random forest regression',{
   pl_limit_features <- plotExplanatoryHeatmap(x,
                                               metric = 'IncNodePurity',
                                               featureLimit = 10)
+  pl_no_border <- plotExplanatoryHeatmap(
+    x,
+    metric = 'IncNodePurity',
+    tileBorders = FALSE
+    )
   
   expect_s3_class(pl_feat,"patchwork")
   expect_s3_class(pl_no_feat,"patchwork")
   expect_s3_class(pl_limit_features,'patchwork')
+  expect_s3_class(pl_no_border,'patchwork')
 })
 
 test_that('plotExplanatoryHeatmap works for linear regression',{

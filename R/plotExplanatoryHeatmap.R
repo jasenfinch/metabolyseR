@@ -73,8 +73,17 @@ heatmapClasses <- function(pl,
         ggplot(
           aes(x = .data[[pred]],
               y = Feature,
-              fill = `Percent Intensity`)) +
-        geom_tile(colour = 'black') +
+              fill = `Percent Intensity`))
+      
+      if (isTRUE(tileBorders)){
+        plo <- plo +
+          geom_tile(colour = 'black') 
+      } else {
+        plo <- plo +
+          geom_tile()
+      }
+      
+      plo <- plo + 
         scale_fill_gradient(low = low, high = high,limits=c(0,100)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
         scale_x_discrete(expand = c(0,0)) +
@@ -188,8 +197,17 @@ heatmapRegression <- function(pl,
           aes(
             x = Response,
             y = Feature,
-            fill = r)) +
-        geom_tile(colour = 'black') +
+            fill = r)) 
+      
+      if (isTRUE(tileBorders)){
+        plo <- plo + 
+          geom_tile(colour = 'black') 
+      } else {
+        plo <- plo + 
+          geom_tile() 
+      }
+      
+      plo <- plo +
         scale_fill_gradient2(low = low, mid = mid,high = high,limits=c(-1,1)) +
         scale_y_discrete(expand = c(0,0),position = 'right') +
         scale_x_discrete(expand = c(0,0)) +
@@ -255,6 +273,7 @@ heatmapRegression <- function(pl,
 #' @param featureNames should feature names be plotted?
 #' @param dendrogram TRUE/FALSE. Should the dendrogram be plotted?
 #' @param featureLimit The maximum number of features to plot
+#' @param tileBorders Include a black border around each heat map tile
 #' @param ... arguments to pass to method `explanatoryFeatures()`
 #' @details 
 #' Distance measures can be one of any that can be used for the `method` argument of [dist()].

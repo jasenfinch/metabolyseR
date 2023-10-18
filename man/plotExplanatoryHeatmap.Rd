@@ -19,6 +19,7 @@ plotExplanatoryHeatmap(x, ...)
   featureNames = TRUE,
   dendrogram = TRUE,
   featureLimit = Inf,
+  tileBorders = TRUE,
   ...
 )
 
@@ -32,6 +33,7 @@ plotExplanatoryHeatmap(x, ...)
   featureNames = TRUE,
   dendrogram = TRUE,
   featureLimit = Inf,
+  tileBorders = TRUE,
   ...
 )
 
@@ -41,7 +43,8 @@ plotExplanatoryHeatmap(x, ...)
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE,
-  featureLimit = Inf
+  featureLimit = Inf,
+  tileBorders = TRUE
 )
 
 \S4method{plotExplanatoryHeatmap}{Analysis}(
@@ -50,7 +53,8 @@ plotExplanatoryHeatmap(x, ...)
   distanceMeasure = "euclidean",
   clusterMethod = "ward.D2",
   featureNames = TRUE,
-  featureLimit = Inf
+  featureLimit = Inf,
+  tileBorders = TRUE
 )
 }
 \arguments{
@@ -72,6 +76,8 @@ plotExplanatoryHeatmap(x, ...)
 \item{dendrogram}{TRUE/FALSE. Should the dendrogram be plotted?}
 
 \item{featureLimit}{The maximum number of features to plot}
+
+\item{tileBorders}{Include a black border around each heat map tile}
 
 \item{metric}{importance metric on which to retrieve explanatory features}
 }
