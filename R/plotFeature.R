@@ -21,12 +21,12 @@
 
 setGeneric('plotFeature',
            function(
-             analysis, 
-             feature,
-             cls = 'class', 
-             label = NULL, 
-             labelSize = 2, 
-             ...)
+    analysis, 
+    feature,
+    cls = 'class', 
+    label = NULL, 
+    labelSize = 2, 
+    ...)
              standardGeneric('plotFeature'))
 
 #' @rdname plotFeature
@@ -87,12 +87,18 @@ setMethod('plotFeature',
                 geom_point(aes(fill = !!cls),shape = 21,alpha = 0.8) +
                 theme_bw() +
                 ggtitle(feature) +
-                theme(axis.title = element_text(face = 'bold'),
-                      plot.title = element_text(face = 'bold',
-                                                hjust = 0.5),
-                      panel.grid = element_blank(),
-                      panel.border = element_blank(),
-                      axis.line = element_line()) +
+                theme(
+                  axis.title = element_text(face = 'bold'),
+                  plot.title = element_text(face = 'bold',
+                                            hjust = 0.5),
+                  panel.grid = element_blank(),
+                  panel.border = element_blank(),
+                  axis.line = element_line(),
+                  axis.text.x = element_text(
+                    angle = 30,
+                    hjust = 1
+                  )
+                ) +
                 guides(fill = 'none')
               
               if (classes <= 12) {
